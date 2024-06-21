@@ -1,0 +1,69 @@
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css");
+@import url("https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css");
+
+.form-container {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.form-container h4 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.table-container {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+#chart-container {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    
+}
+
+.text-center {
+    margin-top: 10px;
+}
+
+/* table tbody {
+    display: block;
+    max-height: 300px;
+    overflow-y: scroll;
+}
+  
+table thead, table tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+} */
+
+/* .modal {
+    width: 100%;
+    height: "500px";
+    top: 0;
+    left: 0;
+    right: 0;
+    position: fixed;
+}
+
+.modal-content {
+    width: 1850px;
+    height: 700px;
+    right: 135%;
+} */
+
+
+
+  
+ 

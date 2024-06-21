@@ -1,0 +1,24 @@
+  .refTag {
+    text-decoration: underline;
+
+  }
+
+  .collobarationheader {
+    border: 1px;
+    background: orange;
+  }
+
+  .prevcase {
+    float: left;
+    padding-left: 20px;
+  }
+
+  .tableRowStyle {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .no-arrow::after {
+    display: none;
+  }

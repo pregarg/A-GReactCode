@@ -1,0 +1,10 @@
+export const SIGN_IN = "SIGN_IN";
+export const SIGN_OUT = "SIGN_OUT";
+export const CLEAR_ALL_STATE = "CLEAR_ALL_STATE";
+export const CLEAR_SIGN_IN = "CLEAR_SIGN_IN";
+export const STORE_DATA = "STORE_DATA";
+export const CLEAR_DATA = "CLEAR_DATA";
+export const UPDATE_PAGE_NUMBER = "UPDATE_PAGE_NUMBER";
+export const UPDATE_SEARCH_STRING = "UPDATE_SEARCH_STRING";
+export const UPDATE_DATA = "UPDATE_DATA";
+export const UPDATE_CASE_STATUS = "UPDATE_CASE_STATUS";

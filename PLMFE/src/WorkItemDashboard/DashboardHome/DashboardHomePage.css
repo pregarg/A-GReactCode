@@ -1,0 +1,315 @@
+
+/* colors */
+/* $color-black: #000;
+$color-blue-primary: #1967d2;
+$color-blue-secondary: #336b9b;
+$color-dark-blue: #204361;
+$color-dark-gray: #343a40;
+$color-gray: #575757; */
+:root{
+--color-light-blue: #4085c0;
+/* $color-off-white: #fcfcfc;
+$color-orange: #d63b00;
+$color-red: #d21500;
+$color-super-light-gray: #e1e1e1; */
+--color-white: #fff; 
+--border-light-blue: 0.0625rem solid var(--color-light-blue);
+}
+.apexcharts-legend-text{
+    text-transform: capitalize;
+}
+/* // borders
+$border-dark-blue: 0.0625rem solid $color-dark-blue;
+
+$border-light-gray: 0.0625rem solid $color-super-light-gray; */
+.dashboardContainer{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.verticalCardContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 340px;
+    width: 100%;
+    justify-content: center;
+    justify-items: center;
+}
+
+.searchContainer{
+    padding: 20px;
+    background-color: var(--primary-dark);
+}
+
+.userName{
+    margin-left: auto;
+    }
+
+.searchInput{
+    display: flex;
+}
+
+.dashboardHome{
+    display: flex;
+    overflow: hidden;
+}
+
+/* .signOutLabel{
+
+    font-family: 'Open Sans', sans-serif;
+    color: black;
+    font-weight: 500;   
+} */
+
+.sidebarMenu{
+    width: 4.5em;
+    height: calc(100vh - 27px);
+    background-color: var(--white-shade);
+    border-right: 1px solid lightgray;
+}
+
+.dashboardTitleText{
+    font-size: var(--font-size-extra-large);
+    font-weight: 400;
+    color: var(--white-shade);
+
+}
+
+.dashboardSearchIconButton{
+    border-radius: 0px 20px 20px 0px;
+    background: var(--primary);
+    padding: 10px;
+    padding-right: 15px;
+}
+
+.dashboardPageButton{
+    color: var(--white-shade) !important;
+    background-color: var(--primary);
+    border-color: var(--primary);
+    border: 1px solid var(--primary) ;
+    font-family: 'Open Sans', sans-serif;
+    width: 130px;
+    height: 35px;
+    border-radius: 15px;
+    font-size: var(--font-size-medium);
+}
+
+.btn .dashboard{
+    background-color: var(--primary)!important;
+    border-color: var(--primary)!important;
+    border: 1px solid var(--primary)!important;
+    color: var(--white-shade) !important;
+}
+
+.btn:hover{
+    background-color: var(--primary-hover)!important;
+}
+
+.btn:disabled{
+    opacity: 0.6!important;
+}
+
+.adminSwitch{
+    display: flex;
+    gap: 10px;
+    width: fit-content;
+    background: var(--secondary);
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 38px;
+    color: var(--title);
+}
+
+#NavbarHeader{
+    /* background: url(../../Images/DashboardHeaderLogo.png) no-repeat; */
+    /* background-size: 120px; */
+    /* background-position: 50%; */
+    height: 80px !important;
+    width: 99% !important;
+    /* position: fixed; */
+    box-shadow: 0 2px 4px 0 rgb(0 0 0 / 15%);
+    display: inline;
+}
+
+#caseTable{
+    width: 100%;
+    height: auto;
+    text-align: center;
+}
+
+/* #caseTable th { 
+    background-color: var(--primary);
+    color: white; 
+}
+
+#caseTable td{
+    background-color: lightblue;
+}
+#caseTable td, 
+#caseTable th {
+    text-align: center;
+    border: 1px solid black; 
+} */
+
+#ABCLogoImage{
+    margin-top: 10px;
+    width: 200px;
+    
+    margin-top: 15px;
+    padding-bottom: 10px;
+  
+}
+
+#portalLogoImage{
+    width: 200px;
+    height: 50px;
+    display: block;
+    margin-top: 15px;
+    margin-left: 10px;
+  
+}
+
+.customCardTextStyling{
+    font-size: 26px;
+    font-weight: bold;
+}
+
+#refreshIconButton {
+  border: none;
+  cursor: pointer;
+  appearance: none;
+  background-color: inherit;
+  /* float: right; */
+  margin-left: 80%;
+}
+
+#advancedSearchImage{
+    width: 30px;
+}
+
+#refreshIconImage{
+    width: 25px;
+}
+
+#lockIconImage{
+    width: 25px;
+}
+
+/* #refreshIconButton:hover{
+    background-color: gray;
+    transition:0.7s;
+} */
+
+.cardsContainer { 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    /* position: fixed;  
+    padding-top: 10px;*/
+} 
+.cardsContainerChild { 
+    margin: 15px; 
+    /* border: 1px solid red;  */
+}
+
+.desktop-menu {
+    border-right: var(--border-light-blue);
+    display: inline-block;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+}
+
+.desktop-menu li, .dropdown-menu li {
+      border-left: var(--border-light-blue);
+      border-right: var(--border-dark-blue); 
+      float: left;
+      line-height: 3.125rem;
+      margin-bottom: 0;
+      padding: 0 1rem;
+}
+
+.desktop-menu li button, .desktop-menu li button:hover{
+    color: white;
+}
+
+.dropdown-menu{
+    background-color: var(--white-shade);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+
+.desktop-menu a {
+      color: var(--color-white) !important;
+      display: inline-block;
+      line-height: 3.125rem;
+      /* padding: 0 1.5rem; */
+      text-decoration: none;
+      transition: all 0.2s;
+
+      /* @media screen and (prefers-reduced-motion: reduce) {
+        transition: none;
+      } */ 
+}
+
+.dropdown-item:focus, .dropdown-item:hover{
+    background-color: var(--primary);
+    color: blue !important;
+    cursor: pointer;
+}
+
+.header{
+    background-color:var(--primary) ;
+}
+
+.form-container{
+    max-width: 50%;
+    margin: 2rem;
+}
+
+.tableData{
+    word-wrap: break-word;
+}
+
+.nav-link{
+    cursor: pointer;
+}
+
+.footerStyleDashboard {
+    display: block;
+    position: relative;
+    margin-top: 10px;
+    padding-bottom: 1px;
+    padding-top: 10px;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: var(--white-shade);
+    color: black;
+    text-align: center;
+    border: 1px solid lightgray;
+}
+
+.nav-link:hover{
+    background-color: var(--primary);
+}
+
+.nav-link:hover svg{
+    fill: var(--white-shade);
+}
+
+.case-link{
+    text-decoration: underline;
+    cursor: pointer;
+}
+::-ms-reveal {
+    display: none;
+}

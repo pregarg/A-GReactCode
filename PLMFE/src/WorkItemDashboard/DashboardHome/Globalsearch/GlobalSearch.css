@@ -1,0 +1,35 @@
+.dropdownListLen {
+    cursor: pointer;
+    padding: 8px 16px; /* Adjust padding as needed */
+    background-color: white; /* Change background color as needed */
+    transition: background-color 0.3s ease;
+    
+  }
+  
+  .dropdownListLen:hover {
+    background-color: #d4e9eb; /* Change background color on hover as needed */
+  }
+  
+  .uldropdownLen{
+    max-height: 110px; /* Adjust max-height as needed */
+    /* border: 1px solid #ccc;  */
+    padding-left: 0px;
+    margin-top: 4px;
+    /* border-radius: 5px; */
+    overflow-y: auto;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    position: absolute;
+    width: 100%;
+    z-index: 999 !important; 
+  }
+  
+  .uldropdownLen:empty {
+    display: none; /* Hide the element if it is empty (no child elements) */
+  }
+
+
+
+
+  

@@ -1,0 +1,429 @@
+import React, { useEffect, useRef, useState } from "react";
+import documentDownloadImage from "../../Images/DocumentDownloadImage.png";
+import documentUploadImage from "../../Images/DocumentUploadImage.png";
+import Select, { StylesConfig } from "react-select";
+import { useSelector } from "react-redux";
+import FileUpload from "../../WorkItemDashboard/DashboardFileUpload/FileUpload";
+import useUpdateDecision from "../CustomHooks/useUpdateDecision";
+
+export default function DocumentSection(prop) {
+  const docClickedIndex = useRef();
+
+  const selectRef = useRef(null);
+
+  const { printConsole } = useUpdateDecision();
+
+  // const customStyles: StylesConfig = {
+  //   control: (provided: Record<string, unknown>, state: any) => ({
+  //     ...provided,
+  //     height: 52,
+  //     border: state.isFocused ? "1px solid #ff8b67" : "1px solid #cccccc",
+  //     boxShadow: state.isFocused ? "0px 0px 6px #ff8b67" : "none",
+  //     // "&": {
+  //     //   border: "1px solid #cccccc",
+  //     //   boxShadow: "none"
+  //     // },
+  //     // "&:hover": {
+  //     //   border: "1px solid #ff8b67",
+  //     //   boxShadow: "0px 0px 6px #ff8b67"
+  //     // }
+  //     // "&:focus": {
+  //     //   border: "1px solid #ff8b67",
+  //     //   boxShadow: "0px 0px 6px #ff8b67"
+  //     // },
+  //     // "&:acitve": {
+  //     //   border: "1px solid #ff8b67",
+  //     //   boxShadow: "0px 0px 6px #ff8b67"
+  //     // }
+  //   }),
+  // };
+
+  const mastersSelector = useSelector((masters) => masters);
+  console.log("Document Masters Selector: ", mastersSelector);
+
+  const [modalShow, setModalShow] = useState(false);
+
+  const [fileState, setFileState] = useState([]);
+
+  const [documentNameValues, setDocumentNameValues] = useState([]);
+
+  useEffect(() => {
+    const flowId = Number(prop.flowId);
+    if (mastersSelector.hasOwnProperty("masterDocumentName")) {
+      let documentOptions =
+        mastersSelector["masterDocumentName"].length === 0
+          ? []
+          : mastersSelector["masterDocumentName"][0];
+      // console.log("Document Section documentOptions: ", documentOptions);
+      // console.log("Document Section flowId: ", flowId);
+      if (documentOptions.length > 0) {
+        documentOptions = documentOptions.filter(
+          (elem) => elem.FlowId == flowId
+        );
+        // console.log(
+        //   "Document Section documentOptions after filter: ",
+        //   documentOptions
+        // );
+        let newDocumentValues = [];
+        documentOptions.forEach((element) => {
+          let sJson = {};
+          sJson.label = element.DocumentName;
+          sJson.value = element.DocumentName;
+          //console.log("DocumentSection sJSON: ", sJson);
+          // newDocumentValues = [...documentNameValues];
+          // console.log(
+          //   "Document Section newDocumentValues before: ",
+          //   newDocumentValues
+          // );
+          newDocumentValues.push(sJson);
+          // console.log(
+          //   "Document Section newDocumentValues after: ",
+          //   newDocumentValues
+          // );
+        });
+        setDocumentNameValues(newDocumentValues);
+      }
+    }
+  }, []);
+  //console.log("Document Section documentName Values: ", documentNameValues);
+  
+
+  const handleGridSelectChange = (index, selectedValue, documentName) => {
+    //console.log("Inside handleGridSelectChange");
+    let rowsInput = "";
+    const { name } = documentName;
+    rowsInput = [...documentData];
+    //console.log("Inside handle slect change rowsInput: ", rowsInput);
+    rowsInput[index][name] = {
+      label: selectedValue.value,
+      value: selectedValue.value,
+    };
+    // console.log(
+    //   "rowsInput inside handleGridSelectChange",
+    //   rowsInput[index][name]
+    // );
+    setDocumentData(rowsInput);
+    //console.log("documentData handleGridSelectChange", documentData);
+  };
+
+  const uploadFile = (paramData, index) => {
+    printConsole("Inside uploadFile index: ", index);
+    printConsole("File Upload State: ", paramData);
+    printConsole("File State: ", fileState);
+    //console.log("Document data file name: ",fileState.selectedFile.name);
+    let fileJson = {};
+    let selectedFile = null;
+    fileState.forEach(el => {
+      if(el.fileIndex === index){
+        selectedFile = el.selectedFile;
+      }
+    })
+    printConsole('Selected file on index: ',selectedFile);
+    if(selectedFile !== null){
+      fileJson.fileData = selectedFile;
+      fileJson.documentType = paramData[index].documentType.value;
+      fileJson.docStatus = "Uploaded";
+      fileJson.documentName = selectedFile.name;
+      prop.fileDataRef[index] !== undefined
+        ? (prop.fileDataRef[index] = fileJson)
+        : prop.fileDataRef.push(fileJson);
+      //prop.fileDataRef.push(fileJson);
+      modifyDocumentValues(fileJson.documentType,'remove');
+      let docJson = documentData[index];
+      docJson.docStatus = "Uploaded";
+      docJson.documentName = selectedFile.name;
+      documentData[index] = docJson;
+      setDocumentData(documentData);
+      console.log("fileDataRef Updated: ", prop.fileDataRef);
+      handleModalShowHide(index,false);
+    }
+    else{
+      alert("Please first select document to upload.");
+    }
+
+    /*if(fileState.selectedFile !== null){
+            const fileData = new FormData();
+            //const caseId = Number(prop.state.caseNumber);
+            const documentType = paramData[index].documentType;
+            fileData.append('file', fileState.selectedFile);
+            fileData.append('caseNumber', caseId);
+            fileData.append('docType', documentType);
+            console.log("File Upload Data: ",fileData)
+            fileUpDownAxios.post("/uploadFile",fileData).then((res) => {
+                console.log("api response: ",res.data);
+                if(res.data.fileName !== "Failed"){
+                    alert("File Uploaded Successfully");
+                    docFunction();
+                    setFileState({selectedFile:null});
+                    handleModalShowHide(false);
+                }
+                if(res.data.fileName === "Failed"){
+                    alert("Error in uploading file");
+                }
+            });
+        }*/
+  };
+
+  const checkIfDocNameExists = (docName) => {
+    let retFlag = false;
+    if(documentNameValues.length > 0){
+      documentNameValues.forEach((el) => {
+        if(el.value === docName){
+          retFlag = true;
+          return;
+        }
+      })
+      return retFlag;
+    }
+    else{
+      return false;
+    }
+    
+  }
+
+  const modifyDocumentValues = (docValue, operValue) => {
+    console.log("Inside modifyDocumentValues operValue: ",operValue, docValue);
+    if(docValue !== '' && docValue !== 'Other Documents'){
+    let newDocValue = [];
+    if(operValue === 'add'){
+      if(!checkIfDocNameExists(docValue)){
+        newDocValue = [...documentNameValues];
+        const newJson = {};
+        newJson.label = docValue;
+        //console.log('Inside modifyDocumentValues after label push json: ',newJson);
+        newJson.value = docValue;
+        //console.log('Inside modifyDocumentValues before push json: ',newJson);
+        //console.log('Inside modifyDocumentValues before push: ',newDocValue);
+        newDocValue.push(newJson);
+        //console.log('Inside modifyDocumentValues after push: ',newDocValue);
+        setDocumentNameValues(newDocValue);
+      }
+      
+    }
+
+    if(operValue === 'remove'){
+      
+      newDocValue = documentNameValues.filter((elem) => elem.value !== docValue);
+      setDocumentNameValues(newDocValue);
+    }
+  }
+  }
+  const handleModalShowHide = (index, flagValue,requestedFrom) => {
+    console.log("Index Value= ", index);
+    if(requestedFrom === 'Close'){
+      setFileState([...fileState,{ selectedFile: null, fileIndex : index }]);
+    }
+    let documentName =
+      documentData[index]["documentType"] === undefined
+        ? ""
+        : documentData[index]["documentType"].value;
+    
+    console.log(
+      "Inside Document Section handleModalShowHide documentName: ",
+      documentName
+    );
+    console.log("Inside Document Section handleModalShowHide documentName is Focused: ",selectRef.current)
+    if (documentName === "") {
+      alert("Please select Document Name first");
+      selectRef.current.focus();
+      
+    } else {
+      docClickedIndex.current = index;
+      console.log("docClickedIndex.current: ", docClickedIndex.current);
+      setModalShow(flagValue);
+    }
+  };
+
+  const handleFileUpload = (evnt,index) => {
+    if (evnt.target.files[0] === undefined) {
+      setFileState([...fileState,{ selectedFile: null, fileIndex : index }]);
+    }
+
+    if (evnt.target.files[0] !== undefined) {
+      setFileState([...fileState,{ selectedFile: evnt.target.files[0], fileIndex : index }]);
+      //setFileState({ selectedFile: evnt.target.files[0] });
+    }
+  };
+
+  const addTableRows = () => {
+    const rowsInput = {};
+    rowsInput.rowNumber = documentData.length + 1;
+    rowsInput.docStatus = "Pending";
+    setDocumentData([...documentData, rowsInput]);
+    console.log("Last added row: ", documentData[documentData.length - 1]);
+  };
+
+  const [documentData, setDocumentData] = useState([]);
+
+  const deleteTableRows = (index) => {
+    setFileState([]);
+    const tempRows = [...documentData];
+    console.log("Inside delete table rows: ",tempRows[index]["documentType"]);
+    const documentName = (tempRows[index]["documentType"]!==undefined)?tempRows[index]["documentType"].value:'';
+    modifyDocumentValues(documentName,'add');
+    tempRows.splice(index, 1);
+    prop.fileDataRef.splice(index,1);
+    setDocumentData(tempRows);
+  };
+  const handleSelectItemPos = () => {
+    let ItemPosition = document.getElementById("documentType")?.offsetTop;
+    if (ItemPosition > 2200 && documentNameValues.length > 1) {
+      return true;
+    } else return false;
+  };
+
+  const documentsData = () => {
+    console.log("documentData: ", documentData);
+    //console.log("documentData.documentType: ",data['documentType']);
+
+    if (documentData.length > 0) {
+      console.log("Inside documentsData documentNameValues===== ",documentNameValues)
+      return documentData.map((data, index) => {
+        //data['documentType']= {label: data['documentType'], value: data['documentType']};
+        //console.log("data: ", data);
+        //console.log("documentData.documentType: ",data.documentType);
+        //let newJson={};
+        //newJson.docType={label: data.documentType, value: data.documentType};
+        //console.log("newJson.docType: ",newJson);
+        //data.documentType=newJson.docType;
+        //console.log("data.documentType: ",data.documentType);
+        return (
+          <>
+            <tr key={index}>
+              {
+                <>
+                  <td>
+                    {data.sno == undefined ? (
+                      <button
+                        className="deleteBtn"
+                        style={{ textAlign: "center" }}
+                        onClick={() => {
+                          deleteTableRows(index);
+                        }}
+                      >
+                        <i className="fa fa-trash"></i>
+                      </button>
+                    ) : (
+                      index + 1
+                    )}
+                  </td>
+                </>
+              }
+
+              <td className="tableData">
+                {/* {data.documentType==undefined? */}
+                {data.docStatus !== 'Uploaded'?
+                <Select
+                  //value={(('documentType' in data) && (data.documentType.value !== undefined)) ? (data.documentType.value) : (data.documentType)}
+                  value={data.documentType}
+                  // styles={customStyles}
+                  ref={selectRef}
+                  menuPlacement={handleSelectItemPos() ? "top" : "auto"}
+
+                  //options={documentNames}
+                  options={documentNameValues}
+                  onChange={(selectValue, event) =>
+                    handleGridSelectChange(index, selectValue, event)
+                  }
+                  name="documentType"
+                  id="documentType"
+                />
+                : data.documentType.value}
+                 
+              </td>
+
+              <td>{data.documentName}</td>
+              <td>
+                {/* {data.documentName==undefined? */}
+                <img
+                  id="w9DocUploadImage"
+                  src={documentUploadImage}
+                  className="img-fluid"
+                  alt="..."
+                  style={{ height: "30px", background: "inherit" }}
+                  onClick={() => handleModalShowHide(index, true)}
+                ></img>
+                {/* :data.documentName} */}
+              </td>
+              {/* <td>
+                                <img id ='w9DocDownloadImage' src = {documentDownloadImage} className="img-fluid" alt="..."
+                                style={{height:"30px",background:"inherit"}} onClick={()=> downloadFile(index)}></img>
+                            </td> */}
+              <td>{data.docStatus}</td>
+            </tr>
+          </>
+        );
+      });
+    }
+  };
+  return (
+    <>
+      <div className="DocumentSection">
+        <div className="accordion-item">
+          <h2 className="accordion-header" id="panelsStayOpen-headingDocuments">
+            <button
+              className="accordion-button accordionButtonStyle"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#panelsStayOpen-collapseDocuments"
+              aria-expanded="true"
+              aria-controls="panelsStayOpen-collapseDocument"
+            >
+              Documents
+            </button>
+          </h2>
+          <div
+            id="panelsStayOpen-collapseDocuments"
+            className="accordion-collapse collapse show"
+            aria-labelledby="panelsStayOpen-headingDocuments"
+          >
+            <div className="accordion-body">
+              <table
+                className="table table-bordered tableLayout"
+                style={{ textAlign: "center" }}
+              >
+                <thead>
+                  <tr>
+                    
+                      <th style={{ width: "6%" }}>
+                        <button
+                          className="addBtn"
+                          
+                          onClick={() => {
+                            addTableRows();
+                          }}
+                        >
+                          <i className="fa fa-plus"></i>
+                        </button>
+                      </th>
+                    
+
+                    <th style={{ width: "20%" }} scope="col">
+                      Document Name
+                    </th>
+                    <th scope="col">Uploaded FileName</th>
+                    <th style={{ width: "10%" }} scope="col">
+                      Upload
+                    </th>
+                    <th style={{ width: "20%" }} scope="col">
+                      Status
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>{documentsData()}</tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <FileUpload
+          modalShow={modalShow}
+          handleModalShowHide={handleModalShowHide}
+          handleFileUpload={handleFileUpload}
+          uploadFile={uploadFile}
+          currIndex={docClickedIndex.current}
+          documentData={documentData}
+        />
+      </div>
+    </>
+  );
+}

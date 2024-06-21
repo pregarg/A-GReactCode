@@ -1,0 +1,76 @@
+.form-floating{
+    font-size: var(--font-size-small);
+}
+
+.invalid-feedback{
+    font-size: var(--font-size-small-1);
+}
+
+.valid-feedback{
+    font-size: var(--font-size-small-1);
+}
+
+.is-valid{
+    border: 2px solid #198754 !important;
+}
+
+.is-invalid{
+    border: 2px solid #dc3545 !important;
+}
+
+div>label{
+    opacity: 0.85
+}
+
+.notFound{
+    opacity: 0.85
+}
+
+.providerPageButton{
+    color: white !important;
+    background-color: var(--primary);
+    border-color: var(--primary);
+    border: 1px solid var(--primary) ;
+    font-family: 'Open Sans', sans-serif;
+    width: 130px;
+    height: 35px;
+    border-radius: 15px;
+    font-size: var(--font-size-medium);
+}
+
+.button:hover{
+    background-color: var(--primary-hover);
+}
+
+.button:disabled{
+    opacity: 0.6;
+}
+
+.accordion-button{
+    background-color: var(--primary)!important;
+}
+
+.accordion-button:not(.collapsed){
+    background-color: var(--primary)!important;
+}
+
+button{
+    z-index: 0!important;
+}
+
+.css-2350x8-control:hover{
+    border-color: #86b7fe !important;
+    box-shadow: 0 0 0 .25rem rgba(13,110,253,.25)!important;
+}
+
+.css-2350x8-control{
+    box-shadow: 0 0 0 .25rem rgba(13,110,253,.25)!important;
+}
+
+.css-2350x8-control.is-invalid{
+    box-shadow: unset!important;
+    border-color: #dc3545 !important;
+}
+.react-datepicker-wrapper{
+    width: 100%;
+  }

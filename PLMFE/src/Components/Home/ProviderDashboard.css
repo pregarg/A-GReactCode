@@ -1,0 +1,61 @@
+#headerLogo{
+    background: url(../../Images/DashboardHeaderLogo.png) no-repeat !important;
+    background-size: 120px !important;
+    background-position: 50% !important;
+    height: 50px !important;
+    width: 99% !important;
+    position: fixed;
+    box-shadow: 0 2px 4px 0 rgb(0 0 0 / 15%);
+    display: inline;
+}
+
+
+#dashboardHeaderToggle{
+    color: #1a73e9;
+    border: 1px solid;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    position: absolute;
+    top: 8px;
+    cursor: pointer;
+    text-align: right;
+    padding-left:"20px";
+}
+.dashboardTableHeader{
+    background-color: #1a73e9 !important;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    position: sticky;
+    top:0;
+    background: white;
+    
+}
+
+
+
+
+.dashboardTableBorder{
+border: 3px solid;
+}
+
+#headerLabel{
+    font-size: var(--font-size-large);
+    text-align: left !important;
+    font-family: 'Open Sans', sans-serif; 
+    font-weight: bold;
+    color: #212529
+}
+.validatAddressLabel{
+    
+    font-family: 'Open Sans', sans-serif;
+    color: black;
+    font-weight: 500;
+    font-weight: bold;
+    font-style: italic;
+    
+}
+
+
+

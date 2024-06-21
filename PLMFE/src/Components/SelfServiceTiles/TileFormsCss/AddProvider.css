@@ -1,0 +1,218 @@
+.AddProviderLabel{
+    font-weight: bold;
+    font-family: 'Open Sans', sans-serif; 
+}
+
+.HeadingStyle{
+    font-weight: bold;
+    font-family: 'Open Sans', sans-serif;
+    font-size: var(--font-size-extra-large);
+    color: var(--white-shade);
+    background-color: var(--primary);
+    padding: 5px 20px;
+    border-radius: 12px;
+    user-select: none;
+}
+input:invalid {
+    border: 3px solid red;
+}
+
+
+.accordionButtonStyle{
+    background-color: #1a73e9 !important;
+    border-color: #1a73e9  !important;
+    border-bottom: 1px solid rgba(0,0,0,.125);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.2;
+    font-style: italic;
+    text-align: left;
+    font-family: 'Open Sans', sans-serif;
+    color: white !important;
+    text-transform: uppercase;
+}
+.accordion-button:not(.collapsed) {
+    background-color: #1a73e9  !important;
+    color: white !important;
+    box-shadow: #1a73e9 ;
+    
+}
+.btnStyle{
+    color: white !important;
+    background-color: #1a73e9 !important;
+    border-color: #1a73e9 !important;
+    border: 1px solid #1a73e9  !important;
+    font-family: 'Open Sans', sans-serif;
+    
+}
+
+.instructionHeading{
+    font-weight: bold; 
+    font-style: normal;
+}
+
+.modal-dialog {
+    max-width: 900px;
+   
+}
+.searchWrapper{
+    height: 56px;
+}
+.example-custom-input-provider {
+    background: url("../../../Images/calendar-icon.png") no-repeat right;
+    background-size: 25px;
+    width: 400px;
+    height: 55px;
+  }
+  .react-datepicker-wrapper{
+    width: 100%;
+  }
+
+  .react-datepicker-popper {  z-index: 100 !important }
+
+  .example-custom-input-provider:focus-visible {
+    border-bottom-color: #b51148;
+    outline: none;
+  }
+
+  .example-custom-input-modal {
+    background: url("../../../Images/calendar-icon.png") no-repeat right;
+    background-size: 20px;
+    height: 36px;
+    border:1px solid #ced4da;
+     border-radius: 3px 
+  }
+  .example-custom-input-modal:focus-visible {
+    outline: none;
+  }
+
+
+  
+.react-datepicker__close-icon{
+  margin-right: 20px;
+size: 30px !important;
+  
+
+}
+  
+  
+
+  .AddModalLabel
+  {
+    
+    font-size:small;
+  }
+
+
+.border-primary {
+    
+    border-color:#1a73e9 !important;
+}
+
+.bg-light {
+    
+    background-color: #f1f3f4 !important;
+}
+
+
+.backgroundColor{
+    background-color: #5a92d433;
+}
+.addBtn {
+    background-color: transparent;
+    border: none;
+    color:black;
+    font-size:large;
+    cursor: pointer;
+}
+
+.addBtn:hover {
+  background-color: #f1f3f4 !important;
+}
+
+.deleteBtn {
+    background-color:white !important;
+    border: none;
+    color: red;
+   font-size:large;
+  
+    cursor: pointer;
+  }
+.editBtn {
+    background-color:white !important;
+    border: none;
+    color: rgba(9, 128, 23, 0.674);
+    font-size:large;
+    cursor: pointer;
+  }
+  .footerStyle {
+    display: 'block';
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: var(--white-shade);
+    color: black;
+    text-align: center;
+}
+.centered {
+  height: 85vh; /* Magic here */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.contractingBackground
+{
+
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+
+}
+  
+	
+/* Adding for mandatory  */
+.requiredClass {
+  border: 1px solid red;
+}
+
+.providerPageButton{
+  color: white !important;
+  background-color: var(--primary);
+  border-color: var(--primary);
+  border: 1px solid var(--primary) ;
+  font-family: 'Open Sans', sans-serif;
+  width: 130px;
+  height: 35px;
+  border-radius: 15px;
+  font-size: var(--font-size-medium);
+}
+
+.invalid-feedback{
+  font-size: var(--font-size-small-1);
+}
+
+.valid-feedback{
+  font-size: var(--font-size-small-1);
+}
+
+.is-valid{
+  border: 2px solid #198754 !important;
+}
+
+.is-invalid{
+  border: 2px solid #dc3545 !important;
+}
+
+.optionListContainer{
+  z-index: 999;
+}
+.CredentialingApi > td  {
+  background-color: #FFFF00 !important ;
+ button {
+    background-color: #FFFF00 !important ;
+
+  }
+
+}
+

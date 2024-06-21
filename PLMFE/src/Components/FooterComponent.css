@@ -1,0 +1,10 @@
+.footerStyle {
+    display: 'block';
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: var(--white-shade);
+    color: black;
+    text-align: center;
+}

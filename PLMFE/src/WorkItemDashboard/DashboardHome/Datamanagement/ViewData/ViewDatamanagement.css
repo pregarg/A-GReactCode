@@ -1,0 +1,15 @@
+.list-tables{
+    list-style:none;
+    padding:0;
+}
+
+.list-tables li{
+    padding: 7px 10px;
+    margin: 2px 0;
+    background-color: #bcbcbc;
+}
+
+.list-tables li:hover{
+    background-color: white;
+    box-shadow: 0 0 5px 0 ;
+}

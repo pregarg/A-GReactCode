@@ -1,0 +1,16 @@
+.heading {
+    color: green;
+    /* margin-top: 10%; */
+    margin-top: 5%;
+    /* padding-top: 10%; */
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.titleHeading{
+    color: green;
+    /* margin-top: 10%; */
+    margin-top: 10%;
+    font-size: 25px;
+    font-weight: bold;
+}

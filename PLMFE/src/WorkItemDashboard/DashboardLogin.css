@@ -1,0 +1,47 @@
+.LoginHeading {
+    font-family: 'Open Sans';
+    font-size: 16px;
+    color: #6D6D6D;
+    border-bottom: 4px solid #97D3FF;
+    padding-bottom: 3px;
+    font-weight: bold;
+}
+
+#ibpsLogoImage{
+    width: 400px;
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+}
+
+#healthCareLogoImage{
+    width: 0px;
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 50px;
+}
+
+#dashboarLoginButton{
+    width: 120px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.DashboardLogin{
+    height: 100%;
+    padding: 20px;
+    background-color: #f2f2f2;
+    min-height: 655px;
+}
+
+.loginPageFields{
+    width:300px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}

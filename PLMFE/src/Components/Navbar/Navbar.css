@@ -1,0 +1,48 @@
+#NavbarHeader{
+    /* background: url(../../Images/DashboardHeaderLogo.png) no-repeat; */
+    /* background-size: 120px; */
+    /* background-position: 50%; */
+    height: 50px !important;
+    width: 99% !important;
+    /* position: fixed; */
+    box-shadow: 0 2px 4px 0 rgb(0 0 0 / 15%);
+    display: inline;
+}
+
+#dashboardHeaderToggle{
+    color: #1a73e9;
+    border: 1px solid;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    position: absolute;
+    top: 8px;
+    cursor: pointer;
+    text-align: right;
+    padding-left:"20px";
+}
+
+.content{
+ overflow-y: auto;
+  height: 100%;
+}
+
+
+.sidebar{
+    
+    background-color:#1a73e9 !important;
+    border-right: 3px solid;
+    border-color: #bbc0c8;
+}
+
+.sidebarContent{
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.2;
+    font-family: 'Open Sans', sans-serif;
+    font-style: italic;
+    text-align: left;
+ 
+}
+

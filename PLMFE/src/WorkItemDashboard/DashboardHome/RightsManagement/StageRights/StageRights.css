@@ -1,0 +1,7 @@
+.rdt_TableRow:nth-child(even){
+    background-color: #eee;
+}
+
+.rdt_TableHeadRow{
+    background-color: #ccc;
+}

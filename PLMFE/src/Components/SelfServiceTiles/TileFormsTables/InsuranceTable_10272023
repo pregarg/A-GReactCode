@@ -1,0 +1,316 @@
+import React, { useState } from 'react'
+import axios from 'axios';
+import Select from 'react-select';
+import ReactDatePicker from 'react-datepicker';
+import GridModal from './GridModal';
+import useGetDBTables from '../../CustomHooks/useGetDBTables';
+
+
+export default function InsuranceTable({ insuranceTableRowsData, deleteTableRows, handleGridSelectChange, addTableRows,
+    handleGridDateChange, handleGridFieldChange, gridRowsFinalSubmit, lockStatus }) {
+    InsuranceTable.displayName = "InsuranceTable";
+
+    const [dataIndex, setDataIndex] = useState();
+
+    const [operationValue, setOperationValue] = useState("");
+
+    const [modalShow, setModalShow] = useState(false);
+
+    const [isTouched, setIsTouched] = useState({});
+
+    // const apiUrl = 'http://localhost:8081/api';
+
+    const { getGridJson } = useGetDBTables();
+
+
+    const handleCoverageAmountChange = (evt) => {
+        console.log("Inside handleCoverageAmountChange ", evt);
+        let { name, value } = evt.target;
+        const regex = /^[0-9\b]+$/;
+        console.log("Regex test: ", regex.test(value));
+        if (value === "" || !regex.test(value)) {
+            console.log("Inside InsuranceTable second if: ", value);
+            evt.target.value = value.replace(regex, "");
+        }
+    }
+
+
+    const tdDataReplica = (index) => {
+        console.log("Inside tdDataReplica");
+
+        if (insuranceTableRowsData!==undefined && insuranceTableRowsData.length > 0) {
+            const data = getGridJson(insuranceTableRowsData[index]);
+            console.log("Insurance Data: ", data);
+            //console.log("Policy Number value: ",data.policyNo.value);
+            //console.log("tdDataReplica index: ",index);
+            return (
+                <>
+                    <div className="Container AddProviderLabel AddModalLabel" >
+                        <div className="row">
+                            <div className="col-xs-6 col-md-3">
+                                <label>Policy Number</label>
+                                <br />
+                                <input
+                                    type="text"
+                                    value={(('policyNo' in data) && (data.policyNo.value !== undefined)) ? (data.policyNo.value) : (data.policyNo)} onChange={(evnt) => (handleGridFieldChange(index, evnt, InsuranceTable.displayName))}
+                                    name="policyNo"
+                                    className="form-control"
+                                    maxLength="25"
+                                    title="Please Enter Valid Policy Number"
+                                    disabled={lockStatus == 'V'}
+                                />
+                            </div>
+
+                            <div className="col-xs-6 col-md-3">
+                                <label>Carrier/Self Insured Name</label>
+                                <br />
+                                <input
+                                    type="text" value={(('insuredName' in data) && (data.insuredName.value !== undefined)) ? (data.insuredName.value) : (data.insuredName)}
+                                    onChange={(evnt) => (handleGridFieldChange(index, evnt, InsuranceTable.displayName))}
+                                    name="insuredName"
+                                    className="form-control"
+                                    maxLength="250"
+                                    title="Please Enter Valid Carrier/Self Insured Name"
+                                    disabled={lockStatus == 'V'}
+                                />
+                            </div>
+
+                            <div className="col-xs-6 col-md-3">
+                                <label>Coverage Amount</label>
+                                <br />
+                                <input
+                                    type="text"
+                                    value={(('covAmount' in data) && (data.covAmount.value !== undefined)) ? (data.covAmount.value) : (data.covAmount)}
+                                    onChange={(evnt) => (handleGridFieldChange(index, evnt, InsuranceTable.displayName))}
+                                    //onChange={(evnt) => ((/^[0-9\b]+$/.test(evnt.target.value))?handleCoverageAmountChange(evnt):()=>{})}
+                                    name="covAmount"
+                                    className="form-control"
+                                    maxLength="15"
+                                    // pattern="[0-9]+([.][0-9]+)" 
+                                    title="Amount should be a number with up to 2 decimal places"
+                                    disabled={lockStatus == 'V'}
+
+                                //onInput={(event) => handleCoverageAmountChange(event)}
+                                // onInput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                />
+                            </div>
+
+                            <div className="col-xs-6 col-md-3">
+                                <label>Coverage Amount Agg</label>
+                                <br />
+                                <input
+                                    type="text"
+                                    value={(('covAmountAgg' in data) && (data.covAmountAgg.value !== undefined)) ? (data.covAmountAgg.value) : (data.covAmountAgg)} onChange={(evnt) => (handleGridFieldChange(index, evnt, InsuranceTable.displayName))}
+                                    name="covAmountAgg"
+                                    className="form-control"
+                                    maxLength="15"
+                                    // pattern="[0-9]+([.][0-9]+)" 
+                                    title="Amount Aggregate should be a number with up to 2 decimal places"
+                                    disabled={lockStatus == 'V'}
+                                />
+                            </div>
+                        </div>
+                        <br />
+
+                        <div className="row">
+                            <div className="col-xs-6 col-md-3">
+                                <label htmlFor="datePicker">Current Effective Date</label>
+                                <br />
+                                <div className="form-floating">
+                                    <ReactDatePicker
+                                        className='example-custom-input-modal'
+                                        selected={(('effectiveDate' in data) && (data.effectiveDate.value !== undefined)) ? data.effectiveDate.value : data.effectiveDate}
+                                        name="effectiveDate"
+                                        onChange={(selectValue, event) => handleGridDateChange(index, selectValue, "effectiveDate", InsuranceTable.displayName)}
+                                        peekNextMonth
+                                        showMonthDropdown
+                                        showYearDropdown
+                                        dropdownMode="select"
+                                        dateFormat="MM/dd/yyyy"
+                                        id="datePicker"
+                                        disabled={lockStatus == 'V'}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="col-xs-6 col-md-3">
+                                <label htmlFor="datePicker">Current Expiration Date</label>
+                                <br />
+                                <div className="form-floating">
+                                    <ReactDatePicker
+                                        className='example-custom-input-modal'
+                                        selected={(('expirationDate' in data) && (data.expirationDate.value !== undefined)) ? data.expirationDate.value : data.expirationDate}
+                                        name="expirationDate"
+                                        onChange={(selectValue, event) => handleGridDateChange(index, selectValue, "expirationDate", InsuranceTable.displayName)}
+                                        peekNextMonth
+                                        showMonthDropdown
+                                        showYearDropdown
+                                        dropdownMode="select"
+                                        dateFormat="MM/dd/yyyy"
+                                        id="datePicker"
+                                        disabled={lockStatus == 'V'}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </>
+            )
+        }
+    }
+
+    const tdData = () => {
+        console.log("Inside tdData");
+        if (insuranceTableRowsData!==undefined && insuranceTableRowsData.length > 0) {
+
+            console.log("insuranceTableRowsData: ", insuranceTableRowsData);
+            console.log("insuranceTableRowsData.length: ", insuranceTableRowsData.length);
+            return insuranceTableRowsData.map((data, index) => {
+                console.log("Policy Number exists: ", 'policyNo' in data);
+                console.log("Policy Number existing value: ", data.policyNo);
+                console.log("Date existing value: ", data.effectiveDate);
+                console.log("Date existing value: ", data.expirationDate);
+                return (
+                    <tr key={index} style={{backgroundColor:(data.DataSource === 'CredentialingApi')?"yellow":"white"}}>
+                        {lockStatus == 'N'
+                            &&
+                            <td>
+                                   <span
+                  style={{
+                    display: "flex",
+                  }}
+                >
+                                <button className="deleteBtn" style={{ float: "left" }} onClick={() => { deleteTableRows(index, InsuranceTable.displayName, "Force Delete"); handleOperationValue("Force Delete"); decreaseDataIndex(); }}>
+                                    <i className="fa fa-trash"></i></button>
+                                <button className="editBtn" style={{ float: "right" }} type="button" onClick={() => { handleModalChange(true); handleDataIndex(index); handleOperationValue("Edit") }}>
+                                    <i className="fa fa-edit"></i></button>
+                                    </span>
+                            </td>
+                        }
+                        {lockStatus == 'V'
+                            &&
+                            <td>
+                                <div>
+                                    <button className="editBtn" style={{ float: "right" }} type="button" onClick={() => { handleModalChange(true); handleDataIndex(index); handleOperationValue("Edit") }}>
+                                        <i className="fa fa-eye"></i></button>
+                                </div>
+
+                            </td>
+                        }
+                        <td className='tableData'>
+                            {(('policyNo' in data) && (data.policyNo.value !== undefined)) ? (data.policyNo.value) : (data.policyNo)}
+                        </td>
+                        <td className='tableData'>
+                            {(('insuredName' in data) && (data.insuredName.value !== undefined)) ? (data.insuredName.value) : (data.insuredName)}
+                        </td>
+                        <td className='tableData'>
+                            {(('covAmount' in data) && (data.covAmount.value !== undefined)) ? (data.covAmount.value) : (data.covAmount)}
+                        </td>
+                        <td className='tableData'>
+                            {(('covAmountAgg' in data) && (data.covAmountAgg.value !== undefined)) ? (data.covAmountAgg.value) : (data.covAmountAgg)}
+                        </td>
+
+                        <td className='tableData'>
+                            {(('effectiveDate' in data) && (data.effectiveDate.value !== undefined)) ? (formatDate(data.effectiveDate.value)) : (formatDate(data.effectiveDate))}
+                        </td>
+                        <td className='tableData'>
+                            {(('expirationDate' in data) && (data.expirationDate.value !== undefined)) ? (formatDate(data.expirationDate.value)) : (formatDate(data.expirationDate))}
+                        </td>
+                    </tr>
+                )
+            })
+        }
+    }
+
+    const formatDate = (dateObj) => {
+        console.log("Inside formatDate ", typeof dateObj);
+
+        if (dateObj) {
+            if (typeof dateObj === "string") {
+                const localDate = new Date(Date.parse(dateObj));
+
+                console.log("Inside formatDate typeof", Date.parse(dateObj), localDate.getDate());
+                dateObj = localDate;
+            }
+            else if (typeof dateObj === "number") {
+                const localDate2 = new Date(dateObj);
+
+                console.log("Inside formatDate typeof: ", localDate2.getDate());
+                dateObj = localDate2;
+            }
+            let dd = dateObj.getDate();
+            let mm = dateObj.getMonth() + 1;
+            let yyyy = dateObj.getFullYear();
+            if (dd < 10) {
+                dd = '0' + dd;
+            }
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+            let formattedDate = mm + '/' + dd + '/' + yyyy;
+            //console.log("formattedDate: ", formattedDate);
+            return formattedDate;
+        }
+        return null;
+    }
+
+    const decreaseDataIndex = () => {
+        if (operationValue === "Add" || operationValue === 'Force Delete') {
+            const indx = dataIndex - 1;
+            setDataIndex(indx);
+        }
+    }
+
+    const handleOperationValue = (oprtnValue) => {
+        setOperationValue(oprtnValue);
+    }
+
+    const handleModalChange = (flag) => {
+        // setDataIndex({
+        //     ...dataIndex,
+        //     ...opertnData
+        // });
+        //console.log("Handle Modal Change Data Index After: ",dataIndex);
+        setModalShow(flag);
+    }
+
+    const handleDataIndex = (index) => {
+        //console.log("Inside setDataIndex: ",index);
+        setDataIndex(index);
+    }
+
+    return (
+        <>
+            <table className="table table-bordered tableLayout" id="InsuranceTable">
+                <thead>
+                    <tr className='tableRowStyle tableHeaderColor'>
+                        {lockStatus == 'N'
+                            &&
+                            <th style={{ width: "7%" }}><button className='addBtn' onClick={() => { addTableRows(InsuranceTable.displayName); handleModalChange(true); handleDataIndex(insuranceTableRowsData.length); handleOperationValue("Add") }}>
+                                <i className="fa fa-plus"></i></button></th>
+                        }
+                        {lockStatus == 'V'
+                            &&
+                            <th style={{ width: "6%" }}></th>
+                        }
+                        <th scope="col">Policy Number</th>
+                        <th scope="col">Carrier/Self Insured Name</th>
+                        <th scope="col">Coverage Amount</th>
+                        <th scope="col">Coverage Amount Aggregate</th>
+                        <th scope="col">Current Effective Date</th>
+                        <th scope="col">Current Expiration Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {/* <TableRows InsuranceTableRowsData={InsuranceTableRowsData} deleteTableRows={deleteTableRows} handleChange={handleChange} specialityArray={specialityArray}/> */}
+                    {tdData()}
+                </tbody>
+            </table>
+
+            <GridModal name={"Insurance Details"} validationObject={isTouched} modalShow={modalShow} handleModalChange={handleModalChange} dataIndex={dataIndex}
+                tdDataReplica={tdDataReplica} deleteTableRows={deleteTableRows} gridName={InsuranceTable.displayName}
+                decreaseDataIndex={decreaseDataIndex} operationValue={operationValue} gridRowsFinalSubmit={gridRowsFinalSubmit}
+                lockStatus={lockStatus}></GridModal>
+        </>
+    )
+}
