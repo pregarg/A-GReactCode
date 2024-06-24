@@ -380,6 +380,16 @@ const masterAngAppellantDescReducer = (state = [], action) => {
   return state;
 };
 
+const masterAngAppellantTypeReducer = (state = [], action) => {
+  if (action.type === "GET_APPELLANT_TYPE") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_APPELLANT_TYPE") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+
 const masterAngAppealTypeReducer = (state = [], action) => {
   if (action.type === "GET_APPEAL_TYPE") {
     return [action.payload];
@@ -552,6 +562,7 @@ export default combineReducers({
   masterAngCaseFilingMethod: masterAngCaseFilingMethodReducer,
   masterAngLOBMapping: masterAngLOBMappingReducer,
   masterAngAppellantDesc: masterAngAppellantDescReducer,
+  masterAngAppellantType: masterAngAppellantTypeReducer,
   masterAngAppealType: masterAngAppealTypeReducer,
   masterAngCaseLevelPriority: masterAngCaseLevelPriorityReducer,
   masterAngIssueLevel: masterAngIssueLevelReducer,

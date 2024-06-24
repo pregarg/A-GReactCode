@@ -25,6 +25,7 @@ import {
   getMasterAngCaseFilingMethod,
   getMasterAngLOBMapping,
   getMasterAngAppellantDesc,
+  getMasterAngAppellantType,
   getMasterAngAppealType,
   getMasterAngCaseLevelPriority,
   getMasterAngReviewType,
@@ -307,6 +308,14 @@ export default function LoginPage() {
         )
       );
       dispatch(
+        getMasterAngAppellantType(
+          loginToken,
+          false,
+          onMasterLoadFail,
+          onMasterLoadSuccess
+        )
+      );
+      dispatch(
         getMasterAngAppealType(
           loginToken,
           false,
@@ -449,6 +458,14 @@ export default function LoginPage() {
       );
       dispatch(
         getMasterAngAppellantDesc(
+          loginToken,
+          false,
+          onMasterLoadFail,
+          onMasterLoadSuccess
+        )
+      );
+      dispatch(
+        getMasterAngAppellantType(
           loginToken,
           false,
           onMasterLoadFail,

@@ -12,6 +12,7 @@ import {
   getMasterAngCaseFilingMethod,
   getMasterAngLOBMapping,
   getMasterAngAppellantDesc,
+  getMasterAngAppellantType,
   getMasterAngAppealType,
   getMasterAngCaseLevelPriority,
   getMasterAngIssueLevel,
@@ -310,6 +311,14 @@ export default function DashboardLogin() {
     );
     dispatch(
       getMasterAngAppellantDesc(
+        loginToken,
+        false,
+        onMasterLoadFail,
+        onMasterLoadSuccess
+      )
+    );
+    dispatch(
+      getMasterAngAppellantType(
         loginToken,
         false,
         onMasterLoadFail,

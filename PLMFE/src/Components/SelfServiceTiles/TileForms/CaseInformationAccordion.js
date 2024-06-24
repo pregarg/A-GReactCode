@@ -32,6 +32,7 @@ const CaseInformationAccordion = (props) => {
 
   let LOBValues = [];
   let appellantDescValues = [];
+  let appellantTypeValues = [];
   let appealTypeValues = [];
   let caseLevelPriorityValues = [];
   let issueLevelValues = [];
@@ -79,6 +80,17 @@ const CaseInformationAccordion = (props) => {
             uniqueDescValues[desc] = true;
             appellantDescValues.push({ label: convertToCase(appellantDescArray[i].APPELLANT_DESC), value: convertToCase(appellantDescArray[i].APPELLANT_DESC) });
           }
+        }
+      }
+
+      if (mastersSelector.hasOwnProperty("masterAngAppellantType")) {
+        const appellantTypeArray =
+          mastersSelector["masterAngAppellantType"].length === 0
+            ? []
+            : mastersSelector["masterAngAppellantType"][0];
+
+        for (let i = 0; i < appellantTypeArray.length; i++) {
+          appellantTypeValues.push({ label: convertToCase(appellantTypeArray[i].Appellant_Type), value: convertToCase(appellantTypeArray[i].Appellant_Type) });
         }
       }
 
@@ -572,7 +584,7 @@ const CaseInformationAccordion = (props) => {
               />
             </div>
             <div className="col-xs-6 col-md-4">
-              <Field name="appealtype">
+              <Field name="appellanttype">
                 {({
                   field, // { name, value, onChange, onBlur }
                   form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
@@ -594,8 +606,8 @@ const CaseInformationAccordion = (props) => {
                           : false
                       }
                       className="basic-multi-select"
-                      options={appealTypeValues}
-                      id="appealtype"
+                      options={appellantTypeValues}
+                      id="appellanttype"
                       isMulti={false}
                       onChange={(selectValue) =>
                         props.handleOnChange(selectValue['value'], 'Appellant_Type')
@@ -629,10 +641,74 @@ const CaseInformationAccordion = (props) => {
               </Field>
               <ErrorMessage
                 component="div"
+                name="Appellant Type"
+                className="invalid-feedback"
+              />
+            </div>
+            <div className="col-xs-6 col-md-4">
+              <Field name="appealtype">
+                {({
+                  field, // { name, value, onChange, onBlur }
+                  form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+                  meta,
+                }) => (
+                  <div className="form-floating">
+                    <Select
+                      styles={{ ...styledSelect }}
+                      components={{
+                        ValueContainer: CustomValueContainer,
+                      }}
+                      isClearable
+                      name={field.name}
+                      isDisabled={
+                        tabRef.current === "DashboardView" &&
+                          prop.state.lockStatus !== undefined &&
+                          prop.state.lockStatus === "Y"
+                          ? true
+                          : false
+                      }
+                      className="basic-multi-select"
+                      options={appealTypeValues}
+                      id="appealtype"
+                      isMulti={false}
+                      onChange={(selectValue) =>
+                        props.handleOnChange(selectValue['value'], 'Appeal_Type')
+                      }
+
+                      value={
+                        {
+                          label: caseInformationData['Appeal_Type'],
+                          value: caseInformationData['Appeal_Type']
+                        }
+                      }
+                      placeholder="Appeal Type"
+                      //styles={{...customStyles}}
+                      isSearchable={
+                        document.documentElement.clientHeight >
+                          document.documentElement.clientWidth
+                          ? false
+                          : true
+                      }
+                    />
+                    {meta.touched && meta.error && (
+                      <div
+                        className="invalid-feedback"
+                        style={{ display: "block" }}
+                      >
+                        {meta.error}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </Field>
+              <ErrorMessage
+                component="div"
                 name="Appeal Type"
                 className="invalid-feedback"
               />
             </div>
+          </div>
+          <div className="row my-2">
             <div className="col-xs-6 col-md-4">
               <Field name="issuelevel">
                 {({
@@ -697,8 +773,6 @@ const CaseInformationAccordion = (props) => {
                 className="invalid-feedback"
               />
             </div>
-          </div>
-          <div className="row my-2">
             <div className="col-xs-6 col-md-4">
               <Field name="researchtype">
                 {({
@@ -830,6 +904,8 @@ const CaseInformationAccordion = (props) => {
                 className="invalid-feedback"
               />
             </div>
+          </div>
+          <div className="row my-2">
             <div className="col-xs-6 col-md-4">
               <Field name="reviewtype">
                 {({
@@ -893,8 +969,6 @@ const CaseInformationAccordion = (props) => {
                 className="invalid-feedback"
               />
             </div>
-          </div>
-          <div className="row my-2">
             <div className="col-xs-6 col-md-4">
               <Field name="denialype">
                 {({
@@ -1010,6 +1084,8 @@ const CaseInformationAccordion = (props) => {
                 className="invalid-feedback"
               />
             </div>
+          </div>
+          <div className="row">
             <div className="col-xs-6 col-md-4">
               <Field name="inboundemailid">
                 {({

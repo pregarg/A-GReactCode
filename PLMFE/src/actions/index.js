@@ -241,6 +241,42 @@ export const getMasterAngAppellantDesc = (
   };
 };
 
+export const getMasterAngAppellantType = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append("tableName", "ANG_MASTER_APPELLANT_TYPE~masterAngAppellantType");
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterAngAppellantType];
+            //console.log(response);
+            dispatch({ type: "GET_APPELLANT_TYPE", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_APPELLANT_TYPE", payload: "" });
+    }
+  };
+};
+
 export const getMasterAngAppealType = (
   token,
   clearFlag = false,
