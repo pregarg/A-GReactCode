@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import GridModal from "./GridModal";
+import Select from "react-select";
 import ReactDatePicker from "react-datepicker";
 import useGetDBTables from "../../CustomHooks/useGetDBTables";
 
 export default function ProviderInformationTable({
     providerInformationGridData,
+    formGridData,
     deleteTableRows,
     handleGridSelectChange,
     addTableRows,
@@ -27,6 +29,8 @@ export default function ProviderInformationTable({
     const [isTouched, setIsTouched] = useState({});
 
     const { getGridJson, convertToCase } = useGetDBTables();
+
+    let lineNumberOptions = [];
 
     const tdDataReplica = (index) => {
         console.log("Inside tdDataReplica");
@@ -62,27 +66,7 @@ export default function ProviderInformationTable({
                             />
                         </div>
                         <div className="col-xs-6 col-md-3">
-                            <label>Provider Id</label>
-                            <br />
-                            <input
-                                type="text"
-                                value={
-                                    "Provider_ID" in data && data.Provider_ID.value !== undefined
-                                        ? convertToCase(data.Provider_ID.value)
-                                        : convertToCase(data.Provider_ID)
-                                }
-                                onChange={(evnt) =>
-                                    handleGridFieldChange(index, evnt, ProviderInformationTable.displayName)
-                                }
-                                name="Provider_ID"
-                                className="form-control"
-                                maxLength="50"
-                                title="Please Enter Valid Type"
-                                disabled={lockStatus == "V"}
-                            />
-                        </div>
-                        <div className="col-xs-6 col-md-3">
-                            <label>Sequential Provider Id</label>
+                            <label>Sequential Provider ID</label>
                             <br />
                             <input
                                 type="text"
@@ -121,22 +105,244 @@ export default function ProviderInformationTable({
                                 disabled={lockStatus == "V"}
                             />
                         </div>
+                        <div className="col-xs-6 col-md-3">
+                            <label>Provider Role</label>
+                            <br />
+                            <Select
+                                styles={{
+                                    control: (provided) => ({
+                                        ...provided,
+                                        fontWeight: "lighter",
+                                    }),
+                                }}
+                                value={data.Provider_Role}
+                                onChange={(selectValue, event) =>
+                                    handleGridSelectChange(
+                                        index,
+                                        selectValue,
+                                        event,
+                                        ProviderInformationTable.displayName
+                                    )
+                                }
+                                options={lineNumberOptions}
+                                name="Provider_Role"
+                                id="lineNumberDropDown"
+                                isDisabled={lockStatus == "V"}
+                                isClearable
+                            />
+                        </div>
                     </div>
                     <div className="row">
                         <div className="col-xs-6 col-md-3">
-                            <label>Email Address</label>
+                            <label>Provider TIN</label>
                             <br />
                             <input
                                 type="text"
                                 value={
-                                    "Email_Address" in data && data.Email_Address.value !== undefined
-                                        ? convertToCase(data.Email_Address.value)
-                                        : convertToCase(data.Email_Address)
+                                    "Provider_TIN" in data && data.Provider_TIN.value !== undefined
+                                        ? convertToCase(data.Provider_TIN.value)
+                                        : convertToCase(data.Provider_TIN)
                                 }
                                 onChange={(evnt) =>
                                     handleGridFieldChange(index, evnt, ProviderInformationTable.displayName)
                                 }
-                                name="Email_Address"
+                                name="Provider_TIN"
+                                className="form-control"
+                                maxLength="50"
+                                title="Please Enter Valid Type"
+                                disabled={lockStatus == "V"}
+                            />
+                        </div>
+                        <div className="col-xs-6 col-md-3">
+                            <label>State Provider ID</label>
+                            <br />
+                            <input
+                                type="text"
+                                value={
+                                    "State_Provider_ID" in data && data.State_Provider_ID.value !== undefined
+                                        ? convertToCase(data.State_Provider_ID.value)
+                                        : convertToCase(data.State_Provider_ID)
+                                }
+                                onChange={(evnt) =>
+                                    handleGridFieldChange(index, evnt, ProviderInformationTable.displayName)
+                                }
+                                name="State_Provider_ID"
+                                className="form-control"
+                                maxLength="50"
+                                title="Please Enter Valid Type"
+                                disabled={lockStatus == "V"}
+                            />
+                        </div>
+                        <div className="col-xs-6 col-md-3">
+                            <label>Medicare ID</label>
+                            <br />
+                            <input
+                                type="text"
+                                value={
+                                    "Medicare_ID" in data && data.Medicare_ID.value !== undefined
+                                        ? convertToCase(data.Medicare_ID.value)
+                                        : convertToCase(data.Medicare_ID)
+                                }
+                                onChange={(evnt) =>
+                                    handleGridFieldChange(index, evnt, ProviderInformationTable.displayName)
+                                }
+                                name="Medicare_ID"
+                                className="form-control"
+                                maxLength="50"
+                                title="Please Enter Valid Type"
+                                disabled={lockStatus == "V"}
+                            />
+                        </div>
+                        <div className="col-xs-6 col-md-3">
+                            <label>Medicaid ID</label>
+                            <br />
+                            <input
+                                type="text"
+                                value={
+                                    "Medicaid_ID" in data && data.Medicaid_ID.value !== undefined
+                                        ? convertToCase(data.Medicaid_ID.value)
+                                        : convertToCase(data.Medicaid_ID)
+                                }
+                                onChange={(evnt) =>
+                                    handleGridFieldChange(index, evnt, ProviderInformationTable.displayName)
+                                }
+                                name="Medicaid_ID"
+                                className="form-control"
+                                maxLength="50"
+                                title="Please Enter Valid Type"
+                                disabled={lockStatus == "V"}
+                            />
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-xs-6 col-md-3">
+                            <label>PR Representative</label>
+                            <br />
+                            <input
+                                type="text"
+                                value={
+                                    "PR_Representative" in data && data.PR_Representative.value !== undefined
+                                        ? convertToCase(data.PR_Representative.value)
+                                        : convertToCase(data.PR_Representative)
+                                }
+                                onChange={(evnt) =>
+                                    handleGridFieldChange(index, evnt, ProviderInformationTable.displayName)
+                                }
+                                name="PR_Representative"
+                                className="form-control"
+                                maxLength="50"
+                                title="Please Enter Valid Type"
+                                disabled={lockStatus == "V"}
+                            />
+                        </div>
+                        <div className="col-xs-6 col-md-3">
+                            <label>Participating Provider</label>
+                            <br />
+                            <Select
+                                styles={{
+                                    control: (provided) => ({
+                                        ...provided,
+                                        fontWeight: "lighter",
+                                    }),
+                                }}
+                                value={data.Participating_Provider}
+                                onChange={(selectValue, event) =>
+                                    handleGridSelectChange(
+                                        index,
+                                        selectValue,
+                                        event,
+                                        ProviderInformationTable.displayName
+                                    )
+                                }
+                                options={lineNumberOptions}
+                                name="Participating_Provider"
+                                id="lineNumberDropDown"
+                                isDisabled={lockStatus == "V"}
+                                isClearable
+                            />
+                        </div>
+                        <div className="col-xs-6 col-md-3">
+                            <label>Provider Type</label>
+                            <br />
+                            <Select
+                                styles={{
+                                    control: (provided) => ({
+                                        ...provided,
+                                        fontWeight: "lighter",
+                                    }),
+                                }}
+                                value={data.Provider_Type}
+                                onChange={(selectValue, event) =>
+                                    handleGridSelectChange(
+                                        index,
+                                        selectValue,
+                                        event,
+                                        ProviderInformationTable.displayName
+                                    )
+                                }
+                                options={lineNumberOptions}
+                                name="Provider_Type"
+                                id="lineNumberDropDown"
+                                isDisabled={lockStatus == "V"}
+                                isClearable
+                            />
+                        </div>
+                        <div className="col-xs-6 col-md-3">
+                            <label>Provider IPA</label>
+                            <br />
+                            <input
+                                type="text"
+                                value={
+                                    "Provider_IPA" in data && data.Provider_IPA.value !== undefined
+                                        ? convertToCase(data.Provider_IPA.value)
+                                        : convertToCase(data.Provider_IPA)
+                                }
+                                onChange={(evnt) =>
+                                    handleGridFieldChange(index, evnt, ProviderInformationTable.displayName)
+                                }
+                                name="Provider_IPA"
+                                className="form-control"
+                                maxLength="50"
+                                title="Please Enter Valid Type"
+                                disabled={lockStatus == "V"}
+                            />
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-xs-6 col-md-3">
+                            <label>Provider Vendor Specialty</label>
+                            <br />
+                            <input
+                                type="text"
+                                value={
+                                    "Provider_Vendor_Specialty" in data && data.Provider_Vendor_Specialty.value !== undefined
+                                        ? convertToCase(data.Provider_Vendor_Specialty.value)
+                                        : convertToCase(data.Provider_Vendor_Specialty)
+                                }
+                                onChange={(evnt) =>
+                                    handleGridFieldChange(index, evnt, ProviderInformationTable.displayName)
+                                }
+                                name="Provider_Vendor_Specialty"
+                                className="form-control"
+                                maxLength="50"
+                                title="Please Enter Valid Type"
+                                disabled={lockStatus == "V"}
+                            />
+                        </div>
+                        <div className="col-xs-6 col-md-3">
+                            <label>Provider Vendor Specialty Description</label>
+                            <br />
+                            <input
+                                type="text"
+                                value={
+                                    "Provider_Vendor_Specialty_Description" in data && data.Provider_Vendor_Specialty_Description.value !== undefined
+                                        ? convertToCase(data.Provider_Vendor_Specialty_Description.value)
+                                        : convertToCase(data.Provider_Vendor_Specialty_Description)
+                                }
+                                onChange={(evnt) =>
+                                    handleGridFieldChange(index, evnt, ProviderInformationTable.displayName)
+                                }
+                                name="Provider_Vendor_Specialty_Description"
                                 className="form-control"
                                 maxLength="50"
                                 title="Please Enter Valid Type"
@@ -163,6 +369,362 @@ export default function ProviderInformationTable({
                                 disabled={lockStatus == "V"}
                             />
                         </div>
+                        <div className="col-xs-6 col-md-3">
+                            <label>Communication Preference</label>
+                            <br />
+                            <Select
+                                styles={{
+                                    control: (provided) => ({
+                                        ...provided,
+                                        fontWeight: "lighter",
+                                    }),
+                                }}
+                                value={data.Communication_Preference}
+                                onChange={(selectValue, event) =>
+                                    handleGridSelectChange(
+                                        index,
+                                        selectValue,
+                                        event,
+                                        ProviderInformationTable.displayName
+                                    )
+                                }
+                                options={lineNumberOptions}
+                                name="Communication_Preference"
+                                id="lineNumberDropDown"
+                                isDisabled={lockStatus == "V"}
+                                isClearable
+                            />
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-xs-6 col-md-3">
+                            <label>Email Address</label>
+                            <br />
+                            <input
+                                type="text"
+                                value={
+                                    "Email_Address" in data && data.Email_Address.value !== undefined
+                                        ? convertToCase(data.Email_Address.value)
+                                        : convertToCase(data.Email_Address)
+                                }
+                                onChange={(evnt) =>
+                                    handleGridFieldChange(index, evnt, ProviderInformationTable.displayName)
+                                }
+                                name="Email_Address"
+                                className="form-control"
+                                maxLength="50"
+                                title="Please Enter Valid Type"
+                                disabled={lockStatus == "V"}
+                            />
+                        </div>
+                        <div className="col-xs-6 col-md-3">
+                            <label>Portal Enrolled</label>
+                            <br />
+                            <Select
+                                styles={{
+                                    control: (provided) => ({
+                                        ...provided,
+                                        fontWeight: "lighter",
+                                    }),
+                                }}
+                                value={data.Portal_Enrolled}
+                                onChange={(selectValue, event) =>
+                                    handleGridSelectChange(
+                                        index,
+                                        selectValue,
+                                        event,
+                                        ProviderInformationTable.displayName
+                                    )
+                                }
+                                options={lineNumberOptions}
+                                name="Portal_Enrolled"
+                                id="lineNumberDropDown"
+                                isDisabled={lockStatus == "V"}
+                                isClearable
+                            />
+                        </div>
+                        <div className="col-xs-6 col-md-3">
+                            <label>Provider Alert</label>
+                            <br />
+                            <input
+                                type="text"
+                                value={
+                                    "Provider_Alert" in data && data.Provider_Alert.value !== undefined
+                                        ? convertToCase(data.Provider_Alert.value)
+                                        : convertToCase(data.Provider_Alert)
+                                }
+                                onChange={(evnt) =>
+                                    handleGridFieldChange(index, evnt, ProviderInformationTable.displayName)
+                                }
+                                name="Provider_Alert"
+                                className="form-control"
+                                maxLength="50"
+                                title="Please Enter Valid Type"
+                                disabled={lockStatus == "V"}
+                            />
+                        </div>
+                        <div className="col-xs-6 col-md-3">
+                            <label>Provider ID</label>
+                            <br />
+                            <input
+                                type="text"
+                                value={
+                                    "Provider_ID" in data && data.Provider_ID.value !== undefined
+                                        ? convertToCase(data.Provider_ID.value)
+                                        : convertToCase(data.Provider_ID)
+                                }
+                                onChange={(evnt) =>
+                                    handleGridFieldChange(index, evnt, ProviderInformationTable.displayName)
+                                }
+                                name="Provider_ID"
+                                className="form-control"
+                                maxLength="50"
+                                title="Please Enter Valid Type"
+                                disabled={lockStatus == "V"}
+                            />
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-xs-6 col-md-3">
+                            <label>NPI ID</label>
+                            <br />
+                            <input
+                                type="text"
+                                value={
+                                    "NPI_ID" in data && data.NPI_ID.value !== undefined
+                                        ? convertToCase(data.NPI_ID.value)
+                                        : convertToCase(data.NPI_ID)
+                                }
+                                onChange={(evnt) =>
+                                    handleGridFieldChange(index, evnt, ProviderInformationTable.displayName)
+                                }
+                                name="NPI_ID"
+                                className="form-control"
+                                maxLength="50"
+                                title="Please Enter Valid Type"
+                                disabled={lockStatus == "V"}
+                            />
+                        </div>
+                        <div className="col-xs-6 col-md-3">
+                            <label>Vendor ID</label>
+                            <br />
+                            <input
+                                type="text"
+                                value={
+                                    "Vendor_ID" in data && data.Vendor_ID.value !== undefined
+                                        ? convertToCase(data.Vendor_ID.value)
+                                        : convertToCase(data.Vendor_ID)
+                                }
+                                onChange={(evnt) =>
+                                    handleGridFieldChange(index, evnt, ProviderInformationTable.displayName)
+                                }
+                                name="Vendor_ID"
+                                className="form-control"
+                                maxLength="50"
+                                title="Please Enter Valid Type"
+                                disabled={lockStatus == "V"}
+                            />
+                        </div>
+                        <div className="col-xs-6 col-md-3">
+                            <label>Vendor Name</label>
+                            <br />
+                            <input
+                                type="text"
+                                value={
+                                    "Vendor_Name" in data && data.Vendor_Name.value !== undefined
+                                        ? convertToCase(data.Vendor_Name.value)
+                                        : convertToCase(data.Vendor_Name)
+                                }
+                                onChange={(evnt) =>
+                                    handleGridFieldChange(index, evnt, ProviderInformationTable.displayName)
+                                }
+                                name="Vendor_Name"
+                                className="form-control"
+                                maxLength="50"
+                                title="Please Enter Valid Type"
+                                disabled={lockStatus == "V"}
+                            />
+                        </div>
+                        <div className="col-xs-6 col-md-3">
+                            <label>Phone Number</label>
+                            <br />
+                            <input
+                                type="text"
+                                value={
+                                    "Phone_Number" in data && data.Phone_Number.value !== undefined
+                                        ? convertToCase(data.Phone_Number.value)
+                                        : convertToCase(data.Phone_Number)
+                                }
+                                onChange={(evnt) =>
+                                    handleGridFieldChange(index, evnt, ProviderInformationTable.displayName)
+                                }
+                                name="Phone_Number"
+                                className="form-control"
+                                maxLength="50"
+                                title="Please Enter Valid Type"
+                                disabled={lockStatus == "V"}
+                            />
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-xs-6 col-md-3">
+                            <label>Fax Number</label>
+                            <br />
+                            <input
+                                type="text"
+                                value={
+                                    "Fax_Number" in data && data.Fax_Number.value !== undefined
+                                        ? convertToCase(data.Fax_Number.value)
+                                        : convertToCase(data.Fax_Number)
+                                }
+                                onChange={(evnt) =>
+                                    handleGridFieldChange(index, evnt, ProviderInformationTable.displayName)
+                                }
+                                name="Fax_Number"
+                                className="form-control"
+                                maxLength="50"
+                                title="Please Enter Valid Type"
+                                disabled={lockStatus == "V"}
+                            />
+                        </div>
+                        <div className="col-xs-6 col-md-3">
+                            <label htmlFor="datePicker">Par Provider Start Date</label>
+                            <br />
+                            <div className="form-floating">
+                                <ReactDatePicker
+                                    className="example-custom-input-modal"
+                                    selected={
+                                        "Par_Provider_Start_Date" in data &&
+                                            data.Par_Provider_Start_Date.value !== undefined
+                                            ? data.Par_Provider_Start_Date.value
+                                            : data.Par_Provider_Start_Date
+                                    }
+                                    name="Par_Provider_Start_Date"
+                                    onChange={(selectValue, event) =>
+                                        handleGridDateChange(
+                                            index,
+                                            selectValue,
+                                            "Par_Provider_Start_Date",
+                                            ProviderInformationTable.displayName
+                                        )
+                                    }
+                                    peekNextMonth
+                                    showMonthDropdown
+                                    onKeyDown={(e) => {
+                                        e.preventDefault();
+                                    }}
+                                    showYearDropdown
+                                    dropdownMode="select"
+                                    dateFormat="MM/dd/yyyy"
+                                    id="datePicker"
+                                    disabled={lockStatus == "V"}
+                                />
+                            </div>
+                        </div>
+                        <div className="col-xs-6 col-md-3">
+                            <label htmlFor="datePicker">Par Provider End Date</label>
+                            <br />
+                            <div className="form-floating">
+                                <ReactDatePicker
+                                    className="example-custom-input-modal"
+                                    selected={
+                                        "Par_Provider_End_Date" in data &&
+                                            data.Par_Provider_End_Date.value !== undefined
+                                            ? data.Par_Provider_End_Date.value
+                                            : data.Par_Provider_End_Date
+                                    }
+                                    name="Par_Provider_End_Date"
+                                    onChange={(selectValue, event) =>
+                                        handleGridDateChange(
+                                            index,
+                                            selectValue,
+                                            "Par_Provider_End_Date",
+                                            ProviderInformationTable.displayName
+                                        )
+                                    }
+                                    peekNextMonth
+                                    showMonthDropdown
+                                    onKeyDown={(e) => {
+                                        e.preventDefault();
+                                    }}
+                                    showYearDropdown
+                                    dropdownMode="select"
+                                    dateFormat="MM/dd/yyyy"
+                                    id="datePicker"
+                                    disabled={lockStatus == "V"}
+                                />
+                            </div>
+                        </div>
+                        <div className="col-xs-6 col-md-3">
+                            <label>Mail to Address</label>
+                            <br />
+                            <Select
+                                styles={{
+                                    control: (provided) => ({
+                                        ...provided,
+                                        fontWeight: "lighter",
+                                    }),
+                                }}
+                                value={data.Mail_to_Address}
+                                onChange={(selectValue, event) =>
+                                    handleGridSelectChange(
+                                        index,
+                                        selectValue,
+                                        event,
+                                        ProviderInformationTable.displayName
+                                    )
+                                }
+                                options={lineNumberOptions}
+                                name="Mail_to_Address"
+                                id="lineNumberDropDown"
+                                isDisabled={lockStatus == "V"}
+                                isClearable
+                            />
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-xs-6 col-md-6">
+                            <label>Address Line 1</label>
+                            <br />
+                            <input
+                                type="text"
+                                value={
+                                    "Address_Line_1" in data && data.Address_Line_1.value !== undefined
+                                        ? convertToCase(data.Address_Line_1.value)
+                                        : convertToCase(data.Address_Line_1)
+                                }
+                                onChange={(evnt) =>
+                                    handleGridFieldChange(index, evnt, ProviderInformationTable.displayName)
+                                }
+                                name="Address_Line_1"
+                                className="form-control"
+                                maxLength="50"
+                                title="Please Enter Valid Type"
+                                disabled={lockStatus == "V"}
+                            />
+                        </div>
+                        <div className="col-xs-6 col-md-6">
+                            <label>Address Line 2</label>
+                            <br />
+                            <input
+                                type="text"
+                                value={
+                                    "Address_Line_2" in data && data.Address_Line_2.value !== undefined
+                                        ? convertToCase(data.Address_Line_2.value)
+                                        : convertToCase(data.Address_Line_2)
+                                }
+                                onChange={(evnt) =>
+                                    handleGridFieldChange(index, evnt, ProviderInformationTable.displayName)
+                                }
+                                name="Address_Line_2"
+                                className="form-control"
+                                maxLength="50"
+                                title="Please Enter Valid Type"
+                                disabled={lockStatus == "V"}
+                            />
+                        </div>
+                    </div>
+                    <div className="row">
                         <div className="col-xs-6 col-md-3">
                             <label>City</label>
                             <br />
@@ -203,6 +765,46 @@ export default function ProviderInformationTable({
                                 disabled={lockStatus == "V"}
                             />
                         </div>
+                        <div className="col-xs-6 col-md-3">
+                            <label>Zip Code</label>
+                            <br />
+                            <input
+                                type="text"
+                                value={
+                                    "Zip_Code" in data && data.Zip_Code.value !== undefined
+                                        ? convertToCase(data.Zip_Code.value)
+                                        : convertToCase(data.Zip_Code)
+                                }
+                                onChange={(evnt) =>
+                                    handleGridFieldChange(index, evnt, ProviderInformationTable.displayName)
+                                }
+                                name="Zip_Code"
+                                className="form-control"
+                                maxLength="50"
+                                title="Please Enter Valid Type"
+                                disabled={lockStatus == "V"}
+                            />
+                        </div>
+                        <div className="col-xs-6 col-md-3">
+                            <label>Provider Contact Name</label>
+                            <br />
+                            <input
+                                type="text"
+                                value={
+                                    "Provider_Contact_Name" in data && data.Provider_Contact_Name.value !== undefined
+                                        ? convertToCase(data.Provider_Contact_Name.value)
+                                        : convertToCase(data.Provider_Contact_Name)
+                                }
+                                onChange={(evnt) =>
+                                    handleGridFieldChange(index, evnt, ProviderInformationTable.displayName)
+                                }
+                                name="Provider_Contact_Name"
+                                className="form-control"
+                                maxLength="50"
+                                title="Please Enter Valid Type"
+                                disabled={lockStatus == "V"}
+                            />
+                        </div>
                     </div>
                 </div>
             </>
@@ -212,6 +814,239 @@ export default function ProviderInformationTable({
 
     const tdData = () => {
         console.log("Inside tdData");
+        console.log("providergrid", formGridData);
+        if (
+            formGridData["angProviderInformationGrid"] !== undefined) {
+            return formGridData["angProviderInformationGrid"].map((data, index) => {
+                return (
+                    <tr
+                        key={index}
+                        className={
+                            data.DataSource === "CredentialingApi" ? "CredentialingApi" : ""
+                        }
+                    >
+                        {lockStatus == "N" && (
+                            <>
+                                <td>
+                                    <span
+                                        style={{
+                                            display: "flex",
+                                        }}
+                                    >
+                                        <button
+                                            className="deleteBtn"
+                                            style={{ float: "left" }}
+                                            onClick={() => {
+                                                deleteTableRows(
+                                                    index,
+                                                    ProviderInformationTable.displayName,
+                                                    "Force Delete"
+                                                );
+                                                handleOperationValue("Force Delete");
+                                                decreaseDataIndex();
+                                            }}
+                                        >
+                                            <i className="fa fa-trash"></i>
+                                        </button>
+                                        <button
+                                            className="editBtn"
+                                            style={{ float: "right" }}
+                                            type="button"
+                                            onClick={() => {
+                                                editTableRows(index, ProviderInformationTable.displayName);
+                                                handleModalChange(true);
+                                                handleDataIndex(index);
+                                                handleOperationValue("Edit");
+                                            }}
+                                        >
+                                            <i className="fa fa-edit"></i>
+                                        </button>
+                                    </span>
+                                </td>
+                            </>
+                        )}
+                        {lockStatus == "V" && (
+                            <td>
+                                <div>
+                                    <button
+                                        className="editBtn"
+                                        style={{ float: "right" }}
+                                        type="button"
+                                        onClick={() => {
+                                            handleModalChange(true);
+                                            handleDataIndex(index);
+                                            handleOperationValue("Edit");
+                                        }}
+                                    >
+                                        <i className="fa fa-eye"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        )}
+                        <td className="tableData">
+                            {
+                                formGridData["angProviderInformationGrid"][0]["Issue_Number"]
+                            }
+                        </td>
+                        <td className="tableData">
+                            {
+                                formGridData["angProviderInformationGrid"][0]["Sequential_Provider_ID"]
+                            }
+                        </td>
+                        <td className="tableData">
+                            {
+                                formGridData["angProviderInformationGrid"][0]["Provider_Name"]
+                            }
+                        </td>
+                        <td className="tableData">
+                            {
+                                formGridData["angProviderInformationGrid"][0]["Provider_Role"]
+                            }
+                        </td>
+                        <td className="tableData">
+                            {
+                                formGridData["angProviderInformationGrid"][0]["Provider_TIN"]
+                            }
+                        </td>
+                        <td className="tableData">
+                            {
+                                formGridData["angProviderInformationGrid"][0]["State_Provider_ID"]
+                            }
+                        </td>
+                        <td className="tableData">
+                            {
+                                formGridData["angProviderInformationGrid"][0]["Medicare_ID"]
+                            }
+                        </td>
+                        <td className="tableData">
+                            {
+                                formGridData["angProviderInformationGrid"][0]["Medicaid_ID"]
+                            }
+                        </td>
+                        <td className="tableData">
+                            {
+                                formGridData["angProviderInformationGrid"][0]["PR_Representative"]
+                            }
+                        </td>
+                        <td className="tableData">
+                            {
+                                formGridData["angProviderInformationGrid"][0]["Participating_Provider"]
+                            }
+                        </td>
+                        <td className="tableData">
+                            {
+                                formGridData["angProviderInformationGrid"][0]["Provider_Type"]
+                            }
+                        </td>
+                        <td className="tableData">
+                            {
+                                formGridData["angProviderInformationGrid"][0]["Provider_IPA"]
+                            }
+                        </td>
+                        <td className="tableData">
+                            {
+                                formGridData["angProviderInformationGrid"][0]["Provider_Vendor_Specialty"]
+                            }
+                        </td>
+                        <td className="tableData">
+                            {
+                                formGridData["angProviderInformationGrid"][0]["Provider_Vendor_Specialty_Description"]
+                            }
+                        </td>
+                        <td className="tableData">
+                            {
+                                formGridData["angProviderInformationGrid"][0]["Point_of_Contact"]
+                            }
+                        </td>
+                        <td className="tableData">
+                            {
+                                formGridData["angProviderInformationGrid"][0]["Communication_Preference"]
+                            }
+                        </td>
+                        <td className="tableData">
+                            {
+                                formGridData["angProviderInformationGrid"][0]["Email_Address"]
+                            }
+                        </td>
+                        <td className="tableData">
+                            {
+                                formGridData["angProviderInformationGrid"][0]["Portal_Enrolled"]
+                            }
+                        </td>
+                        <td className="tableData">
+                            {
+                                formGridData["angProviderInformationGrid"][0]["Provider_Alert"]
+                            }
+                        </td>
+                        <td className="tableData">
+                            {
+                                formGridData["angProviderInformationGrid"][0]["Provider_ID"]
+                            }
+                        </td>
+                        <td className="tableData">
+                            {
+                                formGridData["angProviderInformationGrid"][0]["NPI_ID"]
+                            }
+                        </td>
+                        <td className="tableData">
+                            {
+                                formGridData["angProviderInformationGrid"][0]["Vendor_ID"]
+                            }
+                        </td>
+                        <td className="tableData">
+                            {
+                                formGridData["angProviderInformationGrid"][0]["Vendor_Name"]
+                            }
+                        </td>
+                        <td className="tableData">
+                            {
+                                formGridData["angProviderInformationGrid"][0]["Phone_Number"]
+                            }
+                        </td>
+                        <td className="tableData">
+                            {
+                                formGridData["angProviderInformationGrid"][0]["Fax_Number"]
+                            }
+                        </td>
+                        <td className="tableData">
+                            {
+                                formatDate(formGridData["angProviderInformationGrid"][0]["Par_Provider_Start_Date"])
+                            }
+                        </td>
+                        <td className="tableData">
+                            {
+                                formatDate(formGridData["angProviderInformationGrid"][0]["Par_Provider_End_Date"])
+                            }
+                        </td>
+                        <td className="tableData">
+                            {
+                                formGridData["angProviderInformationGrid"][0]["Mail_to_Address"]
+                            }
+                        </td>
+                        <td className="tableData">
+                            {
+                                formGridData["angProviderInformationGrid"][0]["Address_Line_1"]
+                            }
+                        </td>
+                        <td className="tableData">
+                            {
+                                formGridData["angProviderInformationGrid"][0]["Address_Line_2"]
+                            }
+                        </td>
+                        <td className="tableData">
+                            {
+                                formGridData["angProviderInformationGrid"][0]["City"]
+                            }
+                        </td>
+                        <td className="tableData">
+                            {
+                                formGridData["angProviderInformationGrid"][0]["State"]
+                            }
+                        </td>
+                    </tr>
+                );
+            });
+        }
         if (
             providerInformationGridData !== undefined &&
             providerInformationGridData.length > 0
@@ -288,13 +1123,6 @@ export default function ProviderInformationTable({
                                 ? convertToCase(data.Issue_Number.value)
                                 : convertToCase(data.Issue_Number)}
                         </td>
-
-                        <td className="tableData">
-                            {"Provider_ID" in data &&
-                                data.Provider_ID.value !== undefined
-                                ? formatDate(data.Provider_ID.value)
-                                : formatDate(data.Provider_ID)}
-                        </td>
                         <td className="tableData">
                             {"Sequential_Provider_ID" in data && data.Sequential_Provider_ID.value !== undefined
                                 ? convertToCase(data.Sequential_Provider_ID.value)
@@ -307,16 +1135,166 @@ export default function ProviderInformationTable({
                                 : convertToCase(data.Provider_Name)}
                         </td>
                         <td className="tableData">
-                            {"Email_Address" in data &&
-                                data.Email_Address.value !== undefined
-                                ? convertToCase(data.Email_Address.value)
-                                : convertToCase(data.Email_Address)}
+                            {"Provider_Role" in data &&
+                                data.Provider_Name.value !== undefined
+                                ? convertToCase(data.Provider_Role.value)
+                                : convertToCase(data.Provider_Role)}
+                        </td>
+                        <td className="tableData">
+                            {"Provider_TIN" in data &&
+                                data.Provider_TIN.value !== undefined
+                                ? convertToCase(data.Provider_TIN.value)
+                                : convertToCase(data.Provider_TIN)}
+                        </td>
+                        <td className="tableData">
+                            {"State_Provider_ID" in data &&
+                                data.State_Provider_ID.value !== undefined
+                                ? convertToCase(data.State_Provider_ID.value)
+                                : convertToCase(data.State_Provider_ID)}
+                        </td>
+                        <td className="tableData">
+                            {"Medicare_ID" in data &&
+                                data.Medicare_ID.value !== undefined
+                                ? convertToCase(data.Medicare_ID.value)
+                                : convertToCase(data.Medicare_ID)}
+                        </td>
+                        <td className="tableData">
+                            {"Medicaid_ID" in data &&
+                                data.Medicaid_ID.value !== undefined
+                                ? convertToCase(data.Medicaid_ID.value)
+                                : convertToCase(data.Medicaid_ID)}
+                        </td>
+                        <td className="tableData">
+                            {"PR_Representative" in data &&
+                                data.PR_Representative.value !== undefined
+                                ? convertToCase(data.PR_Representative.value)
+                                : convertToCase(data.PR_Representative)}
+                        </td>
+                        <td className="tableData">
+                            {"Participating_Provider" in data &&
+                                data.Participating_Provider.value !== undefined
+                                ? convertToCase(data.Participating_Provider.value)
+                                : convertToCase(data.Participating_Provider)}
+                        </td>
+                        <td className="tableData">
+                            {"Provider_Type" in data &&
+                                data.Provider_Type.value !== undefined
+                                ? convertToCase(data.Provider_Type.value)
+                                : convertToCase(data.Provider_Type)}
+                        </td>
+                        <td className="tableData">
+                            {"Provider_IPA" in data &&
+                                data.Provider_IPA.value !== undefined
+                                ? convertToCase(data.Provider_IPA.value)
+                                : convertToCase(data.Provider_IPA)}
+                        </td>
+                        <td className="tableData">
+                            {"Provider_Vendor_Specialty" in data &&
+                                data.Provider_Vendor_Specialty.value !== undefined
+                                ? convertToCase(data.Provider_Vendor_Specialty.value)
+                                : convertToCase(data.Provider_Vendor_Specialty)}
+                        </td>
+                        <td className="tableData">
+                            {"Provider_Vendor_Specialty_Description" in data &&
+                                data.Provider_Vendor_Specialty_Description.value !== undefined
+                                ? convertToCase(data.Provider_Vendor_Specialty_Description.value)
+                                : convertToCase(data.Provider_Vendor_Specialty_Description)}
                         </td>
                         <td className="tableData">
                             {"Point_of_Contact" in data &&
                                 data.Point_of_Contact.value !== undefined
                                 ? convertToCase(data.Point_of_Contact.value)
                                 : convertToCase(data.Point_of_Contact)}
+                        </td>
+                        <td className="tableData">
+                            {"Communication_Preference" in data &&
+                                data.Communication_Preference.value !== undefined
+                                ? convertToCase(data.Communication_Preference.value)
+                                : convertToCase(data.Communication_Preference)}
+                        </td>
+                        <td className="tableData">
+                            {"Email_Address" in data &&
+                                data.Email_Address.value !== undefined
+                                ? convertToCase(data.Email_Address.value)
+                                : convertToCase(data.Email_Address)}
+                        </td>
+                        <td className="tableData">
+                            {"Portal_Enrolled" in data &&
+                                data.Portal_Enrolled.value !== undefined
+                                ? convertToCase(data.Portal_Enrolled.value)
+                                : convertToCase(data.Portal_Enrolled)}
+                        </td>
+                        <td className="tableData">
+                            {"Provider_Alert" in data &&
+                                data.Provider_Alert.value !== undefined
+                                ? convertToCase(data.Provider_Alert.value)
+                                : convertToCase(data.Provider_Alert)}
+                        </td>
+                        <td className="tableData">
+                            {"Provider_ID" in data &&
+                                data.Provider_ID.value !== undefined
+                                ? convertToCase(data.Provider_ID.value)
+                                : convertToCase(data.Provider_ID)}
+                        </td>
+                        <td className="tableData">
+                            {"NPI_ID" in data &&
+                                data.NPI_ID.value !== undefined
+                                ? convertToCase(data.NPI_ID.value)
+                                : convertToCase(data.NPI_ID)}
+                        </td>
+                        <td className="tableData">
+                            {"Vendor_ID" in data &&
+                                data.Vendor_ID.value !== undefined
+                                ? convertToCase(data.Vendor_ID.value)
+                                : convertToCase(data.Vendor_ID)}
+                        </td>
+                        <td className="tableData">
+                            {"Vendor_Name" in data &&
+                                data.Vendor_Name.value !== undefined
+                                ? convertToCase(data.Vendor_Name.value)
+                                : convertToCase(data.Vendor_Name)}
+                        </td>
+                        <td className="tableData">
+                            {"Phone_Number" in data &&
+                                data.Phone_Number.value !== undefined
+                                ? convertToCase(data.Phone_Number.value)
+                                : convertToCase(data.Phone_Number)}
+                        </td>
+                        <td className="tableData">
+                            {"Fax_Number" in data &&
+                                data.Fax_Number.value !== undefined
+                                ? convertToCase(data.Fax_Number.value)
+                                : convertToCase(data.Fax_Number)}
+                        </td>
+                        <td className="tableData">
+                            {"Par_Provider_Start_Date" in data &&
+                                data.Par_Provider_Start_Date.value !== undefined
+                                ? formatDate(data.Par_Provider_Start_Date.value)
+                                : formatDate(data.Par_Provider_Start_Date)}
+                        </td>
+                        <td className="tableData">
+                            {"Par_Provider_End_Date" in data &&
+                                data.Par_Provider_End_Date.value !== undefined
+                                ? formatDate(data.Par_Provider_End_Date.value)
+                                : formatDate(data.Par_Provider_End_Date)}
+                        </td>
+                        <td className="tableData">
+                            {"Mail_to_Address" in data &&
+                                data.Mail_to_Address.value !== undefined
+                                ? convertToCase(data.Mail_to_Address.value)
+                                : convertToCase(data.Mail_to_Address)}
+                        </td>
+                        <td className="tableData">
+                            {"Address_Line_1" in data &&
+                                data.Address_Line_1.value !== undefined
+                                ? convertToCase(data.Address_Line_1.value)
+                                : convertToCase(data.Address_Line_1)}
+                        </td>
+                        <td className="tableData">
+                            {"Address_Line_2" in data &&
+                                data.Address_Line_2.value !== undefined
+                                ? convertToCase(data.Address_Line_2.value)
+                                : convertToCase(data.Address_Line_2)}
                         </td>
                         <td className="tableData">
                             {"City" in data &&
@@ -329,6 +1307,18 @@ export default function ProviderInformationTable({
                                 data.State.value !== undefined
                                 ? convertToCase(data.State.value)
                                 : convertToCase(data.State)}
+                        </td>
+                        <td className="tableData">
+                            {"Zip_Code" in data &&
+                                data.Zip_Code.value !== undefined
+                                ? convertToCase(data.Zip_Code.value)
+                                : convertToCase(data.Zip_Code)}
+                        </td>
+                        <td className="tableData">
+                            {"Provider_Contact_Name" in data &&
+                                data.Provider_Contact_Name.value !== undefined
+                                ? convertToCase(data.Provider_Contact_Name.value)
+                                : convertToCase(data.Provider_Contact_Name)}
                         </td>
                     </tr>
                 );
@@ -419,31 +1409,39 @@ export default function ProviderInformationTable({
                         )}
                         {lockStatus == "V" && <th style={{ width: "15%" }}></th>}
                         <th scope="col">Issue Number</th>
-                        <th scope="col">Provider Id</th>
-                        <th scope="col">Sequential Provider Id</th>
+                        <th scope="col">Sequential Provider ID</th>
                         <th scope="col">Provider Name</th>
-                        <th scope="col">Email Address</th>
-                        <th scope="col">Point of Contact</th>
-                        <th scope="col">City</th>
-                        <th scope="col">State</th>
-                        {/* <th scope="col">Provider Role</th>
+                        <th scope="col">Provider Role</th>
                         <th scope="col">Provider TIN</th>
-                        <th scope="col">NPI ID</th>
-                        <th scope="col">State Provider Id</th>
-                        <th scope="col">Medicare Id</th>
-                        <th scope="col">Medicaid Id</th>
+                        <th scope="col">State Provider ID</th>
+                        <th scope="col">Provider ID</th>
+                        <th scope="col">Medicare ID</th>
+                        <th scope="col">Medicaid ID</th>
                         <th scope="col">PR Reprsentative</th>
                         <th scope="col">Participating Provider</th>
                         <th scope="col">Provider Type</th>
                         <th scope="col">Provider IPA</th>
-                        <th scope="col">Provider/Vendor Speciality</th>
-                        <th scope="col">Provider/Vendor Speciality Description</th>
+                        <th scope="col">Provider / Vendor Speciality</th>
+                        <th scope="col">Provider / Vendor Speciality Description</th>
+                        <th scope="col">Point of Contact</th>
+                        <th scope="col">Communication Preference</th>
+                        <th scope="col">Email Address</th>
+                        <th scope="col">Portal Enrolled</th>
+                        <th scope="col">Provider Alert</th>
+                        <th scope="col">NPI ID</th>
+                        <th scope="col">Vendor ID</th>
+                        <th scope="col">Vendor Name</th>
+                        <th scope="col">Phone Number</th>
+                        <th scope="col">Fax Number</th>
                         <th scope="col">Par Provider Start Date</th>
                         <th scope="col">Par Provider End Date</th>
-                        <th scope="col">Vendor Id</th>
-                        <th scope="col">Vendor Name</th>
-                        <th scope="col">Point of Contact</th>
-                        <th scope="col">Phone Number</th> */}
+                        <th scope="col">Mail to Address</th>
+                        <th scope="col">Address Line 1</th>
+                        <th scope="col">Address Line 2</th>
+                        <th scope="col">City</th>
+                        <th scope="col">State</th>
+                        <th scope="col">Zip Code</th>
+                        <th scope="col">Provider Contact Name</th>
                     </tr>
                 </thead>
                 <tbody>

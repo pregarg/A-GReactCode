@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Form, useLocation, useNavigate } from "react-router-dom";
 import { Formik, Field, ErrorMessage } from "formik";
 import useGetDBTables from "../../CustomHooks/useGetDBTables";
 import Select, { components } from "react-select";
@@ -52,6 +52,8 @@ const CaseHeader = () => {
   const [apiTestState, setApiTestState] = useState({
     delegated: "",
   });
+
+  const [formData, setFormData] = useState({});
 
   const [buttonDisableFlag, setButtonDisableFlag] = useState(false);
 
@@ -263,9 +265,9 @@ const CaseHeader = () => {
     }
   }, []);
 
-  // useEffect(() => {
-  //   console.log("formdata", formData);
-  // }, [formData]);
+  useEffect(() => {
+    console.log("formdata", formData);
+  }, [formData]);
 
   const handleActionSelectChange = (propertyName, propertyValue) => {
     const updatedData = potentialDupData.map((data) => ({
@@ -282,11 +284,12 @@ const CaseHeader = () => {
   const mastersSelector = useSelector((masters) => masters);
   const {
     trimJsonValues,
-    extractDate, getTableDetails, getDatePartOnly, CompareJSON } = useGetDBTables();
+    extractDate, getTableDetails, getDatePartOnly } = useGetDBTables();
   const {
     submitCase,
     updateLockStatus,
     updateDecision,
+    CompareJSON
   } = useUpdateDecision();
 
   const token = mastersSelector.hasOwnProperty("auth")
@@ -509,7 +512,7 @@ const CaseHeader = () => {
         }
 
         if (apiStat === 0) {
-          let data=res.data.data;
+          let data = res.data.data;
           let apiresp = data["angCaseHeader"][0];
           apiresp = convertToDateObj(apiresp);
 
@@ -535,6 +538,8 @@ const CaseHeader = () => {
           setClaimInformationGrid(data["angClaimInformationGrid"][0]);
           setProviderInformationGrid(data["angProviderInformationGrid"][0]);
           setMemberInformation(data["angMemberInformation"][0]);
+
+          setFormData(data);
 
           const caseIDToUpdate = res?.data?.data?.mainTable[0]?.CaseID;
           const indexToUpdate = caseData.data.findIndex(
@@ -590,10 +595,23 @@ const CaseHeader = () => {
     const saveType = "SE";
 
     let apiJson = {};
-    // const angCaseTimelines = trimJsonValues({ ...caseTimelines });
-    // let updatedjson = CompareJSON(angCaseTimelines, formData["angCaseTimelines"][0]);
-    //apiJson = trimJsonValues({ ...updatedjson });
-    apiJson["tableNames"] = getTableDetails()["angTables"];
+
+    const angCaseHeader = trimJsonValues({ ...caseHeader });
+    const angCaseTimelines = trimJsonValues({ ...caseTimelines });
+    const angCaseInformation = trimJsonValues({ ...caseInformation });
+    const angClaimInformation = trimJsonValues({ ...claimInformation });
+    const angMemberInformation = trimJsonValues({ ...memberInformation });
+    //const angClaimInformationGrid = getGridDataValues(claimInformationGrid);
+    //const angProviderInformationGrid = getGridDataValues(providerInformationGrid);
+
+    apiJson["ANG_Case_Header"] = CompareJSON(angCaseHeader, formData["angCaseHeader"][0]);
+    apiJson["ANG_Case_Timelines"] = CompareJSON(angCaseTimelines, formData["angCaseTimelines"][0]);
+    apiJson["ANG_Case_Information"] = CompareJSON(angCaseInformation, formData["angCaseInformation"][0]);
+    apiJson["ANG_Claim_Information"] = CompareJSON(angClaimInformation, formData["angClaimInformation"][0]);
+    apiJson["ANG_Member_Information"] = CompareJSON(angMemberInformation, formData["angMemberInformation"][0]);
+    //apiJson["ANG_Claim_Information_Grid"] = angClaimInformationGrid;
+    //apiJson["ANG_Provider_Information_Grid"] = angProviderInformationGrid;
+
     apiJson["caseNumber"] = prop.state.caseNumber;
 
     customAxios.post("/generic/update", apiJson, {
@@ -666,6 +684,7 @@ const CaseHeader = () => {
                 handleData={claimInformation}
                 handleClaimInformationGridData={claimInformationGrid}
                 handleProviderInformationGridData={providerInformationGrid}
+                handleFormData={formData}
               />
               <MemeberInformationAccordion
                 //formikFieldsOnChange={formikFieldsOnChange}

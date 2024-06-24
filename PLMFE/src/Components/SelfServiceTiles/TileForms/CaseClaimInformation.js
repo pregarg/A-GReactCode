@@ -51,6 +51,8 @@ const CaseClaimInformation = (props) => {
 
     const [providerInformationGridData, setProviderInformationGridData] = useState(props.handleProviderInformationGridData);
 
+    const [formData, setFormData] = useState(props.handleFormData);
+
     const [gridFieldTempState, setGridFieldTempState] = useState({});
     // const [selectValues, setSelectValues] = useState({});
     // const [apiTestState, setApiTestState] = useState(initState);
@@ -1195,6 +1197,7 @@ const CaseClaimInformation = (props) => {
                             <div className="col-xs-6 col-md-12">
                                 <ClaimInformationTable
                                     claimInformationGridData={claimInformationGridData}
+                                    formGridData={formData}
                                     addTableRows={addTableRows}
                                     deleteTableRows={deleteTableRows}
                                     handleGridSelectChange={handleGridSelectChange}
@@ -1245,6 +1248,7 @@ const CaseClaimInformation = (props) => {
                             <div className="col-xs-6 col-md-12">
                                 <ProviderInformationTable
                                     providerInformationGridData={providerInformationGridData}
+                                    formGridData={formData}
                                     addTableRows={addTableRows}
                                     deleteTableRows={deleteTableRows}
                                     handleGridSelectChange={handleGridSelectChange}
