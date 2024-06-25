@@ -51,8 +51,6 @@ const CaseClaimInformation = (props) => {
 
     const [providerInformationGridData, setProviderInformationGridData] = useState(props.handleProviderInformationGridData);
 
-    const [formData, setFormData] = useState(props.handleFormData);
-
     const [gridFieldTempState, setGridFieldTempState] = useState({});
     // const [selectValues, setSelectValues] = useState({});
     // const [apiTestState, setApiTestState] = useState(initState);
@@ -164,12 +162,12 @@ const CaseClaimInformation = (props) => {
         ) {
             gridRowsFinalSubmit(triggeredFormName, index, "Delete");
             if (triggeredFormName === "ClaimInformationTable") {
-                const rows = [...claimInformationGridData];
+                const rows = [claimInformationGridData];
                 rows.splice(index, 1);
                 setclaimInformationGridData(rows);
             }
             if (triggeredFormName === "ProviderInformationTable") {
-                const rows = [...providerInformationGridData];
+                const rows = [providerInformationGridData];
                 rows.splice(index, 1);
                 setProviderInformationGridData(rows);
             }
@@ -435,21 +433,6 @@ const CaseClaimInformation = (props) => {
                     aria-labelledby="panelsStayOpen-claimInformation"
                 >
                     <div className="accordion-body">
-                        <div class="inputContainer">
-                            {/* <label style={{ fontWeight: "bold" }}>Search:</label> */}
-                            <label>Claim Search:</label>
-                            <div>
-                                <input
-                                    className="form-control"
-                                //   value={globalFilter || ""}
-                                //   onChange={(e) => {
-                                //     setValue(e.target.value);
-                                //     onChange(e.target.value);
-                                //   }}
-                                //   placeholder={`${count} records...`}
-                                />
-                            </div>
-                        </div>
                         <div className="row my-2">
                             <div className="col-xs-6 col-md-4">
                                 <Field name="claimnumber">
@@ -614,7 +597,7 @@ const CaseClaimInformation = (props) => {
                                                 id="claimtype"
                                                 isMulti={false}
                                                 onChange={(selectValue) =>
-                                                    props.handleOnChange(selectValue['value'], 'Claim_type')
+                                                    props.handleOnChange(selectValue ? selectValue.value : null, 'Claim_type')
                                                 }
                                                 value={
                                                     {
@@ -723,7 +706,7 @@ const CaseClaimInformation = (props) => {
                                                 id="servicetype"
                                                 isMulti={false}
                                                 onChange={(selectValue) =>
-                                                    props.handleOnChange(selectValue['value'], 'Service_Type')
+                                                    props.handleOnChange(selectValue ? selectValue.value : null, 'Service_Type')
                                                 }
                                                 value={
                                                     {
@@ -854,7 +837,7 @@ const CaseClaimInformation = (props) => {
                                                 id="claimdecision"
                                                 isMulti={false}
                                                 onChange={(selectValue) =>
-                                                    props.handleOnChange(selectValue['value'], 'Claim_Decision')
+                                                    props.handleOnChange(selectValue ? selectValue.value : null, 'Claim_Decision')
                                                 }
                                                 value={
                                                     {
@@ -959,7 +942,7 @@ const CaseClaimInformation = (props) => {
                                                 id="decisionreason"
                                                 isMulti={false}
                                                 onChange={(selectValue) =>
-                                                    props.handleOnChange(selectValue['value'], 'Decision_Reason')
+                                                    props.handleOnChange(selectValue ? selectValue.value : null, 'Decision_Reason')
                                                 }
                                                 value={
                                                     {
@@ -1062,7 +1045,7 @@ const CaseClaimInformation = (props) => {
                                                 id="processingstatus"
                                                 isMulti={false}
                                                 onChange={(selectValue) =>
-                                                    props.handleOnChange(selectValue['value'], 'Processing_Status')
+                                                    props.handleOnChange(selectValue ? selectValue.value : null, 'Processing_Status')
                                                 }
                                                 value={
                                                     {
@@ -1197,7 +1180,6 @@ const CaseClaimInformation = (props) => {
                             <div className="col-xs-6 col-md-12">
                                 <ClaimInformationTable
                                     claimInformationGridData={claimInformationGridData}
-                                    formGridData={formData}
                                     addTableRows={addTableRows}
                                     deleteTableRows={deleteTableRows}
                                     handleGridSelectChange={handleGridSelectChange}
@@ -1248,7 +1230,6 @@ const CaseClaimInformation = (props) => {
                             <div className="col-xs-6 col-md-12">
                                 <ProviderInformationTable
                                     providerInformationGridData={providerInformationGridData}
-                                    formGridData={formData}
                                     addTableRows={addTableRows}
                                     deleteTableRows={deleteTableRows}
                                     handleGridSelectChange={handleGridSelectChange}

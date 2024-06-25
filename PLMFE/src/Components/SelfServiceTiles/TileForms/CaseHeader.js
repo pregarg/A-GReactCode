@@ -54,6 +54,7 @@ const CaseHeader = () => {
   });
 
   const [formData, setFormData] = useState({});
+  const [formClaimGridData, setFormClaimGridData] = useState({});
 
   const [buttonDisableFlag, setButtonDisableFlag] = useState(false);
 
@@ -87,7 +88,7 @@ const CaseHeader = () => {
 
   const [caseInformation, setCaseInformation] = useState({
     caseNumber: "",
-    Appeal_type: "",
+    Appeal_Type: "",
     Appellant_Description: "",
     Appellant_Type: "",
     Case_Level_Priority: "",
@@ -122,72 +123,7 @@ const CaseHeader = () => {
     Service_Type: "",
   });
 
-  // const [claimInformationGrid, setClaimInformationGrid] = useState({
-  //   caseNumber: "",
-  //   Issue_Number: "",
-  //   Line_Number: "",
-  //   Allowed_Amount: "",
-  //   Auth_Number: "",
-  //   Billed_Amount: "",
-  //   Number_of_Days_in_Span: "",
-  //   Patient_Ref_Account_Number: "",
-  //   Place_of_Service_POS: "",
-  //   Procedure_Diagnosis_Code_2: "",
-  //   Procedure_Diagnosis_Codes: "",
-  //   Provider_Account_Number: "",
-  //   DRG_Indicator: "",
-  //   Service_End_Date: "",
-  //   Service_Start_Date: "",
-  //   Claim_Status: "",
-  //   Claim_Adjusted_Date: "",
-  //   Payment_Method: "",
-  //   Payment_Number: "",
-  //   Payment_Mail_Date_Postmark: "",
-  //   Filed_Timely: "",
-  //   Good_Cause_Reason: "",
-  //   Grant_Good_Cause: "",
-  // });
-
   const [claimInformationGrid, setClaimInformationGrid] = useState([]);
-
-  // const [providerInformationGrid, setProviderInformationGrid] = useState({
-  //   caseNumber: "",
-  //   Acknowledge_Alert: "",
-  //   Address_Line_1: "",
-  //   Address_Line_2: "",
-  //   City: "",
-  //   Communication_Preference: "",
-  //   Email_Address: "",
-  //   Fax_Number: "",
-  //   Issue_Number: "",
-  //   Mail_to_Address: "",
-  //   Medicaid_ID: "",
-  //   Medicare_ID: "",
-  //   NPI_ID: "",
-  //   Par_Provider_End_Date: "",
-  //   Par_Provider_Start_Date: "",
-  //   Participating_Provider: "",
-  //   Phone_Number: "",
-  //   Point_of_Contact: "",
-  //   Portal_Enrolled: "",
-  //   PR_Representative: "",
-  //   Provider_Alert: "",
-  //   Provider_Contact_Name: "",
-  //   Provider_ID_: "",
-  //   Provider_IPA: "",
-  //   Provider_Name: "",
-  //   Provider_Role: "",
-  //   Provider_TIN: "",
-  //   Provider_Type: "",
-  //   Provider_Vendor_Specialty: "",
-  //   Provider_Vendor_Specialty_Description: "",
-  //   Sequential_Provider_ID: "",
-  //   State_: "",
-  //   State_Provider_ID: "",
-  //   Vendor_ID: "",
-  //   Vendor_Name: "",
-  //   Zip_Code: "",
-  // });
 
   const [providerInformationGrid, setProviderInformationGrid] = useState([]);
 
@@ -267,7 +203,7 @@ const CaseHeader = () => {
 
   useEffect(() => {
     console.log("formdata", formData);
-  }, [formData]);
+  }, []);
 
   const handleActionSelectChange = (propertyName, propertyValue) => {
     const updatedData = potentialDupData.map((data) => ({
@@ -535,8 +471,8 @@ const CaseHeader = () => {
           setCaseTimelines(data["angCaseTimelines"][0]);
           setCaseInformation(data["angCaseInformation"][0]);
           setClaimInformation(data["angClaimInformation"][0]);
-          setClaimInformationGrid(data["angClaimInformationGrid"][0]);
-          setProviderInformationGrid(data["angProviderInformationGrid"][0]);
+          setClaimInformationGrid(data["angClaimInformationGrid"]);
+          setProviderInformationGrid(data["angProviderInformationGrid"]);
           setMemberInformation(data["angMemberInformation"][0]);
 
           setFormData(data);
@@ -601,16 +537,18 @@ const CaseHeader = () => {
     const angCaseInformation = trimJsonValues({ ...caseInformation });
     const angClaimInformation = trimJsonValues({ ...claimInformation });
     const angMemberInformation = trimJsonValues({ ...memberInformation });
-    //const angClaimInformationGrid = getGridDataValues(claimInformationGrid);
-    //const angProviderInformationGrid = getGridDataValues(providerInformationGrid);
+
+    const angClaimInformationGrid = getGridDataValues(claimInformationGrid);
+    const angProviderInformtionGrid = getGridDataValues(providerInformationGrid);
 
     apiJson["ANG_Case_Header"] = CompareJSON(angCaseHeader, formData["angCaseHeader"][0]);
     apiJson["ANG_Case_Timelines"] = CompareJSON(angCaseTimelines, formData["angCaseTimelines"][0]);
     apiJson["ANG_Case_Information"] = CompareJSON(angCaseInformation, formData["angCaseInformation"][0]);
     apiJson["ANG_Claim_Information"] = CompareJSON(angClaimInformation, formData["angClaimInformation"][0]);
     apiJson["ANG_Member_Information"] = CompareJSON(angMemberInformation, formData["angMemberInformation"][0]);
-    //apiJson["ANG_Claim_Information_Grid"] = angClaimInformationGrid;
-    //apiJson["ANG_Provider_Information_Grid"] = angProviderInformationGrid;
+
+    console.log("angClaimInformationGrid", angClaimInformationGrid);
+    console.log("formData", getGridDataValues(formData["angClaimInformationGrid"]));
 
     apiJson["caseNumber"] = prop.state.caseNumber;
 
@@ -684,7 +622,6 @@ const CaseHeader = () => {
                 handleData={claimInformation}
                 handleClaimInformationGridData={claimInformationGrid}
                 handleProviderInformationGridData={providerInformationGrid}
-                handleFormData={formData}
               />
               <MemeberInformationAccordion
                 //formikFieldsOnChange={formikFieldsOnChange}
@@ -718,7 +655,7 @@ const CaseHeader = () => {
               Go To Home
             </button>
             <label id="tileFormLabel" className="HeadingStyle">
-              Case Header
+              Appeals
             </label>
 
             {prop.state.formView === "DashboardView" ? <>

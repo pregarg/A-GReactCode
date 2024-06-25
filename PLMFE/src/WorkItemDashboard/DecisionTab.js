@@ -431,21 +431,21 @@ export default function DecisionTab(tabInput) {
         selectJson.decisionOptions =
           mastersSelector["masterDecision"].length === 0
             ? []
-            : mastersSelector["masterDecision"][0].data;
+            : mastersSelector["masterDecision"][0];
 
-        // selectJson["decisionOptions"]
-        //   .filter(
+        selectJson["decisionOptions"]
+          .filter(
 
-        //     (data) => data.flowId == flowId && data.stageName.trim() == stageName.trim()
+            (data) => data.flowId == flowId && data.stageName.trim() == stageName.trim()
 
-        //   ).map((val) =>{
-        //     console.log("logger mapper : ",val)
-        //     decisionOptions.push({
-        //       value: val.description,
-        //       label: val.description
-        //     })
-        //   } 
-        //   );
+          ).map((val) => {
+            console.log("logger mapper : ", val)
+            decisionOptions.push({
+              value: val.description,
+              label: val.description
+            })
+          }
+          );
       }
     }
     console.log("masterDecision Refprav1 ", decisionOptions);
