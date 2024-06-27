@@ -76,7 +76,7 @@ export default function LicenseTable({
             : true,
         stateAbbreviation:
           data?.hasOwnProperty("stateAbbreviation") &&
-          data?.stateAbbreviation?.value !== ""
+            data?.stateAbbreviation?.value !== ""
             ? false
             : true,
         type:
@@ -305,7 +305,7 @@ export default function LicenseTable({
                   className="example-custom-input-modal"
                   selected={
                     "expirationDate" in data &&
-                    data.expirationDate.value !== undefined
+                      data.expirationDate.value !== undefined
                       ? data.expirationDate.value
                       : data.expirationDate
                   }
@@ -438,7 +438,7 @@ export default function LicenseTable({
             </td>
             <td className="tableData">
               {"stateAbbreviation" in data &&
-              data.stateAbbreviation.value !== undefined
+                data.stateAbbreviation.value !== undefined
                 ? convertToCase(data.stateAbbreviation.value)
                 : convertToCase(data.stateAbbreviation)}
             </td>
@@ -455,7 +455,7 @@ export default function LicenseTable({
             </td>
             <td className="tableData">
               {"expirationDate" in data &&
-              data.expirationDate.value !== undefined
+                data.expirationDate.value !== undefined
                 ? formatDate(data.expirationDate.value)
                 : formatDate(data.expirationDate)}
             </td>

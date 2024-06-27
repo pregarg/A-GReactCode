@@ -197,7 +197,7 @@ const CaseInformationAccordion = (props) => {
                       id="lineofBusinessDropdown"
                       isMulti={false}
                       onChange={(selectValue) =>
-                        props.handleOnChange(selectValue['value'], 'Line_of_Business_LOB')
+                        props.handleOnChange(selectValue ? selectValue.value : null, 'Line_of_Business_LOB')
                       }
                       value={
                         {
@@ -258,7 +258,7 @@ const CaseInformationAccordion = (props) => {
                       id="productstate"
                       isMulti={false}
                       onChange={(selectValue) =>
-                        props.handleOnChange(selectValue['value'], 'Product_State')
+                        props.handleOnChange(selectValue ? selectValue.value : null, 'Product_State')
                       }
 
                       value={
@@ -369,7 +369,7 @@ const CaseInformationAccordion = (props) => {
                       id="product"
                       isMulti={false}
                       onChange={(selectValue) =>
-                        props.handleOnChange(selectValue['value'], 'Product')
+                        props.handleOnChange(selectValue ? selectValue.value : null, 'Product')
                       }
 
                       value={
@@ -435,7 +435,7 @@ const CaseInformationAccordion = (props) => {
                       id="producttype"
                       isMulti={false}
                       onChange={(selectValue) =>
-                        props.handleOnChange(selectValue['value'], 'Product_Type')
+                        props.handleOnChange(selectValue ? selectValue.value : null, 'Product_Type')
                       }
 
                       value={
@@ -548,7 +548,7 @@ const CaseInformationAccordion = (props) => {
                       id="appellantdecsription"
                       isMulti={false}
                       onChange={(selectValue) =>
-                        props.handleOnChange(selectValue['value'], 'Appellant_Description')
+                        props.handleOnChange(selectValue ? selectValue.value : null, 'Appellant_Description')
                       }
 
                       value={
@@ -610,7 +610,7 @@ const CaseInformationAccordion = (props) => {
                       id="appellanttype"
                       isMulti={false}
                       onChange={(selectValue) =>
-                        props.handleOnChange(selectValue['value'], 'Appellant_Type')
+                        props.handleOnChange(selectValue ? selectValue.value : null, 'Appellant_Type')
                       }
 
                       value={
@@ -672,7 +672,7 @@ const CaseInformationAccordion = (props) => {
                       id="appealtype"
                       isMulti={false}
                       onChange={(selectValue) =>
-                        props.handleOnChange(selectValue['value'], 'Appeal_Type')
+                        props.handleOnChange(selectValue ? selectValue.value : null, 'Appeal_Type')
                       }
 
                       value={
@@ -738,7 +738,7 @@ const CaseInformationAccordion = (props) => {
                       id="issuelevel"
                       isMulti={false}
                       onChange={(selectValue) =>
-                        props.handleOnChange(selectValue['value'], 'Issue_Level')
+                        props.handleOnChange(selectValue ? selectValue.value : null, 'Issue_Level')
                       }
 
                       value={
@@ -803,7 +803,7 @@ const CaseInformationAccordion = (props) => {
                       isMulti={false}
 
                       onChange={(selectValue) =>
-                        props.handleOnChange(selectValue['value'], 'Research_Type')
+                        props.handleOnChange(selectValue ? selectValue.value : null, 'Research_Type')
                       }
 
                       value={
@@ -868,7 +868,7 @@ const CaseInformationAccordion = (props) => {
                       id="caselevelpriority"
                       isMulti={false}
                       onChange={(selectValue) =>
-                        props.handleOnChange(selectValue['value'], 'Case_Level_Priority')
+                        props.handleOnChange(selectValue ? selectValue.value : null, 'Case_Level_Priority')
                       }
 
                       value={
@@ -933,7 +933,7 @@ const CaseInformationAccordion = (props) => {
                       id="reviewtype"
                       isMulti={false}
                       onChange={(selectValue) =>
-                        props.handleOnChange(selectValue['value'], 'Review_Type')
+                        props.handleOnChange(selectValue ? selectValue.value : null, 'Review_Type')
                       }
 
                       value={
@@ -1002,7 +1002,7 @@ const CaseInformationAccordion = (props) => {
                       id="denialtype"
                       isMulti={false}
                       onChange={(selectValue) =>
-                        props.handleOnChange(selectValue['value'], 'Denial_Type')
+                        props.handleOnChange(selectValue ? selectValue.value : null, 'Denial_Type')
                       }
 
                       value={

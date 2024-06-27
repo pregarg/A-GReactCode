@@ -8,7 +8,6 @@ import "./ClaimInformationTable.css";
 
 export default function ClaimInformationTable({
     claimInformationGridData,
-    formGridData,
     deleteTableRows,
     handleGridSelectChange,
     addTableRows,
@@ -37,6 +36,7 @@ export default function ClaimInformationTable({
 
     const tdDataReplica = (index) => {
         console.log("Inside tdDataReplica");
+        console.log("gridfieldtempstate", gridFieldTempState);
         const data = getGridJson(gridFieldTempState);
         console.log("data", data);
 
@@ -651,194 +651,7 @@ export default function ClaimInformationTable({
 
     const tdData = () => {
         console.log("Inside tdData");
-        console.log("claimgrid", formGridData);
-        if (
-            formGridData["angClaimInformationGrid"] !== undefined) {
-            return formGridData["angClaimInformationGrid"].map((data, index) => {
-                return (
-                    <tr
-                        key={index}
-                        className={
-                            data.DataSource === "CredentialingApi" ? "CredentialingApi" : ""
-                        }
-                    >
-                        {lockStatus == "N" && (
-                            <>
-                                <td>
-                                    <span
-                                        style={{
-                                            display: "flex",
-                                        }}
-                                    >
-                                        <button
-                                            className="deleteBtn"
-                                            style={{ float: "left" }}
-                                            onClick={() => {
-                                                deleteTableRows(
-                                                    index,
-                                                    ClaimInformationTable.displayName,
-                                                    "Force Delete"
-                                                );
-                                                handleOperationValue("Force Delete");
-                                                decreaseDataIndex();
-                                            }}
-                                        >
-                                            <i className="fa fa-trash"></i>
-                                        </button>
-                                        <button
-                                            className="editBtn"
-                                            style={{ float: "right" }}
-                                            type="button"
-                                            onClick={() => {
-                                                editTableRows(index, ClaimInformationTable.displayName);
-                                                handleModalChange(true);
-                                                handleDataIndex(index);
-                                                handleOperationValue("Edit");
-                                            }}
-                                        >
-                                            <i className="fa fa-edit"></i>
-                                        </button>
-                                    </span>
-                                </td>
-                            </>
-                        )}
-                        {lockStatus == "V" && (
-                            <td>
-                                <div>
-                                    <button
-                                        className="editBtn"
-                                        style={{ float: "right" }}
-                                        type="button"
-                                        onClick={() => {
-                                            handleModalChange(true);
-                                            handleDataIndex(index);
-                                            handleOperationValue("Edit");
-                                        }}
-                                    >
-                                        <i className="fa fa-eye"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        )}
-                        <td className="tableData">
-                            {
-                                formGridData["angClaimInformationGrid"][0]["Issue_Number"]
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formGridData["angClaimInformationGrid"][0]["Line_Number"]
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formGridData["angClaimInformationGrid"][0]["Patient_Ref_Account_Number"]
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formGridData["angClaimInformationGrid"][0]["Place_of_Service_POS"]
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formGridData["angClaimInformationGrid"][0]["Procedure_Diagnosis_Code_2"]
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formGridData["angClaimInformationGrid"][0]["Procedure_Diagnosis_Codes"]
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formGridData["angClaimInformationGrid"][0]["Provider_Account_Number"]
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formGridData["angClaimInformationGrid"][0]["DRG_Indicator"]
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formGridData["angClaimInformationGrid"][0]["Payment_Method"]
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formGridData["angClaimInformationGrid"][0]["Payment_Number"]
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formGridData["angClaimInformationGrid"][0]["Filed_Timely"]
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formGridData["angClaimInformationGrid"][0]["Grant_Good_Cause"]
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formGridData["angClaimInformationGrid"][0]["Good_Cause_Reason"]
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formGridData["angClaimInformationGrid"][0]["Auth_Number"]
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formatDate(formGridData["angClaimInformationGrid"][0]["Number_of_Days_in_Span"])
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formatDate(formGridData["angClaimInformationGrid"][0]["Service_Start_Date"])
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formatDate(formGridData["angClaimInformationGrid"][0]["Service_End_Date"])
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formatDate(formGridData["angClaimInformationGrid"][0]["Claim_Status"])
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formatDate(formGridData["angClaimInformationGrid"][0]["Claim_Adjusted_Date"])
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formatDate(formGridData["angClaimInformationGrid"][0]["Payment_Date"])
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formatDate(formGridData["angClaimInformationGrid"][0]["Payment_Mail_Date_Postmark"])
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formGridData["angClaimInformationGrid"][0]["Allowed_Amount"]
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formGridData["angClaimInformationGrid"][0]["Billed_Amount"]
-                            }
-                        </td>
-                    </tr>
-                );
-            });
-        }
+        console.log("claimgrid", claimInformationGridData);
         if (
             claimInformationGridData !== undefined &&
             claimInformationGridData.length > 0
@@ -899,6 +712,7 @@ export default function ClaimInformationTable({
                                         style={{ float: "right" }}
                                         type="button"
                                         onClick={() => {
+                                            editTableRows(index, ClaimInformationTable.displayName);
                                             handleModalChange(true);
                                             handleDataIndex(index);
                                             handleOperationValue("Edit");
