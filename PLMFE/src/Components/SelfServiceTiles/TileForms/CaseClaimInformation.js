@@ -601,7 +601,9 @@ const handleCheckBoxChange = (evnt, ind) => {
                     <div className="accordion-body">
 
                     <button type="button" class="btn btn-outline-primary" onClick={event => handleShowClaimSearch(event)}>Claim Search</button>
-                        
+
+
+      
 
                         <div className="row my-2">
                             <div className="col-xs-6 col-md-4">

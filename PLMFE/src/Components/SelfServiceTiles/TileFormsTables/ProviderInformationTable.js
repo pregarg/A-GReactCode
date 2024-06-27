@@ -42,6 +42,7 @@ export default function ProviderInformationTable({
 
         return (
             <>
+            
                 <div className="Container AddProviderLabel AddModalLabel">
                     <div className="row">
                         <div className="col-xs-6 col-md-3">
@@ -1156,11 +1157,12 @@ export default function ProviderInformationTable({
 
     return (
         <>
+        <div className="claimTable-container">
             <table className="table table-bordered tableLayout" id="ProviderInformationTable">
                 <thead>
                     <tr className="tableRowStyle tableHeaderColor">
                         {lockStatus == "N" && (
-                            <th style={{ width: "5%" }}>
+                            <th style={{ width: "" }}>
                                 <button
                                     className="addBtn"
                                     onClick={() => {
@@ -1174,7 +1176,7 @@ export default function ProviderInformationTable({
                                 </button>
                             </th>
                         )}
-                        {lockStatus == "V" && <th style={{ width: "15%" }}></th>}
+                        {lockStatus == "V" && <th style={{ width: "" }}></th>}
                         <th scope="col">Issue Number</th>
                         <th scope="col">Sequential Provider ID</th>
                         <th scope="col">Provider Name</th>
@@ -1216,6 +1218,7 @@ export default function ProviderInformationTable({
                     {tdData()}
                 </tbody>
             </table>
+            </div>
             <GridModal
                 name="Provider Information"
                 validationObject={isTouched}

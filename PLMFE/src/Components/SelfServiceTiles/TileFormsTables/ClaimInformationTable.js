@@ -931,12 +931,14 @@ export default function ClaimInformationTable({
     };
 
     return (
-        <>
+        <> 
+        <div className="claimTable-container">
             <table className="table table-bordered tableLayout" id="ClaimInformationTable">
+           
                 <thead>
                     <tr className="tableRowStyle tableHeaderColor">
                         {lockStatus == "N" && (
-                            <th style={{ width: "7.5%" }}>
+                            <th style={{ width: "" }}>
                                 <button
                                     className="addBtn"
                                     onClick={() => {
@@ -950,7 +952,7 @@ export default function ClaimInformationTable({
                                 </button>
                             </th>
                         )}
-                        {lockStatus == "V" && <th style={{ width: "7.5%" }}></th>}
+                        {lockStatus == "V" && <th style={{ width: "" }}></th>}
                         <th scope="col">Issue Number</th>
                         <th scope="col">Line Number</th>
                         <th scope="col">Patient Ref/Account Number</th>
@@ -980,6 +982,7 @@ export default function ClaimInformationTable({
                     {tdData()}
                 </tbody>
             </table>
+            </div>
             <GridModal
                 name={"Claim Information"}
                 validationObject={isTouched}
