@@ -71,6 +71,43 @@ export default function useUpdateDecision() {
       });
   }
 
+  const isJSONLikeObject = (obj) => {
+    try {
+      JSON.stringify(obj);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  };
+ 
+  const isJSONType = (variable) => {
+    console.log('Inside isJSONType ==== ',typeof variable);
+    if (typeof variable === 'object' && variable !== null) {
+      if(isJSONLikeObject(variable)){
+        return variable?.value;
+      }
+    }
+    else {
+      return variable;
+    }
+  };
+ 
+  const getRowNumberForGrid = (tableArray) => {
+    if(tableArray.length>0){
+      const rowNumbers = tableArray.map((item) => {
+        let rn = isJSONType(item?.rowNumber);
+        return rn;
+     
+      });
+      console.log("rownumbers==== ",rowNumbers,Math.max(...rowNumbers));
+      let rowNum = Math.max(...rowNumbers);
+      return rowNum + 1;
+    }
+    else{
+      return 1;
+    }
+  }
+
   const submitCase = (prop, navigateHome) => {
 "Ready For Processing"
     console.log('Inside useUpdateDecision Decisionprav: ', prop.state);
@@ -480,6 +517,7 @@ export default function useUpdateDecision() {
     handlePhoneNumber,
     changeColorOfSelect,
     CompareJSON,
-    areAllLocationNameSame
+    areAllLocationNameSame,
+    getRowNumberForGrid
   }
 }
