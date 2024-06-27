@@ -19,6 +19,7 @@ const CaseClaimInformation = (props) => {
         checkGridJsonLength,
         trimJsonValues,
         extractDate,
+        getDatePartOnly,
         acceptNumbersOnly
     } = useGetDBTables();
 
@@ -256,12 +257,12 @@ const handleCheckBoxChange = (evnt, ind) => {
         ) {
             gridRowsFinalSubmit(triggeredFormName, index, "Delete");
             if (triggeredFormName === "ClaimInformationTable") {
-                const rows = [...claimInformationGridData];
+                const rows = [claimInformationGridData];
                 rows.splice(index, 1);
                 setclaimInformationGridData(rows);
             }
             if (triggeredFormName === "ProviderInformationTable") {
-                const rows = [...providerInformationGridData];
+                const rows = [providerInformationGridData];
                 rows.splice(index, 1);
                 setProviderInformationGridData(rows);
             }
@@ -284,8 +285,8 @@ const handleCheckBoxChange = (evnt, ind) => {
         let data =[];
         getApiJson['option'] = 'GETCLAIMSEARCHDATA'
         getApiJson['ClaimNumber'] = selectSearchValues?.claimNumber || '' ;
-        getApiJson['ServiceStartDate'] = selectSearchValues?.serviceStartDate || '';
-        getApiJson['ServiceEndDate'] = selectSearchValues?.serviceEndDate || '';
+        getApiJson['ServiceStartDate'] = extractDate(selectSearchValues?.serviceStartDate) || '';
+        getApiJson['ServiceEndDate'] = extractDate(selectSearchValues?.serviceEndDate) || '';
         getApiJson['SequentialMemberID'] = selectSearchValues?.sequentialMemberId || '';
         getApiJson['ProviderID'] = selectSearchValues?.providerId || '';
         ;
@@ -598,22 +599,10 @@ const handleCheckBoxChange = (evnt, ind) => {
                     aria-labelledby="panelsStayOpen-claimInformation"
                 >
                     <div className="accordion-body">
-                        <button type="button" class="btn btn-outline-primary" onClick={event => handleShowClaimSearch(event)}>Claim Search</button>
-                        <div class="inputContainer">
-                            {/* <label style={{ fontWeight: "bold" }}>Search:</label> */}
-                            <label>Claim Search:</label>
-                            <div>
-                                <input
-                                    className="form-control"
-                                //   value={globalFilter || ""}
-                                //   onChange={(e) => {
-                                //     setValue(e.target.value);
-                                //     onChange(e.target.value);
-                                //   }}
-                                //   placeholder={`${count} records...`}
-                                />
-                            </div>
-                        </div>
+
+                    <button type="button" class="btn btn-outline-primary" onClick={event => handleShowClaimSearch(event)}>Claim Search</button>
+                        
+
                         <div className="row my-2">
                             <div className="col-xs-6 col-md-4">
                                 <Field name="claimnumber">
@@ -778,7 +767,7 @@ const handleCheckBoxChange = (evnt, ind) => {
                                                 id="claimtype"
                                                 isMulti={false}
                                                 onChange={(selectValue) =>
-                                                    props.handleOnChange(selectValue['value'], 'Claim_type')
+                                                    props.handleOnChange(selectValue ? selectValue.value : null, 'Claim_type')
                                                 }
                                                 value={
                                                     {
@@ -887,7 +876,7 @@ const handleCheckBoxChange = (evnt, ind) => {
                                                 id="servicetype"
                                                 isMulti={false}
                                                 onChange={(selectValue) =>
-                                                    props.handleOnChange(selectValue['value'], 'Service_Type')
+                                                    props.handleOnChange(selectValue ? selectValue.value : null, 'Service_Type')
                                                 }
                                                 value={
                                                     {
@@ -1018,7 +1007,7 @@ const handleCheckBoxChange = (evnt, ind) => {
                                                 id="claimdecision"
                                                 isMulti={false}
                                                 onChange={(selectValue) =>
-                                                    props.handleOnChange(selectValue['value'], 'Claim_Decision')
+                                                    props.handleOnChange(selectValue ? selectValue.value : null, 'Claim_Decision')
                                                 }
                                                 value={
                                                     {
@@ -1123,7 +1112,7 @@ const handleCheckBoxChange = (evnt, ind) => {
                                                 id="decisionreason"
                                                 isMulti={false}
                                                 onChange={(selectValue) =>
-                                                    props.handleOnChange(selectValue['value'], 'Decision_Reason')
+                                                    props.handleOnChange(selectValue ? selectValue.value : null, 'Decision_Reason')
                                                 }
                                                 value={
                                                     {
@@ -1226,7 +1215,7 @@ const handleCheckBoxChange = (evnt, ind) => {
                                                 id="processingstatus"
                                                 isMulti={false}
                                                 onChange={(selectValue) =>
-                                                    props.handleOnChange(selectValue['value'], 'Processing_Status')
+                                                    props.handleOnChange(selectValue ? selectValue.value : null, 'Processing_Status')
                                                 }
                                                 value={
                                                     {
@@ -1361,7 +1350,6 @@ const handleCheckBoxChange = (evnt, ind) => {
                             <div className="col-xs-6 col-md-12">
                                 <ClaimInformationTable
                                     claimInformationGridData={claimInformationGridData}
-                                    formGridData={formData}
                                     addTableRows={addTableRows}
                                     deleteTableRows={deleteTableRows}
                                     handleGridSelectChange={handleGridSelectChange}
@@ -1428,7 +1416,6 @@ const handleCheckBoxChange = (evnt, ind) => {
                             <div className="col-xs-6 col-md-12">
                                 <ProviderInformationTable
                                     providerInformationGridData={providerInformationGridData}
-                                    formGridData={formData}
                                     addTableRows={addTableRows}
                                     deleteTableRows={deleteTableRows}
                                     handleGridSelectChange={handleGridSelectChange}

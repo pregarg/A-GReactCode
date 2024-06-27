@@ -193,7 +193,7 @@ const CaseTimelinesAccordion = (props) => {
                       id="casefilingmethodDropdown"
                       isMulti={false}
                       onChange={(selectValue) =>
-                        props.handleOnChange(selectValue['value'], 'Case_Filing_Method')
+                        props.handleOnChange(selectValue ? selectValue.value : null, 'Case_Filing_Method')
                       }
                       value={
                         {
