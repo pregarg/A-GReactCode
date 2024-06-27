@@ -1708,6 +1708,12 @@ export default function DashboardHomepage() {
                 </List>
               </Collapse>
             </ListItem>
+            <ListItem
+              disablePadding
+              sx={{ display: !moduleRefs.mdmMgmnt ? "none" : "block" }}
+            >
+              
+            </ListItem>
 
             <ListItem disablePadding sx={{ display: "block" }}>
               <ListItemButton
@@ -1745,6 +1751,9 @@ export default function DashboardHomepage() {
                     />
                   </ListItemIcon>
                 </Tooltip>
+
+                   
+
                 <ListItemText
                   secondary={
                     <Typography {...typoGraphyStyles}>Reports</Typography>
@@ -2000,6 +2009,8 @@ export default function DashboardHomepage() {
                 setPage={setPage}
               />
             ) : null}
+
+
             {page === "contractingSearch" ? (
               <ContractingSearch openDrawer={openDrawer} setPage={setPage} />
             ) : null}

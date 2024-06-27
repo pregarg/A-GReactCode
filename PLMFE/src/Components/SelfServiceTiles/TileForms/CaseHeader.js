@@ -87,7 +87,7 @@ const CaseHeader = () => {
 
   const [caseInformation, setCaseInformation] = useState({
     caseNumber: "",
-    Appeal_type: "",
+    Appeal_Type: "",
     Appellant_Description: "",
     Appellant_Type: "",
     Case_Level_Priority: "",

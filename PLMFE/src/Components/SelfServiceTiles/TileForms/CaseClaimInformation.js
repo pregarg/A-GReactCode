@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useAxios } from "../../../api/axios.hook";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Field, ErrorMessage } from "formik";
@@ -8,6 +9,9 @@ import ReactDatePicker from "react-datepicker";
 import Select, { components } from "react-select";
 import CaseHeader from './CaseHeader';
 import ProviderInformationTable from '../TileFormsTables/ProviderInformationTable';
+import TableComponent from "../../../../src/util/TableComponent";
+import ClaimSearch from "../TileForms/ClaimSearch";
+import useUpdateDecision from '../../CustomHooks/useUpdateDecision';
 
 const CaseClaimInformation = (props) => {
     const {
@@ -17,6 +21,12 @@ const CaseClaimInformation = (props) => {
         extractDate,
         acceptNumbersOnly
     } = useGetDBTables();
+
+    const {getRowNumberForGrid} = useUpdateDecision();
+
+    const [selectedCriteria, setSelectedCriteria] = useState();
+
+    const [selectSearchValues ,setSelectSearchValues] = useState();
 
     const formikFieldsOnChange = (evnt, setFieldValue, field) => {
         let value = evnt.target.value || "";
@@ -45,6 +55,8 @@ const CaseClaimInformation = (props) => {
     const initState = {
     };
 
+    const { customAxios: axios } = useAxios();
+    const token = useSelector((state) => state.auth.token);
     const [claimInformationData, setClaimInformationData] = useState(props.handleData);
 
     const [claimInformationGridData, setclaimInformationGridData] = useState(props.handleClaimInformationGridData);
@@ -52,8 +64,13 @@ const CaseClaimInformation = (props) => {
     const [providerInformationGridData, setProviderInformationGridData] = useState(props.handleProviderInformationGridData);
 
     const [formData, setFormData] = useState(props.handleFormData);
-
+    
+    const [showClaimSearch,setShowClaimSearch] = useState(false);
     const [gridFieldTempState, setGridFieldTempState] = useState({});
+
+    const [responseData,setResponseData] =useState([]);
+    let [selectedAddress,setSelectedAddress] = useState([]);
+
     // const [selectValues, setSelectValues] = useState({});
     // const [apiTestState, setApiTestState] = useState(initState);
     const mastersSelector = useSelector((masters) => masters);
@@ -65,6 +82,80 @@ const CaseClaimInformation = (props) => {
         </div>
     );
 
+const handleShowClaimSearch =()=>{
+    setShowClaimSearch(true);
+
+}
+
+
+
+const handleCloseClaimSearch =()=>{
+    setShowClaimSearch(false);
+    setSelectSearchValues([]);
+    setResponseData([]);
+    
+}
+const handleClearClaimSearch =()=>{
+    setSelectSearchValues([]);
+    setResponseData([]);
+}
+const handleSelectedAddress =(flag)=>{
+    //let rowNumber = locationTableRowsData.length+1;
+    console.log("grid column names ---->" ,claimInformationGridData)
+    setClaimInformationData({...selectedAddress[0]});
+    let rowNumber = getRowNumberForGrid(claimInformationGridData)
+    let addressToPopulate = []
+    console.log("selected Address values",selectedAddress);
+    if(selectedAddress.length > 0){
+      selectedAddress.map((elem)=>{
+        if(elem?.isChecked){
+          console.log("elem is ",elem);
+          elem.rowNumber = rowNumber;
+          elem.operation = 'I';
+          delete elem['isChecked'];
+          rowNumber++;
+          addressToPopulate.push(elem);
+        }
+       
+      })
+    }
+    //gridFieldTempState(checkedRef.current);
+    console.log("checkedRef.current value==== ",addressToPopulate);
+    if(addressToPopulate.length>0){
+      setclaimInformationGridData([...claimInformationGridData,...addressToPopulate])
+    //   setClaimInformationData([...claimInformationData,...addressToPopulate])
+      //console.log("INSIDE gridTableDataRef.locationTable1==== ",gridTableDataRef);
+    //   let gridTableDataRefCopy = gridTableDataRef.hasOwnProperty("locationTable") ? gridTableDataRef?.locationTable: [];
+    //   gridTableDataRef.locationTable = [...gridTableDataRefCopy,...addressToPopulate]
+    //   console.log("INSIDE gridTableDataRef.locationTable==== ",gridTableDataRef);
+    //   gridFieldTempState = {};
+    }
+    console.log("grid column names 222---->" ,claimInformationGridData,claimInformationData);
+    //setFetchAddressModalShow(flag);
+    //handleModalChange(false);
+    setShowClaimSearch(false);
+   // setGridFieldTempState({});
+  }
+
+
+const handleCheckBoxChange = (evnt, ind) => {
+     let jsn = responseData[ind];
+     console.log("event of checkbox",evnt);
+     jsn.isChecked = evnt.target.checked;
+     setSelectedAddress([...selectedAddress,jsn]);
+  
+   };
+
+   const handleCheckBoxHeaderChange = (evnt) => {
+    console.log("tableData at select of header1",responseData);
+    const updatedTableData = responseData.map((jsn) => {
+      jsn.isChecked = evnt.target.checked;
+      return jsn;
+    });
+    console.log("tableData at select of header",updatedTableData);
+    setSelectedAddress(updatedTableData);
+  };
+   
     let claimTypeValues = [];
     let decisionValues = [];
     let decisionReasonValues = [];
@@ -145,6 +236,7 @@ const CaseClaimInformation = (props) => {
         console.log("formdataclaiminformation", claimInformationData);
     }, [claimInformationData]);
 
+   
     const addTableRows = (triggeredFormName, index) => {
         let rowsInput = {};
 
@@ -179,6 +271,77 @@ const CaseClaimInformation = (props) => {
             setGridFieldTempState({});
         }
     };
+
+    const showAddresses =async()=>{
+     
+        console.log("selectSearchValues",selectSearchValues)
+        let ClaimNumber = selectSearchValues?.claimNumber;
+        let SequentialMemberID = selectSearchValues?.sequentialMemberId;
+        let ProviderID = selectSearchValues?.providerId;
+        
+        // console.log("claimNumberRowsData inside caseclaimInfor ",claimNumber);
+        let getApiJson={};
+        let data =[];
+        getApiJson['option'] = 'GETCLAIMSEARCHDATA'
+        getApiJson['ClaimNumber'] = selectSearchValues?.claimNumber || '' ;
+        getApiJson['ServiceStartDate'] = selectSearchValues?.serviceStartDate || '';
+        getApiJson['ServiceEndDate'] = selectSearchValues?.serviceEndDate || '';
+        getApiJson['SequentialMemberID'] = selectSearchValues?.sequentialMemberId || '';
+        getApiJson['ProviderID'] = selectSearchValues?.providerId || '';
+        ;
+        console.log("tt",getApiJson);
+        if(ClaimNumber !== '' || SequentialMemberID !== '' || ProviderID !=='')
+        {
+        let res = await axios.post("/generic/callProcedure", getApiJson, {
+                headers: { Authorization: `Bearer ${token}` },
+              });
+              //.then((res) => {
+                console.log("RES", res);
+                console.log("resdata inside",responseData.length,responseData);
+                
+               //if(responseData.length === 0){
+                console.log("RESssssss", res.data.CallProcedure_Output?.data);
+                let resApiData = res.data.CallProcedure_Output?.data;
+                console.log("resdata 1stTiem",resApiData);
+                resApiData = (resApiData?.length>0)? resApiData : [] ;
+                console.log("resdata inside",resApiData,resApiData.length);
+                if(resApiData.length > 0)
+                  {
+                    console.log("resdata.length inside");
+                setResponseData(resApiData);
+                }
+               //}
+                //data = response.data.CallProcedure_Output.data;
+                
+                console.log("APIDATA --->", responseData);
+                
+            } 
+      }
+
+
+      const showTableComponent = () => {
+        let columnNames=  'Claim Number~Claim_Number,Claim Type~Claim_type,Authorization Number~Authorization_Number,Service Start Date~Service_Start_Date,Service End Date~Service_End_Date,Service Span~ServiceSpan,Denial Date~DenialDate,Denial Code~DenialCode,Denial Description~DenialDescription,Member ID~MemberID,Member First Name~MemberFirstName,Member Last Name~MemberLastName,Provider ID~ProviderID,Provider Name~ProviderName';
+        console.log("APIDATA column data", responseData);
+        if(responseData.length>0){
+        return(
+            <>
+              <TableComponent
+              columnName={columnNames}
+                rowValues={responseData}
+                showCheckBox = {true}
+                handleCheckBoxChange={handleCheckBoxChange}
+                handleCheckBoxHeaderChange={handleCheckBoxHeaderChange}
+                CheckBoxInHeader = {true}
+                />
+                </>
+          )
+        }
+        else{
+            return (<></>);
+        }
+      }
+
+
 
     const handleGridSelectChange = (
         index,
@@ -435,6 +598,7 @@ const CaseClaimInformation = (props) => {
                     aria-labelledby="panelsStayOpen-claimInformation"
                 >
                     <div className="accordion-body">
+                        <button type="button" class="btn btn-outline-primary" onClick={event => handleShowClaimSearch(event)}>Claim Search</button>
                         <div class="inputContainer">
                             {/* <label style={{ fontWeight: "bold" }}>Search:</label> */}
                             <label>Claim Search:</label>
@@ -1219,6 +1383,22 @@ const CaseClaimInformation = (props) => {
                                 ></ClaimInformationTable>
                             </div>
                         </div>
+                        {showClaimSearch && (
+                            <ClaimSearch 
+                            handleCloseClaimSearch = {handleCloseClaimSearch}
+                            selectedCriteria={selectedCriteria}
+                            setSelectedCriteria={setSelectedCriteria}
+                            selectSearchValues ={selectSearchValues}
+                            setSelectSearchValues = {setSelectSearchValues}
+                            showAddresses={showAddresses}
+                            showTableComponent = {showTableComponent}
+                            responseData = {responseData}
+                            setResponseData = {setResponseData}
+                            handleClearClaimSearch={handleClearClaimSearch}
+                            showClaimSearch = {showClaimSearch}
+                            handleSelectedAddress={handleSelectedAddress}
+                            />
+                         )}
                     </div>
                 </div>
             </div>
@@ -1274,6 +1454,7 @@ const CaseClaimInformation = (props) => {
                 </div>
             </div>
         </div>
+        
     )
 }
 export default CaseClaimInformation;
