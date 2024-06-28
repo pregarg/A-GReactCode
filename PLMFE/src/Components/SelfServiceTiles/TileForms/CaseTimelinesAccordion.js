@@ -92,42 +92,6 @@ const CaseTimelinesAccordion = (props) => {
         <div className="accordion-body">
           <div className="row my-2">
             <div className="col-xs-6 col-md-4">
-              <div style={{}}>
-                <ReactDatePicker
-                  id="datePicker"
-                  className="form-control example-custom-input-provider"
-                  selected={caseTimelinesData.Case_Received_Date}
-                  name="Case_Received_Date"
-                  onChange={(date, event) => {
-
-                    props.handleOnChange(date, "Case_Received_Date")
-                  }
-                  }
-                  dateFormat="MM/dd/yyyy"
-                  peekNextMonth
-                  showMonthDropdown
-                  showYearDropdown
-                  isClearable
-                  onKeyDown={(e) => {
-                    e.preventDefault();
-                  }}
-                  dropdownMode="select"
-                  readOnly={
-                    tabRef.current === "DashboardView" &&
-                      prop.state.lockStatus !== undefined &&
-                      prop.state.lockStatus === "Y"
-                      ? true
-                      : false
-                  }
-                  style={{
-                    position: "relative",
-                    zIndex: "999",
-                  }}
-                  customInput={<RenderDatePickerReceivedDate />}
-                />
-              </div>
-            </div>
-            <div className="col-xs-6 col-md-4">
               <Field name="Case_Filing_Method">
                 {({
                   field, // { name, value, onChange, onBlur }
@@ -170,7 +134,9 @@ const CaseTimelinesAccordion = (props) => {
                           fontSize:
                             (state.hasValue || state.selectProps.inputValue) &&
                             13,
+                          color: 'black'
                         }),
+                        singleValue: (styles) => ({ ...styles, textAlign: 'left' }),
                         option: (provided, state) => ({
                           ...provided,
                           textAlign: "left",
@@ -225,6 +191,42 @@ const CaseTimelinesAccordion = (props) => {
                 name="casefilingmethod"
                 className="invalid-feedback"
               />
+            </div>
+            <div className="col-xs-6 col-md-4">
+              <div style={{}}>
+                <ReactDatePicker
+                  id="datePicker"
+                  className="form-control example-custom-input-provider"
+                  selected={caseTimelinesData.Case_Received_Date}
+                  name="Case_Received_Date"
+                  onChange={(date, event) => {
+
+                    props.handleOnChange(date, "Case_Received_Date")
+                  }
+                  }
+                  dateFormat="MM/dd/yyyy"
+                  peekNextMonth
+                  showMonthDropdown
+                  showYearDropdown
+                  isClearable
+                  onKeyDown={(e) => {
+                    e.preventDefault();
+                  }}
+                  dropdownMode="select"
+                  readOnly={
+                    tabRef.current === "DashboardView" &&
+                      prop.state.lockStatus !== undefined &&
+                      prop.state.lockStatus === "Y"
+                      ? true
+                      : false
+                  }
+                  style={{
+                    position: "relative",
+                    zIndex: "999",
+                  }}
+                  customInput={<RenderDatePickerReceivedDate />}
+                />
+              </div>
             </div>
             <div className="col-xs-6 col-md-4">
               <div style={{}}>
