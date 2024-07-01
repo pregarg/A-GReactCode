@@ -16,7 +16,7 @@ import DecisionTab from "../../../WorkItemDashboard/DecisionTab";
 import CaseInformation from "../../../WorkItemDashboard/CaseInformation";
 import MemeberInformationAccordion from "./MemeberInformationAccordion";
 import ClaimInformationTable from "../TileFormsTables/ClaimInformationTable";
-
+import _ from 'lodash';
 
 const CaseHeader = () => {
   const navigate = useNavigate();
@@ -203,7 +203,7 @@ const CaseHeader = () => {
 
   useEffect(() => {
     console.log("formdata", formData);
-  }, []);
+  }, [formData]);
 
   const handleActionSelectChange = (propertyName, propertyValue) => {
     const updatedData = potentialDupData.map((data) => ({
@@ -475,7 +475,7 @@ const CaseHeader = () => {
           setProviderInformationGrid(data["angProviderInformationGrid"]);
           setMemberInformation(data["angMemberInformation"][0]);
 
-          setFormData(data);
+          setFormData(_.cloneDeep(data));
 
           const caseIDToUpdate = res?.data?.data?.mainTable[0]?.CaseID;
           const indexToUpdate = caseData.data.findIndex(
@@ -539,7 +539,10 @@ const CaseHeader = () => {
     const angMemberInformation = trimJsonValues({ ...memberInformation });
 
     const angClaimInformationGrid = getGridDataValues(claimInformationGrid);
+    const originalClaimInformationGrid = getGridDataValues(formData["angClaimInformationGrid"]);
+
     const angProviderInformtionGrid = getGridDataValues(providerInformationGrid);
+    const originalProviderInformationGrid = getGridDataValues(formData["angProviderInformationGrid"]);
 
     apiJson["ANG_Case_Header"] = CompareJSON(angCaseHeader, formData["angCaseHeader"][0]);
     apiJson["ANG_Case_Timelines"] = CompareJSON(angCaseTimelines, formData["angCaseTimelines"][0]);
@@ -547,10 +550,100 @@ const CaseHeader = () => {
     apiJson["ANG_Claim_Information"] = CompareJSON(angClaimInformation, formData["angClaimInformation"][0]);
     apiJson["ANG_Member_Information"] = CompareJSON(angMemberInformation, formData["angMemberInformation"][0]);
 
-    console.log("angClaimInformationGrid", angClaimInformationGrid);
-    console.log("formData", getGridDataValues(formData["angClaimInformationGrid"]));
+    let updateClaimArray = [];
+    if (angClaimInformationGrid.length > 0 || originalClaimInformationGrid.length > 0) {
+      if (angClaimInformationGrid.length >= originalClaimInformationGrid.length) {
+        const maxLength = Math.min(angClaimInformationGrid.length, originalClaimInformationGrid.length);
+
+        // Update existing rows
+        for (let i = 0; i < maxLength; i++) {
+          const element = angClaimInformationGrid[i];
+          updateClaimArray.push({
+            caseNumber: element["caseNumber"],
+            rowNumber: element["rowNumber"],
+            ...CompareJSON(angClaimInformationGrid[i], originalClaimInformationGrid[i])
+          });
+        }
+
+        // Add rows
+        for (let i = maxLength; i < angClaimInformationGrid.length; i++) {
+          const element = angClaimInformationGrid[i];
+          if (!element.hasOwnProperty('caseNumber')) {
+            element.caseNumber = prop.state.caseNumber;
+          }
+          updateClaimArray.push({
+            operation: "I",
+            rowNumber: element["rowNumber"],
+            ...element
+          });
+        }
+      }
+      else {
+        // Delete rows
+        for (let i = 0; i < originalClaimInformationGrid.length; i++) {
+          const originalElement = originalClaimInformationGrid[i];
+          const index = angClaimInformationGrid.findIndex(element => originalElement.rowNumber === element.rowNumber);
+          if (index === -1) {
+            updateClaimArray.push({
+              operation: "D",
+              caseNumber: prop.state.caseNumber,
+              rowNumber: originalElement["rowNumber"]
+            });
+          }
+        }
+      }
+    }
+
+    let updateProviderArray = [];
+    if (angProviderInformtionGrid.length > 0 || originalProviderInformationGrid.length > 0) {
+      const maxLength = Math.min(angProviderInformtionGrid.length, originalProviderInformationGrid.length);
+
+      // Update existing rows
+      for (let i = 0; i < maxLength; i++) {
+        const element = angProviderInformtionGrid[i];
+        updateProviderArray.push({
+          caseNumber: element["caseNumber"],
+          rowNumber: element["rowNumber"],
+          ...CompareJSON(angProviderInformtionGrid[i], originalProviderInformationGrid[i])
+        });
+      }
+
+      // Add rows
+      for (let i = maxLength; i < angProviderInformtionGrid.length; i++) {
+        const element = angProviderInformtionGrid[i];
+        if (!element.hasOwnProperty('caseNumber')) {
+          element.caseNumber = prop.state.caseNumber;
+        }
+        updateProviderArray.push({
+          operation: "I",
+          rowNumber: element["rowNumber"],
+          ...element
+        });
+      }
+
+      // Delete rows
+      for (let i = 0; i < originalProviderInformationGrid.length; i++) {
+        const originalElement = originalProviderInformationGrid[i];
+        const index = angProviderInformtionGrid.findIndex(element => element.rowNumber === originalElement.rowNumber);
+        if (!index) {
+          updateProviderArray.push({
+            operation: "D",
+            caseNumber: prop.state.caseNumber,
+            rowNumber: originalElement["rowNumber"]
+          });
+        }
+      }
+    }
+
+    console.log("update claim array", updateClaimArray);
+    console.log("update provider array", updateProviderArray);
+
+    apiJson["ANG_Claim_Information_Grid"] = updateClaimArray;
+    apiJson["ANG_Provider_Information_Grid"] = updateProviderArray;
 
     apiJson["caseNumber"] = prop.state.caseNumber;
+
+    console.log("apijson", apiJson);
 
     customAxios.post("/generic/update", apiJson, {
       headers: { Authorization: `Bearer ${token}` },
@@ -586,6 +679,7 @@ const CaseHeader = () => {
           prop.state.caseNumber
         );
         submitCase(procData, navigateHome);
+        navigateHome();
       }
     });
   }
@@ -621,7 +715,9 @@ const CaseHeader = () => {
                 handleOnChange={handleClaimInformationChange}
                 handleData={claimInformation}
                 handleClaimInformationGridData={claimInformationGrid}
+                updateClaimInformationGridData={setClaimInformationGrid}
                 handleProviderInformationGridData={providerInformationGrid}
+                updateProviderInformationGridData={setProviderInformationGrid}
               />
               <MemeberInformationAccordion
                 //formikFieldsOnChange={formikFieldsOnChange}
@@ -702,7 +798,7 @@ const CaseHeader = () => {
                 justify
 
               >
-                <Tab eventKey={' Case Header'} title=' Case Header'>
+                <Tab eventKey={' Case Header'} title=' Case Details'>
                   <FormComponent />
                 </Tab>
 

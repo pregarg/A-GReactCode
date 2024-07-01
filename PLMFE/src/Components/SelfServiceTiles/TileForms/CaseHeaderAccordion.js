@@ -103,6 +103,7 @@ const CaseHeaderAccordion = (props) => {
                                                 props.handleOnChange(event.target['value'], 'caseNumber')
                                             }
                                             value={convertToCase(caseHeaderData['caseNumber'])}
+                                            readOnly
                                         />
                                         <label htmlFor="floatingInputGrid">Case ID</label>
                                         {meta.touched && meta.error && (
@@ -138,6 +139,7 @@ const CaseHeaderAccordion = (props) => {
                                                 props.handleOnChange(event.target['value'], 'Subcase_ID')
                                             }
                                             value={convertToCase(caseHeaderData['Subcase_ID'])}
+                                            readOnly
                                         />
                                         <label htmlFor="floatingInputGrid">Sub Case Id</label>
                                         {meta.touched && meta.error && (
@@ -172,6 +174,7 @@ const CaseHeaderAccordion = (props) => {
                                                 props.handleOnChange(event.target['value'], 'Case_Owner')
                                             }
                                             value={convertToCase(caseHeaderData['Case_Owner'])}
+                                            readOnly
                                         />
                                         <label htmlFor="floatingInputGrid">Case Owner</label>
                                         {meta.touched && meta.error && (
@@ -209,6 +212,7 @@ const CaseHeaderAccordion = (props) => {
                                                 props.handleOnChange(event.target['value'], 'Case_Status')
                                             }
                                             value={convertToCase(caseHeaderData['Case_Status'])}
+                                            readOnly
                                         />
                                         <label htmlFor="floatingInputGrid">Case Status</label>
                                         {meta.touched && meta.error && (
@@ -227,6 +231,7 @@ const CaseHeaderAccordion = (props) => {
                                     id="datePicker"
                                     className="form-control example-custom-input-provider"
                                     selected={caseHeaderData.Case_Due_Date}
+                                    readOnly
                                     name="caseduedate"
                                     dateFormat="MM/dd/yyyy"
                                     peekNextMonth
@@ -256,6 +261,7 @@ const CaseHeaderAccordion = (props) => {
                                     id="datePicker"
                                     className="form-control example-custom-input-provider"
                                     selected={caseHeaderData.Extended_Case_Due_Date}
+                                    readOnly
                                     name="extendedcaseduedate"
                                     dateFormat="MM/dd/yyyy"
                                     peekNextMonth
@@ -303,6 +309,7 @@ const CaseHeaderAccordion = (props) => {
                                                 props.handleOnChange(event.target['value'], 'Case_Validation')
                                             }
                                             value={convertToCase(caseHeaderData['Case_Validation'])}
+                                            readOnly
                                         />
                                         <label htmlFor="floatingInputGrid">Case Validation</label>
                                         {meta.touched && meta.error && (
@@ -321,6 +328,7 @@ const CaseHeaderAccordion = (props) => {
                                     id="datePicker"
                                     className="form-control example-custom-input-provider"
                                     selected={caseHeaderData.Internal_Due_Date}
+                                    readOnly
                                     name="internalduedate"
                                     dateFormat="MM/dd/yyyy"
                                     peekNextMonth
@@ -366,6 +374,7 @@ const CaseHeaderAccordion = (props) => {
                                                 props.handleOnChange(event.target['value'], 'White_Glove_Indicator')
                                             }
                                             value={convertToCase(caseHeaderData['White_Glove_Indicator'])}
+                                            readOnly
                                         />
                                         <label htmlFor="floatingInputGrid">White Glove Indicator</label>
                                         {meta.touched && meta.error && (
@@ -386,6 +395,7 @@ const CaseHeaderAccordion = (props) => {
                                     id="datePicker"
                                     className="form-control example-custom-input-provider"
                                     selected={caseHeaderData.Case_Received_Date}
+                                    readOnly
                                     name="caserecieveddate"
                                     dateFormat="MM/dd/yyyy"
                                     peekNextMonth
@@ -431,6 +441,7 @@ const CaseHeaderAccordion = (props) => {
                                                 props.handleOnChange(event.target['value'], 'Environmental_Description')
                                             }
                                             value={convertToCase(caseHeaderData['Environmental_Description'])}
+                                            readOnly
                                         />
                                         <label htmlFor="floatingInputGrid">Environmental Description</label>
                                         {meta.touched && meta.error && (

@@ -23,11 +23,11 @@ const CaseClaimInformation = (props) => {
         acceptNumbersOnly
     } = useGetDBTables();
 
-    const {getRowNumberForGrid} = useUpdateDecision();
+    const { getRowNumberForGrid } = useUpdateDecision();
 
     const [selectedCriteria, setSelectedCriteria] = useState();
 
-    const [selectSearchValues ,setSelectSearchValues] = useState();
+    const [selectSearchValues, setSelectSearchValues] = useState();
 
     const formikFieldsOnChange = (evnt, setFieldValue, field) => {
         let value = evnt.target.value || "";
@@ -65,12 +65,12 @@ const CaseClaimInformation = (props) => {
     const [providerInformationGridData, setProviderInformationGridData] = useState(props.handleProviderInformationGridData);
 
     const [formData, setFormData] = useState(props.handleFormData);
-    
-    const [showClaimSearch,setShowClaimSearch] = useState(false);
+
+    const [showClaimSearch, setShowClaimSearch] = useState(false);
     const [gridFieldTempState, setGridFieldTempState] = useState({});
 
-    const [responseData,setResponseData] =useState([]);
-    let [selectedAddress,setSelectedAddress] = useState([]);
+    const [responseData, setResponseData] = useState([]);
+    let [selectedAddress, setSelectedAddress] = useState([]);
 
     // const [selectValues, setSelectValues] = useState({});
     // const [apiTestState, setApiTestState] = useState(initState);
@@ -83,80 +83,80 @@ const CaseClaimInformation = (props) => {
         </div>
     );
 
-const handleShowClaimSearch =()=>{
-    setShowClaimSearch(true);
+    const handleShowClaimSearch = () => {
+        setShowClaimSearch(true);
 
-}
+    }
 
 
 
-const handleCloseClaimSearch =()=>{
-    setShowClaimSearch(false);
-    setSelectSearchValues([]);
-    setResponseData([]);
-    
-}
-const handleClearClaimSearch =()=>{
-    setSelectSearchValues([]);
-    setResponseData([]);
-}
-const handleSelectedAddress =(flag)=>{
-    //let rowNumber = locationTableRowsData.length+1;
-    console.log("grid column names ---->" ,claimInformationGridData)
-    setClaimInformationData({...selectedAddress[0]});
-    let rowNumber = getRowNumberForGrid(claimInformationGridData)
-    let addressToPopulate = []
-    console.log("selected Address values",selectedAddress);
-    if(selectedAddress.length > 0){
-      selectedAddress.map((elem)=>{
-        if(elem?.isChecked){
-          console.log("elem is ",elem);
-          elem.rowNumber = rowNumber;
-          elem.operation = 'I';
-          delete elem['isChecked'];
-          rowNumber++;
-          addressToPopulate.push(elem);
+    const handleCloseClaimSearch = () => {
+        setShowClaimSearch(false);
+        setSelectSearchValues([]);
+        setResponseData([]);
+
+    }
+    const handleClearClaimSearch = () => {
+        setSelectSearchValues([]);
+        setResponseData([]);
+    }
+    const handleSelectedAddress = (flag) => {
+        //let rowNumber = locationTableRowsData.length+1;
+        console.log("grid column names ---->", claimInformationGridData)
+        setClaimInformationData({ ...selectedAddress[0] });
+        let rowNumber = getRowNumberForGrid(claimInformationGridData)
+        let addressToPopulate = []
+        console.log("selected Address values", selectedAddress);
+        if (selectedAddress.length > 0) {
+            selectedAddress.map((elem) => {
+                if (elem?.isChecked) {
+                    console.log("elem is ", elem);
+                    elem.rowNumber = rowNumber;
+                    elem.operation = 'I';
+                    delete elem['isChecked'];
+                    rowNumber++;
+                    addressToPopulate.push(elem);
+                }
+
+            })
         }
-       
-      })
+        //gridFieldTempState(checkedRef.current);
+        console.log("checkedRef.current value==== ", addressToPopulate);
+        if (addressToPopulate.length > 0) {
+            setclaimInformationGridData([...claimInformationGridData, ...addressToPopulate])
+            //   setClaimInformationData([...claimInformationData,...addressToPopulate])
+            //console.log("INSIDE gridTableDataRef.locationTable1==== ",gridTableDataRef);
+            //   let gridTableDataRefCopy = gridTableDataRef.hasOwnProperty("locationTable") ? gridTableDataRef?.locationTable: [];
+            //   gridTableDataRef.locationTable = [...gridTableDataRefCopy,...addressToPopulate]
+            //   console.log("INSIDE gridTableDataRef.locationTable==== ",gridTableDataRef);
+            //   gridFieldTempState = {};
+        }
+        console.log("grid column names 222---->", claimInformationGridData, claimInformationData);
+        //setFetchAddressModalShow(flag);
+        //handleModalChange(false);
+        setShowClaimSearch(false);
+        // setGridFieldTempState({});
     }
-    //gridFieldTempState(checkedRef.current);
-    console.log("checkedRef.current value==== ",addressToPopulate);
-    if(addressToPopulate.length>0){
-      setclaimInformationGridData([...claimInformationGridData,...addressToPopulate])
-    //   setClaimInformationData([...claimInformationData,...addressToPopulate])
-      //console.log("INSIDE gridTableDataRef.locationTable1==== ",gridTableDataRef);
-    //   let gridTableDataRefCopy = gridTableDataRef.hasOwnProperty("locationTable") ? gridTableDataRef?.locationTable: [];
-    //   gridTableDataRef.locationTable = [...gridTableDataRefCopy,...addressToPopulate]
-    //   console.log("INSIDE gridTableDataRef.locationTable==== ",gridTableDataRef);
-    //   gridFieldTempState = {};
-    }
-    console.log("grid column names 222---->" ,claimInformationGridData,claimInformationData);
-    //setFetchAddressModalShow(flag);
-    //handleModalChange(false);
-    setShowClaimSearch(false);
-   // setGridFieldTempState({});
-  }
 
 
-const handleCheckBoxChange = (evnt, ind) => {
-     let jsn = responseData[ind];
-     console.log("event of checkbox",evnt);
-     jsn.isChecked = evnt.target.checked;
-     setSelectedAddress([...selectedAddress,jsn]);
-  
-   };
+    const handleCheckBoxChange = (evnt, ind) => {
+        let jsn = responseData[ind];
+        console.log("event of checkbox", evnt);
+        jsn.isChecked = evnt.target.checked;
+        setSelectedAddress([...selectedAddress, jsn]);
 
-   const handleCheckBoxHeaderChange = (evnt) => {
-    console.log("tableData at select of header1",responseData);
-    const updatedTableData = responseData.map((jsn) => {
-      jsn.isChecked = evnt.target.checked;
-      return jsn;
-    });
-    console.log("tableData at select of header",updatedTableData);
-    setSelectedAddress(updatedTableData);
-  };
-   
+    };
+
+    const handleCheckBoxHeaderChange = (evnt) => {
+        console.log("tableData at select of header1", responseData);
+        const updatedTableData = responseData.map((jsn) => {
+            jsn.isChecked = evnt.target.checked;
+            return jsn;
+        });
+        console.log("tableData at select of header", updatedTableData);
+        setSelectedAddress(updatedTableData);
+    };
+
     let claimTypeValues = [];
     let decisionValues = [];
     let decisionReasonValues = [];
@@ -232,20 +232,22 @@ const handleCheckBoxChange = (evnt, ind) => {
             console.error("An error occurred in useEffect:", error);
         }
     }, []);
+    const gridDataRef = useRef({});
 
     useEffect(() => {
         console.log("formdataclaiminformation", claimInformationData);
     }, [claimInformationData]);
 
-   
     const addTableRows = (triggeredFormName, index) => {
         let rowsInput = {};
 
         if (triggeredFormName === "ClaimInformationTable") {
-            rowsInput.rowNumber = claimInformationGridData.length + 1;
+            const maxRowNumber = claimInformationGridData.length === 0 ? 0 : Math.max(...claimInformationGridData.map(row => row.rowNumber));
+            rowsInput.rowNumber = maxRowNumber + 1;
         }
         if (triggeredFormName === "ProviderInformationTable") {
-            rowsInput.rowNumber = providerInformationGridData.length + 1;
+            const maxRowNumber = Math.max(...providerInformationGridData.map(row => row.rowNumber));
+            rowsInput.rowNumber = maxRowNumber + 1;
         }
         setGridFieldTempState(rowsInput);
     };
@@ -257,14 +259,16 @@ const handleCheckBoxChange = (evnt, ind) => {
         ) {
             gridRowsFinalSubmit(triggeredFormName, index, "Delete");
             if (triggeredFormName === "ClaimInformationTable") {
-                const rows = [claimInformationGridData];
+                const rows = [...claimInformationGridData];
                 rows.splice(index, 1);
                 setclaimInformationGridData(rows);
+                props.updateClaimInformationGridData(rows);
             }
             if (triggeredFormName === "ProviderInformationTable") {
-                const rows = [providerInformationGridData];
+                const rows = [...providerInformationGridData];
                 rows.splice(index, 1);
                 setProviderInformationGridData(rows);
+                props.updateProviderInformationGridData(rows);
             }
         }
 
@@ -273,74 +277,72 @@ const handleCheckBoxChange = (evnt, ind) => {
         }
     };
 
-    const showAddresses =async()=>{
-     
-        console.log("selectSearchValues",selectSearchValues)
+    const showAddresses = async () => {
+
+        console.log("selectSearchValues", selectSearchValues)
         let ClaimNumber = selectSearchValues?.claimNumber;
         let SequentialMemberID = selectSearchValues?.sequentialMemberId;
         let ProviderID = selectSearchValues?.providerId;
-        
+
         // console.log("claimNumberRowsData inside caseclaimInfor ",claimNumber);
-        let getApiJson={};
-        let data =[];
+        let getApiJson = {};
+        let data = [];
         getApiJson['option'] = 'GETCLAIMSEARCHDATA'
-        getApiJson['ClaimNumber'] = selectSearchValues?.claimNumber || '' ;
+        getApiJson['ClaimNumber'] = selectSearchValues?.claimNumber || '';
         getApiJson['ServiceStartDate'] = extractDate(selectSearchValues?.serviceStartDate) || '';
         getApiJson['ServiceEndDate'] = extractDate(selectSearchValues?.serviceEndDate) || '';
         getApiJson['SequentialMemberID'] = selectSearchValues?.sequentialMemberId || '';
         getApiJson['ProviderID'] = selectSearchValues?.providerId || '';
         ;
-        console.log("tt",getApiJson);
-        if(ClaimNumber !== '' || SequentialMemberID !== '' || ProviderID !=='')
-        {
-        let res = await axios.post("/generic/callProcedure", getApiJson, {
+        console.log("tt", getApiJson);
+        if (ClaimNumber !== '' || SequentialMemberID !== '' || ProviderID !== '') {
+            let res = await axios.post("/generic/callProcedure", getApiJson, {
                 headers: { Authorization: `Bearer ${token}` },
-              });
-              //.then((res) => {
-                console.log("RES", res);
-                console.log("resdata inside",responseData.length,responseData);
-                
-               //if(responseData.length === 0){
-                console.log("RESssssss", res.data.CallProcedure_Output?.data);
-                let resApiData = res.data.CallProcedure_Output?.data;
-                console.log("resdata 1stTiem",resApiData);
-                resApiData = (resApiData?.length>0)? resApiData : [] ;
-                console.log("resdata inside",resApiData,resApiData.length);
-                if(resApiData.length > 0)
-                  {
-                    console.log("resdata.length inside");
+            });
+            //.then((res) => {
+            console.log("RES", res);
+            console.log("resdata inside", responseData.length, responseData);
+
+            //if(responseData.length === 0){
+            console.log("RESssssss", res.data.CallProcedure_Output?.data);
+            let resApiData = res.data.CallProcedure_Output?.data;
+            console.log("resdata 1stTiem", resApiData);
+            resApiData = (resApiData?.length > 0) ? resApiData : [];
+            console.log("resdata inside", resApiData, resApiData.length);
+            if (resApiData.length > 0) {
+                console.log("resdata.length inside");
                 setResponseData(resApiData);
-                }
-               //}
-                //data = response.data.CallProcedure_Output.data;
-                
-                console.log("APIDATA --->", responseData);
-                
-            } 
-      }
+            }
+            //}
+            //data = response.data.CallProcedure_Output.data;
 
+            console.log("APIDATA --->", responseData);
 
-      const showTableComponent = () => {
-        let columnNames=  'Claim Number~Claim_Number,Claim Type~Claim_type,Authorization Number~Authorization_Number,Service Start Date~Service_Start_Date,Service End Date~Service_End_Date,Service Span~ServiceSpan,Denial Date~DenialDate,Denial Code~DenialCode,Denial Description~DenialDescription,Member ID~MemberID,Member First Name~MemberFirstName,Member Last Name~MemberLastName,Provider ID~ProviderID,Provider Name~ProviderName';
-        console.log("APIDATA column data", responseData);
-        if(responseData.length>0){
-        return(
-            <>
-              <TableComponent
-              columnName={columnNames}
-                rowValues={responseData}
-                showCheckBox = {true}
-                handleCheckBoxChange={handleCheckBoxChange}
-                handleCheckBoxHeaderChange={handleCheckBoxHeaderChange}
-                CheckBoxInHeader = {true}
-                />
-                </>
-          )
         }
-        else{
+    }
+
+
+    const showTableComponent = () => {
+        let columnNames = 'Claim Number~Claim_Number,Claim Type~Claim_type,Authorization Number~Authorization_Number,Service Start Date~Service_Start_Date,Service End Date~Service_End_Date,Service Span~ServiceSpan,Denial Date~DenialDate,Denial Code~DenialCode,Denial Description~DenialDescription,Member ID~MemberID,Member First Name~MemberFirstName,Member Last Name~MemberLastName,Provider ID~ProviderID,Provider Name~ProviderName';
+        console.log("APIDATA column data", responseData);
+        if (responseData.length > 0) {
+            return (
+                <>
+                    <TableComponent
+                        columnName={columnNames}
+                        rowValues={responseData}
+                        showCheckBox={true}
+                        handleCheckBoxChange={handleCheckBoxChange}
+                        handleCheckBoxHeaderChange={handleCheckBoxHeaderChange}
+                        CheckBoxInHeader={true}
+                    />
+                </>
+            )
+        }
+        else {
             return (<></>);
         }
-      }
+    }
 
 
 
@@ -422,8 +424,6 @@ const handleCheckBoxChange = (evnt, ind) => {
             setGridFieldTempState(rowInput);
         }
     };
-
-    const gridDataRef = useRef({});
 
     const gridRowsFinalSubmit = (triggeredFormName, index, operationType) => {
         console.log("Inside gridRowsFinalSubmit with view: ", tabRef);
@@ -600,11 +600,7 @@ const handleCheckBoxChange = (evnt, ind) => {
                 >
                     <div className="accordion-body">
 
-                    <button type="button" class="btn btn-outline-primary" onClick={event => handleShowClaimSearch(event)}>Claim Search</button>
-
-
-      
-
+                        <button type="button" class="btn btn-outline-primary" onClick={event => handleShowClaimSearch(event)}>Claim Search</button>
                         <div className="row my-2">
                             <div className="col-xs-6 col-md-4">
                                 <Field name="claimnumber">
@@ -654,53 +650,6 @@ const handleCheckBoxChange = (evnt, ind) => {
                                 />
                             </div>
                             <div className="col-xs-6 col-md-4">
-                                <Field name="authorizationnumber">
-                                    {({
-                                        field,
-                                        meta
-                                    }) => (
-                                        <div className="form-floating">
-                                            <input
-                                                maxLength="9"
-                                                type="text"
-                                                id="authorizationnumber"
-                                                className={`form-control ${meta.touched && meta.error
-                                                    ? "is-invalid"
-                                                    : field.value
-                                                        ? "is-valid"
-                                                        : ""
-                                                    }`}
-                                                placeholder="Authorization Number"
-                                                {...field}
-                                                onChange={(event) => {
-                                                    setClaimInformationData({ ...claimInformationData, 'Authorization_Number': event.target['value'] })
-                                                }}
-                                                onBlur={(event) =>
-                                                    props.handleOnChange(event.target['value'], 'Authorization_Number')
-                                                }
-                                                value={convertToCase(claimInformationData['Authorization_Number'])}
-                                            />
-                                            <label htmlFor="floatingInputGrid">
-                                                Authorization Number
-                                            </label>
-                                            {meta.touched && meta.error && (
-                                                <div
-                                                    className="invalid-feedback"
-                                                    style={{ display: "block" }}
-                                                >
-                                                    {meta.error}
-                                                </div>
-                                            )}
-                                        </div>
-                                    )}
-                                </Field>
-                                <ErrorMessage
-                                    component="div"
-                                    name="authorizationnumber"
-                                    className="invalid-feedback"
-                                />
-                            </div>
-                            <div className="col-xs-6 col-md-4">
                                 <Field name="claimtype">
                                     {({
                                         field, // { name, value, onChange, onBlur }
@@ -746,7 +695,9 @@ const handleCheckBoxChange = (evnt, ind) => {
                                                             (state.hasValue ||
                                                                 state.selectProps.inputValue) &&
                                                             13,
+                                                        color: 'black'
                                                     }),
+                                                    singleValue: (styles) => ({ ...styles, textAlign: 'left' }),
                                                     option: (provided, state) => ({
                                                         ...provided,
                                                         textAlign: "left",
@@ -803,6 +754,53 @@ const handleCheckBoxChange = (evnt, ind) => {
                                     className="invalid-feedback"
                                 />
                             </div>
+                            <div className="col-xs-6 col-md-4">
+                                <Field name="authorizationnumber">
+                                    {({
+                                        field,
+                                        meta
+                                    }) => (
+                                        <div className="form-floating">
+                                            <input
+                                                maxLength="9"
+                                                type="text"
+                                                id="authorizationnumber"
+                                                className={`form-control ${meta.touched && meta.error
+                                                    ? "is-invalid"
+                                                    : field.value
+                                                        ? "is-valid"
+                                                        : ""
+                                                    }`}
+                                                placeholder="Authorization Number"
+                                                {...field}
+                                                onChange={(event) => {
+                                                    setClaimInformationData({ ...claimInformationData, 'Authorization_Number': event.target['value'] })
+                                                }}
+                                                onBlur={(event) =>
+                                                    props.handleOnChange(event.target['value'], 'Authorization_Number')
+                                                }
+                                                value={convertToCase(claimInformationData['Authorization_Number'])}
+                                            />
+                                            <label htmlFor="floatingInputGrid">
+                                                Authorization Number
+                                            </label>
+                                            {meta.touched && meta.error && (
+                                                <div
+                                                    className="invalid-feedback"
+                                                    style={{ display: "block" }}
+                                                >
+                                                    {meta.error}
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+                                </Field>
+                                <ErrorMessage
+                                    component="div"
+                                    name="authorizationnumber"
+                                    className="invalid-feedback"
+                                />
+                            </div>
                         </div>
                         <div className="row my-2">
                             <div className="col-xs-6 col-md-4">
@@ -851,7 +849,9 @@ const handleCheckBoxChange = (evnt, ind) => {
                                                             (state.hasValue ||
                                                                 state.selectProps.inputValue) &&
                                                             13,
+                                                        color: 'black'
                                                     }),
+                                                    singleValue: (styles) => ({ ...styles, textAlign: 'left' }),
                                                     option: (provided, state) => ({
                                                         ...provided,
                                                         textAlign: "left",
@@ -941,6 +941,113 @@ const handleCheckBoxChange = (evnt, ind) => {
                                 </div>
                             </div>
                             <div className="col-xs-6 col-md-4">
+                                <Field name="processingstaus">
+                                    {({
+                                        field, // { name, value, onChange, onBlur }
+                                        form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+                                        meta,
+                                    }) => (
+                                        <div className="form-floating">
+                                            <Select
+                                                styles={{
+                                                    control: (provided) => ({
+                                                        ...provided,
+                                                        height: "58px",
+                                                        fontWeight: "lighter",
+                                                    }),
+                                                    menuList: (provided) => ({
+                                                        ...provided,
+                                                        maxHeight: 200,
+                                                    }),
+                                                    menu: (provided) => ({
+                                                        ...provided,
+                                                        zIndex: 9999,
+                                                    }),
+
+                                                    container: (provided, state) => ({
+                                                        ...provided,
+                                                        marginTop: 0,
+                                                    }),
+                                                    valueContainer: (provided, state) => ({
+                                                        ...provided,
+                                                        overflow: "visible",
+                                                    }),
+                                                    placeholder: (provided, state) => ({
+                                                        ...provided,
+                                                        position: "absolute",
+                                                        top:
+                                                            state.hasValue ||
+                                                                state.selectProps.inputValue
+                                                                ? -15
+                                                                : "50%",
+                                                        transition:
+                                                            "top 0.1s, font-size 0.1s",
+                                                        fontSize:
+                                                            (state.hasValue ||
+                                                                state.selectProps.inputValue) &&
+                                                            13,
+                                                        color: 'black'
+                                                    }),
+                                                    singleValue: (styles) => ({ ...styles, textAlign: 'left' }),
+                                                    option: (provided, state) => ({
+                                                        ...provided,
+                                                        textAlign: "left",
+                                                    }),
+                                                }}
+                                                components={{
+                                                    ValueContainer: CustomValueContainer,
+                                                }}
+                                                isClearable
+                                                name={field.name}
+                                                isDisabled={
+                                                    tabRef.current === "DashboardView" &&
+                                                        prop.state.lockStatus !== undefined &&
+                                                        prop.state.lockStatus === "Y"
+                                                        ? true
+                                                        : false
+                                                }
+                                                className="basic-multi-select"
+                                                options={processingStatusValues}
+                                                id="processingstatus"
+                                                isMulti={false}
+                                                onChange={(selectValue) =>
+                                                    props.handleOnChange(selectValue ? selectValue.value : null, 'Processing_Status')
+                                                }
+                                                value={
+                                                    {
+                                                        label: claimInformationData['Processing_Status'],
+                                                        value: claimInformationData['Processing_Status']
+                                                    }
+                                                }
+                                                placeholder="Processing Status"
+                                                //styles={{...customStyles}}
+                                                isSearchable={
+                                                    document.documentElement.clientHeight >
+                                                        document.documentElement.clientWidth
+                                                        ? false
+                                                        : true
+                                                }
+                                            />
+                                            {meta.touched && meta.error && (
+                                                <div
+                                                    className="invalid-feedback"
+                                                    style={{ display: "block" }}
+                                                >
+                                                    {meta.error}
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+                                </Field>
+                                <ErrorMessage
+                                    component="div"
+                                    name="processingStatus"
+                                    className="invalid-feedback"
+                                />
+                            </div>
+                        </div>
+                        <div className="row my-2">
+                            <div className="col-xs-6 col-md-4">
                                 <Field name="claimdecision">
                                     {({
                                         field, // { name, value, onChange, onBlur }
@@ -986,7 +1093,9 @@ const handleCheckBoxChange = (evnt, ind) => {
                                                             (state.hasValue ||
                                                                 state.selectProps.inputValue) &&
                                                             13,
+                                                        color: 'black'
                                                     }),
+                                                    singleValue: (styles) => ({ ...styles, textAlign: 'left' }),
                                                     option: (provided, state) => ({
                                                         ...provided,
                                                         textAlign: "left",
@@ -1043,8 +1152,6 @@ const handleCheckBoxChange = (evnt, ind) => {
                                     className="invalid-feedback"
                                 />
                             </div>
-                        </div>
-                        <div className="row my-2">
                             <div className="col-xs-6 col-md-4">
                                 <Field name="decisionreason">
                                     {({
@@ -1091,7 +1198,9 @@ const handleCheckBoxChange = (evnt, ind) => {
                                                             (state.hasValue ||
                                                                 state.selectProps.inputValue) &&
                                                             13,
+                                                        color: 'black'
                                                     }),
+                                                    singleValue: (styles) => ({ ...styles, textAlign: 'left' }),
                                                     option: (provided, state) => ({
                                                         ...provided,
                                                         textAlign: "left",
@@ -1145,109 +1254,6 @@ const handleCheckBoxChange = (evnt, ind) => {
                                 <ErrorMessage
                                     component="div"
                                     name="decisionreason"
-                                    className="invalid-feedback"
-                                />
-                            </div>
-                            <div className="col-xs-6 col-md-4">
-                                <Field name="processingstaus">
-                                    {({
-                                        field, // { name, value, onChange, onBlur }
-                                        form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
-                                        meta,
-                                    }) => (
-                                        <div className="form-floating">
-                                            <Select
-                                                styles={{
-                                                    control: (provided) => ({
-                                                        ...provided,
-                                                        height: "58px",
-                                                        fontWeight: "lighter",
-                                                    }),
-                                                    menuList: (provided) => ({
-                                                        ...provided,
-                                                        maxHeight: 200,
-                                                    }),
-                                                    menu: (provided) => ({
-                                                        ...provided,
-                                                        zIndex: 9999,
-                                                    }),
-
-                                                    container: (provided, state) => ({
-                                                        ...provided,
-                                                        marginTop: 0,
-                                                    }),
-                                                    valueContainer: (provided, state) => ({
-                                                        ...provided,
-                                                        overflow: "visible",
-                                                    }),
-                                                    placeholder: (provided, state) => ({
-                                                        ...provided,
-                                                        position: "absolute",
-                                                        top:
-                                                            state.hasValue ||
-                                                                state.selectProps.inputValue
-                                                                ? -15
-                                                                : "50%",
-                                                        transition:
-                                                            "top 0.1s, font-size 0.1s",
-                                                        fontSize:
-                                                            (state.hasValue ||
-                                                                state.selectProps.inputValue) &&
-                                                            13,
-                                                    }),
-                                                    option: (provided, state) => ({
-                                                        ...provided,
-                                                        textAlign: "left",
-                                                    }),
-                                                }}
-                                                components={{
-                                                    ValueContainer: CustomValueContainer,
-                                                }}
-                                                isClearable
-                                                name={field.name}
-                                                isDisabled={
-                                                    tabRef.current === "DashboardView" &&
-                                                        prop.state.lockStatus !== undefined &&
-                                                        prop.state.lockStatus === "Y"
-                                                        ? true
-                                                        : false
-                                                }
-                                                className="basic-multi-select"
-                                                options={processingStatusValues}
-                                                id="processingstatus"
-                                                isMulti={false}
-                                                onChange={(selectValue) =>
-                                                    props.handleOnChange(selectValue ? selectValue.value : null, 'Processing_Status')
-                                                }
-                                                value={
-                                                    {
-                                                        label: claimInformationData['Processing_Status'],
-                                                        value: claimInformationData['Processing_Status']
-                                                    }
-                                                }
-                                                placeholder="Processing Status"
-                                                //styles={{...customStyles}}
-                                                isSearchable={
-                                                    document.documentElement.clientHeight >
-                                                        document.documentElement.clientWidth
-                                                        ? false
-                                                        : true
-                                                }
-                                            />
-                                            {meta.touched && meta.error && (
-                                                <div
-                                                    className="invalid-feedback"
-                                                    style={{ display: "block" }}
-                                                >
-                                                    {meta.error}
-                                                </div>
-                                            )}
-                                        </div>
-                                    )}
-                                </Field>
-                                <ErrorMessage
-                                    component="div"
-                                    name="processingStatus"
                                     className="invalid-feedback"
                                 />
                             </div>
@@ -1374,21 +1380,21 @@ const handleCheckBoxChange = (evnt, ind) => {
                             </div>
                         </div>
                         {showClaimSearch && (
-                            <ClaimSearch 
-                            handleCloseClaimSearch = {handleCloseClaimSearch}
-                            selectedCriteria={selectedCriteria}
-                            setSelectedCriteria={setSelectedCriteria}
-                            selectSearchValues ={selectSearchValues}
-                            setSelectSearchValues = {setSelectSearchValues}
-                            showAddresses={showAddresses}
-                            showTableComponent = {showTableComponent}
-                            responseData = {responseData}
-                            setResponseData = {setResponseData}
-                            handleClearClaimSearch={handleClearClaimSearch}
-                            showClaimSearch = {showClaimSearch}
-                            handleSelectedAddress={handleSelectedAddress}
+                            <ClaimSearch
+                                handleCloseClaimSearch={handleCloseClaimSearch}
+                                selectedCriteria={selectedCriteria}
+                                setSelectedCriteria={setSelectedCriteria}
+                                selectSearchValues={selectSearchValues}
+                                setSelectSearchValues={setSelectSearchValues}
+                                showAddresses={showAddresses}
+                                showTableComponent={showTableComponent}
+                                responseData={responseData}
+                                setResponseData={setResponseData}
+                                handleClearClaimSearch={handleClearClaimSearch}
+                                showClaimSearch={showClaimSearch}
+                                handleSelectedAddress={handleSelectedAddress}
                             />
-                         )}
+                        )}
                     </div>
                 </div>
             </div>
@@ -1443,7 +1449,7 @@ const handleCheckBoxChange = (evnt, ind) => {
                 </div>
             </div>
         </div>
-        
+
     )
 }
 export default CaseClaimInformation;

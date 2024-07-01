@@ -5,6 +5,7 @@ import ReactDatePicker from "react-datepicker";
 import GridModal from "./GridModal";
 import useGetDBTables from "../../CustomHooks/useGetDBTables";
 import "./ClaimInformationTable.css";
+import { useLocation } from "react-router-dom";
 
 export default function ClaimInformationTable({
     claimInformationGridData,
@@ -931,57 +932,57 @@ export default function ClaimInformationTable({
     };
 
     return (
-        <> 
-        <div className="claimTable-container">
-            <table className="table table-bordered tableLayout" id="ClaimInformationTable">
-           
-                <thead>
-                    <tr className="tableRowStyle tableHeaderColor">
-                        {lockStatus == "N" && (
-                            <th style={{ width: "" }}>
-                                <button
-                                    className="addBtn"
-                                    onClick={() => {
-                                        addTableRows(ClaimInformationTable.displayName);
-                                        handleModalChange(true);
-                                        handleDataIndex(claimInformationGridData.length);
-                                        handleOperationValue("Add");
-                                    }}
-                                >
-                                    <i className="fa fa-plus"></i>
-                                </button>
-                            </th>
-                        )}
-                        {lockStatus == "V" && <th style={{ width: "" }}></th>}
-                        <th scope="col">Issue Number</th>
-                        <th scope="col">Line Number</th>
-                        <th scope="col">Patient Ref/Account Number</th>
-                        <th scope="col">Place of Service</th>
-                        <th scope="col">Procedure/ Diagnosis Code 2</th>
-                        <th scope="col">Procedure/ Diagnosis Code(s)</th>
-                        <th scope="col">Provider Account Number</th>
-                        <th scope="col">DRG Indicator</th>
-                        <th scope="col">Payment Method</th>
-                        <th scope="col">Payment Number</th>
-                        <th scope="col">Filed Timely</th>
-                        <th scope="col">Grant Good Cause</th>
-                        <th scope="col">Good Cause Reason</th>
-                        <th scope="col">Auth Number</th>
-                        <th scope="col">Number of Days in Span</th>
-                        <th scope="col">Service Start Date</th>
-                        <th scope="col">Service End Date</th>
-                        <th scope="col">Claim Status</th>
-                        <th scope="col">Claim Adjusted Date</th>
-                        <th scope="col">Payment Date</th>
-                        <th scope="col">Payment Mail Date (PostMark)</th>
-                        <th scope="col">Allowed Amount</th>
-                        <th scope="col">Billed Amount</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {tdData()}
-                </tbody>
-            </table>
+        <>
+            <div className="claimTable-container">
+                <table className="table table-bordered tableLayout" id="ClaimInformationTable">
+
+                    <thead>
+                        <tr className="tableRowStyle tableHeaderColor">
+                            {lockStatus == "N" && (
+                                <th style={{ width: "" }}>
+                                    <button
+                                        className="addBtn"
+                                        onClick={() => {
+                                            addTableRows(ClaimInformationTable.displayName);
+                                            handleModalChange(true);
+                                            handleDataIndex(claimInformationGridData.length);
+                                            handleOperationValue("Add");
+                                        }}
+                                    >
+                                        <i className="fa fa-plus"></i>
+                                    </button>
+                                </th>
+                            )}
+                            {lockStatus == "V" && <th style={{ width: "" }}></th>}
+                            <th scope="col">Issue Number</th>
+                            <th scope="col">Line Number</th>
+                            <th scope="col">Patient Ref/Account Number</th>
+                            <th scope="col">Place of Service</th>
+                            <th scope="col">Procedure/ Diagnosis Code 2</th>
+                            <th scope="col">Procedure/ Diagnosis Code(s)</th>
+                            <th scope="col">Provider Account Number</th>
+                            <th scope="col">DRG Indicator</th>
+                            <th scope="col">Payment Method</th>
+                            <th scope="col">Payment Number</th>
+                            <th scope="col">Filed Timely</th>
+                            <th scope="col">Grant Good Cause</th>
+                            <th scope="col">Good Cause Reason</th>
+                            <th scope="col">Auth Number</th>
+                            <th scope="col">Number of Days in Span</th>
+                            <th scope="col">Service Start Date</th>
+                            <th scope="col">Service End Date</th>
+                            <th scope="col">Claim Status</th>
+                            <th scope="col">Claim Adjusted Date</th>
+                            <th scope="col">Payment Date</th>
+                            <th scope="col">Payment Mail Date (PostMark)</th>
+                            <th scope="col">Allowed Amount</th>
+                            <th scope="col">Billed Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {tdData()}
+                    </tbody>
+                </table>
             </div>
             <GridModal
                 name={"Claim Information"}
