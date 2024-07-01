@@ -18,11 +18,17 @@ export default function ClaimInformationTable({
     lockStatus,
     editTableRows,
     gridFieldTempState,
+    
 }) {
 
     ClaimInformationTable.displayName = "ClaimInformationTable";
 
     const [dataIndex, setDataIndex] = useState();
+    const {
+     
+        extractDate
+        
+    } = useGetDBTables();
 
     const [operationValue, setOperationValue] = useState("");
 
@@ -31,6 +37,7 @@ export default function ClaimInformationTable({
     const [isTouched, setIsTouched] = useState({});
 
     const { getGridJson, convertToCase } = useGetDBTables();
+
 
     let lineNumberOptions = [];
 
