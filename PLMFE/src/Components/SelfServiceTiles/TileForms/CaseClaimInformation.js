@@ -86,6 +86,36 @@ const CaseClaimInformation = (props) => {
             <label htmlFor="datePicker">Original Denial Date</label>
         </div>
     );
+      const RenderDatePickerServiceStartDate = (props) => (
+        <div className="form-floating">
+            <input {...props} placeholder="Service Start Date" />
+            <label htmlFor="datePicker">Service Start Date</label>
+        </div>
+    );
+    const RenderDatePickerServiceEndDate = (props) => (
+        <div className="form-floating">
+            <input {...props} placeholder="Service End Date" />
+            <label htmlFor="datePicker">Service End Date</label>
+        </div>
+    );
+    const RenderDatePickerClaimAdjustedDate = (props) => (
+        <div className="form-floating">
+            <input {...props} placeholder="Claim Adjusted Date" />
+            <label htmlFor="datePicker">Claim Adjusted Date</label>
+        </div>
+    );
+    const RenderDatePickerPaymentDate = (props) => (
+        <div className="form-floating">
+            <input {...props} placeholder="Payment Date" />
+            <label htmlFor="datePicker">Payment Date</label>
+        </div>
+    );
+    const RenderDatePickerPaymentMailDate = (props) => (
+        <div className="form-floating">
+            <input {...props} placeholder="Payment Mail Date" />
+            <label htmlFor="datePicker">Payment Mail Date</label>
+        </div>
+    );
 
     const handleShowClaimSearch = () => {
         setShowClaimSearch(true);
@@ -181,6 +211,7 @@ const handleSelectedAddress =(flag)=>{
     let claimTypeValues = [];
     let decisionValues = [];
     let decisionReasonValues = [];
+    let serviceTypeValues = [];
     let processingStatusValues = [];
     useEffect(() => {
         try {
@@ -230,6 +261,17 @@ const handleSelectedAddress =(flag)=>{
                 }
             }
 
+            if (mastersSelector.hasOwnProperty("masterAngAuthServiceType")) {
+                const serviceTypeArray =
+                    mastersSelector["masterAngAuthServiceType"].length === 0
+                        ? []
+                        : mastersSelector["masterAngAuthServiceType"][0];
+
+                for (let i = 0; i < serviceTypeArray.length; i++) {
+                    serviceTypeValues.push({ label: convertToCase(serviceTypeArray[i].SERVICE_TYPE_DESC), value: convertToCase(serviceTypeArray[i].SERVICE_TYPE_DESC) });
+                }
+            }
+
             if (mastersSelector.hasOwnProperty("masterAngProcessingStatus")) {
                 const processingStatusArray =
                     mastersSelector["masterAngProcessingStatus"].length === 0
@@ -267,7 +309,7 @@ const handleSelectedAddress =(flag)=>{
             rowsInput.rowNumber = maxRowNumber + 1;
         }
         if (triggeredFormName === "ProviderInformationTable") {
-            const maxRowNumber = Math.max(...providerInformationGridData.map(row => row.rowNumber));
+            const maxRowNumber = providerInformationGridData.length === 0 ? 0 : Math.max(...providerInformationGridData.map(row => row.rowNumber));
             rowsInput.rowNumber = maxRowNumber + 1;
         }
         setGridFieldTempState(rowsInput);
@@ -747,53 +789,6 @@ const handleSelectedAddress =(flag)=>{
                         <button type="button" class="btn btn-outline-primary" onClick={event => handleShowClaimSearch(event)}>Claim Search</button>
                         <div className="row my-2">
                             <div className="col-xs-6 col-md-4">
-                                <Field name="claimnumber">
-                                    {({
-                                        field,
-                                        meta
-                                    }) => (
-                                        <div className="form-floating">
-                                            <input
-                                                maxLength="16"
-                                                type="numeric"
-                                                id="claimnumber"
-                                                className={`form-control ${meta.touched && meta.error
-                                                    ? "is-invalid"
-                                                    : field.value
-                                                        ? "is-valid"
-                                                        : ""
-                                                    }`}
-                                                placeholder="Claim Number"
-                                                {...field}
-                                                onChange={(event) => {
-                                                    setClaimInformationData({ ...claimInformationData, 'Claim_Number': event.target['value'] })
-                                                }}
-                                                onBlur={(event) =>
-                                                    props.handleOnChange(event.target['value'], 'Claim_Number')
-                                                }
-                                                value={convertToCase(claimInformationData['Claim_Number'])}
-                                            />
-                                            <label htmlFor="floatingInputGrid">
-                                                Claim Number
-                                            </label>
-                                            {meta.touched && meta.error && (
-                                                <div
-                                                    className="invalid-feedback"
-                                                    style={{ display: "block" }}
-                                                >
-                                                    {meta.error}
-                                                </div>
-                                            )}
-                                        </div>
-                                    )}
-                                </Field>
-                                <ErrorMessage
-                                    component="div"
-                                    name="claimnumber"
-                                    className="invalid-feedback"
-                                />
-                            </div>
-                            <div className="col-xs-6 col-md-4">
                                 <Field name="claimtype">
                                     {({
                                         field, // { name, value, onChange, onBlur }
@@ -899,34 +894,34 @@ const handleSelectedAddress =(flag)=>{
                                 />
                             </div>
                             <div className="col-xs-6 col-md-4">
-                                <Field name="authorizationnumber">
+                                <Field name="claimnumber">
                                     {({
                                         field,
                                         meta
                                     }) => (
                                         <div className="form-floating">
                                             <input
-                                                maxLength="9"
-                                                type="text"
-                                                id="authorizationnumber"
+                                                maxLength="16"
+                                                type="numeric"
+                                                id="claimnumber"
                                                 className={`form-control ${meta.touched && meta.error
                                                     ? "is-invalid"
                                                     : field.value
                                                         ? "is-valid"
                                                         : ""
                                                     }`}
-                                                placeholder="Authorization Number"
+                                                placeholder="Claim Number"
                                                 {...field}
                                                 onChange={(event) => {
-                                                    setClaimInformationData({ ...claimInformationData, 'Authorization_Number': event.target['value'] })
+                                                    setClaimInformationData({ ...claimInformationData, 'Claim_Number': event.target['value'] })
                                                 }}
                                                 onBlur={(event) =>
-                                                    props.handleOnChange(event.target['value'], 'Authorization_Number')
+                                                    props.handleOnChange(event.target['value'], 'Claim_Number')
                                                 }
-                                                value={convertToCase(claimInformationData['Authorization_Number'])}
+                                                value={convertToCase(claimInformationData['Claim_Number'])}
                                             />
                                             <label htmlFor="floatingInputGrid">
-                                                Authorization Number
+                                                Claim Number
                                             </label>
                                             {meta.touched && meta.error && (
                                                 <div
@@ -941,118 +936,7 @@ const handleSelectedAddress =(flag)=>{
                                 </Field>
                                 <ErrorMessage
                                     component="div"
-                                    name="authorizationnumber"
-                                    className="invalid-feedback"
-                                />
-                            </div>
-                        </div>
-                        <div className="row my-2">
-                            <div className="col-xs-6 col-md-4">
-                                <Field name="servicetype">
-                                    {({
-                                        field, // { name, value, onChange, onBlur }
-                                        form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
-                                        meta,
-                                    }) => (
-                                        <div className="form-floating">
-                                            <Select
-                                                styles={{
-                                                    control: (provided) => ({
-                                                        ...provided,
-                                                        height: "58px",
-                                                        fontWeight: "lighter",
-                                                    }),
-                                                    menuList: (provided) => ({
-                                                        ...provided,
-                                                        maxHeight: 200,
-                                                    }),
-                                                    menu: (provided) => ({
-                                                        ...provided,
-                                                        zIndex: 9999,
-                                                    }),
-
-                                                    container: (provided, state) => ({
-                                                        ...provided,
-                                                        marginTop: 0,
-                                                    }),
-                                                    valueContainer: (provided, state) => ({
-                                                        ...provided,
-                                                        overflow: "visible",
-                                                    }),
-                                                    placeholder: (provided, state) => ({
-                                                        ...provided,
-                                                        position: "absolute",
-                                                        top:
-                                                            state.hasValue ||
-                                                                state.selectProps.inputValue
-                                                                ? -15
-                                                                : "50%",
-                                                        transition:
-                                                            "top 0.1s, font-size 0.1s",
-                                                        fontSize:
-                                                            (state.hasValue ||
-                                                                state.selectProps.inputValue) &&
-                                                            13,
-                                                        color: 'black'
-                                                    }),
-                                                    singleValue: (styles) => ({ ...styles, textAlign: 'left' }),
-                                                    option: (provided, state) => ({
-                                                        ...provided,
-                                                        textAlign: "left",
-                                                    }),
-                                                }}
-                                                components={{
-                                                    ValueContainer: CustomValueContainer,
-                                                }}
-                                                isClearable
-                                                name={field.name}
-                                                isDisabled={
-                                                    tabRef.current === "DashboardView" &&
-                                                        prop.state.lockStatus !== undefined &&
-                                                        prop.state.lockStatus === "Y"
-                                                        ? true
-                                                        : false
-                                                }
-                                                className="basic-multi-select"
-                                                options={[
-                                                    { label: "CORESYTEM", value: "CORESYSTEM" },
-                                                    { label: "MDM", value: "MDM" },
-                                                    { label: "USER", value: "USER" }
-                                                ]}
-                                                id="servicetype"
-                                                isMulti={false}
-                                                onChange={(selectValue) =>
-                                                    props.handleOnChange(selectValue ? selectValue.value : null, 'Service_Type')
-                                                }
-                                                value={
-                                                    {
-                                                        label: claimInformationData['Service_Type'],
-                                                        value: claimInformationData['Service_Type']
-                                                    }
-                                                }
-                                                placeholder="Service Type"
-                                                //styles={{...customStyles}}
-                                                isSearchable={
-                                                    document.documentElement.clientHeight >
-                                                        document.documentElement.clientWidth
-                                                        ? false
-                                                        : true
-                                                }
-                                            />
-                                            {meta.touched && meta.error && (
-                                                <div
-                                                    className="invalid-feedback"
-                                                    style={{ display: "block" }}
-                                                >
-                                                    {meta.error}
-                                                </div>
-                                            )}
-                                        </div>
-                                    )}
-                                </Field>
-                                <ErrorMessage
-                                    component="div"
-                                    name="servicetype"
+                                    name="claimnumber"
                                     className="invalid-feedback"
                                 />
                             </div>
@@ -1061,8 +945,8 @@ const handleSelectedAddress =(flag)=>{
                                     <ReactDatePicker
                                         id="datePicker"
                                         className="form-control example-custom-input-provider"
-                                        selected={claimInformationData.Original_Denial_Date}
-                                        name="originaldenialdate"
+                                        selected={claimInformationData.Claim_Adjusted_Date}
+                                        name="claimadjusteddate"
                                         dateFormat="MM/dd/yyyy"
                                         peekNextMonth
                                         showMonthDropdown
@@ -1073,121 +957,16 @@ const handleSelectedAddress =(flag)=>{
                                         }}
                                         onChange={(date, event) => {
 
-                                            props.handleOnChange(date, "Original_Denial_Date")
+                                            props.handleOnChange(date, "Claim_Adjusted_Date")
                                         }
                                         }
                                         style={{
                                             position: "relative",
                                             zIndex: "999",
                                         }}
-                                        customInput={<RenderDatePickerOriginalDenialDate />}
+                                        customInput={<RenderDatePickerClaimAdjustedDate />}
                                     />
                                 </div>
-                            </div>
-                            <div className="col-xs-6 col-md-4">
-                                <Field name="processingstaus">
-                                    {({
-                                        field, // { name, value, onChange, onBlur }
-                                        form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
-                                        meta,
-                                    }) => (
-                                        <div className="form-floating">
-                                            <Select
-                                                styles={{
-                                                    control: (provided) => ({
-                                                        ...provided,
-                                                        height: "58px",
-                                                        fontWeight: "lighter",
-                                                    }),
-                                                    menuList: (provided) => ({
-                                                        ...provided,
-                                                        maxHeight: 200,
-                                                    }),
-                                                    menu: (provided) => ({
-                                                        ...provided,
-                                                        zIndex: 9999,
-                                                    }),
-
-                                                    container: (provided, state) => ({
-                                                        ...provided,
-                                                        marginTop: 0,
-                                                    }),
-                                                    valueContainer: (provided, state) => ({
-                                                        ...provided,
-                                                        overflow: "visible",
-                                                    }),
-                                                    placeholder: (provided, state) => ({
-                                                        ...provided,
-                                                        position: "absolute",
-                                                        top:
-                                                            state.hasValue ||
-                                                                state.selectProps.inputValue
-                                                                ? -15
-                                                                : "50%",
-                                                        transition:
-                                                            "top 0.1s, font-size 0.1s",
-                                                        fontSize:
-                                                            (state.hasValue ||
-                                                                state.selectProps.inputValue) &&
-                                                            13,
-                                                        color: 'black'
-                                                    }),
-                                                    singleValue: (styles) => ({ ...styles, textAlign: 'left' }),
-                                                    option: (provided, state) => ({
-                                                        ...provided,
-                                                        textAlign: "left",
-                                                    }),
-                                                }}
-                                                components={{
-                                                    ValueContainer: CustomValueContainer,
-                                                }}
-                                                isClearable
-                                                name={field.name}
-                                                isDisabled={
-                                                    tabRef.current === "DashboardView" &&
-                                                        prop.state.lockStatus !== undefined &&
-                                                        prop.state.lockStatus === "Y"
-                                                        ? true
-                                                        : false
-                                                }
-                                                className="basic-multi-select"
-                                                options={processingStatusValues}
-                                                id="processingstatus"
-                                                isMulti={false}
-                                                onChange={(selectValue) =>
-                                                    props.handleOnChange(selectValue ? selectValue.value : null, 'Processing_Status')
-                                                }
-                                                value={
-                                                    {
-                                                        label: claimInformationData['Processing_Status'],
-                                                        value: claimInformationData['Processing_Status']
-                                                    }
-                                                }
-                                                placeholder="Processing Status"
-                                                //styles={{...customStyles}}
-                                                isSearchable={
-                                                    document.documentElement.clientHeight >
-                                                        document.documentElement.clientWidth
-                                                        ? false
-                                                        : true
-                                                }
-                                            />
-                                            {meta.touched && meta.error && (
-                                                <div
-                                                    className="invalid-feedback"
-                                                    style={{ display: "block" }}
-                                                >
-                                                    {meta.error}
-                                                </div>
-                                            )}
-                                        </div>
-                                    )}
-                                </Field>
-                                <ErrorMessage
-                                    component="div"
-                                    name="processingStatus"
-                                    className="invalid-feedback"
-                                />
                             </div>
                         </div>
                         <div className="row my-2">
@@ -1450,6 +1229,503 @@ const handleSelectedAddress =(flag)=>{
                             </div>
                         </div>
                         <div className="row my-2">
+                            <div className="col-xs-6 col-md-4">
+                                <Field name="servicetype">
+                                    {({
+                                        field, // { name, value, onChange, onBlur }
+                                        form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+                                        meta,
+                                    }) => (
+                                        <div className="form-floating">
+                                            <Select
+                                                styles={{
+                                                    control: (provided) => ({
+                                                        ...provided,
+                                                        height: "58px",
+                                                        fontWeight: "lighter",
+                                                    }),
+                                                    menuList: (provided) => ({
+                                                        ...provided,
+                                                        maxHeight: 200,
+                                                    }),
+                                                    menu: (provided) => ({
+                                                        ...provided,
+                                                        zIndex: 9999,
+                                                    }),
+
+                                                    container: (provided, state) => ({
+                                                        ...provided,
+                                                        marginTop: 0,
+                                                    }),
+                                                    valueContainer: (provided, state) => ({
+                                                        ...provided,
+                                                        overflow: "visible",
+                                                    }),
+                                                    placeholder: (provided, state) => ({
+                                                        ...provided,
+                                                        position: "absolute",
+                                                        top:
+                                                            state.hasValue ||
+                                                                state.selectProps.inputValue
+                                                                ? -15
+                                                                : "50%",
+                                                        transition:
+                                                            "top 0.1s, font-size 0.1s",
+                                                        fontSize:
+                                                            (state.hasValue ||
+                                                                state.selectProps.inputValue) &&
+                                                            13,
+                                                        color: 'black'
+                                                    }),
+                                                    singleValue: (styles) => ({ ...styles, textAlign: 'left' }),
+                                                    option: (provided, state) => ({
+                                                        ...provided,
+                                                        textAlign: "left",
+                                                    }),
+                                                }}
+                                                components={{
+                                                    ValueContainer: CustomValueContainer,
+                                                }}
+                                                isClearable
+                                                name={field.name}
+                                                isDisabled={
+                                                    tabRef.current === "DashboardView" &&
+                                                        prop.state.lockStatus !== undefined &&
+                                                        prop.state.lockStatus === "Y"
+                                                        ? true
+                                                        : false
+                                                }
+                                                className="basic-multi-select"
+                                                options={serviceTypeValues}
+                                                id="servicetype"
+                                                isMulti={false}
+                                                onChange={(selectValue) =>
+                                                    props.handleOnChange(selectValue ? selectValue.value : null, 'Service_Type')
+                                                }
+                                                value={
+                                                    {
+                                                        label: claimInformationData['Service_Type'],
+                                                        value: claimInformationData['Service_Type']
+                                                    }
+                                                }
+                                                placeholder="Service Type"
+                                                //styles={{...customStyles}}
+                                                isSearchable={
+                                                    document.documentElement.clientHeight >
+                                                        document.documentElement.clientWidth
+                                                        ? false
+                                                        : true
+                                                }
+                                            />
+                                            {meta.touched && meta.error && (
+                                                <div
+                                                    className="invalid-feedback"
+                                                    style={{ display: "block" }}
+                                                >
+                                                    {meta.error}
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+                                </Field>
+                                <ErrorMessage
+                                    component="div"
+                                    name="servicetype"
+                                    className="invalid-feedback"
+                                />
+                            </div>
+                            <div className="col-xs-6 col-md-4">
+                                <div style={{}}>
+                                    <ReactDatePicker
+                                        id="datePicker"
+                                        className="form-control example-custom-input-provider"
+                                        selected={claimInformationData.Service_Start_Date}
+                                        name="servicestartdate"
+                                        dateFormat="MM/dd/yyyy"
+                                        peekNextMonth
+                                        showMonthDropdown
+                                        showYearDropdown
+                                        isClearable
+                                        onKeyDown={(e) => {
+                                            e.preventDefault();
+                                        }}
+                                        onChange={(date, event) => {
+
+                                            props.handleOnChange(date, "Service_Start_Date")
+                                        }
+                                        }
+                                        style={{
+                                            position: "relative",
+                                            zIndex: "999",
+                                        }}
+                                        customInput={<RenderDatePickerServiceStartDate />}
+                                    />
+                                </div>
+                            </div>
+                            <div className="col-xs-6 col-md-4">
+                                <div style={{}}>
+                                    <ReactDatePicker
+                                        id="datePicker"
+                                        className="form-control example-custom-input-provider"
+                                        selected={claimInformationData.Service_End_Date}
+                                        name="serviceenddate"
+                                        dateFormat="MM/dd/yyyy"
+                                        peekNextMonth
+                                        showMonthDropdown
+                                        showYearDropdown
+                                        isClearable
+                                        onKeyDown={(e) => {
+                                            e.preventDefault();
+                                        }}
+                                        onChange={(date, event) => {
+
+                                            props.handleOnChange(date, "Service_End_Date")
+                                        }
+                                        }
+                                        style={{
+                                            position: "relative",
+                                            zIndex: "999",
+                                        }}
+                                        customInput={<RenderDatePickerServiceEndDate />}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div className='row my-2'>
+                            <div className="col-xs-6 col-md-4">
+                                <Field name="authorizationnumber">
+                                    {({
+                                        field,
+                                        meta
+                                    }) => (
+                                        <div className="form-floating">
+                                            <input
+                                                maxLength="9"
+                                                type="text"
+                                                id="authorizationnumber"
+                                                className={`form-control ${meta.touched && meta.error
+                                                    ? "is-invalid"
+                                                    : field.value
+                                                        ? "is-valid"
+                                                        : ""
+                                                    }`}
+                                                placeholder="Authorization Number"
+                                                {...field}
+                                                onChange={(event) => {
+                                                    setClaimInformationData({ ...claimInformationData, 'Authorization_Number': event.target['value'] })
+                                                }}
+                                                onBlur={(event) =>
+                                                    props.handleOnChange(event.target['value'], 'Authorization_Number')
+                                                }
+                                                value={convertToCase(claimInformationData['Authorization_Number'])}
+                                            />
+                                            <label htmlFor="floatingInputGrid">
+                                                Authorization Number
+                                            </label>
+                                            {meta.touched && meta.error && (
+                                                <div
+                                                    className="invalid-feedback"
+                                                    style={{ display: "block" }}
+                                                >
+                                                    {meta.error}
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+                                </Field>
+                                <ErrorMessage
+                                    component="div"
+                                    name="authorizationnumber"
+                                    className="invalid-feedback"
+                                />
+                            </div>
+                            <div className="col-xs-6 col-md-4">
+                                <Field name="processingstaus">
+                                    {({
+                                        field, // { name, value, onChange, onBlur }
+                                        form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+                                        meta,
+                                    }) => (
+                                        <div className="form-floating">
+                                            <Select
+                                                styles={{
+                                                    control: (provided) => ({
+                                                        ...provided,
+                                                        height: "58px",
+                                                        fontWeight: "lighter",
+                                                    }),
+                                                    menuList: (provided) => ({
+                                                        ...provided,
+                                                        maxHeight: 200,
+                                                    }),
+                                                    menu: (provided) => ({
+                                                        ...provided,
+                                                        zIndex: 9999,
+                                                    }),
+
+                                                    container: (provided, state) => ({
+                                                        ...provided,
+                                                        marginTop: 0,
+                                                    }),
+                                                    valueContainer: (provided, state) => ({
+                                                        ...provided,
+                                                        overflow: "visible",
+                                                    }),
+                                                    placeholder: (provided, state) => ({
+                                                        ...provided,
+                                                        position: "absolute",
+                                                        top:
+                                                            state.hasValue ||
+                                                                state.selectProps.inputValue
+                                                                ? -15
+                                                                : "50%",
+                                                        transition:
+                                                            "top 0.1s, font-size 0.1s",
+                                                        fontSize:
+                                                            (state.hasValue ||
+                                                                state.selectProps.inputValue) &&
+                                                            13,
+                                                        color: 'black'
+                                                    }),
+                                                    singleValue: (styles) => ({ ...styles, textAlign: 'left' }),
+                                                    option: (provided, state) => ({
+                                                        ...provided,
+                                                        textAlign: "left",
+                                                    }),
+                                                }}
+                                                components={{
+                                                    ValueContainer: CustomValueContainer,
+                                                }}
+                                                isClearable
+                                                name={field.name}
+                                                isDisabled={
+                                                    tabRef.current === "DashboardView" &&
+                                                        prop.state.lockStatus !== undefined &&
+                                                        prop.state.lockStatus === "Y"
+                                                        ? true
+                                                        : false
+                                                }
+                                                className="basic-multi-select"
+                                                options={processingStatusValues}
+                                                id="processingstatus"
+                                                isMulti={false}
+                                                onChange={(selectValue) =>
+                                                    props.handleOnChange(selectValue ? selectValue.value : null, 'Processing_Status')
+                                                }
+                                                value={
+                                                    {
+                                                        label: claimInformationData['Processing_Status'],
+                                                        value: claimInformationData['Processing_Status']
+                                                    }
+                                                }
+                                                placeholder="Processing Status"
+                                                //styles={{...customStyles}}
+                                                isSearchable={
+                                                    document.documentElement.clientHeight >
+                                                        document.documentElement.clientWidth
+                                                        ? false
+                                                        : true
+                                                }
+                                            />
+                                            {meta.touched && meta.error && (
+                                                <div
+                                                    className="invalid-feedback"
+                                                    style={{ display: "block" }}
+                                                >
+                                                    {meta.error}
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+                                </Field>
+                                <ErrorMessage
+                                    component="div"
+                                    name="processingStatus"
+                                    className="invalid-feedback"
+                                />
+                            </div>
+                            <div className="col-xs-6 col-md-4">
+                                <div style={{}}>
+                                    <ReactDatePicker
+                                        id="datePicker"
+                                        className="form-control example-custom-input-provider"
+                                        selected={claimInformationData.Original_Denial_Date}
+                                        name="originaldenialdate"
+                                        dateFormat="MM/dd/yyyy"
+                                        peekNextMonth
+                                        showMonthDropdown
+                                        showYearDropdown
+                                        isClearable
+                                        onKeyDown={(e) => {
+                                            e.preventDefault();
+                                        }}
+                                        onChange={(date, event) => {
+
+                                            props.handleOnChange(date, "Original_Denial_Date")
+                                        }
+                                        }
+                                        style={{
+                                            position: "relative",
+                                            zIndex: "999",
+                                        }}
+                                        customInput={<RenderDatePickerOriginalDenialDate />}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div className='row my-2'>
+                            <div className="col-xs-6 col-md-4">
+                                <Field name="paymentmethod">
+                                    {({
+                                        field,
+                                        meta
+                                    }) => (
+                                        <div className="form-floating">
+                                            <input
+                                                maxLength="30"
+                                                type="text"
+                                                id="paymentmethod"
+                                                className={`form-control ${meta.touched && meta.error
+                                                    ? "is-invalid"
+                                                    : field.value
+                                                        ? "is-valid"
+                                                        : ""
+                                                    }`}
+                                                placeholder="Payment Method"
+                                                {...field}
+                                                onChange={(event) => {
+                                                    setClaimInformationData({ ...claimInformationData, 'Payment_Method': event.target['value'] })
+                                                }}
+                                                onBlur={(event) =>
+                                                    props.handleOnChange(event.target['value'], 'Payment_Method')
+                                                }
+                                                value={convertToCase(claimInformationData['Payment_Method'])}
+                                            />
+                                            <label htmlFor="floatingInputGrid">
+                                                Payment Method
+                                            </label>
+                                            {meta.touched && meta.error && (
+                                                <div
+                                                    className="invalid-feedback"
+                                                    style={{ display: "block" }}
+                                                >
+                                                    {meta.error}
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+                                </Field>
+                                <ErrorMessage
+                                    component="div"
+                                    name="paymentmethod"
+                                    className="invalid-feedback"
+                                />
+                            </div>
+                            <div className="col-xs-6 col-md-4">
+                                <Field name="paymentnumber">
+                                    {({
+                                        field,
+                                        meta
+                                    }) => (
+                                        <div className="form-floating">
+                                            <input
+                                                maxLength="50"
+                                                type="text"
+                                                id="paymentnumber"
+                                                className={`form-control ${meta.touched && meta.error
+                                                    ? "is-invalid"
+                                                    : field.value
+                                                        ? "is-valid"
+                                                        : ""
+                                                    }`}
+                                                placeholder="Payment Number"
+                                                {...field}
+                                                onChange={(event) => {
+                                                    setClaimInformationData({ ...claimInformationData, 'Payment_Number': event.target['value'] })
+                                                }}
+                                                onBlur={(event) =>
+                                                    props.handleOnChange(event.target['value'], 'Payment_Number')
+                                                }
+                                                value={convertToCase(claimInformationData['Payment_Number'])}
+                                            />
+                                            <label htmlFor="floatingInputGrid">
+                                                Payment Number
+                                            </label>
+                                            {meta.touched && meta.error && (
+                                                <div
+                                                    className="invalid-feedback"
+                                                    style={{ display: "block" }}
+                                                >
+                                                    {meta.error}
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+                                </Field>
+                                <ErrorMessage
+                                    component="div"
+                                    name="paymentnumber"
+                                    className="invalid-feedback"
+                                />
+                            </div>
+                            <div className="col-xs-6 col-md-4">
+                                <div style={{}}>
+                                    <ReactDatePicker
+                                        id="datePicker"
+                                        className="form-control example-custom-input-provider"
+                                        selected={claimInformationData.Payment_Date}
+                                        name="paymentdate"
+                                        dateFormat="MM/dd/yyyy"
+                                        peekNextMonth
+                                        showMonthDropdown
+                                        showYearDropdown
+                                        isClearable
+                                        onKeyDown={(e) => {
+                                            e.preventDefault();
+                                        }}
+                                        onChange={(date, event) => {
+
+                                            props.handleOnChange(date, "Payment_Date")
+                                        }
+                                        }
+                                        style={{
+                                            position: "relative",
+                                            zIndex: "999",
+                                        }}
+                                        customInput={<RenderDatePickerPaymentDate />}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div className="row my-2">
+                            <div className="col-xs-6 col-md-4">
+                                <div style={{}}>
+                                    <ReactDatePicker
+                                        id="datePicker"
+                                        className="form-control example-custom-input-provider"
+                                        selected={claimInformationData.Payment_Mail_Date_Postmark}
+                                        name="paymentmaildate"
+                                        dateFormat="MM/dd/yyyy"
+                                        peekNextMonth
+                                        showMonthDropdown
+                                        showYearDropdown
+                                        isClearable
+                                        onKeyDown={(e) => {
+                                            e.preventDefault();
+                                        }}
+                                        onChange={(date, event) => {
+
+                                            props.handleOnChange(date, "Payment_Mail_Date_Postmark")
+                                        }
+                                        }
+                                        style={{
+                                            position: "relative",
+                                            zIndex: "999",
+                                        }}
+                                        customInput={<RenderDatePickerPaymentMailDate />}
+                                    />
+                                </div>
+                            </div>
                             <div className="col-xs-6 col-md-4">
                                 <Field name="effectuationNotes">
                                     {({

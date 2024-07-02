@@ -244,7 +244,7 @@ const CaseInformationAccordion = (props) => {
                       id="lobDescription"
                       className={`form-control ${meta.touched && meta.error
                         ? "is-invalid"
-                        : caseInformationData['LOB_Description']
+                        : field.value
                           ? "is-valid"
                           : ""
                         }`}
@@ -287,7 +287,7 @@ const CaseInformationAccordion = (props) => {
                   <div className="form-floating">
                     <input
                       id="claimNumber"
-                      maxLength="30"
+                      maxLength="16"
                       type="text"
                       className={`form-control ${meta.touched && meta.error
                         ? " is-invalid"
@@ -827,7 +827,7 @@ const CaseInformationAccordion = (props) => {
                   <div className="form-floating">
                     <input
                       id="issuedescription"
-                      maxLength="30"
+                      maxLength="4000"
                       type="text"
                       className={`form-control ${meta.touched && meta.error
                         ? " is-invalid"
@@ -1140,7 +1140,7 @@ const CaseInformationAccordion = (props) => {
                   <div className="form-floating">
                     <input
                       id="inboundemailid"
-                      maxLength="4000"
+                      maxLength="100"
                       type="text"
                       className={`form-control ${meta.touched && meta.error
                         ? " is-invalid"
