@@ -17,6 +17,8 @@ import CaseInformation from "../../../WorkItemDashboard/CaseInformation";
 import MemeberInformationAccordion from "./MemeberInformationAccordion";
 import ClaimInformationTable from "../TileFormsTables/ClaimInformationTable";
 import _ from 'lodash';
+import AuthorizationInformationAccordion from "./AuthorizationInformationAccordion";
+import ExpeditedRequestAccordion from "./ExpeditedRequestAccordion";
 
 const CaseHeader = () => {
   const navigate = useNavigate();
@@ -54,7 +56,6 @@ const CaseHeader = () => {
   });
 
   const [formData, setFormData] = useState({});
-  const [formClaimGridData, setFormClaimGridData] = useState({});
 
   const [buttonDisableFlag, setButtonDisableFlag] = useState(false);
 
@@ -114,13 +115,20 @@ const CaseHeader = () => {
     Claim_Decision: "",
     Claim_Number: "",
     Claim_type: "",
+    Claim_Adjusted_Date: "",
     Decision_Reason: "",
     Denied_As_Of_Date: "",
     Effectuation_Notes: "",
     Original_Denial_Date: "",
     Processing_Status: "",
+    Payment_Method: "",
+    Payment_Number: "",
+    Payment_Date: "",
+    Payment_Mail_Date_Postmark: "",
     Reason_Text: "",
     Service_Type: "",
+    Service_Start_Date: "",
+    Service_End_Date: "",
   });
 
   const [claimInformationGrid, setClaimInformationGrid] = useState([]);
@@ -145,6 +153,7 @@ const CaseHeader = () => {
     Mail_to_Address: "",
     Medicaid_ID: "",
     Medicare_ID_HICN: "",
+    Members_Age: "",
     Member_First_Name: "",
     Member_ID: "",
     Member_IPA: "",
@@ -164,6 +173,23 @@ const CaseHeader = () => {
     Special_Need_Indicator: "",
     State_: "",
     Zip_Code: "",
+  });
+
+  const [authorizationInformation, setAuthorizationInformation] = useState({
+    Authorization_Decision: "",
+    Authorization_Decision_Reason: "",
+  });
+
+  const [authorizationInformationGrid, setAuthorizationInformationGrid] = useState([]);
+
+  const [expeditedRequest, setExpeditedRequest] = useState({
+    Expedited_Requested: "",
+    Expedited_Reason: "",
+    Standard_Upgraded_to_Expedited: "",
+    Expedited_Denied: "",
+    Expedited_Upgrade_Date_Time: "",
+    Expedited_Denied_Date: "",
+    Decision_Letter_Date: ""
   });
 
   const [mainCaseDetails, setMainCaseDetails] = useState({
@@ -249,6 +275,12 @@ const CaseHeader = () => {
   };
   const handleMemberInformationChange = (value, name) => {
     setMemberInformation({ ...memberInformation, [name]: value });
+  };
+  const handleAuthorizationInformationChange = (value, name) => {
+    setAuthorizationInformation({ ...authorizationInformation, [name]: value });
+  };
+  const handleExpeditedRequestChange = (value, name) => {
+    setExpeditedRequest({ ...expeditedRequest, [name]: value });
   };
 
   const getGridDataValues = (tableData) => {
@@ -359,12 +391,15 @@ const CaseHeader = () => {
     const angClaimInformationGrid = getGridDataValues(claimInformationGrid);
     console.log("angClaimInformationGridData is array list", angClaimInformationGrid);
     const angProviderInformationGrid = getGridDataValues(providerInformationGrid);
+    const angAuthorizationInformationGrid = getGridDataValues(authorizationInformationGrid);
 
     const angCaseHeader = trimJsonValues({ ...caseHeader });
     const angCaseTimelines = trimJsonValues({ ...caseTimelines });
     const angCaseInformation = trimJsonValues({ ...caseInformation });
     const angClaimInformation = trimJsonValues({ ...claimInformation });
     const angMemberInformation = trimJsonValues({ ...memberInformation });
+    const angAuthorizationInformation = trimJsonValues({ ...authorizationInformation });
+    const angExpeditedRequest = trimJsonValues({ ...expeditedRequest });
 
     apiJson["ANG_Case_Header"] = angCaseHeader;
     apiJson["ANG_Case_Timelines"] = angCaseTimelines;
@@ -373,6 +408,9 @@ const CaseHeader = () => {
     apiJson["ANG_Claim_Information_Grid"] = angClaimInformationGrid;
     apiJson["ANG_Provider_Information_Grid"] = angProviderInformationGrid;
     apiJson["ANG_Member_Information"] = angMemberInformation;
+    apiJson["ANG_Authorization_Information"] = angAuthorizationInformation;
+    apiJson["ANG_Authorization_Information_Grid"] = angAuthorizationInformationGrid;
+    apiJson["ANG_Expedited_Request"] = angExpeditedRequest;
 
     console.log("apiJson", apiJson);
 
@@ -389,7 +427,6 @@ const CaseHeader = () => {
     apiJson["MainCaseTable"] = mainCaseReqBody;
 
     console.log("final api", apiJson)
-    console.log("grid data", claimInformationGrid);
 
     const response = await customAxios.post("/generic/create", apiJson, {
       headers: { Authorization: `Bearer ${token}` },
@@ -467,6 +504,12 @@ const CaseHeader = () => {
           apiresp = data["angProviderInformationGrid"][0];
           apiresp = convertToDateObj(apiresp);
 
+          apiresp = data["angAuthorizationInformationGrid"][0];
+          apiresp = convertToDateObj(apiresp);
+
+          apiresp = data["angExpeditedRequest"][0];
+          apiresp = convertToDateObj(apiresp);
+
           setCaseHeader(data["angCaseHeader"][0]);
           setCaseTimelines(data["angCaseTimelines"][0]);
           setCaseInformation(data["angCaseInformation"][0]);
@@ -474,6 +517,9 @@ const CaseHeader = () => {
           setClaimInformationGrid(data["angClaimInformationGrid"]);
           setProviderInformationGrid(data["angProviderInformationGrid"]);
           setMemberInformation(data["angMemberInformation"][0]);
+          setAuthorizationInformation(data["angAuthorizationInformation"][0]);
+          setAuthorizationInformationGrid(data["angAuthorizationInformationGrid"]);
+          setExpeditedRequest(data["angExpeditedRequest"][0]);
 
           setFormData(_.cloneDeep(data));
 
@@ -537,6 +583,8 @@ const CaseHeader = () => {
     const angCaseInformation = trimJsonValues({ ...caseInformation });
     const angClaimInformation = trimJsonValues({ ...claimInformation });
     const angMemberInformation = trimJsonValues({ ...memberInformation });
+    const angAuthorizationInformation = trimJsonValues({ ...authorizationInformation });
+    const angExpeditedRequest = trimJsonValues({ ...expeditedRequest });
 
     const angClaimInformationGrid = getGridDataValues(claimInformationGrid);
     const originalClaimInformationGrid = getGridDataValues(formData["angClaimInformationGrid"]);
@@ -544,11 +592,16 @@ const CaseHeader = () => {
     const angProviderInformtionGrid = getGridDataValues(providerInformationGrid);
     const originalProviderInformationGrid = getGridDataValues(formData["angProviderInformationGrid"]);
 
+    const angAuthorizationInformtionGrid = getGridDataValues(authorizationInformationGrid);
+    const originalAuthorizationInformationGrid = getGridDataValues(formData["angAuthorizationInformationGrid"]);
+
     apiJson["ANG_Case_Header"] = CompareJSON(angCaseHeader, formData["angCaseHeader"][0]);
     apiJson["ANG_Case_Timelines"] = CompareJSON(angCaseTimelines, formData["angCaseTimelines"][0]);
     apiJson["ANG_Case_Information"] = CompareJSON(angCaseInformation, formData["angCaseInformation"][0]);
     apiJson["ANG_Claim_Information"] = CompareJSON(angClaimInformation, formData["angClaimInformation"][0]);
     apiJson["ANG_Member_Information"] = CompareJSON(angMemberInformation, formData["angMemberInformation"][0]);
+    apiJson["ANG_Authorization_Information"] = CompareJSON(angAuthorizationInformation, formData["angAuthorizationInformation"][0]);
+    apiJson["ANG_Expedited_Request"] = CompareJSON(angExpeditedRequest, formData["angExpeditedReqest"][0]);
 
     let updateClaimArray = [];
     if (angClaimInformationGrid.length > 0 || originalClaimInformationGrid.length > 0) {
@@ -596,50 +649,55 @@ const CaseHeader = () => {
 
     let updateProviderArray = [];
     if (angProviderInformtionGrid.length > 0 || originalProviderInformationGrid.length > 0) {
-      const maxLength = Math.min(angProviderInformtionGrid.length, originalProviderInformationGrid.length);
+      if (angProviderInformtionGrid.length >= originalProviderInformationGrid.length) {
+        const maxLength = Math.min(angProviderInformtionGrid.length, originalProviderInformationGrid.length);
 
-      // Update existing rows
-      for (let i = 0; i < maxLength; i++) {
-        const element = angProviderInformtionGrid[i];
-        updateProviderArray.push({
-          caseNumber: element["caseNumber"],
-          rowNumber: element["rowNumber"],
-          ...CompareJSON(angProviderInformtionGrid[i], originalProviderInformationGrid[i])
-        });
-      }
-
-      // Add rows
-      for (let i = maxLength; i < angProviderInformtionGrid.length; i++) {
-        const element = angProviderInformtionGrid[i];
-        if (!element.hasOwnProperty('caseNumber')) {
-          element.caseNumber = prop.state.caseNumber;
-        }
-        updateProviderArray.push({
-          operation: "I",
-          rowNumber: element["rowNumber"],
-          ...element
-        });
-      }
-
-      // Delete rows
-      for (let i = 0; i < originalProviderInformationGrid.length; i++) {
-        const originalElement = originalProviderInformationGrid[i];
-        const index = angProviderInformtionGrid.findIndex(element => element.rowNumber === originalElement.rowNumber);
-        if (!index) {
+        // Update existing rows
+        for (let i = 0; i < maxLength; i++) {
+          const element = angProviderInformtionGrid[i];
           updateProviderArray.push({
-            operation: "D",
-            caseNumber: prop.state.caseNumber,
-            rowNumber: originalElement["rowNumber"]
+            caseNumber: element["caseNumber"],
+            rowNumber: element["rowNumber"],
+            ...CompareJSON(angProviderInformtionGrid[i], originalProviderInformationGrid[i])
           });
+        }
+
+        // Add rows
+        for (let i = maxLength; i < angProviderInformtionGrid.length; i++) {
+          const element = angProviderInformtionGrid[i];
+          if (!element.hasOwnProperty('caseNumber')) {
+            element.caseNumber = prop.state.caseNumber;
+          }
+          updateProviderArray.push({
+            operation: "I",
+            rowNumber: element["rowNumber"],
+            ...element
+          });
+        }
+      } else {
+        // Delete rows
+        for (let i = 0; i < originalProviderInformationGrid.length; i++) {
+          const originalElement = originalProviderInformationGrid[i];
+          const index = angProviderInformtionGrid.findIndex(element => originalElement.rowNumber === element.rowNumber);
+          if (!index) {
+            updateProviderArray.push({
+              operation: "D",
+              caseNumber: prop.state.caseNumber,
+              rowNumber: originalElement["rowNumber"]
+            });
+          }
         }
       }
     }
+
+    let updateAuthorizationArray = [];
 
     console.log("update claim array", updateClaimArray);
     console.log("update provider array", updateProviderArray);
 
     apiJson["ANG_Claim_Information_Grid"] = updateClaimArray;
     apiJson["ANG_Provider_Information_Grid"] = updateProviderArray;
+    apiJson["ANG_Authorization_Information_Grid"] = updateAuthorizationArray;
 
     apiJson["caseNumber"] = prop.state.caseNumber;
 
@@ -723,6 +781,18 @@ const CaseHeader = () => {
                 //formikFieldsOnChange={formikFieldsOnChange}
                 handleOnChange={handleMemberInformationChange}
                 handleData={memberInformation}
+              />
+              <AuthorizationInformationAccordion
+                //formikFieldsOnChange={formikFieldsOnChange}
+                handleOnChange={handleAuthorizationInformationChange}
+                handleData={authorizationInformation}
+                handleAuthorizationInformationGridData={authorizationInformationGrid}
+                updateAuthorizationInformationGridData={setAuthorizationInformationGrid}
+              />
+              <ExpeditedRequestAccordion
+                //formikFieldsOnChange={formikFieldsOnChange}
+                handleOnChange={handleExpeditedRequestChange}
+                handleData={expeditedRequest}
               />
             </div>
           </div>

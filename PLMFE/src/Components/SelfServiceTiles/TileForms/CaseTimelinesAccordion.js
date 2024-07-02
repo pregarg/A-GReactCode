@@ -98,12 +98,12 @@ const CaseTimelinesAccordion = (props) => {
                   form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
                   meta,
                 }) => (
-                  <div className="form-floating">
+                  <div className="form-floating" >
                     <Select
                       styles={{
                         control: (provided) => ({
                           ...provided,
-                          height: "58px",
+                          height: "50px",
                           fontWeight: "lighter",
                         }),
                         menuList: (provided) => ({
@@ -128,12 +128,12 @@ const CaseTimelinesAccordion = (props) => {
                           position: "absolute",
                           top:
                             state.hasValue || state.selectProps.inputValue
-                              ? -15
+                              ? -12
                               : "50%",
                           transition: "top 0.1s, font-size 0.1s",
                           fontSize:
                             (state.hasValue || state.selectProps.inputValue) &&
-                            13,
+                            12,
                           color: 'black'
                         }),
                         singleValue: (styles) => ({ ...styles, textAlign: 'left' }),
@@ -191,6 +191,263 @@ const CaseTimelinesAccordion = (props) => {
                 name="casefilingmethod"
                 className="invalid-feedback"
               />
+            </div>
+            <div className="col-xs-6 col-md-4">
+              <Field name="caseaging">
+                {({
+                  field,
+                  meta,
+                }) => (
+                  <div className="form-floating">
+                    <input
+                      maxLength="16"
+                      type="text"
+                      id="caseaging"
+                      className={`form-control ${meta.touched && meta.error
+                        ? "is-invalid"
+                        : field.value
+                          ? "is-valid"
+                          : ""
+                        }`}
+                      placeholder="Case Aging"
+                      {...field}
+                      onChange={(event) => {
+                        setCaseTimelinesData({ ...caseTimelinesData, 'Case_Aging': event.target['value'] })
+                      }}
+                      onBlur={(event) =>
+                        props.handleOnChange(event.target['value'], 'Case_Aging')
+                      }
+                      value={convertToCase(caseTimelinesData['Case_Aging'])}
+
+                    />
+                    <label htmlFor="floatingInputGrid">
+                      Case Aging
+                    </label>
+                    {meta.touched && meta.error && (
+                      <div
+                        className="invalid-feedback"
+                        style={{ display: "block" }}
+                      >
+                        {meta.error}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </Field>
+            </div>
+            <div className="col-xs-6 col-md-4">
+              <Field name="compliancetimelefttofinish">
+                {({
+                  field,
+                  meta
+                }) => (
+                  <div className="form-floating">
+                    <input
+                      maxLength="16"
+                      type="text"
+                      id="compliancetimelefttofinish"
+                      className={`form-control ${meta.touched && meta.error
+                        ? "is-invalid"
+                        : field.value
+                          ? "is-valid"
+                          : ""
+                        }`}
+                      placeholder="Compliance Time Left to Finish"
+                      {...field}
+                      onChange={(event) => {
+                        setCaseTimelinesData({ ...caseTimelinesData, 'Compliance_Time_Left_to_Finish': event.target['value'] })
+                      }}
+                      onBlur={(event) =>
+                        props.handleOnChange(event.target['value'], 'Compliance_Time_Left_to_Finish')
+                      }
+                      value={convertToCase(caseTimelinesData['Compliance_Time_Left_to_Finish'])}
+                    />
+                    <label htmlFor="floatingInputGrid">
+                      Compliance Time Left to Finish
+                    </label>
+                    {meta.touched && meta.error && (
+                      <div
+                        className="invalid-feedback"
+                        style={{ display: "block" }}
+                      >
+                        {meta.error}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </Field>
+            </div>
+          </div>
+          <div className="row my-2">
+            <div className="col-xs-6 col-md-4">
+              <Field name="acknowledgementtimely">
+                {({
+                  field,
+                  meta
+                }) => (
+                  <div className="form-floating">
+                    <input
+                      maxLength="30"
+                      type="text"
+                      id="acknowledgementtimely"
+                      className={`form-control ${meta.touched && meta.error
+                        ? "is-invalid"
+                        : field.value
+                          ? "is-valid"
+                          : ""
+                        }`}
+                      placeholder="Acknowledgement Timely"
+                      {...field}
+                      onChange={(event) => {
+                        setCaseTimelinesData({ ...caseTimelinesData, 'Acknowledgment_Timely': event.target['value'] })
+                      }}
+                      onBlur={(event) =>
+                        props.handleOnChange(event.target['value'], 'Acknowledgment_Timely')
+                      }
+                      value={convertToCase(caseTimelinesData['Acknowledgment_Timely'])}
+                    />
+                    <label htmlFor="floatingInputGrid">
+                      Acknowledgement Timely
+                    </label>
+                    {meta.touched && meta.error && (
+                      <div
+                        className="invalid-feedback"
+                        style={{ display: "block" }}
+                      >
+                        {meta.error}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </Field>
+            </div>
+            <div className="col-xs-6 col-md-4">
+              <Field name="timeframeextended">
+                {({
+                  field,
+                  meta
+                }) => (
+                  <div className="form-floating">
+                    <input
+                      maxLength="30"
+                      type="text"
+                      id="timeframeextended"
+                      className={`form-control ${meta.touched && meta.error
+                        ? "is-invalid"
+                        : field.value
+                          ? "is-valid"
+                          : ""
+                        }`}
+                      placeholder="Timeframe Extended"
+                      {...field}
+                      onChange={(event) => {
+                        setCaseTimelinesData({ ...caseTimelinesData, 'Timeframe_Extended': event.target['value'] })
+                      }}
+                      onBlur={(event) =>
+                        props.handleOnChange(event.target['value'], 'Timeframe_Extended')
+                      }
+                      value={convertToCase(caseTimelinesData['Timeframe_Extended'])}
+                    />
+                    <label htmlFor="floatingInputGrid">
+                      Timeframe Extended
+                    </label>
+                    {meta.touched && meta.error && (
+                      <div
+                        className="invalid-feedback"
+                        style={{ display: "block" }}
+                      >
+                        {meta.error}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </Field>
+            </div>
+            <div className="col-xs-6 col-md-4">
+              <Field name="caseincompliance">
+                {({
+                  field,
+                  meta
+                }) => (
+                  <div className="form-floating">
+                    <input
+                      maxLength="30"
+                      type="text"
+                      id="caseincompliance"
+                      className={`form-control ${meta.touched && meta.error
+                        ? "is-invalid"
+                        : field.value
+                          ? "is-valid"
+                          : ""
+                        }`}
+                      placeholder="Case in Compliance"
+                      {...field}
+                      onChange={(event) => {
+                        setCaseTimelinesData({ ...caseTimelinesData, 'Case_in_Compliance': event.target['value'] })
+                      }}
+                      onBlur={(event) =>
+                        props.handleOnChange(event.target['value'], 'Case_in_Compliance')
+                      }
+                      value={convertToCase(caseTimelinesData['Case_in_Compliance'])}
+                    />
+                    <label htmlFor="floatingInputGrid">
+                      Case in Compliance
+                    </label>
+                    {meta.touched && meta.error && (
+                      <div
+                        className="invalid-feedback"
+                        style={{ display: "block" }}
+                      >
+                        {meta.error}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </Field>
+            </div>
+          </div>
+          <div className="row my-2">
+            <div className="col-xs-6 col-md-4">
+              <Field name="outofcompliancereason">
+                {({
+                  field,
+                  meta
+                }) => (
+                  <div className="form-floating">
+                    <input
+                      maxLength="30"
+                      type="text"
+                      id="outofcompliancereason"
+                      className={`form-control ${meta.touched && meta.error
+                        ? "is-invalid"
+                        : field.value
+                          ? "is-valid"
+                          : ""
+                        }`}
+                      placeholder="Out of Compliance Reason"
+                      {...field}
+                      onChange={(event) => {
+                        setCaseTimelinesData({ ...caseTimelinesData, 'Out_of_Compliance_Reason': event.target['value'] })
+                      }}
+                      onBlur={(event) =>
+                        props.handleOnChange(event.target['value'], 'Out_of_Compliance_Reason')
+                      }
+                      value={convertToCase(caseTimelinesData['Out_of_Compliance_Reason'])}
+                    />
+                    <label htmlFor="floatingInputGrid">
+                      Out of Compliance Reason
+                    </label>
+                    {meta.touched && meta.error && (
+                      <div
+                        className="invalid-feedback"
+                        style={{ display: "block" }}
+                      >
+                        {meta.error}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </Field>
             </div>
             <div className="col-xs-6 col-md-4">
               <div style={{}}>
@@ -256,7 +513,7 @@ const CaseTimelinesAccordion = (props) => {
               </div>
             </div>
           </div>
-          <div className="row my-2">
+          <div className="row">
             <div className="col-xs-6 col-md-4">
               <div style={{}}>
                 <ReactDatePicker

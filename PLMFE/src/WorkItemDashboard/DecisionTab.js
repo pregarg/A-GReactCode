@@ -435,56 +435,49 @@ export default function DecisionTab(tabInput) {
 
         selectJson["decisionOptions"]
           .filter(
-
-            (data) => data.flowId == flowId && data.stageName.trim() == stageName.trim()
-
+            (data) => data.WORKSTEP.trim() == stageName.trim()
           ).map((val) => {
-            console.log("stagename----->",stageName)
-            console.log("flowid--->",flowId)
-            console.log("logger mapper : ", val)
-            decisionOptions.push({
-              value: val.description,
-              label: val.description
-            })
+            const existingIndex = decisionOptions.findIndex((item) => item.value === val.DECISION);
+
+            if (existingIndex === -1) {
+              decisionOptions.push({
+                value: val.DECISION,
+                label: val.DECISION
+              });
+            }
+          }
+          );
+
+        selectJson["decisionOptions"]
+          .filter(
+            (data) => data.WORKSTEP.trim() == stageName.trim()
+          ).map((val) => {
+            let stageName = val.WORKSTEP;
+            let decision = val.DECISION;
+            let decisionReason = val.DECISION_REASON;
+            if (!mappedObject[stageName]) {
+              mappedObject[stageName] = {};
+            }
+            if (!mappedObject[stageName][decision]) {
+              mappedObject[stageName][decision] = [];
+            }
+            mappedObject[stageName][decision].push({
+              value: decisionReason,
+              label: decisionReason
+            });
           }
           );
       }
-      console.log("stagename1----->",stageName)
-            console.log("flowid1--->",flowId)
     }
-    console.log("masterDecision Refprav1 ", decisionOptions);
+    console.log("decision options", decisionOptions);
+    console.log("mapped object", mappedObject);
 
     setTimeout(() => {
       setSelectValues(decisionOptions);
+      setDecisionReasonArray(mappedObject);
       console.log("logger selectValues ", selectValues);
     }, 1000);
   }, [tabInput]);
-
-  useEffect(() => {
-    const masterReasons = mastersSelector['masterDecisionReason'];
-    const mappedObject = {};
-    if (formName === 'Case Header') {
-
-      masterReasons.filter((obj) => obj['stageName'] === stageName)
-        .forEach(({ stageName, decision, decisionReason }) => {
-          if (!mappedObject[stageName]) {
-            mappedObject[stageName] = {};
-          }
-          if (!mappedObject[stageName][decision]) {
-            mappedObject[stageName][decision] = [];
-          }
-          mappedObject[stageName][decision].push({
-            value: decisionReason,
-            label: decisionReason
-          });
-        });
-    }
-    console.log("logger masterReasons : ", mappedObject)
-    setDecisionReasonArray(mappedObject);
-
-
-  }, [])
-
 
   const openDecisionModal = (index) => {
     let docIndexJson = { ...docClickedIndex.current };
