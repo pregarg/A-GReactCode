@@ -407,12 +407,15 @@ export default function ClaimInformationTable({
                             <div className="form-floating">
                                 <ReactDatePicker
                                     className="example-custom-input-modal"
+                                  
                                     selected={
-                                        "Service_Start_Date" in data &&
-                                            data.Service_Start_Date.value !== undefined
-                                            ? data.Service_Start_Date.value
-                                            : data.Service_Start_Date
+                                        data?.Service_Start_Date?.value !== undefined
+                                            ? new Date(data.Service_Start_Date.value.toString())
+                                            : data?.Service_Start_Date !== undefined
+                                            ? new Date(data.Service_Start_Date.toString())
+                                            : new Date()
                                     }
+                                  
                                     name="Service_Start_Date"
                                     onChange={(selectValue, event) =>
                                         handleGridDateChange(
@@ -443,12 +446,15 @@ export default function ClaimInformationTable({
                             <div className="form-floating">
                                 <ReactDatePicker
                                     className="example-custom-input-modal"
+            
                                     selected={
-                                        "Service_End_Date" in data &&
-                                            data.Service_End_Date.value !== undefined
-                                            ? data.Service_End_Date.value
-                                            : data.Service_End_Date
+                                        data?.Service_End_Date?.value !== undefined
+                                            ? new Date(data.Service_End_Date.value.toString())
+                                            : data?.Service_End_Date !== undefined
+                                            ? new Date(data.Service_End_Date.toString())
+                                            : new Date()
                                     }
+                                   
                                     name="Service_End_Date"
                                     onChange={(selectValue, event) =>
                                         handleGridDateChange(

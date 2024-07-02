@@ -439,6 +439,8 @@ export default function DecisionTab(tabInput) {
             (data) => data.flowId == flowId && data.stageName.trim() == stageName.trim()
 
           ).map((val) => {
+            console.log("stagename----->",stageName)
+            console.log("flowid--->",flowId)
             console.log("logger mapper : ", val)
             decisionOptions.push({
               value: val.description,
@@ -447,6 +449,8 @@ export default function DecisionTab(tabInput) {
           }
           );
       }
+      console.log("stagename1----->",stageName)
+            console.log("flowid1--->",flowId)
     }
     console.log("masterDecision Refprav1 ", decisionOptions);
 

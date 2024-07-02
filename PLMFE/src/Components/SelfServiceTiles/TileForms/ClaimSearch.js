@@ -23,7 +23,7 @@ export default function ClaimSearch(modalProps) {
     console.log("service_start_date-->", date, name);
     modalProps.setSelectSearchValues({ ...modalProps.selectSearchValues, [name]: date });
   };
-
+  
   const RenderDatePickerServiceStartDate = (props) => (
     <div className="form-floating">
       <input {...props} placeholder="Service Start Date" />
@@ -43,7 +43,7 @@ export default function ClaimSearch(modalProps) {
       <Modal
         show={modalProps.showClaimSearch}
         onHide={() => {
-          modalProps.handleCloseClaimSearch(false);
+          modalProps.handleCloseSearch(false);
         }}
         backdrop="static"
         keyboard={false}
@@ -59,7 +59,7 @@ export default function ClaimSearch(modalProps) {
         <Modal.Body>
           <div className="row my-2">
             <div className="col-12">
-              <div className="form-check">
+            <div className="form-check">
                 <input
                   className="form-check-input"
                   type="radio"
@@ -68,10 +68,14 @@ export default function ClaimSearch(modalProps) {
                   value="claimNumber"
                   checked={modalProps.selectedCriteria === "claimNumber"}
                   onChange={(event) => handleCriteriaChange(event)}
+                  
                 />
-                <label className="form-check-label" htmlFor="claimNumberCriteria">
+                {/* <label className="form-check-label" htmlFor="claimNumberCriteria">
                   1.
-                </label>
+                </label> */}
+                 <div className="row my-2">
+                  <div className="col-xs-12 col-md-4">
+                 
                 <div className="form-floating mb-3">
                   <input
                     type="text"
@@ -82,11 +86,13 @@ export default function ClaimSearch(modalProps) {
                     value={modalProps.selectSearchValues?.claimNumber || ""}
                     onChange={(event) => handleCriteriaChangeValue(event)}
                     disabled={modalProps.selectedCriteria !== "claimNumber"}
+                    
                   />
                   <label htmlFor="claimNumberVal">Claim Number</label>
                 </div>
               </div>
-
+                  </div>
+                  </div>
               <div className="form-check">
                 <input
                   className="form-check-input"
@@ -97,11 +103,11 @@ export default function ClaimSearch(modalProps) {
                   checked={modalProps.selectedCriteria === "sequentialMember"}
                   onChange={(event) => handleCriteriaChange(event)}
                 />
-                <label className="form-check-label" htmlFor="sequentialMemberCriteria">
+                {/* <label className="form-check-label" htmlFor="sequentialMemberCriteria">
                   2.
-                </label>
+                </label> */}
                 <div className="row my-2">
-                  <div className="col-xs-12 col-md-6">
+                  <div className="col-xs-12 col-md-4">
                     <div className="form-floating mb-3">
                       <input
                         type="text"
@@ -116,7 +122,7 @@ export default function ClaimSearch(modalProps) {
                       <label htmlFor="sequentialMemberId">Sequential Member ID</label>
                     </div>
                   </div>
-                  <div className="col-xs-12 col-md-6">
+                  <div className="col-xs-12 col-md-4">
                     <div className="form-floating mb-3">
                       <ReactDatePicker
                         id="serviceStartDate"
@@ -140,7 +146,7 @@ export default function ClaimSearch(modalProps) {
                       />
                     </div>
                   </div>
-                  <div className="col-xs-12 col-md-6">
+                  <div className="col-xs-12 col-md-4">
                     <div className="form-floating mb-3">
                       <ReactDatePicker
                         id="serviceEndDate"
@@ -177,11 +183,11 @@ export default function ClaimSearch(modalProps) {
                   checked={modalProps.selectedCriteria === "provider"}
                   onChange={(event) => handleCriteriaChange(event)}
                 />
-                <label className="form-check-label" htmlFor="providerCriteria">
+                {/* <label className="form-check-label" htmlFor="providerCriteria">
                   3.
-                </label>
+                </label> */}
                 <div className="row my-2">
-                  <div className="col-xs-12 col-md-6">
+                  <div className="col-xs-12 col-md-4">
                     <div className="form-floating mb-3">
                       <input
                         type="text"
@@ -196,7 +202,7 @@ export default function ClaimSearch(modalProps) {
                       <label htmlFor="providerId">Provider ID</label>
                     </div>
                   </div>
-                  <div className="col-xs-12 col-md-6">
+                  <div className="col-xs-12 col-md-4">
                     <div className="form-floating mb-3">
                       <ReactDatePicker
                         id="providerServiceStartDate"
@@ -220,7 +226,7 @@ export default function ClaimSearch(modalProps) {
                       />
                     </div>
                   </div>
-                  <div className="col-xs-12 col-md-6">
+                  <div className="col-xs-12 col-md-4">
                     <div className="form-floating mb-3">
                       <ReactDatePicker
                         id="providerServiceEndDate"
@@ -273,7 +279,7 @@ export default function ClaimSearch(modalProps) {
           </Button>
         </Modal.Footer>
         <div style={{overflowX:'auto',maxWidth:'100%'}}>{modalProps.responseData.length>0 &&
-                      modalProps.showTableComponent()
+                      modalProps.claimSearchTableComponent()
                     }</div>
           <br></br>
         {modalProps.responseData.length>0 && (
