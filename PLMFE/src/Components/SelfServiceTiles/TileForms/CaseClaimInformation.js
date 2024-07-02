@@ -11,6 +11,7 @@ import CaseHeader from './CaseHeader';
 import ProviderInformationTable from '../TileFormsTables/ProviderInformationTable';
 import TableComponent from "../../../../src/util/TableComponent";
 import ClaimSearch from "../TileForms/ClaimSearch";
+import ProviderSearch from "../TileForms/ProviderSearch";
 import useUpdateDecision from '../../CustomHooks/useUpdateDecision';
 
 const CaseClaimInformation = (props) => {
@@ -28,6 +29,7 @@ const CaseClaimInformation = (props) => {
     const [selectedCriteria, setSelectedCriteria] = useState();
 
     const [selectSearchValues, setSelectSearchValues] = useState();
+    const [caseUnlockState, setCaseUnlockState] = useState(-1);
 
     const formikFieldsOnChange = (evnt, setFieldValue, field) => {
         let value = evnt.target.value || "";
@@ -36,6 +38,7 @@ const CaseClaimInformation = (props) => {
         // printConsole("pravallika ", value);
         setFieldValue(field.name, value);
     };
+    
     const { ValueContainer, Placeholder } = components;
     const CustomValueContainer = ({ children, ...props }) => {
         return (
@@ -67,6 +70,7 @@ const CaseClaimInformation = (props) => {
     const [formData, setFormData] = useState(props.handleFormData);
 
     const [showClaimSearch, setShowClaimSearch] = useState(false);
+    const [showProviderSearch, setshowProviderSearch] = useState(false);
     const [gridFieldTempState, setGridFieldTempState] = useState({});
 
     const [responseData, setResponseData] = useState([]);
@@ -87,56 +91,73 @@ const CaseClaimInformation = (props) => {
         setShowClaimSearch(true);
 
     }
-
-
-
-    const handleCloseClaimSearch = () => {
-        setShowClaimSearch(false);
-        setSelectSearchValues([]);
-        setResponseData([]);
+    const handleShowProviderSearch = () => {
+        setshowProviderSearch(true);
 
     }
-    const handleClearClaimSearch = () => {
-        setSelectSearchValues([]);
-        setResponseData([]);
-    }
-    const handleSelectedAddress = (flag) => {
-        //let rowNumber = locationTableRowsData.length+1;
-        console.log("grid column names ---->", claimInformationGridData)
-        setClaimInformationData({ ...selectedAddress[0] });
-        let rowNumber = getRowNumberForGrid(claimInformationGridData)
-        let addressToPopulate = []
-        console.log("selected Address values", selectedAddress);
-        if (selectedAddress.length > 0) {
-            selectedAddress.map((elem) => {
-                if (elem?.isChecked) {
-                    console.log("elem is ", elem);
-                    elem.rowNumber = rowNumber;
-                    elem.operation = 'I';
-                    delete elem['isChecked'];
-                    rowNumber++;
-                    addressToPopulate.push(elem);
-                }
 
-            })
+
+
+const handleCloseSearch =()=>{
+    setShowClaimSearch(false);
+    setshowProviderSearch(false);
+    setSelectedCriteria([]);  
+    setSelectSearchValues([]);
+    setResponseData([]);
+    
+}
+const handleClearClaimSearch =()=>{
+    setSelectSearchValues([]);
+    setSelectedCriteria([]);    
+    setResponseData([]);
+}
+const handleSelectedAddress =(flag)=>{
+    // if (caseUnlockState !== -1) {
+    //     alert("Please select atleast one case.");
+    //   }
+    //   else{
+    //     alert("Data populated successfully")
+    //   }
+    
+    //let rowNumber = locationTableRowsData.length+1;
+    console.log("grid column names ---->" ,claimInformationGridData)
+   // setClaimInformationData({...selectedAddress[0]});
+    let rowNumber = getRowNumberForGrid(claimInformationGridData)
+    let addressToPopulate = []
+    console.log("selected Address values",selectedAddress);
+    if(selectedAddress.length > 0){
+      selectedAddress.map((elem)=>{
+        if(elem?.isChecked){
+          console.log("elem is ",elem);
+          elem.rowNumber = rowNumber;
+          elem.operation = 'I';
+          delete elem['isChecked'];
+          rowNumber++;
+          addressToPopulate.push(elem);
         }
-        //gridFieldTempState(checkedRef.current);
-        console.log("checkedRef.current value==== ", addressToPopulate);
-        if (addressToPopulate.length > 0) {
-            setclaimInformationGridData([...claimInformationGridData, ...addressToPopulate])
-            //   setClaimInformationData([...claimInformationData,...addressToPopulate])
-            //console.log("INSIDE gridTableDataRef.locationTable1==== ",gridTableDataRef);
-            //   let gridTableDataRefCopy = gridTableDataRef.hasOwnProperty("locationTable") ? gridTableDataRef?.locationTable: [];
-            //   gridTableDataRef.locationTable = [...gridTableDataRefCopy,...addressToPopulate]
-            //   console.log("INSIDE gridTableDataRef.locationTable==== ",gridTableDataRef);
-            //   gridFieldTempState = {};
-        }
-        console.log("grid column names 222---->", claimInformationGridData, claimInformationData);
-        //setFetchAddressModalShow(flag);
-        //handleModalChange(false);
-        setShowClaimSearch(false);
-        // setGridFieldTempState({});
+       
+      })
     }
+    //gridFieldTempState(checkedRef.current);
+    console.log("checkedRef.current value==== ",addressToPopulate);
+    if(addressToPopulate.length>0){
+     setclaimInformationGridData([...claimInformationGridData,...addressToPopulate])
+     // setClaimInformationData([...claimInformationData,...addressToPopulate])
+      //console.log("INSIDE gridTableDataRef.locationTable1==== ",gridTableDataRef);
+    //   let gridTableDataRefCopy = gridTableDataRef.hasOwnProperty("locationTable") ? gridTableDataRef?.locationTable: [];
+    //   gridTableDataRef.locationTable = [...gridTableDataRefCopy,...addressToPopulate]
+    //   console.log("INSIDE gridTableDataRef.locationTable==== ",gridTableDataRef);
+    //   gridFieldTempState = {};
+    }
+    console.log("grid column names 222---->" ,claimInformationGridData,claimInformationData);
+    //setFetchAddressModalShow(flag);
+    //handleModalChange(false);
+    setShowClaimSearch(false);
+   // setGridFieldTempState({});
+   setSelectedCriteria([]);  
+   setSelectSearchValues([]);
+   setResponseData([]);
+  }
 
 
     const handleCheckBoxChange = (evnt, ind) => {
@@ -277,65 +298,91 @@ const CaseClaimInformation = (props) => {
         }
     };
 
-    const showAddresses = async () => {
-
-        console.log("selectSearchValues", selectSearchValues)
+    const showClaims = async () => {
+        console.log("selectSearchValues", selectSearchValues);
         let ClaimNumber = selectSearchValues?.claimNumber;
         let SequentialMemberID = selectSearchValues?.sequentialMemberId;
         let ProviderID = selectSearchValues?.providerId;
-
-        // console.log("claimNumberRowsData inside caseclaimInfor ",claimNumber);
-        let getApiJson = {};
-        let data = [];
-        getApiJson['option'] = 'GETCLAIMSEARCHDATA'
-        getApiJson['ClaimNumber'] = selectSearchValues?.claimNumber || '';
-        getApiJson['ServiceStartDate'] = extractDate(selectSearchValues?.serviceStartDate) || '';
-        getApiJson['ServiceEndDate'] = extractDate(selectSearchValues?.serviceEndDate) || '';
-        getApiJson['SequentialMemberID'] = selectSearchValues?.sequentialMemberId || '';
-        getApiJson['ProviderID'] = selectSearchValues?.providerId || '';
-        ;
-        console.log("tt", getApiJson);
-        if (ClaimNumber !== '' || SequentialMemberID !== '' || ProviderID !== '') {
-            let res = await axios.post("/generic/callProcedure", getApiJson, {
-                headers: { Authorization: `Bearer ${token}` },
-            });
-            //.then((res) => {
-            console.log("RES", res);
-            console.log("resdata inside", responseData.length, responseData);
-
-            //if(responseData.length === 0){
-            console.log("RESssssss", res.data.CallProcedure_Output?.data);
-            let resApiData = res.data.CallProcedure_Output?.data;
-            console.log("resdata 1stTiem", resApiData);
-            resApiData = (resApiData?.length > 0) ? resApiData : [];
-            console.log("resdata inside", resApiData, resApiData.length);
-            if (resApiData.length > 0) {
-                console.log("resdata.length inside");
+        let ServiceStartDate = selectSearchValues?.Service_Start_Date;
+        let ServiceEndDate = selectSearchValues?.Service_End_Date;
+    
+        // Check if at least one search parameter has a value
+        if (ClaimNumber || SequentialMemberID || ProviderID || ServiceStartDate || ServiceEndDate) {
+            let getApiJson = {
+                option: 'GETCLAIMSEARCHDATA',
+                ClaimNumber: ClaimNumber || '',
+                ServiceStartDate: extractDate(ServiceStartDate) || '',
+                ServiceEndDate: extractDate(ServiceEndDate) || '',
+                SequentialMemberID: SequentialMemberID || '',
+                ProviderID: ProviderID || '',
+            };
+    
+            console.log("API Request JSON:", getApiJson);
+    
+            try {
+                let res = await axios.post("/generic/callProcedure", getApiJson, {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+    
+                console.log("API Response:", res.data);
+    
+                let resApiData = res.data.CallProcedure_Output?.data || [];
+                console.log("Response Data:", resApiData);
+                resApiData = (resApiData?.length > 0) ? resApiData : [];
+    
+                if(resApiData.length > 0){
+                const respKeys = Object.keys(resApiData);
+                console.log("respKeys--->", respKeys);
+                respKeys.forEach(k => {
+                    
+                    let apiResponse = resApiData[k];
+                    if (apiResponse.hasOwnProperty("Service_Start_Date") && typeof apiResponse.Service_Start_Date === "string") {
+                        console.log("lll--->",apiResponse.Service_Start_Date) // 2024-05-08T00:00:00
+                        const mad = new Date(getDatePartOnly(apiResponse.Service_Start_Date)); 
+                        
+                       apiResponse.Service_Start_Date = extractDate(mad); 
+                        console.log("getDatePartOnly-->", mad);//Wed May 08 2024 00:00:00 GMT+0530 (India Standard Time)
+                        console.log("extractDate-->", apiResponse.Service_Start_Date); //2024-05-18
+                    }
+                    if (apiResponse.hasOwnProperty("Service_End_Date") && typeof apiResponse.Service_End_Date === "string") {
+                        const rad= new Date(getDatePartOnly(apiResponse.Service_End_Date));
+                       
+                        apiResponse.Service_End_Date = extractDate(rad);
+                        console.log("xyz-->", rad);
+                    }
+                });
+            
                 setResponseData(resApiData);
             }
-            //}
-            //data = response.data.CallProcedure_Output.data;
-
-            console.log("APIDATA --->", responseData);
-
+                const apiStat = res.data.CallProcedure_Output.Status;
+                if (apiStat === -1) {
+                    alert("Error in fetching data");
+                }
+            } catch (error) {
+                console.error("API Error:", error);
+                alert("Error in fetching data. Please try again later.");
+            }
+        } else {
+            alert("Please select at least one search value.");
         }
-    }
+    };
+    
 
-
-    const showTableComponent = () => {
+    const claimSearchTableComponent = () => {
         let columnNames = 'Claim Number~Claim_Number,Claim Type~Claim_type,Authorization Number~Authorization_Number,Service Start Date~Service_Start_Date,Service End Date~Service_End_Date,Service Span~ServiceSpan,Denial Date~DenialDate,Denial Code~DenialCode,Denial Description~DenialDescription,Member ID~MemberID,Member First Name~MemberFirstName,Member Last Name~MemberLastName,Provider ID~ProviderID,Provider Name~ProviderName';
         console.log("APIDATA column data", responseData);
-        if (responseData.length > 0) {
-            return (
-                <>
-                    <TableComponent
-                        columnName={columnNames}
-                        rowValues={responseData}
-                        showCheckBox={true}
-                        handleCheckBoxChange={handleCheckBoxChange}
-                        handleCheckBoxHeaderChange={handleCheckBoxHeaderChange}
-                        CheckBoxInHeader={true}
-                    />
+        if(responseData.length>0){
+        return(
+            <>
+              <TableComponent
+              
+              columnName={columnNames}
+                rowValues={responseData}
+                showCheckBox = {true}
+                handleCheckBoxChange={handleCheckBoxChange}
+                handleCheckBoxHeaderChange={handleCheckBoxHeaderChange}
+                CheckBoxInHeader = {true}
+                />
                 </>
             )
         }
@@ -344,7 +391,103 @@ const CaseClaimInformation = (props) => {
         }
     }
 
+    const showProviders = async () => {
+        console.log("select provider Search Values", selectSearchValues);
+        let ProviderID = selectSearchValues?.providerID;
+        let NPI = selectSearchValues?.NPI;
+        let Taxid = selectSearchValues?.TaxID;
+        let ProviderFirstName = selectSearchValues?.providerFirstName;
+        let ProviderLastName = selectSearchValues?.providerLastName;
+        let City = selectSearchValues?.city;
+        let State = selectSearchValues?.state;
+        let ProviderFirstName2 = selectSearchValues?.providerFirstName2;
+        let ProviderLastName2 = selectSearchValues?.providerLastName2;
+        let State2 = selectSearchValues?.state2;
+        let facilityName = selectSearchValues?.facilityName;
+        let facilitycity = selectSearchValues?.facilitycity;
+        let facilityState = selectSearchValues?.facilityState;
+        let FacilityName2 = selectSearchValues?.facilityName2;
+        let FacilityState2 = selectSearchValues?.facilityState2;
+    
+        // Check if at least one search parameter has a value
+        if (ProviderID || NPI || Taxid || ProviderFirstName || ProviderLastName ||
+            City || State  || ProviderFirstName2 || ProviderLastName2 || State2 || 
+            facilityName || facilitycity || facilityState || FacilityName2 || FacilityState2
+        ) {
+            let getApiJson = {
+                option: 'GETPROVIDERSEARCH',
+                ProviderID: ProviderID || '',
+                NPI: NPI || '',
+                Taxid: Taxid || '',
+                ProviderFirstName: ProviderFirstName || '',
+                ProviderLastName: ProviderLastName || '',
+                City: City || '',
+                State: State || '',
+                ProviderFirstName2: ProviderFirstName2 || '',
+                ProviderLastName2: ProviderLastName2 || '',
+                State2: State2 || '',
+                facilityName: facilityName || '',
+                facilitycity: facilitycity || '',
+                facilityState: facilityState || '',
+                FacilityName2: FacilityName2 || '',
+                FacilityState2: FacilityState2 || ''
 
+            };
+    
+            console.log("API Request JSON:", getApiJson);
+    
+            try {
+                let res = await axios.post("/generic/callProcedure", getApiJson, {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+    
+                console.log("API Response:", res.data);
+    
+                let resApiData = res.data.CallProcedure_Output?.data || [];
+                console.log("Response Data:", resApiData);
+                resApiData = (resApiData?.length > 0) ? resApiData : [];
+    
+                if(resApiData.length > 0){
+                const respKeys = Object.keys(resApiData);
+                console.log("respKeys--->", respKeys);
+            
+                setResponseData(resApiData);
+            }
+                const apiStat = res.data.CallProcedure_Output.Status;
+                if (apiStat === -1) {
+                    alert("Error in fetching data");
+                }
+            } catch (error) {
+                console.error("API Error:", error);
+                alert("Error in fetching data. Please try again later.");
+            }
+        } else {
+            alert("Please select at least one search value.");
+        }
+    };
+
+    const providerSearchTableComponent = () => {
+        let columnNames = 'Claim Number~Claim_Number,Claim Type~Claim_type,Authorization Number~Authorization_Number,Service Start Date~Service_Start_Date,Service End Date~Service_End_Date,Service Span~ServiceSpan,Denial Date~DenialDate,Denial Code~DenialCode,Denial Description~DenialDescription,Member ID~MemberID,Member First Name~MemberFirstName,Member Last Name~MemberLastName,Provider ID~ProviderID,Provider Name~ProviderName';
+        console.log("APIDATA column data", responseData);
+        if(responseData.length>0){
+        return(
+            <>
+              <TableComponent
+              
+              columnName={columnNames}
+                rowValues={responseData}
+                showCheckBox = {true}
+                handleCheckBoxChange={handleCheckBoxChange}
+                handleCheckBoxHeaderChange={handleCheckBoxHeaderChange}
+                CheckBoxInHeader = {true}
+                />
+                </>
+            )
+        }
+        else {
+            return (<></>);
+        }
+    }
 
     const handleGridSelectChange = (
         index,
@@ -417,6 +560,7 @@ const CaseClaimInformation = (props) => {
 
         if (triggeredFormName === "ClaimInformationTable") {
             rowInput = claimInformationGridData[index];
+            console.log("rowInput----->",rowInput)
             setGridFieldTempState(rowInput);
         }
         if (triggeredFormName === "ProviderInformationTable") {
@@ -1380,19 +1524,19 @@ const CaseClaimInformation = (props) => {
                             </div>
                         </div>
                         {showClaimSearch && (
-                            <ClaimSearch
-                                handleCloseClaimSearch={handleCloseClaimSearch}
-                                selectedCriteria={selectedCriteria}
-                                setSelectedCriteria={setSelectedCriteria}
-                                selectSearchValues={selectSearchValues}
-                                setSelectSearchValues={setSelectSearchValues}
-                                showAddresses={showAddresses}
-                                showTableComponent={showTableComponent}
-                                responseData={responseData}
-                                setResponseData={setResponseData}
-                                handleClearClaimSearch={handleClearClaimSearch}
-                                showClaimSearch={showClaimSearch}
-                                handleSelectedAddress={handleSelectedAddress}
+                            <ClaimSearch 
+                            handleCloseSearch = {handleCloseSearch}
+                            selectedCriteria={selectedCriteria}
+                            setSelectedCriteria={setSelectedCriteria}
+                            selectSearchValues ={selectSearchValues}
+                            setSelectSearchValues = {setSelectSearchValues}
+                            showClaims={showClaims}
+                            claimSearchTableComponent = {claimSearchTableComponent}
+                            responseData = {responseData}
+                            setResponseData = {setResponseData}
+                            handleClearClaimSearch={handleClearClaimSearch}
+                            showClaimSearch = {showClaimSearch}
+                            handleSelectedAddress={handleSelectedAddress}
                             />
                         )}
                     </div>
@@ -1420,7 +1564,8 @@ const CaseClaimInformation = (props) => {
                     aria-labelledby="panelsStayOpen-providerInformation"
                 >
                     <div className="accordion-body">
-                        <div className="row">
+                    <button type="button" class="btn btn-outline-primary" onClick={event => handleShowProviderSearch(event)}>Provider Search</button>
+                        <div className="row my-2">
                             <div className="col-xs-6 col-md-12">
                                 <ProviderInformationTable
                                     providerInformationGridData={providerInformationGridData}
@@ -1444,6 +1589,21 @@ const CaseClaimInformation = (props) => {
                                     transactionType={CaseHeader.displayName}
                                 ></ProviderInformationTable>
                             </div>
+                        </div>
+                        <div>
+                        {showProviderSearch && (
+                            <ProviderSearch 
+                            handleCloseSearch = {handleCloseSearch}
+                            selectedCriteria={selectedCriteria}
+                            setSelectedCriteria={setSelectedCriteria}
+                            selectSearchValues ={selectSearchValues}
+                            setSelectSearchValues = {setSelectSearchValues}
+                            handleClearClaimSearch={handleClearClaimSearch}
+                            showProviderSearch = {showProviderSearch}
+                            showProviders = {showProviders}
+                            
+                            />
+                        )}
                         </div>
                     </div>
                 </div>
