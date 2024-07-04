@@ -427,14 +427,14 @@ export default function AuthorizationInformationTable({
                         <td className="tableData">
                             {"Auth_Request_Date" in data &&
                                 data.Auth_Request_Date.value !== undefined
-                                ? convertToCase(data.Auth_Request_Date.value)
-                                : convertToCase(data.Auth_Request_Date)}
+                                ? formatDate(data.Auth_Request_Date.value)
+                                : formatDate(data.Auth_Request_Date)}
                         </td>
                         <td className="tableData">
                             {"Auth_Expiration_Date" in data &&
                                 data.Auth_Expiration_Date.value !== undefined
-                                ? convertToCase(data.Auth_Expiration_Date.value)
-                                : convertToCase(data.Auth_Expiration_Date)}
+                                ? formatDate(data.Auth_Expiration_Date.value)
+                                : formatDate(data.Auth_Expiration_Date)}
                         </td>
                         <td className="tableData">
                             {"CPT_Descriptions" in data &&
@@ -445,8 +445,8 @@ export default function AuthorizationInformationTable({
                         <td className="tableData">
                             {"Service_Start_Date" in data &&
                                 data.Service_Start_Date.value !== undefined
-                                ? convertToCase(data.Service_Start_Date.value)
-                                : convertToCase(data.Service_Start_Date)}
+                                ? formatDate(data.Service_Start_Date.value)
+                                : formatDate(data.Service_Start_Date)}
                         </td>
                     </tr>
                 );

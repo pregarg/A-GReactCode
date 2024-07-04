@@ -81,31 +81,101 @@ const CaseHeaderAccordion = (props) => {
                 <div className="accordion-body">
                     <div className="row my-2">
                         <div className="col-xs-6 col-md-4">
+                            <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                <div style={{ width: '300px', textAlign: 'left' }}>
+                                    <span>Case ID- {convertToCase(caseHeaderData['caseNumber'])}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-xs-6 col-md-4">
+                            <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                <div style={{ width: '300px', textAlign: 'left' }}>
+                                    <span>Sub Case ID- {convertToCase(caseHeaderData['Subcase_ID'])}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-xs-6 col-md-4">
+                            <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                <div style={{ width: '300px', textAlign: 'left' }}>
+                                    <span>Case Owner- {convertToCase(caseHeaderData['Case_Owner'])}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="row my-2">
+                        <div className="col-xs-6 col-md-4">
+                            <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                <div style={{ width: '300px', textAlign: 'left' }}>
+                                    <span>Case Status- {convertToCase(caseHeaderData['Case_Status'])}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-xs-6 col-md-4">
+                            <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                <div style={{ width: '300px', textAlign: 'left' }}>
+                                    <span>Case Due Date- {convertToCase(caseHeaderData['Case_Due_Date'])}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-xs-6 col-md-4">
+                            <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                <div style={{ width: '300px', textAlign: 'left' }}>
+                                    <span>Extended Case Due Date- {convertToCase(caseHeaderData['Extended_Case_Due_Date'])}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="row my-2">
+                        <div className="col-xs-6 col-md-4">
+                            <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                <div style={{ width: '300px', textAlign: 'left' }}>
+                                    <span>Case Validation- {convertToCase(caseHeaderData['Case_Validation'])}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-xs-6 col-md-4">
+                            <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                <div style={{ width: '300px', textAlign: 'left' }}>
+                                    <span>Internal Due Date- {convertToCase(caseHeaderData['Internal_Due_Date'])}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-xs-6 col-md-4">
+                            <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                <div style={{ width: '300px', textAlign: 'left' }}>
+                                    <span>White Glove Indicator- {convertToCase(caseHeaderData['White_Glove_Indicator'])}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="row my-2">
+                        <div className="col-xs-6 col-md-4">
+                            <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                <div style={{ width: '300px', textAlign: 'left' }}>
+                                    <span>Case Received Date- {convertToCase(caseHeaderData['Case_Received_Date'])}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-xs-6 col-md-4">
+                            <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                <div style={{ width: '300px', textAlign: 'left' }}>
+                                    <span>Environmental Description- {convertToCase(caseHeaderData['Environmental_Description'])}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {/* <div className="row my-2">
+                        <div className="col-xs-6 col-md-4">
                             <Field name="caseid">
                                 {({ field, meta }) => (
                                     <div className="form-floating">
-                                        <input
-                                            maxLength="13"
-                                            type="text"
-                                            id="caseid"
-                                            className={`form-control ${meta.touched && meta.error
-                                                ? "is-invalid"
-                                                : field.value
-                                                    ? "is-valid"
-                                                    : ""
-                                                }`}
-                                            placeholder="Case Id"
-                                            {...field}
-                                            onChange={(event) => {
-                                                setCaseHeaderData({ ...caseHeaderData, 'caseNumber': event.target['value'] })
-                                            }}
-                                            onBlur={(event) =>
-                                                props.handleOnChange(event.target['value'], 'caseNumber')
-                                            }
-                                            value={convertToCase(caseHeaderData['caseNumber'])}
-                                            readOnly
-                                        />
-                                        <label htmlFor="floatingInputGrid">Case ID</label>
+                                        <label
+                                            // className={`form-control ${meta.touched && meta.error ? "is-invalid" : "is-valid"}`}
+                                            className="form-control"
+                                            htmlFor="floatingInputGrid"
+                                        >
+                                            Case ID- {convertToCase(caseHeaderData['caseNumber'])}
+                                        </label>
                                         {meta.touched && meta.error && (
                                             <div className="invalid-feedback" style={{ display: "block" }}>
                                                 {meta.error}
@@ -116,32 +186,18 @@ const CaseHeaderAccordion = (props) => {
                             </Field>
                             <ErrorMessage component="div" name="organizationName" className="invalid-feedback" />
                         </div>
+
                         <div className="col-xs-6 col-md-4">
                             <Field name="subcaseId">
                                 {({ field, meta }) => (
                                     <div className="form-floating">
-                                        <input
-                                            id="subcaseId"
-                                            maxLength="10"
-                                            type="text"
-                                            className={`form-control ${meta.touched && meta.error
-                                                ? "is-invalid"
-                                                : field.value
-                                                    ? "is-valid"
-                                                    : ""
-                                                }`}
-                                            placeholder="Subcase Id"
-                                            {...field}
-                                            onChange={(event) => {
-                                                setCaseHeaderData({ ...caseHeaderData, 'Subcase_ID': event.target['value'] })
-                                            }}
-                                            onBlur={(event) =>
-                                                props.handleOnChange(event.target['value'], 'Subcase_ID')
-                                            }
-                                            value={convertToCase(caseHeaderData['Subcase_ID'])}
-                                            readOnly
-                                        />
-                                        <label htmlFor="floatingInputGrid">Sub Case Id</label>
+                                        <label
+                                            // className={`form-control ${meta.touched && meta.error ? "is-invalid" : "is-valid"}`}
+                                            className="form-control"
+                                            htmlFor="floatingInputGrid"
+                                        >
+                                            Sub Case ID- {convertToCase(caseHeaderData['Subcase_ID'])}
+                                        </label>
                                         {meta.touched && meta.error && (
                                             <div className="invalid-feedback" style={{ display: "block" }}>
                                                 {meta.error}
@@ -193,28 +249,13 @@ const CaseHeaderAccordion = (props) => {
                             <Field name="caseStatus">
                                 {({ field, meta }) => (
                                     <div className="form-floating">
-                                        <input
-                                            id="caseStatus"
-                                            maxLength="50"
-                                            type="text"
-                                            className={`form-control ${meta.touched && meta.error
-                                                ? "is-invalid"
-                                                : field.value
-                                                    ? "is-valid"
-                                                    : ""
-                                                }`}
-                                            placeholder="Case Status"
-                                            {...field}
-                                            onChange={(event) => {
-                                                setCaseHeaderData({ ...caseHeaderData, 'Case_Status': event.target['value'] })
-                                            }}
-                                            onBlur={(event) =>
-                                                props.handleOnChange(event.target['value'], 'Case_Status')
-                                            }
-                                            value={convertToCase(caseHeaderData['Case_Status'])}
-                                            readOnly
-                                        />
-                                        <label htmlFor="floatingInputGrid">Case Status</label>
+                                        <label
+                                            // className={`form-control ${meta.touched && meta.error ? "is-invalid" : "is-valid"}`}
+                                            className="form-control"
+                                            htmlFor="floatingInputGrid"
+                                        >
+                                            Case Status- {convertToCase(caseHeaderData['Case_Status'])}
+                                        </label>
                                         {meta.touched && meta.error && (
                                             <div className="invalid-feedback" style={{ display: "block" }}>
                                                 {meta.error}
@@ -454,7 +495,7 @@ const CaseHeaderAccordion = (props) => {
                             </Field>
                             <ErrorMessage component="div" name="enivironmentalDescription" className="invalid-feedback" />
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>

@@ -450,10 +450,199 @@ const masterAngDecisionReducer = (state = [], action) => {
   return state;
 };
 
+const masterAngAuthServiceTypeReducer = (state = [], action) => {
+  if (action.type === "GET_AUTH_SERVICE_TYPE") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_AUTH_SERVICE_TYPE") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+
 const masterAngProcessingStatusReducer = (state = [], action) => {
   if (action.type === "GET_PROCESSING_STATUS") {
     return [action.payload];
   } else if (action.type === "CLEAR_PROCESSING_STATUS") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+
+const masterAngFiledTimelyReducer = (state = [], action) => {
+  if (action.type === "GET_FILED_TIMELY") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_FILED_TIMELY") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+
+const masterAngGrantGoodCauseReducer = (state = [], action) => {
+  if (action.type === "GET_GRANT_GOOD_CAUSE") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_GRANT_GOOD_CAUSE") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+
+const masterAngProviderRoleReducer = (state = [], action) => {
+  if (action.type === "GET_PROVIDER_ROLE") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_PROVIDER_ROLE") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+
+const masterAngProviderTypeReducer = (state = [], action) => {
+  if (action.type === "GET_PROVIDER_TYPE") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_PROVIDER_TYPE") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+
+const masterAngParProviderReducer = (state = [], action) => {
+  if (action.type === "GET_PAR_PROVIDER") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_PAR_PROVIDER") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+
+const masterAngPortalEnrolledReducer = (state = [], action) => {
+  if (action.type === "GET_PORTAL_ENROLLED") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_PORTAL_ENROLLED") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+
+const masterAngDeceasedReducer = (state = [], action) => {
+  if (action.type === "GET_DECEASED") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_DECEASED") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+
+const masterAngGenderReducer = (state = [], action) => {
+  if (action.type === "GET_GENDER") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_GENDER") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+
+const masterAngDualPlanReducer = (state = [], action) => {
+  if (action.type === "GET_DUAL_PLAN") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_DUAL_PLAN") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+
+const masterAngMailToAddressReducer = (state = [], action) => {
+  if (action.type === "GET_MAIL_TO_ADDRESS") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_MAIL_TO_ADDRESS") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+
+const masterAngPreferredLanguageReducer = (state = [], action) => {
+  if (action.type === "GET_PREFERRED_LANGUAGE") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_PREFERRED_LANGUAGE") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+
+const masterAngCommPrefReducer = (state = [], action) => {
+  if (action.type === "GET_COMM_PREF") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_COMM_PREF") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+
+const masterAngExpeditedRequestedReducer = (state = [], action) => {
+  if (action.type === "GET_EXPEDITED_REQUESTED") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_EXPEDITED_REQUESTED") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+const masterAngExpeditedDeniedReducer = (state = [], action) => {
+  if (action.type === "GET_EXPEDITED_DENIED") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_EXPEDITED_DENIED") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+
+const masterAngStUpExpeditedReducer = (state = [], action) => {
+  if (action.type === "GET_ST_UP_EXPEDITED") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_ST_UP_EXPEDITED") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+
+const masterAngDocumentReducer = (state = [], action) => {
+  if (action.type === "GET_DOCUMENT") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_DOCUMENT") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+
+const masterAngRelationshipReducer = (state = [], action) => {
+  if (action.type === "GET_RELATIONSHIP") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_RELATIONSHIP") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+
+const masterAngAORTypeReducer = (state = [], action) => {
+  if (action.type === "GET_AOR_TYPE") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_AOR_TYPE") {
     state = [];
     return state;
   }
@@ -569,7 +758,26 @@ export default combineReducers({
   masterAngReviewType: masterAngReviewTypeReducer,
   masterAngClaimType: masterAngClaimTypeReducer,
   masterAngDecision: masterAngDecisionReducer,
+  masterAngAuthServiceType: masterAngAuthServiceTypeReducer,
   masterAngProcessingStatus: masterAngProcessingStatusReducer,
+  masterAngFiledTimely: masterAngFiledTimelyReducer,
+  masterAngGrantGoodCause: masterAngGrantGoodCauseReducer,
+  masterAngProviderRole: masterAngProviderRoleReducer,
+  masterAngProviderType: masterAngProviderTypeReducer,
+  masterAngParProvider: masterAngParProviderReducer,
+  masterAngPortalEnrolled: masterAngPortalEnrolledReducer,
+  masterAngDeceased: masterAngDeceasedReducer,
+  masterAngGender: masterAngGenderReducer,
+  masterAngDualPlan: masterAngDualPlanReducer,
+  masterAngMailToAddress: masterAngMailToAddressReducer,
+  masterAngPreferredLanguage: masterAngPreferredLanguageReducer,
+  masterAngCommPref: masterAngCommPrefReducer,
+  masterAngExpeditedRequested: masterAngExpeditedRequestedReducer,
+  masterAngExpeditedDenied: masterAngExpeditedDeniedReducer,
+  masterAngStUpExpedited: masterAngStUpExpeditedReducer,
+  masterAngDocument: masterAngDocumentReducer,
+  masterAngRelationship: masterAngRelationshipReducer,
+  masterAngAORType: masterAngAORTypeReducer,
   dashboardNavigationState: storeTableStateReducer,
   usersTable: usersReducer,
 });

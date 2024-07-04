@@ -156,6 +156,7 @@ export default function DecisionTab(tabInput) {
     const { name } = evnt;
     if (name === "decision") {
       prop.state.decision = selectedValue?.value;
+
     }
     if (prop.state.formNames === 'Case Header') {
 
@@ -403,6 +404,7 @@ export default function DecisionTab(tabInput) {
 
   useEffect(() => {
     let selectJson = {};
+    let mappedObject = {};
     const stageName = String(prop.state.stageName);
     const transactionType = String(prop.state.formNames);
     const flowId = Number(prop.state.flowId);
@@ -799,31 +801,49 @@ export default function DecisionTab(tabInput) {
 
   //Added by Harshit for Removing document type already uploaded apart from other documents
   const getNotUploadedDocTypes = (docArr) => {
+    let selectJson = {};
     let documentNames = [];
-    if (mastersSelector.hasOwnProperty("masterDocumentName")) {
-      let documentNameOptions =
-        mastersSelector["masterDocumentName"].length === 0
-          ? []
-          : mastersSelector["masterDocumentName"][0];
-      documentNameOptions
-        .filter((data) => data.FlowId == flowId)
-        .map((val) =>
-          documentNames.push({ value: val.DocumentName, label: val.DocumentName })
-        );
-    }
-    if (documentNames.length > 0 && docArr.length > 0) {
-      docArr.forEach((obj) => {
-        if (obj.documentType !== "Other Documents") {
-          const requiredIndex = documentNames.findIndex((el) => {
-            return el.value === obj.documentType;
-          });
+    // if (mastersSelector.hasOwnProperty("masterDocumentName")) {
+    //   let documentNameOptions =
+    //     mastersSelector["masterDocumentName"].length === 0
+    //       ? []
+    //       : mastersSelector["masterDocumentName"][0];
+    //   documentNameOptions
+    //     .filter((data) => data.FlowId == flowId)
+    //     .map((val) =>
+    //       documentNames.push({ value: val.DocumentName, label: val.DocumentName })
+    //     );
+    // }
+    // if (documentNames.length > 0 && docArr.length > 0) {
+    //   docArr.forEach((obj) => {
+    //     if (obj.documentType !== "Other Documents") {
+    //       const requiredIndex = documentNames.findIndex((el) => {
+    //         return el.value === obj.documentType;
+    //       });
 
-          if (requiredIndex !== -1) {
-            documentNames.splice(requiredIndex, 1);
-          }
-        }
-      });
-    }
+    //       if (requiredIndex !== -1) {
+    //         documentNames.splice(requiredIndex, 1);
+    //       }
+    //     }
+    //   });
+    // }
+
+    selectJson.docOptions =
+      mastersSelector["masterAngDocument"].length === 0
+        ? []
+        : mastersSelector["masterAngDocument"][0];
+
+    selectJson["docOptions"]
+      .filter(
+        (data) => data.WORKSTEP_NAME.trim() == stageName.trim()
+      ).map((val) => {
+        documentNames.push({
+          value: val.DOCUMENT_NAME,
+          label: val.DOCUMENT_NAME
+        });
+      }
+      );
+
     return documentNames;
   };
 
@@ -833,6 +853,7 @@ export default function DecisionTab(tabInput) {
 
       unique = convertArrayToOuterArray(unique);
       let documentNameValue = getNotUploadedDocTypes(unique);
+      console.log("doc name value", documentNameValue);
 
       //Till Here
 
@@ -868,12 +889,14 @@ export default function DecisionTab(tabInput) {
                         ...provided,
                         fontWeight: "lighter",
                       }),
+                      singleValue: (styles) => ({ ...styles, textAlign: 'left' }),
                     }}
                     // value={(('documentType' in data) && (data.documentType.value !== undefined)) ? (convertToCase(data.documentType.value)) : (convertToCase(data.documentType))}
                     //value={data.documentType}
                     //options={documentNames}
                     ref={selectRef}
                     options={documentNameValue}
+                    isClearable
                     onChange={(selectValue, event) =>
                       handleGridSelectChange(index, selectValue, event, unique)
                     }

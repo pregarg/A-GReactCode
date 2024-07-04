@@ -1,14 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Field, ErrorMessage } from "formik";
-import Select, { components } from "react-select";
+import { components } from "react-select";
 import useGetDBTables from "../../CustomHooks/useGetDBTables";
 import CaseHeader from './CaseHeader';
-import AuthorizationInformationTable from "../TileFormsTables/AuthorizationInformationTable";
+import RepresentativeInformationTable from "../TileFormsTables/RepresentativeInformationTable";
 import useUpdateDecision from '../../CustomHooks/useUpdateDecision';
 
-const AuthorizationInformationAccordion = (props) => {
+const RepresentativeInformationAccordion = (props) => {
     const {
         convertToCase,
         checkGridJsonLength,
@@ -22,10 +21,7 @@ const AuthorizationInformationAccordion = (props) => {
 
     const { ValueContainer, Placeholder } = components;
 
-    const [authorizationInformationData, setAuthorizationInformationData] =
-        useState(props.handleData);
-
-    const [authorizationInformationGridData, setAuthorizationInformationGridData] = useState(props.handleAuthorizationInformationGridData);
+    const [representativeInformationGridData, setRepresentativeInformationGridData] = useState(props.handleRepresentativeInformationGridData);
 
     const [gridFieldTempState, setGridFieldTempState] = useState({});
 
@@ -50,15 +46,11 @@ const AuthorizationInformationAccordion = (props) => {
 
     const gridDataRef = useRef({});
 
-    useEffect(() => {
-        console.log("formdataauthorizationinformation", authorizationInformationData);
-    }, [authorizationInformationData]);
-
     const addTableRows = (triggeredFormName, index) => {
         let rowsInput = {};
 
-        if (triggeredFormName === "AuthorizationInformationTable") {
-            rowsInput.rowNumber = getRowNumberForGrid(authorizationInformationGridData);
+        if (triggeredFormName === "RepresentativeInformationTable") {
+            rowsInput.rowNumber = getRowNumberForGrid(representativeInformationGridData);
         }
         setGridFieldTempState(rowsInput);
     };
@@ -69,19 +61,13 @@ const AuthorizationInformationAccordion = (props) => {
             (operationValue === "Add" || operationValue === "Force Delete")
         ) {
             gridRowsFinalSubmit(triggeredFormName, index, "Delete");
-            if (triggeredFormName === "AuthorizationInformationTable") {
+            if (triggeredFormName === "RepresentativeInformationTable") {
                 console.log("auth delete");
-                const rows = [...authorizationInformationGridData];
+                const rows = [...representativeInformationGridData];
                 rows.splice(index, 1);
-                setAuthorizationInformationGridData(rows);
-                props.updateAuthorizationInformationGridData(rows);
+                setRepresentativeInformationGridData(rows);
+                props.updateRepresentativeInformationGridData(rows);
             }
-            // if (triggeredFormName === "ProviderInformationTable") {
-            //     const rows = [...providerInformationGridData];
-            //     rows.splice(index, 1);
-            //     setProviderInformationGridData(rows);
-            //     props.updateProviderInformationGridData(rows);
-            // }
         }
 
         if (operationValue === "Edit") {
@@ -158,14 +144,10 @@ const AuthorizationInformationAccordion = (props) => {
         console.log("Inside editTableRows: ", triggeredFormName);
         let rowInput = {};
 
-        if (triggeredFormName === "AuthorizationInformationTable") {
-            rowInput = authorizationInformationGridData[index];
+        if (triggeredFormName === "RepresentativeInformationTable") {
+            rowInput = representativeInformationGridData[index];
             setGridFieldTempState(rowInput);
         }
-        // if (triggeredFormName === "ProviderInformationTable") {
-        //     rowInput = providerInformationGridData[index];
-        //     setGridFieldTempState(rowInput);
-        // }
     };
 
     const gridRowsFinalSubmit = (triggeredFormName, index, operationType) => {
@@ -176,8 +158,8 @@ const AuthorizationInformationAccordion = (props) => {
         console.log("Inside gridRowsFinalSubmit clonedJson value1: ", clonedJson);
 
         if (Object.keys(gridFieldTempState).length !== 0) {
-            if (triggeredFormName === "AuthorizationInformationTable") {
-                let indexJson = authorizationInformationGridData[index];
+            if (triggeredFormName === "RepresentativeInformationTable") {
+                let indexJson = representativeInformationGridData[index];
 
                 if (indexJson !== undefined && indexJson !== null) {
                     clonedJson = Object.assign(indexJson, gridFieldTempState);
@@ -188,26 +170,10 @@ const AuthorizationInformationAccordion = (props) => {
                         "Inside gridRowsFinalSubmit clonedJson if value: ",
                         clonedJson
                     );
-                    authorizationInformationGridData[index] = clonedJson;
-                    setAuthorizationInformationGridData(authorizationInformationGridData);
+                    representativeInformationGridData[index] = clonedJson;
+                    setRepresentativeInformationGridData(representativeInformationGridData);
                 }
             }
-            // if (triggeredFormName === "ProviderInformationTable") {
-            //     let indexJson = providerInformationGridData[index];
-
-            //     if (indexJson !== undefined && indexJson !== null) {
-            //         clonedJson = Object.assign(indexJson, gridFieldTempState);
-            //     }
-
-            //     if (!checkGridJsonLength(clonedJson)) {
-            //         console.log(
-            //             "Inside gridRowsFinalSubmit clonedJson if value: ",
-            //             clonedJson
-            //         );
-            //         providerInformationGridData[index] = clonedJson;
-            //         setProviderInformationGridData(providerInformationGridData);
-            //     }
-            // }
 
             //Handling for data update/Delete/Insert inside grids.
             if (tabRef.current === "DashboardView") {
@@ -230,34 +196,20 @@ const AuthorizationInformationAccordion = (props) => {
                 }
                 let gridRowArray = [];
 
-                if (triggeredFormName === "AuthorizationInformationTable") {
-                    gridRowArray = gridDataRef.current.hasOwnProperty("authorizationInformationTable")
-                        ? [...gridDataRef.current.authorizationInformationTable]
+                if (triggeredFormName === "RepresentativeInformationTable") {
+                    gridRowArray = gridDataRef.current.hasOwnProperty("representativeInformationTable")
+                        ? [...gridDataRef.current.representativeInformationTable]
                         : [];
-                    gridRowJson = { ...authorizationInformationGridData[index] };
+                    gridRowJson = { ...representativeInformationGridData[index] };
 
                     if (Object.keys(gridRowJson).length !== 0) {
                         gridRowJson["operation"] = oprtn;
 
                         gridRowArray.push(trimJsonValues(gridRowJson));
 
-                        gridDataRef.current.authorizationInformationTable = getGridDataValues(gridRowArray);
+                        gridDataRef.current.representativeInformationTable = getGridDataValues(gridRowArray);
                     }
                 }
-                // if (triggeredFormName === "ProviderInformationTable") {
-                //     gridRowArray = gridDataRef.current.hasOwnProperty("providerInformationTable")
-                //         ? [...gridDataRef.current.providerInformationTable]
-                //         : [];
-                //     gridRowJson = { ...providerInformationGridData[index] };
-
-                //     if (Object.keys(gridRowJson).length !== 0) {
-                //         gridRowJson["operation"] = oprtn;
-
-                //         gridRowArray.push(trimJsonValues(gridRowJson));
-
-                //         gridDataRef.current.providerInformationTable = getGridDataValues(gridRowArray);
-                //     }
-                // }
             }
         };
     }
@@ -333,7 +285,7 @@ const AuthorizationInformationAccordion = (props) => {
                         aria-expanded="true"
                         aria-controls="panelsStayOpen-collapseOne"
                     >
-                        Authorization Information
+                        Representative Information
                     </button>
                 </h2>
                 <div
@@ -342,106 +294,10 @@ const AuthorizationInformationAccordion = (props) => {
                     aria-labelledby="panelsStayOpen-claimInformation"
                 >
                     <div className="accordion-body">
-                        <div className="row my-2">
-                            <div className="col-xs-6 col-md-4">
-                                <Field name="authdecision">
-                                    {({
-                                        field,
-                                        meta
-                                    }) => (
-                                        <div className="form-floating">
-                                            <input
-                                                maxLength="30"
-                                                type="text"
-                                                id="authdecision"
-                                                className={`form-control ${meta.touched && meta.error
-                                                    ? "is-invalid"
-                                                    : field.value
-                                                        ? "is-valid"
-                                                        : ""
-                                                    }`}
-                                                placeholder="Authorization Decision"
-                                                {...field}
-                                                onChange={(event) => {
-                                                    setAuthorizationInformationData({ ...authorizationInformationData, 'Authorization_Decision': event.target['value'] })
-                                                }}
-                                                onBlur={(event) =>
-                                                    props.handleOnChange(event.target['value'], 'Authorization_Decision')
-                                                }
-                                                value={convertToCase(authorizationInformationData['Authorization_Decision'])}
-                                            />
-                                            <label htmlFor="floatingInputGrid">
-                                                Authorization Decision
-                                            </label>
-                                            {meta.touched && meta.error && (
-                                                <div
-                                                    className="invalid-feedback"
-                                                    style={{ display: "block" }}
-                                                >
-                                                    {meta.error}
-                                                </div>
-                                            )}
-                                        </div>
-                                    )}
-                                </Field>
-                                <ErrorMessage
-                                    component="div"
-                                    name="authdecision"
-                                    className="invalid-feedback"
-                                />
-                            </div>
-                            <div className="col-xs-6 col-md-4">
-                                <Field name="authdecisionreason">
-                                    {({
-                                        field,
-                                        meta
-                                    }) => (
-                                        <div className="form-floating">
-                                            <input
-                                                maxLength="30"
-                                                type="text"
-                                                id="authdecisionreason"
-                                                className={`form-control ${meta.touched && meta.error
-                                                    ? "is-invalid"
-                                                    : field.value
-                                                        ? "is-valid"
-                                                        : ""
-                                                    }`}
-                                                placeholder="Authorization Decision Reason"
-                                                {...field}
-                                                onChange={(event) => {
-                                                    setAuthorizationInformationData({ ...authorizationInformationData, 'Authorization_Decision_Reason': event.target['value'] })
-                                                }}
-                                                onBlur={(event) =>
-                                                    props.handleOnChange(event.target['value'], 'Authorization_Decision_Reason')
-                                                }
-                                                value={convertToCase(authorizationInformationData['Authorization_Decision_Reason'])}
-                                            />
-                                            <label htmlFor="floatingInputGrid">
-                                                Authorization Decision Reason
-                                            </label>
-                                            {meta.touched && meta.error && (
-                                                <div
-                                                    className="invalid-feedback"
-                                                    style={{ display: "block" }}
-                                                >
-                                                    {meta.error}
-                                                </div>
-                                            )}
-                                        </div>
-                                    )}
-                                </Field>
-                                <ErrorMessage
-                                    component="div"
-                                    name="authdecisionreason"
-                                    className="invalid-feedback"
-                                />
-                            </div>
-                        </div>
                         <div className="row">
                             <div className="col-xs-6 col-md-12">
-                                <AuthorizationInformationTable
-                                    authorizationInformationGridData={authorizationInformationGridData}
+                                <RepresentativeInformationTable
+                                    representativeInformationGridData={representativeInformationGridData}
                                     addTableRows={addTableRows}
                                     deleteTableRows={deleteTableRows}
                                     handleGridSelectChange={handleGridSelectChange}
@@ -460,7 +316,7 @@ const AuthorizationInformationAccordion = (props) => {
                                     }
                                     fetchAutoPopulate={fetchAutoPopulate}
                                     transactionType={CaseHeader.displayName}
-                                ></AuthorizationInformationTable>
+                                ></RepresentativeInformationTable>
                             </div>
                         </div>
                     </div>
@@ -469,4 +325,4 @@ const AuthorizationInformationAccordion = (props) => {
         </div>
     )
 }
-export default AuthorizationInformationAccordion;
+export default RepresentativeInformationAccordion;
