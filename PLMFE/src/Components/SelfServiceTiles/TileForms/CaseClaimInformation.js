@@ -38,7 +38,7 @@ const CaseClaimInformation = (props) => {
         // printConsole("pravallika ", value);
         setFieldValue(field.name, value);
     };
-    
+
     const { ValueContainer, Placeholder } = components;
     const CustomValueContainer = ({ children, ...props }) => {
         return (
@@ -86,7 +86,7 @@ const CaseClaimInformation = (props) => {
             <label htmlFor="datePicker">Original Denial Date</label>
         </div>
     );
-      const RenderDatePickerServiceStartDate = (props) => (
+    const RenderDatePickerServiceStartDate = (props) => (
         <div className="form-floating">
             <input {...props} placeholder="Service Start Date" />
             <label htmlFor="datePicker">Service Start Date</label>
@@ -128,66 +128,67 @@ const CaseClaimInformation = (props) => {
 
 
 
-const handleCloseSearch =()=>{
-    setShowClaimSearch(false);
-    setshowProviderSearch(false);
-    setSelectedCriteria([]);  
-    setSelectSearchValues([]);
-    setResponseData([]);
-    
-}
-const handleClearClaimSearch =()=>{
-    setSelectSearchValues([]);
-    setSelectedCriteria([]);    
-    setResponseData([]);
-}
-const handleSelectedAddress =(flag)=>{
-    // if (caseUnlockState !== -1) {
-    //     alert("Please select atleast one case.");
-    //   }
-    //   else{
-    //     alert("Data populated successfully")
-    //   }
-    
-    //let rowNumber = locationTableRowsData.length+1;
-    console.log("grid column names ---->" ,claimInformationGridData)
-   // setClaimInformationData({...selectedAddress[0]});
-    let rowNumber = getRowNumberForGrid(claimInformationGridData)
-    let addressToPopulate = []
-    console.log("selected Address values",selectedAddress);
-    if(selectedAddress.length > 0){
-      selectedAddress.map((elem)=>{
-        if(elem?.isChecked){
-          console.log("elem is ",elem);
-          elem.rowNumber = rowNumber;
-          elem.operation = 'I';
-          delete elem['isChecked'];
-          rowNumber++;
-          addressToPopulate.push(elem);
+    const handleCloseSearch = () => {
+        setShowClaimSearch(false);
+        setshowProviderSearch(false);
+        setSelectedCriteria([]);
+        setSelectSearchValues([]);
+        setResponseData([]);
+
+    }
+    const handleClearClaimSearch = () => {
+        setSelectSearchValues([]);
+        setSelectedCriteria([]);
+        setResponseData([]);
+    }
+    const handleSelectedAddress = (flag) => {
+        // if (caseUnlockState !== -1) {
+        //     alert("Please select atleast one case.");
+        //   }
+        //   else{
+        //     alert("Data populated successfully")
+        //   }
+
+        //let rowNumber = locationTableRowsData.length+1;
+        console.log("grid column names ---->", claimInformationGridData)
+        // setClaimInformationData({...selectedAddress[0]});
+        let rowNumber = getRowNumberForGrid(claimInformationGridData)
+        console.log("rownum", rowNumber);
+        let addressToPopulate = []
+        console.log("selected Address values", selectedAddress);
+        if (selectedAddress.length > 0) {
+            selectedAddress.map((elem) => {
+                if (elem?.isChecked) {
+                    console.log("elem is ", elem);
+                    elem.rowNumber = rowNumber;
+                    elem.operation = 'I';
+                    delete elem['isChecked'];
+                    rowNumber++;
+                    addressToPopulate.push(elem);
+                }
+
+            })
         }
-       
-      })
+        //gridFieldTempState(checkedRef.current);
+        console.log("checkedRef.current value==== ", addressToPopulate);
+        if (addressToPopulate.length > 0) {
+            setclaimInformationGridData([...claimInformationGridData, ...addressToPopulate])
+            // setClaimInformationData([...claimInformationData,...addressToPopulate])
+            //console.log("INSIDE gridTableDataRef.locationTable1==== ",gridTableDataRef);
+            //   let gridTableDataRefCopy = gridTableDataRef.hasOwnProperty("locationTable") ? gridTableDataRef?.locationTable: [];
+            //   gridTableDataRef.locationTable = [...gridTableDataRefCopy,...addressToPopulate]
+            //   console.log("INSIDE gridTableDataRef.locationTable==== ",gridTableDataRef);
+            //   gridFieldTempState = {};
+        }
+        console.log("grid column names 222---->", claimInformationGridData, claimInformationData);
+        //setFetchAddressModalShow(flag);
+        //handleModalChange(false);
+        setShowClaimSearch(false);
+        // setGridFieldTempState({});
+        setSelectedCriteria([]);
+        setSelectSearchValues([]);
+        setResponseData([]);
     }
-    //gridFieldTempState(checkedRef.current);
-    console.log("checkedRef.current value==== ",addressToPopulate);
-    if(addressToPopulate.length>0){
-     setclaimInformationGridData([...claimInformationGridData,...addressToPopulate])
-     // setClaimInformationData([...claimInformationData,...addressToPopulate])
-      //console.log("INSIDE gridTableDataRef.locationTable1==== ",gridTableDataRef);
-    //   let gridTableDataRefCopy = gridTableDataRef.hasOwnProperty("locationTable") ? gridTableDataRef?.locationTable: [];
-    //   gridTableDataRef.locationTable = [...gridTableDataRefCopy,...addressToPopulate]
-    //   console.log("INSIDE gridTableDataRef.locationTable==== ",gridTableDataRef);
-    //   gridFieldTempState = {};
-    }
-    console.log("grid column names 222---->" ,claimInformationGridData,claimInformationData);
-    //setFetchAddressModalShow(flag);
-    //handleModalChange(false);
-    setShowClaimSearch(false);
-   // setGridFieldTempState({});
-   setSelectedCriteria([]);  
-   setSelectSearchValues([]);
-   setResponseData([]);
-  }
 
 
     const handleCheckBoxChange = (evnt, ind) => {
@@ -287,8 +288,6 @@ const handleSelectedAddress =(flag)=>{
                         processingStatusValues.push({ label: convertToCase(processingStatusArray[i].Processing_Status), value: convertToCase(processingStatusArray[i].Processing_Status) });
                     }
                 }
-
-
             }
             console.log("props", props);
         } catch (error) {
@@ -305,13 +304,22 @@ const handleSelectedAddress =(flag)=>{
         let rowsInput = {};
 
         if (triggeredFormName === "ClaimInformationTable") {
-            const maxRowNumber = claimInformationGridData.length === 0 ? 0 : Math.max(...claimInformationGridData.map(row => row.rowNumber));
-            rowsInput.rowNumber = maxRowNumber + 1;
+            // const maxRowNumber = claimInformationGridData.length === 0 ? 0 : Math.max(...claimInformationGridData.map(row => row.rowNumber));
+            // console.log("max row num", maxRowNumber);
+
+            // if (maxRowNumber >= claimInformationGridData.length) {
+            //     rowsInput.rowNumber = Math.max(maxRowNumber, claimInformationGridData.length) + 1;
+            // }
+            // else {
+            //     rowsInput.rowNumber = claimInformationGridData.length + 1;
+            // }
+            rowsInput.rowNumber = getRowNumberForGrid(claimInformationGridData);
         }
         if (triggeredFormName === "ProviderInformationTable") {
             const maxRowNumber = providerInformationGridData.length === 0 ? 0 : Math.max(...providerInformationGridData.map(row => row.rowNumber));
             rowsInput.rowNumber = maxRowNumber + 1;
         }
+        console.log("rows input", rowsInput);
         setGridFieldTempState(rowsInput);
     };
 
@@ -347,7 +355,7 @@ const handleSelectedAddress =(flag)=>{
         let ProviderID = selectSearchValues?.providerId;
         let ServiceStartDate = selectSearchValues?.Service_Start_Date;
         let ServiceEndDate = selectSearchValues?.Service_End_Date;
-    
+
         // Check if at least one search parameter has a value
         if (ClaimNumber || SequentialMemberID || ProviderID || ServiceStartDate || ServiceEndDate) {
             let getApiJson = {
@@ -358,44 +366,44 @@ const handleSelectedAddress =(flag)=>{
                 SequentialMemberID: SequentialMemberID || '',
                 ProviderID: ProviderID || '',
             };
-    
+
             console.log("API Request JSON:", getApiJson);
-    
+
             try {
                 let res = await axios.post("/generic/callProcedure", getApiJson, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
-    
+
                 console.log("API Response:", res.data);
-    
+
                 let resApiData = res.data.CallProcedure_Output?.data || [];
                 console.log("Response Data:", resApiData);
                 resApiData = (resApiData?.length > 0) ? resApiData : [];
-    
-                if(resApiData.length > 0){
-                const respKeys = Object.keys(resApiData);
-                console.log("respKeys--->", respKeys);
-                respKeys.forEach(k => {
-                    
-                    let apiResponse = resApiData[k];
-                    if (apiResponse.hasOwnProperty("Service_Start_Date") && typeof apiResponse.Service_Start_Date === "string") {
-                        console.log("lll--->",apiResponse.Service_Start_Date) // 2024-05-08T00:00:00
-                        const mad = new Date(getDatePartOnly(apiResponse.Service_Start_Date)); 
-                        
-                       apiResponse.Service_Start_Date = extractDate(mad); 
-                        console.log("getDatePartOnly-->", mad);//Wed May 08 2024 00:00:00 GMT+0530 (India Standard Time)
-                        console.log("extractDate-->", apiResponse.Service_Start_Date); //2024-05-18
-                    }
-                    if (apiResponse.hasOwnProperty("Service_End_Date") && typeof apiResponse.Service_End_Date === "string") {
-                        const rad= new Date(getDatePartOnly(apiResponse.Service_End_Date));
-                       
-                        apiResponse.Service_End_Date = extractDate(rad);
-                        console.log("xyz-->", rad);
-                    }
-                });
-            
-                setResponseData(resApiData);
-            }
+
+                if (resApiData.length > 0) {
+                    const respKeys = Object.keys(resApiData);
+                    console.log("respKeys--->", respKeys);
+                    respKeys.forEach(k => {
+
+                        let apiResponse = resApiData[k];
+                        if (apiResponse.hasOwnProperty("Service_Start_Date") && typeof apiResponse.Service_Start_Date === "string") {
+                            console.log("lll--->", apiResponse.Service_Start_Date) // 2024-05-08T00:00:00
+                            const mad = new Date(getDatePartOnly(apiResponse.Service_Start_Date));
+
+                            apiResponse.Service_Start_Date = extractDate(mad);
+                            console.log("getDatePartOnly-->", mad);//Wed May 08 2024 00:00:00 GMT+0530 (India Standard Time)
+                            console.log("extractDate-->", apiResponse.Service_Start_Date); //2024-05-18
+                        }
+                        if (apiResponse.hasOwnProperty("Service_End_Date") && typeof apiResponse.Service_End_Date === "string") {
+                            const rad = new Date(getDatePartOnly(apiResponse.Service_End_Date));
+
+                            apiResponse.Service_End_Date = extractDate(rad);
+                            console.log("xyz-->", rad);
+                        }
+                    });
+
+                    setResponseData(resApiData);
+                }
                 const apiStat = res.data.CallProcedure_Output.Status;
                 if (apiStat === -1) {
                     alert("Error in fetching data");
@@ -408,23 +416,23 @@ const handleSelectedAddress =(flag)=>{
             alert("Please select at least one search value.");
         }
     };
-    
+
 
     const claimSearchTableComponent = () => {
         let columnNames = 'Claim Number~Claim_Number,Claim Type~Claim_type,Authorization Number~Authorization_Number,Service Start Date~Service_Start_Date,Service End Date~Service_End_Date,Service Span~ServiceSpan,Denial Date~DenialDate,Denial Code~DenialCode,Denial Description~DenialDescription,Member ID~MemberID,Member First Name~MemberFirstName,Member Last Name~MemberLastName,Provider ID~ProviderID,Provider Name~ProviderName';
         console.log("APIDATA column data", responseData);
-        if(responseData.length>0){
-        return(
-            <>
-              <TableComponent
-              
-              columnName={columnNames}
-                rowValues={responseData}
-                showCheckBox = {true}
-                handleCheckBoxChange={handleCheckBoxChange}
-                handleCheckBoxHeaderChange={handleCheckBoxHeaderChange}
-                CheckBoxInHeader = {true}
-                />
+        if (responseData.length > 0) {
+            return (
+                <>
+                    <TableComponent
+
+                        columnName={columnNames}
+                        rowValues={responseData}
+                        showCheckBox={true}
+                        handleCheckBoxChange={handleCheckBoxChange}
+                        handleCheckBoxHeaderChange={handleCheckBoxHeaderChange}
+                        CheckBoxInHeader={true}
+                    />
                 </>
             )
         }
@@ -450,10 +458,10 @@ const handleSelectedAddress =(flag)=>{
         let facilityState = selectSearchValues?.facilityState;
         let FacilityName2 = selectSearchValues?.facilityName2;
         let FacilityState2 = selectSearchValues?.facilityState2;
-    
+
         // Check if at least one search parameter has a value
         if (ProviderID || NPI || Taxid || ProviderFirstName || ProviderLastName ||
-            City || State  || ProviderFirstName2 || ProviderLastName2 || State2 || 
+            City || State || ProviderFirstName2 || ProviderLastName2 || State2 ||
             facilityName || facilitycity || facilityState || FacilityName2 || FacilityState2
         ) {
             let getApiJson = {
@@ -475,26 +483,26 @@ const handleSelectedAddress =(flag)=>{
                 FacilityState2: FacilityState2 || ''
 
             };
-    
+
             console.log("API Request JSON:", getApiJson);
-    
+
             try {
                 let res = await axios.post("/generic/callProcedure", getApiJson, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
-    
+
                 console.log("API Response:", res.data);
-    
+
                 let resApiData = res.data.CallProcedure_Output?.data || [];
                 console.log("Response Data:", resApiData);
                 resApiData = (resApiData?.length > 0) ? resApiData : [];
-    
-                if(resApiData.length > 0){
-                const respKeys = Object.keys(resApiData);
-                console.log("respKeys--->", respKeys);
-            
-                setResponseData(resApiData);
-            }
+
+                if (resApiData.length > 0) {
+                    const respKeys = Object.keys(resApiData);
+                    console.log("respKeys--->", respKeys);
+
+                    setResponseData(resApiData);
+                }
                 const apiStat = res.data.CallProcedure_Output.Status;
                 if (apiStat === -1) {
                     alert("Error in fetching data");
@@ -511,18 +519,18 @@ const handleSelectedAddress =(flag)=>{
     const providerSearchTableComponent = () => {
         let columnNames = 'Claim Number~Claim_Number,Claim Type~Claim_type,Authorization Number~Authorization_Number,Service Start Date~Service_Start_Date,Service End Date~Service_End_Date,Service Span~ServiceSpan,Denial Date~DenialDate,Denial Code~DenialCode,Denial Description~DenialDescription,Member ID~MemberID,Member First Name~MemberFirstName,Member Last Name~MemberLastName,Provider ID~ProviderID,Provider Name~ProviderName';
         console.log("APIDATA column data", responseData);
-        if(responseData.length>0){
-        return(
-            <>
-              <TableComponent
-              
-              columnName={columnNames}
-                rowValues={responseData}
-                showCheckBox = {true}
-                handleCheckBoxChange={handleCheckBoxChange}
-                handleCheckBoxHeaderChange={handleCheckBoxHeaderChange}
-                CheckBoxInHeader = {true}
-                />
+        if (responseData.length > 0) {
+            return (
+                <>
+                    <TableComponent
+
+                        columnName={columnNames}
+                        rowValues={responseData}
+                        showCheckBox={true}
+                        handleCheckBoxChange={handleCheckBoxChange}
+                        handleCheckBoxHeaderChange={handleCheckBoxHeaderChange}
+                        CheckBoxInHeader={true}
+                    />
                 </>
             )
         }
@@ -602,7 +610,7 @@ const handleSelectedAddress =(flag)=>{
 
         if (triggeredFormName === "ClaimInformationTable") {
             rowInput = claimInformationGridData[index];
-            console.log("rowInput----->",rowInput)
+            console.log("rowInput----->", rowInput)
             setGridFieldTempState(rowInput);
         }
         if (triggeredFormName === "ProviderInformationTable") {
@@ -1778,6 +1786,7 @@ const handleSelectedAddress =(flag)=>{
                             <div className="col-xs-6 col-md-12">
                                 <ClaimInformationTable
                                     claimInformationGridData={claimInformationGridData}
+                                    updateGridData={setclaimInformationGridData}
                                     addTableRows={addTableRows}
                                     deleteTableRows={deleteTableRows}
                                     handleGridSelectChange={handleGridSelectChange}
@@ -1800,19 +1809,19 @@ const handleSelectedAddress =(flag)=>{
                             </div>
                         </div>
                         {showClaimSearch && (
-                            <ClaimSearch 
-                            handleCloseSearch = {handleCloseSearch}
-                            selectedCriteria={selectedCriteria}
-                            setSelectedCriteria={setSelectedCriteria}
-                            selectSearchValues ={selectSearchValues}
-                            setSelectSearchValues = {setSelectSearchValues}
-                            showClaims={showClaims}
-                            claimSearchTableComponent = {claimSearchTableComponent}
-                            responseData = {responseData}
-                            setResponseData = {setResponseData}
-                            handleClearClaimSearch={handleClearClaimSearch}
-                            showClaimSearch = {showClaimSearch}
-                            handleSelectedAddress={handleSelectedAddress}
+                            <ClaimSearch
+                                handleCloseSearch={handleCloseSearch}
+                                selectedCriteria={selectedCriteria}
+                                setSelectedCriteria={setSelectedCriteria}
+                                selectSearchValues={selectSearchValues}
+                                setSelectSearchValues={setSelectSearchValues}
+                                showClaims={showClaims}
+                                claimSearchTableComponent={claimSearchTableComponent}
+                                responseData={responseData}
+                                setResponseData={setResponseData}
+                                handleClearClaimSearch={handleClearClaimSearch}
+                                showClaimSearch={showClaimSearch}
+                                handleSelectedAddress={handleSelectedAddress}
                             />
                         )}
                     </div>
@@ -1840,7 +1849,7 @@ const handleSelectedAddress =(flag)=>{
                     aria-labelledby="panelsStayOpen-providerInformation"
                 >
                     <div className="accordion-body">
-                    <button type="button" class="btn btn-outline-primary" onClick={event => handleShowProviderSearch(event)}>Provider Search</button>
+                        <button type="button" class="btn btn-outline-primary" onClick={event => handleShowProviderSearch(event)}>Provider Search</button>
                         <div className="row my-2">
                             <div className="col-xs-6 col-md-12">
                                 <ProviderInformationTable
@@ -1867,19 +1876,19 @@ const handleSelectedAddress =(flag)=>{
                             </div>
                         </div>
                         <div>
-                        {showProviderSearch && (
-                            <ProviderSearch 
-                            handleCloseSearch = {handleCloseSearch}
-                            selectedCriteria={selectedCriteria}
-                            setSelectedCriteria={setSelectedCriteria}
-                            selectSearchValues ={selectSearchValues}
-                            setSelectSearchValues = {setSelectSearchValues}
-                            handleClearClaimSearch={handleClearClaimSearch}
-                            showProviderSearch = {showProviderSearch}
-                            showProviders = {showProviders}
-                            
-                            />
-                        )}
+                            {showProviderSearch && (
+                                <ProviderSearch
+                                    handleCloseSearch={handleCloseSearch}
+                                    selectedCriteria={selectedCriteria}
+                                    setSelectedCriteria={setSelectedCriteria}
+                                    selectSearchValues={selectSearchValues}
+                                    setSelectSearchValues={setSelectSearchValues}
+                                    handleClearClaimSearch={handleClearClaimSearch}
+                                    showProviderSearch={showProviderSearch}
+                                    showProviders={showProviders}
+
+                                />
+                            )}
                         </div>
                     </div>
                 </div>

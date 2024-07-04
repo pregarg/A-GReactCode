@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { useSelector } from "react-redux";
 import Select from "react-select";
 import ReactDatePicker from "react-datepicker";
 import GridModal from "./GridModal";
@@ -9,6 +9,7 @@ import { useLocation } from "react-router-dom";
 
 export default function ClaimInformationTable({
     claimInformationGridData,
+    updateGridData,
     deleteTableRows,
     handleGridSelectChange,
     addTableRows,
@@ -19,17 +20,12 @@ export default function ClaimInformationTable({
     lockStatus,
     editTableRows,
     gridFieldTempState,
-    
+
 }) {
 
     ClaimInformationTable.displayName = "ClaimInformationTable";
 
     const [dataIndex, setDataIndex] = useState();
-    const {
-     
-        extractDate
-        
-    } = useGetDBTables();
 
     const [operationValue, setOperationValue] = useState("");
 
@@ -39,8 +35,35 @@ export default function ClaimInformationTable({
 
     const { getGridJson, convertToCase } = useGetDBTables();
 
+    const mastersSelector = useSelector((masters) => masters);
 
     let lineNumberOptions = [];
+    let filedTimelyValues = [];
+    let grantGoodCauseValues = [];
+
+    useEffect(() => {
+        if (mastersSelector.hasOwnProperty("masterAngFiledTimely")) {
+            const filedTimelyArray =
+                mastersSelector["masterAngFiledTimely"].length === 0
+                    ? []
+                    : mastersSelector["masterAngFiledTimely"][0];
+
+            for (let i = 0; i < filedTimelyArray.length; i++) {
+                filedTimelyValues.push({ label: convertToCase(filedTimelyArray[i].Filed_Timely), value: convertToCase(filedTimelyArray[i].Filed_Timely) });
+            }
+        }
+
+        if (mastersSelector.hasOwnProperty("masterAngGrantGoodCause")) {
+            const grantGoodCauseArray =
+                mastersSelector["masterAngGrantGoodCause"].length === 0
+                    ? []
+                    : mastersSelector["masterAngGrantGoodCause"][0];
+
+            for (let i = 0; i < grantGoodCauseArray.length; i++) {
+                grantGoodCauseValues.push({ label: convertToCase(grantGoodCauseArray[i].Grant_Good_Cause), value: convertToCase(grantGoodCauseArray[i].Grant_Good_Cause) });
+            }
+        }
+    });
 
     const tdDataReplica = (index) => {
         console.log("Inside tdDataReplica");
@@ -103,19 +126,19 @@ export default function ClaimInformationTable({
                             />
                         </div>
                         <div className="col-xs-6 col-md-3">
-                            <label>Patient Ref / Account Number</label>
+                            <label>Allowed Amount</label>
                             <br />
                             <input
                                 type="text"
                                 value={
-                                    "Patient_Ref_Account_Number" in data && data.Patient_Ref_Account_Number.value !== undefined
-                                        ? convertToCase(data.Patient_Ref_Account_Number.value)
-                                        : convertToCase(data.Patient_Ref_Account_Number)
+                                    "Allowed_Amount" in data && data.Allowed_Amount.value !== undefined
+                                        ? convertToCase(data.Allowed_Amount.value)
+                                        : convertToCase(data.Allowed_Amount)
                                 }
                                 onChange={(evnt) =>
                                     handleGridFieldChange(index, evnt, ClaimInformationTable.displayName)
                                 }
-                                name="Patient_Ref_Account_Number"
+                                name="Allowed_Amount"
                                 className="form-control"
                                 maxLength="50"
                                 title="Please Enter Valid Type"
@@ -186,39 +209,54 @@ export default function ClaimInformationTable({
                             />
                         </div>
                         <div className="col-xs-6 col-md-3">
-                            <label>Provider Account Number</label>
+                            <label htmlFor="datePicker">Payment Mail Date (Postmark)</label>
                             <br />
-                            <input
-                                type="text"
-                                value={
-                                    "Provider_Account_Number" in data && data.Provider_Account_Number.value !== undefined
-                                        ? convertToCase(data.Provider_Account_Number.value)
-                                        : convertToCase(data.Provider_Account_Number)
-                                }
-                                onChange={(evnt) =>
-                                    handleGridFieldChange(index, evnt, ClaimInformationTable.displayName)
-                                }
-                                name="Provider_Account_Number"
-                                className="form-control"
-                                maxLength="50"
-                                title="Please Enter Valid Type"
-                                disabled={lockStatus == "V"}
-                            />
+                            <div className="form-floating">
+                                <ReactDatePicker
+                                    className="example-custom-input-modal"
+                                    selected={
+                                        "Payment_Mail_Date_Postmark" in data &&
+                                            data.Payment_Mail_Date_Postmark.value !== undefined
+                                            ? data.Payment_Mail_Date_Postmark.value
+                                            : data.Payment_Mail_Date_Postmark
+                                    }
+                                    name="Payment_Date"
+                                    onChange={(selectValue, event) =>
+                                        handleGridDateChange(
+                                            index,
+                                            selectValue,
+                                            "Payment_Mail_Date_Postmark",
+                                            ClaimInformationTable.displayName
+                                        )
+                                    }
+                                    peekNextMonth
+                                    showMonthDropdown
+                                    isClearable
+                                    onKeyDown={(e) => {
+                                        e.preventDefault();
+                                    }}
+                                    showYearDropdown
+                                    dropdownMode="select"
+                                    dateFormat="MM/dd/yyyy"
+                                    id="datePicker"
+                                    disabled={lockStatus == "V"}
+                                />
+                            </div>
                         </div>
                         <div className="col-xs-6 col-md-3">
-                            <label>DRG Indicator</label>
+                            <label>Patient Ref / Account Number</label>
                             <br />
                             <input
                                 type="text"
                                 value={
-                                    "DRG_Indicator" in data && data.DRG_Indicator.value !== undefined
-                                        ? convertToCase(data.DRG_Indicator.value)
-                                        : convertToCase(data.DRG_Indicator)
+                                    "Patient_Ref_Account_Number" in data && data.Patient_Ref_Account_Number.value !== undefined
+                                        ? convertToCase(data.Patient_Ref_Account_Number.value)
+                                        : convertToCase(data.Patient_Ref_Account_Number)
                                 }
                                 onChange={(evnt) =>
                                     handleGridFieldChange(index, evnt, ClaimInformationTable.displayName)
                                 }
-                                name="DRG_Indicator"
+                                name="Patient_Ref_Account_Number"
                                 className="form-control"
                                 maxLength="50"
                                 title="Please Enter Valid Type"
@@ -286,7 +324,7 @@ export default function ClaimInformationTable({
                                         ClaimInformationTable.displayName
                                     )
                                 }
-                                options={lineNumberOptions}
+                                options={filedTimelyValues}
                                 name="Filed_Timely"
                                 id="lineNumberDropDown"
                                 isDisabled={lockStatus == "V"}
@@ -312,7 +350,7 @@ export default function ClaimInformationTable({
                                         ClaimInformationTable.displayName
                                     )
                                 }
-                                options={lineNumberOptions}
+                                options={grantGoodCauseValues}
                                 name="Grant_Good_Cause"
                                 id="lineNumberDropDown"
                                 isDisabled={lockStatus == "V"}
@@ -324,27 +362,21 @@ export default function ClaimInformationTable({
                         <div className="col-xs-6 col-md-3">
                             <label>Good Cause Reason</label>
                             <br />
-                            <Select
-                                styles={{
-                                    control: (provided) => ({
-                                        ...provided,
-                                        fontWeight: "lighter",
-                                    }),
-                                }}
-                                value={data.Good_Cause_Reason}
-                                onChange={(selectValue, event) =>
-                                    handleGridSelectChange(
-                                        index,
-                                        selectValue,
-                                        event,
-                                        ClaimInformationTable.displayName
-                                    )
+                            <input
+                                type="text"
+                                value={
+                                    "Good_Cause_Reason" in data && data.Good_Cause_Reason.value !== undefined
+                                        ? convertToCase(data.Good_Cause_Reason.value)
+                                        : convertToCase(data.Good_Cause_Reason)
                                 }
-                                options={lineNumberOptions}
+                                onChange={(evnt) =>
+                                    handleGridFieldChange(index, evnt, ClaimInformationTable.displayName)
+                                }
                                 name="Good_Cause_Reason"
-                                id="lineNumberDropDown"
-                                isDisabled={lockStatus == "V"}
-                                isClearable
+                                className="form-control"
+                                maxLength="50"
+                                title="Please Enter Valid Type"
+                                disabled={lockStatus == "V"}
                             />
                         </div>
                         <div className="col-xs-6 col-md-3">
@@ -407,15 +439,14 @@ export default function ClaimInformationTable({
                             <div className="form-floating">
                                 <ReactDatePicker
                                     className="example-custom-input-modal"
-                                  
+
                                     selected={
-                                        data?.Service_Start_Date?.value !== undefined
-                                            ? new Date(data.Service_Start_Date.value.toString())
-                                            : data?.Service_Start_Date !== undefined
-                                            ? new Date(data.Service_Start_Date.toString())
-                                            : new Date()
+                                        "Service_Start_Date" in data &&
+                                            data.Service_Start_Date.value !== undefined
+                                            ? data.Service_Start_Date.value
+                                            : data.Service_Start_Date
                                     }
-                                  
+
                                     name="Service_Start_Date"
                                     onChange={(selectValue, event) =>
                                         handleGridDateChange(
@@ -446,15 +477,14 @@ export default function ClaimInformationTable({
                             <div className="form-floating">
                                 <ReactDatePicker
                                     className="example-custom-input-modal"
-            
+
                                     selected={
-                                        data?.Service_End_Date?.value !== undefined
-                                            ? new Date(data.Service_End_Date.value.toString())
-                                            : data?.Service_End_Date !== undefined
-                                            ? new Date(data.Service_End_Date.toString())
-                                            : new Date()
+                                        "Service_End_Date" in data &&
+                                            data.Service_End_Date.value !== undefined
+                                            ? data.Service_End_Date.value
+                                            : data.Service_End_Date
                                     }
-                                   
+
                                     name="Service_End_Date"
                                     onChange={(selectValue, event) =>
                                         handleGridDateChange(
@@ -582,61 +612,6 @@ export default function ClaimInformationTable({
                     </div>
                     <div className="row">
                         <div className="col-xs-6 col-md-3">
-                            <label htmlFor="datePicker">Payment Mail Date (Postmark)</label>
-                            <br />
-                            <div className="form-floating">
-                                <ReactDatePicker
-                                    className="example-custom-input-modal"
-                                    selected={
-                                        "Payment_Mail_Date_Postmark" in data &&
-                                            data.Payment_Mail_Date_Postmark.value !== undefined
-                                            ? data.Payment_Mail_Date_Postmark.value
-                                            : data.Payment_Mail_Date_Postmark
-                                    }
-                                    name="Payment_Date"
-                                    onChange={(selectValue, event) =>
-                                        handleGridDateChange(
-                                            index,
-                                            selectValue,
-                                            "Payment_Mail_Date_Postmark",
-                                            ClaimInformationTable.displayName
-                                        )
-                                    }
-                                    peekNextMonth
-                                    showMonthDropdown
-                                    isClearable
-                                    onKeyDown={(e) => {
-                                        e.preventDefault();
-                                    }}
-                                    showYearDropdown
-                                    dropdownMode="select"
-                                    dateFormat="MM/dd/yyyy"
-                                    id="datePicker"
-                                    disabled={lockStatus == "V"}
-                                />
-                            </div>
-                        </div>
-                        <div className="col-xs-6 col-md-3">
-                            <label>Allowed Amount</label>
-                            <br />
-                            <input
-                                type="text"
-                                value={
-                                    "Allowed_Amount" in data && data.Allowed_Amount.value !== undefined
-                                        ? convertToCase(data.Allowed_Amount.value)
-                                        : convertToCase(data.Allowed_Amount)
-                                }
-                                onChange={(evnt) =>
-                                    handleGridFieldChange(index, evnt, ClaimInformationTable.displayName)
-                                }
-                                name="Allowed_Amount"
-                                className="form-control"
-                                maxLength="50"
-                                title="Please Enter Valid Type"
-                                disabled={lockStatus == "V"}
-                            />
-                        </div>
-                        <div className="col-xs-6 col-md-3">
                             <label>Billed Amount</label>
                             <br />
                             <input
@@ -650,6 +625,46 @@ export default function ClaimInformationTable({
                                     handleGridFieldChange(index, evnt, ClaimInformationTable.displayName)
                                 }
                                 name="Billed_Amount"
+                                className="form-control"
+                                maxLength="50"
+                                title="Please Enter Valid Type"
+                                disabled={lockStatus == "V"}
+                            />
+                        </div>
+                        <div className="col-xs-6 col-md-3">
+                            <label>Provider Account Number</label>
+                            <br />
+                            <input
+                                type="text"
+                                value={
+                                    "Provider_Account_Number" in data && data.Provider_Account_Number.value !== undefined
+                                        ? convertToCase(data.Provider_Account_Number.value)
+                                        : convertToCase(data.Provider_Account_Number)
+                                }
+                                onChange={(evnt) =>
+                                    handleGridFieldChange(index, evnt, ClaimInformationTable.displayName)
+                                }
+                                name="Provider_Account_Number"
+                                className="form-control"
+                                maxLength="50"
+                                title="Please Enter Valid Type"
+                                disabled={lockStatus == "V"}
+                            />
+                        </div>
+                        <div className="col-xs-6 col-md-3">
+                            <label>DRG Indicator</label>
+                            <br />
+                            <input
+                                type="text"
+                                value={
+                                    "DRG_Indicator" in data && data.DRG_Indicator.value !== undefined
+                                        ? convertToCase(data.DRG_Indicator.value)
+                                        : convertToCase(data.DRG_Indicator)
+                                }
+                                onChange={(evnt) =>
+                                    handleGridFieldChange(index, evnt, ClaimInformationTable.displayName)
+                                }
+                                name="DRG_Indicator"
                                 className="form-control"
                                 maxLength="50"
                                 title="Please Enter Valid Type"
@@ -670,6 +685,7 @@ export default function ClaimInformationTable({
             claimInformationGridData !== undefined &&
             claimInformationGridData.length > 0
         ) {
+            updateGridData(claimInformationGridData);
             return claimInformationGridData.map((data, index) => {
                 return (
                     <tr

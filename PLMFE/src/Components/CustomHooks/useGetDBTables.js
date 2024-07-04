@@ -86,7 +86,11 @@ export default function useGetDBTables() {
         "ANG_Claim_Information~angClaimInformation",
         "ANG_Claim_Information_Grid~angClaimInformationGrid",
         "ANG_Provider_Information_Grid~angProviderInformationGrid",
-        "ANG_Member_Information~angMemberInformation"
+        "ANG_Member_Information~angMemberInformation",
+        "ANG_Representative_Information_Grid~angRepresentativeInformationGrid",
+        "ANG_Authorization_Information~angAuthorizationInformation",
+        "ANG_Authorization_Information_Grid~angAuthorizationInformationGrid",
+        "ANG_Expedited_Request~angExpeditedRequest"
       ],
     };
     return tableJson;
