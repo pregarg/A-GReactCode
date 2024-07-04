@@ -403,6 +403,8 @@ export default function DecisionTab(tabInput) {
 
   useEffect(() => {
     let selectJson = {};
+    let mappedObject  = {};
+
     const stageName = String(prop.state.stageName);
     const transactionType = String(prop.state.formNames);
     const flowId = Number(prop.state.flowId);

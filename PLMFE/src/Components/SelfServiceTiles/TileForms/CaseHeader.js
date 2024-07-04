@@ -286,7 +286,7 @@ const CaseHeader = () => {
   const getGridDataValues = (tableData) => {
     //var headers = document.getElementById(tableId).headers;
     let returnArray = [];
-    tableData.map((data) => {
+    tableData?.map((data) => {
       const dataObject = {};
       const dataKeys = Object.keys(data);
       dataKeys.forEach((dataValue) => {
@@ -601,8 +601,8 @@ const CaseHeader = () => {
     apiJson["ANG_Claim_Information"] = CompareJSON(angClaimInformation, formData["angClaimInformation"][0]);
     apiJson["ANG_Member_Information"] = CompareJSON(angMemberInformation, formData["angMemberInformation"][0]);
     apiJson["ANG_Authorization_Information"] = CompareJSON(angAuthorizationInformation, formData["angAuthorizationInformation"][0]);
-    apiJson["ANG_Expedited_Request"] = CompareJSON(angExpeditedRequest, formData["angExpeditedReqest"][0]);
-
+    //apiJson["ANG_Expedited_Request"] = CompareJSON(angExpeditedRequest, formData["angExpeditedReqest"][0]);
+    apiJson["ANG_Expedited_Request"] = CompareJSON(angExpeditedRequest, formData["angExpeditedRequest"][0]);
     let updateClaimArray = [];
     if (angClaimInformationGrid.length > 0 || originalClaimInformationGrid.length > 0) {
       if (angClaimInformationGrid.length >= originalClaimInformationGrid.length) {
