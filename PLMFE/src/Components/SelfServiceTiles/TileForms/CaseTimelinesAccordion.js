@@ -103,7 +103,7 @@ const CaseTimelinesAccordion = (props) => {
                       styles={{
                         control: (provided) => ({
                           ...provided,
-                          height: "50px",
+                          height: "58px",
                           fontWeight: "lighter",
                         }),
                         menuList: (provided) => ({
@@ -128,12 +128,12 @@ const CaseTimelinesAccordion = (props) => {
                           position: "absolute",
                           top:
                             state.hasValue || state.selectProps.inputValue
-                              ? -12
+                              ? -15
                               : "50%",
                           transition: "top 0.1s, font-size 0.1s",
                           fontSize:
                             (state.hasValue || state.selectProps.inputValue) &&
-                            12,
+                            13,
                           color: 'black'
                         }),
                         singleValue: (styles) => ({ ...styles, textAlign: 'left' }),

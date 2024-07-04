@@ -1180,6 +1180,7 @@ const CaseInformationAccordion = (props) => {
               />
             </div>
           </div>
+          <div className="row my-2"></div>
           <div className="case Collobaration">
             <p className="collobarationheader">Case Collabaration</p>
             <div className="row my-2">

@@ -28,11 +28,30 @@ import {
   getMasterAngAppellantType,
   getMasterAngAppealType,
   getMasterAngCaseLevelPriority,
+  getMasterAngIssueLevel,
   getMasterAngReviewType,
   getMasterAngClaimType,
   getMasterAngDecision,
+  getMasterAngAuthServiceType,
   getMasterAngProcessingStatus,
-  getMasterAngIssueLevel
+  getMasterAngFiledTimely,
+  getMasterAngGrantGoodCause,
+  getMasterAngProviderRole,
+  getMasterAngProviderType,
+  getMasterAngParProvider,
+  getMasterAngPortalEnrolled,
+  getMasterAngDeceased,
+  getMasterAngGender,
+  getMasterAngDualPlan,
+  getMasterAngMailToAddress,
+  getMasterAngPreferredLanguage,
+  getMasterAngCommPref,
+  getMasterAngExpeditedRequested,
+  getMasterAngExpeditedDenied,
+  getMasterAngStUpExpedited,
+  getMasterAngDocument,
+  getMasterAngRelationship,
+  getMasterAngAORType
 } from "../actions";
 import headerLogo from "../Images/LoginPageLogo.png";
 import loginPageLogo from "../Images/LoginPageFormImage.png";
@@ -324,6 +343,14 @@ export default function LoginPage() {
         )
       );
       dispatch(
+        getMasterAngAuthServiceType(
+          loginToken,
+          false,
+          onMasterLoadFail,
+          onMasterLoadSuccess
+        )
+      );
+      dispatch(
         getMasterAngCaseLevelPriority(
           loginToken,
           false,
@@ -365,6 +392,150 @@ export default function LoginPage() {
       );
       dispatch(
         getMasterAngProcessingStatus(
+          loginToken,
+          false,
+          onMasterLoadFail,
+          onMasterLoadSuccess
+        )
+      );
+      dispatch(
+        getMasterAngFiledTimely(
+          loginToken,
+          false,
+          onMasterLoadFail,
+          onMasterLoadSuccess
+        )
+      );
+      dispatch(
+        getMasterAngGrantGoodCause(
+          loginToken,
+          false,
+          onMasterLoadFail,
+          onMasterLoadSuccess
+        )
+      );
+      dispatch(
+        getMasterAngProviderRole(
+          loginToken,
+          false,
+          onMasterLoadFail,
+          onMasterLoadSuccess
+        )
+      );
+      dispatch(
+        getMasterAngProviderType(
+          loginToken,
+          false,
+          onMasterLoadFail,
+          onMasterLoadSuccess
+        )
+      );
+      dispatch(
+        getMasterAngParProvider(
+          loginToken,
+          false,
+          onMasterLoadFail,
+          onMasterLoadSuccess
+        )
+      );
+      dispatch(
+        getMasterAngPortalEnrolled(
+          loginToken,
+          false,
+          onMasterLoadFail,
+          onMasterLoadSuccess
+        )
+      );
+      dispatch(
+        getMasterAngGender(
+          loginToken,
+          false,
+          onMasterLoadFail,
+          onMasterLoadSuccess
+        )
+      );
+      dispatch(
+        getMasterAngDeceased(
+          loginToken,
+          false,
+          onMasterLoadFail,
+          onMasterLoadSuccess
+        )
+      );
+      dispatch(
+        getMasterAngDualPlan(
+          loginToken,
+          false,
+          onMasterLoadFail,
+          onMasterLoadSuccess
+        )
+      );
+      dispatch(
+        getMasterAngMailToAddress(
+          loginToken,
+          false,
+          onMasterLoadFail,
+          onMasterLoadSuccess
+        )
+      );
+      dispatch(
+        getMasterAngPreferredLanguage(
+          loginToken,
+          false,
+          onMasterLoadFail,
+          onMasterLoadSuccess
+        )
+      );
+      dispatch(
+        getMasterAngCommPref(
+          loginToken,
+          false,
+          onMasterLoadFail,
+          onMasterLoadSuccess
+        )
+      );
+      dispatch(
+        getMasterAngExpeditedRequested(
+          loginToken,
+          false,
+          onMasterLoadFail,
+          onMasterLoadSuccess
+        )
+      );
+      dispatch(
+        getMasterAngExpeditedDenied(
+          loginToken,
+          false,
+          onMasterLoadFail,
+          onMasterLoadSuccess
+        )
+      );
+      dispatch(
+        getMasterAngStUpExpedited(
+          loginToken,
+          false,
+          onMasterLoadFail,
+          onMasterLoadSuccess
+        )
+      );
+      dispatch(
+        getMasterAngDocument(
+          loginToken,
+          false,
+          onMasterLoadFail,
+          onMasterLoadSuccess
+        )
+      );
+      dispatch(
+        getMasterAngRelationship(
+          loginToken,
+          false,
+          onMasterLoadFail,
+          onMasterLoadSuccess
+        )
+      );
+      dispatch(
+        getMasterAngAORType(
           loginToken,
           false,
           onMasterLoadFail,
@@ -481,6 +652,14 @@ export default function LoginPage() {
         )
       );
       dispatch(
+        getMasterAngAuthServiceType(
+          loginToken,
+          false,
+          onMasterLoadFail,
+          onMasterLoadSuccess
+        )
+      );
+      dispatch(
         getMasterAngCaseLevelPriority(
           loginToken,
           false,
@@ -522,6 +701,150 @@ export default function LoginPage() {
       );
       dispatch(
         getMasterAngProcessingStatus(
+          loginToken,
+          false,
+          onMasterLoadFail,
+          onMasterLoadSuccess
+        )
+      );
+      dispatch(
+        getMasterAngFiledTimely(
+          loginToken,
+          false,
+          onMasterLoadFail,
+          onMasterLoadSuccess
+        )
+      );
+      dispatch(
+        getMasterAngGrantGoodCause(
+          loginToken,
+          false,
+          onMasterLoadFail,
+          onMasterLoadSuccess
+        )
+      );
+      dispatch(
+        getMasterAngProviderRole(
+          loginToken,
+          false,
+          onMasterLoadFail,
+          onMasterLoadSuccess
+        )
+      );
+      dispatch(
+        getMasterAngProviderType(
+          loginToken,
+          false,
+          onMasterLoadFail,
+          onMasterLoadSuccess
+        )
+      );
+      dispatch(
+        getMasterAngParProvider(
+          loginToken,
+          false,
+          onMasterLoadFail,
+          onMasterLoadSuccess
+        )
+      );
+      dispatch(
+        getMasterAngPortalEnrolled(
+          loginToken,
+          false,
+          onMasterLoadFail,
+          onMasterLoadSuccess
+        )
+      );
+      dispatch(
+        getMasterAngGender(
+          loginToken,
+          false,
+          onMasterLoadFail,
+          onMasterLoadSuccess
+        )
+      );
+      dispatch(
+        getMasterAngDeceased(
+          loginToken,
+          false,
+          onMasterLoadFail,
+          onMasterLoadSuccess
+        )
+      );
+      dispatch(
+        getMasterAngDualPlan(
+          loginToken,
+          false,
+          onMasterLoadFail,
+          onMasterLoadSuccess
+        )
+      );
+      dispatch(
+        getMasterAngMailToAddress(
+          loginToken,
+          false,
+          onMasterLoadFail,
+          onMasterLoadSuccess
+        )
+      );
+      dispatch(
+        getMasterAngPreferredLanguage(
+          loginToken,
+          false,
+          onMasterLoadFail,
+          onMasterLoadSuccess
+        )
+      );
+      dispatch(
+        getMasterAngCommPref(
+          loginToken,
+          false,
+          onMasterLoadFail,
+          onMasterLoadSuccess
+        )
+      );
+      dispatch(
+        getMasterAngExpeditedRequested(
+          loginToken,
+          false,
+          onMasterLoadFail,
+          onMasterLoadSuccess
+        )
+      );
+      dispatch(
+        getMasterAngExpeditedDenied(
+          loginToken,
+          false,
+          onMasterLoadFail,
+          onMasterLoadSuccess
+        )
+      );
+      dispatch(
+        getMasterAngStUpExpedited(
+          loginToken,
+          false,
+          onMasterLoadFail,
+          onMasterLoadSuccess
+        )
+      );
+      dispatch(
+        getMasterAngDocument(
+          loginToken,
+          false,
+          onMasterLoadFail,
+          onMasterLoadSuccess
+        )
+      );
+      dispatch(
+        getMasterAngRelationship(
+          loginToken,
+          false,
+          onMasterLoadFail,
+          onMasterLoadSuccess
+        )
+      );
+      dispatch(
+        getMasterAngAORType(
           loginToken,
           false,
           onMasterLoadFail,

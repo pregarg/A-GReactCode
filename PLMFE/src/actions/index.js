@@ -493,6 +493,42 @@ export const getMasterAngDecision = (
   };
 };
 
+export const getMasterAngAuthServiceType = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append("tableName", "ANG_MASTER_AUTH_SERVICE_TYPE~masterAngAuthServiceType");
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterAngAuthServiceType];
+            //console.log(response);
+            dispatch({ type: "GET_AUTH_SERVICE_TYPE", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_AUTH_SERVICE_TYPE", payload: "" });
+    }
+  };
+};
+
 export const getMasterAngProcessingStatus = (
   token,
   clearFlag = false,
@@ -525,6 +561,654 @@ export const getMasterAngProcessingStatus = (
         });
     } else if (clearFlag) {
       dispatch({ type: "CLEAR_PROCESSING_STATUS", payload: "" });
+    }
+  };
+};
+
+export const getMasterAngFiledTimely = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append("tableName", "ANG_MASTER_FILED_TIMELY~masterAngFiledTimely");
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterAngFiledTimely];
+            //console.log(response);
+            dispatch({ type: "GET_FILED_TIMELY", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_FILED_TIMELY", payload: "" });
+    }
+  };
+};
+
+export const getMasterAngGrantGoodCause = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append("tableName", "ANG_MASTER_GRANT_GOOD_CAUSE~masterAngGrantGoodCause");
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterAngGrantGoodCause];
+            //console.log(response);
+            dispatch({ type: "GET_GRANT_GOOD_CAUSE", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_GRANT_GOOD_CAUSE", payload: "" });
+    }
+  };
+};
+
+export const getMasterAngProviderRole = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append("tableName", "ANG_MASTER_PROVIDER_ROLE~masterAngProviderRole");
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterAngProviderRole];
+            //console.log(response);
+            dispatch({ type: "GET_PROVIDER_ROLE", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_PROVIDER_ROLE", payload: "" });
+    }
+  };
+};
+
+export const getMasterAngProviderType = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append("tableName", "ANG_MASTER_PROVIDER_TYPE~masterAngProviderType");
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterAngProviderType];
+            //console.log(response);
+            dispatch({ type: "GET_PROVIDER_TYPE", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_PROVIDER_TYPE", payload: "" });
+    }
+  };
+};
+
+export const getMasterAngParProvider = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append("tableName", "ANG_MASTER_PAR_PROVIDER~masterAngParProvider");
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterAngParProvider];
+            //console.log(response);
+            dispatch({ type: "GET_PAR_PROVIDER", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_PAR_PROVIDER", payload: "" });
+    }
+  };
+};
+
+export const getMasterAngPortalEnrolled = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append("tableName", "ANG_MASTER_PORTAL_ENROLLED~masterAngPortalEnrolled");
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterAngPortalEnrolled];
+            //console.log(response);
+            dispatch({ type: "GET_PORTAL_ENROLLED", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_PORTAL_ENROLLED", payload: "" });
+    }
+  };
+};
+
+export const getMasterAngDeceased = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append("tableName", "ANG_MASTER_DECEASED~masterAngDeceased");
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterAngDeceased];
+            //console.log(response);
+            dispatch({ type: "GET_DECEASED", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_GET_DECEASED", payload: "" });
+    }
+  };
+};
+
+export const getMasterAngGender = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append("tableName", "ANG_MASTER_GENDER~masterAngGender");
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterAngGender];
+            //console.log(response);
+            dispatch({ type: "GET_GENDER", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_GENDER", payload: "" });
+    }
+  };
+};
+
+export const getMasterAngDualPlan = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append("tableName", "ANG_MASTER_DUAL_PLAN~masterAngDualPlan");
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterAngDualPlan];
+            //console.log(response);
+            dispatch({ type: "GET_DUAL_PLAN", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_DUAL_PLAN", payload: "" });
+    }
+  };
+};
+
+export const getMasterAngPreferredLanguage = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append("tableName", "ANG_MASTER_PREFERRED_LANGUAGE~masterAngPreferredLanguage");
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterAngPreferredLanguage];
+            //console.log(response);
+            dispatch({ type: "GET_PREFERRED_LANGUAGE", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_PREFERRED_LANGUAGE", payload: "" });
+    }
+  };
+};
+
+export const getMasterAngMailToAddress = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append("tableName", "ANG_MASTER_MAIL_TO_ADDRESS~masterAngMailToAdress");
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterAngMailToAdress];
+            //console.log(response);
+            dispatch({ type: "GET_MAIL_TO_ADDRESS", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_MAIL_TO_ADDRESS", payload: "" });
+    }
+  };
+};
+
+export const getMasterAngCommPref = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append("tableName", "ANG_MASTER_COMM_PREF~masterAngCommPref");
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterAngCommPref];
+            //console.log(response);
+            dispatch({ type: "GET_COMM_PREF", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_COMM_PREF", payload: "" });
+    }
+  };
+};
+
+export const getMasterAngExpeditedRequested = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append("tableName", "ANG_MASTER_EXPEDITED_REQUESTED~masterAngExpeditedRequested");
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterAngExpeditedRequested];
+            //console.log(response);
+            dispatch({ type: "GET_EXPEDITED_REQUESTED", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_EXPEDITED_REQUESTED", payload: "" });
+    }
+  };
+};
+
+export const getMasterAngExpeditedDenied = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append("tableName", "ANG_MASTER_EXPEDITED_DENIED~masterAngExpeditedDenied");
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterAngExpeditedDenied];
+            //console.log(response);
+            dispatch({ type: "GET_EXPEDITED_DENIED", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_EXPEDITED_DENIED", payload: "" });
+    }
+  };
+};
+
+export const getMasterAngStUpExpedited = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append("tableName", "ANG_MASTER_ST_UP_EXPEDITED~masterAngStUpExpedited");
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterAngStUpExpedited];
+            //console.log(response);
+            dispatch({ type: "GET_ST_UP_EXPEDITED", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_ST_UP_EXPEDITED", payload: "" });
+    }
+  };
+};
+
+export const getMasterAngDocument = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append("tableName", "ANG_MASTER_DOCUMENT~masterAngDocument");
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterAngDocument];
+            //console.log(response);
+            dispatch({ type: "GET_DOCUMENT", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_DOCUMENT", payload: "" });
+    }
+  };
+};
+
+export const getMasterAngRelationship = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append("tableName", "ANG_MASTER_RELATIONSHIP~masterAngRelationship");
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterAngRelationship];
+            //console.log(response);
+            dispatch({ type: "GET_RELATIONSHIP", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_RELATIONSHIP", payload: "" });
+    }
+  };
+};
+
+export const getMasterAngAORType = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append("tableName", "ANG_MASTER_AOR_TYPE~masterAngAORType");
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterAngAORType];
+            //console.log(response);
+            dispatch({ type: "GET_AOR_TYPE", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_AOR_TYPE", payload: "" });
     }
   };
 };
