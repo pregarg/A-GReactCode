@@ -80,6 +80,10 @@ const CaseClaimInformation = (props) => {
     // const [apiTestState, setApiTestState] = useState(initState);
     const mastersSelector = useSelector((masters) => masters);
 
+    useEffect(() => {
+        console.log("claim grid dataa", claimInformationGridData);
+    }, [claimInformationGridData]);
+
     const RenderDatePickerOriginalDenialDate = (props) => (
         <div className="form-floating">
             <input {...props} placeholder="Original Denial Date" />
@@ -172,13 +176,12 @@ const CaseClaimInformation = (props) => {
         //gridFieldTempState(checkedRef.current);
         console.log("checkedRef.current value==== ", addressToPopulate);
         if (addressToPopulate.length > 0) {
-            setclaimInformationGridData([...claimInformationGridData, ...addressToPopulate])
-            // setClaimInformationData([...claimInformationData,...addressToPopulate])
-            //console.log("INSIDE gridTableDataRef.locationTable1==== ",gridTableDataRef);
-            //   let gridTableDataRefCopy = gridTableDataRef.hasOwnProperty("locationTable") ? gridTableDataRef?.locationTable: [];
-            //   gridTableDataRef.locationTable = [...gridTableDataRefCopy,...addressToPopulate]
-            //   console.log("INSIDE gridTableDataRef.locationTable==== ",gridTableDataRef);
-            //   gridFieldTempState = {};
+            const newRows = claimInformationGridData.map((row) => ({ ...row }));
+            newRows.push(...addressToPopulate);
+            setclaimInformationGridData(newRows);
+
+            // setclaimInformationGridData([...claimInformationGridData, ...addressToPopulate])
+
         }
         console.log("grid column names 222---->", claimInformationGridData, claimInformationData);
         //setFetchAddressModalShow(flag);
@@ -296,28 +299,14 @@ const CaseClaimInformation = (props) => {
     }, []);
     const gridDataRef = useRef({});
 
-    useEffect(() => {
-        console.log("formdataclaiminformation", claimInformationData);
-    }, [claimInformationData]);
-
     const addTableRows = (triggeredFormName, index) => {
         let rowsInput = {};
 
         if (triggeredFormName === "ClaimInformationTable") {
-            // const maxRowNumber = claimInformationGridData.length === 0 ? 0 : Math.max(...claimInformationGridData.map(row => row.rowNumber));
-            // console.log("max row num", maxRowNumber);
-
-            // if (maxRowNumber >= claimInformationGridData.length) {
-            //     rowsInput.rowNumber = Math.max(maxRowNumber, claimInformationGridData.length) + 1;
-            // }
-            // else {
-            //     rowsInput.rowNumber = claimInformationGridData.length + 1;
-            // }
             rowsInput.rowNumber = getRowNumberForGrid(claimInformationGridData);
         }
         if (triggeredFormName === "ProviderInformationTable") {
-            const maxRowNumber = providerInformationGridData.length === 0 ? 0 : Math.max(...providerInformationGridData.map(row => row.rowNumber));
-            rowsInput.rowNumber = maxRowNumber + 1;
+            rowsInput.rowNumber = getRowNumberForGrid(providerInformationGridData);
         }
         console.log("rows input", rowsInput);
         setGridFieldTempState(rowsInput);
@@ -325,7 +314,7 @@ const CaseClaimInformation = (props) => {
 
     const deleteTableRows = (index, triggeredFormName, operationValue) => {
         if (
-            operationValue !== "Edit" &&
+            operationValue === "Edit" &&
             (operationValue === "Add" || operationValue === "Force Delete")
         ) {
             gridRowsFinalSubmit(triggeredFormName, index, "Delete");
@@ -640,7 +629,7 @@ const CaseClaimInformation = (props) => {
                         clonedJson
                     );
                     claimInformationGridData[index] = clonedJson;
-                    setclaimInformationGridData(claimInformationGridData);
+                    setclaimInformationGridData([...claimInformationGridData]);
                 }
             }
             if (triggeredFormName === "ProviderInformationTable") {
@@ -656,7 +645,7 @@ const CaseClaimInformation = (props) => {
                         clonedJson
                     );
                     providerInformationGridData[index] = clonedJson;
-                    setProviderInformationGridData(providerInformationGridData);
+                    setProviderInformationGridData([...providerInformationGridData]);
                 }
             }
 
@@ -1285,7 +1274,12 @@ const CaseClaimInformation = (props) => {
                                                             13,
                                                         color: 'black'
                                                     }),
-                                                    singleValue: (styles) => ({ ...styles, textAlign: 'left' }),
+                                                    singleValue: (styles) => ({
+                                                        ...styles, textAlign: 'left', textOverflow: "ellipsis",
+                                                        overflow: "hidden",
+                                                        whiteSpace: "nowrap",
+                                                        maxWidth: 230,
+                                                    }),
                                                     option: (provided, state) => ({
                                                         ...provided,
                                                         textAlign: "left",

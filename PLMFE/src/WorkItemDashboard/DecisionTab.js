@@ -158,7 +158,8 @@ export default function DecisionTab(tabInput) {
       prop.state.decision = selectedValue?.value;
 
     }
-    if (prop.state.formNames === 'Case Header') {
+    if (prop.state.formNames === 'Appeals') {
+
 
       if (selectedValue?.value) {
         if (decisionReasonArray[stageName]) {
@@ -1075,9 +1076,9 @@ export default function DecisionTab(tabInput) {
                               ""
                             )}
                             {prop.state.formNames.toLowerCase() ===
-                              "case Header" ||
+                              "appeals" ||
                               prop.state.formNames.toLowerCase() ===
-                              "case Header" ? (
+                              "appeals" ? (
                               <th style={{ width: "19%" }} scope="col">
                                 DBA Name
                               </th>
@@ -1327,7 +1328,7 @@ export default function DecisionTab(tabInput) {
 
                     {/* descision reason */}
                     {
-                      prop.state.formNames == "Case Header" && <div className="col-xs-12 col-md-4">
+                      prop.state.formNames == "Appeals" && <div className="col-xs-12 col-md-4">
                         <label>Decision Reason</label>
                         <Select
                           styles={{

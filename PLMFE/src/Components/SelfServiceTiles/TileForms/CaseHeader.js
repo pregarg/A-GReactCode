@@ -202,7 +202,7 @@ const CaseHeader = () => {
     transactionType: "",
     caseStatus: ""
   })
-  CaseHeader.displayName = "Case Header"
+  CaseHeader.displayName = "Appeals"
   const callProcRef = useRef(null);
 
   useEffect(() => {
@@ -214,7 +214,7 @@ const CaseHeader = () => {
       flowId: caseheaderConfigData["FlowId"],
       stageId: caseheaderConfigData["StageId"],
       stageName: caseheaderConfigData["StageName"],
-      transactionType: "Case Header",
+      transactionType: "Appeals",
       caseStatus: "Open",
 
     };
@@ -622,25 +622,35 @@ const CaseHeader = () => {
       // // Update existing rows
       for (let i = 0; i < maxLength; i++) {
         const element = angClaimInformationGrid[i];
-        const originalElement = originalClaimInformationGrid[i];
-        updateClaimArray.push({
-          caseNumber: element["caseNumber"],
-          rowNumber: element["rowNumber"],
-          ...CompareJSON(angClaimInformationGrid[i], originalClaimInformationGrid[i])
-        });
+
+        for (let j = 0; j < originalClaimInformationGrid.length; j++) {
+          const originalElement = originalClaimInformationGrid[j];
+          if (element.rowNumber === originalElement.rowNumber) {
+            updateClaimArray.push({
+              caseNumber: element["caseNumber"],
+              rowNumber: element["rowNumber"],
+              ...CompareJSON(element, originalElement)
+            });
+            break;
+          }
+        }
       }
 
       // Add rows
-      for (let i = maxLength; i < angClaimInformationGrid.length; i++) {
-        const element = angClaimInformationGrid[i];
-        if (!element.hasOwnProperty('caseNumber')) {
-          element.caseNumber = prop.state.caseNumber;
+      for (let i = 0; i < angClaimInformationGrid.length; i++) {
+        const angelement = angClaimInformationGrid[i];
+        const index = originalClaimInformationGrid.findIndex(element => angelement.rowNumber === element.rowNumber);
+
+        if (index === -1) {
+          if (!angelement.hasOwnProperty('caseNumber')) {
+            angelement.caseNumber = prop.state.caseNumber;
+          }
+          updateClaimArray.push({
+            operation: "I",
+            rowNumber: angelement["rowNumber"],
+            ...angelement
+          });
         }
-        updateClaimArray.push({
-          operation: "I",
-          rowNumber: element["rowNumber"],
-          ...element
-        });
       }
 
       // Delete rows
@@ -658,8 +668,160 @@ const CaseHeader = () => {
     }
 
     let updateProviderArray = [];
+    if (angProviderInformtionGrid.length > 0 || originalProviderInformationGrid.length > 0) {
+      const maxLength = Math.min(angProviderInformtionGrid.length, originalProviderInformationGrid.length);
+
+      // // Update existing rows
+      for (let i = 0; i < maxLength; i++) {
+        const element = angProviderInformtionGrid[i];
+
+        for (let j = 0; j < originalProviderInformationGrid.length; j++) {
+          const originalElement = originalProviderInformationGrid[j];
+          if (element.rowNumber === originalElement.rowNumber) {
+            updateClaimArray.push({
+              caseNumber: element["caseNumber"],
+              rowNumber: element["rowNumber"],
+              ...CompareJSON(element, originalElement)
+            });
+            break;
+          }
+        }
+      }
+
+      // Add rows
+      for (let i = 0; i < angProviderInformtionGrid.length; i++) {
+        const angelement = angProviderInformtionGrid[i];
+        const index = originalProviderInformationGrid.findIndex(element => angelement.rowNumber === element.rowNumber);
+
+        if (index === -1) {
+          if (!angelement.hasOwnProperty('caseNumber')) {
+            angelement.caseNumber = prop.state.caseNumber;
+          }
+          updateClaimArray.push({
+            operation: "I",
+            rowNumber: angelement["rowNumber"],
+            ...angelement
+          });
+        }
+      }
+
+      // Delete rows
+      for (let i = 0; i < originalProviderInformationGrid.length; i++) {
+        const originalElement = originalProviderInformationGrid[i];
+        const index = angProviderInformtionGrid.findIndex(element => originalElement.rowNumber === element.rowNumber);
+        if (index === -1) {
+          updateClaimArray.push({
+            operation: "D",
+            caseNumber: prop.state.caseNumber,
+            rowNumber: originalElement["rowNumber"]
+          });
+        }
+      }
+    }
+
     let updateRepresentativeArray = [];
+    if (angRepresentativeInformationGrid.length > 0 || originalRepresentativeInformationGrid.length > 0) {
+      const maxLength = Math.min(angRepresentativeInformationGrid.length, originalRepresentativeInformationGrid.length);
+
+      // // Update existing rows
+      for (let i = 0; i < maxLength; i++) {
+        const element = angRepresentativeInformationGrid[i];
+
+        for (let j = 0; j < originalRepresentativeInformationGrid.length; j++) {
+          const originalElement = originalRepresentativeInformationGrid[j];
+          if (element.rowNumber === originalElement.rowNumber) {
+            updateClaimArray.push({
+              caseNumber: element["caseNumber"],
+              rowNumber: element["rowNumber"],
+              ...CompareJSON(element, originalElement)
+            });
+            break;
+          }
+        }
+      }
+
+      // Add rows
+      for (let i = 0; i < angRepresentativeInformationGrid.length; i++) {
+        const angelement = angRepresentativeInformationGrid[i];
+        const index = originalRepresentativeInformationGrid.findIndex(element => angelement.rowNumber === element.rowNumber);
+
+        if (index === -1) {
+          if (!angelement.hasOwnProperty('caseNumber')) {
+            angelement.caseNumber = prop.state.caseNumber;
+          }
+          updateClaimArray.push({
+            operation: "I",
+            rowNumber: angelement["rowNumber"],
+            ...angelement
+          });
+        }
+      }
+
+      // Delete rows
+      for (let i = 0; i < originalRepresentativeInformationGrid.length; i++) {
+        const originalElement = originalRepresentativeInformationGrid[i];
+        const index = angRepresentativeInformationGrid.findIndex(element => originalElement.rowNumber === element.rowNumber);
+        if (index === -1) {
+          updateClaimArray.push({
+            operation: "D",
+            caseNumber: prop.state.caseNumber,
+            rowNumber: originalElement["rowNumber"]
+          });
+        }
+      }
+    }
+
     let updateAuthorizationArray = [];
+    if (angAuthorizationInformtionGrid.length > 0 || originalAuthorizationInformationGrid.length > 0) {
+      const maxLength = Math.min(angAuthorizationInformtionGrid.length, originalAuthorizationInformationGrid.length);
+
+      // // Update existing rows
+      for (let i = 0; i < maxLength; i++) {
+        const element = angAuthorizationInformtionGrid[i];
+
+        for (let j = 0; j < originalAuthorizationInformationGrid.length; j++) {
+          const originalElement = originalAuthorizationInformationGrid[j];
+          if (element.rowNumber === originalElement.rowNumber) {
+            updateClaimArray.push({
+              caseNumber: element["caseNumber"],
+              rowNumber: element["rowNumber"],
+              ...CompareJSON(element, originalElement)
+            });
+            break;
+          }
+        }
+      }
+
+      // Add rows
+      for (let i = 0; i < angAuthorizationInformtionGrid.length; i++) {
+        const angelement = angAuthorizationInformtionGrid[i];
+        const index = originalAuthorizationInformationGrid.findIndex(element => angelement.rowNumber === element.rowNumber);
+
+        if (index === -1) {
+          if (!angelement.hasOwnProperty('caseNumber')) {
+            angelement.caseNumber = prop.state.caseNumber;
+          }
+          updateClaimArray.push({
+            operation: "I",
+            rowNumber: angelement["rowNumber"],
+            ...angelement
+          });
+        }
+      }
+
+      // Delete rows
+      for (let i = 0; i < originalAuthorizationInformationGrid.length; i++) {
+        const originalElement = originalAuthorizationInformationGrid[i];
+        const index = angAuthorizationInformtionGrid.findIndex(element => originalElement.rowNumber === element.rowNumber);
+        if (index === -1) {
+          updateClaimArray.push({
+            operation: "D",
+            caseNumber: prop.state.caseNumber,
+            rowNumber: originalElement["rowNumber"]
+          });
+        }
+      }
+    }
 
     console.log("update claim array", updateClaimArray);
     console.log("update provider array", updateProviderArray);
@@ -685,7 +847,7 @@ const CaseHeader = () => {
       }
 
       if (apiStat === 0) {
-        updateDecision(prop, saveType, "Case Header");
+        updateDecision(prop, saveType, "Appeals");
         let procData = {};
         let procDataState = {};
         procDataState.stageName = prop.state.stageName;
