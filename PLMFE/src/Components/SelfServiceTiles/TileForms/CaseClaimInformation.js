@@ -142,17 +142,11 @@ const CaseClaimInformation = (props) => {
         setResponseData([]);
     }
     const handleSelectedAddress = (flag) => {
-        // if (caseUnlockState !== -1) {
-        //     alert("Please select atleast one case.");
-        //   }
-        //   else{
-        //     alert("Data populated successfully")
-        //   }
-
-        //let rowNumber = locationTableRowsData.length+1;
+       
         console.log("grid column names ---->", claimInformationGridData)
         // setClaimInformationData({...selectedAddress[0]});
         let rowNumber = getRowNumberForGrid(claimInformationGridData)
+        
         console.log("rownum", rowNumber);
         let addressToPopulate = []
         console.log("selected Address values", selectedAddress);
@@ -189,6 +183,57 @@ const CaseClaimInformation = (props) => {
         setSelectSearchValues([]);
         setResponseData([]);
     }
+
+     const handleSelectedProviders = (flag) => {
+        // if (caseUnlockState !== -1) {
+        //     alert("Please select atleast one case.");
+        //   }
+        //   else{
+        //     alert("Data populated successfully")
+        //   }
+
+        //let rowNumber = locationTableRowsData.length+1;
+        console.log("providerInformationGridData ---->", providerInformationGridData)
+        // setClaimInformationData({...selectedAddress[0]});
+        
+        let rowNumber = getRowNumberForGrid(providerInformationGridData)
+        console.log("rownum", rowNumber);
+        let addressToPopulate = []
+        console.log("selected Address values", selectedAddress);
+        if (selectedAddress.length > 0) {
+            selectedAddress.map((elem) => {
+                if (elem?.isChecked) {
+                    console.log("elem is ", elem);
+                    elem.rowNumber = rowNumber;
+                    elem.operation = 'I';
+                    delete elem['isChecked'];
+                    rowNumber++;
+                    addressToPopulate.push(elem);
+                }
+
+            })
+        }
+        //gridFieldTempState(checkedRef.current);
+        console.log("checkedRef.current value==== ", addressToPopulate);
+        if (addressToPopulate.length > 0) {
+            setProviderInformationGridData([...providerInformationGridData, ...addressToPopulate])
+            // setClaimInformationData([...claimInformationData,...addressToPopulate])
+            //console.log("INSIDE gridTableDataRef.locationTable1==== ",gridTableDataRef);
+            //   let gridTableDataRefCopy = gridTableDataRef.hasOwnProperty("locationTable") ? gridTableDataRef?.locationTable: [];
+            //   gridTableDataRef.locationTable = [...gridTableDataRefCopy,...addressToPopulate]
+            //   console.log("INSIDE gridTableDataRef.locationTable==== ",gridTableDataRef);
+            //   gridFieldTempState = {};
+        }
+        console.log("grid column names 222---->", providerInformationGridData, providerInformationGridData);
+        //setFetchAddressModalShow(flag);
+        //handleModalChange(false);
+        setshowProviderSearch(false);
+        // setGridFieldTempState({});
+        setSelectedCriteria([]);
+        setSelectSearchValues([]);
+        setResponseData([]);
+    }
+
 
 
     const handleCheckBoxChange = (evnt, ind) => {
@@ -432,9 +477,11 @@ const CaseClaimInformation = (props) => {
                         handleCheckBoxChange={handleCheckBoxChange}
                         handleCheckBoxHeaderChange={handleCheckBoxHeaderChange}
                         CheckBoxInHeader={true}
+                        
                     />
                 </>
             )
+            
         }
         else {
             return (<></>);
@@ -446,26 +493,27 @@ const CaseClaimInformation = (props) => {
         let ProviderID = selectSearchValues?.providerID;
         let NPI = selectSearchValues?.NPI;
         let Taxid = selectSearchValues?.TaxID;
-        let ProviderFirstName = selectSearchValues?.providerFirstName;
-        let ProviderLastName = selectSearchValues?.providerLastName;
-        let City = selectSearchValues?.city;
-        let State = selectSearchValues?.state;
-        let ProviderFirstName2 = selectSearchValues?.providerFirstName2;
-        let ProviderLastName2 = selectSearchValues?.providerLastName2;
-        let State2 = selectSearchValues?.state2;
+        let ProviderFirstName = selectSearchValues?.providerFirstName || selectSearchValues?.providerFirstName2;
+        let ProviderLastName = selectSearchValues?.providerLastName || selectSearchValues?.providerLastName2;
+        let City = selectSearchValues?.city || selectSearchValues?.facilitycity;
+        let State = selectSearchValues?.state || selectSearchValues?.state2 || selectSearchValues?.facilityState2;
         let facilityName = selectSearchValues?.facilityName;
-        let facilitycity = selectSearchValues?.facilitycity;
-        let facilityState = selectSearchValues?.facilityState;
-        let FacilityName2 = selectSearchValues?.facilityName2;
-        let FacilityState2 = selectSearchValues?.facilityState2;
+        // let ProviderFirstName2 = selectSearchValues?.providerFirstName2;
+        // let ProviderLastName2 = selectSearchValues?.providerLastName2;
+        // let State2 = selectSearchValues?.state2;
+        // let facilityName = selectSearchValues?.facilityName;
+        // let facilitycity = selectSearchValues?.facilitycity;
+        // let facilityState = selectSearchValues?.facilityState;
+        // let FacilityName2 = selectSearchValues?.facilityName2;
+        // let FacilityState2 = selectSearchValues?.facilityState2;
 
         // Check if at least one search parameter has a value
         if (ProviderID || NPI || Taxid || ProviderFirstName || ProviderLastName ||
-            City || State || ProviderFirstName2 || ProviderLastName2 || State2 ||
-            facilityName || facilitycity || facilityState || FacilityName2 || FacilityState2
+             City || State || //ProviderFirstName2 || ProviderLastName2 || State2 ||
+            facilityName //|| facilitycity || facilityState || FacilityName2 || FacilityState2
         ) {
             let getApiJson = {
-                option: 'GETPROVIDERSEARCH',
+                option: 'PROVIDERSEARCHDATA',
                 ProviderID: ProviderID || '',
                 NPI: NPI || '',
                 Taxid: Taxid || '',
@@ -473,14 +521,14 @@ const CaseClaimInformation = (props) => {
                 ProviderLastName: ProviderLastName || '',
                 City: City || '',
                 State: State || '',
-                ProviderFirstName2: ProviderFirstName2 || '',
-                ProviderLastName2: ProviderLastName2 || '',
-                State2: State2 || '',
+                // ProviderFirstName2: ProviderFirstName2 || '',
+                // ProviderLastName2: ProviderLastName2 || '',
+                // State2: State2 || '',
                 facilityName: facilityName || '',
-                facilitycity: facilitycity || '',
-                facilityState: facilityState || '',
-                FacilityName2: FacilityName2 || '',
-                FacilityState2: FacilityState2 || ''
+                // facilitycity: facilitycity || '',
+                // facilityState: facilityState || '',
+                // FacilityName2: FacilityName2 || '',
+                // FacilityState2: FacilityState2 || ''
 
             };
 
@@ -496,12 +544,13 @@ const CaseClaimInformation = (props) => {
                 let resApiData = res.data.CallProcedure_Output?.data || [];
                 console.log("Response Data:", resApiData);
                 resApiData = (resApiData?.length > 0) ? resApiData : [];
-
+                
                 if (resApiData.length > 0) {
-                    const respKeys = Object.keys(resApiData);
-                    console.log("respKeys--->", respKeys);
+                    // const respKeys = Object.keys(resApiData);
+                    // console.log("respKeys--->", respKeys);
 
                     setResponseData(resApiData);
+                    console.log("setting provider search--->")
                 }
                 const apiStat = res.data.CallProcedure_Output.Status;
                 if (apiStat === -1) {
@@ -517,8 +566,8 @@ const CaseClaimInformation = (props) => {
     };
 
     const providerSearchTableComponent = () => {
-        let columnNames = 'Claim Number~Claim_Number,Claim Type~Claim_type,Authorization Number~Authorization_Number,Service Start Date~Service_Start_Date,Service End Date~Service_End_Date,Service Span~ServiceSpan,Denial Date~DenialDate,Denial Code~DenialCode,Denial Description~DenialDescription,Member ID~MemberID,Member First Name~MemberFirstName,Member Last Name~MemberLastName,Provider ID~ProviderID,Provider Name~ProviderName';
-        console.log("APIDATA column data", responseData);
+        let columnNames= 'Issue Number ~ Issue_Number, Provider ID ~ Provider_ID,Provider First Name ~ Provider_Name,Provider Last Name ~ Provider_Last_Name, TIN ~ Provider_TIN, Provider/Vendor Specialty ~ Provider_Vendor_Specialty,Provider Taxonomy ~ Provider_Taxonomy ,NPI ~ NPI_ID, Phone ~ Phone_Number, Address Line 1 ~ Address_Line_1, Address Line 2 ~ Address_Line_2, Zip Code ~ Zip_Code,City ~ City, State ~ State, Participating Provider ~ Participating_Provider,Provider Par Date ~ Provider_Par_Date ,Provider IPA ~ Provider_IPA,Vendor ID ~ Vendor_ID,Vendor Name ~ Vendor_Name, Provider Type ~ Provider_Type,Contact Name ~ Provider_Contact_Name,Contact Phone Number ~ Contact_Phone_Number ,Contact Email Address ~ Contact_Email_Address ';
+        console.log("Provider search APIDATA column data", responseData);
         if (responseData.length > 0) {
             return (
                 <>
@@ -1886,6 +1935,10 @@ const CaseClaimInformation = (props) => {
                                     handleClearClaimSearch={handleClearClaimSearch}
                                     showProviderSearch={showProviderSearch}
                                     showProviders={showProviders}
+                                    providerSearchTableComponent = {providerSearchTableComponent}
+                                    responseData = {responseData}
+                                    setResponseData={setResponseData}
+                                    handleSelectedProviders = {handleSelectedProviders}
 
                                 />
                             )}

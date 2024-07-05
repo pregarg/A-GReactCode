@@ -289,7 +289,7 @@ const CaseHeader = () => {
   const getGridDataValues = (tableData) => {
     //var headers = document.getElementById(tableId).headers;
     let returnArray = [];
-    tableData.map((data) => {
+    tableData?.map((data) => {
       const dataObject = {};
       const dataKeys = Object.keys(data);
       dataKeys.forEach((dataValue) => {
