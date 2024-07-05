@@ -6,7 +6,7 @@ export default function ProviderSearch(modalProps) {
     const handleCriteriaChange = (event) => {
         modalProps.setSelectedCriteria(event.target.value);
         modalProps.setSelectSearchValues({});
-       // modalProps.setResponseData([]);
+        modalProps.setResponseData([]);
       };
     
       const handleCriteriaChangeValue = (evnt) => {
@@ -406,19 +406,19 @@ export default function ProviderSearch(modalProps) {
             Clear
           </Button>
         </Modal.Footer>
-        {/* <div style={{overflowX:'auto',maxWidth:'100%'}}>{modalProps.responseData.length>0 &&
-                      modalProps.claimSearchTableComponent()
-                    }</div> */}
+        <div style={{overflowX:'auto',maxWidth:'100%'}}>{modalProps.responseData.length>0 &&
+                      modalProps.providerSearchTableComponent()
+                    }</div>
           <br></br>
-        {/* {modalProps.responseData.length>0 && (
+        {modalProps.responseData.length>0 && (
           <Button
             className="btn btn-outline-primary btnStyle" id="selectedAddressCancel"
             style={{ display: "flex", justifyContent: "center", width: "20%", margin: "auto" }}
-            onClick={() => { modalProps.handleSelectedAddress(false);
+            onClick={() => { modalProps.handleSelectedProviders(false);
             }}>
-            Populate Data
+              Populate Data
           </Button>
-        )} */}
+        )} 
         <br />
         <br />
       </Modal>
