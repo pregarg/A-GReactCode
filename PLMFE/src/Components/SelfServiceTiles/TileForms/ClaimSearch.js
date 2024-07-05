@@ -74,9 +74,9 @@ export default function ClaimSearch(modalProps) {
                   1.
                 </label> */}
                  <div className="row my-2">
-                  <div className="col-xs-12 col-md-4">
+                  <div className="col-xs-12 col-md-3">
                  
-                <div className="form-floating mb-3">
+                <div className="form-floating mb-2">
                   <input
                     type="text"
                     className="form-control"
@@ -107,8 +107,8 @@ export default function ClaimSearch(modalProps) {
                   2.
                 </label> */}
                 <div className="row my-2">
-                  <div className="col-xs-12 col-md-4">
-                    <div className="form-floating mb-3">
+                  <div className="col-xs-12 col-md-3">
+                    <div className="form-floating mb-2">
                       <input
                         type="text"
                         className="form-control"
@@ -122,8 +122,8 @@ export default function ClaimSearch(modalProps) {
                       <label htmlFor="sequentialMemberId">Sequential Member ID</label>
                     </div>
                   </div>
-                  <div className="col-xs-12 col-md-4">
-                    <div className="form-floating mb-3">
+                  <div className="col-xs-12 col-md-3">
+                    <div className="form-floating mb-2">
                       <ReactDatePicker
                         id="serviceStartDate"
                         className="form-control example-custom-input-provider"
@@ -146,8 +146,8 @@ export default function ClaimSearch(modalProps) {
                       />
                     </div>
                   </div>
-                  <div className="col-xs-12 col-md-4">
-                    <div className="form-floating mb-3">
+                  <div className="col-xs-12 col-md-3">
+                    <div className="form-floating mb-2">
                       <ReactDatePicker
                         id="serviceEndDate"
                         className="form-control example-custom-input-provider"
@@ -187,8 +187,8 @@ export default function ClaimSearch(modalProps) {
                   3.
                 </label> */}
                 <div className="row my-2">
-                  <div className="col-xs-12 col-md-4">
-                    <div className="form-floating mb-3">
+                  <div className="col-xs-12 col-md-3">
+                    <div className="form-floating mb-2">
                       <input
                         type="text"
                         className="form-control"
@@ -202,15 +202,15 @@ export default function ClaimSearch(modalProps) {
                       <label htmlFor="providerId">Provider ID</label>
                     </div>
                   </div>
-                  <div className="col-xs-12 col-md-4">
-                    <div className="form-floating mb-3">
+                  <div className="col-xs-12 col-md-3">
+                    <div className="form-floating mb-2">
                       <ReactDatePicker
                         id="providerServiceStartDate"
                         className="form-control example-custom-input-provider"
-                        selected={modalProps.selectSearchValues?.Service_Start_Date}
+                        selected={modalProps.selectSearchValues?.Service_Start_Date2}
                         name="providerServiceStartDate"
                         onChange={(date) => {
-                          handleDateChange(date, "Service_Start_Date");
+                          handleDateChange(date, "Service_Start_Date2");
                         }}
                         disabled={modalProps.selectedCriteria !== "provider"}
                         dateFormat="MM/dd/yyyy"
@@ -226,15 +226,15 @@ export default function ClaimSearch(modalProps) {
                       />
                     </div>
                   </div>
-                  <div className="col-xs-12 col-md-4">
-                    <div className="form-floating mb-3">
+                  <div className="col-xs-12 col-md-3">
+                    <div className="form-floating mb-2">
                       <ReactDatePicker
                         id="providerServiceEndDate"
                         className="form-control example-custom-input-provider"
-                        selected={modalProps.selectSearchValues?.Service_End_Date}
+                        selected={modalProps.selectSearchValues?.Service_End_Date2}
                         name="providerServiceEndDate"
                         onChange={(date) => {
-                          handleDateChange(date, "Service_End_Date");
+                          handleDateChange(date, "Service_End_Date2");
                         }}
                         disabled={modalProps.selectedCriteria !== "provider"}
                         dateFormat="MM/dd/yyyy"

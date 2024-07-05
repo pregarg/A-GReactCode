@@ -398,8 +398,8 @@ const CaseClaimInformation = (props) => {
         let ClaimNumber = selectSearchValues?.claimNumber;
         let SequentialMemberID = selectSearchValues?.sequentialMemberId;
         let ProviderID = selectSearchValues?.providerId;
-        let ServiceStartDate = selectSearchValues?.Service_Start_Date;
-        let ServiceEndDate = selectSearchValues?.Service_End_Date;
+        let ServiceStartDate = selectSearchValues?.Service_Start_Date ||selectSearchValues?.Service_Start_Date2 ;
+        let ServiceEndDate = selectSearchValues?.Service_End_Date || selectSearchValues?.Service_End_Date2; 
 
         // Check if at least one search parameter has a value
         if (ClaimNumber || SequentialMemberID || ProviderID || ServiceStartDate || ServiceEndDate) {
