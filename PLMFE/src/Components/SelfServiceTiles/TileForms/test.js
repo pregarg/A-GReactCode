@@ -41,7 +41,7 @@ const CaseHeader = () => {
     transactionType: "",
     caseStatus: ""
   })
-  CaseHeader.displayName = "Case Header"
+  CaseHeader.displayName = "Appeals"
 
   const getDashboardTableData = () => {
 
@@ -238,7 +238,7 @@ const FormComponent = () =>( <div className="col-xs-12">
             Go To Home
           </button>
           <label id="tileFormLabel" className="HeadingStyle">
-            Case Header
+            Appeals
           </label>
           <button
             type="button"

@@ -206,8 +206,8 @@ export default function DashboardHomepage() {
   //console.log("Inside Dashboard Home page mastersSelector: ",mastersSelector);
   const loggedInUserType =
     mastersSelector.hasOwnProperty("auth") &&
-    mastersSelector.auth.hasOwnProperty("userType") &&
-    mastersSelector.auth.userType === "A"
+      mastersSelector.auth.hasOwnProperty("userType") &&
+      mastersSelector.auth.userType === "A"
       ? "A"
       : "S";
   const [caseUnlockState, setCaseUnlockState] = useState([]);
@@ -737,14 +737,14 @@ export default function DashboardHomepage() {
         if(formName === 'AddAncilary'){
             navigateUrl = '/DashboardLogin/AddAncillary';
         }*/
-        
+
     navigate(navigateUrl, {
       replace: true,
       state: {
         formView: "DashboardHomeView",
         formOpenedFrom: "Dashboard",
         formNames: formName,
-        
+
       },
     });
   };
@@ -752,7 +752,7 @@ export default function DashboardHomepage() {
   const navigateToForm = (index) => {
     printConsole("inside navigateToForm: ", tableData[index]);
     const obj = tableData[index];
-    console.log("pravtest1234",obj)
+    console.log("pravtest1234", obj)
     let navigateUrl = "";
     if (obj.CaseNumber !== undefined) {
       //Changed by NG on 12/8/2023
@@ -763,7 +763,7 @@ export default function DashboardHomepage() {
         "add an ancillary": "/DashboardLogin/AddAncillary",
         "provider modification": "/DashboardLogin/ProviderModification",
         "ancillary/facility modification": "/DashboardLogin/AncillaryFacilityModification",
-        "case header": "/DashboardLogin/CaseHeader",
+        "appeals": "/DashboardLogin/Appeals",
         "payto modification": "/DashboardLogin/GroupPayToModification",
         "address modification": "/DashboardLogin/GroupAddressModification",
         "provider contracting": "/ContractingHome/ProviderContracting",
@@ -788,7 +788,7 @@ export default function DashboardHomepage() {
       ).trim();
       //console.log('Initial lockStat: ',lockStat);
       console.log("pravstatus4", lockStat)
-      console.log("pravstatus3",mastersSelector)
+      console.log("pravstatus3", mastersSelector)
       if (lockStat === undefined || lockStat === "N") {
         if (mastersSelector.hasOwnProperty("masterStageRights")) {
           let filteredStageRightsArr = [];
@@ -855,7 +855,7 @@ export default function DashboardHomepage() {
           lockStatus: lockStat,
           Field1: obj.Field1,
           Field3: obj.Field3,
-          decisionReason:obj.DECISON_REASON
+          decisionReason: obj.DECISON_REASON
         },
       });
       //<AddProvider caseNumber={obj.caseNumber}></AddProvider>
@@ -894,7 +894,7 @@ export default function DashboardHomepage() {
         (data) => data.StageName === caseStat
       );
       //console.log("Inside filterTable not allCases after: ",filteredArray);
-      console.log("stdpra6",filteredArray)
+      console.log("stdpra6", filteredArray)
       setTableData(filteredArray);
       //console.log("Inside filterTable state: ",tableData);
     }
@@ -936,16 +936,16 @@ export default function DashboardHomepage() {
                 {"CaseNumber" in data
                   ? data.CaseNumber
                   : "CASENUMBER"
-                  ? data.CASENUMBER
-                  : ""}
+                    ? data.CASENUMBER
+                    : ""}
               </a>
             </td>
             <td className="tableData">
               {"TransactionType" in data
                 ? data.TransactionType
                 : "TRANSACTIONTYPE"
-                ? data.TRANSACTIONTYPE
-                : ""}
+                  ? data.TRANSACTIONTYPE
+                  : ""}
             </td>
             <td className="tableData">
               {"NpiId" in data ? data.NpiId : "NPIID" ? data.NPIID : ""}
@@ -954,36 +954,36 @@ export default function DashboardHomepage() {
               {"FirstName" in data
                 ? data.FirstName
                 : "FIRSTNAME"
-                ? data.FIRSTNAME
-                : ""}
+                  ? data.FIRSTNAME
+                  : ""}
             </td>
             <td className="tableData">
               {"LastName" in data
                 ? data.LastName
                 : "LASTNAME"
-                ? data.LASTNAME
-                : ""}
+                  ? data.LASTNAME
+                  : ""}
             </td>
             <td className="tableData">
               {"LegalEntityName" in data
                 ? data.LegalEntityName
                 : "LEGALENTITYNAME"
-                ? data.LEGALENTITYNAME
-                : ""}
+                  ? data.LEGALENTITYNAME
+                  : ""}
             </td>
             <td className="tableData">
               {"CaseStatus" in data
                 ? data.CaseStatus
                 : "CASESTATUS"
-                ? data.CASESTATUS
-                : ""}
+                  ? data.CASESTATUS
+                  : ""}
             </td>
             <td className="tableData">
               {"StageName" in data
                 ? data.StageName
                 : "STAGENAME"
-                ? data.STAGENAME
-                : ""}
+                  ? data.STAGENAME
+                  : ""}
             </td>
           </tr>
         );
@@ -991,9 +991,9 @@ export default function DashboardHomepage() {
     }
   };
 
-  const deleteTableRows = (index, operationValue) => {};
+  const deleteTableRows = (index, operationValue) => { };
 
-  const decreaseDataIndex = () => {};
+  const decreaseDataIndex = () => { };
 
   const tdUserData = () => {
     console.log(usersTableRowsData.length);
@@ -1035,7 +1035,7 @@ export default function DashboardHomepage() {
             </td>
             <td className="tableData">
               {"stateAbbreviation" in data &&
-              data.stateAbbreviation.value !== undefined
+                data.stateAbbreviation.value !== undefined
                 ? data.stateAbbreviation.value
                 : data.stateAbbreviation}
             </td>
@@ -1597,9 +1597,9 @@ export default function DashboardHomepage() {
                     />
                   </ListItemButton>
                   <ListItemButton
-                    sx={{ ml: 4, fontSize: "25px"}}
+                    sx={{ ml: 4, fontSize: "25px" }}
                     onClick={() => {
-                      formNavigation("CaseHeader");
+                      formNavigation("Appeals");
                     }}
                   >
                     <ListItemIcon>{<TbAmbulance />}</ListItemIcon>
@@ -1712,7 +1712,7 @@ export default function DashboardHomepage() {
               disablePadding
               sx={{ display: !moduleRefs.mdmMgmnt ? "none" : "block" }}
             >
-              
+
             </ListItem>
 
             <ListItem disablePadding sx={{ display: "block" }}>
@@ -1752,7 +1752,7 @@ export default function DashboardHomepage() {
                   </ListItemIcon>
                 </Tooltip>
 
-                   
+
 
                 <ListItemText
                   secondary={
@@ -1923,13 +1923,13 @@ export default function DashboardHomepage() {
                     <div className="card-text my-2">
                       {provChartData.Provider.length > 0 && (
                         <div>
-                        <p>{console.log("provChartData.Provider.length",provChartData.Provider.length)}</p>
-                        <DashboardBarChart
-                          gridData={provChartData.Provider}
-                          gridName={"Provider"}
-                          dashboardTableData={getDashboardTableData}
-                          isRender={donutRender}
-                        ></DashboardBarChart>
+                          <p>{console.log("provChartData.Provider.length", provChartData.Provider.length)}</p>
+                          <DashboardBarChart
+                            gridData={provChartData.Provider}
+                            gridName={"Provider"}
+                            dashboardTableData={getDashboardTableData}
+                            isRender={donutRender}
+                          ></DashboardBarChart>
                         </div>
                       )}
                     </div>
@@ -1971,7 +1971,7 @@ export default function DashboardHomepage() {
                 >
                   <div className="card-body">
                     <div className="card-title" style={{ textAlign: "left" }}>
-                     Appeal Cases
+                      Appeal Cases
                     </div>
                     <div className="card-text my-2">
                       {provChartData.Contracting.length > 0 && (

@@ -31,8 +31,7 @@ export default function useUpdateDecision() {
   const updateDecision = (prop, saveType, transactionType) => {
     const decsn = (prop.state.decision === undefined) ? '' : prop.state.decision;
     let procInput = {};
-    if (transactionType === 'Case Header') {
-      console.log("transaction type--->", transactionType)
+    if (transactionType === 'Appeals') {
       procInput['DECISON_REASON'] = (prop.state.decisionReason) ? prop.state.decisionReason : '';
     }        /*procInput.input1 = "testing";
         procInput.input2 = AddProvider.displayName;
@@ -121,9 +120,9 @@ export default function useUpdateDecision() {
       //updateInputs.append('FlowId',2);
       updateInputs.append('FlowId', Number(prop.state.flowId));
       updateInputs.append('Decision', decsn);
-      // if (prop.state.formNames === 'Case Header') {
-      //   updateInputs.append('DECISON_REASON', prop.state.decisionReason ? prop.state.decisionReason : '');
-      // }
+      if (prop.state.formNames === 'Appeals') {
+        updateInputs.append('DECISON_REASON', prop.state.decisionReason ? prop.state.decisionReason : '');
+      }
       console.log("update inputs", updateInputs);
       //const putApi =  + 'updateCaseDecision';
       axios.put('/updateCaseDecision', updateInputs, { headers: { 'Authorization': `Bearer ${token}` } }).then((res) => {

@@ -53,7 +53,7 @@ function App() {
                   <Route exact path="BulkHealthSystem" element = {<BulkHealth />} key={'bulkHealth'}></Route>,
                   <Route exact path="ProviderModification" element = {<ProviderDemo />} key={'providerDemo'}></Route>,
                   <Route exact path="AncillaryFacilityModification" element = {<AncFacDemo />} key={'ancFacDemo'}></Route>,
-                  <Route exact path="CaseHeader" element = {<CaseHeader />} key={'caseHeader'}></Route>,
+                  <Route exact path="Appeals" element = {<CaseHeader />} key={'caseHeader'}></Route>,
                   // <Route exact path="GroupPayToModification" element = {<GroupPayTo />} key={'groupPay'}></Route>,
                   // <Route exact path="GroupAddressModification" element = {<GroupAddress />} key={'groupAddress'}></Route>,
                   <Route exact path="GroupTermination" element = {<GroupTermination />} key={'groupTermination'}></Route>
@@ -109,7 +109,7 @@ function App() {
                children={[<Route path="" element = {<AncFacDemo />} key={'dash'}></Route>,]}
               ></Route>,
               <Route
-               path='CaseHeader'
+               path='Appeals'
                element = {<Layout/>}
                children={[<Route path="" element = {<CaseHeader />} key={'dash'}></Route>,]}
               ></Route>,

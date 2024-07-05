@@ -631,11 +631,16 @@ const CaseInformationAccordion = (props) => {
                             13,
                           color: 'black'
                         }),
+                        singleValue: (styles) => ({
+                          ...styles, textAlign: 'left', textOverflow: "ellipsis",
+                          overflow: "hidden",
+                          whiteSpace: "nowrap",
+                          maxWidth: 230,
+                        }),
                         option: (provided, state) => ({
                           ...provided,
                           textAlign: "left",
                         }),
-                        singleValue: (styles) => ({ ...styles, fontSize: '0.9em', textAlign: 'left' }),
                       }}
                       components={{
                         ValueContainer: CustomValueContainer,

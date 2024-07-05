@@ -76,12 +76,6 @@ const AuthorizationInformationAccordion = (props) => {
                 setAuthorizationInformationGridData(rows);
                 props.updateAuthorizationInformationGridData(rows);
             }
-            // if (triggeredFormName === "ProviderInformationTable") {
-            //     const rows = [...providerInformationGridData];
-            //     rows.splice(index, 1);
-            //     setProviderInformationGridData(rows);
-            //     props.updateProviderInformationGridData(rows);
-            // }
         }
 
         if (operationValue === "Edit") {
