@@ -448,6 +448,8 @@ export default function ClaimInformationTable({
                                                 : new Date()
                                     }
 
+
+
                                     name="Service_Start_Date"
                                     onChange={(selectValue, event) =>
                                         handleGridDateChange(

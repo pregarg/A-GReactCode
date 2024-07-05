@@ -129,14 +129,17 @@ export default function useUpdateDecision() {
         console.log("updateCaseDecision put api data: ", res.data);
         if (res.status === 200) {
           let procInput = {};
-          procInput.stageName = prop.state.stageName;
           procInput.userName = prop.state.userName;
+          procInput.stageName = prop.state.stageName;
           procInput.transactionType = prop.state.formNames;
           procInput.caseID = prop.state.caseNumber;
           procInput.decision = decsn;
           procInput.decNotes = (prop.state.decisionNotes === undefined) ? '' : prop.state.decisionNotes;
           procInput.flowId = prop.state.flowId;
+        //  procInput.decisionReason= (prop.state.decisionReason) ? prop.state.decisionReason : '';
+
           console.log("Final proc Input: ", procInput);
+
           //const procApi = apiUrl + "callProcedure";
           //console.log("procApi: ",procApi);
           axios.post('/callProcedure', procInput, { headers: { 'Authorization': `Bearer ${token}` } }).then((res) => {
