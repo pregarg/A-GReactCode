@@ -556,7 +556,7 @@ const CaseClaimInformation = (props) => {
     };
 
     const providerSearchTableComponent = () => {
-        let columnNames = 'Issue Number ~ Issue_Number, Provider ID ~ Provider_ID,Provider First Name ~ Provider_Name,Provider Last Name ~ Provider_Last_Name, TIN ~ Provider_TIN, Provider/Vendor Specialty ~ Provider_Vendor_Specialty,Provider Taxonomy ~ Provider_Taxonomy ,NPI ~ NPI_ID, Phone ~ Phone_Number, Address Line 1 ~ Address_Line_1, Address Line 2 ~ Address_Line_2, Zip Code ~ Zip_Code,City ~ City, State ~ State, Participating Provider ~ Participating_Provider,Provider Par Date ~ Provider_Par_Date ,Provider IPA ~ Provider_IPA,Vendor ID ~ Vendor_ID,Vendor Name ~ Vendor_Name, Provider Type ~ Provider_Type,Contact Name ~ Provider_Contact_Name,Contact Phone Number ~ Contact_Phone_Number ,Contact Email Address ~ Contact_Email_Address ';
+        let columnNames = 'Issue Number~Issue_Number, Provider ID~Provider_ID,Provider First Name~Provider_Name,Provider Last Name~Provider_Last_Name, TIN~Provider_TIN, Provider/Vendor Specialty~Provider_Vendor_Specialty,Provider Taxonomy~Provider_Taxonomy ,NPI~NPI_ID, Phone~Phone_Number, Address Line 1~Address_Line_1, Address Line 2~Address_Line_2, Zip Code~Zip_Code,City~City, State~State, Participating Provider~Participating_Provider,Provider Par Date~Provider_Par_Date ,Provider IPA~Provider_IPA,Vendor ID~Vendor_ID,Vendor Name~Vendor_Name, Provider Type~Provider_Type,Contact Name~Provider_Contact_Name,Contact Phone Number~Contact_Phone_Number ,Contact Email Address~Contact_Email_Address ';
         console.log("Provider search APIDATA column data", responseData);
         if (responseData.length > 0) {
             return (
