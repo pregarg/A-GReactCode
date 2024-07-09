@@ -141,7 +141,7 @@ const RepresentativeInformationAccordion = (props) => {
     };
 
     const editTableRows = (index, triggeredFormName) => {
-        console.log("Inside editTableRows: ", triggeredFormName);
+        console.log("Inside Representative editTableRows: ", triggeredFormName);
         let rowInput = {};
 
         if (triggeredFormName === "RepresentativeInformationTable") {
@@ -171,7 +171,7 @@ const RepresentativeInformationAccordion = (props) => {
                         clonedJson
                     );
                     representativeInformationGridData[index] = clonedJson;
-                    setRepresentativeInformationGridData(representativeInformationGridData);
+                    setRepresentativeInformationGridData([...representativeInformationGridData]);
                 }
             }
 
@@ -197,6 +197,7 @@ const RepresentativeInformationAccordion = (props) => {
                 let gridRowArray = [];
 
                 if (triggeredFormName === "RepresentativeInformationTable") {
+                    console.log("representativeInformationTable---->")
                     gridRowArray = gridDataRef.current.hasOwnProperty("representativeInformationTable")
                         ? [...gridDataRef.current.representativeInformationTable]
                         : [];

@@ -170,7 +170,8 @@ const CaseClaimInformation = (props) => {
         //gridFieldTempState(checkedRef.current);
         console.log("checkedRef.current value==== ", addressToPopulate);
         if (addressToPopulate.length > 0) {
-            setclaimInformationGridData([...claimInformationGridData, ...addressToPopulate])
+            setclaimInformationGridData([...claimInformationGridData, ...addressToPopulate]);
+           props.updateClaimInformationGridData([...claimInformationGridData, ...addressToPopulate])
             // setClaimInformationData([...claimInformationData,...addressToPopulate])
             //console.log("INSIDE gridTableDataRef.locationTable1==== ",gridTableDataRef);
             //   let gridTableDataRefCopy = gridTableDataRef.hasOwnProperty("locationTable") ? gridTableDataRef?.locationTable: [];
@@ -221,6 +222,7 @@ const CaseClaimInformation = (props) => {
         console.log("checkedRef.current value==== ", addressToPopulate);
         if (addressToPopulate.length > 0) {
             setProviderInformationGridData([...providerInformationGridData, ...addressToPopulate])
+            props.updateProviderInformationGridData([...providerInformationGridData, ...addressToPopulate]);
             // setClaimInformationData([...claimInformationData,...addressToPopulate])
             //console.log("INSIDE gridTableDataRef.locationTable1==== ",gridTableDataRef);
             //   let gridTableDataRefCopy = gridTableDataRef.hasOwnProperty("locationTable") ? gridTableDataRef?.locationTable: [];
@@ -228,7 +230,7 @@ const CaseClaimInformation = (props) => {
             //   console.log("INSIDE gridTableDataRef.locationTable==== ",gridTableDataRef);
             //   gridFieldTempState = {};
         }
-        console.log("grid column names 222---->", providerInformationGridData, providerInformationGridData);
+        console.log("grid column names 222---->", providerInformationGridData);
         //setFetchAddressModalShow(flag);
         //handleModalChange(false);
         setshowProviderSearch(false);
@@ -536,8 +538,21 @@ const CaseClaimInformation = (props) => {
                 resApiData = (resApiData?.length > 0) ? resApiData : [];
 
                 if (resApiData.length > 0) {
-                    // const respKeys = Object.keys(resApiData);
-                    // console.log("respKeys--->", respKeys);
+                    const respKeys = Object.keys(resApiData);
+                    console.log("respKeys--->", respKeys);
+                    respKeys.forEach(k => {
+
+                        let apiResponse = resApiData[k];
+                        if (apiResponse.hasOwnProperty("Provider_Par_Date") && typeof apiResponse.Provider_Par_Date === "string") {
+                            console.log("lll--->", apiResponse.Provider_Par_Date) // 2024-05-08T00:00:00
+                            const mad = new Date(getDatePartOnly(apiResponse.Provider_Par_Date));
+
+                            apiResponse.Provider_Par_Date = extractDate(mad);
+                            console.log("getDatePartOnly-->", mad);//Wed May 08 2024 00:00:00 GMT+0530 (India Standard Time)
+                            console.log("extractDate-->", apiResponse.Provider_Par_Date); //2024-05-18
+                        }
+                      
+                    });
 
                     setResponseData(resApiData);
                     console.log("setting provider search--->")
@@ -556,7 +571,10 @@ const CaseClaimInformation = (props) => {
     };
 
     const providerSearchTableComponent = () => {
-        let columnNames = 'Issue Number~Issue_Number, Provider ID~Provider_ID,Provider First Name~Provider_Name,Provider Last Name~Provider_Last_Name, TIN~Provider_TIN, Provider/Vendor Specialty~Provider_Vendor_Specialty,Provider Taxonomy~Provider_Taxonomy ,NPI~NPI_ID, Phone~Phone_Number, Address Line 1~Address_Line_1, Address Line 2~Address_Line_2, Zip Code~Zip_Code,City~City, State~State, Participating Provider~Participating_Provider,Provider Par Date~Provider_Par_Date ,Provider IPA~Provider_IPA,Vendor ID~Vendor_ID,Vendor Name~Vendor_Name, Provider Type~Provider_Type,Contact Name~Provider_Contact_Name,Contact Phone Number~Contact_Phone_Number ,Contact Email Address~Contact_Email_Address ';
+        let columnNames = 'Issue Number~Issue_Number, Provider ID~Provider_ID,Provider First Name~Provider_Name, TIN~Provider_TIN, Provider/Vendor Specialty~Provider_Vendor_Specialty,NPI~NPI_ID, Phone~Phone_Number, Address Line 1~Address_Line_1, Address Line 2~Address_Line_2, Zip Code~Zip_Code,City~City, State~State, Participating Provider~Participating_Provider ,Provider IPA~Provider_IPA,Vendor ID~Vendor_ID,Vendor Name~Vendor_Name, Provider Type~Provider_Type';
+        
+        //let columnNames = 'Issue Number~Issue_Number, Provider ID~Provider_ID,Provider First Name~Provider_Name,Provider Last Name~Provider_Last_Name, TIN~Provider_TIN, Provider/Vendor Specialty~Provider_Vendor_Specialty,Provider Taxonomy~Provider_Taxonomy ,NPI~NPI_ID, Phone~Phone_Number, Address Line 1~Address_Line_1, Address Line 2~Address_Line_2, Zip Code~Zip_Code,City~City, State~State, Participating Provider~Participating_Provider,Provider Par Date~Provider_Par_Date ,Provider IPA~Provider_IPA,Vendor ID~Vendor_ID,Vendor Name~Vendor_Name, Provider Type~Provider_Type,Contact Name~Provider_Contact_Name,Contact Phone Number~Contact_Phone_Number ,Contact Email Address~Contact_Email_Address ';
+        
         console.log("Provider search APIDATA column data", responseData);
         if (responseData.length > 0) {
             return (

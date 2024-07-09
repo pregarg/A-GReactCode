@@ -149,6 +149,7 @@ export default function DecisionTab(tabInput) {
   ////
 
   const decisonRef = React.createRef();
+  const decisonReasonRef = useRef();
 
   const [decisionState, setDecisionState] = useState({ decisionNotes: "" });
 
@@ -156,6 +157,7 @@ export default function DecisionTab(tabInput) {
     const { name } = evnt;
     if (name === "decision") {
       prop.state.decision = selectedValue?.value;
+      decisonReasonRef.current.clearValue();
 
     }
     if (prop.state.formNames === 'Appeals') {
@@ -180,10 +182,12 @@ export default function DecisionTab(tabInput) {
     const { name } = evnt;
     if (name === "decisionReason") {
       prop.state.decisionReason = selectedValue?.value;
+      
     }
   };
 
   const handleLinearFieldChange = (evt) => {
+    
     const value = evt.target.value;
     if (evt.target.name === "decisionNotes") {
       prop.state.decisionNotes = convertToCase(evt.target.value);
@@ -1348,6 +1352,7 @@ export default function DecisionTab(tabInput) {
 
                           // isDisabled={(tabInput.lockStatus==='Y')?true:false}
                           name="decisionReason"
+                          ref={decisonReasonRef}
                           id="decisionReasonDropdown"
                         />
                       </div>
