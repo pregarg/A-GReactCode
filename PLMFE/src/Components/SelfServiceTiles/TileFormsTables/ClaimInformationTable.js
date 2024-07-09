@@ -385,14 +385,14 @@ export default function ClaimInformationTable({
                             <input
                                 type="text"
                                 value={
-                                    "Authorization_Number" in data && data.Authorization_Number.value !== undefined
-                                        ? convertToCase(data.Authorization_Number.value)
-                                        : convertToCase(data.Authorization_Number)
+                                    "Auth_Number" in data && data.Auth_Number.value !== undefined
+                                        ? convertToCase(data.Auth_Number.value)
+                                        : convertToCase(data.Auth_Number)
                                 }
                                 onChange={(evnt) =>
                                     handleGridFieldChange(index, evnt, ClaimInformationTable.displayName)
                                 }
-                                name="Authorization_Number"
+                                name="Auth_Number"
                                 className="form-control"
                                 maxLength="50"
                                 title="Please Enter Valid Type"

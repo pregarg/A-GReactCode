@@ -1818,7 +1818,7 @@ const MemeberInformationAccordion = (props) => {
                                 }) => (
                                     <div className="form-floating">
                                         <input
-                                            id="state"
+                                            id="state_"
                                             maxLength="240"
                                             type="text"
                                             className={`form-control ${meta.touched && meta.error
@@ -1830,12 +1830,12 @@ const MemeberInformationAccordion = (props) => {
                                             placeholder="State"
                                             {...field}
                                             onChange={(event) => {
-                                                setMemberInformationData({ ...memberInformationData, 'State': event.target['value'] })
+                                                setMemberInformationData({ ...memberInformationData, 'State_': event.target['value'] })
                                             }}
                                             onBlur={(event) =>
-                                                props.handleOnChange(event.target['value'], 'State')
+                                                props.handleOnChange(event.target['value'], 'State_')
                                             }
-                                            value={convertToCase(memberInformationData['State'])}
+                                            value={convertToCase(memberInformationData['State_'])}
                                         />
                                         <label htmlFor="floatingInputGrid">
                                             State
@@ -1853,7 +1853,7 @@ const MemeberInformationAccordion = (props) => {
                             </Field>
                             <ErrorMessage
                                 component="div"
-                                name="state"
+                                name="state_"
                                 className="invalid-feedback"
                             />
                         </div>

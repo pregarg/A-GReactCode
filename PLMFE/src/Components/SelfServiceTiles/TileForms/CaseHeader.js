@@ -432,6 +432,7 @@ const CaseHeader = () => {
     apiJson["MainCaseTable"] = mainCaseReqBody;
 
     console.log("final api", apiJson)
+    
 
     const response = await customAxios.post("/generic/create", apiJson, {
       headers: { Authorization: `Bearer ${token}` },
@@ -678,7 +679,7 @@ const CaseHeader = () => {
         for (let j = 0; j < originalProviderInformationGrid.length; j++) {
           const originalElement = originalProviderInformationGrid[j];
           if (element.rowNumber === originalElement.rowNumber) {
-            updateClaimArray.push({
+            updateProviderArray.push({
               caseNumber: element["caseNumber"],
               rowNumber: element["rowNumber"],
               ...CompareJSON(element, originalElement)
@@ -697,7 +698,7 @@ const CaseHeader = () => {
           if (!angelement.hasOwnProperty('caseNumber')) {
             angelement.caseNumber = prop.state.caseNumber;
           }
-          updateClaimArray.push({
+          updateProviderArray.push({
             operation: "I",
             rowNumber: angelement["rowNumber"],
             ...angelement
@@ -710,7 +711,7 @@ const CaseHeader = () => {
         const originalElement = originalProviderInformationGrid[i];
         const index = angProviderInformtionGrid.findIndex(element => originalElement.rowNumber === element.rowNumber);
         if (index === -1) {
-          updateClaimArray.push({
+          updateProviderArray.push({
             operation: "D",
             caseNumber: prop.state.caseNumber,
             rowNumber: originalElement["rowNumber"]
@@ -730,7 +731,7 @@ const CaseHeader = () => {
         for (let j = 0; j < originalRepresentativeInformationGrid.length; j++) {
           const originalElement = originalRepresentativeInformationGrid[j];
           if (element.rowNumber === originalElement.rowNumber) {
-            updateClaimArray.push({
+            updateRepresentativeArray.push({
               caseNumber: element["caseNumber"],
               rowNumber: element["rowNumber"],
               ...CompareJSON(element, originalElement)
@@ -749,7 +750,7 @@ const CaseHeader = () => {
           if (!angelement.hasOwnProperty('caseNumber')) {
             angelement.caseNumber = prop.state.caseNumber;
           }
-          updateClaimArray.push({
+          updateRepresentativeArray.push({
             operation: "I",
             rowNumber: angelement["rowNumber"],
             ...angelement
@@ -762,7 +763,7 @@ const CaseHeader = () => {
         const originalElement = originalRepresentativeInformationGrid[i];
         const index = angRepresentativeInformationGrid.findIndex(element => originalElement.rowNumber === element.rowNumber);
         if (index === -1) {
-          updateClaimArray.push({
+          updateRepresentativeArray.push({
             operation: "D",
             caseNumber: prop.state.caseNumber,
             rowNumber: originalElement["rowNumber"]
@@ -782,7 +783,7 @@ const CaseHeader = () => {
         for (let j = 0; j < originalAuthorizationInformationGrid.length; j++) {
           const originalElement = originalAuthorizationInformationGrid[j];
           if (element.rowNumber === originalElement.rowNumber) {
-            updateClaimArray.push({
+            updateAuthorizationArray.push({
               caseNumber: element["caseNumber"],
               rowNumber: element["rowNumber"],
               ...CompareJSON(element, originalElement)
@@ -801,7 +802,7 @@ const CaseHeader = () => {
           if (!angelement.hasOwnProperty('caseNumber')) {
             angelement.caseNumber = prop.state.caseNumber;
           }
-          updateClaimArray.push({
+          updateAuthorizationArray.push({
             operation: "I",
             rowNumber: angelement["rowNumber"],
             ...angelement
@@ -814,7 +815,7 @@ const CaseHeader = () => {
         const originalElement = originalAuthorizationInformationGrid[i];
         const index = angAuthorizationInformtionGrid.findIndex(element => originalElement.rowNumber === element.rowNumber);
         if (index === -1) {
-          updateClaimArray.push({
+          updateAuthorizationArray.push({
             operation: "D",
             caseNumber: prop.state.caseNumber,
             rowNumber: originalElement["rowNumber"]

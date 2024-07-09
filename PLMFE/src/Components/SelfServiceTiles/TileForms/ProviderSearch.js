@@ -55,7 +55,7 @@ export default function ProviderSearch(modalProps) {
                         type="text"
                         className="form-control"
                         id="ProviderIDVal"
-                        placeholder="Claim Number"
+                        placeholder="Provider ID"
                         name="providerID"
                         value={modalProps.selectSearchValues?.providerID || ""}
                         onChange={(event) => handleCriteriaChangeValue(event)}
@@ -64,6 +64,7 @@ export default function ProviderSearch(modalProps) {
                       />
                       <label htmlFor="ProviderIDVal">Provider ID</label>
                     </div>
+                    
                   </div>
                       </div>
                       </div>
