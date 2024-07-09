@@ -675,6 +675,215 @@ export default function ClaimInformationTable({
                                 disabled={lockStatus == "V"}
                             />
                         </div>
+                        <div className="col-xs-6 col-md-3">
+                            <label>Claim Number</label>
+                            <br />
+                            <input
+                                type="text"
+                                value={
+                                    "Claim_Number" in data && data.Claim_Number.value !== undefined
+                                        ? convertToCase(data.Claim_Number.value)
+                                        : convertToCase(data.Claim_Number)
+                                }
+                                onChange={(evnt) =>
+                                    handleGridFieldChange(index, evnt, ClaimInformationTable.displayName)
+                                }
+                                name="Claim_Number"
+                                className="form-control"
+                                maxLength="50"
+                                title="Please Enter Claim Number"
+                                disabled={lockStatus == "V"}
+                            />
+                        </div>
+
+                        <div className="col-xs-6 col-md-3">
+                            <label>Provider ID</label>
+                            <br />
+                            <input
+                                type="text"
+                                value={
+                                    "ProviderID" in data && data.ProviderID.value !== undefined
+                                        ? convertToCase(data.ProviderID.value)
+                                        : convertToCase(data.ProviderID)
+                                }
+                                onChange={(evnt) =>
+                                    handleGridFieldChange(index, evnt, ClaimInformationTable.displayName)
+                                }
+                                name="ProviderID"
+                                className="form-control"
+                                maxLength="50"
+                                title="Please Enter ProviderID"
+                                disabled={lockStatus == "V"}
+                            />
+                        </div>
+
+                        <div className="col-xs-6 col-md-3">
+                            <label>Service Span</label>
+                            <br />
+                            <input
+                                type="text"
+                                value={
+                                    "ServiceSpan" in data && data.ServiceSpan.value !== undefined
+                                        ? convertToCase(data.ServiceSpan.value)
+                                        : convertToCase(data.ServiceSpan)
+                                }
+                                onChange={(evnt) =>
+                                    handleGridFieldChange(index, evnt, ClaimInformationTable.displayName)
+                                }
+                                name="ServiceSpan"
+                                className="form-control"
+                                maxLength="50"
+                                title="Please Enter ServiceSpan"
+                                disabled={lockStatus == "V"}
+                            />
+                        </div>
+
+                        <div className="col-xs-6 col-md-3">
+                            <label>Member ID</label>
+                            <br />
+                            <input
+                                type="text"
+                                value={
+                                    "MemberID" in data && data.MemberID.value !== undefined
+                                        ? convertToCase(data.MemberID.value)
+                                        : convertToCase(data.MemberID)
+                                }
+                                onChange={(evnt) =>
+                                    handleGridFieldChange(index, evnt, ClaimInformationTable.displayName)
+                                }
+                                name="MemberID"
+                                className="form-control"
+                                maxLength="50"
+                                title="Please Enter MemberID"
+                                disabled={lockStatus == "V"}
+                            />
+                        </div>
+
+                        <div className="col-xs-6 col-md-3">
+                            <label>Provider Name</label>
+                            <br />
+                            <input
+                                type="text"
+                                value={
+                                    "ProviderName" in data && data.ProviderName.value !== undefined
+                                        ? convertToCase(data.ProviderName.value)
+                                        : convertToCase(data.ProviderName)
+                                }
+                                onChange={(evnt) =>
+                                    handleGridFieldChange(index, evnt, ClaimInformationTable.displayName)
+                                }
+                                name="ProviderName"
+                                className="form-control"
+                                maxLength="50"
+                                title="Please Enter ProviderName"
+                                disabled={lockStatus == "V"}
+                            />
+                        </div>
+                        <div className="col-xs-6 col-md-3">
+                            <label>Claim Type</label>
+                            <br />
+                            <input
+                                type="text"
+                                value={
+                                    "Claim_type" in data && data.Claim_type.value !== undefined
+                                        ? convertToCase(data.Claim_type.value)
+                                        : convertToCase(data.Claim_type)
+                                }
+                                onChange={(evnt) =>
+                                    handleGridFieldChange(index, evnt, ClaimInformationTable.displayName)
+                                }
+                                name="Claim_type"
+                                className="form-control"
+                                maxLength="50"
+                                title="Please Enter Claim_type"
+                                disabled={lockStatus == "V"}
+                            />
+                        </div>
+
+                        <div className="col-xs-6 col-md-3">
+                            <label>Authorization Number</label>
+                            <br />
+                            <input
+                                type="text"
+                                value={
+                                    "Authorization_Number" in data && data.Authorization_Number.value !== undefined
+                                        ? convertToCase(data.Authorization_Number.value)
+                                        : convertToCase(data.Authorization_Number)
+                                }
+                                onChange={(evnt) =>
+                                    handleGridFieldChange(index, evnt, ClaimInformationTable.displayName)
+                                }
+                                name="Authorization_Number"
+                                className="form-control"
+                                maxLength="50"
+                                title="Please Enter Authorization_Number"
+                                disabled={lockStatus == "V"}
+                            />
+                        </div>
+
+                        <div className="col-xs-6 col-md-3">
+                            <label>Denial Description</label>
+                            <br />
+                            <input
+                                type="text"
+                                value={
+                                    "DenialDescription" in data && data.DenialDescription.value !== undefined
+                                        ? convertToCase(data.DenialDescription.value)
+                                        : convertToCase(data.DenialDescription)
+                                }
+                                onChange={(evnt) =>
+                                    handleGridFieldChange(index, evnt, ClaimInformationTable.displayName)
+                                }
+                                name="DenialDescription"
+                                className="form-control"
+                                maxLength="50"
+                                title="Please Enter DenialDescription"
+                                disabled={lockStatus == "V"}
+                            />
+                        </div>
+
+                        <div className="col-xs-6 col-md-3">
+                            <label>Member First Name</label>
+                            <br />
+                            <input
+                                type="text"
+                                value={
+                                    "MemberFirstName" in data && data.MemberFirstName.value !== undefined
+                                        ? convertToCase(data.MemberFirstName.value)
+                                        : convertToCase(data.MemberFirstName)
+                                }
+                                onChange={(evnt) =>
+                                    handleGridFieldChange(index, evnt, ClaimInformationTable.displayName)
+                                }
+                                name="MemberFirstName"
+                                className="form-control"
+                                maxLength="50"
+                                title="Please Enter MemberFirstName"
+                                disabled={lockStatus == "V"}
+                            />
+                        </div>
+
+                        <div className="col-xs-6 col-md-3">
+                            <label>Denial Code</label>
+                            <br />
+                            <input
+                                type="text"
+                                value={
+                                    "DenialCode" in data && data.DenialCode.value !== undefined
+                                        ? convertToCase(data.DenialCode.value)
+                                        : convertToCase(data.DenialCode)
+                                }
+                                onChange={(evnt) =>
+                                    handleGridFieldChange(index, evnt, ClaimInformationTable.displayName)
+                                }
+                                name="DenialCode"
+                                className="form-control"
+                                maxLength="50"
+                                title="Please Enter DenialCode"
+                                disabled={lockStatus == "V"}
+                            />
+                        </div>
+
                     </div>
                 </div>
             </>

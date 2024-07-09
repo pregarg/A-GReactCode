@@ -195,6 +195,26 @@ export default function ProviderInformationTable({
                             />
                         </div>
                         <div className="col-xs-6 col-md-3">
+                            <label>Provider Last Name</label>
+                            <br />
+                            <input
+                                type="text"
+                                value={
+                                    "Provider_Last_Name" in data && data.Provider_Last_Name.value !== undefined
+                                        ? convertToCase(data.Provider_Last_Name.value)
+                                        : convertToCase(data.Provider_Last_Name)
+                                }
+                                onChange={(evnt) =>
+                                    handleGridFieldChange(index, evnt, ProviderInformationTable.displayName)
+                                }
+                                name="Provider_Last_Name"
+                                className="form-control"
+                                maxLength="50"
+                                title="Please Enter Provider Last Name"
+                                disabled={lockStatus == "V"}
+                            />
+                        </div>
+                        <div className="col-xs-6 col-md-3">
                             <label>Provider Role</label>
                             <br />
                             <Select
@@ -374,6 +394,68 @@ export default function ProviderInformationTable({
                                 id="lineNumberDropDown"
                                 isDisabled={lockStatus == "V"}
                                 isClearable
+                            />
+                        </div>
+                        <div className="col-xs-6 col-md-3">
+                            <label>Contact Phone Number</label>
+                            <br />
+                            <input
+                                type="text"
+                                value={
+                                    "Contact_Phone_Number" in data && data.Contact_Phone_Number.value !== undefined
+                                        ? convertToCase(data.Contact_Phone_Number.value)
+                                        : convertToCase(data.Contact_Phone_Number)
+                                }
+                                onChange={(evnt) =>
+                                    handleGridFieldChange(index, evnt, ProviderInformationTable.displayName)
+                                }
+                                name="Contact_Phone_Number"
+                                className="form-control"
+                                maxLength="50"
+                                title="Please Enter Contact Phone Number"
+                                disabled={lockStatus == "V"}
+                            />
+                        </div>
+
+                        <div className="col-xs-6 col-md-3">
+                            <label>Provider Taxonomy</label>
+                            <br />
+                            <input
+                                type="text"
+                                value={
+                                    "Provider_Taxonomy" in data && data.Provider_Taxonomy.value !== undefined
+                                        ? convertToCase(data.Provider_Taxonomy.value)
+                                        : convertToCase(data.Provider_Taxonomy)
+                                }
+                                onChange={(evnt) =>
+                                    handleGridFieldChange(index, evnt, ProviderInformationTable.displayName)
+                                }
+                                name="Provider_Taxonomy"
+                                className="form-control"
+                                maxLength="50"
+                                title="Please Enter Provider Taxonomy"
+                                disabled={lockStatus == "V"}
+                            />
+                        </div>
+
+                        <div className="col-xs-6 col-md-3">
+                            <label>Contact Email Address</label>
+                            <br />
+                            <input
+                                type="text"
+                                value={
+                                    "Contact_Email_Address" in data && data.Contact_Email_Address.value !== undefined
+                                        ? convertToCase(data.Contact_Email_Address.value)
+                                        : convertToCase(data.Contact_Email_Address)
+                                }
+                                onChange={(evnt) =>
+                                    handleGridFieldChange(index, evnt, ProviderInformationTable.displayName)
+                                }
+                                name="Contact_Email_Address"
+                                className="form-control"
+                                maxLength="50"
+                                title="Please Enter Contact Email Address"
+                                disabled={lockStatus == "V"}
                             />
                         </div>
                         <div className="col-xs-6 col-md-3">
@@ -710,6 +792,7 @@ export default function ProviderInformationTable({
                                 />
                             </div>
                         </div>
+                        
                         <div className="col-xs-6 col-md-3">
                             <label htmlFor="datePicker">Par Provider End Date</label>
                             <br />
@@ -728,6 +811,45 @@ export default function ProviderInformationTable({
                                             index,
                                             selectValue,
                                             "Par_Provider_End_Date",
+                                            ProviderInformationTable.displayName
+                                        )
+                                    }
+                                    peekNextMonth
+                                    showMonthDropdown
+                                    onKeyDown={(e) => {
+                                        e.preventDefault();
+                                    }}
+                                    showYearDropdown
+                                    dropdownMode="select"
+                                    dateFormat="MM/dd/yyyy"
+                                    id="datePicker"
+                                    disabled={lockStatus == "V"}
+                                />
+                            </div>
+                        </div>
+                        <div className="col-xs-6 col-md-3">
+                            <label htmlFor="datePicker">Provider Par Date</label>
+                            <br />
+                            <div className="form-floating">
+                                <ReactDatePicker
+                                    className="example-custom-input-modal"
+
+                                    selected={
+                                        data?.Provider_Par_Date?.value !== undefined
+                                            ? new Date(data.Provider_Par_Date.value.toString())
+                                            : data?.Provider_Par_Date !== undefined
+                                                ? new Date(data.Provider_Par_Date.toString())
+                                                : new Date()
+                                    }
+
+
+
+                                    name="Provider_Par_Date"
+                                    onChange={(selectValue, event) =>
+                                        handleGridDateChange(
+                                            index,
+                                            selectValue,
+                                            "Provider_Par_Date",
                                             ProviderInformationTable.displayName
                                         )
                                     }

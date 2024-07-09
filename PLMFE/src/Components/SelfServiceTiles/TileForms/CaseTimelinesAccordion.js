@@ -14,7 +14,7 @@ const CaseTimelinesAccordion = (props) => {
   const RenderDatePickerReceivedDate = (props) => (
     <div className="form-floating">
       <input {...props} placeholder="Date of Birth" />
-      <label htmlFor="datePicker">Received Date</label>
+      <label htmlFor="datePicker">Case Received Date</label>
     </div>
   );
   const RenderDatePickerAORRecievedDate = (props) => (
@@ -48,7 +48,7 @@ const CaseTimelinesAccordion = (props) => {
   const tabRef = useRef("HomeView");
   let prop = useLocation();
   let caseFilingMethodValues = [];
-
+  console.log("uselocation prop--->",prop);
   useEffect(() => {
     try {
       if (mastersSelector.hasOwnProperty("masterAngCaseFilingMethod")) {
@@ -218,6 +218,7 @@ const CaseTimelinesAccordion = (props) => {
                         props.handleOnChange(event.target['value'], 'Case_Aging')
                       }
                       value={convertToCase(caseTimelinesData['Case_Aging'])}
+                      disabled={prop.state.stageName=== 'Intake'}
 
                     />
                     <label htmlFor="floatingInputGrid">
