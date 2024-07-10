@@ -801,27 +801,6 @@ export default function ClaimInformationTable({
                         </div>
 
                         <div className="col-xs-6 col-md-3">
-                            <label>Authorization Number</label>
-                            <br />
-                            <input
-                                type="text"
-                                value={
-                                    "Authorization_Number" in data && data.Authorization_Number.value !== undefined
-                                        ? convertToCase(data.Authorization_Number.value)
-                                        : convertToCase(data.Authorization_Number)
-                                }
-                                onChange={(evnt) =>
-                                    handleGridFieldChange(index, evnt, ClaimInformationTable.displayName)
-                                }
-                                name="Authorization_Number"
-                                className="form-control"
-                                maxLength="50"
-                                title="Please Enter Authorization_Number"
-                                disabled={lockStatus == "V"}
-                            />
-                        </div>
-
-                        <div className="col-xs-6 col-md-3">
                             <label>Denial Description</label>
                             <br />
                             <input
@@ -989,10 +968,10 @@ export default function ClaimInformationTable({
                                 : convertToCase(data.Claim_Number)}
                         </td>
                         <td className="tableData">
-                            {"Authorization_Number" in data &&
-                                data.Authorization_Number.value !== undefined
-                                ? convertToCase(data.Authorization_Number.value)
-                                : convertToCase(data.Authorization_Number)}
+                            {"Auth_Number" in data &&
+                                data.Auth_Number.value !== undefined
+                                ? convertToCase(data.Auth_Number.value)
+                                : convertToCase(data.Auth_Number)}
                         </td>
                         <td className="tableData">
                             {"Patient_Ref_Account_Number" in data &&

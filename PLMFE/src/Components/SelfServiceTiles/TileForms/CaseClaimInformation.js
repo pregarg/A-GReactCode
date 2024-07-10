@@ -361,12 +361,21 @@ const CaseClaimInformation = (props) => {
     };
 
     const deleteTableRows = (index, triggeredFormName, operationValue) => {
+        console.log(
+            "Inside deleteTableRows with all values==== ",
+            index,
+            " & ",
+            triggeredFormName,
+            " & ",
+            operationValue
+          );
         if (
-            operationValue === "Edit" &&
+            operationValue !== "Edit" &&
             (operationValue === "Add" || operationValue === "Force Delete")
         ) {
+            console.log("force deleteeeee--->")
             gridRowsFinalSubmit(triggeredFormName, index, "Delete");
-            if (triggeredFormName === "ClaimInformationTable") {
+            if (triggeredFormName === "ClaimInformationTable") { 
                 const rows = [...claimInformationGridData];
                 rows.splice(index, 1);
                 setclaimInformationGridData(rows);
@@ -456,7 +465,7 @@ const CaseClaimInformation = (props) => {
 
 
     const claimSearchTableComponent = () => {
-        let columnNames = 'Claim Number~Claim_Number,Claim Type~Claim_type,Authorization Number~Authorization_Number,Service Start Date~Service_Start_Date,Service End Date~Service_End_Date,Service Span~ServiceSpan,Denial Date~DenialDate,Denial Code~DenialCode,Denial Description~DenialDescription,Member ID~MemberID,Member First Name~MemberFirstName,Member Last Name~MemberLastName,Provider ID~ProviderID,Provider Name~ProviderName';
+        let columnNames = 'Claim Number~Claim_Number,Claim Type~Claim_type,Authorization Number~Auth_Number,Service Start Date~Service_Start_Date,Service End Date~Service_End_Date,Service Span~ServiceSpan,Denial Date~DenialDate,Denial Code~DenialCode,Denial Description~DenialDescription,Member ID~MemberID,Member First Name~MemberFirstName,Member Last Name~MemberLastName,Provider ID~ProviderID,Provider Name~ProviderName';
         console.log("APIDATA column data", responseData);
         if (responseData.length > 0) {
             return (
@@ -571,9 +580,9 @@ const CaseClaimInformation = (props) => {
     };
 
     const providerSearchTableComponent = () => {
-        let columnNames = 'Issue Number~Issue_Number, Provider ID~Provider_ID,Provider First Name~Provider_Name, TIN~Provider_TIN, Provider/Vendor Specialty~Provider_Vendor_Specialty,NPI~NPI_ID, Phone~Phone_Number, Address Line 1~Address_Line_1, Address Line 2~Address_Line_2, Zip Code~Zip_Code,City~City, State~State, Participating Provider~Participating_Provider ,Provider IPA~Provider_IPA,Vendor ID~Vendor_ID,Vendor Name~Vendor_Name, Provider Type~Provider_Type';
+        //let columnNames = 'Issue Number~Issue_Number, Provider ID~Provider_ID,Provider First Name~Provider_Name, TIN~Provider_TIN, Provider/Vendor Specialty~Provider_Vendor_Specialty,NPI~NPI_ID, Phone~Phone_Number, Address Line 1~Address_Line_1, Address Line 2~Address_Line_2, Zip Code~Zip_Code,City~City, State~State, Participating Provider~Participating_Provider ,Provider IPA~Provider_IPA,Vendor ID~Vendor_ID,Vendor Name~Vendor_Name, Provider Type~Provider_Type';
         
-        //let columnNames = 'Issue Number~Issue_Number, Provider ID~Provider_ID,Provider First Name~Provider_Name,Provider Last Name~Provider_Last_Name, TIN~Provider_TIN, Provider/Vendor Specialty~Provider_Vendor_Specialty,Provider Taxonomy~Provider_Taxonomy ,NPI~NPI_ID, Phone~Phone_Number, Address Line 1~Address_Line_1, Address Line 2~Address_Line_2, Zip Code~Zip_Code,City~City, State~State, Participating Provider~Participating_Provider,Provider Par Date~Provider_Par_Date ,Provider IPA~Provider_IPA,Vendor ID~Vendor_ID,Vendor Name~Vendor_Name, Provider Type~Provider_Type,Contact Name~Provider_Contact_Name,Contact Phone Number~Contact_Phone_Number ,Contact Email Address~Contact_Email_Address ';
+        let columnNames = 'Issue Number~Issue_Number,Provider ID~Provider_ID,Provider First Name~Provider_Name,Provider Last Name~Provider_Last_Name,TIN~Provider_TIN,Provider/Vendor Specialty~Provider_Vendor_Specialty,Provider Taxonomy~Provider_Taxonomy,NPI~NPI_ID,Phone~Phone_Number,Address Line 1~Address_Line_1,Address Line 2~Address_Line_2,Zip Code~Zip_Code,City~City,State~State,Participating Provider~Participating_Provider,Provider Par Date~Provider_Par_Date,Provider IPA~Provider_IPA,Vendor ID~Vendor_ID,Vendor Name~Vendor_Name,Provider Type~Provider_Type,Contact Name~Provider_Contact_Name,Contact Phone Number~Contact_Phone_Number,Contact Email Address~Contact_Email_Address';
         
         console.log("Provider search APIDATA column data", responseData);
         if (responseData.length > 0) {
@@ -672,6 +681,7 @@ const CaseClaimInformation = (props) => {
         }
         if (triggeredFormName === "ProviderInformationTable") {
             rowInput = providerInformationGridData[index];
+            console.log("rowInput2----->", rowInput)
             setGridFieldTempState(rowInput);
         }
     };

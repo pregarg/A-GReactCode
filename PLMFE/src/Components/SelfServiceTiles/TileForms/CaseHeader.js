@@ -584,7 +584,7 @@ const CaseHeader = () => {
     //let updatedData = filterData();
 
     //const saveType = event.target.name === "saveAndSubmit" ? "SS" : "SE";
-    const saveType = "SE";
+    const saveType = "SS";
 
     let apiJson = {};
 
