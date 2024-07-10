@@ -1,0 +1,19 @@
+.case-field-wrapper {
+  text-align: left;
+  font-weight: 300;
+  font-size: 15px;
+}
+
+.case-field-wrapper span:nth-child(2) {
+  font-weight: 600;
+}
+
+.form-floating input::placeholder {
+  font-weight: 300;
+  color: black;
+}
+
+.form-floating label {
+  font-weight: 300;
+  color: black;
+}

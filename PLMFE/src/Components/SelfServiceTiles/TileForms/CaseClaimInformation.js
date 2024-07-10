@@ -13,6 +13,7 @@ import TableComponent from "../../../../src/util/TableComponent";
 import ClaimSearch from "../TileForms/ClaimSearch";
 import ProviderSearch from "../TileForms/ProviderSearch";
 import useUpdateDecision from '../../CustomHooks/useUpdateDecision';
+import {selectStyle} from "./SelectStyle";
 
 const CaseClaimInformation = (props) => {
     const {
@@ -862,51 +863,7 @@ const CaseClaimInformation = (props) => {
                                     }) => (
                                         <div className="form-floating">
                                             <Select
-                                                styles={{
-                                                    control: (provided) => ({
-                                                        ...provided,
-                                                        height: "58px",
-                                                        fontWeight: "lighter",
-                                                    }),
-                                                    menuList: (provided) => ({
-                                                        ...provided,
-                                                        maxHeight: 200,
-                                                    }),
-                                                    menu: (provided) => ({
-                                                        ...provided,
-                                                        zIndex: 9999,
-                                                    }),
-
-                                                    container: (provided, state) => ({
-                                                        ...provided,
-                                                        marginTop: 0,
-                                                    }),
-                                                    valueContainer: (provided, state) => ({
-                                                        ...provided,
-                                                        overflow: "visible",
-                                                    }),
-                                                    placeholder: (provided, state) => ({
-                                                        ...provided,
-                                                        position: "absolute",
-                                                        top:
-                                                            state.hasValue ||
-                                                                state.selectProps.inputValue
-                                                                ? -15
-                                                                : "50%",
-                                                        transition:
-                                                            "top 0.1s, font-size 0.1s",
-                                                        fontSize:
-                                                            (state.hasValue ||
-                                                                state.selectProps.inputValue) &&
-                                                            13,
-                                                        color: 'black'
-                                                    }),
-                                                    singleValue: (styles) => ({ ...styles, textAlign: 'left' }),
-                                                    option: (provided, state) => ({
-                                                        ...provided,
-                                                        textAlign: "left",
-                                                    }),
-                                                }}
+                                                styles={{...selectStyle}}
                                                 components={{
                                                     ValueContainer: CustomValueContainer,
                                                 }}
@@ -914,10 +871,8 @@ const CaseClaimInformation = (props) => {
                                                 name={field.name}
                                                 isDisabled={
                                                     tabRef.current === "DashboardView" &&
-                                                        prop.state.lockStatus !== undefined &&
-                                                        prop.state.lockStatus === "Y"
-                                                        ? true
-                                                        : false
+                                                    prop.state.lockStatus !== undefined &&
+                                                    prop.state.lockStatus === "Y"
                                                 }
                                                 className="basic-multi-select"
                                                 options={claimTypeValues}
@@ -933,12 +888,8 @@ const CaseClaimInformation = (props) => {
                                                     }
                                                 }
                                                 placeholder="Claim Type"
-                                                //styles={{...customStyles}}
                                                 isSearchable={
-                                                    document.documentElement.clientHeight >
-                                                        document.documentElement.clientWidth
-                                                        ? false
-                                                        : true
+                                                    document.documentElement.clientHeight <= document.documentElement.clientWidth
                                                 }
                                             />
                                             {meta.touched && meta.error && (
@@ -1044,51 +995,7 @@ const CaseClaimInformation = (props) => {
                                     }) => (
                                         <div className="form-floating">
                                             <Select
-                                                styles={{
-                                                    control: (provided) => ({
-                                                        ...provided,
-                                                        height: "58px",
-                                                        fontWeight: "lighter",
-                                                    }),
-                                                    menuList: (provided) => ({
-                                                        ...provided,
-                                                        maxHeight: 200,
-                                                    }),
-                                                    menu: (provided) => ({
-                                                        ...provided,
-                                                        zIndex: 9999,
-                                                    }),
-
-                                                    container: (provided, state) => ({
-                                                        ...provided,
-                                                        marginTop: 0,
-                                                    }),
-                                                    valueContainer: (provided, state) => ({
-                                                        ...provided,
-                                                        overflow: "visible",
-                                                    }),
-                                                    placeholder: (provided, state) => ({
-                                                        ...provided,
-                                                        position: "absolute",
-                                                        top:
-                                                            state.hasValue ||
-                                                                state.selectProps.inputValue
-                                                                ? -15
-                                                                : "50%",
-                                                        transition:
-                                                            "top 0.1s, font-size 0.1s",
-                                                        fontSize:
-                                                            (state.hasValue ||
-                                                                state.selectProps.inputValue) &&
-                                                            13,
-                                                        color: 'black'
-                                                    }),
-                                                    singleValue: (styles) => ({ ...styles, textAlign: 'left' }),
-                                                    option: (provided, state) => ({
-                                                        ...provided,
-                                                        textAlign: "left",
-                                                    }),
-                                                }}
+                                                styles={{...selectStyle}}
                                                 components={{
                                                     ValueContainer: CustomValueContainer,
                                                 }}
@@ -1096,10 +1003,8 @@ const CaseClaimInformation = (props) => {
                                                 name={field.name}
                                                 isDisabled={
                                                     tabRef.current === "DashboardView" &&
-                                                        prop.state.lockStatus !== undefined &&
-                                                        prop.state.lockStatus === "Y"
-                                                        ? true
-                                                        : false
+                                                    prop.state.lockStatus !== undefined &&
+                                                    prop.state.lockStatus === "Y"
                                                 }
                                                 className="basic-multi-select"
                                                 options={decisionValues}
@@ -1149,51 +1054,7 @@ const CaseClaimInformation = (props) => {
                                     }) => (
                                         <div className="form-floating">
                                             <Select
-                                                styles={{
-                                                    control: (provided) => ({
-                                                        ...provided,
-                                                        height: "58px",
-                                                        fontWeight: "lighter",
-                                                    }),
-                                                    menuList: (provided) => ({
-                                                        ...provided,
-                                                        maxHeight: 200,
-                                                    }),
-                                                    menu: (provided) => ({
-                                                        ...provided,
-                                                        zIndex: 9999,
-                                                    }),
-
-                                                    container: (provided, state) => ({
-                                                        ...provided,
-                                                        marginTop: 0,
-                                                    }),
-                                                    valueContainer: (provided, state) => ({
-                                                        ...provided,
-                                                        overflow: "visible",
-                                                    }),
-                                                    placeholder: (provided, state) => ({
-                                                        ...provided,
-                                                        position: "absolute",
-                                                        top:
-                                                            state.hasValue ||
-                                                                state.selectProps.inputValue
-                                                                ? -15
-                                                                : "50%",
-                                                        transition:
-                                                            "top 0.1s, font-size 0.1s",
-                                                        fontSize:
-                                                            (state.hasValue ||
-                                                                state.selectProps.inputValue) &&
-                                                            13,
-                                                        color: 'black'
-                                                    }),
-                                                    singleValue: (styles) => ({ ...styles, textAlign: 'left' }),
-                                                    option: (provided, state) => ({
-                                                        ...provided,
-                                                        textAlign: "left",
-                                                    }),
-                                                }}
+                                                styles={{...selectStyle}}
                                                 components={{
                                                     ValueContainer: CustomValueContainer,
                                                 }}
@@ -1201,10 +1062,8 @@ const CaseClaimInformation = (props) => {
                                                 name={field.name}
                                                 isDisabled={
                                                     tabRef.current === "DashboardView" &&
-                                                        prop.state.lockStatus !== undefined &&
-                                                        prop.state.lockStatus === "Y"
-                                                        ? true
-                                                        : false
+                                                    prop.state.lockStatus !== undefined &&
+                                                    prop.state.lockStatus === "Y"
                                                 }
                                                 className="basic-multi-select"
                                                 options={decisionReasonValues}
@@ -1303,56 +1162,7 @@ const CaseClaimInformation = (props) => {
                                     }) => (
                                         <div className="form-floating">
                                             <Select
-                                                styles={{
-                                                    control: (provided) => ({
-                                                        ...provided,
-                                                        height: "58px",
-                                                        fontWeight: "lighter",
-                                                    }),
-                                                    menuList: (provided) => ({
-                                                        ...provided,
-                                                        maxHeight: 200,
-                                                    }),
-                                                    menu: (provided) => ({
-                                                        ...provided,
-                                                        zIndex: 9999,
-                                                    }),
-
-                                                    container: (provided, state) => ({
-                                                        ...provided,
-                                                        marginTop: 0,
-                                                    }),
-                                                    valueContainer: (provided, state) => ({
-                                                        ...provided,
-                                                        overflow: "visible",
-                                                    }),
-                                                    placeholder: (provided, state) => ({
-                                                        ...provided,
-                                                        position: "absolute",
-                                                        top:
-                                                            state.hasValue ||
-                                                                state.selectProps.inputValue
-                                                                ? -15
-                                                                : "50%",
-                                                        transition:
-                                                            "top 0.1s, font-size 0.1s",
-                                                        fontSize:
-                                                            (state.hasValue ||
-                                                                state.selectProps.inputValue) &&
-                                                            13,
-                                                        color: 'black'
-                                                    }),
-                                                    singleValue: (styles) => ({
-                                                        ...styles, textAlign: 'left', textOverflow: "ellipsis",
-                                                        overflow: "hidden",
-                                                        whiteSpace: "nowrap",
-                                                        maxWidth: 230,
-                                                    }),
-                                                    option: (provided, state) => ({
-                                                        ...provided,
-                                                        textAlign: "left",
-                                                    }),
-                                                }}
+                                                styles={{...selectStyle}}
                                                 components={{
                                                     ValueContainer: CustomValueContainer,
                                                 }}
@@ -1518,51 +1328,7 @@ const CaseClaimInformation = (props) => {
                                     }) => (
                                         <div className="form-floating">
                                             <Select
-                                                styles={{
-                                                    control: (provided) => ({
-                                                        ...provided,
-                                                        height: "58px",
-                                                        fontWeight: "lighter",
-                                                    }),
-                                                    menuList: (provided) => ({
-                                                        ...provided,
-                                                        maxHeight: 200,
-                                                    }),
-                                                    menu: (provided) => ({
-                                                        ...provided,
-                                                        zIndex: 9999,
-                                                    }),
-
-                                                    container: (provided, state) => ({
-                                                        ...provided,
-                                                        marginTop: 0,
-                                                    }),
-                                                    valueContainer: (provided, state) => ({
-                                                        ...provided,
-                                                        overflow: "visible",
-                                                    }),
-                                                    placeholder: (provided, state) => ({
-                                                        ...provided,
-                                                        position: "absolute",
-                                                        top:
-                                                            state.hasValue ||
-                                                                state.selectProps.inputValue
-                                                                ? -15
-                                                                : "50%",
-                                                        transition:
-                                                            "top 0.1s, font-size 0.1s",
-                                                        fontSize:
-                                                            (state.hasValue ||
-                                                                state.selectProps.inputValue) &&
-                                                            13,
-                                                        color: 'black'
-                                                    }),
-                                                    singleValue: (styles) => ({ ...styles, textAlign: 'left' }),
-                                                    option: (provided, state) => ({
-                                                        ...provided,
-                                                        textAlign: "left",
-                                                    }),
-                                                }}
+                                                styles={{...selectStyle}}
                                                 components={{
                                                     ValueContainer: CustomValueContainer,
                                                 }}
@@ -1570,10 +1336,8 @@ const CaseClaimInformation = (props) => {
                                                 name={field.name}
                                                 isDisabled={
                                                     tabRef.current === "DashboardView" &&
-                                                        prop.state.lockStatus !== undefined &&
-                                                        prop.state.lockStatus === "Y"
-                                                        ? true
-                                                        : false
+                                                    prop.state.lockStatus !== undefined &&
+                                                    prop.state.lockStatus === "Y"
                                                 }
                                                 className="basic-multi-select"
                                                 options={processingStatusValues}
