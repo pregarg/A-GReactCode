@@ -7,7 +7,7 @@ import { useAxios } from '../../api/axios.hook';
 
 export default function useUpdateDecision() {
 
-  const [decisionState, setDecisionState] = useState({ decisionNotes: '' });
+  const [decisionState, setDecisionState] = useState({ decisionNotes: "" });
   const token = useSelector((state) => state.auth.token);
   const { getTableDetails, acceptNumbersOnly, extractDate } = useGetDBTables();
 
@@ -37,7 +37,7 @@ export default function useUpdateDecision() {
         procInput.input2 = AddProvider.displayName;
         procInput.input3 = prop.state.caseNumber;*/
     procInput.option = 'UPDATEQUEUEVARIABLES';
-    procInput.DecisionNotes = (prop.state.decisionNotes != undefined) ? (prop.state.decisionNotes.trim()) : '';
+    procInput.DecisionNotes = (prop.state.decisionNotes != undefined) ? (prop.state.decisionNotes.trim()) : "";
     procInput.DECISION = decsn;
     procInput.StageName = prop.state.stageName;
     procInput.FlowId = prop.state.flowId;
@@ -133,10 +133,16 @@ export default function useUpdateDecision() {
           procInput.stageName = prop.state.stageName;
           procInput.transactionType = prop.state.formNames;
           procInput.caseID = prop.state.caseNumber;
-          procInput.decision = decsn;
-          procInput.decNotes = (prop.state.decisionNotes === undefined) ? '' : prop.state.decisionNotes;
+          procInput.decision = decsn; 
+          procInput.decNotes =
+              prop.state.decisionNotes === undefined
+                ? ""
+                : prop.state.decisionNotes;
+                console.log("prop.state.decisionNotes--->",prop.state.decisionNotes);
+            procInput.flowId = prop.state.flowId;
+          
           procInput.flowId = prop.state.flowId;
-        //  procInput.decisionReason= (prop.state.decisionReason) ? prop.state.decisionReason : '';
+          procInput.decisionReason= (prop.state.decisionReason) ? prop.state.decisionReason : '';
 
           console.log("Final proc Input: ", procInput);
 
@@ -327,7 +333,8 @@ export default function useUpdateDecision() {
       lockStat = 'Y';
     }
     else {
-      if (prop.state.lockStatus === 'Y' || prop.state.stageName === 'Exit' || prop.state.stageName === 'Discard') {
+      if (prop.state.lockStatus === 'Y' || prop.state.stageName === 'Exit' || prop.state.stageName === 'Discard'
+       ) {
         lockStat = 'Y';
       }
     }

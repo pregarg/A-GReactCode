@@ -466,7 +466,7 @@ const CaseHeader = () => {
         "Case created successfully: " +
         response.data["CreateCase_Output"]["CaseNo"]
       );
-      console.log(procData);
+      console.log("prerna",procData);
       submitCase(procData, navigateHome);
     }
   }
@@ -853,7 +853,9 @@ const CaseHeader = () => {
         let procDataState = {};
         procDataState.stageName = prop.state.stageName;
         procDataState.flowId = prop.state.flowId;
-
+        procDataState.decisionNotes = prop.state.decisionNotes;
+        console.log("prerna111--->", (prop.state.decisionNotes != undefined) ? (prop.state.decisionNotes.trim()) : "");
+        console.log("prerna2222--->",prop.state.decisionNotes);
         procDataState.caseNumber = prop.state.caseNumber;
         procDataState.decision = prop.state.decision;
 
@@ -865,6 +867,7 @@ const CaseHeader = () => {
           : "system";
         procDataState.formNames = CaseHeader.displayName;
         procData.state = procDataState;
+        
         alert(
           "Case updated successfully: " +
           prop.state.caseNumber
