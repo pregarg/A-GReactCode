@@ -25,7 +25,7 @@ export const selectStyle = {
         top: 8,
         overflow: "visible",
         fontWeight: 300,
-        color: 'hsl(0, 0%, 50%)'
+        color: "hsl(0deg 0% 57.65%)"
       }
     }
     return {
@@ -40,7 +40,7 @@ export const selectStyle = {
         position: "absolute",
         top: -14,
         fontSize: 12,
-        color: "#a1a3a5",
+        color: "hsl(0deg 0% 57.65%)",
         fontWeight: 300,
         fontFamily: 'Open Sans, sans-serif'
     };
