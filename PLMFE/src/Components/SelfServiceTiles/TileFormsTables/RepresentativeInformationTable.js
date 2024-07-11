@@ -543,7 +543,7 @@ export default function RepresentativeInformationTable({
                                     >
                                         <button
                                             className="deleteBtn"
-                                            style={{ float: "left" }}
+                                            style={{ width: "75%",float: "left" }}
                                             onClick={() => {
                                                 deleteTableRows(
                                                     index,
@@ -558,7 +558,7 @@ export default function RepresentativeInformationTable({
                                         </button>
                                         <button
                                             className="editBtn"
-                                            style={{ float: "right" }}
+                                            style={{ width: "75%",float: "right" }}
                                             type="button"
                                             onClick={() => {
                                                 editTableRows(index, RepresentativeInformationTable.displayName);
