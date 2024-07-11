@@ -770,10 +770,10 @@ export default function ProviderInformationTable({
 
                                     selected={
                                         data?.Par_Provider_Start_Date?.value !== undefined
-                                            ? new Date(data.Par_Provider_Start_Date.value.toString())
+                                            ? new Date(data.Par_Provider_Start_Date.value)
                                             : data?.Par_Provider_Start_Date !== undefined
-                                                ? new Date(data.Par_Provider_Start_Date.toString())
-                                                : new Date()
+                                                ? new Date(data.Par_Provider_Start_Date)
+                                                : null
                                     }
                                     name="Par_Provider_Start_Date"
                                     onChange={(selectValue, event) =>
@@ -806,10 +806,10 @@ export default function ProviderInformationTable({
                                     className="example-custom-input-modal"
                                     selected={
                                         data?.Par_Provider_End_Date?.value !== undefined
-                                            ? new Date(data.Par_Provider_End_Date.value.toString())
+                                            ? new Date(data.Par_Provider_End_Date.value)
                                             : data?.Par_Provider_End_Date !== undefined
-                                                ? new Date(data.Par_Provider_End_Date.toString())
-                                                : new Date()
+                                                ? new Date(data.Par_Provider_End_Date)
+                                                : null
                                     }
                                     name="Par_Provider_End_Date"
                                     onChange={(selectValue, event) =>
@@ -842,13 +842,11 @@ export default function ProviderInformationTable({
 
                                     selected={
                                         data?.Provider_Par_Date?.value !== undefined
-                                            ? new Date(data.Provider_Par_Date.value.toString())
+                                            ? new Date(data.Provider_Par_Date.value)
                                             : data?.Provider_Par_Date !== undefined
-                                                ? new Date(data.Provider_Par_Date.toString())
-                                                : new Date()
+                                                ? new Date(data.Provider_Par_Date)
+                                                : null
                                     }
-
-
 
                                     name="Provider_Par_Date"
                                     onChange={(selectValue, event) =>
@@ -1063,7 +1061,7 @@ export default function ProviderInformationTable({
                                     >
                                         <button
                                             className="deleteBtn"
-                                            style={{ float: "left" }}
+                                            style={{ width: "75%",float: "left" }}
                                             onClick={() => {
                                                 deleteTableRows(
                                                     index,
@@ -1078,7 +1076,7 @@ export default function ProviderInformationTable({
                                         </button>
                                         <button
                                             className="editBtn"
-                                            style={{ float: "right" }}
+                                            style={{width: "75%", float: "right" }}
                                             type="button"
                                             onClick={() => {
                                                 editTableRows(index, ProviderInformationTable.displayName);
