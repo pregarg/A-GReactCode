@@ -442,10 +442,10 @@ export default function ClaimInformationTable({
 
                                     selected={
                                         data?.Service_Start_Date?.value !== undefined
-                                            ? new Date(data.Service_Start_Date.value.toString())
+                                            ? new Date(data.Service_Start_Date.value)
                                             : data?.Service_Start_Date !== undefined
-                                                ? new Date(data.Service_Start_Date.toString())
-                                                : new Date()
+                                                ? new Date(data.Service_Start_Date)
+                                                : null
                                     }
 
 
@@ -483,10 +483,10 @@ export default function ClaimInformationTable({
 
                                     selected={
                                         data?.Service_End_Date?.value !== undefined
-                                            ? new Date(data.Service_End_Date.value.toString())
+                                            ? new Date(data.Service_End_Date.value)
                                             : data?.Service_End_Date !== undefined
-                                                ? new Date(data.Service_End_Date.toString())
-                                                : new Date()
+                                                ? new Date(data.Service_End_Date)
+                                                : null
                                     }
 
                                     name="Service_End_Date"
@@ -801,27 +801,6 @@ export default function ClaimInformationTable({
                         </div>
 
                         <div className="col-xs-6 col-md-3">
-                            <label>Authorization Number</label>
-                            <br />
-                            <input
-                                type="text"
-                                value={
-                                    "Authorization_Number" in data && data.Authorization_Number.value !== undefined
-                                        ? convertToCase(data.Authorization_Number.value)
-                                        : convertToCase(data.Authorization_Number)
-                                }
-                                onChange={(evnt) =>
-                                    handleGridFieldChange(index, evnt, ClaimInformationTable.displayName)
-                                }
-                                name="Authorization_Number"
-                                className="form-control"
-                                maxLength="50"
-                                title="Please Enter Authorization_Number"
-                                disabled={lockStatus == "V"}
-                            />
-                        </div>
-
-                        <div className="col-xs-6 col-md-3">
                             <label>Denial Description</label>
                             <br />
                             <input
@@ -862,7 +841,26 @@ export default function ClaimInformationTable({
                                 disabled={lockStatus == "V"}
                             />
                         </div>
-
+                        <div className="col-xs-6 col-md-3">
+                            <label>Member Last Name</label>
+                            <br />
+                            <input
+                                type="text"
+                                value={
+                                    "MemberLastName" in data && data.MemberLastName.value !== undefined
+                                        ? convertToCase(data.MemberLastName.value)
+                                        : convertToCase(data.MemberLastName)
+                                }
+                                onChange={(evnt) =>
+                                    handleGridFieldChange(index, evnt, ClaimInformationTable.displayName)
+                                }
+                                name="MemberLastName"
+                                className="form-control"
+                                maxLength="50"
+                                title="Please Enter MemberLastName"
+                                disabled={lockStatus == "V"}
+                            />
+                        </div>
                         <div className="col-xs-6 col-md-3">
                             <label>Denial Code</label>
                             <br />
@@ -882,6 +880,43 @@ export default function ClaimInformationTable({
                                 title="Please Enter DenialCode"
                                 disabled={lockStatus == "V"}
                             />
+                        </div>
+                        <div className="col-xs-6 col-md-3">
+                            <label htmlFor="datePicker">Denial Date</label>
+                            <br />
+                            <div className="form-floating">
+                                <ReactDatePicker
+                                    className="example-custom-input-modal"
+
+                                    selected={
+                                        data?.DenialDate?.value !== undefined
+                                            ? new Date(data.DenialDate.value)
+                                            : data?.DenialDate !== undefined
+                                                ? new Date(data.DenialDate)
+                                                : null
+                                    }
+
+                                    name="DenialDate"
+                                    onChange={(selectValue, event) =>
+                                        handleGridDateChange(
+                                            index,
+                                            selectValue,
+                                            "DenialDate",
+                                            ClaimInformationTable.displayName
+                                        )
+                                    }
+                                    peekNextMonth
+                                    showMonthDropdown
+                                    onKeyDown={(e) => {
+                                        e.preventDefault();
+                                    }}
+                                    showYearDropdown
+                                    dropdownMode="select"
+                                    dateFormat="MM/dd/yyyy"
+                                    id="datePicker"
+                                    disabled={lockStatus == "V"}
+                                />
+                            </div>
                         </div>
 
                     </div>
@@ -918,7 +953,7 @@ export default function ClaimInformationTable({
                                     >
                                         <button
                                             className="deleteBtn"
-                                            style={{ float: "left" }}
+                                            style={{ width: "75%",float: "left" }}
                                             onClick={() => {
                                                 deleteTableRows(
                                                     index,
@@ -933,7 +968,7 @@ export default function ClaimInformationTable({
                                         </button>
                                         <button
                                             className="editBtn"
-                                            style={{ float: "right" }}
+                                            style={{ width: "75%",float: "right" }}
                                             type="button"
                                             onClick={() => {
                                                 editTableRows(index, ClaimInformationTable.displayName);
@@ -989,10 +1024,10 @@ export default function ClaimInformationTable({
                                 : convertToCase(data.Claim_Number)}
                         </td>
                         <td className="tableData">
-                            {"Authorization_Number" in data &&
-                                data.Authorization_Number.value !== undefined
-                                ? convertToCase(data.Authorization_Number.value)
-                                : convertToCase(data.Authorization_Number)}
+                            {"Auth_Number" in data &&
+                                data.Auth_Number.value !== undefined
+                                ? convertToCase(data.Auth_Number.value)
+                                : convertToCase(data.Auth_Number)}
                         </td>
                         <td className="tableData">
                             {"Patient_Ref_Account_Number" in data &&

@@ -187,9 +187,10 @@ export default function DecisionTab(tabInput) {
   };
 
   const handleLinearFieldChange = (evt) => {
-    
+    console.log("decisionNotes-->")
     const value = evt.target.value;
     if (evt.target.name === "decisionNotes") {
+      console.log("evt.target.name--->",evt.target.name)
       prop.state.decisionNotes = convertToCase(evt.target.value);
     }
     setDecisionState({
