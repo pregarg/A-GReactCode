@@ -10,10 +10,10 @@
 
 .form-floating input::placeholder {
   font-weight: 300;
-  color: black;
+  color: hsl(0, 0%, 50%);
 }
 
 .form-floating label {
   font-weight: 300;
-  color: black;
+  color: hsl(0, 0%, 50%);
 }
