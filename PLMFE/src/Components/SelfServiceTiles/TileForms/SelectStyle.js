@@ -3,7 +3,7 @@ export const selectStyle = {
     ...provided,
     height: "58px",
     fontWeight: 300,
-    color: 'black'
+    color: 'hsl(0, 0%, 50%)'
   }),
   menuList: (provided) => ({
     ...provided,
@@ -25,7 +25,7 @@ export const selectStyle = {
         top: 8,
         overflow: "visible",
         fontWeight: 300,
-        color: 'black'
+        color: 'hsl(0, 0%, 50%)'
       }
     }
     return {
@@ -38,11 +38,12 @@ export const selectStyle = {
       return {
         ...provided,
         position: "absolute",
-        top: -10,
+        top: -14,
         fontSize: 12,
-        color: "black",
+        color: "#a1a3a5",
         fontWeight: 300,
-      };
+        fontFamily: 'Open Sans, sans-serif'
+    };
     }
     return {
       ...provided,
