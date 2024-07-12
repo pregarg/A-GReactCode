@@ -1390,10 +1390,6 @@ const CaseClaimInformation = (props) => {
                                                         ? true
                                                         : false
 
-                                                    tabRef.current === "DashboardView" &&
-                                                    prop.state.lockStatus !== undefined &&
-                                                    prop.state.lockStatus === "Y"
-
                                                 }
                                                 className="basic-multi-select"
                                                 options={processingStatusValues}
