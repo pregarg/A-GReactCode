@@ -45,12 +45,10 @@ const CaseTimelinesAccordion = (props) => {
     );
   };
 
-  console.log("props", props);
-
   const tabRef = useRef("HomeView");
   let prop = useLocation();
   let caseFilingMethodValues = [];
-  console.log("uselocation prop--->",prop);
+  console.log("uselocation prop--->", prop);
   useEffect(() => {
     try {
       if (mastersSelector.hasOwnProperty("masterAngCaseFilingMethod")) {
@@ -107,9 +105,15 @@ const CaseTimelinesAccordion = (props) => {
                       isClearable
                       name={"Case_Filing_Method"}
                       isDisabled={
-                        tabRef.current === "DashboardView" &&
-                          prop.state.lockStatus !== undefined &&
-                          prop.state.lockStatus === "Y"
+
+                        prop.state.formView === "DashboardView" &&
+                          (prop.state.stageName === "Redirect Review" ||
+                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                          ? true
+                          : false
+
+                     
+
                       }
                       className="basic-multi-select"
                       options={caseFilingMethodValues}
@@ -172,7 +176,13 @@ const CaseTimelinesAccordion = (props) => {
                         props.handleOnChange(event.target['value'], 'Case_Aging')
                       }
                       value={convertToCase(caseTimelinesData['Case_Aging'])}
-                      disabled={prop.state.stageName=== 'Intake'}
+                      disabled={
+                        prop.state.formView === "DashboardView" &&
+                          (prop.state.stageName === "Intake" || prop.state.stageName === "Acknowledge" || prop.state.stageName === "Redirect Review" ||
+                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Research" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                          ? true
+                          : false
+                      }
 
                     />
                     <label htmlFor="floatingInputGrid">
@@ -216,6 +226,13 @@ const CaseTimelinesAccordion = (props) => {
                         props.handleOnChange(event.target['value'], 'Compliance_Time_Left_to_Finish')
                       }
                       value={convertToCase(caseTimelinesData['Compliance_Time_Left_to_Finish'])}
+                      disabled={
+                        prop.state.formView === "DashboardView" &&
+                          (prop.state.stageName === "Intake" || prop.state.stageName === "Acknowledge" || prop.state.stageName === "Redirect Review" ||
+                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Research" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                          ? true
+                          : false
+                      }
                     />
                     <label htmlFor="floatingInputGrid">
                       Compliance Time Left to Finish
@@ -260,6 +277,13 @@ const CaseTimelinesAccordion = (props) => {
                         props.handleOnChange(event.target['value'], 'Acknowledgment_Timely')
                       }
                       value={convertToCase(caseTimelinesData['Acknowledgment_Timely'])}
+                      disabled={
+                        prop.state.formView === "DashboardView" &&
+                          (prop.state.stageName === "Intake" || prop.state.stageName === "Acknowledge" || prop.state.stageName === "Redirect Review" ||
+                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Research" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                          ? true
+                          : false
+                      }
                     />
                     <label htmlFor="floatingInputGrid">
                       Acknowledgement Timely
@@ -302,6 +326,13 @@ const CaseTimelinesAccordion = (props) => {
                         props.handleOnChange(event.target['value'], 'Timeframe_Extended')
                       }
                       value={convertToCase(caseTimelinesData['Timeframe_Extended'])}
+                      disabled={
+                        prop.state.formView === "DashboardView" &&
+                          (prop.state.stageName === "Intake" || prop.state.stageName === "Acknowledge" || prop.state.stageName === "Redirect Review" ||
+                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Research" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                          ? true
+                          : false
+                      }
                     />
                     <label htmlFor="floatingInputGrid">
                       Timeframe Extended
@@ -344,6 +375,13 @@ const CaseTimelinesAccordion = (props) => {
                         props.handleOnChange(event.target['value'], 'Case_in_Compliance')
                       }
                       value={convertToCase(caseTimelinesData['Case_in_Compliance'])}
+                      disabled={
+                        prop.state.formView === "DashboardView" &&
+                          (prop.state.stageName === "Intake" || prop.state.stageName === "Acknowledge" || prop.state.stageName === "Redirect Review" ||
+                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Research" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                          ? true
+                          : false
+                      }
                     />
                     <label htmlFor="floatingInputGrid">
                       Case in Compliance
@@ -388,6 +426,13 @@ const CaseTimelinesAccordion = (props) => {
                         props.handleOnChange(event.target['value'], 'Out_of_Compliance_Reason')
                       }
                       value={convertToCase(caseTimelinesData['Out_of_Compliance_Reason'])}
+                      disabled={
+                        prop.state.formView === "DashboardView" &&
+                          (prop.state.stageName === "Intake" || prop.state.stageName === "Acknowledge" || prop.state.stageName === "Redirect Review" ||
+                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Research" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                          ? true
+                          : false
+                      }
                     />
                     <label htmlFor="floatingInputGrid">
                       Out of Compliance Reason
@@ -435,6 +480,13 @@ const CaseTimelinesAccordion = (props) => {
                     zIndex: "999",
                   }}
                   customInput={<RenderDatePickerReceivedDate />}
+                  disabled={
+                    prop.state.formView === "DashboardView" &&
+                      (prop.state.stageName === "Redirect Review" ||
+                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                      ? true
+                      : false
+                  }
                 />
               </div>
             </div>
@@ -462,6 +514,12 @@ const CaseTimelinesAccordion = (props) => {
                     zIndex: "999",
                   }}
                   customInput={<RenderDatePickerAORRecievedDate />}
+                  disabled={
+                    prop.state.formView === "DashboardView" &&
+                      (prop.state.stageName === "Redirect Review" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                      ? true
+                      : false
+                  }
                 />
               </div>
             </div>
@@ -491,6 +549,12 @@ const CaseTimelinesAccordion = (props) => {
                     zIndex: "999",
                   }}
                   customInput={<RenderDatePickerWOLRecievedDate />}
+                  disabled={
+                    prop.state.formView === "DashboardView" &&
+                      (prop.state.stageName === "Redirect Review" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                      ? true
+                      : false
+                  }
                 />
               </div>
             </div>

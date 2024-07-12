@@ -172,7 +172,7 @@ const CaseClaimInformation = (props) => {
         console.log("checkedRef.current value==== ", addressToPopulate);
         if (addressToPopulate.length > 0) {
             setclaimInformationGridData([...claimInformationGridData, ...addressToPopulate]);
-           props.updateClaimInformationGridData([...claimInformationGridData, ...addressToPopulate])
+            props.updateClaimInformationGridData([...claimInformationGridData, ...addressToPopulate])
             // setClaimInformationData([...claimInformationData,...addressToPopulate])
             //console.log("INSIDE gridTableDataRef.locationTable1==== ",gridTableDataRef);
             //   let gridTableDataRefCopy = gridTableDataRef.hasOwnProperty("locationTable") ? gridTableDataRef?.locationTable: [];
@@ -369,14 +369,14 @@ const CaseClaimInformation = (props) => {
             triggeredFormName,
             " & ",
             operationValue
-          );
+        );
         if (
             operationValue !== "Edit" &&
             (operationValue === "Add" || operationValue === "Force Delete")
         ) {
             console.log("force deleteeeee--->")
             gridRowsFinalSubmit(triggeredFormName, index, "Delete");
-            if (triggeredFormName === "ClaimInformationTable") { 
+            if (triggeredFormName === "ClaimInformationTable") {
                 const rows = [...claimInformationGridData];
                 rows.splice(index, 1);
                 setclaimInformationGridData(rows);
@@ -400,8 +400,8 @@ const CaseClaimInformation = (props) => {
         let ClaimNumber = selectSearchValues?.claimNumber;
         let SequentialMemberID = selectSearchValues?.sequentialMemberId;
         let ProviderID = selectSearchValues?.providerId;
-        let ServiceStartDate = selectSearchValues?.Service_Start_Date ||selectSearchValues?.Service_Start_Date2 ;
-        let ServiceEndDate = selectSearchValues?.Service_End_Date || selectSearchValues?.Service_End_Date2; 
+        let ServiceStartDate = selectSearchValues?.Service_Start_Date || selectSearchValues?.Service_Start_Date2;
+        let ServiceEndDate = selectSearchValues?.Service_End_Date || selectSearchValues?.Service_End_Date2;
 
         // Check if at least one search parameter has a value
         if (ClaimNumber || SequentialMemberID || ProviderID || ServiceStartDate || ServiceEndDate) {
@@ -436,18 +436,18 @@ const CaseClaimInformation = (props) => {
                         if (apiResponse.hasOwnProperty("Service_Start_Date") && typeof apiResponse.Service_Start_Date === "string") {
                             console.log("lll--->", apiResponse.Service_Start_Date) // 2024-05-08T00:00:00
                             const mad = new Date(getDatePartOnly(apiResponse.Service_Start_Date));
-                             apiResponse.Service_Start_Date = extractDate(mad);
-                          
+                            apiResponse.Service_Start_Date = extractDate(mad);
+
                         }
                         if (apiResponse.hasOwnProperty("Service_End_Date") && typeof apiResponse.Service_End_Date === "string") {
                             const rad = new Date(getDatePartOnly(apiResponse.Service_End_Date));
                             apiResponse.Service_End_Date = extractDate(rad);
-                            
+
                         }
                         if (apiResponse.hasOwnProperty("DenialDate") && typeof apiResponse.DenialDate === "string") {
                             const rad = new Date(getDatePartOnly(apiResponse.DenialDate));
                             apiResponse.DenialDate = extractDate(rad);
-                           
+
                         }
                     });
 
@@ -502,9 +502,9 @@ const CaseClaimInformation = (props) => {
         let City = selectSearchValues?.city || selectSearchValues?.facilitycity;
         let State = selectSearchValues?.state || selectSearchValues?.state2 || selectSearchValues?.facilityState2;
         let facilityName = selectSearchValues?.facilityName;
-   
+
         if (ProviderID || NPI || Taxid || ProviderFirstName || ProviderLastName ||
-            City || State || facilityName 
+            City || State || facilityName
         ) {
             let getApiJson = {
                 option: 'PROVIDERSEARCHDATA',
@@ -515,9 +515,9 @@ const CaseClaimInformation = (props) => {
                 ProviderLastName: ProviderLastName || '',
                 City: City || '',
                 State: State || '',
-              
+
                 facilityName: facilityName || '',
-           
+
             };
 
             console.log("API Request JSON:", getApiJson);
@@ -547,7 +547,7 @@ const CaseClaimInformation = (props) => {
                             console.log("getDatePartOnly-->", mad);//Wed May 08 2024 00:00:00 GMT+0530 (India Standard Time)
                             console.log("extractDate-->", apiResponse.Provider_Par_Date); //2024-05-18
                         }
-                      
+
                     });
 
                     setResponseData(resApiData);
@@ -568,7 +568,7 @@ const CaseClaimInformation = (props) => {
 
     const providerSearchTableComponent = () => {
         let columnNames = 'Issue Number~Issue_Number,Provider ID~Provider_ID,Provider First Name~Provider_Name,Provider Last Name~Provider_Last_Name,TIN~Provider_TIN,Provider/Vendor Specialty~Provider_Vendor_Specialty,Provider Taxonomy~Provider_Taxonomy,NPI~NPI_ID,Phone~Phone_Number,Address Line 1~Address_Line_1,Address Line 2~Address_Line_2,Zip Code~Zip_Code,City~City,State~State,Participating Provider~Participating_Provider,Provider Par Date~Provider_Par_Date,Provider IPA~Provider_IPA,Vendor ID~Vendor_ID,Vendor Name~Vendor_Name,Provider Type~Provider_Type,Contact Name~Provider_Contact_Name,Contact Phone Number~Contact_Phone_Number,Contact Email Address~Contact_Email_Address';
-        
+
         console.log("Provider search APIDATA column data", responseData);
         if (responseData.length > 0) {
             return (
@@ -864,9 +864,15 @@ const CaseClaimInformation = (props) => {
                                                 isClearable
                                                 name={field.name}
                                                 isDisabled={
-                                                    tabRef.current === "DashboardView" &&
-                                                    prop.state.lockStatus !== undefined &&
-                                                    prop.state.lockStatus === "Y"
+
+                                                    prop.state.formView === "DashboardView" &&
+                                                        (prop.state.stageName === "Redirect Review" ||
+                                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                                        ? true
+                                                        : false
+
+
+
                                                 }
                                                 className="basic-multi-select"
                                                 options={claimTypeValues}
@@ -929,6 +935,13 @@ const CaseClaimInformation = (props) => {
                                                     props.handleOnChange(event.target['value'], 'Claim_Number')
                                                 }
                                                 value={convertToCase(claimInformationData['Claim_Number'])}
+                                                disabled={
+                                                    prop.state.formView === "DashboardView" &&
+                                                        (prop.state.stageName === "Redirect Review" ||
+                                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                                        ? true
+                                                        : false
+                                                }
                                             />
                                             <label htmlFor="floatingInputGrid">
                                                 Claim Number
@@ -975,6 +988,12 @@ const CaseClaimInformation = (props) => {
                                             zIndex: "999",
                                         }}
                                         customInput={<RenderDatePickerClaimAdjustedDate />}
+                                        disabled={
+                                            prop.state.formView === "DashboardView" &&
+                                                (prop.state.stageName === "Research" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                                ? true
+                                                : false
+                                        }
                                     />
                                 </div>
                             </div>
@@ -996,9 +1015,14 @@ const CaseClaimInformation = (props) => {
                                                 isClearable
                                                 name={field.name}
                                                 isDisabled={
-                                                    tabRef.current === "DashboardView" &&
-                                                    prop.state.lockStatus !== undefined &&
-                                                    prop.state.lockStatus === "Y"
+
+                                                    prop.state.formView === "DashboardView" &&
+                                                        (prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                                        ? true
+                                                        : false
+
+                                        
+
                                                 }
                                                 className="basic-multi-select"
                                                 options={decisionValues}
@@ -1055,9 +1079,14 @@ const CaseClaimInformation = (props) => {
                                                 isClearable
                                                 name={field.name}
                                                 isDisabled={
-                                                    tabRef.current === "DashboardView" &&
-                                                    prop.state.lockStatus !== undefined &&
-                                                    prop.state.lockStatus === "Y"
+
+                                                    prop.state.formView === "DashboardView" &&
+                                                        (prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                                        ? true
+                                                        : false
+
+                                               
+
                                                 }
                                                 className="basic-multi-select"
                                                 options={decisionReasonValues}
@@ -1124,6 +1153,12 @@ const CaseClaimInformation = (props) => {
                                                     props.handleOnChange(event.target['value'], 'Reason_Text')
                                                 }
                                                 value={convertToCase(claimInformationData['Reason_Text'])}
+                                                disabled={
+                                                    prop.state.formView === "DashboardView" &&
+                                                        (prop.state.stageName === "Research" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                                        ? true
+                                                        : false
+                                                }
                                             />
                                             <label htmlFor="floatingInputGrid">
                                                 Reason Text
@@ -1163,9 +1198,8 @@ const CaseClaimInformation = (props) => {
                                                 isClearable
                                                 name={field.name}
                                                 isDisabled={
-                                                    tabRef.current === "DashboardView" &&
-                                                        prop.state.lockStatus !== undefined &&
-                                                        prop.state.lockStatus === "Y"
+                                                    prop.state.formView === "DashboardView" &&
+                                                        (prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
                                                         ? true
                                                         : false
                                                 }
@@ -1233,6 +1267,13 @@ const CaseClaimInformation = (props) => {
                                             zIndex: "999",
                                         }}
                                         customInput={<RenderDatePickerServiceStartDate />}
+                                        disabled={
+                                            prop.state.formView === "DashboardView" &&
+                                                (prop.state.stageName === "Redirect Review" ||
+                                                    prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                                ? true
+                                                : false
+                                        }
                                     />
                                 </div>
                             </div>
@@ -1261,6 +1302,13 @@ const CaseClaimInformation = (props) => {
                                             zIndex: "999",
                                         }}
                                         customInput={<RenderDatePickerServiceEndDate />}
+                                        disabled={
+                                            prop.state.formView === "DashboardView" &&
+                                                (prop.state.stageName === "Redirect Review" ||
+                                                    prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                                ? true
+                                                : false
+                                        }
                                     />
                                 </div>
                             </div>
@@ -1292,6 +1340,13 @@ const CaseClaimInformation = (props) => {
                                                     props.handleOnChange(event.target['value'], 'Authorization_Number')
                                                 }
                                                 value={convertToCase(claimInformationData['Authorization_Number'])}
+                                                disabled={
+                                                    prop.state.formView === "DashboardView" &&
+                                                        (prop.state.stageName === "Redirect Review" ||
+                                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                                        ? true
+                                                        : false
+                                                }
                                             />
                                             <label htmlFor="floatingInputGrid">
                                                 Authorization Number
@@ -1329,9 +1384,16 @@ const CaseClaimInformation = (props) => {
                                                 isClearable
                                                 name={field.name}
                                                 isDisabled={
+
+                                                    prop.state.formView === "DashboardView" &&
+                                                        (prop.state.stageName === "Research" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                                        ? true
+                                                        : false
+
                                                     tabRef.current === "DashboardView" &&
                                                     prop.state.lockStatus !== undefined &&
                                                     prop.state.lockStatus === "Y"
+
                                                 }
                                                 className="basic-multi-select"
                                                 options={processingStatusValues}
@@ -1397,6 +1459,13 @@ const CaseClaimInformation = (props) => {
                                             zIndex: "999",
                                         }}
                                         customInput={<RenderDatePickerOriginalDenialDate />}
+                                        disabled={
+                                            prop.state.formView === "DashboardView" &&
+                                                (prop.state.stageName === "Redirect Review" ||
+                                                    prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                                ? true
+                                                : false
+                                        }
                                     />
                                 </div>
                             </div>
@@ -1428,6 +1497,12 @@ const CaseClaimInformation = (props) => {
                                                     props.handleOnChange(event.target['value'], 'Payment_Method')
                                                 }
                                                 value={convertToCase(claimInformationData['Payment_Method'])}
+                                                disabled={
+                                                    prop.state.formView === "DashboardView" &&
+                                                        (prop.state.stageName === "Research" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                                        ? true
+                                                        : false
+                                                }
                                             />
                                             <label htmlFor="floatingInputGrid">
                                                 Payment Method
@@ -1475,6 +1550,12 @@ const CaseClaimInformation = (props) => {
                                                     props.handleOnChange(event.target['value'], 'Payment_Number')
                                                 }
                                                 value={convertToCase(claimInformationData['Payment_Number'])}
+                                                disabled={
+                                                    prop.state.formView === "DashboardView" &&
+                                                        (prop.state.stageName === "Research" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                                        ? true
+                                                        : false
+                                                }
                                             />
                                             <label htmlFor="floatingInputGrid">
                                                 Payment Number
@@ -1521,6 +1602,12 @@ const CaseClaimInformation = (props) => {
                                             zIndex: "999",
                                         }}
                                         customInput={<RenderDatePickerPaymentDate />}
+                                        disabled={
+                                            prop.state.formView === "DashboardView" &&
+                                                (prop.state.stageName === "Research" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                                ? true
+                                                : false
+                                        }
                                     />
                                 </div>
                             </div>
@@ -1551,6 +1638,12 @@ const CaseClaimInformation = (props) => {
                                             zIndex: "999",
                                         }}
                                         customInput={<RenderDatePickerPaymentMailDate />}
+                                        disabled={
+                                            prop.state.formView === "DashboardView" &&
+                                                (prop.state.stageName === "Research" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                                ? true
+                                                : false
+                                        }
                                     />
                                 </div>
                             </div>
@@ -1580,6 +1673,12 @@ const CaseClaimInformation = (props) => {
                                                     props.handleOnChange(event.target['value'], 'Effectuation_Notes')
                                                 }
                                                 value={convertToCase(claimInformationData['Effectuation_Notes'])}
+                                                disabled={
+                                                    prop.state.formView === "DashboardView" &&
+                                                        (prop.state.stageName === "Research" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                                        ? true
+                                                        : false
+                                                }
                                             />
                                             <label htmlFor="floatingInputGrid">
                                                 Effectuation Notes

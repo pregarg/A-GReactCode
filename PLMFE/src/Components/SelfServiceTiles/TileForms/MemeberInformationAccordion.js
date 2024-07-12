@@ -58,7 +58,7 @@ const MemeberInformationAccordion = (props) => {
     let mailToAddressValues = [];
     let preferredLanguageValues = [];
     let commPrefValues = [];
-    let specialNeedsValues = [];
+    let specialNeedsValues = [{ label: "Yes", value: "Yes" }, { label: "No", value: "No" }];
 
     useEffect(() => {
         try {
@@ -192,6 +192,13 @@ const MemeberInformationAccordion = (props) => {
                                                 props.handleOnChange(event.target['value'], 'Member_ID')
                                             }
                                             value={convertToCase(memberInformationData['Member_ID'])}
+                                            disabled={
+                                                prop.state.formView === "DashboardView" &&
+                                                    (prop.state.stageName === "Redirect Review" ||
+                                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                                    ? true
+                                                    : false
+                                            }
                                         />
                                         <label htmlFor="floatingInputGrid">
                                             Member ID
@@ -240,6 +247,13 @@ const MemeberInformationAccordion = (props) => {
                                                 props.handleOnChange(event.target['value'], 'Member_First_Name')
                                             }
                                             value={convertToCase(memberInformationData['Member_First_Name'])}
+                                            disabled={
+                                                prop.state.formView === "DashboardView" &&
+                                                    (prop.state.stageName === "Redirect Review" ||
+                                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                                    ? true
+                                                    : false
+                                            }
                                         />
                                         <label htmlFor="floatingInputGrid">
                                             Member First Name
@@ -288,6 +302,13 @@ const MemeberInformationAccordion = (props) => {
                                                 props.handleOnChange(event.target['value'], 'Member_Last_Name')
                                             }
                                             value={convertToCase(memberInformationData['Member_Last_Name'])}
+                                            disabled={
+                                                prop.state.formView === "DashboardView" &&
+                                                    (prop.state.stageName === "Redirect Review" ||
+                                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                                    ? true
+                                                    : false
+                                            }
                                         />
                                         <label htmlFor="floatingInputGrid">
                                             Member Last Name
@@ -336,6 +357,13 @@ const MemeberInformationAccordion = (props) => {
                                         zIndex: "999",
                                     }}
                                     customInput={<RenderDatePickerDateOfBirth />}
+                                    disabled={
+                                        prop.state.formView === "DashboardView" &&
+                                            (prop.state.stageName === "Redirect Review" ||
+                                                prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                            ? true
+                                            : false
+                                    }
                                 />
                             </div>
                         </div>
@@ -365,6 +393,13 @@ const MemeberInformationAccordion = (props) => {
                                                 props.handleOnChange(event.target['value'], 'Members_Age')
                                             }
                                             value={convertToCase(memberInformationData['Members_Age'])}
+                                            disabled={
+                                                prop.state.formView === "DashboardView" &&
+                                                    (prop.state.stageName === "Redirect Review" ||
+                                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                                    ? true
+                                                    : false
+                                            }
                                         />
                                         <label htmlFor="floatingInputGrid">
                                             Member's Age
@@ -402,9 +437,14 @@ const MemeberInformationAccordion = (props) => {
                                             isClearable
                                             name={field.name}
                                             isDisabled={
-                                                tabRef.current === "DashboardView" &&
-                                                prop.state.lockStatus !== undefined &&
-                                                prop.state.lockStatus === "Y"
+
+                                                prop.state.formView === "DashboardView" &&
+                                                    (prop.state.stageName === "Redirect Review" ||
+                                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                                    ? true
+                                                    : false
+
+                                   
                                             }
                                             className="basic-multi-select"
                                             options={genderValues}
@@ -459,9 +499,13 @@ const MemeberInformationAccordion = (props) => {
                                             isClearable
                                             name={field.name}
                                             isDisabled={
-                                                tabRef.current === "DashboardView" &&
-                                                prop.state.lockStatus !== undefined &&
-                                                prop.state.lockStatus === "Y"
+
+                                                prop.state.formView === "DashboardView" &&
+                                                    (prop.state.stageName === "Redirect Review" ||
+                                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                                    ? true
+                                                    : false
+
                                             }
                                             className="basic-multi-select"
                                             options={deceasedValues}
@@ -514,9 +558,13 @@ const MemeberInformationAccordion = (props) => {
                                             isClearable
                                             name={field.name}
                                             isDisabled={
-                                                tabRef.current === "DashboardView" &&
-                                                prop.state.lockStatus !== undefined &&
-                                                prop.state.lockStatus === "Y"
+
+                                                prop.state.formView === "DashboardView" &&
+                                                    (prop.state.stageName === "Redirect Review" ||
+                                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                                    ? true
+                                                    : false
+
                                             }
                                             className="basic-multi-select"
                                             options={dualPlanValues}
@@ -569,9 +617,13 @@ const MemeberInformationAccordion = (props) => {
                                             isClearable
                                             name={field.name}
                                             isDisabled={
-                                                tabRef.current === "DashboardView" &&
-                                                prop.state.lockStatus !== undefined &&
-                                                prop.state.lockStatus === "Y"
+
+                                                prop.state.formView === "DashboardView" &&
+                                                    (prop.state.stageName === "Redirect Review" ||
+                                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                                    ? true
+                                                    : false
+
                                             }
                                             className="basic-multi-select"
                                             options={preferredLanguageValues}
@@ -637,6 +689,7 @@ const MemeberInformationAccordion = (props) => {
                                                 props.handleOnChange(event.target['value'], 'Member_IPA')
                                             }
                                             value={convertToCase(memberInformationData['Member_IPA'])}
+
                                         />
                                         <label htmlFor="floatingInputGrid">
                                             Member IPA
@@ -685,6 +738,13 @@ const MemeberInformationAccordion = (props) => {
                                                 props.handleOnChange(event.target['value'], 'Medicare_ID_HICN')
                                             }
                                             value={convertToCase(memberInformationData['Medicare_ID_HICN'])}
+                                            disabled={
+                                                prop.state.formView === "DashboardView" &&
+                                                    (prop.state.stageName === "Redirect Review" ||
+                                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                                    ? true
+                                                    : false
+                                            }
                                         />
                                         <label htmlFor="floatingInputGrid">
                                             Medicare ID(HICN)
@@ -733,6 +793,13 @@ const MemeberInformationAccordion = (props) => {
                                                 props.handleOnChange(event.target['value'], 'Medicaid_ID')
                                             }
                                             value={convertToCase(memberInformationData['Medicaid_ID'])}
+                                            disabled={
+                                                prop.state.formView === "DashboardView" &&
+                                                    (prop.state.stageName === "Redirect Review" ||
+                                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                                    ? true
+                                                    : false
+                                            }
                                         />
                                         <label htmlFor="floatingInputGrid">
                                             Medicaid ID
@@ -783,6 +850,13 @@ const MemeberInformationAccordion = (props) => {
                                                 props.handleOnChange(event.target['value'], 'Primary_Care_Physician_PCP')
                                             }
                                             value={convertToCase(memberInformationData['Primary_Care_Physician_PCP'])}
+                                            disabled={
+                                                prop.state.formView === "DashboardView" &&
+                                                    (prop.state.stageName === "Redirect Review" ||
+                                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                                    ? true
+                                                    : false
+                                            }
                                         />
                                         <label htmlFor="floatingInputGrid">
                                             Primary Care Physician(PCP)
@@ -831,6 +905,13 @@ const MemeberInformationAccordion = (props) => {
                                                 props.handleOnChange(event.target['value'], 'PCP_ID')
                                             }
                                             value={convertToCase(memberInformationData['PCP_ID'])}
+                                            disabled={
+                                                prop.state.formView === "DashboardView" &&
+                                                    (prop.state.stageName === "Redirect Review" ||
+                                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                                    ? true
+                                                    : false
+                                            }
                                         />
                                         <label htmlFor="floatingInputGrid">
                                             PCP ID
@@ -879,6 +960,13 @@ const MemeberInformationAccordion = (props) => {
                                                 props.handleOnChange(event.target['value'], 'PCP_NPI_ID')
                                             }
                                             value={convertToCase(memberInformationData['PCP_NPI_ID'])}
+                                            disabled={
+                                                prop.state.formView === "DashboardView" &&
+                                                    (prop.state.stageName === "Redirect Review" ||
+                                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                                    ? true
+                                                    : false
+                                            }
                                         />
                                         <label htmlFor="floatingInputGrid">
                                             PCP NPI ID
@@ -929,6 +1017,13 @@ const MemeberInformationAccordion = (props) => {
                                                 props.handleOnChange(event.target['value'], 'ContractPlan_ID')
                                             }
                                             value={convertToCase(memberInformationData['ContractPlan_ID'])}
+                                            disabled={
+                                                prop.state.formView === "DashboardView" &&
+                                                    (prop.state.stageName === "Redirect Review" ||
+                                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                                    ? true
+                                                    : false
+                                            }
                                         />
                                         <label htmlFor="floatingInputGrid">
                                             Contract / Plan Id
@@ -977,6 +1072,13 @@ const MemeberInformationAccordion = (props) => {
                                                 props.handleOnChange(event.target['value'], 'Plan_Name')
                                             }
                                             value={convertToCase(memberInformationData['Plan_Name'])}
+                                            disabled={
+                                                prop.state.formView === "DashboardView" &&
+                                                    (prop.state.stageName === "Redirect Review" ||
+                                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                                    ? true
+                                                    : false
+                                            }
                                         />
                                         <label htmlFor="floatingInputGrid">
                                             Plan Name
@@ -1025,6 +1127,13 @@ const MemeberInformationAccordion = (props) => {
                                                 props.handleOnChange(event.target['value'], 'Plan_Description')
                                             }
                                             value={convertToCase(memberInformationData['Plan_Description'])}
+                                            disabled={
+                                                prop.state.formView === "DashboardView" &&
+                                                    (prop.state.stageName === "Redirect Review" ||
+                                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                                    ? true
+                                                    : false
+                                            }
                                         />
                                         <label htmlFor="floatingInputGrid">
                                             Plan Description
@@ -1075,6 +1184,13 @@ const MemeberInformationAccordion = (props) => {
                                                 props.handleOnChange(event.target['value'], 'Plan_Code')
                                             }
                                             value={convertToCase(memberInformationData['Plan_Code'])}
+                                            disabled={
+                                                prop.state.formView === "DashboardView" &&
+                                                    (prop.state.stageName === "Redirect Review" ||
+                                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                                    ? true
+                                                    : false
+                                            }
                                         />
                                         <label htmlFor="floatingInputGrid">
                                             Plan Code
@@ -1122,6 +1238,13 @@ const MemeberInformationAccordion = (props) => {
                                         zIndex: "999",
                                     }}
                                     customInput={<RenderDatePickerPlanEffectiveDate />}
+                                    disabled={
+                                        prop.state.formView === "DashboardView" &&
+                                            (prop.state.stageName === "Redirect Review" ||
+                                                prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                            ? true
+                                            : false
+                                    }
                                 />
                             </div>
 
@@ -1151,6 +1274,13 @@ const MemeberInformationAccordion = (props) => {
                                         zIndex: "999",
                                     }}
                                     customInput={<RenderDatePickerPlanExpirationDate />}
+                                    disabled={
+                                        prop.state.formView === "DashboardView" &&
+                                            (prop.state.stageName === "Redirect Review" ||
+                                                prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                            ? true
+                                            : false
+                                    }
                                 />
                             </div>
                         </div>
@@ -1183,6 +1313,13 @@ const MemeberInformationAccordion = (props) => {
                                                 props.handleOnChange(event.target['value'], 'Email_ID')
                                             }
                                             value={convertToCase(memberInformationData['Email_ID'])}
+                                            disabled={
+                                                prop.state.formView === "DashboardView" &&
+                                                    (prop.state.stageName === "Redirect Review" ||
+                                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                                    ? true
+                                                    : false
+                                            }
                                         />
                                         <label htmlFor="floatingInputGrid">
                                             Email ID
@@ -1220,9 +1357,13 @@ const MemeberInformationAccordion = (props) => {
                                             isClearable
                                             name={field.name}
                                             isDisabled={
-                                                tabRef.current === "DashboardView" &&
-                                                prop.state.lockStatus !== undefined &&
-                                                prop.state.lockStatus === "Y"
+
+                                                prop.state.formView === "DashboardView" &&
+                                                    (prop.state.stageName === "Redirect Review" ||
+                                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                                    ? true
+                                                    : false
+
                                             }
                                             className="basic-multi-select"
                                             options={mailToAddressValues}
@@ -1275,9 +1416,13 @@ const MemeberInformationAccordion = (props) => {
                                             isClearable
                                             name={field.name}
                                             isDisabled={
-                                                tabRef.current === "DashboardView" &&
-                                                prop.state.lockStatus !== undefined &&
-                                                prop.state.lockStatus === "Y"
+
+                                                prop.state.formView === "DashboardView" &&
+                                                    (prop.state.stageName === "Redirect Review" ||
+                                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                                    ? true
+                                                    : false
+
                                             }
                                             className="basic-multi-select"
                                             options={specialNeedsValues}
@@ -1347,6 +1492,13 @@ const MemeberInformationAccordion = (props) => {
                                                 props.handleOnChange(event.target['value'], 'Address_Line_1')
                                             }
                                             value={convertToCase(memberInformationData['Address_Line_1'])}
+                                            disabled={
+                                                prop.state.formView === "DashboardView" &&
+                                                    (prop.state.stageName === "Redirect Review" ||
+                                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                                    ? true
+                                                    : false
+                                            }
                                         />
                                         <label htmlFor="floatingInputGrid">
                                             Address Line 1
@@ -1395,6 +1547,13 @@ const MemeberInformationAccordion = (props) => {
                                                 props.handleOnChange(event.target['value'], 'Address_Line_2')
                                             }
                                             value={convertToCase(memberInformationData['Address_Line_2'])}
+                                            disabled={
+                                                prop.state.formView === "DashboardView" &&
+                                                    (prop.state.stageName === "Redirect Review" ||
+                                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                                    ? true
+                                                    : false
+                                            }
                                         />
                                         <label htmlFor="floatingInputGrid">
                                             Address Line 2
@@ -1445,6 +1604,13 @@ const MemeberInformationAccordion = (props) => {
                                                 props.handleOnChange(event.target['value'], 'City')
                                             }
                                             value={convertToCase(memberInformationData['City'])}
+                                            disabled={
+                                                prop.state.formView === "DashboardView" &&
+                                                    (prop.state.stageName === "Redirect Review" ||
+                                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                                    ? true
+                                                    : false
+                                            }
                                         />
                                         <label htmlFor="floatingInputGrid">
                                             City
@@ -1493,6 +1659,13 @@ const MemeberInformationAccordion = (props) => {
                                                 props.handleOnChange(event.target['value'], 'County')
                                             }
                                             value={convertToCase(memberInformationData['County'])}
+                                            disabled={
+                                                prop.state.formView === "DashboardView" &&
+                                                    (prop.state.stageName === "Redirect Review" ||
+                                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                                    ? true
+                                                    : false
+                                            }
                                         />
                                         <label htmlFor="floatingInputGrid">
                                             County
@@ -1541,6 +1714,13 @@ const MemeberInformationAccordion = (props) => {
                                                 props.handleOnChange(event.target['value'], 'State_')
                                             }
                                             value={convertToCase(memberInformationData['State_'])}
+                                            disabled={
+                                                prop.state.formView === "DashboardView" &&
+                                                    (prop.state.stageName === "Redirect Review" ||
+                                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                                    ? true
+                                                    : false
+                                            }
                                         />
                                         <label htmlFor="floatingInputGrid">
                                             State
@@ -1580,9 +1760,13 @@ const MemeberInformationAccordion = (props) => {
                                             isClearable
                                             name={field.name}
                                             isDisabled={
-                                                tabRef.current === "DashboardView" &&
-                                                prop.state.lockStatus !== undefined &&
-                                                prop.state.lockStatus === "Y"
+
+                                                prop.state.formView === "DashboardView" &&
+                                                    (prop.state.stageName === "Redirect Review" ||
+                                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                                    ? true
+                                                    : false
+
                                             }
                                             className="basic-multi-select"
                                             options={commPrefValues}
@@ -1646,6 +1830,13 @@ const MemeberInformationAccordion = (props) => {
                                                 props.handleOnChange(event.target['value'], 'Phone_Number')
                                             }
                                             value={convertToCase(memberInformationData['Phone_Number'])}
+                                            disabled={
+                                                prop.state.formView === "DashboardView" &&
+                                                    (prop.state.stageName === "Redirect Review" ||
+                                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                                    ? true
+                                                    : false
+                                            }
                                         />
                                         <label htmlFor="floatingInputGrid">
                                             Phone Number
@@ -1694,6 +1885,13 @@ const MemeberInformationAccordion = (props) => {
                                                 props.handleOnChange(event.target['value'], 'Fax_Number')
                                             }
                                             value={convertToCase(memberInformationData['Fax_Number'])}
+                                            disabled={
+                                                prop.state.formView === "DashboardView" &&
+                                                    (prop.state.stageName === "Redirect Review" ||
+                                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                                    ? true
+                                                    : false
+                                            }
                                         />
                                         <label htmlFor="floatingInputGrid">
                                             Fax Number
@@ -1744,6 +1942,13 @@ const MemeberInformationAccordion = (props) => {
                                                 props.handleOnChange(event.target['value'], 'Zip_Code')
                                             }
                                             value={convertToCase(memberInformationData['Zip_Code'])}
+                                            disabled={
+                                                prop.state.formView === "DashboardView" &&
+                                                    (prop.state.stageName === "Redirect Review" ||
+                                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                                    ? true
+                                                    : false
+                                            }
                                         />
                                         <label htmlFor="floatingInputGrid">
                                             Zip Code

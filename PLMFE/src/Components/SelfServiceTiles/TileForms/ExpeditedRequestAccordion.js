@@ -140,9 +140,15 @@ const ExpeditedRequestAccordion = (props) => {
                                                 isClearable
                                                 name={field.name}
                                                 isDisabled={
-                                                    tabRef.current === "DashboardView" &&
-                                                    prop.state.lockStatus !== undefined &&
-                                                    prop.state.lockStatus === "Y"
+
+                                                    prop.state.formView === "DashboardView" &&
+                                                        (prop.state.stageName === "Redirect Review" ||
+                                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "CaseArchived")
+                                                        ? true
+                                                        : false
+
+                                                
+
                                                 }
                                                 className="basic-multi-select"
                                                 options={expeditedRequestedValues}
@@ -209,6 +215,13 @@ const ExpeditedRequestAccordion = (props) => {
                                                     props.handleOnChange(event.target['value'], 'Expedited_Reason')
                                                 }
                                                 value={convertToCase(expeditedRequestData['Expedited_Reason'])}
+                                                disabled={
+                                                    prop.state.formView === "DashboardView" &&
+                                                        (prop.state.stageName === "Redirect Review" ||
+                                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "CaseArchived")
+                                                        ? true
+                                                        : false
+                                                }
                                             />
                                             <label htmlFor="floatingInputGrid">
                                                 Expedited Reason
@@ -246,9 +259,13 @@ const ExpeditedRequestAccordion = (props) => {
                                                 isClearable
                                                 name={field.name}
                                                 isDisabled={
-                                                    tabRef.current === "DashboardView" &&
-                                                    prop.state.lockStatus !== undefined &&
-                                                    prop.state.lockStatus === "Y"
+
+                                                    prop.state.formView === "DashboardView" &&
+                                                        (prop.state.stageName === "Redirect Review" ||
+                                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "CaseArchived")
+                                                        ? true
+                                                        : false
+
                                                 }
                                                 className="basic-multi-select"
                                                 options={stUpExpeditedValues}
@@ -313,6 +330,13 @@ const ExpeditedRequestAccordion = (props) => {
                                             zIndex: "999",
                                         }}
                                         customInput={<RenderDatePickerExpeditedUpgradeDateTime />}
+                                        disabled={
+                                            prop.state.formView === "DashboardView" &&
+                                                (prop.state.stageName === "Redirect Review" ||
+                                                    prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "CaseArchived")
+                                                ? true
+                                                : false
+                                        }
                                     />
                                 </div>
                             </div>
@@ -332,9 +356,15 @@ const ExpeditedRequestAccordion = (props) => {
                                                 isClearable
                                                 name={field.name}
                                                 isDisabled={
-                                                    tabRef.current === "DashboardView" &&
-                                                    prop.state.lockStatus !== undefined &&
-                                                    prop.state.lockStatus === "Y"
+
+                                                    prop.state.formView === "DashboardView" &&
+                                                        (prop.state.stageName === "Redirect Review" ||
+                                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "CaseArchived")
+                                                        ? true
+                                                        : false
+
+                                             
+
                                                 }
                                                 className="basic-multi-select"
                                                 options={expeditedDeniedValues}
@@ -400,6 +430,13 @@ const ExpeditedRequestAccordion = (props) => {
                                             zIndex: "999",
                                         }}
                                         customInput={<RenderDatePickerExpeditedDeniedDate />}
+                                        disabled={
+                                            prop.state.formView === "DashboardView" &&
+                                                (prop.state.stageName === "Redirect Review" ||
+                                                    prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "CaseArchived")
+                                                ? true
+                                                : false
+                                        }
                                     />
                                 </div>
                             </div>
@@ -430,6 +467,13 @@ const ExpeditedRequestAccordion = (props) => {
                                             zIndex: "999",
                                         }}
                                         customInput={<RenderDatePickerDecisionLetterDate />}
+                                        disabled={
+                                            prop.state.formView === "DashboardView" &&
+                                                (prop.state.stageName === "Redirect Review" ||
+                                                    prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "CaseArchived")
+                                                ? true
+                                                : false
+                                        }
                                     />
                                 </div>
                             </div>
