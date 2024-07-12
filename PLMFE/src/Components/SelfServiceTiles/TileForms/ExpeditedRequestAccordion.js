@@ -6,6 +6,7 @@ import Select, { components } from "react-select";
 import useGetDBTables from "../../CustomHooks/useGetDBTables";
 import CaseHeader from './CaseHeader';
 import ReactDatePicker from "react-datepicker";
+import {selectStyle} from "./SelectStyle";
 
 const ExpeditedRequestAccordion = (props) => {
     const {
@@ -132,62 +133,22 @@ const ExpeditedRequestAccordion = (props) => {
                                     }) => (
                                         <div className="form-floating">
                                             <Select
-                                                styles={{
-                                                    control: (provided) => ({
-                                                        ...provided,
-                                                        height: "58px",
-                                                        fontWeight: "lighter",
-                                                    }),
-                                                    menuList: (provided) => ({
-                                                        ...provided,
-                                                        maxHeight: 200,
-                                                    }),
-                                                    menu: (provided) => ({
-                                                        ...provided,
-                                                        zIndex: 9999,
-                                                    }),
-
-                                                    container: (provided, state) => ({
-                                                        ...provided,
-                                                        marginTop: 0,
-                                                    }),
-                                                    valueContainer: (provided, state) => ({
-                                                        ...provided,
-                                                        overflow: "visible",
-                                                    }),
-                                                    placeholder: (provided, state) => ({
-                                                        ...provided,
-                                                        position: "absolute",
-                                                        top:
-                                                            state.hasValue ||
-                                                                state.selectProps.inputValue
-                                                                ? -15
-                                                                : "50%",
-                                                        transition:
-                                                            "top 0.1s, font-size 0.1s",
-                                                        fontSize:
-                                                            (state.hasValue ||
-                                                                state.selectProps.inputValue) &&
-                                                            13,
-                                                        color: 'black'
-                                                    }),
-                                                    singleValue: (styles) => ({ ...styles, textAlign: 'left' }),
-                                                    option: (provided, state) => ({
-                                                        ...provided,
-                                                        textAlign: "left",
-                                                    }),
-                                                }}
+                                                styles={{...selectStyle}}
                                                 components={{
                                                     ValueContainer: CustomValueContainer,
                                                 }}
                                                 isClearable
                                                 name={field.name}
                                                 isDisabled={
+
                                                     prop.state.formView === "DashboardView" &&
                                                         (prop.state.stageName === "Redirect Review" ||
                                                             prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "CaseArchived")
                                                         ? true
                                                         : false
+
+                                                
+
                                                 }
                                                 className="basic-multi-select"
                                                 options={expeditedRequestedValues}
@@ -291,62 +252,20 @@ const ExpeditedRequestAccordion = (props) => {
                                     }) => (
                                         <div className="form-floating">
                                             <Select
-                                                styles={{
-                                                    control: (provided) => ({
-                                                        ...provided,
-                                                        height: "58px",
-                                                        fontWeight: "lighter",
-                                                    }),
-                                                    menuList: (provided) => ({
-                                                        ...provided,
-                                                        maxHeight: 200,
-                                                    }),
-                                                    menu: (provided) => ({
-                                                        ...provided,
-                                                        zIndex: 9999,
-                                                    }),
-
-                                                    container: (provided, state) => ({
-                                                        ...provided,
-                                                        marginTop: 0,
-                                                    }),
-                                                    valueContainer: (provided, state) => ({
-                                                        ...provided,
-                                                        overflow: "visible",
-                                                    }),
-                                                    placeholder: (provided, state) => ({
-                                                        ...provided,
-                                                        position: "absolute",
-                                                        top:
-                                                            state.hasValue ||
-                                                                state.selectProps.inputValue
-                                                                ? -15
-                                                                : "50%",
-                                                        transition:
-                                                            "top 0.1s, font-size 0.1s",
-                                                        fontSize:
-                                                            (state.hasValue ||
-                                                                state.selectProps.inputValue) &&
-                                                            13,
-                                                        color: 'black'
-                                                    }),
-                                                    singleValue: (styles) => ({ ...styles, textAlign: 'left' }),
-                                                    option: (provided, state) => ({
-                                                        ...provided,
-                                                        textAlign: "left",
-                                                    }),
-                                                }}
+                                                styles={{...selectStyle}}
                                                 components={{
                                                     ValueContainer: CustomValueContainer,
                                                 }}
                                                 isClearable
                                                 name={field.name}
                                                 isDisabled={
+
                                                     prop.state.formView === "DashboardView" &&
                                                         (prop.state.stageName === "Redirect Review" ||
                                                             prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "CaseArchived")
                                                         ? true
                                                         : false
+
                                                 }
                                                 className="basic-multi-select"
                                                 options={stUpExpeditedValues}
@@ -364,10 +283,7 @@ const ExpeditedRequestAccordion = (props) => {
                                                 placeholder="Standard Upgraded to Expedited"
                                                 //styles={{...customStyles}}
                                                 isSearchable={
-                                                    document.documentElement.clientHeight >
-                                                        document.documentElement.clientWidth
-                                                        ? false
-                                                        : true
+                                                    document.documentElement.clientHeight <= document.documentElement.clientWidth
                                                 }
                                             />
                                             {meta.touched && meta.error && (
@@ -433,62 +349,22 @@ const ExpeditedRequestAccordion = (props) => {
                                     }) => (
                                         <div className="form-floating">
                                             <Select
-                                                styles={{
-                                                    control: (provided) => ({
-                                                        ...provided,
-                                                        height: "58px",
-                                                        fontWeight: "lighter",
-                                                    }),
-                                                    menuList: (provided) => ({
-                                                        ...provided,
-                                                        maxHeight: 200,
-                                                    }),
-                                                    menu: (provided) => ({
-                                                        ...provided,
-                                                        zIndex: 9999,
-                                                    }),
-
-                                                    container: (provided, state) => ({
-                                                        ...provided,
-                                                        marginTop: 0,
-                                                    }),
-                                                    valueContainer: (provided, state) => ({
-                                                        ...provided,
-                                                        overflow: "visible",
-                                                    }),
-                                                    placeholder: (provided, state) => ({
-                                                        ...provided,
-                                                        position: "absolute",
-                                                        top:
-                                                            state.hasValue ||
-                                                                state.selectProps.inputValue
-                                                                ? -15
-                                                                : "50%",
-                                                        transition:
-                                                            "top 0.1s, font-size 0.1s",
-                                                        fontSize:
-                                                            (state.hasValue ||
-                                                                state.selectProps.inputValue) &&
-                                                            13,
-                                                        color: 'black'
-                                                    }),
-                                                    singleValue: (styles) => ({ ...styles, textAlign: 'left' }),
-                                                    option: (provided, state) => ({
-                                                        ...provided,
-                                                        textAlign: "left",
-                                                    }),
-                                                }}
+                                                styles={{...selectStyle}}
                                                 components={{
                                                     ValueContainer: CustomValueContainer,
                                                 }}
                                                 isClearable
                                                 name={field.name}
                                                 isDisabled={
+
                                                     prop.state.formView === "DashboardView" &&
                                                         (prop.state.stageName === "Redirect Review" ||
                                                             prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "CaseArchived")
                                                         ? true
                                                         : false
+
+                                             
+
                                                 }
                                                 className="basic-multi-select"
                                                 options={expeditedDeniedValues}

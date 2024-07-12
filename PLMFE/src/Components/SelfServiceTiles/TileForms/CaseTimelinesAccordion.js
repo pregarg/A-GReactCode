@@ -5,6 +5,8 @@ import { Formik, Field, ErrorMessage } from "formik";
 import useGetDBTables from "../../CustomHooks/useGetDBTables";
 import ReactDatePicker from "react-datepicker";
 import Select, { components } from "react-select";
+import {selectStyle} from "./SelectStyle";
+import './Appeals.css';
 
 const CaseTimelinesAccordion = (props) => {
   const { convertToCase, getDatePartOnly } = useGetDBTables();
@@ -64,9 +66,9 @@ const CaseTimelinesAccordion = (props) => {
     }
   }, []);
 
-  useEffect(() => {
-    console.log("formdatacasetimelines", caseTimelinesData);
-  }, [caseTimelinesData]);
+  const styleConfig = {
+
+  }
 
   return (
     <div className="accordion-item" id="caseTimelines">
@@ -92,65 +94,26 @@ const CaseTimelinesAccordion = (props) => {
             <div className="col-xs-6 col-md-4">
               <Field name="Case_Filing_Method">
                 {({
-                  field, // { name, value, onChange, onBlur }
-                  form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
                   meta,
                 }) => (
                   <div className="form-floating" >
                     <Select
-                      styles={{
-                        control: (provided) => ({
-                          ...provided,
-                          height: "58px",
-                          fontWeight: "lighter",
-                        }),
-                        menuList: (provided) => ({
-                          ...provided,
-                          maxHeight: 200,
-                        }),
-                        menu: (provided) => ({
-                          ...provided,
-                          zIndex: 9999,
-                        }),
-
-                        container: (provided, state) => ({
-                          ...provided,
-                          marginTop: 0,
-                        }),
-                        valueContainer: (provided, state) => ({
-                          ...provided,
-                          overflow: "visible",
-                        }),
-                        placeholder: (provided, state) => ({
-                          ...provided,
-                          position: "absolute",
-                          top:
-                            state.hasValue || state.selectProps.inputValue
-                              ? -15
-                              : "50%",
-                          transition: "top 0.1s, font-size 0.1s",
-                          fontSize:
-                            (state.hasValue || state.selectProps.inputValue) &&
-                            13,
-                          color: 'black'
-                        }),
-                        singleValue: (styles) => ({ ...styles, textAlign: 'left' }),
-                        option: (provided, state) => ({
-                          ...provided,
-                          textAlign: "left",
-                        }),
-                      }}
+                      styles={selectStyle}
                       components={{
                         ValueContainer: CustomValueContainer,
                       }}
                       isClearable
                       name={"Case_Filing_Method"}
                       isDisabled={
+
                         prop.state.formView === "DashboardView" &&
                           (prop.state.stageName === "Redirect Review" ||
                             prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
                           ? true
                           : false
+
+                     
+
                       }
                       className="basic-multi-select"
                       options={caseFilingMethodValues}
@@ -167,10 +130,7 @@ const CaseTimelinesAccordion = (props) => {
                       }
                       placeholder="Case Filing Method"
                       isSearchable={
-                        document.documentElement.clientHeight >
-                          document.documentElement.clientWidth
-                          ? false
-                          : true
+                        document.documentElement.clientHeight <= document.documentElement.clientWidth
                       }
                     />
                     {meta.touched && meta.error && (
@@ -514,8 +474,6 @@ const CaseTimelinesAccordion = (props) => {
                     tabRef.current === "DashboardView" &&
                       prop.state.lockStatus !== undefined &&
                       prop.state.lockStatus === "Y"
-                      ? true
-                      : false
                   }
                   style={{
                     position: "relative",

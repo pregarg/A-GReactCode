@@ -5,6 +5,7 @@ import { Field, ErrorMessage } from "formik";
 import useGetDBTables from "../../CustomHooks/useGetDBTables";
 import Select, { components } from "react-select";
 import "./CaseHeader.css";
+import {selectStyle} from "./SelectStyle";
 
 const CaseInformationAccordion = (props) => {
   const {
@@ -179,18 +180,22 @@ const CaseInformationAccordion = (props) => {
                 }) => (
                   <div className="form-floating">
                     <Select
-                      styles={{ ...styledSelect }}
+                      styles={{ ...selectStyle }}
                       components={{
                         ValueContainer: CustomValueContainer,
                       }}
                       isClearable
                       name={'Line_of_Business_LOB'}
                       isDisabled={
+
                         prop.state.formView === "DashboardView" &&
                           (prop.state.stageName === "Redirect Review" ||
                             prop.state.stageName === "Documents Needed" || prop.state.stageName === "Research" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
                           ? true
                           : false
+
+                       
+
                       }
                       className="basic-multi-select"
                       options={LOBValues}
@@ -206,12 +211,12 @@ const CaseInformationAccordion = (props) => {
                         }
                       }
                       placeholder="Line of Business"
+
                       //styles={{ ...customStyles }}
+
+
                       isSearchable={
-                        document.documentElement.clientHeight >
-                          document.documentElement.clientWidth
-                          ? false
-                          : true
+                        document.documentElement.clientHeight <= document.documentElement.clientWidth
                       }
                     />
                     {meta.touched && meta.error && (
@@ -349,7 +354,7 @@ const CaseInformationAccordion = (props) => {
                 }) => (
                   <div className="form-floating">
                     <Select
-                      styles={{ ...styledSelect }}
+                      styles={{ ...selectStyle }}
                       components={{
                         ValueContainer: CustomValueContainer,
                       }}
@@ -411,18 +416,20 @@ const CaseInformationAccordion = (props) => {
                 }) => (
                   <div className="form-floating">
                     <Select
-                      styles={{ ...styledSelect }}
+                      styles={{ ...selectStyle }}
                       components={{
                         ValueContainer: CustomValueContainer,
                       }}
                       isClearable
                       name={field.name}
                       isDisabled={
+
                         prop.state.formView === "DashboardView" &&
                           (prop.state.stageName === "Redirect Review" ||
                             prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
                           ? true
                           : false
+
                       }
                       className="basic-multi-select"
                       options={[
@@ -477,18 +484,20 @@ const CaseInformationAccordion = (props) => {
                 }) => (
                   <div className="form-floating">
                     <Select
-                      styles={{ ...styledSelect }}
+                      styles={{ ...selectStyle }}
                       components={{
                         ValueContainer: CustomValueContainer,
                       }}
                       isClearable
                       name={field.name}
                       isDisabled={
+
                         prop.state.formView === "DashboardView" &&
                           (prop.state.stageName === "Redirect Review" ||
                             prop.state.stageName === "Documents Needed" || prop.state.stageName === "Research" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
                           ? true
                           : false
+
                       }
                       className="basic-multi-select"
                       options={productStateValues}
@@ -543,18 +552,20 @@ const CaseInformationAccordion = (props) => {
                 }) => (
                   <div className="form-floating">
                     <Select
-                      styles={{ ...styledSelect }}
+                      styles={{ ...selectStyle }}
                       components={{
                         ValueContainer: CustomValueContainer,
                       }}
                       isClearable
                       name={field.name}
                       isDisabled={
+
                         prop.state.formView === "DashboardView" &&
                           (prop.state.stageName === "Redirect Review" ||
                             prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
                           ? true
                           : false
+
                       }
                       className="basic-multi-select"
                       options={appellantDescValues}
@@ -605,67 +616,22 @@ const CaseInformationAccordion = (props) => {
                 }) => (
                   <div className="form-floating">
                     <Select
-                      styles={{
-                        control: (provided) => ({
-                          ...provided,
-                          height: "58px",
-                          fontWeight: "lighter",
-                        }),
-                        menuList: (provided) => ({
-                          ...provided,
-                          maxHeight: 200,
-                        }),
-                        menu: (provided) => ({
-                          ...provided,
-                          zIndex: 9999,
-                        }),
-
-                        container: (provided, state) => ({
-                          ...provided,
-                          marginTop: 0,
-                        }),
-                        valueContainer: (provided, state) => ({
-                          ...provided,
-                          overflow: "visible",
-                        }),
-                        placeholder: (provided, state) => ({
-                          ...provided,
-                          position: "absolute",
-                          top:
-                            state.hasValue ||
-                              state.selectProps.inputValue
-                              ? -15
-                              : "50%",
-                          transition:
-                            "top 0.1s, font-size 0.1s",
-                          fontSize:
-                            (state.hasValue ||
-                              state.selectProps.inputValue) &&
-                            13,
-                          color: 'black'
-                        }),
-                        singleValue: (styles) => ({
-                          ...styles, textAlign: 'left', textOverflow: "ellipsis",
-                          overflow: "hidden",
-                          whiteSpace: "nowrap",
-                          maxWidth: 230,
-                        }),
-                        option: (provided, state) => ({
-                          ...provided,
-                          textAlign: "left",
-                        }),
-                      }}
+                      styles={{ ...selectStyle }}
                       components={{
                         ValueContainer: CustomValueContainer,
                       }}
                       isClearable
                       name={field.name}
                       isDisabled={
+
                         prop.state.formView === "DashboardView" &&
                           (prop.state.stageName === "Redirect Review" ||
                             prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
                           ? true
                           : false
+
+                 
+
                       }
                       className="basic-multi-select"
                       options={appellantTypeValues}
@@ -674,7 +640,6 @@ const CaseInformationAccordion = (props) => {
                       onChange={(selectValue) =>
                         props.handleOnChange(selectValue ? selectValue.value : null, 'Appellant_Type')
                       }
-
                       value={
                         {
                           label: caseInformationData['Appellant_Type'],
@@ -684,10 +649,7 @@ const CaseInformationAccordion = (props) => {
                       placeholder="Appellant Type"
                       //styles={{...customStyles}}
                       isSearchable={
-                        document.documentElement.clientHeight >
-                          document.documentElement.clientWidth
-                          ? false
-                          : true
+                        document.documentElement.clientHeight <= document.documentElement.clientWidth
                       }
                     />
                     {meta.touched && meta.error && (
@@ -716,18 +678,22 @@ const CaseInformationAccordion = (props) => {
                 }) => (
                   <div className="form-floating">
                     <Select
-                      styles={{ ...styledSelect }}
+                      styles={{ ...selectStyle }}
                       components={{
                         ValueContainer: CustomValueContainer,
                       }}
                       isClearable
                       name={field.name}
                       isDisabled={
+
                         prop.state.formView === "DashboardView" &&
                           (prop.state.stageName === "Redirect Review" ||
                             prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
                           ? true
                           : false
+
+                      
+
                       }
                       className="basic-multi-select"
                       options={appealTypeValues}
@@ -781,7 +747,7 @@ const CaseInformationAccordion = (props) => {
                   <div className="form-floating">
                     <Select
                       styles={{
-                        ...styledSelect
+                        ...selectStyle
                       }}
                       components={{
                         ValueContainer: CustomValueContainer,
@@ -899,8 +865,7 @@ const CaseInformationAccordion = (props) => {
                   <div className="form-floating">
                     <Select
                       styles={{
-
-                        ...styledSelect
+                        ...selectStyle
                       }}
                       components={{
                         ValueContainer: CustomValueContainer,
@@ -966,7 +931,7 @@ const CaseInformationAccordion = (props) => {
                 }) => (
                   <div className="form-floating">
                     <Select
-                      styles={{ ...styledSelect }}
+                      styles={{ ...selectStyle }}
                       components={{
                         ValueContainer: CustomValueContainer,
                       }}
@@ -1031,7 +996,7 @@ const CaseInformationAccordion = (props) => {
                     <Select
                       styles={{
 
-                        ...styledSelect
+                        ...selectStyle
                       }}
 
                       components={{
@@ -1097,7 +1062,7 @@ const CaseInformationAccordion = (props) => {
                 }) => (
                   <div className="form-floating">
                     <Select
-                      styles={{ ...styledSelect }}
+                      styles={{ ...selectStyle }}
                       components={{
                         ValueContainer: CustomValueContainer,
                       }}
@@ -1107,8 +1072,6 @@ const CaseInformationAccordion = (props) => {
                         tabRef.current === "DashboardView" &&
                           prop.state.lockStatus !== undefined &&
                           prop.state.lockStatus === "Y"
-                          ? true
-                          : false
                       }
                       className="basic-multi-select"
                       options={[
@@ -1130,10 +1093,7 @@ const CaseInformationAccordion = (props) => {
                       placeholder="Research Type"
                       //styles={{...customStyles}}
                       isSearchable={
-                        document.documentElement.clientHeight >
-                          document.documentElement.clientWidth
-                          ? false
-                          : true
+                        document.documentElement.clientHeight <= document.documentElement.clientWidth
                       }
                     />
                     {meta.touched && meta.error && (
@@ -1231,52 +1191,6 @@ const CaseInformationAccordion = (props) => {
     </div>
 
   )
-}
-
-const styledSelect = {
-  control: (provided) => ({
-    ...provided,
-    height: "58px",
-    fontWeight: "lighter",
-  }),
-  menuList: (provided) => ({
-    ...provided,
-    maxHeight: 200,
-  }),
-  menu: (provided) => ({
-    ...provided,
-    zIndex: 9999,
-  }),
-
-  container: (provided, state) => ({
-    ...provided,
-    marginTop: 0,
-  }),
-  valueContainer: (provided, state) => ({
-    ...provided,
-    overflow: "visible",
-  }),
-  placeholder: (provided, state) => ({
-    ...provided,
-    position: "absolute",
-    top:
-      state.hasValue ||
-        state.selectProps.inputValue
-        ? -15
-        : "50%",
-    transition:
-      "top 0.1s, font-size 0.1s",
-    fontSize:
-      (state.hasValue ||
-        state.selectProps.inputValue) &&
-      13,
-    color: 'black'
-  }),
-  option: (provided, state) => ({
-    ...provided,
-    textAlign: "left",
-  }),
-  singleValue: (styles) => ({ ...styles, textAlign: 'left' }),
 }
 
 export default CaseInformationAccordion;
