@@ -5,6 +5,7 @@ import { Field, ErrorMessage } from "formik";
 import Select, { components } from "react-select";
 import useGetDBTables from "../../CustomHooks/useGetDBTables";
 import ReactDatePicker from "react-datepicker";
+import {selectStyle} from "./SelectStyle";
 
 const MemeberInformationAccordion = (props) => {
     const {
@@ -394,51 +395,7 @@ const MemeberInformationAccordion = (props) => {
                                 }) => (
                                     <div className="form-floating">
                                         <Select
-                                            styles={{
-                                                control: (provided) => ({
-                                                    ...provided,
-                                                    height: "58px",
-                                                    fontWeight: "lighter",
-                                                }),
-                                                menuList: (provided) => ({
-                                                    ...provided,
-                                                    maxHeight: 200,
-                                                }),
-                                                menu: (provided) => ({
-                                                    ...provided,
-                                                    zIndex: 9999,
-                                                }),
-
-                                                container: (provided, state) => ({
-                                                    ...provided,
-                                                    marginTop: 0,
-                                                }),
-                                                valueContainer: (provided, state) => ({
-                                                    ...provided,
-                                                    overflow: "visible",
-                                                }),
-                                                placeholder: (provided, state) => ({
-                                                    ...provided,
-                                                    position: "absolute",
-                                                    top:
-                                                        state.hasValue ||
-                                                            state.selectProps.inputValue
-                                                            ? -15
-                                                            : "50%",
-                                                    transition:
-                                                        "top 0.1s, font-size 0.1s",
-                                                    fontSize:
-                                                        (state.hasValue ||
-                                                            state.selectProps.inputValue) &&
-                                                        13,
-                                                    color: 'black'
-                                                }),
-                                                singleValue: (styles) => ({ ...styles, textAlign: 'left' }),
-                                                option: (provided, state) => ({
-                                                    ...provided,
-                                                    textAlign: "left",
-                                                }),
-                                            }}
+                                            styles={{...selectStyle}}
                                             components={{
                                                 ValueContainer: CustomValueContainer,
                                             }}
@@ -446,10 +403,8 @@ const MemeberInformationAccordion = (props) => {
                                             name={field.name}
                                             isDisabled={
                                                 tabRef.current === "DashboardView" &&
-                                                    prop.state.lockStatus !== undefined &&
-                                                    prop.state.lockStatus === "Y"
-                                                    ? true
-                                                    : false
+                                                prop.state.lockStatus !== undefined &&
+                                                prop.state.lockStatus === "Y"
                                             }
                                             className="basic-multi-select"
                                             options={genderValues}
@@ -465,12 +420,8 @@ const MemeberInformationAccordion = (props) => {
                                                 }
                                             }
                                             placeholder="Gender"
-                                            //styles={{...customStyles}}
                                             isSearchable={
-                                                document.documentElement.clientHeight >
-                                                    document.documentElement.clientWidth
-                                                    ? false
-                                                    : true
+                                                document.documentElement.clientHeight <= document.documentElement.clientWidth
                                             }
                                         />
                                         {meta.touched && meta.error && (
@@ -501,51 +452,7 @@ const MemeberInformationAccordion = (props) => {
                                 }) => (
                                     <div className="form-floating">
                                         <Select
-                                            styles={{
-                                                control: (provided) => ({
-                                                    ...provided,
-                                                    height: "58px",
-                                                    fontWeight: "lighter",
-                                                }),
-                                                menuList: (provided) => ({
-                                                    ...provided,
-                                                    maxHeight: 200,
-                                                }),
-                                                menu: (provided) => ({
-                                                    ...provided,
-                                                    zIndex: 9999,
-                                                }),
-
-                                                container: (provided, state) => ({
-                                                    ...provided,
-                                                    marginTop: 0,
-                                                }),
-                                                valueContainer: (provided, state) => ({
-                                                    ...provided,
-                                                    overflow: "visible",
-                                                }),
-                                                placeholder: (provided, state) => ({
-                                                    ...provided,
-                                                    position: "absolute",
-                                                    top:
-                                                        state.hasValue ||
-                                                            state.selectProps.inputValue
-                                                            ? -15
-                                                            : "50%",
-                                                    transition:
-                                                        "top 0.1s, font-size 0.1s",
-                                                    fontSize:
-                                                        (state.hasValue ||
-                                                            state.selectProps.inputValue) &&
-                                                        13,
-                                                    color: 'black'
-                                                }),
-                                                singleValue: (styles) => ({ ...styles, textAlign: 'left' }),
-                                                option: (provided, state) => ({
-                                                    ...provided,
-                                                    textAlign: "left",
-                                                }),
-                                            }}
+                                            styles={{...selectStyle}}
                                             components={{
                                                 ValueContainer: CustomValueContainer,
                                             }}
@@ -553,10 +460,8 @@ const MemeberInformationAccordion = (props) => {
                                             name={field.name}
                                             isDisabled={
                                                 tabRef.current === "DashboardView" &&
-                                                    prop.state.lockStatus !== undefined &&
-                                                    prop.state.lockStatus === "Y"
-                                                    ? true
-                                                    : false
+                                                prop.state.lockStatus !== undefined &&
+                                                prop.state.lockStatus === "Y"
                                             }
                                             className="basic-multi-select"
                                             options={deceasedValues}
@@ -572,12 +477,8 @@ const MemeberInformationAccordion = (props) => {
                                                 }
                                             }
                                             placeholder="Deceased"
-                                            //styles={{...customStyles}}
                                             isSearchable={
-                                                document.documentElement.clientHeight >
-                                                    document.documentElement.clientWidth
-                                                    ? false
-                                                    : true
+                                                document.documentElement.clientHeight <= document.documentElement.clientWidth
                                             }
                                         />
                                         {meta.touched && meta.error && (
@@ -606,51 +507,7 @@ const MemeberInformationAccordion = (props) => {
                                 }) => (
                                     <div className="form-floating">
                                         <Select
-                                            styles={{
-                                                control: (provided) => ({
-                                                    ...provided,
-                                                    height: "58px",
-                                                    fontWeight: "lighter",
-                                                }),
-                                                menuList: (provided) => ({
-                                                    ...provided,
-                                                    maxHeight: 200,
-                                                }),
-                                                menu: (provided) => ({
-                                                    ...provided,
-                                                    zIndex: 9999,
-                                                }),
-
-                                                container: (provided, state) => ({
-                                                    ...provided,
-                                                    marginTop: 0,
-                                                }),
-                                                valueContainer: (provided, state) => ({
-                                                    ...provided,
-                                                    overflow: "visible",
-                                                }),
-                                                placeholder: (provided, state) => ({
-                                                    ...provided,
-                                                    position: "absolute",
-                                                    top:
-                                                        state.hasValue ||
-                                                            state.selectProps.inputValue
-                                                            ? -15
-                                                            : "50%",
-                                                    transition:
-                                                        "top 0.1s, font-size 0.1s",
-                                                    fontSize:
-                                                        (state.hasValue ||
-                                                            state.selectProps.inputValue) &&
-                                                        13,
-                                                    color: 'black'
-                                                }),
-                                                singleValue: (styles) => ({ ...styles, textAlign: 'left' }),
-                                                option: (provided, state) => ({
-                                                    ...provided,
-                                                    textAlign: "left",
-                                                }),
-                                            }}
+                                            styles={{...selectStyle}}
                                             components={{
                                                 ValueContainer: CustomValueContainer,
                                             }}
@@ -658,10 +515,8 @@ const MemeberInformationAccordion = (props) => {
                                             name={field.name}
                                             isDisabled={
                                                 tabRef.current === "DashboardView" &&
-                                                    prop.state.lockStatus !== undefined &&
-                                                    prop.state.lockStatus === "Y"
-                                                    ? true
-                                                    : false
+                                                prop.state.lockStatus !== undefined &&
+                                                prop.state.lockStatus === "Y"
                                             }
                                             className="basic-multi-select"
                                             options={dualPlanValues}
@@ -677,12 +532,8 @@ const MemeberInformationAccordion = (props) => {
                                                 }
                                             }
                                             placeholder="Dual Plan"
-                                            //styles={{...customStyles}}
                                             isSearchable={
-                                                document.documentElement.clientHeight >
-                                                    document.documentElement.clientWidth
-                                                    ? false
-                                                    : true
+                                                document.documentElement.clientHeight <= document.documentElement.clientWidth
                                             }
                                         />
                                         {meta.touched && meta.error && (
@@ -711,51 +562,7 @@ const MemeberInformationAccordion = (props) => {
                                 }) => (
                                     <div className="form-floating">
                                         <Select
-                                            styles={{
-                                                control: (provided) => ({
-                                                    ...provided,
-                                                    height: "58px",
-                                                    fontWeight: "lighter",
-                                                }),
-                                                menuList: (provided) => ({
-                                                    ...provided,
-                                                    maxHeight: 200,
-                                                }),
-                                                menu: (provided) => ({
-                                                    ...provided,
-                                                    zIndex: 9999,
-                                                }),
-
-                                                container: (provided, state) => ({
-                                                    ...provided,
-                                                    marginTop: 0,
-                                                }),
-                                                valueContainer: (provided, state) => ({
-                                                    ...provided,
-                                                    overflow: "visible",
-                                                }),
-                                                placeholder: (provided, state) => ({
-                                                    ...provided,
-                                                    position: "absolute",
-                                                    top:
-                                                        state.hasValue ||
-                                                            state.selectProps.inputValue
-                                                            ? -15
-                                                            : "50%",
-                                                    transition:
-                                                        "top 0.1s, font-size 0.1s",
-                                                    fontSize:
-                                                        (state.hasValue ||
-                                                            state.selectProps.inputValue) &&
-                                                        13,
-                                                    color: 'black'
-                                                }),
-                                                singleValue: (styles) => ({ ...styles, textAlign: 'left' }),
-                                                option: (provided, state) => ({
-                                                    ...provided,
-                                                    textAlign: "left",
-                                                }),
-                                            }}
+                                            styles={{...selectStyle}}
                                             components={{
                                                 ValueContainer: CustomValueContainer,
                                             }}
@@ -763,10 +570,8 @@ const MemeberInformationAccordion = (props) => {
                                             name={field.name}
                                             isDisabled={
                                                 tabRef.current === "DashboardView" &&
-                                                    prop.state.lockStatus !== undefined &&
-                                                    prop.state.lockStatus === "Y"
-                                                    ? true
-                                                    : false
+                                                prop.state.lockStatus !== undefined &&
+                                                prop.state.lockStatus === "Y"
                                             }
                                             className="basic-multi-select"
                                             options={preferredLanguageValues}
@@ -782,12 +587,8 @@ const MemeberInformationAccordion = (props) => {
                                                 }
                                             }
                                             placeholder="Preferred Language"
-                                            //styles={{...customStyles}}
                                             isSearchable={
-                                                document.documentElement.clientHeight >
-                                                    document.documentElement.clientWidth
-                                                    ? false
-                                                    : true
+                                                document.documentElement.clientHeight <= document.documentElement.clientWidth
                                             }
                                         />
                                         {meta.touched && meta.error && (
@@ -1412,51 +1213,7 @@ const MemeberInformationAccordion = (props) => {
                                 }) => (
                                     <div className="form-floating">
                                         <Select
-                                            styles={{
-                                                control: (provided) => ({
-                                                    ...provided,
-                                                    height: "58px",
-                                                    fontWeight: "lighter",
-                                                }),
-                                                menuList: (provided) => ({
-                                                    ...provided,
-                                                    maxHeight: 200,
-                                                }),
-                                                menu: (provided) => ({
-                                                    ...provided,
-                                                    zIndex: 9999,
-                                                }),
-
-                                                container: (provided, state) => ({
-                                                    ...provided,
-                                                    marginTop: 0,
-                                                }),
-                                                valueContainer: (provided, state) => ({
-                                                    ...provided,
-                                                    overflow: "visible",
-                                                }),
-                                                placeholder: (provided, state) => ({
-                                                    ...provided,
-                                                    position: "absolute",
-                                                    top:
-                                                        state.hasValue ||
-                                                            state.selectProps.inputValue
-                                                            ? -15
-                                                            : "50%",
-                                                    transition:
-                                                        "top 0.1s, font-size 0.1s",
-                                                    fontSize:
-                                                        (state.hasValue ||
-                                                            state.selectProps.inputValue) &&
-                                                        13,
-                                                    color: 'black'
-                                                }),
-                                                singleValue: (styles) => ({ ...styles, textAlign: 'left' }),
-                                                option: (provided, state) => ({
-                                                    ...provided,
-                                                    textAlign: "left",
-                                                }),
-                                            }}
+                                            styles={{...selectStyle}}
                                             components={{
                                                 ValueContainer: CustomValueContainer,
                                             }}
@@ -1464,10 +1221,8 @@ const MemeberInformationAccordion = (props) => {
                                             name={field.name}
                                             isDisabled={
                                                 tabRef.current === "DashboardView" &&
-                                                    prop.state.lockStatus !== undefined &&
-                                                    prop.state.lockStatus === "Y"
-                                                    ? true
-                                                    : false
+                                                prop.state.lockStatus !== undefined &&
+                                                prop.state.lockStatus === "Y"
                                             }
                                             className="basic-multi-select"
                                             options={mailToAddressValues}
@@ -1483,12 +1238,8 @@ const MemeberInformationAccordion = (props) => {
                                                 }
                                             }
                                             placeholder="Mail To Address"
-                                            //styles={{...customStyles}}
                                             isSearchable={
-                                                document.documentElement.clientHeight >
-                                                    document.documentElement.clientWidth
-                                                    ? false
-                                                    : true
+                                                document.documentElement.clientHeight <= document.documentElement.clientWidth
                                             }
                                         />
                                         {meta.touched && meta.error && (
@@ -1517,51 +1268,7 @@ const MemeberInformationAccordion = (props) => {
                                 }) => (
                                     <div className="form-floating">
                                         <Select
-                                            styles={{
-                                                control: (provided) => ({
-                                                    ...provided,
-                                                    height: "58px",
-                                                    fontWeight: "lighter",
-                                                }),
-                                                menuList: (provided) => ({
-                                                    ...provided,
-                                                    maxHeight: 200,
-                                                }),
-                                                menu: (provided) => ({
-                                                    ...provided,
-                                                    zIndex: 9999,
-                                                }),
-
-                                                container: (provided, state) => ({
-                                                    ...provided,
-                                                    marginTop: 0,
-                                                }),
-                                                valueContainer: (provided, state) => ({
-                                                    ...provided,
-                                                    overflow: "visible",
-                                                }),
-                                                placeholder: (provided, state) => ({
-                                                    ...provided,
-                                                    position: "absolute",
-                                                    top:
-                                                        state.hasValue ||
-                                                            state.selectProps.inputValue
-                                                            ? -15
-                                                            : "50%",
-                                                    transition:
-                                                        "top 0.1s, font-size 0.1s",
-                                                    fontSize:
-                                                        (state.hasValue ||
-                                                            state.selectProps.inputValue) &&
-                                                        13,
-                                                    color: 'black'
-                                                }),
-                                                singleValue: (styles) => ({ ...styles, textAlign: 'left' }),
-                                                option: (provided, state) => ({
-                                                    ...provided,
-                                                    textAlign: "left",
-                                                }),
-                                            }}
+                                            styles={{...selectStyle}}
                                             components={{
                                                 ValueContainer: CustomValueContainer,
                                             }}
@@ -1569,10 +1276,8 @@ const MemeberInformationAccordion = (props) => {
                                             name={field.name}
                                             isDisabled={
                                                 tabRef.current === "DashboardView" &&
-                                                    prop.state.lockStatus !== undefined &&
-                                                    prop.state.lockStatus === "Y"
-                                                    ? true
-                                                    : false
+                                                prop.state.lockStatus !== undefined &&
+                                                prop.state.lockStatus === "Y"
                                             }
                                             className="basic-multi-select"
                                             options={specialNeedsValues}
@@ -1868,51 +1573,7 @@ const MemeberInformationAccordion = (props) => {
                                 }) => (
                                     <div className="form-floating">
                                         <Select
-                                            styles={{
-                                                control: (provided) => ({
-                                                    ...provided,
-                                                    height: "58px",
-                                                    fontWeight: "lighter",
-                                                }),
-                                                menuList: (provided) => ({
-                                                    ...provided,
-                                                    maxHeight: 200,
-                                                }),
-                                                menu: (provided) => ({
-                                                    ...provided,
-                                                    zIndex: 9999,
-                                                }),
-
-                                                container: (provided, state) => ({
-                                                    ...provided,
-                                                    marginTop: 0,
-                                                }),
-                                                valueContainer: (provided, state) => ({
-                                                    ...provided,
-                                                    overflow: "visible",
-                                                }),
-                                                placeholder: (provided, state) => ({
-                                                    ...provided,
-                                                    position: "absolute",
-                                                    top:
-                                                        state.hasValue ||
-                                                            state.selectProps.inputValue
-                                                            ? -15
-                                                            : "50%",
-                                                    transition:
-                                                        "top 0.1s, font-size 0.1s",
-                                                    fontSize:
-                                                        (state.hasValue ||
-                                                            state.selectProps.inputValue) &&
-                                                        13,
-                                                    color: 'black'
-                                                }),
-                                                singleValue: (styles) => ({ ...styles, textAlign: 'left' }),
-                                                option: (provided, state) => ({
-                                                    ...provided,
-                                                    textAlign: "left",
-                                                }),
-                                            }}
+                                            styles={{...selectStyle}}
                                             components={{
                                                 ValueContainer: CustomValueContainer,
                                             }}
@@ -1920,10 +1581,8 @@ const MemeberInformationAccordion = (props) => {
                                             name={field.name}
                                             isDisabled={
                                                 tabRef.current === "DashboardView" &&
-                                                    prop.state.lockStatus !== undefined &&
-                                                    prop.state.lockStatus === "Y"
-                                                    ? true
-                                                    : false
+                                                prop.state.lockStatus !== undefined &&
+                                                prop.state.lockStatus === "Y"
                                             }
                                             className="basic-multi-select"
                                             options={commPrefValues}
@@ -1939,12 +1598,8 @@ const MemeberInformationAccordion = (props) => {
                                                 }
                                             }
                                             placeholder="Communication Preference"
-                                            //styles={{...customStyles}}
                                             isSearchable={
-                                                document.documentElement.clientHeight >
-                                                    document.documentElement.clientWidth
-                                                    ? false
-                                                    : true
+                                                document.documentElement.clientHeight <= document.documentElement.clientWidth
                                             }
                                         />
                                         {meta.touched && meta.error && (
