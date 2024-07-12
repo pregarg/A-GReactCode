@@ -1390,7 +1390,7 @@ const CaseClaimInformation = (props) => {
                                                         ? true
                                                         : false
 
-                                                }
+                                               }
                                                 className="basic-multi-select"
                                                 options={processingStatusValues}
                                                 id="processingstatus"
