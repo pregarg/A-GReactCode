@@ -149,6 +149,7 @@ export default function DecisionTab(tabInput) {
   ////
 
   const decisonRef = React.createRef();
+  const decisonReasonRef = useRef();
 
   const [decisionState, setDecisionState] = useState({ decisionNotes: "" });
 
@@ -156,8 +157,11 @@ export default function DecisionTab(tabInput) {
     const { name } = evnt;
     if (name === "decision") {
       prop.state.decision = selectedValue?.value;
+      decisonReasonRef.current.clearValue();
+
     }
-    if (prop.state.formNames === 'Case Header') {
+    if (prop.state.formNames === 'Appeals') {
+
 
       if (selectedValue?.value) {
         if (decisionReasonArray[stageName]) {
@@ -178,12 +182,15 @@ export default function DecisionTab(tabInput) {
     const { name } = evnt;
     if (name === "decisionReason") {
       prop.state.decisionReason = selectedValue?.value;
+      
     }
   };
 
   const handleLinearFieldChange = (evt) => {
+    console.log("decisionNotes-->")
     const value = evt.target.value;
     if (evt.target.name === "decisionNotes") {
+      console.log("evt.target.name--->",evt.target.name)
       prop.state.decisionNotes = convertToCase(evt.target.value);
     }
     setDecisionState({
@@ -403,6 +410,7 @@ export default function DecisionTab(tabInput) {
 
   useEffect(() => {
     let selectJson = {};
+    let mappedObject = {};
     const stageName = String(prop.state.stageName);
     const transactionType = String(prop.state.formNames);
     const flowId = Number(prop.state.flowId);
@@ -431,56 +439,53 @@ export default function DecisionTab(tabInput) {
         selectJson.decisionOptions =
           mastersSelector["masterDecision"].length === 0
             ? []
-            : mastersSelector["masterDecision"][0].data;
+            : mastersSelector["masterDecision"][0];
 
-        // selectJson["decisionOptions"]
-        //   .filter(
+        selectJson["decisionOptions"]
+          .filter(
+            (data) => data.WORKSTEP.trim() == stageName.trim()
+          ).map((val) => {
+            const existingIndex = decisionOptions.findIndex((item) => item.value === val.DECISION);
 
-        //     (data) => data.flowId == flowId && data.stageName.trim() == stageName.trim()
+            if (existingIndex === -1) {
+              decisionOptions.push({
+                value: val.DECISION,
+                label: val.DECISION
+              });
+            }
+          }
+          );
 
-        //   ).map((val) =>{
-        //     console.log("logger mapper : ",val)
-        //     decisionOptions.push({
-        //       value: val.description,
-        //       label: val.description
-        //     })
-        //   } 
-        //   );
+        selectJson["decisionOptions"]
+          .filter(
+            (data) => data.WORKSTEP.trim() == stageName.trim()
+          ).map((val) => {
+            let stageName = val.WORKSTEP;
+            let decision = val.DECISION;
+            let decisionReason = val.DECISION_REASON;
+            if (!mappedObject[stageName]) {
+              mappedObject[stageName] = {};
+            }
+            if (!mappedObject[stageName][decision]) {
+              mappedObject[stageName][decision] = [];
+            }
+            mappedObject[stageName][decision].push({
+              value: decisionReason,
+              label: decisionReason
+            });
+          }
+          );
       }
     }
-    console.log("masterDecision Refprav1 ", decisionOptions);
+    console.log("decision options", decisionOptions);
+    console.log("mapped object", mappedObject);
 
     setTimeout(() => {
       setSelectValues(decisionOptions);
+      setDecisionReasonArray(mappedObject);
       console.log("logger selectValues ", selectValues);
     }, 1000);
   }, [tabInput]);
-
-  useEffect(() => {
-    const masterReasons = mastersSelector['masterDecisionReason'];
-    const mappedObject = {};
-    if (formName === 'Case Header') {
-
-      masterReasons.filter((obj) => obj['stageName'] === stageName)
-        .forEach(({ stageName, decision, decisionReason }) => {
-          if (!mappedObject[stageName]) {
-            mappedObject[stageName] = {};
-          }
-          if (!mappedObject[stageName][decision]) {
-            mappedObject[stageName][decision] = [];
-          }
-          mappedObject[stageName][decision].push({
-            value: decisionReason,
-            label: decisionReason
-          });
-        });
-    }
-    console.log("logger masterReasons : ", mappedObject)
-    setDecisionReasonArray(mappedObject);
-
-
-  }, [])
-
 
   const openDecisionModal = (index) => {
     let docIndexJson = { ...docClickedIndex.current };
@@ -802,31 +807,49 @@ export default function DecisionTab(tabInput) {
 
   //Added by Harshit for Removing document type already uploaded apart from other documents
   const getNotUploadedDocTypes = (docArr) => {
+    let selectJson = {};
     let documentNames = [];
-    if (mastersSelector.hasOwnProperty("masterDocumentName")) {
-      let documentNameOptions =
-        mastersSelector["masterDocumentName"].length === 0
-          ? []
-          : mastersSelector["masterDocumentName"][0];
-      documentNameOptions
-        .filter((data) => data.FlowId == flowId)
-        .map((val) =>
-          documentNames.push({ value: val.DocumentName, label: val.DocumentName })
-        );
-    }
-    if (documentNames.length > 0 && docArr.length > 0) {
-      docArr.forEach((obj) => {
-        if (obj.documentType !== "Other Documents") {
-          const requiredIndex = documentNames.findIndex((el) => {
-            return el.value === obj.documentType;
-          });
+    // if (mastersSelector.hasOwnProperty("masterDocumentName")) {
+    //   let documentNameOptions =
+    //     mastersSelector["masterDocumentName"].length === 0
+    //       ? []
+    //       : mastersSelector["masterDocumentName"][0];
+    //   documentNameOptions
+    //     .filter((data) => data.FlowId == flowId)
+    //     .map((val) =>
+    //       documentNames.push({ value: val.DocumentName, label: val.DocumentName })
+    //     );
+    // }
+    // if (documentNames.length > 0 && docArr.length > 0) {
+    //   docArr.forEach((obj) => {
+    //     if (obj.documentType !== "Other Documents") {
+    //       const requiredIndex = documentNames.findIndex((el) => {
+    //         return el.value === obj.documentType;
+    //       });
 
-          if (requiredIndex !== -1) {
-            documentNames.splice(requiredIndex, 1);
-          }
-        }
-      });
-    }
+    //       if (requiredIndex !== -1) {
+    //         documentNames.splice(requiredIndex, 1);
+    //       }
+    //     }
+    //   });
+    // }
+
+    selectJson.docOptions =
+      mastersSelector["masterAngDocument"].length === 0
+        ? []
+        : mastersSelector["masterAngDocument"][0];
+
+    selectJson["docOptions"]
+      .filter(
+        (data) => data.WORKSTEP_NAME.trim() == stageName.trim()
+      ).map((val) => {
+        documentNames.push({
+          value: val.DOCUMENT_NAME,
+          label: val.DOCUMENT_NAME
+        });
+      }
+      );
+
     return documentNames;
   };
 
@@ -836,6 +859,7 @@ export default function DecisionTab(tabInput) {
 
       unique = convertArrayToOuterArray(unique);
       let documentNameValue = getNotUploadedDocTypes(unique);
+      console.log("doc name value", documentNameValue);
 
       //Till Here
 
@@ -871,12 +895,14 @@ export default function DecisionTab(tabInput) {
                         ...provided,
                         fontWeight: "lighter",
                       }),
+                      singleValue: (styles) => ({ ...styles, textAlign: 'left' }),
                     }}
                     // value={(('documentType' in data) && (data.documentType.value !== undefined)) ? (convertToCase(data.documentType.value)) : (convertToCase(data.documentType))}
                     //value={data.documentType}
                     //options={documentNames}
                     ref={selectRef}
                     options={documentNameValue}
+                    isClearable
                     onChange={(selectValue, event) =>
                       handleGridSelectChange(index, selectValue, event, unique)
                     }
@@ -1055,9 +1081,9 @@ export default function DecisionTab(tabInput) {
                               ""
                             )}
                             {prop.state.formNames.toLowerCase() ===
-                              "case Header" ||
+                              "appeals" ||
                               prop.state.formNames.toLowerCase() ===
-                              "case Header" ? (
+                              "appeals" ? (
                               <th style={{ width: "19%" }} scope="col">
                                 DBA Name
                               </th>
@@ -1307,7 +1333,7 @@ export default function DecisionTab(tabInput) {
 
                     {/* descision reason */}
                     {
-                      prop.state.formNames == "Case Header" && <div className="col-xs-12 col-md-4">
+                      prop.state.formNames == "Appeals" && <div className="col-xs-12 col-md-4">
                         <label>Decision Reason</label>
                         <Select
                           styles={{
@@ -1327,6 +1353,7 @@ export default function DecisionTab(tabInput) {
 
                           // isDisabled={(tabInput.lockStatus==='Y')?true:false}
                           name="decisionReason"
+                          ref={decisonReasonRef}
                           id="decisionReasonDropdown"
                         />
                       </div>

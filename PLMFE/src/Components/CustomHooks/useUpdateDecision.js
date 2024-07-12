@@ -7,7 +7,7 @@ import { useAxios } from '../../api/axios.hook';
 
 export default function useUpdateDecision() {
 
-  const [decisionState, setDecisionState] = useState({ decisionNotes: '' });
+  const [decisionState, setDecisionState] = useState({ decisionNotes: "" });
   const token = useSelector((state) => state.auth.token);
   const { getTableDetails, acceptNumbersOnly, extractDate } = useGetDBTables();
 
@@ -31,13 +31,13 @@ export default function useUpdateDecision() {
   const updateDecision = (prop, saveType, transactionType) => {
     const decsn = (prop.state.decision === undefined) ? '' : prop.state.decision;
     let procInput = {};
-    if (transactionType === 'Case Header') {
-      procInput['descisionReason'] = (prop.state.decisionReason) ? prop.state.decisionReason:'';
+    if (transactionType === 'Appeals') {
+      procInput['DECISON_REASON'] = (prop.state.decisionReason) ? prop.state.decisionReason : '';
     }        /*procInput.input1 = "testing";
         procInput.input2 = AddProvider.displayName;
         procInput.input3 = prop.state.caseNumber;*/
     procInput.option = 'UPDATEQUEUEVARIABLES';
-    procInput.DecisionNotes = (prop.state.decisionNotes != undefined ) ? (prop.state.decisionNotes.trim()) : '';
+    procInput.DecisionNotes = (prop.state.decisionNotes != undefined) ? (prop.state.decisionNotes.trim()) : "";
     procInput.DECISION = decsn;
     procInput.StageName = prop.state.stageName;
     procInput.FlowId = prop.state.flowId;
@@ -71,8 +71,45 @@ export default function useUpdateDecision() {
       });
   }
 
+  const isJSONLikeObject = (obj) => {
+    try {
+      JSON.stringify(obj);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  };
+
+  const isJSONType = (variable) => {
+    console.log('Inside isJSONType ==== ', typeof variable);
+    if (typeof variable === 'object' && variable !== null) {
+      if (isJSONLikeObject(variable)) {
+        return variable?.value;
+      }
+    }
+    else {
+      return variable;
+    }
+  };
+
+  const getRowNumberForGrid = (tableArray) => {
+    if (tableArray.length > 0) {
+      const rowNumbers = tableArray.map((item) => {
+        let rn = isJSONType(item?.rowNumber);
+        return rn;
+
+      });
+      console.log("rownumbers==== ", rowNumbers, Math.max(...rowNumbers));
+      let rowNum = Math.max(...rowNumbers);
+      return rowNum + 1;
+    }
+    else {
+      return 1;
+    }
+  }
+
   const submitCase = (prop, navigateHome) => {
-"Ready For Processing"
+    "Ready For Processing"
     console.log('Inside useUpdateDecision Decisionprav: ', prop.state);
     // console.log('Inside  useUpdateDecision Decision state: ',decisionState);
     let resJson = {};
@@ -83,23 +120,32 @@ export default function useUpdateDecision() {
       //updateInputs.append('FlowId',2);
       updateInputs.append('FlowId', Number(prop.state.flowId));
       updateInputs.append('Decision', decsn);
-      if (prop.state.formNames === 'Case Header') {
-        updateInputs.append('descisionReason' , (prop.state.decisionReason) ?  prop.state.decisionReason:'');
-      }  
-
-                //const putApi =  + 'updateCaseDecision';
-                axios.put('/updateCaseDecision', updateInputs, { headers: { 'Authorization': `Bearer ${token}` } }).then((res) => {
+      if (prop.state.formNames === 'Appeals') {
+        updateInputs.append('DECISON_REASON', prop.state.decisionReason ? prop.state.decisionReason : '');
+      }
+      console.log("update inputs", updateInputs);
+      //const putApi =  + 'updateCaseDecision';
+      axios.put('/updateCaseDecision', updateInputs, { headers: { 'Authorization': `Bearer ${token}` } }).then((res) => {
         console.log("updateCaseDecision put api data: ", res.data);
         if (res.status === 200) {
           let procInput = {};
-          procInput.stageName = prop.state.stageName;
           procInput.userName = prop.state.userName;
+          procInput.stageName = prop.state.stageName;
           procInput.transactionType = prop.state.formNames;
           procInput.caseID = prop.state.caseNumber;
-          procInput.decision = decsn;
-          procInput.decNotes = (prop.state.decisionNotes === undefined) ? '' : prop.state.decisionNotes;
+          procInput.decision = decsn; 
+          procInput.decNotes =
+              prop.state.decisionNotes === undefined
+                ? ""
+                : prop.state.decisionNotes;
+                console.log("prop.state.decisionNotes--->",prop.state.decisionNotes);
+            procInput.flowId = prop.state.flowId;
+          
           procInput.flowId = prop.state.flowId;
+          procInput.decisionReason= (prop.state.decisionReason) ? prop.state.decisionReason : '';
+
           console.log("Final proc Input: ", procInput);
+
           //const procApi = apiUrl + "callProcedure";
           //console.log("procApi: ",procApi);
           axios.post('/callProcedure', procInput, { headers: { 'Authorization': `Bearer ${token}` } }).then((res) => {
@@ -287,7 +333,8 @@ export default function useUpdateDecision() {
       lockStat = 'Y';
     }
     else {
-      if (prop.state.lockStatus === 'Y' || prop.state.stageName === 'Exit' || prop.state.stageName === 'Discard') {
+      if (prop.state.lockStatus === 'Y' || prop.state.stageName === 'Exit' || prop.state.stageName === 'Discard'
+       ) {
         lockStat = 'Y';
       }
     }
@@ -480,6 +527,7 @@ export default function useUpdateDecision() {
     handlePhoneNumber,
     changeColorOfSelect,
     CompareJSON,
-    areAllLocationNameSame
+    areAllLocationNameSame,
+    getRowNumberForGrid
   }
 }

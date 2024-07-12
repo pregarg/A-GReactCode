@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import GridModal from "./GridModal";
 import Select from "react-select";
 import ReactDatePicker from "react-datepicker";
@@ -6,7 +7,6 @@ import useGetDBTables from "../../CustomHooks/useGetDBTables";
 
 export default function ProviderInformationTable({
     providerInformationGridData,
-    formGridData,
     deleteTableRows,
     handleGridSelectChange,
     addTableRows,
@@ -30,7 +30,95 @@ export default function ProviderInformationTable({
 
     const { getGridJson, convertToCase } = useGetDBTables();
 
+    const mastersSelector = useSelector((masters) => masters);
+
     let lineNumberOptions = [];
+    let providerRoleValues = [];
+    let participatingProviderValues = [];
+    let providerTypeValues = [];
+    let commPrefValues = [];
+    let portalEnrolledValues = [];
+    let mailToAddressValues = [];
+
+    useEffect(() => {
+        if (mastersSelector.hasOwnProperty("masterAngProviderRole")) {
+            const providerRoleArray =
+                mastersSelector["masterAngProviderRole"].length === 0
+                    ? []
+                    : mastersSelector["masterAngProviderRole"][0];
+
+            for (let i = 0; i < providerRoleArray.length; i++) {
+                providerRoleValues.push({ label: convertToCase(providerRoleArray[i].Provider_Role), value: convertToCase(providerRoleArray[i].Provider_Role) });
+            }
+        }
+
+        if (mastersSelector.hasOwnProperty("masterAngParProvider")) {
+            const parProviderArray =
+                mastersSelector["masterAngParProvider"].length === 0
+                    ? []
+                    : mastersSelector["masterAngParProvider"][0];
+
+            for (let i = 0; i < parProviderArray.length; i++) {
+                participatingProviderValues.push({ label: convertToCase(parProviderArray[i].Par_Provider), value: convertToCase(parProviderArray[i].Par_Provider) });
+            }
+        }
+
+        if (mastersSelector.hasOwnProperty("masterAngProviderType")) {
+            const providerTypeArray =
+                mastersSelector["masterAngProviderType"].length === 0
+                    ? []
+                    : mastersSelector["masterAngProviderType"][0];
+
+            for (let i = 0; i < providerTypeArray.length; i++) {
+                providerTypeValues.push({ label: convertToCase(providerTypeArray[i].Provider_Type), value: convertToCase(providerTypeArray[i].Provider_Type) });
+            }
+        }
+
+        if (mastersSelector.hasOwnProperty("masterAngCommPref")) {
+            const commPrefArray =
+                mastersSelector["masterAngCommPref"].length === 0
+                    ? []
+                    : mastersSelector["masterAngCommPref"][0];
+
+            for (let i = 0; i < commPrefArray.length; i++) {
+                commPrefValues.push({ label: convertToCase(commPrefArray[i].Comm_Pref), value: convertToCase(commPrefArray[i].Comm_Pref) });
+            }
+        }
+
+        if (mastersSelector.hasOwnProperty("masterAngPortalEnrolled")) {
+            const portalEnrolledArray =
+                mastersSelector["masterAngPortalEnrolled"].length === 0
+                    ? []
+                    : mastersSelector["masterAngPortalEnrolled"][0];
+            const uniquePortalEnrolledValues = {};
+
+            for (let i = 0; i < portalEnrolledArray.length; i++) {
+                const portalEnrolled = convertToCase(portalEnrolledArray[i].Portal_Enrolled);
+
+                if (!uniquePortalEnrolledValues[portalEnrolled]) {
+                    uniquePortalEnrolledValues[portalEnrolled] = true;
+                    portalEnrolledValues.push({ label: convertToCase(portalEnrolledArray[i].Portal_Enrolled), value: convertToCase(portalEnrolledArray[i].Portal_Enrolled) });
+                }
+            }
+        }
+
+        if (mastersSelector.hasOwnProperty("masterAngMailToAddress")) {
+            const mailToAddressArray =
+                mastersSelector["masterAngMailToAddress"].length === 0
+                    ? []
+                    : mastersSelector["masterAngMailToAddress"][0];
+            const uniqueMailToAddressValues = {};
+
+            for (let i = 0; i < mailToAddressArray.length; i++) {
+                const mailToAddress = convertToCase(mailToAddressArray[i].Mail_to_Address);
+
+                if (!uniqueMailToAddressValues[mailToAddress]) {
+                    uniqueMailToAddressValues[mailToAddress] = true;
+                    mailToAddressValues.push({ label: convertToCase(mailToAddressArray[i].Mail_to_Address), value: convertToCase(mailToAddressArray[i].Mail_to_Address) });
+                }
+            }
+        }
+    });
 
     const tdDataReplica = (index) => {
         console.log("Inside tdDataReplica");
@@ -43,6 +131,7 @@ export default function ProviderInformationTable({
 
         return (
             <>
+
                 <div className="Container AddProviderLabel AddModalLabel">
                     <div className="row">
                         <div className="col-xs-6 col-md-3">
@@ -106,31 +195,26 @@ export default function ProviderInformationTable({
                             />
                         </div>
                         <div className="col-xs-6 col-md-3">
-                            <label>Provider Role</label>
+                            <label>Provider Last Name</label>
                             <br />
-                            <Select
-                                styles={{
-                                    control: (provided) => ({
-                                        ...provided,
-                                        fontWeight: "lighter",
-                                    }),
-                                }}
-                                value={data.Provider_Role}
-                                onChange={(selectValue, event) =>
-                                    handleGridSelectChange(
-                                        index,
-                                        selectValue,
-                                        event,
-                                        ProviderInformationTable.displayName
-                                    )
+                            <input
+                                type="text"
+                                value={
+                                    "Provider_Last_Name" in data && data.Provider_Last_Name.value !== undefined
+                                        ? convertToCase(data.Provider_Last_Name.value)
+                                        : convertToCase(data.Provider_Last_Name)
                                 }
-                                options={lineNumberOptions}
-                                name="Provider_Role"
-                                id="lineNumberDropDown"
-                                isDisabled={lockStatus == "V"}
-                                isClearable
+                                onChange={(evnt) =>
+                                    handleGridFieldChange(index, evnt, ProviderInformationTable.displayName)
+                                }
+                                name="Provider_Last_Name"
+                                className="form-control"
+                                maxLength="50"
+                                title="Please Enter Provider Last Name"
+                                disabled={lockStatus == "V"}
                             />
                         </div>
+                      
                     </div>
                     <div className="row">
                         <div className="col-xs-6 col-md-3">
@@ -254,7 +338,7 @@ export default function ProviderInformationTable({
                                         ProviderInformationTable.displayName
                                     )
                                 }
-                                options={lineNumberOptions}
+                                options={participatingProviderValues}
                                 name="Participating_Provider"
                                 id="lineNumberDropDown"
                                 isDisabled={lockStatus == "V"}
@@ -280,11 +364,93 @@ export default function ProviderInformationTable({
                                         ProviderInformationTable.displayName
                                     )
                                 }
-                                options={lineNumberOptions}
+                                options={providerTypeValues}
                                 name="Provider_Type"
                                 id="lineNumberDropDown"
                                 isDisabled={lockStatus == "V"}
                                 isClearable
+                            />
+                        </div>
+                        <div className="col-xs-6 col-md-3">
+                            <label>Provider Contact Name</label>
+                            <br />
+                            <input
+                                type="text"
+                                value={
+                                    "Provider_Contact_Name" in data && data.Provider_Contact_Name.value !== undefined
+                                        ? convertToCase(data.Provider_Contact_Name.value)
+                                        : convertToCase(data.Provider_Contact_Name)
+                                }
+                                onChange={(evnt) =>
+                                    handleGridFieldChange(index, evnt, ProviderInformationTable.displayName)
+                                }
+                                name="Provider_Contact_Name"
+                                className="form-control"
+                                maxLength="50"
+                                title="Please Enter Valid Type"
+                                disabled={lockStatus == "V"}
+                            />
+                        </div>
+                        <div className="col-xs-6 col-md-3">
+                            <label>Contact Phone Number</label>
+                            <br />
+                            <input
+                                type="text"
+                                value={
+                                    "Contact_Phone_Number" in data && data.Contact_Phone_Number.value !== undefined
+                                        ? convertToCase(data.Contact_Phone_Number.value)
+                                        : convertToCase(data.Contact_Phone_Number)
+                                }
+                                onChange={(evnt) =>
+                                    handleGridFieldChange(index, evnt, ProviderInformationTable.displayName)
+                                }
+                                name="Contact_Phone_Number"
+                                className="form-control"
+                                maxLength="50"
+                                title="Please Enter Contact Phone Number"
+                                disabled={lockStatus == "V"}
+                            />
+                        </div>
+
+                        <div className="col-xs-6 col-md-3">
+                            <label>Provider Taxonomy</label>
+                            <br />
+                            <input
+                                type="text"
+                                value={
+                                    "Provider_Taxonomy" in data && data.Provider_Taxonomy.value !== undefined
+                                        ? convertToCase(data.Provider_Taxonomy.value)
+                                        : convertToCase(data.Provider_Taxonomy)
+                                }
+                                onChange={(evnt) =>
+                                    handleGridFieldChange(index, evnt, ProviderInformationTable.displayName)
+                                }
+                                name="Provider_Taxonomy"
+                                className="form-control"
+                                maxLength="50"
+                                title="Please Enter Provider Taxonomy"
+                                disabled={lockStatus == "V"}
+                            />
+                        </div>
+
+                        <div className="col-xs-6 col-md-3">
+                            <label>Contact Email Address</label>
+                            <br />
+                            <input
+                                type="text"
+                                value={
+                                    "Contact_Email_Address" in data && data.Contact_Email_Address.value !== undefined
+                                        ? convertToCase(data.Contact_Email_Address.value)
+                                        : convertToCase(data.Contact_Email_Address)
+                                }
+                                onChange={(evnt) =>
+                                    handleGridFieldChange(index, evnt, ProviderInformationTable.displayName)
+                                }
+                                name="Contact_Email_Address"
+                                className="form-control"
+                                maxLength="50"
+                                title="Please Enter Contact Email Address"
+                                disabled={lockStatus == "V"}
                             />
                         </div>
                         <div className="col-xs-6 col-md-3">
@@ -330,7 +496,7 @@ export default function ProviderInformationTable({
                             />
                         </div>
                         <div className="col-xs-6 col-md-3">
-                            <label>Provider Vendor Specialty Description</label>
+                            <label>Specialty Description</label>
                             <br />
                             <input
                                 type="text"
@@ -370,7 +536,7 @@ export default function ProviderInformationTable({
                             />
                         </div>
                         <div className="col-xs-6 col-md-3">
-                            <label>Communication Preference</label>
+                            <label>Provider Role</label>
                             <br />
                             <Select
                                 styles={{
@@ -379,7 +545,7 @@ export default function ProviderInformationTable({
                                         fontWeight: "lighter",
                                     }),
                                 }}
-                                value={data.Communication_Preference}
+                                value={data.Provider_Role}
                                 onChange={(selectValue, event) =>
                                     handleGridSelectChange(
                                         index,
@@ -388,13 +554,14 @@ export default function ProviderInformationTable({
                                         ProviderInformationTable.displayName
                                     )
                                 }
-                                options={lineNumberOptions}
-                                name="Communication_Preference"
+                                options={providerRoleValues}
+                                name="Provider_Role"
                                 id="lineNumberDropDown"
                                 isDisabled={lockStatus == "V"}
                                 isClearable
                             />
                         </div>
+                     
                     </div>
                     <div className="row">
                         <div className="col-xs-6 col-md-3">
@@ -436,7 +603,7 @@ export default function ProviderInformationTable({
                                         ProviderInformationTable.displayName
                                     )
                                 }
-                                options={lineNumberOptions}
+                                options={portalEnrolledValues}
                                 name="Portal_Enrolled"
                                 id="lineNumberDropDown"
                                 isDisabled={lockStatus == "V"}
@@ -593,11 +760,20 @@ export default function ProviderInformationTable({
                             <div className="form-floating">
                                 <ReactDatePicker
                                     className="example-custom-input-modal"
+                                    // selected={
+                                    //     "Par_Provider_Start_Date" in data &&
+                                    //         data.Par_Provider_Start_Date.value !== undefined
+                                    //         ? data.Par_Provider_Start_Date.value
+                                    //         : data.Par_Provider_Start_Date
+                                    // }
+
+
                                     selected={
-                                        "Par_Provider_Start_Date" in data &&
-                                            data.Par_Provider_Start_Date.value !== undefined
-                                            ? data.Par_Provider_Start_Date.value
-                                            : data.Par_Provider_Start_Date
+                                        data?.Par_Provider_Start_Date?.value !== undefined
+                                            ? new Date(data.Par_Provider_Start_Date.value)
+                                            : data?.Par_Provider_Start_Date !== undefined
+                                                ? new Date(data.Par_Provider_Start_Date)
+                                                : null
                                     }
                                     name="Par_Provider_Start_Date"
                                     onChange={(selectValue, event) =>
@@ -621,6 +797,7 @@ export default function ProviderInformationTable({
                                 />
                             </div>
                         </div>
+                        
                         <div className="col-xs-6 col-md-3">
                             <label htmlFor="datePicker">Par Provider End Date</label>
                             <br />
@@ -628,10 +805,11 @@ export default function ProviderInformationTable({
                                 <ReactDatePicker
                                     className="example-custom-input-modal"
                                     selected={
-                                        "Par_Provider_End_Date" in data &&
-                                            data.Par_Provider_End_Date.value !== undefined
-                                            ? data.Par_Provider_End_Date.value
-                                            : data.Par_Provider_End_Date
+                                        data?.Par_Provider_End_Date?.value !== undefined
+                                            ? new Date(data.Par_Provider_End_Date.value)
+                                            : data?.Par_Provider_End_Date !== undefined
+                                                ? new Date(data.Par_Provider_End_Date)
+                                                : null
                                     }
                                     name="Par_Provider_End_Date"
                                     onChange={(selectValue, event) =>
@@ -656,31 +834,43 @@ export default function ProviderInformationTable({
                             </div>
                         </div>
                         <div className="col-xs-6 col-md-3">
-                            <label>Mail to Address</label>
+                            <label htmlFor="datePicker">Provider Par Date</label>
                             <br />
-                            <Select
-                                styles={{
-                                    control: (provided) => ({
-                                        ...provided,
-                                        fontWeight: "lighter",
-                                    }),
-                                }}
-                                value={data.Mail_to_Address}
-                                onChange={(selectValue, event) =>
-                                    handleGridSelectChange(
-                                        index,
-                                        selectValue,
-                                        event,
-                                        ProviderInformationTable.displayName
-                                    )
-                                }
-                                options={lineNumberOptions}
-                                name="Mail_to_Address"
-                                id="lineNumberDropDown"
-                                isDisabled={lockStatus == "V"}
-                                isClearable
-                            />
+                            <div className="form-floating">
+                                <ReactDatePicker
+                                    className="example-custom-input-modal"
+
+                                    selected={
+                                        data?.Provider_Par_Date?.value !== undefined
+                                            ? new Date(data.Provider_Par_Date.value)
+                                            : data?.Provider_Par_Date !== undefined
+                                                ? new Date(data.Provider_Par_Date)
+                                                : null
+                                    }
+
+                                    name="Provider_Par_Date"
+                                    onChange={(selectValue, event) =>
+                                        handleGridDateChange(
+                                            index,
+                                            selectValue,
+                                            "Provider_Par_Date",
+                                            ProviderInformationTable.displayName
+                                        )
+                                    }
+                                    peekNextMonth
+                                    showMonthDropdown
+                                    onKeyDown={(e) => {
+                                        e.preventDefault();
+                                    }}
+                                    showYearDropdown
+                                    dropdownMode="select"
+                                    dateFormat="MM/dd/yyyy"
+                                    id="datePicker"
+                                    disabled={lockStatus == "V"}
+                                />
+                            </div>
                         </div>
+                      
                     </div>
                     <div className="row">
                         <div className="col-xs-6 col-md-6">
@@ -786,25 +976,59 @@ export default function ProviderInformationTable({
                             />
                         </div>
                         <div className="col-xs-6 col-md-3">
-                            <label>Provider Contact Name</label>
+                            <label>Mail to Address</label>
                             <br />
-                            <input
-                                type="text"
-                                value={
-                                    "Provider_Contact_Name" in data && data.Provider_Contact_Name.value !== undefined
-                                        ? convertToCase(data.Provider_Contact_Name.value)
-                                        : convertToCase(data.Provider_Contact_Name)
+                            <Select
+                                styles={{
+                                    control: (provided) => ({
+                                        ...provided,
+                                        fontWeight: "lighter",
+                                    }),
+                                }}
+                                value={data.Mail_to_Address}
+                                onChange={(selectValue, event) =>
+                                    handleGridSelectChange(
+                                        index,
+                                        selectValue,
+                                        event,
+                                        ProviderInformationTable.displayName
+                                    )
                                 }
-                                onChange={(evnt) =>
-                                    handleGridFieldChange(index, evnt, ProviderInformationTable.displayName)
-                                }
-                                name="Provider_Contact_Name"
-                                className="form-control"
-                                maxLength="50"
-                                title="Please Enter Valid Type"
-                                disabled={lockStatus == "V"}
+                                options={mailToAddressValues}
+                                name="Mail_to_Address"
+                                id="lineNumberDropDown"
+                                isDisabled={lockStatus == "V"}
+                                isClearable
                             />
                         </div>
+
+                        <div className="col-xs-6 col-md-3">
+                            <label>Communication Preference</label>
+                            <br />
+                            <Select
+                                styles={{
+                                    control: (provided) => ({
+                                        ...provided,
+                                        fontWeight: "lighter",
+                                    }),
+                                }}
+                                value={data.Communication_Preference}
+                                onChange={(selectValue, event) =>
+                                    handleGridSelectChange(
+                                        index,
+                                        selectValue,
+                                        event,
+                                        ProviderInformationTable.displayName
+                                    )
+                                }
+                                options={commPrefValues}
+                                name="Communication_Preference"
+                                id="lineNumberDropDown"
+                                isDisabled={lockStatus == "V"}
+                                isClearable
+                            />
+                        </div>
+                       
                     </div>
                 </div>
             </>
@@ -814,239 +1038,7 @@ export default function ProviderInformationTable({
 
     const tdData = () => {
         console.log("Inside tdData");
-        console.log("providergrid", formGridData);
-        if (
-            formGridData["angProviderInformationGrid"] !== undefined) {
-            return formGridData["angProviderInformationGrid"].map((data, index) => {
-                return (
-                    <tr
-                        key={index}
-                        className={
-                            data.DataSource === "CredentialingApi" ? "CredentialingApi" : ""
-                        }
-                    >
-                        {lockStatus == "N" && (
-                            <>
-                                <td>
-                                    <span
-                                        style={{
-                                            display: "flex",
-                                        }}
-                                    >
-                                        <button
-                                            className="deleteBtn"
-                                            style={{ float: "left" }}
-                                            onClick={() => {
-                                                deleteTableRows(
-                                                    index,
-                                                    ProviderInformationTable.displayName,
-                                                    "Force Delete"
-                                                );
-                                                handleOperationValue("Force Delete");
-                                                decreaseDataIndex();
-                                            }}
-                                        >
-                                            <i className="fa fa-trash"></i>
-                                        </button>
-                                        <button
-                                            className="editBtn"
-                                            style={{ float: "right" }}
-                                            type="button"
-                                            onClick={() => {
-                                                editTableRows(index, ProviderInformationTable.displayName);
-                                                handleModalChange(true);
-                                                handleDataIndex(index);
-                                                handleOperationValue("Edit");
-                                            }}
-                                        >
-                                            <i className="fa fa-edit"></i>
-                                        </button>
-                                    </span>
-                                </td>
-                            </>
-                        )}
-                        {lockStatus == "V" && (
-                            <td>
-                                <div>
-                                    <button
-                                        className="editBtn"
-                                        style={{ float: "right" }}
-                                        type="button"
-                                        onClick={() => {
-                                            handleModalChange(true);
-                                            handleDataIndex(index);
-                                            handleOperationValue("Edit");
-                                        }}
-                                    >
-                                        <i className="fa fa-eye"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        )}
-                        <td className="tableData">
-                            {
-                                formGridData["angProviderInformationGrid"][0]["Issue_Number"]
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formGridData["angProviderInformationGrid"][0]["Sequential_Provider_ID"]
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formGridData["angProviderInformationGrid"][0]["Provider_Name"]
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formGridData["angProviderInformationGrid"][0]["Provider_Role"]
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formGridData["angProviderInformationGrid"][0]["Provider_TIN"]
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formGridData["angProviderInformationGrid"][0]["State_Provider_ID"]
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formGridData["angProviderInformationGrid"][0]["Medicare_ID"]
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formGridData["angProviderInformationGrid"][0]["Medicaid_ID"]
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formGridData["angProviderInformationGrid"][0]["PR_Representative"]
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formGridData["angProviderInformationGrid"][0]["Participating_Provider"]
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formGridData["angProviderInformationGrid"][0]["Provider_Type"]
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formGridData["angProviderInformationGrid"][0]["Provider_IPA"]
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formGridData["angProviderInformationGrid"][0]["Provider_Vendor_Specialty"]
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formGridData["angProviderInformationGrid"][0]["Provider_Vendor_Specialty_Description"]
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formGridData["angProviderInformationGrid"][0]["Point_of_Contact"]
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formGridData["angProviderInformationGrid"][0]["Communication_Preference"]
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formGridData["angProviderInformationGrid"][0]["Email_Address"]
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formGridData["angProviderInformationGrid"][0]["Portal_Enrolled"]
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formGridData["angProviderInformationGrid"][0]["Provider_Alert"]
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formGridData["angProviderInformationGrid"][0]["Provider_ID"]
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formGridData["angProviderInformationGrid"][0]["NPI_ID"]
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formGridData["angProviderInformationGrid"][0]["Vendor_ID"]
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formGridData["angProviderInformationGrid"][0]["Vendor_Name"]
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formGridData["angProviderInformationGrid"][0]["Phone_Number"]
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formGridData["angProviderInformationGrid"][0]["Fax_Number"]
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formatDate(formGridData["angProviderInformationGrid"][0]["Par_Provider_Start_Date"])
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formatDate(formGridData["angProviderInformationGrid"][0]["Par_Provider_End_Date"])
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formGridData["angProviderInformationGrid"][0]["Mail_to_Address"]
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formGridData["angProviderInformationGrid"][0]["Address_Line_1"]
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formGridData["angProviderInformationGrid"][0]["Address_Line_2"]
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formGridData["angProviderInformationGrid"][0]["City"]
-                            }
-                        </td>
-                        <td className="tableData">
-                            {
-                                formGridData["angProviderInformationGrid"][0]["State"]
-                            }
-                        </td>
-                    </tr>
-                );
-            });
-        }
+
         if (
             providerInformationGridData !== undefined &&
             providerInformationGridData.length > 0
@@ -1069,7 +1061,7 @@ export default function ProviderInformationTable({
                                     >
                                         <button
                                             className="deleteBtn"
-                                            style={{ float: "left" }}
+                                            style={{ width: "75%",float: "left" }}
                                             onClick={() => {
                                                 deleteTableRows(
                                                     index,
@@ -1084,7 +1076,7 @@ export default function ProviderInformationTable({
                                         </button>
                                         <button
                                             className="editBtn"
-                                            style={{ float: "right" }}
+                                            style={{width: "75%", float: "right" }}
                                             type="button"
                                             onClick={() => {
                                                 editTableRows(index, ProviderInformationTable.displayName);
@@ -1134,12 +1126,42 @@ export default function ProviderInformationTable({
                                 ? convertToCase(data.Provider_Name.value)
                                 : convertToCase(data.Provider_Name)}
                         </td>
+
                         <td className="tableData">
-                            {"Provider_Role" in data &&
-                                data.Provider_Name.value !== undefined
-                                ? convertToCase(data.Provider_Role.value)
-                                : convertToCase(data.Provider_Role)}
+                            {"Provider_Last_Name" in data &&
+                                data.Provider_Last_Name.value !== undefined
+                                ? convertToCase(data.Provider_Last_Name.value)
+                                : convertToCase(data.Provider_Last_Name)}
                         </td>
+						
+						 <td className="tableData">
+                            {"Contact_Phone_Number" in data &&
+                                data.Contact_Phone_Number.value !== undefined
+                                ? convertToCase(data.Contact_Phone_Number.value)
+                                : convertToCase(data.Contact_Phone_Number)}
+                        </td>
+                        <td className="tableData">
+                            {"Contact_Email_Address" in data &&
+                                data.Contact_Email_Address.value !== undefined
+                                ? convertToCase(data.Contact_Email_Address.value)
+                                : convertToCase(data.Contact_Email_Address)}
+                        </td>
+						   <td className="tableData">
+                            {"Provider_Par_Date" in data &&
+                                data.Provider_Par_Date.value !== undefined
+                                ? formatDate(data.Provider_Par_Date.value)
+                                : formatDate(data.Provider_Par_Date)}
+                        </td>
+						
+						<td className="tableData">
+                            {"Provider_Taxonomy" in data &&
+                                data.Provider_Taxonomy.value !== undefined
+                                ? convertToCase(data.Provider_Taxonomy.value)
+                                : convertToCase(data.Provider_Taxonomy)}
+                        </td>
+                                           
+                      
+                        
                         <td className="tableData">
                             {"Provider_TIN" in data &&
                                 data.Provider_TIN.value !== undefined
@@ -1183,11 +1205,18 @@ export default function ProviderInformationTable({
                                 : convertToCase(data.Provider_Type)}
                         </td>
                         <td className="tableData">
+                            {"Provider_Contact_Name" in data &&
+                                data.Provider_Contact_Name.value !== undefined
+                                ? convertToCase(data.Provider_Contact_Name.value)
+                                : convertToCase(data.Provider_Contact_Name)}
+                        </td>
+                        <td className="tableData">
                             {"Provider_IPA" in data &&
                                 data.Provider_IPA.value !== undefined
                                 ? convertToCase(data.Provider_IPA.value)
                                 : convertToCase(data.Provider_IPA)}
                         </td>
+                        
                         <td className="tableData">
                             {"Provider_Vendor_Specialty" in data &&
                                 data.Provider_Vendor_Specialty.value !== undefined
@@ -1207,11 +1236,12 @@ export default function ProviderInformationTable({
                                 : convertToCase(data.Point_of_Contact)}
                         </td>
                         <td className="tableData">
-                            {"Communication_Preference" in data &&
-                                data.Communication_Preference.value !== undefined
-                                ? convertToCase(data.Communication_Preference.value)
-                                : convertToCase(data.Communication_Preference)}
+                            {"Provider_Role" in data &&
+                                data.Provider_Role.value !== undefined
+                                ? convertToCase(data.Provider_Role.value)
+                                : convertToCase(data.Provider_Role)}
                         </td>
+                    
                         <td className="tableData">
                             {"Email_Address" in data &&
                                 data.Email_Address.value !== undefined
@@ -1266,6 +1296,7 @@ export default function ProviderInformationTable({
                                 ? convertToCase(data.Fax_Number.value)
                                 : convertToCase(data.Fax_Number)}
                         </td>
+                     
                         <td className="tableData">
                             {"Par_Provider_Start_Date" in data &&
                                 data.Par_Provider_Start_Date.value !== undefined
@@ -1278,12 +1309,7 @@ export default function ProviderInformationTable({
                                 ? formatDate(data.Par_Provider_End_Date.value)
                                 : formatDate(data.Par_Provider_End_Date)}
                         </td>
-                        <td className="tableData">
-                            {"Mail_to_Address" in data &&
-                                data.Mail_to_Address.value !== undefined
-                                ? convertToCase(data.Mail_to_Address.value)
-                                : convertToCase(data.Mail_to_Address)}
-                        </td>
+                     
                         <td className="tableData">
                             {"Address_Line_1" in data &&
                                 data.Address_Line_1.value !== undefined
@@ -1314,12 +1340,20 @@ export default function ProviderInformationTable({
                                 ? convertToCase(data.Zip_Code.value)
                                 : convertToCase(data.Zip_Code)}
                         </td>
+                       
                         <td className="tableData">
-                            {"Provider_Contact_Name" in data &&
-                                data.Provider_Contact_Name.value !== undefined
-                                ? convertToCase(data.Provider_Contact_Name.value)
-                                : convertToCase(data.Provider_Contact_Name)}
+                            {"Mail_to_Address" in data &&
+                                data.Mail_to_Address.value !== undefined
+                                ? convertToCase(data.Mail_to_Address.value)
+                                : convertToCase(data.Mail_to_Address)}
                         </td>
+                        <td className="tableData">
+                            {"Communication_Preference" in data &&
+                                data.Communication_Preference.value !== undefined
+                                ? convertToCase(data.Communication_Preference.value)
+                                : convertToCase(data.Communication_Preference)}
+                        </td>
+                       
                     </tr>
                 );
             });
@@ -1389,66 +1423,74 @@ export default function ProviderInformationTable({
 
     return (
         <>
-            <table className="table table-bordered tableLayout" id="ProviderInformationTable">
-                <thead>
-                    <tr className="tableRowStyle tableHeaderColor">
-                        {lockStatus == "N" && (
-                            <th style={{ width: "5%" }}>
-                                <button
-                                    className="addBtn"
-                                    onClick={() => {
-                                        addTableRows(ProviderInformationTable.displayName);
-                                        handleModalChange(true);
-                                        handleDataIndex(providerInformationGridData.length);
-                                        handleOperationValue("Add");
-                                    }}
-                                >
-                                    <i className="fa fa-plus"></i>
-                                </button>
-                            </th>
-                        )}
-                        {lockStatus == "V" && <th style={{ width: "15%" }}></th>}
-                        <th scope="col">Issue Number</th>
-                        <th scope="col">Sequential Provider ID</th>
-                        <th scope="col">Provider Name</th>
-                        <th scope="col">Provider Role</th>
-                        <th scope="col">Provider TIN</th>
-                        <th scope="col">State Provider ID</th>
-                        <th scope="col">Provider ID</th>
-                        <th scope="col">Medicare ID</th>
-                        <th scope="col">Medicaid ID</th>
-                        <th scope="col">PR Reprsentative</th>
-                        <th scope="col">Participating Provider</th>
-                        <th scope="col">Provider Type</th>
-                        <th scope="col">Provider IPA</th>
-                        <th scope="col">Provider / Vendor Speciality</th>
-                        <th scope="col">Provider / Vendor Speciality Description</th>
-                        <th scope="col">Point of Contact</th>
-                        <th scope="col">Communication Preference</th>
-                        <th scope="col">Email Address</th>
-                        <th scope="col">Portal Enrolled</th>
-                        <th scope="col">Provider Alert</th>
-                        <th scope="col">NPI ID</th>
-                        <th scope="col">Vendor ID</th>
-                        <th scope="col">Vendor Name</th>
-                        <th scope="col">Phone Number</th>
-                        <th scope="col">Fax Number</th>
-                        <th scope="col">Par Provider Start Date</th>
-                        <th scope="col">Par Provider End Date</th>
-                        <th scope="col">Mail to Address</th>
-                        <th scope="col">Address Line 1</th>
-                        <th scope="col">Address Line 2</th>
-                        <th scope="col">City</th>
-                        <th scope="col">State</th>
-                        <th scope="col">Zip Code</th>
-                        <th scope="col">Provider Contact Name</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {/* <TableRows specialityTableRowsData={specialityTableRowsData} deleteTableRows={deleteTableRows} handleChange={handleChange} specialityArray={specialityArray}/> */}
-                    {tdData()}
-                </tbody>
-            </table>
+            <div className="claimTable-container">
+                <table className="table table-bordered tableLayout" id="ProviderInformationTable">
+                    <thead>
+                        <tr className="tableRowStyle tableHeaderColor">
+                            {lockStatus == "N" && (
+                                <th style={{ width: "" }}>
+                                    <button
+                                        className="addBtn"
+                                        onClick={() => {
+                                            addTableRows(ProviderInformationTable.displayName);
+                                            handleModalChange(true);
+                                            handleDataIndex(providerInformationGridData.length);
+                                            handleOperationValue("Add");
+                                        }}
+                                    >
+                                        <i className="fa fa-plus"></i>
+                                    </button>
+                                </th>
+                            )}
+                            {lockStatus == "V" && <th style={{ width: "" }}></th>}
+                            <th scope="col">Issue Number</th>
+                            <th scope="col">Sequential Provider ID</th>
+                            <th scope="col">Provider Name</th>
+                            <th scope="col">Provider Last Name</th>
+                            <th scope="col">Contact Phone Number</th>
+                            <th scope="col">Contact Email Address</th>
+                            <th scope="col">Provider Par Date</th>
+                            <th scope="col">Provider Taxonomy</th>
+                            <th scope="col">Provider TIN</th>
+                            <th scope="col">State Provider ID</th>
+                            <th scope="col">Provider ID</th>
+                            <th scope="col">Medicare ID</th>
+                            <th scope="col">Medicaid ID</th>
+                            <th scope="col">PR Reprsentative</th>
+                            <th scope="col">Participating Provider</th>
+                            <th scope="col">Provider Type</th>
+                            <th scope="col">Provider Contact Name</th>
+                            <th scope="col">Provider IPA</th>
+                            <th scope="col">Provider / Vendor Speciality</th>
+                            <th scope="col">Provider / Vendor Speciality Description</th>
+                            <th scope="col">Point of Contact</th>
+                            <th scope="col">Provider Role</th>
+                            <th scope="col">Email Address</th>
+                            <th scope="col">Portal Enrolled</th>
+                            <th scope="col">Provider Alert</th>
+                            <th scope="col">NPI ID</th>
+                            <th scope="col">Vendor ID</th>
+                            <th scope="col">Vendor Name</th>
+                            <th scope="col">Phone Number</th>
+                            <th scope="col">Fax Number</th>
+                            <th scope="col">Par Provider Start Date</th>
+                            <th scope="col">Par Provider End Date</th>
+                            <th scope="col">Address Line 1</th>
+                            <th scope="col">Address Line 2</th>
+                            <th scope="col">City</th>
+                            <th scope="col">State</th>
+                            <th scope="col">Zip Code</th>
+                            <th scope="col">Mail to Address</th>
+                            <th scope="col">Communication Preference</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {/* <TableRows specialityTableRowsData={specialityTableRowsData} deleteTableRows={deleteTableRows} handleChange={handleChange} specialityArray={specialityArray}/> */}
+                        {tdData()}
+                    </tbody>
+                </table>
+            </div>
             <GridModal
                 name="Provider Information"
                 validationObject={isTouched}

@@ -13,12 +13,34 @@
     padding-left: 20px;
   }
 
-  .tableRowStyle {
+  /* .tableRowStyle {
     display: block;
     overflow-x: auto;
     white-space: nowrap;
-  }
+  } */
 
   .no-arrow::after {
     display: none;
   }
+
+  .claimTable-container{
+    overflow: auto;
+  }
+
+#ClaimInformationTable th,#ProviderInformationTable th{
+    width: 150px;
+}
+/* ClaimSearch.css */
+
+.custom-modal .modal-header {
+  background-color: #007bff; 
+  color: white;
+  /* border-bottom: 50px #007bff; 
+  padding: 1rem;  */
+  text-align: center; 
+}
+
+
+.custom-modal .modal-title {
+  width: 100%; 
+}

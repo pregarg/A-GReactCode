@@ -197,7 +197,7 @@ const CaseInformationAccordion = (props) => {
                       id="lineofBusinessDropdown"
                       isMulti={false}
                       onChange={(selectValue) =>
-                        props.handleOnChange(selectValue['value'], 'Line_of_Business_LOB')
+                        props.handleOnChange(selectValue ? selectValue.value : null, 'Line_of_Business_LOB')
                       }
                       value={
                         {
@@ -232,69 +232,6 @@ const CaseInformationAccordion = (props) => {
               />
             </div>
             <div className="col-xs-6 col-md-4">
-              <Field name="productState">
-                {({
-                  field, // { name, value, onChange, onBlur }
-                  form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
-                  meta,
-                }) => (
-                  <div className="form-floating">
-                    <Select
-                      styles={{ ...styledSelect }}
-                      components={{
-                        ValueContainer: CustomValueContainer,
-                      }}
-                      isClearable
-                      name={field.name}
-                      isDisabled={
-                        tabRef.current === "DashboardView" &&
-                          prop.state.lockStatus !== undefined &&
-                          prop.state.lockStatus === "Y"
-                          ? true
-                          : false
-                      }
-                      className="basic-multi-select"
-                      options={productStateValues}
-                      id="productstate"
-                      isMulti={false}
-                      onChange={(selectValue) =>
-                        props.handleOnChange(selectValue['value'], 'Product_State')
-                      }
-
-                      value={
-                        {
-                          label: caseInformationData['Product_State'],
-                          value: caseInformationData['Product_State']
-                        }
-                      }
-
-                      placeholder="Product State"
-                      //styles={{...customStyles}}
-                      isSearchable={
-                        document.documentElement.clientHeight >
-                          document.documentElement.clientWidth
-                          ? false
-                          : true
-                      }
-                    />
-                    {meta.touched && meta.error && (
-                      <div
-                        className="invalid-feedback"
-                        style={{ display: "block" }}
-                      >
-                        {meta.error}
-                      </div>
-                    )}
-                  </div>
-                )}
-              </Field>
-              <ErrorMessage
-                component="div"
-                name="productstate"
-                className="invalid-feedback"
-              />
-            </div>
-            <div className="col-xs-6 col-md-4">
               <Field name="lobdescription">
                 {({
                   field,
@@ -307,7 +244,7 @@ const CaseInformationAccordion = (props) => {
                       id="lobDescription"
                       className={`form-control ${meta.touched && meta.error
                         ? "is-invalid"
-                        : caseInformationData['LOB_Description']
+                        : field.value
                           ? "is-valid"
                           : ""
                         }`}
@@ -340,6 +277,54 @@ const CaseInformationAccordion = (props) => {
                 className="invalid-feedback"
               />
             </div>
+            <div className="col-xs-6 col-md-4">
+              <Field name="claimnumber">
+                {({
+                  field, // { name, value, onChange, onBlur }
+                  form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+                  meta,
+                }) => (
+                  <div className="form-floating">
+                    <input
+                      id="claimNumber"
+                      maxLength="16"
+                      type="text"
+                      className={`form-control ${meta.touched && meta.error
+                        ? " is-invalid"
+                        : field.value
+                          ? "is-valid"
+                          : ""
+                        }`}
+                      placeholder="Claim Number"
+                      onChange={(event) => {
+                        setcaseInformationData({ ...caseInformationData, 'Claim_Number': event.target['value'] })
+                      }}
+                      onBlur={(event) =>
+                        props.handleOnChange(event.target['value'], 'Claim_Number')
+                      }
+                      value={convertToCase(caseInformationData['Claim_Number'])}
+
+                    />
+                    <label htmlFor="floatingInputGrid">
+                      Claim Number
+                    </label>
+                    {meta.touched && meta.error && (
+                      <div
+                        className="invalid-feedback"
+                        style={{ display: "block" }}
+                      >
+                        {meta.error}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </Field>
+              <ErrorMessage
+                component="div"
+                name="claimNumber"
+                className="invalid-feedback"
+              />
+            </div>
           </div>
           <div className="row my-2">
             <div className="col-xs-6 col-md-4">
@@ -369,7 +354,7 @@ const CaseInformationAccordion = (props) => {
                       id="product"
                       isMulti={false}
                       onChange={(selectValue) =>
-                        props.handleOnChange(selectValue['value'], 'Product')
+                        props.handleOnChange(selectValue ? selectValue.value : null, 'Product')
                       }
 
                       value={
@@ -435,7 +420,7 @@ const CaseInformationAccordion = (props) => {
                       id="producttype"
                       isMulti={false}
                       onChange={(selectValue) =>
-                        props.handleOnChange(selectValue['value'], 'Product_Type')
+                        props.handleOnChange(selectValue ? selectValue.value : null, 'Product_Type')
                       }
 
                       value={
@@ -471,36 +456,51 @@ const CaseInformationAccordion = (props) => {
               />
             </div>
             <div className="col-xs-6 col-md-4">
-              <Field name="claimnumber">
+              <Field name="productState">
                 {({
                   field, // { name, value, onChange, onBlur }
                   form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
                   meta,
                 }) => (
                   <div className="form-floating">
-                    <input
-                      id="claimNumber"
-                      maxLength="30"
-                      type="text"
-                      className={`form-control ${meta.touched && meta.error
-                        ? " is-invalid"
-                        : field.value
-                          ? "is-valid"
-                          : ""
-                        }`}
-                      placeholder="Claim Number"
-                      onChange={(event) => {
-                        setcaseInformationData({ ...caseInformationData, 'Claim_Number': event.target['value'] })
+                    <Select
+                      styles={{ ...styledSelect }}
+                      components={{
+                        ValueContainer: CustomValueContainer,
                       }}
-                      onBlur={(event) =>
-                        props.handleOnChange(event.target['value'], 'Claim_Number')
+                      isClearable
+                      name={field.name}
+                      isDisabled={
+                        tabRef.current === "DashboardView" &&
+                          prop.state.lockStatus !== undefined &&
+                          prop.state.lockStatus === "Y"
+                          ? true
+                          : false
                       }
-                      value={convertToCase(caseInformationData['Claim_Number'])}
+                      className="basic-multi-select"
+                      options={productStateValues}
+                      id="productstate"
+                      isMulti={false}
+                      onChange={(selectValue) =>
+                        props.handleOnChange(selectValue ? selectValue.value : null, 'Product_State')
+                      }
 
+                      value={
+                        {
+                          label: caseInformationData['Product_State'],
+                          value: caseInformationData['Product_State']
+                        }
+                      }
+
+                      placeholder="Product State"
+                      //styles={{...customStyles}}
+                      isSearchable={
+                        document.documentElement.clientHeight >
+                          document.documentElement.clientWidth
+                          ? false
+                          : true
+                      }
                     />
-                    <label htmlFor="floatingInputGrid">
-                      Claim Number
-                    </label>
                     {meta.touched && meta.error && (
                       <div
                         className="invalid-feedback"
@@ -514,7 +514,7 @@ const CaseInformationAccordion = (props) => {
               </Field>
               <ErrorMessage
                 component="div"
-                name="claimNumber"
+                name="productstate"
                 className="invalid-feedback"
               />
             </div>
@@ -548,7 +548,7 @@ const CaseInformationAccordion = (props) => {
                       id="appellantdecsription"
                       isMulti={false}
                       onChange={(selectValue) =>
-                        props.handleOnChange(selectValue['value'], 'Appellant_Description')
+                        props.handleOnChange(selectValue ? selectValue.value : null, 'Appellant_Description')
                       }
 
                       value={
@@ -592,7 +592,56 @@ const CaseInformationAccordion = (props) => {
                 }) => (
                   <div className="form-floating">
                     <Select
-                      styles={{ ...styledSelect }}
+                      styles={{
+                        control: (provided) => ({
+                          ...provided,
+                          height: "58px",
+                          fontWeight: "lighter",
+                        }),
+                        menuList: (provided) => ({
+                          ...provided,
+                          maxHeight: 200,
+                        }),
+                        menu: (provided) => ({
+                          ...provided,
+                          zIndex: 9999,
+                        }),
+
+                        container: (provided, state) => ({
+                          ...provided,
+                          marginTop: 0,
+                        }),
+                        valueContainer: (provided, state) => ({
+                          ...provided,
+                          overflow: "visible",
+                        }),
+                        placeholder: (provided, state) => ({
+                          ...provided,
+                          position: "absolute",
+                          top:
+                            state.hasValue ||
+                              state.selectProps.inputValue
+                              ? -15
+                              : "50%",
+                          transition:
+                            "top 0.1s, font-size 0.1s",
+                          fontSize:
+                            (state.hasValue ||
+                              state.selectProps.inputValue) &&
+                            13,
+                          color: 'black'
+                        }),
+                        singleValue: (styles) => ({
+                          ...styles, textAlign: 'left', textOverflow: "ellipsis",
+                          overflow: "hidden",
+                          whiteSpace: "nowrap",
+                          maxWidth: 230,
+                        }),
+                        option: (provided, state) => ({
+                          ...provided,
+                          textAlign: "left",
+                        }),
+                      }}
                       components={{
                         ValueContainer: CustomValueContainer,
                       }}
@@ -610,7 +659,7 @@ const CaseInformationAccordion = (props) => {
                       id="appellanttype"
                       isMulti={false}
                       onChange={(selectValue) =>
-                        props.handleOnChange(selectValue['value'], 'Appellant_Type')
+                        props.handleOnChange(selectValue ? selectValue.value : null, 'Appellant_Type')
                       }
 
                       value={
@@ -672,7 +721,7 @@ const CaseInformationAccordion = (props) => {
                       id="appealtype"
                       isMulti={false}
                       onChange={(selectValue) =>
-                        props.handleOnChange(selectValue['value'], 'Appeal_Type')
+                        props.handleOnChange(selectValue ? selectValue.value : null, 'Appeal_Type')
                       }
 
                       value={
@@ -738,7 +787,7 @@ const CaseInformationAccordion = (props) => {
                       id="issuelevel"
                       isMulti={false}
                       onChange={(selectValue) =>
-                        props.handleOnChange(selectValue['value'], 'Issue_Level')
+                        props.handleOnChange(selectValue ? selectValue.value : null, 'Issue_Level')
                       }
 
                       value={
@@ -774,53 +823,35 @@ const CaseInformationAccordion = (props) => {
               />
             </div>
             <div className="col-xs-6 col-md-4">
-              <Field name="researchtype">
+              <Field name="issuedescription">
                 {({
                   field, // { name, value, onChange, onBlur }
                   form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
                   meta,
                 }) => (
                   <div className="form-floating">
-                    <Select
-                      styles={{ ...styledSelect }}
-                      components={{
-                        ValueContainer: CustomValueContainer,
+                    <input
+                      id="issuedescription"
+                      maxLength="4000"
+                      type="text"
+                      className={`form-control ${meta.touched && meta.error
+                        ? " is-invalid"
+                        : field.value
+                          ? "is-valid"
+                          : ""
+                        }`}
+                      placeholder="Issue Description"
+                      onChange={(event) => {
+                        setcaseInformationData({ ...caseInformationData, 'Issue_Description': event.target['value'] })
                       }}
-                      isClearable
-                      name={field.name}
-                      isDisabled={
-                        tabRef.current === "DashboardView" &&
-                          prop.state.lockStatus !== undefined &&
-                          prop.state.lockStatus === "Y"
-                          ? true
-                          : false
+                      onBlur={(event) =>
+                        props.handleOnChange(event.target['value'], 'Issue_Description')
                       }
-                      className="basic-multi-select"
-                      options={[
-                        { label: "USER", value: "USER" }
-                      ]}
-                      id="researchtype"
-                      isMulti={false}
-
-                      onChange={(selectValue) =>
-                        props.handleOnChange(selectValue['value'], 'Research_Type')
-                      }
-
-                      value={
-                        {
-                          label: caseInformationData['Research_Type'],
-                          value: caseInformationData['Research_Type']
-                        }
-                      }
-                      placeholder="Research Type"
-                      //styles={{...customStyles}}
-                      isSearchable={
-                        document.documentElement.clientHeight >
-                          document.documentElement.clientWidth
-                          ? false
-                          : true
-                      }
+                      value={convertToCase(caseInformationData['Issue_Description'])}
                     />
+                    <label htmlFor="floatingInputGrid">
+                      Issue Description
+                    </label>
                     {meta.touched && meta.error && (
                       <div
                         className="invalid-feedback"
@@ -834,7 +865,7 @@ const CaseInformationAccordion = (props) => {
               </Field>
               <ErrorMessage
                 component="div"
-                name="researchType"
+                name="issueDescription"
                 className="invalid-feedback"
               />
             </div>
@@ -868,7 +899,7 @@ const CaseInformationAccordion = (props) => {
                       id="caselevelpriority"
                       isMulti={false}
                       onChange={(selectValue) =>
-                        props.handleOnChange(selectValue['value'], 'Case_Level_Priority')
+                        props.handleOnChange(selectValue ? selectValue.value : null, 'Case_Level_Priority')
                       }
 
                       value={
@@ -933,7 +964,7 @@ const CaseInformationAccordion = (props) => {
                       id="reviewtype"
                       isMulti={false}
                       onChange={(selectValue) =>
-                        props.handleOnChange(selectValue['value'], 'Review_Type')
+                        props.handleOnChange(selectValue ? selectValue.value : null, 'Review_Type')
                       }
 
                       value={
@@ -1002,7 +1033,7 @@ const CaseInformationAccordion = (props) => {
                       id="denialtype"
                       isMulti={false}
                       onChange={(selectValue) =>
-                        props.handleOnChange(selectValue['value'], 'Denial_Type')
+                        props.handleOnChange(selectValue ? selectValue.value : null, 'Denial_Type')
                       }
 
                       value={
@@ -1038,35 +1069,53 @@ const CaseInformationAccordion = (props) => {
               />
             </div>
             <div className="col-xs-6 col-md-4">
-              <Field name="issuedescription">
+              <Field name="researchtype">
                 {({
                   field, // { name, value, onChange, onBlur }
                   form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
                   meta,
                 }) => (
                   <div className="form-floating">
-                    <input
-                      id="issuedescription"
-                      maxLength="30"
-                      type="text"
-                      className={`form-control ${meta.touched && meta.error
-                        ? " is-invalid"
-                        : field.value
-                          ? "is-valid"
-                          : ""
-                        }`}
-                      placeholder="Issue Description"
-                      onChange={(event) => {
-                        setcaseInformationData({ ...caseInformationData, 'Issue_Description': event.target['value'] })
+                    <Select
+                      styles={{ ...styledSelect }}
+                      components={{
+                        ValueContainer: CustomValueContainer,
                       }}
-                      onBlur={(event) =>
-                        props.handleOnChange(event.target['value'], 'Issue_Description')
+                      isClearable
+                      name={field.name}
+                      isDisabled={
+                        tabRef.current === "DashboardView" &&
+                          prop.state.lockStatus !== undefined &&
+                          prop.state.lockStatus === "Y"
+                          ? true
+                          : false
                       }
-                      value={convertToCase(caseInformationData['Issue_Description'])}
+                      className="basic-multi-select"
+                      options={[
+                        { label: "USER", value: "USER" }
+                      ]}
+                      id="researchtype"
+                      isMulti={false}
+
+                      onChange={(selectValue) =>
+                        props.handleOnChange(selectValue ? selectValue.value : null, 'Research_Type')
+                      }
+
+                      value={
+                        {
+                          label: caseInformationData['Research_Type'],
+                          value: caseInformationData['Research_Type']
+                        }
+                      }
+                      placeholder="Research Type"
+                      //styles={{...customStyles}}
+                      isSearchable={
+                        document.documentElement.clientHeight >
+                          document.documentElement.clientWidth
+                          ? false
+                          : true
+                      }
                     />
-                    <label htmlFor="floatingInputGrid">
-                      Issue Description
-                    </label>
                     {meta.touched && meta.error && (
                       <div
                         className="invalid-feedback"
@@ -1080,7 +1129,7 @@ const CaseInformationAccordion = (props) => {
               </Field>
               <ErrorMessage
                 component="div"
-                name="issueDescription"
+                name="researchType"
                 className="invalid-feedback"
               />
             </div>
@@ -1096,7 +1145,7 @@ const CaseInformationAccordion = (props) => {
                   <div className="form-floating">
                     <input
                       id="inboundemailid"
-                      maxLength="4000"
+                      maxLength="100"
                       type="text"
                       className={`form-control ${meta.touched && meta.error
                         ? " is-invalid"
@@ -1136,6 +1185,7 @@ const CaseInformationAccordion = (props) => {
               />
             </div>
           </div>
+          <div className="row my-2"></div>
           <div className="case Collobaration">
             <p className="collobarationheader">Case Collabaration</p>
             <div className="row my-2">
@@ -1194,11 +1244,13 @@ const styledSelect = {
       (state.hasValue ||
         state.selectProps.inputValue) &&
       13,
+    color: 'black'
   }),
   option: (provided, state) => ({
     ...provided,
     textAlign: "left",
   }),
+  singleValue: (styles) => ({ ...styles, textAlign: 'left' }),
 }
 
 export default CaseInformationAccordion;

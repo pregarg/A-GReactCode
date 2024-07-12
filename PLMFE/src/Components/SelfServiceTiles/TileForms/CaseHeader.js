@@ -16,7 +16,10 @@ import DecisionTab from "../../../WorkItemDashboard/DecisionTab";
 import CaseInformation from "../../../WorkItemDashboard/CaseInformation";
 import MemeberInformationAccordion from "./MemeberInformationAccordion";
 import ClaimInformationTable from "../TileFormsTables/ClaimInformationTable";
-
+import _ from 'lodash';
+import AuthorizationInformationAccordion from "./AuthorizationInformationAccordion";
+import ExpeditedRequestAccordion from "./ExpeditedRequestAccordion";
+import RepresentativeInformationAccordion from "./RepresentativeInformationAccordion";
 
 const CaseHeader = () => {
   const navigate = useNavigate();
@@ -87,7 +90,7 @@ const CaseHeader = () => {
 
   const [caseInformation, setCaseInformation] = useState({
     caseNumber: "",
-    Appeal_type: "",
+    Appeal_Type: "",
     Appellant_Description: "",
     Appellant_Type: "",
     Case_Level_Priority: "",
@@ -113,81 +116,23 @@ const CaseHeader = () => {
     Claim_Decision: "",
     Claim_Number: "",
     Claim_type: "",
+    Claim_Adjusted_Date: "",
     Decision_Reason: "",
     Denied_As_Of_Date: "",
     Effectuation_Notes: "",
     Original_Denial_Date: "",
     Processing_Status: "",
+    Payment_Method: "",
+    Payment_Number: "",
+    Payment_Date: "",
+    Payment_Mail_Date_Postmark: "",
     Reason_Text: "",
     Service_Type: "",
+    Service_Start_Date: "",
+    Service_End_Date: "",
   });
 
-  // const [claimInformationGrid, setClaimInformationGrid] = useState({
-  //   caseNumber: "",
-  //   Issue_Number: "",
-  //   Line_Number: "",
-  //   Allowed_Amount: "",
-  //   Auth_Number: "",
-  //   Billed_Amount: "",
-  //   Number_of_Days_in_Span: "",
-  //   Patient_Ref_Account_Number: "",
-  //   Place_of_Service_POS: "",
-  //   Procedure_Diagnosis_Code_2: "",
-  //   Procedure_Diagnosis_Codes: "",
-  //   Provider_Account_Number: "",
-  //   DRG_Indicator: "",
-  //   Service_End_Date: "",
-  //   Service_Start_Date: "",
-  //   Claim_Status: "",
-  //   Claim_Adjusted_Date: "",
-  //   Payment_Method: "",
-  //   Payment_Number: "",
-  //   Payment_Mail_Date_Postmark: "",
-  //   Filed_Timely: "",
-  //   Good_Cause_Reason: "",
-  //   Grant_Good_Cause: "",
-  // });
-
   const [claimInformationGrid, setClaimInformationGrid] = useState([]);
-
-  // const [providerInformationGrid, setProviderInformationGrid] = useState({
-  //   caseNumber: "",
-  //   Acknowledge_Alert: "",
-  //   Address_Line_1: "",
-  //   Address_Line_2: "",
-  //   City: "",
-  //   Communication_Preference: "",
-  //   Email_Address: "",
-  //   Fax_Number: "",
-  //   Issue_Number: "",
-  //   Mail_to_Address: "",
-  //   Medicaid_ID: "",
-  //   Medicare_ID: "",
-  //   NPI_ID: "",
-  //   Par_Provider_End_Date: "",
-  //   Par_Provider_Start_Date: "",
-  //   Participating_Provider: "",
-  //   Phone_Number: "",
-  //   Point_of_Contact: "",
-  //   Portal_Enrolled: "",
-  //   PR_Representative: "",
-  //   Provider_Alert: "",
-  //   Provider_Contact_Name: "",
-  //   Provider_ID_: "",
-  //   Provider_IPA: "",
-  //   Provider_Name: "",
-  //   Provider_Role: "",
-  //   Provider_TIN: "",
-  //   Provider_Type: "",
-  //   Provider_Vendor_Specialty: "",
-  //   Provider_Vendor_Specialty_Description: "",
-  //   Sequential_Provider_ID: "",
-  //   State_: "",
-  //   State_Provider_ID: "",
-  //   Vendor_ID: "",
-  //   Vendor_Name: "",
-  //   Zip_Code: "",
-  // });
 
   const [providerInformationGrid, setProviderInformationGrid] = useState([]);
 
@@ -209,6 +154,7 @@ const CaseHeader = () => {
     Mail_to_Address: "",
     Medicaid_ID: "",
     Medicare_ID_HICN: "",
+    Members_Age: "",
     Member_First_Name: "",
     Member_ID: "",
     Member_IPA: "",
@@ -230,6 +176,25 @@ const CaseHeader = () => {
     Zip_Code: "",
   });
 
+  const [representativeInformationGrid, setRepresentativeInformationGrid] = useState([]);
+
+  const [authorizationInformation, setAuthorizationInformation] = useState({
+    Authorization_Decision: "",
+    Authorization_Decision_Reason: "",
+  });
+
+  const [authorizationInformationGrid, setAuthorizationInformationGrid] = useState([]);
+
+  const [expeditedRequest, setExpeditedRequest] = useState({
+    Expedited_Requested: "",
+    Expedited_Reason: "",
+    Standard_Upgraded_to_Expedited: "",
+    Expedited_Denied: "",
+    Expedited_Upgrade_Date_Time: "",
+    Expedited_Denied_Date: "",
+    Decision_Letter_Date: ""
+  });
+
   const [mainCaseDetails, setMainCaseDetails] = useState({
     flowId: 0,
     stageName: "",
@@ -237,7 +202,7 @@ const CaseHeader = () => {
     transactionType: "",
     caseStatus: ""
   })
-  CaseHeader.displayName = "Case Header"
+  CaseHeader.displayName = "Appeals"
   const callProcRef = useRef(null);
 
   useEffect(() => {
@@ -249,7 +214,7 @@ const CaseHeader = () => {
       flowId: caseheaderConfigData["FlowId"],
       stageId: caseheaderConfigData["StageId"],
       stageName: caseheaderConfigData["StageName"],
-      transactionType: "Case Header",
+      transactionType: "Appeals",
       caseStatus: "Open",
 
     };
@@ -314,11 +279,17 @@ const CaseHeader = () => {
   const handleMemberInformationChange = (value, name) => {
     setMemberInformation({ ...memberInformation, [name]: value });
   };
+  const handleAuthorizationInformationChange = (value, name) => {
+    setAuthorizationInformation({ ...authorizationInformation, [name]: value });
+  };
+  const handleExpeditedRequestChange = (value, name) => {
+    setExpeditedRequest({ ...expeditedRequest, [name]: value });
+  };
 
   const getGridDataValues = (tableData) => {
     //var headers = document.getElementById(tableId).headers;
     let returnArray = [];
-    tableData.map((data) => {
+    tableData?.map((data) => {
       const dataObject = {};
       const dataKeys = Object.keys(data);
       dataKeys.forEach((dataValue) => {
@@ -423,12 +394,16 @@ const CaseHeader = () => {
     const angClaimInformationGrid = getGridDataValues(claimInformationGrid);
     console.log("angClaimInformationGridData is array list", angClaimInformationGrid);
     const angProviderInformationGrid = getGridDataValues(providerInformationGrid);
+    const angRepresentativeInformationGrid = getGridDataValues(representativeInformationGrid);
+    const angAuthorizationInformationGrid = getGridDataValues(authorizationInformationGrid);
 
     const angCaseHeader = trimJsonValues({ ...caseHeader });
     const angCaseTimelines = trimJsonValues({ ...caseTimelines });
     const angCaseInformation = trimJsonValues({ ...caseInformation });
     const angClaimInformation = trimJsonValues({ ...claimInformation });
     const angMemberInformation = trimJsonValues({ ...memberInformation });
+    const angAuthorizationInformation = trimJsonValues({ ...authorizationInformation });
+    const angExpeditedRequest = trimJsonValues({ ...expeditedRequest });
 
     apiJson["ANG_Case_Header"] = angCaseHeader;
     apiJson["ANG_Case_Timelines"] = angCaseTimelines;
@@ -437,6 +412,10 @@ const CaseHeader = () => {
     apiJson["ANG_Claim_Information_Grid"] = angClaimInformationGrid;
     apiJson["ANG_Provider_Information_Grid"] = angProviderInformationGrid;
     apiJson["ANG_Member_Information"] = angMemberInformation;
+    apiJson["ANG_Representative_Information_Grid"] = angRepresentativeInformationGrid;
+    apiJson["ANG_Authorization_Information"] = angAuthorizationInformation;
+    apiJson["ANG_Authorization_Information_Grid"] = angAuthorizationInformationGrid;
+    apiJson["ANG_Expedited_Request"] = angExpeditedRequest;
 
     console.log("apiJson", apiJson);
 
@@ -453,7 +432,7 @@ const CaseHeader = () => {
     apiJson["MainCaseTable"] = mainCaseReqBody;
 
     console.log("final api", apiJson)
-    console.log("grid data", claimInformationGrid);
+    
 
     const response = await customAxios.post("/generic/create", apiJson, {
       headers: { Authorization: `Bearer ${token}` },
@@ -487,7 +466,7 @@ const CaseHeader = () => {
         "Case created successfully: " +
         response.data["CreateCase_Output"]["CaseNo"]
       );
-      console.log(procData);
+      console.log("prerna",procData);
       submitCase(procData, navigateHome);
     }
   }
@@ -522,24 +501,37 @@ const CaseHeader = () => {
           apiresp = data["angClaimInformation"][0];
           apiresp = convertToDateObj(apiresp);
 
-          apiresp = data["angMemberInformation"][0];
-          apiresp = convertToDateObj(apiresp);
-
           apiresp = data["angClaimInformationGrid"][0];
           apiresp = convertToDateObj(apiresp);
 
           apiresp = data["angProviderInformationGrid"][0];
           apiresp = convertToDateObj(apiresp);
 
+          apiresp = data["angMemberInformation"][0];
+          apiresp = convertToDateObj(apiresp);
+
+          apiresp = data["angRepresentativeInformationGrid"][0];
+          apiresp = convertToDateObj(apiresp);
+
+          apiresp = data["angAuthorizationInformationGrid"][0];
+          apiresp = convertToDateObj(apiresp);
+
+          apiresp = data["angExpeditedRequest"][0];
+          apiresp = convertToDateObj(apiresp);
+
           setCaseHeader(data["angCaseHeader"][0]);
           setCaseTimelines(data["angCaseTimelines"][0]);
           setCaseInformation(data["angCaseInformation"][0]);
           setClaimInformation(data["angClaimInformation"][0]);
-          setClaimInformationGrid(data["angClaimInformationGrid"][0]);
-          setProviderInformationGrid(data["angProviderInformationGrid"][0]);
+          setClaimInformationGrid(data["angClaimInformationGrid"]);
+          setProviderInformationGrid(data["angProviderInformationGrid"]);
           setMemberInformation(data["angMemberInformation"][0]);
+          setRepresentativeInformationGrid(data["angRepresentativeInformationGrid"]);
+          setAuthorizationInformation(data["angAuthorizationInformation"][0]);
+          setAuthorizationInformationGrid(data["angAuthorizationInformationGrid"]);
+          setExpeditedRequest(data["angExpeditedRequest"][0]);
 
-          setFormData(data);
+          setFormData(_.cloneDeep(data));
 
           const caseIDToUpdate = res?.data?.data?.mainTable[0]?.CaseID;
           const indexToUpdate = caseData.data.findIndex(
@@ -592,7 +584,7 @@ const CaseHeader = () => {
     //let updatedData = filterData();
 
     //const saveType = event.target.name === "saveAndSubmit" ? "SS" : "SE";
-    const saveType = "SE";
+    const saveType = "SS";
 
     let apiJson = {};
 
@@ -601,18 +593,248 @@ const CaseHeader = () => {
     const angCaseInformation = trimJsonValues({ ...caseInformation });
     const angClaimInformation = trimJsonValues({ ...claimInformation });
     const angMemberInformation = trimJsonValues({ ...memberInformation });
-    //const angClaimInformationGrid = getGridDataValues(claimInformationGrid);
-    //const angProviderInformationGrid = getGridDataValues(providerInformationGrid);
+    const angAuthorizationInformation = trimJsonValues({ ...authorizationInformation });
+    const angExpeditedRequest = trimJsonValues({ ...expeditedRequest });
+
+    const angClaimInformationGrid = getGridDataValues(claimInformationGrid);
+    const originalClaimInformationGrid = getGridDataValues(formData["angClaimInformationGrid"]);
+
+    const angProviderInformtionGrid = getGridDataValues(providerInformationGrid);
+    const originalProviderInformationGrid = getGridDataValues(formData["angProviderInformationGrid"]);
+
+    const angRepresentativeInformationGrid = getGridDataValues(representativeInformationGrid);
+    const originalRepresentativeInformationGrid = getGridDataValues(formData["angRepresentativeInformationGrid"]);
+
+    const angAuthorizationInformtionGrid = getGridDataValues(authorizationInformationGrid);
+    const originalAuthorizationInformationGrid = getGridDataValues(formData["angAuthorizationInformationGrid"]);
 
     apiJson["ANG_Case_Header"] = CompareJSON(angCaseHeader, formData["angCaseHeader"][0]);
     apiJson["ANG_Case_Timelines"] = CompareJSON(angCaseTimelines, formData["angCaseTimelines"][0]);
     apiJson["ANG_Case_Information"] = CompareJSON(angCaseInformation, formData["angCaseInformation"][0]);
     apiJson["ANG_Claim_Information"] = CompareJSON(angClaimInformation, formData["angClaimInformation"][0]);
     apiJson["ANG_Member_Information"] = CompareJSON(angMemberInformation, formData["angMemberInformation"][0]);
-    //apiJson["ANG_Claim_Information_Grid"] = angClaimInformationGrid;
-    //apiJson["ANG_Provider_Information_Grid"] = angProviderInformationGrid;
+    apiJson["ANG_Authorization_Information"] = CompareJSON(angAuthorizationInformation, formData["angAuthorizationInformation"][0]);
+    apiJson["ANG_Expedited_Request"] = CompareJSON(angExpeditedRequest, formData["angExpeditedRequest"][0]);
+
+    let updateClaimArray = [];
+    if (angClaimInformationGrid.length > 0 || originalClaimInformationGrid.length > 0) {
+      const maxLength = Math.min(angClaimInformationGrid.length, originalClaimInformationGrid.length);
+
+      // // Update existing rows
+      for (let i = 0; i < maxLength; i++) {
+        const element = angClaimInformationGrid[i];
+
+        for (let j = 0; j < originalClaimInformationGrid.length; j++) {
+          const originalElement = originalClaimInformationGrid[j];
+          if (element.rowNumber === originalElement.rowNumber) {
+            updateClaimArray.push({
+              caseNumber: element["caseNumber"],
+              rowNumber: element["rowNumber"],
+              ...CompareJSON(element, originalElement)
+            });
+            break;
+          }
+        }
+      }
+
+      // Add rows
+      for (let i = 0; i < angClaimInformationGrid.length; i++) {
+        const angelement = angClaimInformationGrid[i];
+        const index = originalClaimInformationGrid.findIndex(element => angelement.rowNumber === element.rowNumber);
+
+        if (index === -1) {
+          if (!angelement.hasOwnProperty('caseNumber')) {
+            angelement.caseNumber = prop.state.caseNumber;
+          }
+          updateClaimArray.push({
+            operation: "I",
+            rowNumber: angelement["rowNumber"],
+            ...angelement
+          });
+        }
+      }
+
+      // Delete rows
+      for (let i = 0; i < originalClaimInformationGrid.length; i++) {
+        const originalElement = originalClaimInformationGrid[i];
+        const index = angClaimInformationGrid.findIndex(element => originalElement.rowNumber === element.rowNumber);
+        if (index === -1) {
+          updateClaimArray.push({
+            operation: "D",
+            caseNumber: prop.state.caseNumber,
+            rowNumber: originalElement["rowNumber"]
+          });
+        }
+      }
+    }
+
+    let updateProviderArray = [];
+    if (angProviderInformtionGrid.length > 0 || originalProviderInformationGrid.length > 0) {
+      const maxLength = Math.min(angProviderInformtionGrid.length, originalProviderInformationGrid.length);
+
+      // // Update existing rows
+      for (let i = 0; i < maxLength; i++) {
+        const element = angProviderInformtionGrid[i];
+
+        for (let j = 0; j < originalProviderInformationGrid.length; j++) {
+          const originalElement = originalProviderInformationGrid[j];
+          if (element.rowNumber === originalElement.rowNumber) {
+            updateProviderArray.push({
+              caseNumber: element["caseNumber"],
+              rowNumber: element["rowNumber"],
+              ...CompareJSON(element, originalElement)
+            });
+            break;
+          }
+        }
+      }
+
+      // Add rows
+      for (let i = 0; i < angProviderInformtionGrid.length; i++) {
+        const angelement = angProviderInformtionGrid[i];
+        const index = originalProviderInformationGrid.findIndex(element => angelement.rowNumber === element.rowNumber);
+
+        if (index === -1) {
+          if (!angelement.hasOwnProperty('caseNumber')) {
+            angelement.caseNumber = prop.state.caseNumber;
+          }
+          updateProviderArray.push({
+            operation: "I",
+            rowNumber: angelement["rowNumber"],
+            ...angelement
+          });
+        }
+      }
+
+      // Delete rows
+      for (let i = 0; i < originalProviderInformationGrid.length; i++) {
+        const originalElement = originalProviderInformationGrid[i];
+        const index = angProviderInformtionGrid.findIndex(element => originalElement.rowNumber === element.rowNumber);
+        if (index === -1) {
+          updateProviderArray.push({
+            operation: "D",
+            caseNumber: prop.state.caseNumber,
+            rowNumber: originalElement["rowNumber"]
+          });
+        }
+      }
+    }
+
+    let updateRepresentativeArray = [];
+    if (angRepresentativeInformationGrid.length > 0 || originalRepresentativeInformationGrid.length > 0) {
+      const maxLength = Math.min(angRepresentativeInformationGrid.length, originalRepresentativeInformationGrid.length);
+
+      // // Update existing rows
+      for (let i = 0; i < maxLength; i++) {
+        const element = angRepresentativeInformationGrid[i];
+
+        for (let j = 0; j < originalRepresentativeInformationGrid.length; j++) {
+          const originalElement = originalRepresentativeInformationGrid[j];
+          if (element.rowNumber === originalElement.rowNumber) {
+            updateRepresentativeArray.push({
+              caseNumber: element["caseNumber"],
+              rowNumber: element["rowNumber"],
+              ...CompareJSON(element, originalElement)
+            });
+            break;
+          }
+        }
+      }
+
+      // Add rows
+      for (let i = 0; i < angRepresentativeInformationGrid.length; i++) {
+        const angelement = angRepresentativeInformationGrid[i];
+        const index = originalRepresentativeInformationGrid.findIndex(element => angelement.rowNumber === element.rowNumber);
+
+        if (index === -1) {
+          if (!angelement.hasOwnProperty('caseNumber')) {
+            angelement.caseNumber = prop.state.caseNumber;
+          }
+          updateRepresentativeArray.push({
+            operation: "I",
+            rowNumber: angelement["rowNumber"],
+            ...angelement
+          });
+        }
+      }
+
+      // Delete rows
+      for (let i = 0; i < originalRepresentativeInformationGrid.length; i++) {
+        const originalElement = originalRepresentativeInformationGrid[i];
+        const index = angRepresentativeInformationGrid.findIndex(element => originalElement.rowNumber === element.rowNumber);
+        if (index === -1) {
+          updateRepresentativeArray.push({
+            operation: "D",
+            caseNumber: prop.state.caseNumber,
+            rowNumber: originalElement["rowNumber"]
+          });
+        }
+      }
+    }
+
+    let updateAuthorizationArray = [];
+    if (angAuthorizationInformtionGrid.length > 0 || originalAuthorizationInformationGrid.length > 0) {
+      const maxLength = Math.min(angAuthorizationInformtionGrid.length, originalAuthorizationInformationGrid.length);
+
+      // // Update existing rows
+      for (let i = 0; i < maxLength; i++) {
+        const element = angAuthorizationInformtionGrid[i];
+
+        for (let j = 0; j < originalAuthorizationInformationGrid.length; j++) {
+          const originalElement = originalAuthorizationInformationGrid[j];
+          if (element.rowNumber === originalElement.rowNumber) {
+            updateAuthorizationArray.push({
+              caseNumber: element["caseNumber"],
+              rowNumber: element["rowNumber"],
+              ...CompareJSON(element, originalElement)
+            });
+            break;
+          }
+        }
+      }
+
+      // Add rows
+      for (let i = 0; i < angAuthorizationInformtionGrid.length; i++) {
+        const angelement = angAuthorizationInformtionGrid[i];
+        const index = originalAuthorizationInformationGrid.findIndex(element => angelement.rowNumber === element.rowNumber);
+
+        if (index === -1) {
+          if (!angelement.hasOwnProperty('caseNumber')) {
+            angelement.caseNumber = prop.state.caseNumber;
+          }
+          updateAuthorizationArray.push({
+            operation: "I",
+            rowNumber: angelement["rowNumber"],
+            ...angelement
+          });
+        }
+      }
+
+      // Delete rows
+      for (let i = 0; i < originalAuthorizationInformationGrid.length; i++) {
+        const originalElement = originalAuthorizationInformationGrid[i];
+        const index = angAuthorizationInformtionGrid.findIndex(element => originalElement.rowNumber === element.rowNumber);
+        if (index === -1) {
+          updateAuthorizationArray.push({
+            operation: "D",
+            caseNumber: prop.state.caseNumber,
+            rowNumber: originalElement["rowNumber"]
+          });
+        }
+      }
+    }
+
+    console.log("update claim array", updateClaimArray);
+    console.log("update provider array", updateProviderArray);
+
+    apiJson["ANG_Claim_Information_Grid"] = updateClaimArray;
+    apiJson["ANG_Provider_Information_Grid"] = updateProviderArray;
+    apiJson["ANG_Representative_Information_Grid"] = updateRepresentativeArray;
+    apiJson["ANG_Authorization_Information_Grid"] = updateAuthorizationArray;
 
     apiJson["caseNumber"] = prop.state.caseNumber;
+
+    console.log("apijson", apiJson);
 
     customAxios.post("/generic/update", apiJson, {
       headers: { Authorization: `Bearer ${token}` },
@@ -626,12 +848,14 @@ const CaseHeader = () => {
       }
 
       if (apiStat === 0) {
-        updateDecision(prop, saveType, "Case Header");
+        updateDecision(prop, saveType, "Appeals");
         let procData = {};
         let procDataState = {};
         procDataState.stageName = prop.state.stageName;
         procDataState.flowId = prop.state.flowId;
-
+        procDataState.decisionNotes = prop.state.decisionNotes;
+        console.log("prerna111--->", (prop.state.decisionNotes != undefined) ? (prop.state.decisionNotes.trim()) : "");
+        console.log("prerna2222--->",prop.state.decisionNotes);
         procDataState.caseNumber = prop.state.caseNumber;
         procDataState.decision = prop.state.decision;
 
@@ -643,11 +867,13 @@ const CaseHeader = () => {
           : "system";
         procDataState.formNames = CaseHeader.displayName;
         procData.state = procDataState;
+        
         alert(
           "Case updated successfully: " +
           prop.state.caseNumber
         );
         submitCase(procData, navigateHome);
+        navigateHome();
       }
     });
   }
@@ -683,13 +909,30 @@ const CaseHeader = () => {
                 handleOnChange={handleClaimInformationChange}
                 handleData={claimInformation}
                 handleClaimInformationGridData={claimInformationGrid}
+                updateClaimInformationGridData={setClaimInformationGrid}
                 handleProviderInformationGridData={providerInformationGrid}
-                handleFormData={formData}
+                updateProviderInformationGridData={setProviderInformationGrid}
               />
               <MemeberInformationAccordion
                 //formikFieldsOnChange={formikFieldsOnChange}
                 handleOnChange={handleMemberInformationChange}
                 handleData={memberInformation}
+              />
+              <RepresentativeInformationAccordion
+                handleRepresentativeInformationGridData={representativeInformationGrid}
+                updateRepresentativeInformationGridData={setRepresentativeInformationGrid}
+              />
+              <AuthorizationInformationAccordion
+                //formikFieldsOnChange={formikFieldsOnChange}
+                handleOnChange={handleAuthorizationInformationChange}
+                handleData={authorizationInformation}
+                handleAuthorizationInformationGridData={authorizationInformationGrid}
+                updateAuthorizationInformationGridData={setAuthorizationInformationGrid}
+              />
+              <ExpeditedRequestAccordion
+                //formikFieldsOnChange={formikFieldsOnChange}
+                handleOnChange={handleExpeditedRequestChange}
+                handleData={expeditedRequest}
               />
             </div>
           </div>
@@ -718,7 +961,7 @@ const CaseHeader = () => {
               Go To Home
             </button>
             <label id="tileFormLabel" className="HeadingStyle">
-              Case Header
+              Appeals
             </label>
 
             {prop.state.formView === "DashboardView" ? <>
@@ -765,7 +1008,7 @@ const CaseHeader = () => {
                 justify
 
               >
-                <Tab eventKey={' Case Header'} title=' Case Header'>
+                <Tab eventKey={' Case Header'} title=' Case Details'>
                   <FormComponent />
                 </Tab>
 
