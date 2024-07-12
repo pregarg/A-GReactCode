@@ -186,9 +186,9 @@ const CaseInformationAccordion = (props) => {
                       isClearable
                       name={'Line_of_Business_LOB'}
                       isDisabled={
-                        tabRef.current === "DashboardView" &&
-                          prop.state.lockStatus !== undefined &&
-                          prop.state.lockStatus === "Y"
+                        prop.state.formView === "DashboardView" &&
+                          (prop.state.stageName === "Redirect Review" ||
+                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Research" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
                           ? true
                           : false
                       }
@@ -206,7 +206,7 @@ const CaseInformationAccordion = (props) => {
                         }
                       }
                       placeholder="Line of Business"
-                      //styles={{...customStyles}}
+                      //styles={{ ...customStyles }}
                       isSearchable={
                         document.documentElement.clientHeight >
                           document.documentElement.clientWidth
@@ -256,6 +256,13 @@ const CaseInformationAccordion = (props) => {
                         props.handleOnChange(event.target['value'], 'LOB_Description')
                       }
                       value={convertToCase(caseInformationData['LOB_Description'])}
+                      disabled={
+                        prop.state.formView === "DashboardView" &&
+                          (prop.state.stageName === "Intake" || prop.state.stageName === "Acknowledge" || prop.state.stageName === "Redirect Review" ||
+                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Research" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                          ? true
+                          : false
+                      }
                     />
                     <label htmlFor="floatingInputGrid">
                       LOB Description
@@ -303,7 +310,13 @@ const CaseInformationAccordion = (props) => {
                         props.handleOnChange(event.target['value'], 'Claim_Number')
                       }
                       value={convertToCase(caseInformationData['Claim_Number'])}
-
+                      disabled={
+                        prop.state.formView === "DashboardView" &&
+                          (prop.state.stageName === "Intake" || prop.state.stageName === "Acknowledge" || prop.state.stageName === "Redirect Review" ||
+                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Research" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                          ? true
+                          : false
+                      }
                     />
                     <label htmlFor="floatingInputGrid">
                       Claim Number
@@ -343,9 +356,9 @@ const CaseInformationAccordion = (props) => {
                       isClearable
                       name={field.name}
                       isDisabled={
-                        tabRef.current === "DashboardView" &&
-                          prop.state.lockStatus !== undefined &&
-                          prop.state.lockStatus === "Y"
+                        prop.state.formView === "DashboardView" &&
+                          (prop.state.stageName === "Redirect Review" ||
+                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Research" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
                           ? true
                           : false
                       }
@@ -405,9 +418,9 @@ const CaseInformationAccordion = (props) => {
                       isClearable
                       name={field.name}
                       isDisabled={
-                        tabRef.current === "DashboardView" &&
-                          prop.state.lockStatus !== undefined &&
-                          prop.state.lockStatus === "Y"
+                        prop.state.formView === "DashboardView" &&
+                          (prop.state.stageName === "Redirect Review" ||
+                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
                           ? true
                           : false
                       }
@@ -471,9 +484,9 @@ const CaseInformationAccordion = (props) => {
                       isClearable
                       name={field.name}
                       isDisabled={
-                        tabRef.current === "DashboardView" &&
-                          prop.state.lockStatus !== undefined &&
-                          prop.state.lockStatus === "Y"
+                        prop.state.formView === "DashboardView" &&
+                          (prop.state.stageName === "Redirect Review" ||
+                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Research" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
                           ? true
                           : false
                       }
@@ -537,9 +550,9 @@ const CaseInformationAccordion = (props) => {
                       isClearable
                       name={field.name}
                       isDisabled={
-                        tabRef.current === "DashboardView" &&
-                          prop.state.lockStatus !== undefined &&
-                          prop.state.lockStatus === "Y"
+                        prop.state.formView === "DashboardView" &&
+                          (prop.state.stageName === "Redirect Review" ||
+                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
                           ? true
                           : false
                       }
@@ -648,9 +661,9 @@ const CaseInformationAccordion = (props) => {
                       isClearable
                       name={field.name}
                       isDisabled={
-                        tabRef.current === "DashboardView" &&
-                          prop.state.lockStatus !== undefined &&
-                          prop.state.lockStatus === "Y"
+                        prop.state.formView === "DashboardView" &&
+                          (prop.state.stageName === "Redirect Review" ||
+                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
                           ? true
                           : false
                       }
@@ -710,9 +723,9 @@ const CaseInformationAccordion = (props) => {
                       isClearable
                       name={field.name}
                       isDisabled={
-                        tabRef.current === "DashboardView" &&
-                          prop.state.lockStatus !== undefined &&
-                          prop.state.lockStatus === "Y"
+                        prop.state.formView === "DashboardView" &&
+                          (prop.state.stageName === "Redirect Review" ||
+                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
                           ? true
                           : false
                       }
@@ -776,9 +789,9 @@ const CaseInformationAccordion = (props) => {
                       isClearable
                       name={field.name}
                       isDisabled={
-                        tabRef.current === "DashboardView" &&
-                          prop.state.lockStatus !== undefined &&
-                          prop.state.lockStatus === "Y"
+                        prop.state.formView === "DashboardView" &&
+                          (prop.state.stageName === "Redirect Review" ||
+                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
                           ? true
                           : false
                       }
@@ -848,6 +861,13 @@ const CaseInformationAccordion = (props) => {
                         props.handleOnChange(event.target['value'], 'Issue_Description')
                       }
                       value={convertToCase(caseInformationData['Issue_Description'])}
+                      disabled={
+                        prop.state.formView === "DashboardView" &&
+                          (prop.state.stageName === "Redirect Review" ||
+                            prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                          ? true
+                          : false
+                      }
                     />
                     <label htmlFor="floatingInputGrid">
                       Issue Description
@@ -888,9 +908,9 @@ const CaseInformationAccordion = (props) => {
                       isClearable
                       name={field.name}
                       isDisabled={
-                        tabRef.current === "DashboardView" &&
-                          prop.state.lockStatus !== undefined &&
-                          prop.state.lockStatus === "Y"
+                        prop.state.formView === "DashboardView" &&
+                          (prop.state.stageName === "Redirect Review" ||
+                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
                           ? true
                           : false
                       }
@@ -953,9 +973,9 @@ const CaseInformationAccordion = (props) => {
                       isClearable
                       name={field.name}
                       isDisabled={
-                        tabRef.current === "DashboardView" &&
-                          prop.state.lockStatus !== undefined &&
-                          prop.state.lockStatus === "Y"
+                        prop.state.formView === "DashboardView" &&
+                          (prop.state.stageName === "Redirect Review" ||
+                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
                           ? true
                           : false
                       }
@@ -1161,7 +1181,13 @@ const CaseInformationAccordion = (props) => {
                         props.handleOnChange(event.target['value'], 'Inbound_Email_ID')
                       }
                       value={convertToCase(caseInformationData['Inbound_Email_ID'])}
-
+                      disabled={
+                        prop.state.formView === "DashboardView" &&
+                          (prop.state.stageName === "Redirect Review" ||
+                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Research" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                          ? true
+                          : false
+                      }
 
                     />
                     <label htmlFor="floatingInputGrid">

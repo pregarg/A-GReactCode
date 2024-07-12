@@ -362,7 +362,13 @@ const AuthorizationInformationAccordion = (props) => {
                                                 onBlur={(event) =>
                                                     props.handleOnChange(event.target['value'], 'Authorization_Decision')
                                                 }
-                                                value={convertToCase(authorizationInformationData['Authorization_Decision'])}
+                                                value={convertToCase(authorizationInformationData['Authorization_Decision'])} disabled={
+                                                    prop.state.formView === "DashboardView" &&
+                                                        (prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "CaseArchived")
+                                                        ? true
+                                                        : false
+                                                }
+
                                             />
                                             <label htmlFor="floatingInputGrid">
                                                 Authorization Decision
@@ -410,6 +416,12 @@ const AuthorizationInformationAccordion = (props) => {
                                                     props.handleOnChange(event.target['value'], 'Authorization_Decision_Reason')
                                                 }
                                                 value={convertToCase(authorizationInformationData['Authorization_Decision_Reason'])}
+                                                disabled={
+                                                    prop.state.formView === "DashboardView" &&
+                                                        (prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen")
+                                                        ? true
+                                                        : false
+                                                }
                                             />
                                             <label htmlFor="floatingInputGrid">
                                                 Authorization Decision Reason
