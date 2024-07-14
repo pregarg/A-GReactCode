@@ -15,8 +15,12 @@ const CaseTimelinesAccordion = (props) => {
   const [caseTimelinesData, setCaseTimelinesData] = useState(props.caseTimelinesData || {});
   const [caseFilingMethodValues, setCaseFilingMethodValues] = useState([]);
 
-  const handleCaseTimelinesData = (name, value) => {
-    setCaseTimelinesData({ ...caseTimelinesData, [name]: typeof value === 'string' ? convertToCase(value): value });
+  const handleCaseTimelinesData = (name, value, persist) => {
+    const newData = { ...caseTimelinesData, [name]: typeof value === 'string' ? convertToCase(value): value };
+    setCaseTimelinesData(newData);
+    if (persist) {
+      props.setCaseTimelinesData(newData);
+    }
   };
   const persistCaseTimelinesData = () => {
     props.setCaseTimelinesData(caseTimelinesData);
@@ -55,7 +59,7 @@ const CaseTimelinesAccordion = (props) => {
                               : ""
                       }`}
                       placeholder={placeholder}
-                      onChange={(event) => handleCaseTimelinesData(name, event.target['value'])}
+                      onChange={(event) => handleCaseTimelinesData(name, event.target.value)}
                       onBlur={persistCaseTimelinesData}
                       value={caseTimelinesData[name]}
                       disabled={invalidInputState}
@@ -92,8 +96,7 @@ const CaseTimelinesAccordion = (props) => {
               selected={caseTimelinesData[name]}
               name={name}
               dateFormat="MM/dd/yyyy"
-              onChange={(date, event) => handleCaseTimelinesData(name, date)}
-              onBlur={persistCaseTimelinesData}
+              onChange={(date, event) => handleCaseTimelinesData(name, date, true)}
               peekNextMonth
               showMonthDropdown
               showYearDropdown
@@ -148,9 +151,9 @@ const CaseTimelinesAccordion = (props) => {
                 options={options}
                 id={name}
                 isMulti={false}
-                onChange={(value) => handleCaseTimelinesData(name, value)}
+                onChange={(value) => handleCaseTimelinesData(name, value?.value, true)}
                 onBlur={persistCaseTimelinesData}
-                value={caseTimelinesData[name]}
+                value={caseTimelinesData[name] ? {label: caseTimelinesData[name], value: caseTimelinesData[name]} : undefined}
                 placeholder={placeholder}
                 isSearchable={
                     document.documentElement.clientHeight <= document.documentElement.clientWidth
