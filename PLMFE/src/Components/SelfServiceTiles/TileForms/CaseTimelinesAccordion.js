@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Formik, Field, ErrorMessage, Form } from "formik";
-import * as Yup from 'yup';
 import useGetDBTables from "../../CustomHooks/useGetDBTables";
 import ReactDatePicker from "react-datepicker";
 import Select, { components } from "react-select";
@@ -10,28 +9,19 @@ import { selectStyle } from "./SelectStyle";
 import './Appeals.css';
 
 const CaseTimelinesAccordion = (props) => {
+  let location = useLocation();
   const { convertToCase, getDatePartOnly } = useGetDBTables();
-  const [caseTimelinesData, setCaseTimelinesData] = useState(props.handleData);
   const mastersSelector = useSelector((masters) => masters);
+  const [caseTimelinesData, setCaseTimelinesData] = useState(props.caseTimelinesData || {});
+  const [caseFilingMethodValues, setCaseFilingMethodValues] = useState([]);
 
-  const RenderDatePickerReceivedDate = (props) => (
-    <div className="form-floating">
-      <input {...props} placeholder="Date of Birth" />
-      <label htmlFor="datePicker">Case Received Date</label>
-    </div>
-  );
-  const RenderDatePickerAORRecievedDate = (props) => (
-    <div className="form-floating">
-      <input {...props} placeholder="AOR Recieved Date" />
-      <label htmlFor="datePicker">AOR Recieved Date</label>
-    </div>
-  );
-  const RenderDatePickerWOLRecievedDate = (props) => (
-    <div className="form-floating">
-      <input {...props} placeholder="WOL RecievedDate" />
-      <label htmlFor="datePicker">WOL Received Date</label>
-    </div>
-  );
+  const handleCaseTimelinesData = (name, value) => {
+    setCaseTimelinesData({ ...caseTimelinesData, [name]: typeof value === 'string' ? convertToCase(value): value });
+  };
+  const persistCaseTimelinesData = () => {
+    props.setCaseTimelinesData(caseTimelinesData);
+  }
+
   const { ValueContainer, Placeholder } = components;
   const CustomValueContainer = ({ children, ...props }) => {
     return (
@@ -45,570 +35,234 @@ const CaseTimelinesAccordion = (props) => {
       </ValueContainer>
     );
   };
+  const InputField = (name, placeholder, maxLength) => {
+    return (
+        <>
+          <Field name={name}>
+            {({
+                field,
+                meta,
+              }) => (
+                <div className="form-floating">
+                  <input
+                      maxLength={maxLength}
+                      type="text"
+                      id={name}
+                      className={`form-control ${meta.error
+                          ? "is-invalid"
+                          : field.value
+                              ? "is-valid"
+                              : ""
+                      }`}
+                      placeholder={placeholder}
+                      onChange={(event) => handleCaseTimelinesData(name, event.target['value'])}
+                      onBlur={persistCaseTimelinesData}
+                      value={caseTimelinesData[name]}
+                      disabled={invalidInputState}
+                  />
+                  <label htmlFor="floatingInputGrid">
+                    {placeholder}
+                  </label>
+                  {meta.error && (
+                      <div
+                          className="invalid-feedback"
+                          style={{ display: "block" }}
+                      >
+                        {meta.error}
+                      </div>
+                  )}
+                </div>
+            )}
+          </Field>
+        </>
+    )
+  }
+  const DatePicker = (name, label, placeholder) => {
+    const CustomInput = (props) => (
+        <div className="form-floating">
+          <input {...props} placeholder={placeholder}/>
+          <label htmlFor={name}>{label}</label>
+        </div>
+    );
+    return (
+        <div>
+          <ReactDatePicker
+              id={name}
+              className="form-control example-custom-input-provider"
+              selected={caseTimelinesData[name]}
+              name={name}
+              dateFormat="MM/dd/yyyy"
+              onChange={(date, event) => handleCaseTimelinesData(name, date)}
+              onBlur={persistCaseTimelinesData}
+              peekNextMonth
+              showMonthDropdown
+              showYearDropdown
+              isClearable
+              onKeyDown={(e) => e.preventDefault()}
+              dropdownMode="select"
+              style={{
+                position: "relative",
+                zIndex: "999",
+              }}
+              customInput={<CustomInput/>}
+              disabled={
+                location.state.formView === "DashboardView" &&
+                  (location.state.stageName === "Redirect Review" ||
+                      location.state.stageName === "Effectuate" ||
+                      location.state.stageName === "Pending Effectuate" ||
+                      location.state.stageName === "Resolve" ||
+                      location.state.stageName === "Case Completed" ||
+                      location.state.stageName === "Reopen" ||
+                      location.state.stageName === "CaseArchived")
+              }
+          />
+        </div>
+    )
+  };
+  const SelectField = (name, placeholder, options) => <>
+    <Field name={name}>
+      {({
+          field,
+          form: {touched, errors},
+          meta,
+        }) => (
+          <div className="form-floating">
+            <Select
+                styles={{...selectStyle}}
+                components={{
+                  ValueContainer: CustomValueContainer,
+                }}
+                isClearable
+                isDisabled={
+                    location.state.formView === "DashboardView" &&
+                    (location.state.stageName === "Redirect Review" ||
+                        location.state.stageName === "Documents Needed" ||
+                        location.state.stageName === "Effectuate" ||
+                        location.state.stageName === "Pending Effectuate" ||
+                        location.state.stageName === "Resolve" ||
+                        location.state.stageName === "Case Completed" ||
+                        location.state.stageName === "Reopen" ||
+                        location.state.stageName === "CaseArchived")
+                }
+                className="basic-multi-select"
+                options={options}
+                id={name}
+                isMulti={false}
+                onChange={(value) => handleCaseTimelinesData(name, value)}
+                onBlur={persistCaseTimelinesData}
+                value={caseTimelinesData[name]}
+                placeholder={placeholder}
+                isSearchable={
+                    document.documentElement.clientHeight <= document.documentElement.clientWidth
+                }
+            />
+            {meta.touched && meta.error && (
+                <div
+                    className="invalid-feedback"
+                    style={{ display: "block" }}
+                >
+                  {meta.error}
+                </div>
+            )}
+          </div>
+      )}
+    </Field>
+    <ErrorMessage
+        component="div"
+        name={name}
+        className="invalid-feedback"
+    />
+  </>
 
-  const tabRef = useRef("HomeView");
-  let prop = useLocation();
-  let caseFilingMethodValues = [];
-  console.log("uselocation prop--->", prop);
   useEffect(() => {
-    try {
-      if (mastersSelector.hasOwnProperty("masterAngCaseFilingMethod")) {
-        const caseFilingMethodArray =
-          mastersSelector["masterAngCaseFilingMethod"].length === 0
-            ? []
-            : mastersSelector["masterAngCaseFilingMethod"][0];
-
-        for (let i = 0; i < caseFilingMethodArray.length; i++) {
-          caseFilingMethodValues.push({ label: convertToCase(caseFilingMethodArray[i].Case_Filing_Method), value: convertToCase(caseFilingMethodArray[i].Case_Filing_Method) });
-        }
-      }
-    } catch (error) {
-      console.error("An error occurred in useEffect:", error);
+    if (mastersSelector?.masterAngCaseFilingMethod) {
+      const caseFilingMethodArray =
+          mastersSelector.masterAngCaseFilingMethod?.[0] || [];
+      setCaseFilingMethodValues(caseFilingMethodArray.map(e => ({
+        label: convertToCase(e.Case_Filing_Method),
+        value: convertToCase(e.Case_Filing_Method)
+      })));
     }
   }, []);
 
-  const styleConfig = {
+  const [invalidInputState, setInvalidInputState] = useState(false);
 
-  }
+  useEffect(() => {
+    setInvalidInputState(location.state.formView === "DashboardView" &&
+        (location.state.stageName === "Intake" ||
+            location.state.stageName === "Acknowledge" ||
+            location.state.stageName === "Redirect Review" ||
+            location.state.stageName === "Documents Needed" ||
+            location.state.stageName === "Research" ||
+            location.state.stageName === "Effectuate" ||
+            location.state.stageName === "Pending Effectuate" ||
+            location.state.stageName === "Resolve" ||
+            location.state.stageName === "Case Completed" ||
+            location.state.stageName === "Reopen" ||
+            location.state.stageName === "CaseArchived"))
+  }, [location]);
 
-  const validationSchema = Yup.object().shape({
-    Case_Filing_Method: Yup.string().required('Case Filing Method is required'),
-  });
-
-  return (
-    <Formik initialValues={caseTimelinesData} validationSchema={validationSchema}>
-      {({ errors, touched }) => (
-        <Form>
-          <div className="accordion-item" id="caseTimelines">
-            <h2 className="accordion-header" id="panelsStayOpen-Timelines">
-              <button
-                className="accordion-button accordionButtonStyle"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#panelsStayOpen-collapseTimelines"
-                aria-expanded="true"
-                aria-controls="panelsStayOpen-collapseOne"
-              >
-                Case Timelines
-              </button>
-            </h2>
-            <div
-              id="panelsStayOpen-collapseTimelines"
+  return  (
+      <Formik initialValues={props.caseTimelinesData}
+              validationSchema={props.caseTimelinesValidationSchema}
+              onSubmit={() => {}}>
+        {({errors, touched}) => (
+            <Form>
+              <div className="accordion-item" id="caseTimelines">
+                <h2 className="accordion-header" id="panelsStayOpen-Timelines">
+                  <button
+                      className="accordion-button accordionButtonStyle"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#panelsStayOpen-collapseTimelines"
+                      aria-expanded="true"
+                      aria-controls="panelsStayOpen-collapseOne"
+                  >
+                    Case Timelines
+                  </button>
+                </h2>
+                <div
+                    id="panelsStayOpen-collapseTimelines"
               className="accordion-collapse collapse show"
               aria-labelledby="panelsStayOpen-Timelines"
             >
               <div className="accordion-body">
                 <div className="row my-2">
                   <div className="col-xs-6 col-md-4">
-                    <Field name="Case_Filing_Method">
-                      {({
-                        field, // { name, value, onChange, onBlur }
-                        form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
-                        meta,
-                      }) => (
-                        <div className="form-floating" >
-                          <Select
-                            styles={{
-                              control: (provided) => ({
-                                ...provided,
-                                height: "58px",
-                                fontWeight: "lighter",
-                              }),
-                              menuList: (provided) => ({
-                                ...provided,
-                                maxHeight: 200,
-                              }),
-                              menu: (provided) => ({
-                                ...provided,
-                                zIndex: 9999,
-                              }),
-
-                              container: (provided, state) => ({
-                                ...provided,
-                                marginTop: 0,
-                              }),
-                              valueContainer: (provided, state) => ({
-                                ...provided,
-                                overflow: "visible",
-                              }),
-                              placeholder: (provided, state) => ({
-                                ...provided,
-                                position: "absolute",
-                                top:
-                                  state.hasValue || state.selectProps.inputValue
-                                    ? -15
-                                    : "50%",
-                                transition: "top 0.1s, font-size 0.1s",
-                                fontSize:
-                                  (state.hasValue || state.selectProps.inputValue) &&
-                                  13,
-                                color: 'black'
-                              }),
-                              singleValue: (styles) => ({ ...styles, textAlign: 'left' }),
-                              option: (provided, state) => ({
-                                ...provided,
-                                textAlign: "left",
-                              }),
-                            }}
-                            components={{
-                              ValueContainer: CustomValueContainer,
-                            }}
-                            isClearable
-                            name={"Case_Filing_Method"}
-                            isDisabled={
-                              prop.state.formView === "DashboardView" &&
-                                (prop.state.stageName === "Redirect Review" ||
-                                  prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
-                                ? true
-                                : false
-                            }
-                            className="basic-multi-select"
-                            options={caseFilingMethodValues}
-                            id="casefilingmethodDropdown"
-                            isMulti={false}
-                            onChange={(selectValue) =>
-                              props.handleOnChange(selectValue ? selectValue.value : null, 'Case_Filing_Method')
-                            }
-                            value={
-                              {
-                                label: caseTimelinesData['Case_Filing_Method'],
-                                value: caseTimelinesData['Case_Filing_Method']
-                              }
-                            }
-                            placeholder="Case Filing Method"
-                            isSearchable={
-                              document.documentElement.clientHeight >
-                                document.documentElement.clientWidth
-                                ? false
-                                : true
-                            }
-                          />
-                          {meta.touched && meta.error && (
-                            <div
-                              className="invalid-feedback"
-                              style={{ display: "block" }}
-                            >
-                              {meta.error}
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    </Field>
-                    <ErrorMessage
-                      component="div"
-                      name="casefilingmethod"
-                      className="invalid-feedback"
-                    />
+                    {SelectField('Case_Filing_Method', 'Case Filing Method', caseFilingMethodValues)}
                   </div>
                   <div className="col-xs-6 col-md-4">
-                    <Field name="caseaging">
-                      {({
-                        field,
-                        meta,
-                      }) => (
-                        <div className="form-floating">
-                          <input
-                            maxLength="16"
-                            type="text"
-                            id="caseaging"
-                            className={`form-control ${meta.touched && meta.error
-                              ? "is-invalid"
-                              : field.value
-                                ? "is-valid"
-                                : ""
-                              }`}
-                            placeholder="Case Aging"
-                            {...field}
-                            onChange={(event) => {
-                              setCaseTimelinesData({ ...caseTimelinesData, 'Case_Aging': event.target['value'] })
-                            }}
-                            onBlur={(event) =>
-                              props.handleOnChange(event.target['value'], 'Case_Aging')
-                            }
-                            value={convertToCase(caseTimelinesData['Case_Aging'])}
-                            disabled={
-                              prop.state.formView === "DashboardView" &&
-                                (prop.state.stageName === "Intake" || prop.state.stageName === "Acknowledge" || prop.state.stageName === "Redirect Review" ||
-                                  prop.state.stageName === "Documents Needed" || prop.state.stageName === "Research" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
-                                ? true
-                                : false
-                            }
-
-                          />
-                          <label htmlFor="floatingInputGrid">
-                            Case Aging
-                          </label>
-                          {meta.touched && meta.error && (
-                            <div
-                              className="invalid-feedback"
-                              style={{ display: "block" }}
-                            >
-                              {meta.error}
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    </Field>
+                    {InputField("Case_Aging", "Case Aging", 16)}
                   </div>
                   <div className="col-xs-6 col-md-4">
-                    <Field name="compliancetimelefttofinish">
-                      {({
-                        field,
-                        meta
-                      }) => (
-                        <div className="form-floating">
-                          <input
-                            maxLength="16"
-                            type="text"
-                            id="compliancetimelefttofinish"
-                            className={`form-control ${meta.touched && meta.error
-                              ? "is-invalid"
-                              : field.value
-                                ? "is-valid"
-                                : ""
-                              }`}
-                            placeholder="Compliance Time Left to Finish"
-                            {...field}
-                            onChange={(event) => {
-                              setCaseTimelinesData({ ...caseTimelinesData, 'Compliance_Time_Left_to_Finish': event.target['value'] })
-                            }}
-                            onBlur={(event) =>
-                              props.handleOnChange(event.target['value'], 'Compliance_Time_Left_to_Finish')
-                            }
-                            value={convertToCase(caseTimelinesData['Compliance_Time_Left_to_Finish'])}
-                            disabled={
-                              prop.state.formView === "DashboardView" &&
-                                (prop.state.stageName === "Intake" || prop.state.stageName === "Acknowledge" || prop.state.stageName === "Redirect Review" ||
-                                  prop.state.stageName === "Documents Needed" || prop.state.stageName === "Research" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
-                                ? true
-                                : false
-                            }
-                          />
-                          <label htmlFor="floatingInputGrid">
-                            Compliance Time Left to Finish
-                          </label>
-                          {meta.touched && meta.error && (
-                            <div
-                              className="invalid-feedback"
-                              style={{ display: "block" }}
-                            >
-                              {meta.error}
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    </Field>
+                    {InputField("Compliance_Time_Left_to_Finish", "Compliance Time Left to Finish", 16)}
                   </div>
                 </div>
                 <div className="row my-2">
                   <div className="col-xs-6 col-md-4">
-                    <Field name="acknowledgementtimely">
-                      {({
-                        field,
-                        meta
-                      }) => (
-                        <div className="form-floating">
-                          <input
-                            maxLength="30"
-                            type="text"
-                            id="acknowledgementtimely"
-                            className={`form-control ${meta.touched && meta.error
-                              ? "is-invalid"
-                              : field.value
-                                ? "is-valid"
-                                : ""
-                              }`}
-                            placeholder="Acknowledgement Timely"
-                            {...field}
-                            onChange={(event) => {
-                              setCaseTimelinesData({ ...caseTimelinesData, 'Acknowledgment_Timely': event.target['value'] })
-                            }}
-                            onBlur={(event) =>
-                              props.handleOnChange(event.target['value'], 'Acknowledgment_Timely')
-                            }
-                            value={convertToCase(caseTimelinesData['Acknowledgment_Timely'])}
-                            disabled={
-                              prop.state.formView === "DashboardView" &&
-                                (prop.state.stageName === "Intake" || prop.state.stageName === "Acknowledge" || prop.state.stageName === "Redirect Review" ||
-                                  prop.state.stageName === "Documents Needed" || prop.state.stageName === "Research" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
-                                ? true
-                                : false
-                            }
-                          />
-                          <label htmlFor="floatingInputGrid">
-                            Acknowledgement Timely
-                          </label>
-                          {meta.touched && meta.error && (
-                            <div
-                              className="invalid-feedback"
-                              style={{ display: "block" }}
-                            >
-                              {meta.error}
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    </Field>
+                    {InputField("Acknowledgment_Timely", "Acknowledgement Timely", 16)}
                   </div>
                   <div className="col-xs-6 col-md-4">
-                    <Field name="timeframeextended">
-                      {({
-                        field,
-                        meta
-                      }) => (
-                        <div className="form-floating">
-                          <input
-                            maxLength="30"
-                            type="text"
-                            id="timeframeextended"
-                            className={`form-control ${meta.touched && meta.error
-                              ? "is-invalid"
-                              : field.value
-                                ? "is-valid"
-                                : ""
-                              }`}
-                            placeholder="Timeframe Extended"
-                            {...field}
-                            onChange={(event) => {
-                              setCaseTimelinesData({ ...caseTimelinesData, 'Timeframe_Extended': event.target['value'] })
-                            }}
-                            onBlur={(event) =>
-                              props.handleOnChange(event.target['value'], 'Timeframe_Extended')
-                            }
-                            value={convertToCase(caseTimelinesData['Timeframe_Extended'])}
-                            disabled={
-                              prop.state.formView === "DashboardView" &&
-                                (prop.state.stageName === "Intake" || prop.state.stageName === "Acknowledge" || prop.state.stageName === "Redirect Review" ||
-                                  prop.state.stageName === "Documents Needed" || prop.state.stageName === "Research" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
-                                ? true
-                                : false
-                            }
-                          />
-                          <label htmlFor="floatingInputGrid">
-                            Timeframe Extended
-                          </label>
-                          {meta.touched && meta.error && (
-                            <div
-                              className="invalid-feedback"
-                              style={{ display: "block" }}
-                            >
-                              {meta.error}
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    </Field>
+                    {InputField("Timeframe_Extended", "Timeframe Extended", 30)}
                   </div>
                   <div className="col-xs-6 col-md-4">
-                    <Field name="caseincompliance">
-                      {({
-                        field,
-                        meta
-                      }) => (
-                        <div className="form-floating">
-                          <input
-                            maxLength="30"
-                            type="text"
-                            id="caseincompliance"
-                            className={`form-control ${meta.touched && meta.error
-                              ? "is-invalid"
-                              : field.value
-                                ? "is-valid"
-                                : ""
-                              }`}
-                            placeholder="Case in Compliance"
-                            {...field}
-                            onChange={(event) => {
-                              setCaseTimelinesData({ ...caseTimelinesData, 'Case_in_Compliance': event.target['value'] })
-                            }}
-                            onBlur={(event) =>
-                              props.handleOnChange(event.target['value'], 'Case_in_Compliance')
-                            }
-                            value={convertToCase(caseTimelinesData['Case_in_Compliance'])}
-                            disabled={
-                              prop.state.formView === "DashboardView" &&
-                                (prop.state.stageName === "Intake" || prop.state.stageName === "Acknowledge" || prop.state.stageName === "Redirect Review" ||
-                                  prop.state.stageName === "Documents Needed" || prop.state.stageName === "Research" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
-                                ? true
-                                : false
-                            }
-                          />
-                          <label htmlFor="floatingInputGrid">
-                            Case in Compliance
-                          </label>
-                          {meta.touched && meta.error && (
-                            <div
-                              className="invalid-feedback"
-                              style={{ display: "block" }}
-                            >
-                              {meta.error}
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    </Field>
+                    {InputField("Case_in_Compliance", "Case in Compliance", 30)}
                   </div>
                 </div>
                 <div className="row my-2">
                   <div className="col-xs-6 col-md-4">
-                    <Field name="outofcompliancereason">
-                      {({
-                        field,
-                        meta
-                      }) => (
-                        <div className="form-floating">
-                          <input
-                            maxLength="30"
-                            type="text"
-                            id="outofcompliancereason"
-                            className={`form-control ${meta.touched && meta.error
-                              ? "is-invalid"
-                              : field.value
-                                ? "is-valid"
-                                : ""
-                              }`}
-                            placeholder="Out of Compliance Reason"
-                            {...field}
-                            onChange={(event) => {
-                              setCaseTimelinesData({ ...caseTimelinesData, 'Out_of_Compliance_Reason': event.target['value'] })
-                            }}
-                            onBlur={(event) =>
-                              props.handleOnChange(event.target['value'], 'Out_of_Compliance_Reason')
-                            }
-                            value={convertToCase(caseTimelinesData['Out_of_Compliance_Reason'])}
-                            disabled={
-                              prop.state.formView === "DashboardView" &&
-                                (prop.state.stageName === "Intake" || prop.state.stageName === "Acknowledge" || prop.state.stageName === "Redirect Review" ||
-                                  prop.state.stageName === "Documents Needed" || prop.state.stageName === "Research" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
-                                ? true
-                                : false
-                            }
-                          />
-                          <label htmlFor="floatingInputGrid">
-                            Out of Compliance Reason
-                          </label>
-                          {meta.touched && meta.error && (
-                            <div
-                              className="invalid-feedback"
-                              style={{ display: "block" }}
-                            >
-                              {meta.error}
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    </Field>
+                    {InputField("Out_of_Compliance_Reason", "Out of Compliance Reason", 30)}
                   </div>
                   <div className="col-xs-6 col-md-4">
-                    <div style={{}}>
-                      <ReactDatePicker
-                        id="datePicker"
-                        className="form-control example-custom-input-provider"
-                        selected={caseTimelinesData.Case_Received_Date}
-                        name="Case_Received_Date"
-                        onChange={(date, event) => {
-
-                          props.handleOnChange(date, "Case_Received_Date")
-                        }
-                        }
-                        dateFormat="MM/dd/yyyy"
-                        peekNextMonth
-                        showMonthDropdown
-                        showYearDropdown
-                        isClearable
-                        onKeyDown={(e) => {
-                          e.preventDefault();
-                        }}
-                        dropdownMode="select"
-                        readOnly={
-                          tabRef.current === "DashboardView" &&
-                            prop.state.lockStatus !== undefined &&
-                            prop.state.lockStatus === "Y"
-                            ? true
-                            : false
-                        }
-                        style={{
-                          position: "relative",
-                          zIndex: "999",
-                        }}
-                        customInput={<RenderDatePickerReceivedDate />}
-                        disabled={
-                          prop.state.formView === "DashboardView" &&
-                            (prop.state.stageName === "Redirect Review" ||
-                              prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
-                            ? true
-                            : false
-                        }
-                      />
-                    </div>
+                    {DatePicker("Case_Received_Date", "Case Received Date", "Date of Birth")}
                   </div>
                   <div className="col-xs-6 col-md-4">
-                    <div style={{}}>
-                      <ReactDatePicker
-                        id="datePicker"
-                        className="form-control example-custom-input-provider"
-                        selected={caseTimelinesData.AOR_Received_Date}
-                        name="AOR_Received_Date"
-                        dateFormat="MM/dd/yyyy"
-                        onChange={(date, event) => {
-                          props.handleOnChange(date, "AOR_Received_Date");
-                        }}
-                        peekNextMonth
-                        showMonthDropdown
-                        showYearDropdown
-                        isClearable
-                        onKeyDown={(e) => {
-                          e.preventDefault();
-                        }}
-                        dropdownMode="select"
-                        style={{
-                          position: "relative",
-                          zIndex: "999",
-                        }}
-                        customInput={<RenderDatePickerAORRecievedDate />}
-                        disabled={
-                          prop.state.formView === "DashboardView" &&
-                            (prop.state.stageName === "Redirect Review" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
-                            ? true
-                            : false
-                        }
-                      />
-                    </div>
+                    {DatePicker("AOR_Received_Date", "AOR Received Date", "AOR Received Date")}
                   </div>
                 </div>
                 <div className="row">
                   <div className="col-xs-6 col-md-4">
-                    <div style={{}}>
-                      <ReactDatePicker
-                        id="datePicker"
-                        className="form-control example-custom-input-provider"
-                        selected={caseTimelinesData.WOL_Received_Date}
-                        name="WOL_Received_Date"
-                        dateFormat="MM/dd/yyyy"
-                        onChange={(date, event) => {
-                          props.handleOnChange(date, "WOL_Received_Date");
-                        }}
-                        peekNextMonth
-                        showMonthDropdown
-                        showYearDropdown
-                        isClearable
-                        onKeyDown={(e) => {
-                          e.preventDefault();
-                        }}
-                        dropdownMode="select"
-                        style={{
-                          position: "relative",
-                          zIndex: "999",
-                        }}
-                        customInput={<RenderDatePickerWOLRecievedDate />}
-                        disabled={
-                          prop.state.formView === "DashboardView" &&
-                            (prop.state.stageName === "Redirect Review" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
-                            ? true
-                            : false
-                        }
-                      />
-                    </div>
+                    {DatePicker("WOR_Received_Date", "WOR Received Date", "WOR Received Date")}
                   </div>
                 </div>
               </div>

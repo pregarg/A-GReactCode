@@ -437,28 +437,22 @@ const MemeberInformationAccordion = (props) => {
                                             isClearable
                                             name={field.name}
                                             isDisabled={
-
                                                 prop.state.formView === "DashboardView" &&
-                                                    (prop.state.stageName === "Redirect Review" ||
-                                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
-                                                    ? true
-                                                    : false
-
-                                   
+                                                (prop.state.stageName === "Redirect Review" ||
+                                                    prop.state.stageName === "Documents Needed" ||
+                                                    prop.state.stageName === "Effectuate" ||
+                                                    prop.state.stageName === "Pending Effectuate" ||
+                                                    prop.state.stageName === "Resolve" ||
+                                                    prop.state.stageName === "Case Completed" ||
+                                                    prop.state.stageName === "Reopen" ||
+                                                    prop.state.stageName === "CaseArchived")
                                             }
                                             className="basic-multi-select"
                                             options={genderValues}
                                             id="gender"
                                             isMulti={false}
-                                            onChange={(selectValue) =>
-                                                props.handleOnChange(selectValue ? selectValue.value : null, 'Gender')
-                                            }
-                                            value={
-                                                {
-                                                    label: memberInformationData['Gender'],
-                                                    value: memberInformationData['Gender']
-                                                }
-                                            }
+                                            onChange={(value) => props.handleOnChange(value, 'Gender')}
+                                            value={memberInformationData['Gender']}
                                             placeholder="Gender"
                                             isSearchable={
                                                 document.documentElement.clientHeight <= document.documentElement.clientWidth
@@ -499,27 +493,22 @@ const MemeberInformationAccordion = (props) => {
                                             isClearable
                                             name={field.name}
                                             isDisabled={
-
                                                 prop.state.formView === "DashboardView" &&
-                                                    (prop.state.stageName === "Redirect Review" ||
-                                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
-                                                    ? true
-                                                    : false
-
+                                                (prop.state.stageName === "Redirect Review" ||
+                                                    prop.state.stageName === "Documents Needed" ||
+                                                    prop.state.stageName === "Effectuate" ||
+                                                    prop.state.stageName === "Pending Effectuate" ||
+                                                    prop.state.stageName === "Resolve" ||
+                                                    prop.state.stageName === "Case Completed" ||
+                                                    prop.state.stageName === "Reopen" ||
+                                                    prop.state.stageName === "CaseArchived")
                                             }
                                             className="basic-multi-select"
                                             options={deceasedValues}
                                             id="deceased"
                                             isMulti={false}
-                                            onChange={(selectValue) =>
-                                                props.handleOnChange(selectValue ? selectValue.value : null, 'Deceased')
-                                            }
-                                            value={
-                                                {
-                                                    label: memberInformationData['Deceased'],
-                                                    value: memberInformationData['Deceased']
-                                                }
-                                            }
+                                            onChange={(value) => props.handleOnChange(value, 'Deceased')}
+                                            value={memberInformationData['Deceased']}
                                             placeholder="Deceased"
                                             isSearchable={
                                                 document.documentElement.clientHeight <= document.documentElement.clientWidth
@@ -558,27 +547,22 @@ const MemeberInformationAccordion = (props) => {
                                             isClearable
                                             name={field.name}
                                             isDisabled={
-
                                                 prop.state.formView === "DashboardView" &&
-                                                    (prop.state.stageName === "Redirect Review" ||
-                                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
-                                                    ? true
-                                                    : false
-
+                                                (prop.state.stageName === "Redirect Review" ||
+                                                    prop.state.stageName === "Documents Needed" ||
+                                                    prop.state.stageName === "Effectuate" ||
+                                                    prop.state.stageName === "Pending Effectuate" ||
+                                                    prop.state.stageName === "Resolve" ||
+                                                    prop.state.stageName === "Case Completed" ||
+                                                    prop.state.stageName === "Reopen" ||
+                                                    prop.state.stageName === "CaseArchived")
                                             }
                                             className="basic-multi-select"
                                             options={dualPlanValues}
                                             id="dualplan"
                                             isMulti={false}
-                                            onChange={(selectValue) =>
-                                                props.handleOnChange(selectValue ? selectValue.value : null, 'Dual_Plan')
-                                            }
-                                            value={
-                                                {
-                                                    label: memberInformationData['Dual_Plan'],
-                                                    value: memberInformationData['Dual_Plan']
-                                                }
-                                            }
+                                            onChange={(value) => props.handleOnChange(value, 'Dual_Plan')}
+                                            value={memberInformationData['Dual_Plan']}
                                             placeholder="Dual Plan"
                                             isSearchable={
                                                 document.documentElement.clientHeight <= document.documentElement.clientWidth
@@ -617,27 +601,22 @@ const MemeberInformationAccordion = (props) => {
                                             isClearable
                                             name={field.name}
                                             isDisabled={
-
                                                 prop.state.formView === "DashboardView" &&
-                                                    (prop.state.stageName === "Redirect Review" ||
-                                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
-                                                    ? true
-                                                    : false
-
+                                                (prop.state.stageName === "Redirect Review" ||
+                                                    prop.state.stageName === "Documents Needed" ||
+                                                    prop.state.stageName === "Effectuate" ||
+                                                    prop.state.stageName === "Pending Effectuate" ||
+                                                    prop.state.stageName === "Resolve" ||
+                                                    prop.state.stageName === "Case Completed" ||
+                                                    prop.state.stageName === "Reopen" ||
+                                                    prop.state.stageName === "CaseArchived")
                                             }
                                             className="basic-multi-select"
                                             options={preferredLanguageValues}
                                             id="preferredlanguage"
                                             isMulti={false}
-                                            onChange={(selectValue) =>
-                                                props.handleOnChange(selectValue ? selectValue.value : null, 'Preferred_Language')
-                                            }
-                                            value={
-                                                {
-                                                    label: memberInformationData['Preferred_Language'],
-                                                    value: memberInformationData['Preferred_Language']
-                                                }
-                                            }
+                                            onChange={(value) => props.handleOnChange(value, 'Preferred_Language')}
+                                            value={memberInformationData['Preferred_Language']}
                                             placeholder="Preferred Language"
                                             isSearchable={
                                                 document.documentElement.clientHeight <= document.documentElement.clientWidth
@@ -1357,27 +1336,22 @@ const MemeberInformationAccordion = (props) => {
                                             isClearable
                                             name={field.name}
                                             isDisabled={
-
                                                 prop.state.formView === "DashboardView" &&
-                                                    (prop.state.stageName === "Redirect Review" ||
-                                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
-                                                    ? true
-                                                    : false
-
+                                                (prop.state.stageName === "Redirect Review" ||
+                                                    prop.state.stageName === "Documents Needed" ||
+                                                    prop.state.stageName === "Effectuate" ||
+                                                    prop.state.stageName === "Pending Effectuate" ||
+                                                    prop.state.stageName === "Resolve" ||
+                                                    prop.state.stageName === "Case Completed" ||
+                                                    prop.state.stageName === "Reopen" ||
+                                                    prop.state.stageName === "CaseArchived")
                                             }
                                             className="basic-multi-select"
                                             options={mailToAddressValues}
                                             id="mailtoaddress"
                                             isMulti={false}
-                                            onChange={(selectValue) =>
-                                                props.handleOnChange(selectValue ? selectValue.value : null, 'Mail_to_Address')
-                                            }
-                                            value={
-                                                {
-                                                    label: memberInformationData['Mail_to_Address'],
-                                                    value: memberInformationData['Mail_to_Address']
-                                                }
-                                            }
+                                            onChange={(value) => props.handleOnChange(value, 'Mail_to_Address')}
+                                            value={memberInformationData['Mail_to_Address']}
                                             placeholder="Mail To Address"
                                             isSearchable={
                                                 document.documentElement.clientHeight <= document.documentElement.clientWidth
@@ -1416,34 +1390,25 @@ const MemeberInformationAccordion = (props) => {
                                             isClearable
                                             name={field.name}
                                             isDisabled={
-
                                                 prop.state.formView === "DashboardView" &&
-                                                    (prop.state.stageName === "Redirect Review" ||
-                                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
-                                                    ? true
-                                                    : false
-
+                                                (prop.state.stageName === "Redirect Review" ||
+                                                    prop.state.stageName === "Documents Needed" ||
+                                                    prop.state.stageName === "Effectuate" ||
+                                                    prop.state.stageName === "Pending Effectuate" ||
+                                                    prop.state.stageName === "Resolve" ||
+                                                    prop.state.stageName === "Case Completed" ||
+                                                    prop.state.stageName === "Reopen" ||
+                                                    prop.state.stageName === "CaseArchived")
                                             }
                                             className="basic-multi-select"
                                             options={specialNeedsValues}
                                             id="specialneeds"
                                             isMulti={false}
-                                            onChange={(selectValue) =>
-                                                props.handleOnChange(selectValue ? selectValue.value : null, 'Special_Need_Indicator')
-                                            }
-                                            value={
-                                                {
-                                                    label: memberInformationData['Special_Need_Indicator'],
-                                                    value: memberInformationData['Special_Need_Indicator']
-                                                }
-                                            }
+                                            onChange={(value) => props.handleOnChange(value, 'Special_Need_Indicator')}
+                                            value={memberInformationData['Special_Need_Indicator']}
                                             placeholder="Special Need Indicator"
-                                            //styles={{...customStyles}}
                                             isSearchable={
-                                                document.documentElement.clientHeight >
-                                                    document.documentElement.clientWidth
-                                                    ? false
-                                                    : true
+                                                document.documentElement.clientHeight <= document.documentElement.clientWidth
                                             }
                                         />
                                         {meta.touched && meta.error && (
@@ -1760,27 +1725,22 @@ const MemeberInformationAccordion = (props) => {
                                             isClearable
                                             name={field.name}
                                             isDisabled={
-
                                                 prop.state.formView === "DashboardView" &&
-                                                    (prop.state.stageName === "Redirect Review" ||
-                                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
-                                                    ? true
-                                                    : false
-
+                                                (prop.state.stageName === "Redirect Review" ||
+                                                    prop.state.stageName === "Documents Needed" ||
+                                                    prop.state.stageName === "Effectuate" ||
+                                                    prop.state.stageName === "Pending Effectuate" ||
+                                                    prop.state.stageName === "Resolve" ||
+                                                    prop.state.stageName === "Case Completed" ||
+                                                    prop.state.stageName === "Reopen" ||
+                                                    prop.state.stageName === "CaseArchived")
                                             }
                                             className="basic-multi-select"
                                             options={commPrefValues}
                                             id="commpref"
                                             isMulti={false}
-                                            onChange={(selectValue) =>
-                                                props.handleOnChange(selectValue ? selectValue.value : null, 'Communication_Preference')
-                                            }
-                                            value={
-                                                {
-                                                    label: memberInformationData['Communication_Preference'],
-                                                    value: memberInformationData['Communication_Preference']
-                                                }
-                                            }
+                                            onChange={(value) => props.handleOnChange(value, 'Communication_Preference')}
+                                            value={memberInformationData['Communication_Preference']}
                                             placeholder="Communication Preference"
                                             isSearchable={
                                                 document.documentElement.clientHeight <= document.documentElement.clientWidth

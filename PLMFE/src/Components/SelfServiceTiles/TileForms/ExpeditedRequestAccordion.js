@@ -140,36 +140,24 @@ const ExpeditedRequestAccordion = (props) => {
                                                 isClearable
                                                 name={field.name}
                                                 isDisabled={
-
                                                     prop.state.formView === "DashboardView" &&
-                                                        (prop.state.stageName === "Redirect Review" ||
-                                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "CaseArchived")
-                                                        ? true
-                                                        : false
-
-                                                
-
+                                                    (prop.state.stageName === "Redirect Review" ||
+                                                        prop.state.stageName === "Documents Needed" ||
+                                                        prop.state.stageName === "Effectuate" ||
+                                                        prop.state.stageName === "Pending Effectuate" ||
+                                                        prop.state.stageName === "Resolve" ||
+                                                        prop.state.stageName === "Case Completed" ||
+                                                        prop.state.stageName === "CaseArchived")
                                                 }
                                                 className="basic-multi-select"
                                                 options={expeditedRequestedValues}
                                                 id="expeditedrequested"
                                                 isMulti={false}
-                                                onChange={(selectValue) =>
-                                                    props.handleOnChange(selectValue ? selectValue.value : null, 'Expedited_Requested')
-                                                }
-                                                value={
-                                                    {
-                                                        label: expeditedRequestData['Expedited_Requested'],
-                                                        value: expeditedRequestData['Expedited_Requested']
-                                                    }
-                                                }
+                                                onChange={(value) => props.handleOnChange(value, 'Expedited_Requested')}
+                                                value={expeditedRequestData['Expedited_Requested']}
                                                 placeholder="Expedited Requested"
-                                                //styles={{...customStyles}}
                                                 isSearchable={
-                                                    document.documentElement.clientHeight >
-                                                        document.documentElement.clientWidth
-                                                        ? false
-                                                        : true
+                                                    document.documentElement.clientHeight <= document.documentElement.clientWidth
                                                 }
                                             />
                                             {meta.touched && meta.error && (
@@ -259,29 +247,22 @@ const ExpeditedRequestAccordion = (props) => {
                                                 isClearable
                                                 name={field.name}
                                                 isDisabled={
-
                                                     prop.state.formView === "DashboardView" &&
-                                                        (prop.state.stageName === "Redirect Review" ||
-                                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "CaseArchived")
-                                                        ? true
-                                                        : false
-
+                                                    (prop.state.stageName === "Redirect Review" ||
+                                                        prop.state.stageName === "Documents Needed" ||
+                                                        prop.state.stageName === "Effectuate" ||
+                                                        prop.state.stageName === "Pending Effectuate" ||
+                                                        prop.state.stageName === "Resolve" ||
+                                                        prop.state.stageName === "Case Completed" ||
+                                                        prop.state.stageName === "CaseArchived")
                                                 }
                                                 className="basic-multi-select"
                                                 options={stUpExpeditedValues}
                                                 id="stupexpedited"
                                                 isMulti={false}
-                                                onChange={(selectValue) =>
-                                                    props.handleOnChange(selectValue ? selectValue.value : null, 'Standard_Upgraded_to_Expedited')
-                                                }
-                                                value={
-                                                    {
-                                                        label: expeditedRequestData['Standard_Upgraded_to_Expedited'],
-                                                        value: expeditedRequestData['Standard_Upgraded_to_Expedited']
-                                                    }
-                                                }
+                                                onChange={(value) => props.handleOnChange(value, 'Standard_Upgraded_to_Expedited')}
+                                                value={expeditedRequestData['Standard_Upgraded_to_Expedited']}
                                                 placeholder="Standard Upgraded to Expedited"
-                                                //styles={{...customStyles}}
                                                 isSearchable={
                                                     document.documentElement.clientHeight <= document.documentElement.clientWidth
                                                 }
@@ -356,36 +337,24 @@ const ExpeditedRequestAccordion = (props) => {
                                                 isClearable
                                                 name={field.name}
                                                 isDisabled={
-
                                                     prop.state.formView === "DashboardView" &&
-                                                        (prop.state.stageName === "Redirect Review" ||
-                                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "CaseArchived")
-                                                        ? true
-                                                        : false
-
-                                             
-
+                                                    (prop.state.stageName === "Redirect Review" ||
+                                                        prop.state.stageName === "Documents Needed" ||
+                                                        prop.state.stageName === "Effectuate" ||
+                                                        prop.state.stageName === "Pending Effectuate" ||
+                                                        prop.state.stageName === "Resolve" ||
+                                                        prop.state.stageName === "Case Completed" ||
+                                                        prop.state.stageName === "CaseArchived")
                                                 }
                                                 className="basic-multi-select"
                                                 options={expeditedDeniedValues}
                                                 id="stupexpedited"
                                                 isMulti={false}
-                                                onChange={(selectValue) =>
-                                                    props.handleOnChange(selectValue ? selectValue.value : null, 'Expedited_Denied')
-                                                }
-                                                value={
-                                                    {
-                                                        label: expeditedRequestData['Expedited_Denied'],
-                                                        value: expeditedRequestData['Expedited_Denied']
-                                                    }
-                                                }
+                                                onChange={(value) => props.handleOnChange(value, 'Expedited_Denied')}
+                                                value={expeditedRequestData['Expedited_Denied']}
                                                 placeholder="Expedited Denied"
-                                                //styles={{...customStyles}}
                                                 isSearchable={
-                                                    document.documentElement.clientHeight >
-                                                        document.documentElement.clientWidth
-                                                        ? false
-                                                        : true
+                                                    document.documentElement.clientHeight <= document.documentElement.clientWidth
                                                 }
                                             />
                                             {meta.touched && meta.error && (
