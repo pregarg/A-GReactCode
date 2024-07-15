@@ -22,17 +22,52 @@ export const useCaseHeader = () => {
     Timeframe_Extended: "",
     WOL_Received_Date: undefined,
   });
+  const [caseInformation, setCaseInformation] = useState({
+    caseNumber: "",
+    Appeal_Type: "",
+    Appellant_Description: "",
+    Appellant_Type: "",
+    Case_Level_Priority: "",
+    Claim_Number: "",
+    Denial_Type: "",
+    DuplicateRelated_Cases: "",
+    Inbound_Email_ID: "",
+    Issue_Description: "",
+    Issue_Level: "",
+    Line_of_Business_LOB: "",
+    LOB_Description: "",
+    Product: "",
+    Product_State: "",
+    Product_Type: "",
+    RedirectCaseS: "",
+    Research_Type: "",
+    Review_Type: ""
+  });
+
   const caseTimelinesValidationSchema = Yup.object().shape({
+    Case_Filing_Method: Yup.string().required(),
     Acknowledgment_Timely: Yup.string().required(),
     Case_in_Compliance: Yup.string().required(),
     Out_of_Compliance_Reason: Yup.string().required(),
   });
+  const caseInformationValidationSchema = Yup.object().shape({
+    Line_of_Business_LOB: Yup.string().required(),
+    LOB_Description: Yup.string().required(),
+    Product_State: Yup.string().required(),
+    Product: Yup.string().required(),
+    Product_Type: Yup.string().required(),
+    Appeal_Type: Yup.string().required(),
+    Appellant_Type: Yup.string().required(),
+    Review_Type: Yup.string().required(),
+  });
 
   useEffect(() => {
-    caseTimelinesValidationSchema.validate(caseTimelines)
-        .then(() => setHasSubmitError(false))
+    Promise.all([
+      caseTimelinesValidationSchema.validate(caseTimelines),
+      caseInformationValidationSchema.validate(caseInformation)
+    ]).then(() => setHasSubmitError(false))
         .catch(err => setHasSubmitError(true));
-  }, [caseTimelines]);
+  }, [caseTimelines, caseInformation]);
 
   const submitData = async () => {
 
@@ -153,28 +188,6 @@ export const useCaseHeader = () => {
     Internal_Due_Date: "",
     Subcase_ID: "",
     White_Glove_Indicator: "",
-  });
-
-  const [caseInformation, setCaseInformation] = useState({
-    caseNumber: "",
-    Appeal_Type: "",
-    Appellant_Description: "",
-    Appellant_Type: "",
-    Case_Level_Priority: "",
-    Claim_Number: "",
-    Denial_Type: "",
-    DuplicateRelated_Cases: "",
-    Inbound_Email_ID: "",
-    Issue_Description: "",
-    Issue_Level: "",
-    Line_of_Business_LOB: "",
-    LOB_Description: "",
-    Product: "",
-    Product_State: "",
-    Product_Type: "",
-    RedirectCaseS: "",
-    Research_Type: "",
-    Review_Type: ""
   });
 
   const [claimInformation, setClaimInformation] = useState({
@@ -435,32 +448,6 @@ export const useCaseHeader = () => {
 
           if (apiStat === 0) {
             let data = res.data.data;
-            let apiresp = data["angCaseHeader"][0];
-
-            apiresp = data["angCaseTimelines"][0];
-            apiresp = convertToDateObj(apiresp);
-
-            apiresp = data["angClaimInformation"][0];
-            apiresp = convertToDateObj(apiresp);
-
-            apiresp = data["angClaimInformationGrid"][0];
-            apiresp = convertToDateObj(apiresp);
-
-            apiresp = data["angProviderInformationGrid"][0];
-            apiresp = convertToDateObj(apiresp);
-
-            apiresp = data["angMemberInformation"][0];
-            apiresp = convertToDateObj(apiresp);
-
-            apiresp = data["angRepresentativeInformationGrid"][0];
-            apiresp = convertToDateObj(apiresp);
-
-            apiresp = data["angAuthorizationInformationGrid"][0];
-            apiresp = convertToDateObj(apiresp);
-
-            apiresp = data["angExpeditedRequest"][0];
-            apiresp = convertToDateObj(apiresp);
-
             setCaseHeader(data["angCaseHeader"][0]);
             setCaseTimelines(data["angCaseTimelines"][0]);
             setCaseInformation(data["angCaseInformation"][0]);
@@ -800,6 +787,8 @@ export const useCaseHeader = () => {
     caseHeader,
     handleCaseInformationChange,
     caseInformation,
+    setCaseInformation,
+    caseInformationValidationSchema,
     handleClaimInformationChange,
     claimInformation,
     claimInformationGrid,

@@ -24,6 +24,8 @@ const CaseHeader = () => {
     caseHeader,
     handleCaseInformationChange,
     caseInformation,
+    setCaseInformation,
+    caseInformationValidationSchema,
     handleClaimInformationChange,
     claimInformation,
     claimInformationGrid,
@@ -71,8 +73,9 @@ const CaseHeader = () => {
                     caseTimelinesValidationSchema={caseTimelinesValidationSchema}
                 />
                 <CaseInformationAccordion
-                    handleOnChange={handleCaseInformationChange}
-                    handleData={caseInformation}
+                    caseInformationData={caseInformation}
+                    setCaseInformationData={setCaseInformation}
+                    caseInformationValidationSchema={caseInformationValidationSchema}
                 />
                 <CaseClaimInformation
                     handleOnChange={handleClaimInformationChange}

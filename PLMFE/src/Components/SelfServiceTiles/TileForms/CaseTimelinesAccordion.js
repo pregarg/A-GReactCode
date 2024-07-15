@@ -26,6 +26,9 @@ const CaseTimelinesAccordion = (props) => {
     props.setCaseTimelinesData(caseTimelinesData);
   }
 
+  const wrapPlaceholder = (name, placeholder) => (
+      `${placeholder}${props.caseTimelinesValidationSchema?.fields?.[name]?.tests?.some(test => test.OPTIONS?.name === 'required') ? ' *': ''}`
+  );
   const { ValueContainer, Placeholder } = components;
   const CustomValueContainer = ({ children, ...props }) => {
     return (
@@ -58,14 +61,14 @@ const CaseTimelinesAccordion = (props) => {
                               ? "is-valid"
                               : ""
                       }`}
-                      placeholder={placeholder}
+                      placeholder={wrapPlaceholder(name, placeholder)}
                       onChange={(event) => handleCaseTimelinesData(name, event.target.value)}
                       onBlur={persistCaseTimelinesData}
                       value={caseTimelinesData[name]}
                       disabled={invalidInputState}
                   />
                   <label htmlFor="floatingInputGrid">
-                    {placeholder}
+                    {wrapPlaceholder(name, placeholder)}
                   </label>
                   {meta.error && (
                       <div
@@ -84,7 +87,7 @@ const CaseTimelinesAccordion = (props) => {
   const DatePicker = (name, label, placeholder) => {
     const CustomInput = (props) => (
         <div className="form-floating">
-          <input {...props} placeholder={placeholder}/>
+          <input {...props} placeholder={wrapPlaceholder(name, placeholder)}/>
           <label htmlFor={name}>{label}</label>
         </div>
     );
@@ -125,8 +128,6 @@ const CaseTimelinesAccordion = (props) => {
   const SelectField = (name, placeholder, options) => <>
     <Field name={name}>
       {({
-          field,
-          form: {touched, errors},
           meta,
         }) => (
           <div className="form-floating">
@@ -154,7 +155,7 @@ const CaseTimelinesAccordion = (props) => {
                 onChange={(value) => handleCaseTimelinesData(name, value?.value, true)}
                 onBlur={persistCaseTimelinesData}
                 value={caseTimelinesData[name] ? {label: caseTimelinesData[name], value: caseTimelinesData[name]} : undefined}
-                placeholder={placeholder}
+                placeholder={wrapPlaceholder(name, placeholder)}
                 isSearchable={
                     document.documentElement.clientHeight <= document.documentElement.clientWidth
                 }
