@@ -494,8 +494,8 @@ const CaseInformationAccordion = (props) => {
                       options={productStateValues}
                       id="productstate"
                       isMulti={false}
-                      onChange={(value) => props.handleOnChange(value, 'Product_Store')}
-                      value={caseInformationData['Product_Store']}
+                      onChange={(value) => props.handleOnChange(value, 'Product_State')}
+                      value={caseInformationData['Product_State']}
                       placeholder="Product State"
                       isSearchable={
                         document.documentElement.clientHeight <= document.documentElement.clientWidth
@@ -660,8 +660,8 @@ const CaseInformationAccordion = (props) => {
                       options={appealTypeValues}
                       id="appealtype"
                       isMulti={false}
-                      onChange={(value) => props.handleOnChange(value, 'Appellant_Type')}
-                      value={caseInformationData['Appellant_Type']}
+                      onChange={(value) => props.handleOnChange(value, 'Appeal_Type')}
+                      value={caseInformationData['Appeal_Type']}
                       placeholder="Appeal Type"
                       isSearchable={
                         document.documentElement.clientHeight <= document.documentElement.clientWidth

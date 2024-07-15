@@ -439,7 +439,7 @@ export default function DecisionTab(tabInput) {
         selectJson.decisionOptions =
           mastersSelector["masterDecision"].length === 0
             ? []
-            : mastersSelector["masterDecision"][0];
+            : mastersSelector["masterDecision"][0].data;
 
         selectJson["decisionOptions"]
           .filter(

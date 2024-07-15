@@ -265,7 +265,7 @@ const CaseTimelinesAccordion = (props) => {
                 </div>
                 <div className="row">
                   <div className="col-xs-6 col-md-4">
-                    {DatePicker("WOR_Received_Date", "WOR Received Date", "WOR Received Date")}
+                    {DatePicker("WOL_Received_Date", "WOR Received Date", "WOR Received Date")}
                   </div>
                 </div>
               </div>
