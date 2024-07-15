@@ -864,29 +864,22 @@ const CaseClaimInformation = (props) => {
                                                 isClearable
                                                 name={field.name}
                                                 isDisabled={
-
                                                     prop.state.formView === "DashboardView" &&
-                                                        (prop.state.stageName === "Redirect Review" ||
-                                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
-                                                        ? true
-                                                        : false
-
-
-
+                                                    (prop.state.stageName === "Redirect Review" ||
+                                                        prop.state.stageName === "Documents Needed" ||
+                                                        prop.state.stageName === "Effectuate" ||
+                                                        prop.state.stageName === "Pending Effectuate" ||
+                                                        prop.state.stageName === "Resolve" ||
+                                                        prop.state.stageName === "Case Completed" ||
+                                                        prop.state.stageName === "Reopen" ||
+                                                        prop.state.stageName === "CaseArchived")
                                                 }
                                                 className="basic-multi-select"
                                                 options={claimTypeValues}
                                                 id="claimtype"
                                                 isMulti={false}
-                                                onChange={(selectValue) =>
-                                                    props.handleOnChange(selectValue ? selectValue.value : null, 'Claim_type')
-                                                }
-                                                value={
-                                                    {
-                                                        label: claimInformationData['Claim_type'],
-                                                        value: claimInformationData['Claim_type']
-                                                    }
-                                                }
+                                                onChange={(value) => props.handleOnChange(value, 'Claim_type')}
+                                                value={claimInformationData['Claim_type']}
                                                 placeholder="Claim Type"
                                                 isSearchable={
                                                     document.documentElement.clientHeight <= document.documentElement.clientWidth
@@ -1015,35 +1008,21 @@ const CaseClaimInformation = (props) => {
                                                 isClearable
                                                 name={field.name}
                                                 isDisabled={
-
                                                     prop.state.formView === "DashboardView" &&
-                                                        (prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
-                                                        ? true
-                                                        : false
-
-                                        
-
+                                                    (prop.state.stageName === "Resolve" ||
+                                                        prop.state.stageName === "Case Completed" ||
+                                                        prop.state.stageName === "Reopen" ||
+                                                        prop.state.stageName === "CaseArchived")
                                                 }
                                                 className="basic-multi-select"
                                                 options={decisionValues}
                                                 id="claimdecision"
                                                 isMulti={false}
-                                                onChange={(selectValue) =>
-                                                    props.handleOnChange(selectValue ? selectValue.value : null, 'Claim_Decision')
-                                                }
-                                                value={
-                                                    {
-                                                        label: claimInformationData['Claim_Decision'],
-                                                        value: claimInformationData['Claim_Decision']
-                                                    }
-                                                }
+                                                onChange={(value) => props.handleOnChange(value, 'Claim_Decision')}
+                                                value={claimInformationData['Claim_Decision']}
                                                 placeholder="Claim Decision"
-                                                //styles={{...customStyles}}
                                                 isSearchable={
-                                                    document.documentElement.clientHeight >
-                                                        document.documentElement.clientWidth
-                                                        ? false
-                                                        : true
+                                                    document.documentElement.clientHeight <= document.documentElement.clientWidth
                                                 }
                                             />
                                             {meta.touched && meta.error && (
@@ -1079,35 +1058,21 @@ const CaseClaimInformation = (props) => {
                                                 isClearable
                                                 name={field.name}
                                                 isDisabled={
-
                                                     prop.state.formView === "DashboardView" &&
-                                                        (prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
-                                                        ? true
-                                                        : false
-
-                                               
-
+                                                    (prop.state.stageName === "Resolve" ||
+                                                        prop.state.stageName === "Case Completed" ||
+                                                        prop.state.stageName === "Reopen" ||
+                                                        prop.state.stageName === "CaseArchived")
                                                 }
                                                 className="basic-multi-select"
                                                 options={decisionReasonValues}
                                                 id="decisionreason"
                                                 isMulti={false}
-                                                onChange={(selectValue) =>
-                                                    props.handleOnChange(selectValue ? selectValue.value : null, 'Decision_Reason')
-                                                }
-                                                value={
-                                                    {
-                                                        label: claimInformationData['Decision_Reason'],
-                                                        value: claimInformationData['Decision_Reason']
-                                                    }
-                                                }
+                                                onChange={(value) => props.handleOnChange(value, 'Decision_Reason')}
+                                                value={claimInformationData['Decision_Reason']}
                                                 placeholder="Decision Reason"
-                                                //styles={{...customStyles}}
                                                 isSearchable={
-                                                    document.documentElement.clientHeight >
-                                                        document.documentElement.clientWidth
-                                                        ? false
-                                                        : true
+                                                    document.documentElement.clientHeight <= document.documentElement.clientWidth
                                                 }
                                             />
                                             {meta.touched && meta.error && (
@@ -1155,9 +1120,11 @@ const CaseClaimInformation = (props) => {
                                                 value={convertToCase(claimInformationData['Reason_Text'])}
                                                 disabled={
                                                     prop.state.formView === "DashboardView" &&
-                                                        (prop.state.stageName === "Research" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
-                                                        ? true
-                                                        : false
+                                                    (prop.state.stageName === "Research" ||
+                                                        prop.state.stageName === "Resolve" ||
+                                                        prop.state.stageName === "Case Completed" ||
+                                                        prop.state.stageName === "Reopen" ||
+                                                        prop.state.stageName === "CaseArchived")
                                                 }
                                             />
                                             <label htmlFor="floatingInputGrid">
@@ -1199,30 +1166,22 @@ const CaseClaimInformation = (props) => {
                                                 name={field.name}
                                                 isDisabled={
                                                     prop.state.formView === "DashboardView" &&
-                                                        (prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
-                                                        ? true
-                                                        : false
+                                                    (prop.state.stageName === "Effectuate" ||
+                                                        prop.state.stageName === "Pending Effectuate" ||
+                                                        prop.state.stageName === "Resolve" ||
+                                                        prop.state.stageName === "Case Completed" ||
+                                                        prop.state.stageName === "Reopen" ||
+                                                        prop.state.stageName === "CaseArchived")
                                                 }
                                                 className="basic-multi-select"
                                                 options={serviceTypeValues}
                                                 id="servicetype"
                                                 isMulti={false}
-                                                onChange={(selectValue) =>
-                                                    props.handleOnChange(selectValue ? selectValue.value : null, 'Service_Type')
-                                                }
-                                                value={
-                                                    {
-                                                        label: claimInformationData['Service_Type'],
-                                                        value: claimInformationData['Service_Type']
-                                                    }
-                                                }
+                                                onChange={(value) => props.handleOnChange(value, 'Service_Type')}
+                                                value={claimInformationData['Service_Type']}
                                                 placeholder="Service Type"
-                                                //styles={{...customStyles}}
                                                 isSearchable={
-                                                    document.documentElement.clientHeight >
-                                                        document.documentElement.clientWidth
-                                                        ? false
-                                                        : true
+                                                    document.documentElement.clientHeight <= document.documentElement.clientWidth
                                                 }
                                             />
                                             {meta.touched && meta.error && (
@@ -1384,33 +1343,25 @@ const CaseClaimInformation = (props) => {
                                                 isClearable
                                                 name={field.name}
                                                 isDisabled={
-
                                                     prop.state.formView === "DashboardView" &&
-                                                        (prop.state.stageName === "Research" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
-                                                        ? true
-                                                        : false
-
-                                               }
+                                                        (prop.state.stageName === "Research" ||
+                                                            prop.state.stageName === "Resolve" ||
+                                                            prop.state.stageName === "Case Completed" ||
+                                                            prop.state.stageName === "Reopen" ||
+                                                            prop.state.stageName === "CaseArchived") &&
+                                                    tabRef.current === "DashboardView" &&
+                                                    prop.state.lockStatus !== undefined &&
+                                                    prop.state.lockStatus === "Y"
+                                                }
                                                 className="basic-multi-select"
                                                 options={processingStatusValues}
                                                 id="processingstatus"
                                                 isMulti={false}
-                                                onChange={(selectValue) =>
-                                                    props.handleOnChange(selectValue ? selectValue.value : null, 'Processing_Status')
-                                                }
-                                                value={
-                                                    {
-                                                        label: claimInformationData['Processing_Status'],
-                                                        value: claimInformationData['Processing_Status']
-                                                    }
-                                                }
+                                                onChange={(value) => props.handleOnChange(value, 'Processing_Status')}
+                                                value={claimInformationData['Processing_Status']}
                                                 placeholder="Processing Status"
-                                                //styles={{...customStyles}}
                                                 isSearchable={
-                                                    document.documentElement.clientHeight >
-                                                        document.documentElement.clientWidth
-                                                        ? false
-                                                        : true
+                                                    document.documentElement.clientHeight <= document.documentElement.clientWidth
                                                 }
                                             />
                                             {meta.touched && meta.error && (
@@ -1712,8 +1663,7 @@ const CaseClaimInformation = (props) => {
                                     gridRowsFinalSubmit={gridRowsFinalSubmit}
                                     //selectJson={selectValues}
                                     lockStatus={
-                                        prop.state !== null &&
-                                            prop.state.lockStatus !== undefined &&
+                                        prop.state.lockStatus !== undefined &&
                                             prop.state.lockStatus !== ""
                                             ? prop.state.lockStatus
                                             : "N"

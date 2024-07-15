@@ -174,8 +174,8 @@ const CaseInformationAccordion = (props) => {
             <div className="col-xs-6 col-md-4">
               <Field name="Line_of_Business_LOB">
                 {({
-                  field, // { name, value, onChange, onBlur }
-                  form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+                  field,
+                  form: { touched, errors },
                   meta,
                 }) => (
                   <div className="form-floating">
@@ -187,34 +187,24 @@ const CaseInformationAccordion = (props) => {
                       isClearable
                       name={'Line_of_Business_LOB'}
                       isDisabled={
-
                         prop.state.formView === "DashboardView" &&
                           (prop.state.stageName === "Redirect Review" ||
-                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Research" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
-                          ? true
-                          : false
-
-                       
-
+                            prop.state.stageName === "Documents Needed" ||
+                              prop.state.stageName === "Research" ||
+                              prop.state.stageName === "Effectuate" ||
+                              prop.state.stageName === "Pending Effectuate" ||
+                              prop.state.stageName === "Resolve" ||
+                              prop.state.stageName === "Case Completed" ||
+                              prop.state.stageName === "Reopen" ||
+                              prop.state.stageName === "CaseArchived")
                       }
                       className="basic-multi-select"
                       options={LOBValues}
                       id="lineofBusinessDropdown"
                       isMulti={false}
-                      onChange={(selectValue) =>
-                        props.handleOnChange(selectValue ? selectValue.value : null, 'Line_of_Business_LOB')
-                      }
-                      value={
-                        {
-                          label: caseInformationData['Line_of_Business_LOB'],
-                          value: caseInformationData['Line_of_Business_LOB']
-                        }
-                      }
+                      onChange={(value) => props.handleOnChange(value, 'Line_of_Business_LOB')}
+                      value={caseInformationData['Line_of_Business_LOB']}
                       placeholder="Line of Business"
-
-                      //styles={{ ...customStyles }}
-
-
                       isSearchable={
                         document.documentElement.clientHeight <= document.documentElement.clientWidth
                       }
@@ -263,10 +253,17 @@ const CaseInformationAccordion = (props) => {
                       value={convertToCase(caseInformationData['LOB_Description'])}
                       disabled={
                         prop.state.formView === "DashboardView" &&
-                          (prop.state.stageName === "Intake" || prop.state.stageName === "Acknowledge" || prop.state.stageName === "Redirect Review" ||
-                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Research" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
-                          ? true
-                          : false
+                          (prop.state.stageName === "Intake" ||
+                              prop.state.stageName === "Acknowledge" ||
+                              prop.state.stageName === "Redirect Review" ||
+                              prop.state.stageName === "Documents Needed" ||
+                              prop.state.stageName === "Research" ||
+                              prop.state.stageName === "Effectuate" ||
+                              prop.state.stageName === "Pending Effectuate" ||
+                              prop.state.stageName === "Resolve" ||
+                              prop.state.stageName === "Case Completed" ||
+                              prop.state.stageName === "Reopen" ||
+                              prop.state.stageName === "CaseArchived")
                       }
                     />
                     <label htmlFor="floatingInputGrid">
@@ -292,8 +289,8 @@ const CaseInformationAccordion = (props) => {
             <div className="col-xs-6 col-md-4">
               <Field name="claimnumber">
                 {({
-                  field, // { name, value, onChange, onBlur }
-                  form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+                  field,
+                  form: { touched, errors },
                   meta,
                 }) => (
                   <div className="form-floating">
@@ -317,10 +314,17 @@ const CaseInformationAccordion = (props) => {
                       value={convertToCase(caseInformationData['Claim_Number'])}
                       disabled={
                         prop.state.formView === "DashboardView" &&
-                          (prop.state.stageName === "Intake" || prop.state.stageName === "Acknowledge" || prop.state.stageName === "Redirect Review" ||
-                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Research" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
-                          ? true
-                          : false
+                          (prop.state.stageName === "Intake" ||
+                              prop.state.stageName === "Acknowledge" ||
+                              prop.state.stageName === "Redirect Review" ||
+                              prop.state.stageName === "Documents Needed" ||
+                              prop.state.stageName === "Research" ||
+                              prop.state.stageName === "Effectuate" ||
+                              prop.state.stageName === "Pending Effectuate" ||
+                              prop.state.stageName === "Resolve" ||
+                              prop.state.stageName === "Case Completed" ||
+                              prop.state.stageName === "Reopen" ||
+                              prop.state.stageName === "CaseArchived")
                       }
                     />
                     <label htmlFor="floatingInputGrid">
@@ -348,8 +352,8 @@ const CaseInformationAccordion = (props) => {
             <div className="col-xs-6 col-md-4">
               <Field name="product">
                 {({
-                  field, // { name, value, onChange, onBlur }
-                  form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+                  field,
+                  form: { touched, errors },
                   meta,
                 }) => (
                   <div className="form-floating">
@@ -363,31 +367,24 @@ const CaseInformationAccordion = (props) => {
                       isDisabled={
                         prop.state.formView === "DashboardView" &&
                           (prop.state.stageName === "Redirect Review" ||
-                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Research" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
-                          ? true
-                          : false
+                              prop.state.stageName === "Documents Needed" ||
+                              prop.state.stageName === "Research" ||
+                              prop.state.stageName === "Effectuate" ||
+                              prop.state.stageName === "Pending Effectuate" ||
+                              prop.state.stageName === "Resolve" ||
+                              prop.state.stageName === "Case Completed" ||
+                              prop.state.stageName === "Reopen" ||
+                              prop.state.stageName === "CaseArchived")
                       }
                       className="basic-multi-select"
                       options={productValues}
                       id="product"
                       isMulti={false}
-                      onChange={(selectValue) =>
-                        props.handleOnChange(selectValue ? selectValue.value : null, 'Product')
-                      }
-
-                      value={
-                        {
-                          label: caseInformationData['Product'],
-                          value: caseInformationData['Product']
-                        }
-                      }
+                      onChange={(value) => props.handleOnChange(value, 'Product')}
+                      value={caseInformationData['Product']}
                       placeholder="Product"
-                      //styles={{...customStyles}}
                       isSearchable={
-                        document.documentElement.clientHeight >
-                          document.documentElement.clientWidth
-                          ? false
-                          : true
+                        document.documentElement.clientHeight <= document.documentElement.clientWidth
                       }
                     />
                     {meta.touched && meta.error && (
@@ -410,8 +407,8 @@ const CaseInformationAccordion = (props) => {
             <div className="col-xs-6 col-md-4">
               <Field name="productType">
                 {({
-                  field, // { name, value, onChange, onBlur }
-                  form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+                  field,
+                  form: { touched, errors },
                   meta,
                 }) => (
                   <div className="form-floating">
@@ -426,10 +423,13 @@ const CaseInformationAccordion = (props) => {
 
                         prop.state.formView === "DashboardView" &&
                           (prop.state.stageName === "Redirect Review" ||
-                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
-                          ? true
-                          : false
-
+                              prop.state.stageName === "Documents Needed" ||
+                              prop.state.stageName === "Effectuate" ||
+                              prop.state.stageName === "Pending Effectuate" ||
+                              prop.state.stageName === "Resolve" ||
+                              prop.state.stageName === "Case Completed" ||
+                              prop.state.stageName === "Reopen" ||
+                              prop.state.stageName === "CaseArchived")
                       }
                       className="basic-multi-select"
                       options={[
@@ -439,23 +439,11 @@ const CaseInformationAccordion = (props) => {
                       ]}
                       id="producttype"
                       isMulti={false}
-                      onChange={(selectValue) =>
-                        props.handleOnChange(selectValue ? selectValue.value : null, 'Product_Type')
-                      }
-
-                      value={
-                        {
-                          label: caseInformationData['Product_Type'],
-                          value: caseInformationData['Product_Type']
-                        }
-                      }
+                      onChange={(value) => props.handleOnChange(value, 'Product_Type')}
+                      value={caseInformationData['Product_Type']}
                       placeholder="Product Type"
-                      //styles={{...customStyles}}
                       isSearchable={
-                        document.documentElement.clientHeight >
-                          document.documentElement.clientWidth
-                          ? false
-                          : true
+                        document.documentElement.clientHeight <= document.documentElement.clientWidth
                       }
                     />
                     {meta.touched && meta.error && (
@@ -478,8 +466,8 @@ const CaseInformationAccordion = (props) => {
             <div className="col-xs-6 col-md-4">
               <Field name="productState">
                 {({
-                  field, // { name, value, onChange, onBlur }
-                  form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+                  field,
+                  form: { touched, errors },
                   meta,
                 }) => (
                   <div className="form-floating">
@@ -491,36 +479,26 @@ const CaseInformationAccordion = (props) => {
                       isClearable
                       name={field.name}
                       isDisabled={
-
                         prop.state.formView === "DashboardView" &&
                           (prop.state.stageName === "Redirect Review" ||
-                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Research" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
-                          ? true
-                          : false
-
+                              prop.state.stageName === "Documents Needed" ||
+                              prop.state.stageName === "Research" ||
+                              prop.state.stageName === "Effectuate" ||
+                              prop.state.stageName === "Pending Effectuate" ||
+                              prop.state.stageName === "Resolve" ||
+                              prop.state.stageName === "Case Completed" ||
+                              prop.state.stageName === "Reopen" ||
+                              prop.state.stageName === "CaseArchived")
                       }
                       className="basic-multi-select"
                       options={productStateValues}
                       id="productstate"
                       isMulti={false}
-                      onChange={(selectValue) =>
-                        props.handleOnChange(selectValue ? selectValue.value : null, 'Product_State')
-                      }
-
-                      value={
-                        {
-                          label: caseInformationData['Product_State'],
-                          value: caseInformationData['Product_State']
-                        }
-                      }
-
+                      onChange={(value) => props.handleOnChange(value, 'Product_Store')}
+                      value={caseInformationData['Product_Store']}
                       placeholder="Product State"
-                      //styles={{...customStyles}}
                       isSearchable={
-                        document.documentElement.clientHeight >
-                          document.documentElement.clientWidth
-                          ? false
-                          : true
+                        document.documentElement.clientHeight <= document.documentElement.clientWidth
                       }
                     />
                     {meta.touched && meta.error && (
@@ -546,8 +524,8 @@ const CaseInformationAccordion = (props) => {
             <div className="col-xs-6 col-md-4">
               <Field name="appellantdescription">
                 {({
-                  field, // { name, value, onChange, onBlur }
-                  form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+                  field,
+                  form: { touched, errors },
                   meta,
                 }) => (
                   <div className="form-floating">
@@ -559,35 +537,25 @@ const CaseInformationAccordion = (props) => {
                       isClearable
                       name={field.name}
                       isDisabled={
-
                         prop.state.formView === "DashboardView" &&
                           (prop.state.stageName === "Redirect Review" ||
-                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
-                          ? true
-                          : false
-
+                              prop.state.stageName === "Documents Needed" ||
+                              prop.state.stageName === "Effectuate" ||
+                              prop.state.stageName === "Pending Effectuate" ||
+                              prop.state.stageName === "Resolve" ||
+                              prop.state.stageName === "Case Completed" ||
+                              prop.state.stageName === "Reopen" ||
+                              prop.state.stageName === "CaseArchived")
                       }
                       className="basic-multi-select"
                       options={appellantDescValues}
                       id="appellantdecsription"
                       isMulti={false}
-                      onChange={(selectValue) =>
-                        props.handleOnChange(selectValue ? selectValue.value : null, 'Appellant_Description')
-                      }
-
-                      value={
-                        {
-                          label: caseInformationData['Appellant_Description'],
-                          value: caseInformationData['Appellant_Description']
-                        }
-                      }
+                      onChange={(value) => props.handleOnChange(value, 'Appellant_Description')}
+                      value={caseInformationData['Appellant_Description']}
                       placeholder="Appellant Description"
-                      //styles={{...customStyles}}
                       isSearchable={
-                        document.documentElement.clientHeight >
-                          document.documentElement.clientWidth
-                          ? false
-                          : true
+                        document.documentElement.clientHeight <= document.documentElement.clientWidth
                       }
                     />
                     {meta.touched && meta.error && (
@@ -610,8 +578,8 @@ const CaseInformationAccordion = (props) => {
             <div className="col-xs-6 col-md-4">
               <Field name="appellanttype">
                 {({
-                  field, // { name, value, onChange, onBlur }
-                  form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+                  field,
+                  form: { touched, errors },
                   meta,
                 }) => (
                   <div className="form-floating">
@@ -623,31 +591,23 @@ const CaseInformationAccordion = (props) => {
                       isClearable
                       name={field.name}
                       isDisabled={
-
                         prop.state.formView === "DashboardView" &&
                           (prop.state.stageName === "Redirect Review" ||
-                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
-                          ? true
-                          : false
-
-                 
-
+                              prop.state.stageName === "Documents Needed" ||
+                              prop.state.stageName === "Effectuate" ||
+                              prop.state.stageName === "Pending Effectuate" ||
+                              prop.state.stageName === "Resolve" ||
+                              prop.state.stageName === "Case Completed" ||
+                              prop.state.stageName === "Reopen" ||
+                              prop.state.stageName === "CaseArchived")
                       }
                       className="basic-multi-select"
                       options={appellantTypeValues}
                       id="appellanttype"
                       isMulti={false}
-                      onChange={(selectValue) =>
-                        props.handleOnChange(selectValue ? selectValue.value : null, 'Appellant_Type')
-                      }
-                      value={
-                        {
-                          label: caseInformationData['Appellant_Type'],
-                          value: caseInformationData['Appellant_Type']
-                        }
-                      }
+                      onChange={(value) => props.handleOnChange(value, 'Appellant_Type')}
+                      value={caseInformationData['Appellant_Type']}
                       placeholder="Appellant Type"
-                      //styles={{...customStyles}}
                       isSearchable={
                         document.documentElement.clientHeight <= document.documentElement.clientWidth
                       }
@@ -672,8 +632,8 @@ const CaseInformationAccordion = (props) => {
             <div className="col-xs-6 col-md-4">
               <Field name="appealtype">
                 {({
-                  field, // { name, value, onChange, onBlur }
-                  form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+                  field,
+                  form: { touched, errors },
                   meta,
                 }) => (
                   <div className="form-floating">
@@ -688,34 +648,23 @@ const CaseInformationAccordion = (props) => {
 
                         prop.state.formView === "DashboardView" &&
                           (prop.state.stageName === "Redirect Review" ||
-                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
-                          ? true
-                          : false
-
-                      
-
+                              prop.state.stageName === "Documents Needed" ||
+                              prop.state.stageName === "Effectuate" ||
+                              prop.state.stageName === "Pending Effectuate" ||
+                              prop.state.stageName === "Resolve" ||
+                              prop.state.stageName === "Case Completed" ||
+                              prop.state.stageName === "Reopen" ||
+                              prop.state.stageName === "CaseArchived")
                       }
                       className="basic-multi-select"
                       options={appealTypeValues}
                       id="appealtype"
                       isMulti={false}
-                      onChange={(selectValue) =>
-                        props.handleOnChange(selectValue ? selectValue.value : null, 'Appeal_Type')
-                      }
-
-                      value={
-                        {
-                          label: caseInformationData['Appeal_Type'],
-                          value: caseInformationData['Appeal_Type']
-                        }
-                      }
+                      onChange={(value) => props.handleOnChange(value, 'Appellant_Type')}
+                      value={caseInformationData['Appellant_Type']}
                       placeholder="Appeal Type"
-                      //styles={{...customStyles}}
                       isSearchable={
-                        document.documentElement.clientHeight >
-                          document.documentElement.clientWidth
-                          ? false
-                          : true
+                        document.documentElement.clientHeight <= document.documentElement.clientWidth
                       }
                     />
                     {meta.touched && meta.error && (
@@ -740,8 +689,8 @@ const CaseInformationAccordion = (props) => {
             <div className="col-xs-6 col-md-4">
               <Field name="issuelevel">
                 {({
-                  field, // { name, value, onChange, onBlur }
-                  form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+                  field,
+                  form: { touched, errors },
                   meta,
                 }) => (
                   <div className="form-floating">
@@ -757,31 +706,24 @@ const CaseInformationAccordion = (props) => {
                       isDisabled={
                         prop.state.formView === "DashboardView" &&
                           (prop.state.stageName === "Redirect Review" ||
-                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
-                          ? true
-                          : false
+                              prop.state.stageName === "Documents Needed" ||
+                              prop.state.stageName === "Effectuate" ||
+                              prop.state.stageName === "Pending Effectuate" ||
+                              prop.state.stageName === "Resolve" ||
+                              prop.state.stageName === "Case Completed" ||
+                              prop.state.stageName === "Reopen" ||
+                              prop.state.stageName === "CaseArchived")
                       }
                       className="basic-multi-select"
                       options={issueLevelValues}
                       id="issuelevel"
                       isMulti={false}
-                      onChange={(selectValue) =>
-                        props.handleOnChange(selectValue ? selectValue.value : null, 'Issue_Level')
-                      }
-
-                      value={
-                        {
-                          label: caseInformationData['Issue_Level'],
-                          value: caseInformationData['Issue_Level']
-                        }
-                      }
+                      onChange={(value) => props.handleOnChange(value, 'Issue_Level')}
+                      value={caseInformationData['Issue_Level']}
                       placeholder="Issue Level"
                       //styles={{...customStyles}}
                       isSearchable={
-                        document.documentElement.clientHeight >
-                          document.documentElement.clientWidth
-                          ? false
-                          : true
+                        document.documentElement.clientHeight <= document.documentElement.clientWidth
                       }
                     />
                     {meta.touched && meta.error && (
@@ -804,8 +746,8 @@ const CaseInformationAccordion = (props) => {
             <div className="col-xs-6 col-md-4">
               <Field name="issuedescription">
                 {({
-                  field, // { name, value, onChange, onBlur }
-                  form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+                  field,
+                  form: { touched, errors },
                   meta,
                 }) => (
                   <div className="form-floating">
@@ -830,9 +772,12 @@ const CaseInformationAccordion = (props) => {
                       disabled={
                         prop.state.formView === "DashboardView" &&
                           (prop.state.stageName === "Redirect Review" ||
-                            prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
-                          ? true
-                          : false
+                              prop.state.stageName === "Effectuate" ||
+                              prop.state.stageName === "Pending Effectuate" ||
+                              prop.state.stageName === "Resolve" ||
+                              prop.state.stageName === "Case Completed" ||
+                              prop.state.stageName === "Reopen" ||
+                              prop.state.stageName === "CaseArchived")
                       }
                     />
                     <label htmlFor="floatingInputGrid">
@@ -858,8 +803,8 @@ const CaseInformationAccordion = (props) => {
             <div className="col-xs-6 col-md-4">
               <Field name="caselevelpriority">
                 {({
-                  field, // { name, value, onChange, onBlur }
-                  form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+                  field,
+                  form: { touched, errors },
                   meta,
                 }) => (
                   <div className="form-floating">
@@ -875,32 +820,23 @@ const CaseInformationAccordion = (props) => {
                       isDisabled={
                         prop.state.formView === "DashboardView" &&
                           (prop.state.stageName === "Redirect Review" ||
-                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
-                          ? true
-                          : false
+                              prop.state.stageName === "Documents Needed" ||
+                              prop.state.stageName === "Effectuate" ||
+                              prop.state.stageName === "Pending Effectuate" ||
+                              prop.state.stageName === "Resolve" ||
+                              prop.state.stageName === "Case Completed" ||
+                              prop.state.stageName === "Reopen" ||
+                              prop.state.stageName === "CaseArchived")
                       }
                       className="basic-multi-select"
                       options={caseLevelPriorityValues}
                       id="caselevelpriority"
                       isMulti={false}
-                      onChange={(selectValue) =>
-                        props.handleOnChange(selectValue ? selectValue.value : null, 'Case_Level_Priority')
-                      }
-
-                      value={
-                        {
-                          label: caseInformationData['Case_Level_Priority'],
-                          value: caseInformationData['Case_Level_Priority']
-                        }
-                      }
-
+                      onChange={(value) => props.handleOnChange(value, 'Case_Level_Priority')}
+                      value={caseInformationData['Case_Level_Priority']}
                       placeholder="Case Level Priority"
-                      //styles={{...customStyles}}
                       isSearchable={
-                        document.documentElement.clientHeight >
-                          document.documentElement.clientWidth
-                          ? false
-                          : true
+                        document.documentElement.clientHeight <= document.documentElement.clientWidth
                       }
                     />
                     {meta.touched && meta.error && (
@@ -925,8 +861,8 @@ const CaseInformationAccordion = (props) => {
             <div className="col-xs-6 col-md-4">
               <Field name="reviewtype">
                 {({
-                  field, // { name, value, onChange, onBlur }
-                  form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+                  field,
+                  form: { touched, errors },
                   meta,
                 }) => (
                   <div className="form-floating">
@@ -940,32 +876,23 @@ const CaseInformationAccordion = (props) => {
                       isDisabled={
                         prop.state.formView === "DashboardView" &&
                           (prop.state.stageName === "Redirect Review" ||
-                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
-                          ? true
-                          : false
+                              prop.state.stageName === "Documents Needed" ||
+                              prop.state.stageName === "Effectuate" ||
+                              prop.state.stageName === "Pending Effectuate" ||
+                              prop.state.stageName === "Resolve" ||
+                              prop.state.stageName === "Case Completed" ||
+                              prop.state.stageName === "Reopen" ||
+                              prop.state.stageName === "CaseArchived")
                       }
                       className="basic-multi-select"
                       options={reviewTypeValues}
                       id="reviewtype"
                       isMulti={false}
-                      onChange={(selectValue) =>
-                        props.handleOnChange(selectValue ? selectValue.value : null, 'Review_Type')
-                      }
-
-                      value={
-                        {
-                          label: caseInformationData['Review_Type'],
-                          value: caseInformationData['Review_Type']
-                        }
-                      }
-
+                      onChange={(value) => props.handleOnChange(value, 'Review_Type')}
+                      value={caseInformationData['Review_Type']}
                       placeholder="Review Type"
-                      //styles={{...customStyles}}
                       isSearchable={
-                        document.documentElement.clientHeight >
-                          document.documentElement.clientWidth
-                          ? false
-                          : true
+                        document.documentElement.clientHeight <= document.documentElement.clientWidth
                       }
                     />
                     {meta.touched && meta.error && (
@@ -988,8 +915,8 @@ const CaseInformationAccordion = (props) => {
             <div className="col-xs-6 col-md-4">
               <Field name="denialype">
                 {({
-                  field, // { name, value, onChange, onBlur }
-                  form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+                  field,
+                  form: { touched, errors },
                   meta,
                 }) => (
                   <div className="form-floating">
@@ -1008,8 +935,6 @@ const CaseInformationAccordion = (props) => {
                         tabRef.current === "DashboardView" &&
                           prop.state.lockStatus !== undefined &&
                           prop.state.lockStatus === "Y"
-                          ? true
-                          : false
                       }
                       className="basic-multi-select"
                       options={[
@@ -1017,23 +942,11 @@ const CaseInformationAccordion = (props) => {
                       ]}
                       id="denialtype"
                       isMulti={false}
-                      onChange={(selectValue) =>
-                        props.handleOnChange(selectValue ? selectValue.value : null, 'Denial_Type')
-                      }
-
-                      value={
-                        {
-                          label: caseInformationData['Denial_Type'],
-                          value: caseInformationData['Denial_Type']
-                        }
-                      }
+                      onChange={(value) => props.handleOnChange(value, 'Denial_Type')}
+                      value={caseInformationData['Denial_Type']}
                       placeholder="Denial Type"
-                      //styles={{...customStyles}}
                       isSearchable={
-                        document.documentElement.clientHeight >
-                          document.documentElement.clientWidth
-                          ? false
-                          : true
+                        document.documentElement.clientHeight <= document.documentElement.clientWidth
                       }
                     />
                     {meta.touched && meta.error && (
@@ -1056,8 +969,8 @@ const CaseInformationAccordion = (props) => {
             <div className="col-xs-6 col-md-4">
               <Field name="researchtype">
                 {({
-                  field, // { name, value, onChange, onBlur }
-                  form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+                  field,
+                  form: { touched, errors },
                   meta,
                 }) => (
                   <div className="form-floating">
@@ -1079,19 +992,9 @@ const CaseInformationAccordion = (props) => {
                       ]}
                       id="researchtype"
                       isMulti={false}
-
-                      onChange={(selectValue) =>
-                        props.handleOnChange(selectValue ? selectValue.value : null, 'Research_Type')
-                      }
-
-                      value={
-                        {
-                          label: caseInformationData['Research_Type'],
-                          value: caseInformationData['Research_Type']
-                        }
-                      }
+                      onChange={(value) => props.handleOnChange(value, 'Research_Type')}
+                      value={caseInformationData['Research_Type']}
                       placeholder="Research Type"
-                      //styles={{...customStyles}}
                       isSearchable={
                         document.documentElement.clientHeight <= document.documentElement.clientWidth
                       }
@@ -1118,8 +1021,8 @@ const CaseInformationAccordion = (props) => {
             <div className="col-xs-6 col-md-4">
               <Field name="inboundemailid">
                 {({
-                  field, // { name, value, onChange, onBlur }
-                  form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+                  field,
+                  form: { touched, errors },
                   meta,
                 }) => (
                   <div className="form-floating">
@@ -1144,9 +1047,14 @@ const CaseInformationAccordion = (props) => {
                       disabled={
                         prop.state.formView === "DashboardView" &&
                           (prop.state.stageName === "Redirect Review" ||
-                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Research" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
-                          ? true
-                          : false
+                              prop.state.stageName === "Documents Needed" ||
+                              prop.state.stageName === "Research" ||
+                              prop.state.stageName === "Effectuate" ||
+                              prop.state.stageName === "Pending Effectuate" ||
+                              prop.state.stageName === "Resolve" ||
+                              prop.state.stageName === "Case Completed" ||
+                              prop.state.stageName === "Reopen" ||
+                              prop.state.stageName === "CaseArchived")
                       }
 
                     />
