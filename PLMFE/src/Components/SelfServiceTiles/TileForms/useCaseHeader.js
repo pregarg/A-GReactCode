@@ -1,3 +1,4 @@
+
 import {useEffect, useRef, useState} from "react";
 import * as Yup from "yup";
 import {useLocation, useNavigate} from "react-router-dom";
@@ -9,6 +10,8 @@ import _ from "lodash";
 
 export const useCaseHeader = () => {
   const [hasSubmitError, setHasSubmitError] = useState(true);
+  const { fileUpDownAxios } = useAxios();
+  let documentSectionDataRef = useRef([]);
   const [caseTimelines, setCaseTimelines] = useState({
     caseNumber: "",
     Acknowledgment_Timely: "",
@@ -44,6 +47,7 @@ export const useCaseHeader = () => {
     Review_Type: ""
   });
 
+  
   const caseTimelinesValidationSchema = Yup.object().shape({
     Case_Filing_Method: Yup.string().required(),
     Acknowledgment_Timely: Yup.string().required(),
@@ -138,6 +142,62 @@ export const useCaseHeader = () => {
           : "system";
       procDataState.formNames = 'Appeals';
       procData.state = procDataState;
+      console.log("PocData State: ", procData);
+      console.log(
+        "Inside Add Provider File UPLOAD DATA: ",
+        documentSectionDataRef.current
+      );
+      if (documentSectionDataRef.current.length > 0) {
+        let documentArray = [...documentSectionDataRef.current];
+        documentArray = documentArray.filter(
+          (x) => x.docStatus === "Uploaded"
+        );
+        documentArray.forEach((e) => {
+          const fileUploadData = new FormData();
+          fileUploadData.append("file", e.fileData);
+          fileUploadData.append("source", "Manual");
+          fileUploadData.append(
+            "caseNumber",
+            response.data["CreateCase_Output"]["CaseNo"]
+          );
+          fileUploadData.append("docType", e.documentType);
+          console.log(
+            "Inside Add Provider File Upload Data: ",
+            fileUploadData
+          );
+          fileUpDownAxios
+            .post("/uploadFile", fileUploadData)
+            .then((response) => {
+              console.log("File Upload api response: ", response.data);
+              if (response.status === 200) {
+                // alert(
+                //   "Case created successfully: " +
+                //     res.data["CreateCase_Output"]["CaseNo"]
+                // );
+                // let alertMessage = 'Case created successfully: '+res.data['CreateCase_Output']['CaseNo'];
+                // let json = {show:true,
+                //     message:alertMessage,
+                //     variant:'success'
+                // }
+                // setAlertModalShow(json);
+              }
+              if (response.status === "") {
+                // let alertMessage = 'Case created successfully: '+res.data['CreateCase_Output']['CaseNo']+' but error in uploading document';
+                // let json = {show:true,
+                //     message:alertMessage,
+                //     variant:'success'
+                // }
+                // setAlertModalShow(json);
+                // alert(
+                //   "Case created successfully: " +
+                //     res.data["CreateCase_Output"]["CaseNo"] +
+                //     " but error in uploading document"
+                // );
+              }
+              //submitCase(procData, navigateHome);
+            });
+        });
+      }
       alert(
           "Case created successfully: " +
           response.data["CreateCase_Output"]["CaseNo"]
@@ -451,6 +511,7 @@ export const useCaseHeader = () => {
             setCaseHeader(data["angCaseHeader"][0]);
             setCaseTimelines(data["angCaseTimelines"][0]);
             setCaseInformation(data["angCaseInformation"][0]);
+            console.log("prernnaaa12345--->", setCaseInformation(data["angCaseInformation"][0]));
             setClaimInformation(data["angClaimInformation"][0]);
             setClaimInformationGrid(data["angClaimInformationGrid"]);
             setProviderInformationGrid(data["angProviderInformationGrid"]);

@@ -544,7 +544,7 @@ export default function DocumentTab(props) {
   return (
     <div className="container">
       <div className="accordion">
-        {props.searchType.toLowerCase() === 'selfservice' && 
+        {props?.searchType.toLowerCase() === 'selfservice' && 
         <div className="accordion-item">
           <h2 className="accordion-header">
             <button

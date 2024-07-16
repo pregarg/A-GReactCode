@@ -200,28 +200,37 @@ export default function DecisionTab(tabInput) {
   };
 
   const handleModalShowHide = (index, flagValue, requestedFrom) => {
+    const stageName = prop.state.stageName;
+  
     if (requestedFrom === "Close") {
       setFileState([...fileState, { selectedFile: null, fileIndex: index }]);
     }
-
+  
     let newArray = [...documentData];
     newArray = convertArrayToOuterArray(newArray);
     let documentName =
       newArray[index]["documentType"] === undefined
         ? ""
         : newArray[index]["documentType"].value;
+  
     if (documentName === "") {
       alert("Please select Document Name first");
       selectRef.current.focus();
-    } else {
-      let docIndexJson = { ...docClickedIndex.current };
-      docIndexJson.FileUpload = index;
-      docClickedIndex.current = docIndexJson;
-
-      setModalShow({ ...modalShow, FileUpload: flagValue });
+      return; 
+    } 
+  
+    if (stageName === "Case Completed") {
+      alert("Documents can't be modified");
+      return; 
     }
+  
+    let docIndexJson = { ...docClickedIndex.current };
+    docIndexJson.FileUpload = index;
+    docClickedIndex.current = docIndexJson;
+  
+    setModalShow({ ...modalShow, FileUpload: flagValue });
   };
-
+  
   const handleFileUpload = (evnt, index) => {
     if (evnt.target.files[0] === undefined) {
       setFileState([...fileState, { selectedFile: null, fileIndex: index }]);
@@ -443,7 +452,7 @@ export default function DecisionTab(tabInput) {
 
         selectJson["decisionOptions"]
           .filter(
-            (data) => data.WORKSTEP?.trim() === stageName?.trim()
+            (data) => data.WORKSTEP.trim() === stageName.trim()
           ).map((val) => {
             const existingIndex = decisionOptions.findIndex((item) => item.value === val.DECISION);
 
@@ -458,7 +467,7 @@ export default function DecisionTab(tabInput) {
 
         selectJson["decisionOptions"]
           .filter(
-            (data) => data.WORKSTEP?.trim() === stageName?.trim()
+            (data) => data.WORKSTEP.trim() === stageName.trim()
           ).map((val) => {
             let stageName = val.WORKSTEP;
             let decision = val.DECISION;
@@ -928,6 +937,7 @@ export default function DecisionTab(tabInput) {
                     alt="..."
                     style={{ height: "30px", background: "inherit" }}
                     onClick={() => handleModalShowHide(index, true)}
+                   
                   ></img>
                 )}
               </td>
@@ -1449,6 +1459,7 @@ export default function DecisionTab(tabInput) {
                           Source
                         </th>
                         <th style={{ width: "10%" }} scope="col">
+                        
                           Upload
                         </th>
                         <th style={{ width: "10%" }} scope="col">
@@ -1511,6 +1522,7 @@ export default function DecisionTab(tabInput) {
             uploadFile={uploadFile}
             currIndex={docClickedIndex.current.FileUpload}
             documentData={documentData}
+            
           />
         )}
 

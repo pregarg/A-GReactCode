@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useRef} from "react";
 import {Formik} from "formik";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
@@ -13,8 +13,14 @@ import AuthorizationInformationAccordion from "./AuthorizationInformationAccordi
 import ExpeditedRequestAccordion from "./ExpeditedRequestAccordion";
 import RepresentativeInformationAccordion from "./RepresentativeInformationAccordion";
 import {useCaseHeader} from "./useCaseHeader";
+import DocumentSection from "../DocumentSection";
 
 const CaseHeader = () => {
+  
+  let documentSectionDataRef = useRef([]);
+  CaseHeader.displayName = "Appeals";
+  let caseheaderConfigData = JSON.parse(
+    process.env.REACT_APP_CASEHEADER_DETAILS);
 
   const {
     caseTimelines,
@@ -51,6 +57,7 @@ const CaseHeader = () => {
     apiTestState,
     callProcRef,
     hasSubmitError
+    
   } = useCaseHeader();
 
   const FormComponent = () => (
@@ -103,6 +110,11 @@ const CaseHeader = () => {
                     handleOnChange={handleExpeditedRequestChange}
                     handleData={expeditedRequest}
                 />
+                 <DocumentSection
+                      fileDataRef={documentSectionDataRef.current}
+                      displayName={CaseHeader.displayName}
+                      stageName={caseheaderConfigData["StageName"]}
+                    />
               </div>
             </div>
           </div>
