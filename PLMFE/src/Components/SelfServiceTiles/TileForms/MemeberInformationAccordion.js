@@ -15,6 +15,7 @@ const MemeberInformationAccordion = (props) => {
     const { ValueContainer, Placeholder } = components;
     const [memberInformationData, setMemberInformationData] = useState(props.handleData);
     const mastersSelector = useSelector((masters) => masters);
+    const [showMemberSearch, setShowMemberSearch] = useState(false);
 
     const CustomValueContainer = ({ children, ...props }) => {
         return (
@@ -28,6 +29,10 @@ const MemeberInformationAccordion = (props) => {
             </ValueContainer>
         );
     };
+
+    const handleShowMemberSearch = () => {
+        setShowMemberSearch(true);
+    }
 
     const tabRef = useRef("HomeView");
     let prop = useLocation();
@@ -165,6 +170,7 @@ const MemeberInformationAccordion = (props) => {
                 aria-labelledby="panelsStayOpen-Header"
             >
                 <div className="accordion-body">
+                <button type="button" class="btn btn-outline-primary" onClick={event => handleShowMemberSearch(event)}>Member Search</button>
                     <div className="row my-2">
                         <div className="col-xs-6 col-md-4">
                             <Field name="memberid">
