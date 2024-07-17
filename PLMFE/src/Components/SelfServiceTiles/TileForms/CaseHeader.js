@@ -14,10 +14,13 @@ import ExpeditedRequestAccordion from "./ExpeditedRequestAccordion";
 import RepresentativeInformationAccordion from "./RepresentativeInformationAccordion";
 import {useCaseHeader} from "./useCaseHeader";
 import DocumentSection from "../DocumentSection";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const CaseHeader = () => {
-  
-  let documentSectionDataRef = useRef([]);
+  let prop = useLocation();
+  let stageNameCheck = prop.state?.stageName?.props?.stageName;
+  console.log("caseheader prop-->",prop,stageNameCheck)
+   //let documentSectionDataRef = useRef([]);
   CaseHeader.displayName = "Appeals";
   let caseheaderConfigData = JSON.parse(
     process.env.REACT_APP_CASEHEADER_DETAILS);
@@ -57,7 +60,8 @@ const CaseHeader = () => {
     handleActionSelectChange,
     apiTestState,
     callProcRef,
-    hasSubmitError
+    hasSubmitError,
+    documentSectionDataRef
     
   } = useCaseHeader();
 
@@ -111,12 +115,14 @@ const CaseHeader = () => {
                 <ExpeditedRequestAccordion
                     handleOnChange={handleExpeditedRequestChange}
                     handleData={expeditedRequest}
-                />
+                />{prop.state.formView === "DashboardHomeView" &&(
                  <DocumentSection
                       fileDataRef={documentSectionDataRef.current}
                       displayName={CaseHeader.displayName}
                       stageName={caseheaderConfigData["StageName"]}
+                  
                     />
+                  )}
               </div>
             </div>
           </div>

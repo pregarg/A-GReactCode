@@ -50,6 +50,7 @@ const CaseClaimInformation = (props) => {
 
   const mastersSelector = useSelector((masters) => masters);
 
+
   const handleShowClaimSearch = () => {
     setShowClaimSearch(true);
   }
@@ -79,6 +80,7 @@ const CaseClaimInformation = (props) => {
           delete elem['isChecked'];
           rowNumber++;
           addressToPopulate.push(elem);
+
         }
       })
     }
@@ -143,8 +145,9 @@ const CaseClaimInformation = (props) => {
     setClaimTypeValues([...new Set(claimType.map(e => convertToCase(e.Claim_Type)))].map(kvMapper));
 
     const angDecision = mastersSelector?.masterAngDecision?.[0] || [];
-    setDecisionValues([...new Set(angDecision.map(e => convertToCase(e.DECISION)))].map(kvMapper));
-    setDecisionReasonValues([...new Set(angDecision.map(e => convertToCase(e.DECISION_REASON)))].map(kvMapper));
+    console.log("abc-->",angDecision)
+    // setDecisionValues([...new Set(angDecision.data.map(e => convertToCase(e.DECISION)))].map(kvMapper));
+    // setDecisionReasonValues([...new Set(angDecision.data.map(e => convertToCase(e.DECISION_REASON)))].map(kvMapper));
 
     const authServiceType = mastersSelector?.masterAngAuthServiceType?.[0] || [];
     setServiceTypeValues(authServiceType.map(e => e.SERVICE_TYPE_DESC).map(kvMapper));
@@ -213,7 +216,7 @@ const CaseClaimInformation = (props) => {
         let res = await axios.post("/generic/callProcedure", getApiJson, {
           headers: {Authorization: `Bearer ${token}`},
         });
-
+        console.log("res1-->",res)
         let resApiData = res.data.CallProcedure_Output?.data || [];
         resApiData = (resApiData?.length > 0) ? resApiData : [];
 

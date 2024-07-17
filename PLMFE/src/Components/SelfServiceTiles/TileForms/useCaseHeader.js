@@ -85,7 +85,7 @@ export const useCaseHeader = () => {
     Review_Type: Yup.string().required(),
   });
   const claimInformationValidationSchema = Yup.object().shape({
-    Claim_Decision: Yup.string().required(),
+   // Claim_Decision: Yup.string().required(),
     Payment_Method: Yup.string().required(),
     Payment_Number: Yup.string().required(),
     Effectuation_Notes: Yup.string().required(),
@@ -145,6 +145,7 @@ export const useCaseHeader = () => {
     const stageName = caseheaderConfigData["StageName"];
 
     apiJson["MainCaseTable"] = mainCaseReqBody;
+    console.log("APIJSON--->",apiJson);
 
     const response = await customAxios.post("/generic/create", apiJson, {
       headers: {Authorization: `Bearer ${token}`},
@@ -172,10 +173,7 @@ export const useCaseHeader = () => {
       procDataState.formNames = 'Appeals';
       procData.state = procDataState;
       console.log("PocData State: ", procData);
-      console.log(
-          "Inside Add Provider File UPLOAD DATA: ",
-          documentSectionDataRef.current
-      );
+      console.log( "Inside Add Provider File UPLOAD DATA: ",documentSectionDataRef.current);
       if (documentSectionDataRef.current.length > 0) {
         let documentArray = [...documentSectionDataRef.current];
         documentArray = documentArray.filter(
@@ -851,6 +849,7 @@ export const useCaseHeader = () => {
     handleActionSelectChange,
     apiTestState,
     callProcRef,
-    hasSubmitError
+    hasSubmitError,
+    documentSectionDataRef
   }
 }
