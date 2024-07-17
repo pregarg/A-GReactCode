@@ -88,6 +88,7 @@ export default function DecisionTab(tabInput) {
   console.log("logger prop ", prop.state)
   const formName = prop.state.formNames;
   const stageName = prop.state.stageName && prop.state.stageName.trim();
+
   const [selectValues, setSelectValues] = useState({});
   const [selectReasonValues, setReasonSelectValues] = useState([]);
   const [decisionReasonArray, setDecisionReasonArray] = useState({})
@@ -420,42 +421,34 @@ export default function DecisionTab(tabInput) {
   useEffect(() => {
     let selectJson = {};
     let mappedObject = {};
-    const stageName = String(prop.state.stageName);
-    const transactionType = String(prop.state.formNames);
-    const flowId = Number(prop.state.flowId);
+
+    console.log("stageName--->",stageName)
     if (decisonRef.current !== null && tabInput?.buttonClicked !== "callProc") {
       decisonRef.current.clearValue();
     }
 
     //Decison Dropdown
-    if (mastersSelector.hasOwnProperty("masterDecision")) {
-      const delegateParsedVal = getDelegatedValue(tabInput?.delegatedVal);
-
-      if (
-        (transactionType == "Provider Modification" ||
-          transactionType == "Ancillary/Facility Modification" ||
-          transactionType == "Termination" ||
-          delegateParsedVal === "yes" ||
-          delegateParsedVal === "y") &&
-        stageName == "QA"
-      ) {
-        decisionOptions.push(
-          { label: "Submit", value: "Submit" },
-          { label: "Discard", value: "Discard" }
-        );
-      } else {
-        console.log("logger descision : ", mastersSelector["masterDecision"])
+    if (mastersSelector.hasOwnProperty("masterAngDecision")) {
+     
+    
+     
+        console.log("logger descision : ", mastersSelector["masterAngDecision"])
+      
         selectJson.decisionOptions =
-          mastersSelector["masterDecision"].length === 0
+          mastersSelector["masterAngDecision"].length === 0
             ? []
-            : mastersSelector["masterDecision"][0].data;
-
+            : mastersSelector["masterAngDecision"][0];
+          
         selectJson["decisionOptions"]
           .filter(
-            (data) => data.WORKSTEP && data.WORKSTEP.trim().toLowerCase() === stageName.trim().toLowerCase()
+           
+
+            (data) =>{console.log("data--->",data.WORKSTEP)
+              return  data.WORKSTEP.toLowerCase() == stageName.toLowerCase()
+            }
           ).map((val) => {
             const existingIndex = decisionOptions.findIndex((item) => item.value === val.DECISION);
-
+            
             if (existingIndex === -1) {
               decisionOptions.push({
                 value: val.DECISION,
@@ -464,10 +457,11 @@ export default function DecisionTab(tabInput) {
             }
           }
           );
+          
 
         selectJson["decisionOptions"]
           .filter(
-            (data) => data.WORKSTEP && data.WORKSTEP.trim() === stageName.trim()
+            (data) => data.WORKSTEP.toLowerCase() == stageName.toLowerCase()
           ).map((val) => {
             let stageName = val.WORKSTEP;
             let decision = val.DECISION;
@@ -484,7 +478,7 @@ export default function DecisionTab(tabInput) {
             });
           }
           );
-      }
+      
     }
     console.log("decision options", decisionOptions);
     console.log("mapped object", mappedObject);
