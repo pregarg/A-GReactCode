@@ -13,11 +13,14 @@ export default function FileUpload(prop) {
                 size="lg"
                 aria-labelledby="example-custom-modal-styling-title"
                 centered
+                
             >
             <Modal.Header>
               <Modal.Title></Modal.Title>
               <Button className='btn btn-outline-primary btnStyle' id='BulkHealthFileUploadCancel'
-                style={{float:"right", marginLeft: "650px"}} onClick={()=>{prop.handleModalShowHide(prop.currIndex,false,'Close');}}>
+                style={{float:"right", marginLeft: "650px"}} onClick={()=>{prop.handleModalShowHide(prop.currIndex,false,'Close');}}
+                
+                >
                 Close</Button>
             </Modal.Header>
             <Modal.Body>

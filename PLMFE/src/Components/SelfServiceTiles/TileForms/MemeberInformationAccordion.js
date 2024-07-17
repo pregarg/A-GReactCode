@@ -6,16 +6,28 @@ import Select, { components } from "react-select";
 import useGetDBTables from "../../CustomHooks/useGetDBTables";
 import ReactDatePicker from "react-datepicker";
 import {selectStyle} from "./SelectStyle";
+import MemberSearch from "../TileForms/MemberSearch";
+import TableComponent from "../../../../src/util/TableComponent";
+import {useAxios} from "../../../api/axios.hook";
 
 const MemeberInformationAccordion = (props) => {
     const {
-        convertToCase
+        convertToCase,
+        extractDate,
+        getDatePartOnly
     } = useGetDBTables();
 
     const { ValueContainer, Placeholder } = components;
     const [memberInformationData, setMemberInformationData] = useState(props.handleData);
     const mastersSelector = useSelector((masters) => masters);
+    const token = useSelector((state) => state.auth.token);
+    const [selectedCriteria, setSelectedCriteria] = useState();
+    const [selectSearchValues, setSelectSearchValues] = useState();
+    const [responseData, setResponseData] = useState([]);
     const [showMemberSearch, setShowMemberSearch] = useState(false);
+    const {customAxios: axios} = useAxios();
+    let [selectedAddress, setSelectedAddress] = useState([]);
+    
 
     const CustomValueContainer = ({ children, ...props }) => {
         return (
@@ -33,7 +45,38 @@ const MemeberInformationAccordion = (props) => {
     const handleShowMemberSearch = () => {
         setShowMemberSearch(true);
     }
+    const handleCloseSearch = () => {
+        setShowMemberSearch(false);
+        setSelectedCriteria([]);
+        setSelectSearchValues([]);
+        setResponseData([]);
+      }
 
+      const handleClearMemberSearch = () => {
+        setSelectSearchValues([]);
+        setSelectedCriteria([]);
+        setResponseData([]);
+      }
+      const handleCheckBoxChange = (event, ind) => {
+        let jsn = responseData[ind];
+        jsn.isChecked = event.target.checked;
+        setSelectedAddress([...selectedAddress, jsn]);
+      };
+      const handleCheckBoxHeaderChange = (event) => {
+        const updatedTableData = responseData.map((jsn) => {
+          jsn.isChecked = event.target.checked;
+          return jsn;
+        });
+        setSelectedAddress(updatedTableData);
+      };
+
+      const handleSelectedMembers = () => {
+        setMemberInformationData({...selectedAddress[0]});
+        setShowMemberSearch(false);
+        setSelectedCriteria([]);
+        setSelectSearchValues([]);
+        setResponseData([]);
+      }
     const tabRef = useRef("HomeView");
     let prop = useLocation();
 
@@ -64,6 +107,100 @@ const MemeberInformationAccordion = (props) => {
     let preferredLanguageValues = [];
     let commPrefValues = [];
     let specialNeedsValues = [{ label: "Yes", value: "Yes" }, { label: "No", value: "No" }];
+
+    const showMembers = async () => {
+        let MemberID = selectSearchValues?.memberID;
+        let MedicareID = selectSearchValues?.medicareID;
+        let MedicaidID = selectSearchValues?.medicaidID;
+        let MemberFirstName = selectSearchValues?.memberFirstNameId;
+        let MemberLastName = selectSearchValues?.memberLasstNameId;
+        let DOB = selectSearchValues?.dateOfBirth;
+    
+        // Check if at least one search parameter has a value
+        if (MemberID || MedicareID || MedicaidID || MemberFirstName || MemberLastName || DOB) {
+          let getApiJson = {
+            option: 'GETMEMBERSEARCHDATA',
+            Member_ID: MemberID || '',
+            Medicare_ID: MedicareID|| '',
+            Medicaid_ID: MedicaidID || '',
+            Member_First_Name: MemberFirstName || '',
+            Member_Last_Name: MemberLastName || '',
+            Date_of_Birth: extractDate(DOB) || '',
+          };
+    
+          try {
+            let res = await axios.post("/generic/callProcedure", getApiJson, {
+              headers: {Authorization: `Bearer ${token}`},
+            });
+            console.log("res",res)
+            let resApiData = res.data.CallProcedure_Output?.data || [];
+            resApiData = (resApiData?.length > 0) ? resApiData : [];
+            console.log("procedure ka data", resApiData)
+            if (resApiData.length > 0) {
+              const respKeys = Object.keys(resApiData);
+              respKeys.forEach(k => {
+    
+                let apiResponse = resApiData[k];
+                console.log("apiResponse", apiResponse)
+                if (apiResponse.hasOwnProperty("Date_of_Birth") && typeof apiResponse.Date_of_Birth === "string") {
+                  const mad = new Date(getDatePartOnly(apiResponse.Date_of_Birth));
+                  apiResponse.Date_of_Birth = extractDate(mad);
+                  console.log("dob-->",mad)
+                  console.log("dob2-->",extractDate(mad))
+    
+                }
+                if (apiResponse.hasOwnProperty("Plan_Effective_Date") && typeof apiResponse.Plan_Effective_Date === "string") {
+                    const mad = new Date(getDatePartOnly(apiResponse.Plan_Effective_Date));
+                    apiResponse.Plan_Effective_Date = extractDate(mad);
+                    console.log("dob-->",apiResponse.Plan_Effective_Date)
+                  }
+                  
+                 if (apiResponse.hasOwnProperty("Plan_Expiration_Date") && typeof apiResponse.Plan_Expiration_Date === "string") {
+                        const mad = new Date(getDatePartOnly(apiResponse.Plan_Expiration_Date));
+                        apiResponse.Plan_Expiration_Date = extractDate(mad);
+                        console.log("dob-->",apiResponse.Plan_Expiration_Date)
+
+                 }
+                
+              });
+    
+              setResponseData(resApiData);
+            }
+            const apiStat = res.data.CallProcedure_Output.Status;
+            if (apiStat === -1) {
+              alert("Error in fetching data");
+            }
+          } catch (error) {
+            console.error("API Error:", error);
+            alert("Error in fetching data. Please try again later.");
+          }
+        } else {
+          alert("Please select at least one search value.");
+        }
+      };
+    
+      const memberSearchTableComponent = () => {
+        let columnNames = 'Action~Action,Member ID~Member_ID,Member First Name~Member_First_Name,Member Last Name~Member_Last_Name,Date of Birth~Date_of_Birth,Plan Code~Plan_Code,ContractPlan ID~ContractPlan_ID,Medicare ID HICN~Medicare_ID_HICN,Plan Name~Plan_Name,Plan Effective Date~Plan_Effective_Date,Plan Expiration Date~Plan_Expiration_Date,Email ID~Email_ID,Phone Number~Phone_Number,Dual Plan~Dual_Plan,Address Line 1~Address_Line_1,Address Line 2~Address_Line_2,Zip Code~Zip_Code,City~City,County~County,State~State_,Preferred Language~Preferred_Language'
+        if (responseData.length > 0) {
+          return (
+              <>
+                <TableComponent
+    
+                    columnName={columnNames}
+                    rowValues={responseData}
+                    showCheckBox={true}
+                    handleCheckBoxChange={handleCheckBoxChange}
+                    handleCheckBoxHeaderChange={handleCheckBoxHeaderChange}
+                    CheckBoxInHeader={true}
+    
+                />
+              </>
+          )
+    
+        } else {
+          return (<></>);
+        }
+      }
 
     useEffect(() => {
         try {
@@ -343,7 +480,15 @@ const MemeberInformationAccordion = (props) => {
                                 <ReactDatePicker
                                     id="datePicker"
                                     className="form-control example-custom-input-provider"
-                                    selected={memberInformationData.Date_of_Birth}
+                                    selected={
+                                        // memberInformationData?.Date_of_Birth?.value !== undefined
+                                        //     ? new Date(memberInformationData.Date_of_Birth.value)
+                                        //     : memberInformationData?.Date_of_Birth !== undefined
+                                        //         ? new Date(memberInformationData.Date_of_Birth)
+                                        //         : null
+                                        
+                                        memberInformationData.Date_of_Birth
+                                       }
                                     name="dateofbirth"
                                     dateFormat="MM/dd/yyyy"
                                     peekNextMonth
@@ -1203,7 +1348,22 @@ const MemeberInformationAccordion = (props) => {
                                 <ReactDatePicker
                                     id="datePicker"
                                     className="form-control example-custom-input-provider"
-                                    selected={memberInformationData.Plan_Effective_Date}
+                                    selected={
+                                        // memberInformationData?.
+                                        // Plan_Effective_Date?.value !== undefined
+                                        //     ? new Date(memberInformationData.
+                                        //         Plan_Effective_Date
+                                        //         .value)
+                                        //     : memberInformationData?.
+                                        //     Plan_Effective_Date
+                                        //      !== undefined
+                                        //         ? new Date(memberInformationData.
+                                        //             Plan_Effective_Date
+                                        //             )
+                                        //         : null
+                                        
+                                         memberInformationData.Plan_Effective_Date
+                                        }
                                     name="planeffectivedate"
                                     dateFormat="MM/dd/yyyy"
                                     peekNextMonth
@@ -1239,7 +1399,14 @@ const MemeberInformationAccordion = (props) => {
                                 <ReactDatePicker
                                     id="datePicker"
                                     className="form-control example-custom-input-provider"
-                                    selected={memberInformationData.Plan_Expiration_Date}
+                                    selected={
+                                        // memberInformationData?.Plan_Expiration_Date?.value !== undefined
+                                        // ? new Date(memberInformationData.Plan_Expiration_Date.value)
+                                        // : memberInformationData?.Plan_Expiration_Date !== undefined
+                                        //     ? new Date(memberInformationData.Plan_Expiration_Date)
+                                        //     : null
+                                        memberInformationData.Plan_Expiration_Date
+                                        }
                                     name="planexpirationdate"
                                     dateFormat="MM/dd/yyyy"
                                     peekNextMonth
@@ -1939,7 +2106,24 @@ const MemeberInformationAccordion = (props) => {
                     </div>
                 </div>
             </div>
+            {showMemberSearch && (
+            <MemberSearch
+            handleCloseSearch={handleCloseSearch}
+            selectedCriteria={selectedCriteria}
+            setSelectedCriteria={setSelectedCriteria}
+            selectSearchValues={selectSearchValues}
+            setSelectSearchValues={setSelectSearchValues}
+            responseData={responseData}
+            setResponseData={setResponseData}
+            handleClearMemberSearch ={handleClearMemberSearch}
+            showMemberSearch = {showMemberSearch}
+            showMembers = {showMembers}
+            memberSearchTableComponent={memberSearchTableComponent}
+            handleSelectedMembers = {handleSelectedMembers}
+            />
+        )}
         </div>
+      
 
     );
 }

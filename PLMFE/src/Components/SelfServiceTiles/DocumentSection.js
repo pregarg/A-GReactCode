@@ -56,17 +56,17 @@ export default function DocumentSection(prop) {
         mastersSelector["masterAngDocument"].length === 0
           ? []
           : mastersSelector["masterAngDocument"][0];
-      // console.log("Document Section documentOptions: ", documentOptions);
+      console.log("Document Section documentOptions: ", documentOptions);
       console.log("Document Section stagename: ", stageName);
       if (documentOptions.length > 0) {
         documentOptions = documentOptions.filter(
           (elem) => 
-          elem.WORKSTEP_NAME.trim() == stageName.trim()
+          elem.WORKSTEP_NAME.trim().toLowerCase() == stageName.trim().toLowerCase()
         );
-        // console.log(
-        //   "Document Section documentOptions after filter: ",
-        //   documentOptions
-        // );
+        console.log(
+          "Document Section documentOptions after filter: ",
+          documentOptions
+        );
         let newDocumentValues = [];
         documentOptions.forEach((element) => {
           let sJson = {};

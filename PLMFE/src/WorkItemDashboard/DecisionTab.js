@@ -452,7 +452,7 @@ export default function DecisionTab(tabInput) {
 
         selectJson["decisionOptions"]
           .filter(
-            (data) => data.WORKSTEP.trim() === stageName.trim()
+            (data) => data.WORKSTEP && data.WORKSTEP.trim().toLowerCase() === stageName.trim().toLowerCase()
           ).map((val) => {
             const existingIndex = decisionOptions.findIndex((item) => item.value === val.DECISION);
 
@@ -467,7 +467,7 @@ export default function DecisionTab(tabInput) {
 
         selectJson["decisionOptions"]
           .filter(
-            (data) => data.WORKSTEP.trim() === stageName.trim()
+            (data) => data.WORKSTEP && data.WORKSTEP.trim() === stageName.trim()
           ).map((val) => {
             let stageName = val.WORKSTEP;
             let decision = val.DECISION;
