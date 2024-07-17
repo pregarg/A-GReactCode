@@ -26,9 +26,12 @@ const CaseTimelinesAccordion = (props) => {
     props.setCaseTimelinesData(caseTimelinesData);
   }
 
-  const wrapPlaceholder = (name, placeholder) => (
-      `${placeholder}${props.caseTimelinesValidationSchema?.fields?.[name]?.tests?.some(test => test.OPTIONS?.name === 'required') ? ' *': ''}`
-  );
+  const wrapPlaceholder = (name, placeholder) => {
+    const field = props.caseTimelinesValidationSchema?.fields?.[name];
+    const required = (field?.type === 'date' && field?.internalTests?.optionality) ||
+        (field?.tests?.some(test => test.OPTIONS?.name === 'required'));
+    return `${placeholder}${required ? ' *' : ''}`;
+  };
   const { ValueContainer, Placeholder } = components;
   const CustomValueContainer = ({ children, ...props }) => {
     return (
@@ -88,7 +91,7 @@ const CaseTimelinesAccordion = (props) => {
     const CustomInput = (props) => (
         <div className="form-floating">
           <input {...props} placeholder={wrapPlaceholder(name, placeholder)}/>
-          <label htmlFor={name}>{label}</label>
+          <label htmlFor={name}>{wrapPlaceholder(name, label)}</label>
         </div>
     );
     return (

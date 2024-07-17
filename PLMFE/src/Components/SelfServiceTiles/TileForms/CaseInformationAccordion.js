@@ -35,8 +35,7 @@ const CaseInformationAccordion = (props) => {
     setProductStateValues(arr.map(e => e.State).map(kvMapper));
 
     const appellantDesc = mastersSelector?.masterAngAppellantDesc?.[0] || [];
-    setAppellantDescValues([...new Set(appellantDesc.map(e => convertToCase(e.APPELLANT_DESC)))]
-        .map(e => ({label: e, value: e})));
+    setAppellantDescValues([...new Set(appellantDesc.map(e => convertToCase(e.APPELLANT_DESC)))].map(kvMapper));
 
     const appellantType = mastersSelector?.masterAngAppellantType?.[0] || [];
     setAppellantTypeValues(appellantType.map(e => e.Appellant_Type).map(kvMapper));
@@ -82,9 +81,12 @@ const CaseInformationAccordion = (props) => {
     props.setCaseInformationData(caseInformationData);
   }
 
-  const wrapPlaceholder = (name, placeholder) => (
-      `${placeholder}${props.caseInformationValidationSchema?.fields?.[name]?.tests?.some(test => test.OPTIONS?.name === 'required') ? ' *': ''}`
-  );
+  const wrapPlaceholder = (name, placeholder) => {
+    const field = props.caseInformationValidationSchema?.fields?.[name];
+    const required = (field?.type === 'date' && field?.internalTests?.optionality) ||
+        (field?.tests?.some(test => test.OPTIONS?.name === 'required'));
+    return `${placeholder}${required ? ' *' : ''}`;
+  };
   const {ValueContainer, Placeholder} = components;
   const CustomValueContainer = ({children, ...props}) => {
     return (

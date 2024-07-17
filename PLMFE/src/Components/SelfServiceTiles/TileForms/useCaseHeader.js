@@ -1,4 +1,3 @@
-
 import {useEffect, useRef, useState} from "react";
 import * as Yup from "yup";
 import {useLocation, useNavigate} from "react-router-dom";
@@ -10,7 +9,7 @@ import _ from "lodash";
 
 export const useCaseHeader = () => {
   const [hasSubmitError, setHasSubmitError] = useState(true);
-  const { fileUpDownAxios } = useAxios();
+  const {fileUpDownAxios} = useAxios();
   let documentSectionDataRef = useRef([]);
   const [caseTimelines, setCaseTimelines] = useState({
     caseNumber: "",
@@ -46,13 +45,34 @@ export const useCaseHeader = () => {
     Research_Type: "",
     Review_Type: ""
   });
+  const [claimInformation, setClaimInformation] = useState({
+    caseNumber: "",
+    Authorization_Number: "",
+    Claim_Decision: "",
+    Claim_Number: "",
+    Claim_type: "",
+    Claim_Adjusted_Date: undefined,
+    Decision_Reason: "",
+    Denied_As_Of_Date: undefined,
+    Effectuation_Notes: "",
+    Original_Denial_Date: undefined,
+    Processing_Status: "",
+    Payment_Method: "",
+    Payment_Number: "",
+    Payment_Date: undefined,
+    Payment_Mail_Date_Postmark: undefined,
+    Reason_Text: "",
+    Service_Type: "",
+    Service_Start_Date: undefined,
+    Service_End_Date: undefined,
+  });
 
-  
   const caseTimelinesValidationSchema = Yup.object().shape({
     Case_Filing_Method: Yup.string().required(),
     Acknowledgment_Timely: Yup.string().required(),
     Case_in_Compliance: Yup.string().required(),
     Out_of_Compliance_Reason: Yup.string().required(),
+    Case_Received_Date: Yup.date().required(),
   });
   const caseInformationValidationSchema = Yup.object().shape({
     Line_of_Business_LOB: Yup.string().required(),
@@ -64,11 +84,20 @@ export const useCaseHeader = () => {
     Appellant_Type: Yup.string().required(),
     Review_Type: Yup.string().required(),
   });
+  const claimInformationValidationSchema = Yup.object().shape({
+    Claim_Decision: Yup.string().required(),
+    Payment_Method: Yup.string().required(),
+    Payment_Number: Yup.string().required(),
+    Effectuation_Notes: Yup.string().required(),
+    Claim_Adjusted_Date: Yup.date().required(),
+    Payment_Mail_Date_Postmark: Yup.date().required(),
+  });
 
   useEffect(() => {
     Promise.all([
       caseTimelinesValidationSchema.validate(caseTimelines),
-      caseInformationValidationSchema.validate(caseInformation)
+      caseInformationValidationSchema.validate(caseInformation),
+      claimInformationValidationSchema.validate(claimInformation)
     ]).then(() => setHasSubmitError(false))
         .catch(err => setHasSubmitError(true));
   }, [caseTimelines, caseInformation]);
@@ -144,58 +173,26 @@ export const useCaseHeader = () => {
       procData.state = procDataState;
       console.log("PocData State: ", procData);
       console.log(
-        "Inside Add Provider File UPLOAD DATA: ",
-        documentSectionDataRef.current
+          "Inside Add Provider File UPLOAD DATA: ",
+          documentSectionDataRef.current
       );
       if (documentSectionDataRef.current.length > 0) {
         let documentArray = [...documentSectionDataRef.current];
         documentArray = documentArray.filter(
-          (x) => x.docStatus === "Uploaded"
+            (x) => x.docStatus === "Uploaded"
         );
         documentArray.forEach((e) => {
           const fileUploadData = new FormData();
           fileUploadData.append("file", e.fileData);
           fileUploadData.append("source", "Manual");
           fileUploadData.append(
-            "caseNumber",
-            response.data["CreateCase_Output"]["CaseNo"]
+              "caseNumber",
+              response.data["CreateCase_Output"]["CaseNo"]
           );
           fileUploadData.append("docType", e.documentType);
-          console.log(
-            "Inside Add Provider File Upload Data: ",
-            fileUploadData
-          );
           fileUpDownAxios
-            .post("/uploadFile", fileUploadData)
-            .then((response) => {
-              console.log("File Upload api response: ", response.data);
-              if (response.status === 200) {
-                // alert(
-                //   "Case created successfully: " +
-                //     res.data["CreateCase_Output"]["CaseNo"]
-                // );
-                // let alertMessage = 'Case created successfully: '+res.data['CreateCase_Output']['CaseNo'];
-                // let json = {show:true,
-                //     message:alertMessage,
-                //     variant:'success'
-                // }
-                // setAlertModalShow(json);
-              }
-              if (response.status === "") {
-                // let alertMessage = 'Case created successfully: '+res.data['CreateCase_Output']['CaseNo']+' but error in uploading document';
-                // let json = {show:true,
-                //     message:alertMessage,
-                //     variant:'success'
-                // }
-                // setAlertModalShow(json);
-                // alert(
-                //   "Case created successfully: " +
-                //     res.data["CreateCase_Output"]["CaseNo"] +
-                //     " but error in uploading document"
-                // );
-              }
-              //submitCase(procData, navigateHome);
-            });
+              .post("/uploadFile", fileUploadData)
+              .then((response) => {});
         });
       }
       alert(
@@ -248,28 +245,6 @@ export const useCaseHeader = () => {
     Internal_Due_Date: "",
     Subcase_ID: "",
     White_Glove_Indicator: "",
-  });
-
-  const [claimInformation, setClaimInformation] = useState({
-    caseNumber: "",
-    Authorization_Number: "",
-    Claim_Decision: "",
-    Claim_Number: "",
-    Claim_type: "",
-    Claim_Adjusted_Date: "",
-    Decision_Reason: "",
-    Denied_As_Of_Date: "",
-    Effectuation_Notes: "",
-    Original_Denial_Date: "",
-    Processing_Status: "",
-    Payment_Method: "",
-    Payment_Number: "",
-    Payment_Date: "",
-    Payment_Mail_Date_Postmark: "",
-    Reason_Text: "",
-    Service_Type: "",
-    Service_Start_Date: "",
-    Service_End_Date: "",
   });
 
   const [claimInformationGrid, setClaimInformationGrid] = useState([]);
@@ -852,6 +827,8 @@ export const useCaseHeader = () => {
     caseInformationValidationSchema,
     handleClaimInformationChange,
     claimInformation,
+    setClaimInformation,
+    claimInformationValidationSchema,
     claimInformationGrid,
     setClaimInformationGrid,
     providerInformationGrid,

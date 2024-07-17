@@ -28,12 +28,13 @@ const CaseHeader = () => {
     setCaseTimelines,
     handleCaseHeaderChange,
     caseHeader,
-    handleCaseInformationChange,
     caseInformation,
     setCaseInformation,
     caseInformationValidationSchema,
     handleClaimInformationChange,
     claimInformation,
+    setClaimInformation,
+    claimInformationValidationSchema,
     claimInformationGrid,
     setClaimInformationGrid,
     providerInformationGrid,
@@ -85,8 +86,9 @@ const CaseHeader = () => {
                     caseInformationValidationSchema={caseInformationValidationSchema}
                 />
                 <CaseClaimInformation
-                    handleOnChange={handleClaimInformationChange}
-                    handleData={claimInformation}
+                    claimInformationData={claimInformation}
+                    setClaimInformationData={setClaimInformation}
+                    claimInformationValidationSchema={claimInformationValidationSchema}
                     handleClaimInformationGridData={claimInformationGrid}
                     updateClaimInformationGridData={setClaimInformationGrid}
                     handleProviderInformationGridData={providerInformationGrid}
