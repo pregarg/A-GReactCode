@@ -1138,7 +1138,7 @@ export default function DashboardHomepage() {
     variant: "subtitle2",
     fontWeight: 550,
     color: "#434D5B",
-    gutterBottom: 1,
+    gutterBottom: true,
   };
   const innerTypoStyles = {
     variant: "subtitle2",
@@ -1146,7 +1146,7 @@ export default function DashboardHomepage() {
     marginLeft: -2,
     fontSize: "12px",
     color: "#434D5B",
-    gutterBottom: 1,
+    gutterBottom: true,
   };
   function handleOpenDrawer() {
     setOpenDrawer(true);
