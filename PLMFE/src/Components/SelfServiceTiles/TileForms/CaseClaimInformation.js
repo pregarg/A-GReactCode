@@ -14,6 +14,7 @@ import ClaimSearch from "../TileForms/ClaimSearch";
 import ProviderSearch from "../TileForms/ProviderSearch";
 import useUpdateDecision from '../../CustomHooks/useUpdateDecision';
 import {selectStyle} from "./SelectStyle";
+import caseClaimInformation from "./CaseClaimInformation";
 
 const CaseClaimInformation = (props) => {
   const {
@@ -633,12 +634,13 @@ const CaseClaimInformation = (props) => {
           </div>
       )
     };
+    const dateValue = !!claimInformationData[name + "#date"] ? new Date(claimInformationData[name + "#date"]): claimInformationData[name];
     return (
         <div>
           <ReactDatePicker
               id={name}
               className="form-control example-custom-input-provider"
-              selected={claimInformationData[name]}
+              selected={dateValue}
               name={name}
               dateFormat="MM/dd/yyyy"
               onChange={(date) => handleClaimInformationData(name, date, true)}

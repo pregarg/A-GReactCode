@@ -1,22 +1,22 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { Formik, Field, ErrorMessage, Form } from "formik";
+import React, {useState, useEffect, useRef} from "react";
+import {useLocation, useNavigate} from "react-router-dom";
+import {useSelector} from "react-redux";
+import {Formik, Field, ErrorMessage, Form} from "formik";
 import useGetDBTables from "../../CustomHooks/useGetDBTables";
 import ReactDatePicker from "react-datepicker";
-import Select, { components } from "react-select";
-import { selectStyle } from "./SelectStyle";
+import Select, {components} from "react-select";
+import {selectStyle} from "./SelectStyle";
 import './Appeals.css';
 
 const CaseTimelinesAccordion = (props) => {
   let location = useLocation();
-  const { convertToCase, getDatePartOnly } = useGetDBTables();
+  const {convertToCase, getDatePartOnly} = useGetDBTables();
   const mastersSelector = useSelector((masters) => masters);
   const [caseTimelinesData, setCaseTimelinesData] = useState(props.caseTimelinesData || {});
   const [caseFilingMethodValues, setCaseFilingMethodValues] = useState([]);
 
   const handleCaseTimelinesData = (name, value, persist) => {
-    const newData = { ...caseTimelinesData, [name]: typeof value === 'string' ? convertToCase(value): value };
+    const newData = {...caseTimelinesData, [name]: typeof value === 'string' ? convertToCase(value) : value};
     setCaseTimelinesData(newData);
     if (persist) {
       props.setCaseTimelinesData(newData);
@@ -32,17 +32,17 @@ const CaseTimelinesAccordion = (props) => {
         (field?.tests?.some(test => test.OPTIONS?.name === 'required'));
     return `${placeholder}${required ? ' *' : ''}`;
   };
-  const { ValueContainer, Placeholder } = components;
-  const CustomValueContainer = ({ children, ...props }) => {
+  const {ValueContainer, Placeholder} = components;
+  const CustomValueContainer = ({children, ...props}) => {
     return (
-      <ValueContainer {...props}>
-        <Placeholder {...props} isFocused={props.isFocused}>
-          {props.selectProps.placeholder}
-        </Placeholder>
-        {React.Children.map(children, (child) =>
-          child && child.type !== Placeholder ? child : null
-        )}
-      </ValueContainer>
+        <ValueContainer {...props}>
+          <Placeholder {...props} isFocused={props.isFocused}>
+            {props.selectProps.placeholder}
+          </Placeholder>
+          {React.Children.map(children, (child) =>
+              child && child.type !== Placeholder ? child : null
+          )}
+        </ValueContainer>
     );
   };
   const InputField = (name, placeholder, maxLength) => {
@@ -76,7 +76,7 @@ const CaseTimelinesAccordion = (props) => {
                   {meta.error && (
                       <div
                           className="invalid-feedback"
-                          style={{ display: "block" }}
+                          style={{display: "block"}}
                       >
                         {meta.error}
                       </div>
@@ -94,12 +94,13 @@ const CaseTimelinesAccordion = (props) => {
           <label htmlFor={name}>{wrapPlaceholder(name, label)}</label>
         </div>
     );
+    const dateValue = caseTimelinesData[name + "#date"] ? new Date(caseTimelinesData[name + "#date"]): caseTimelinesData[name];
     return (
         <div>
           <ReactDatePicker
               id={name}
               className="form-control example-custom-input-provider"
-              selected={caseTimelinesData[name]}
+              selected={dateValue}
               name={name}
               dateFormat="MM/dd/yyyy"
               onChange={(date, event) => handleCaseTimelinesData(name, date, true)}
@@ -115,7 +116,7 @@ const CaseTimelinesAccordion = (props) => {
               }}
               customInput={<CustomInput/>}
               disabled={
-                location.state.formView === "DashboardView" &&
+                  location.state.formView === "DashboardView" &&
                   (location.state.stageName === "Redirect Review" ||
                       location.state.stageName === "Effectuate" ||
                       location.state.stageName === "Pending Effectuate" ||
@@ -157,7 +158,10 @@ const CaseTimelinesAccordion = (props) => {
                 isMulti={false}
                 onChange={(value) => handleCaseTimelinesData(name, value?.value, true)}
                 onBlur={persistCaseTimelinesData}
-                value={caseTimelinesData[name] ? {label: caseTimelinesData[name], value: caseTimelinesData[name]} : undefined}
+                value={caseTimelinesData[name] ? {
+                  label: caseTimelinesData[name],
+                  value: caseTimelinesData[name]
+                } : undefined}
                 placeholder={wrapPlaceholder(name, placeholder)}
                 isSearchable={
                     document.documentElement.clientHeight <= document.documentElement.clientWidth
@@ -166,7 +170,7 @@ const CaseTimelinesAccordion = (props) => {
             {meta.touched && meta.error && (
                 <div
                     className="invalid-feedback"
-                    style={{ display: "block" }}
+                    style={{display: "block"}}
                 >
                   {meta.error}
                 </div>
@@ -209,10 +213,11 @@ const CaseTimelinesAccordion = (props) => {
             location.state.stageName === "CaseArchived"))
   }, [location]);
 
-  return  (
+  return (
       <Formik initialValues={props.caseTimelinesData}
               validationSchema={props.caseTimelinesValidationSchema}
-              onSubmit={() => {}}>
+              onSubmit={() => {
+              }}>
         {({errors, touched}) => (
             <Form>
               <div className="accordion-item" id="caseTimelines">
@@ -230,54 +235,54 @@ const CaseTimelinesAccordion = (props) => {
                 </h2>
                 <div
                     id="panelsStayOpen-collapseTimelines"
-              className="accordion-collapse collapse show"
-              aria-labelledby="panelsStayOpen-Timelines"
-            >
-              <div className="accordion-body">
-                <div className="row my-2">
-                  <div className="col-xs-6 col-md-4">
-                    {SelectField('Case_Filing_Method', 'Case Filing Method', caseFilingMethodValues)}
-                  </div>
-                  <div className="col-xs-6 col-md-4">
-                    {InputField("Case_Aging", "Case Aging", 16)}
-                  </div>
-                  <div className="col-xs-6 col-md-4">
-                    {InputField("Compliance_Time_Left_to_Finish", "Compliance Time Left to Finish", 16)}
-                  </div>
-                </div>
-                <div className="row my-2">
-                  <div className="col-xs-6 col-md-4">
-                    {InputField("Acknowledgment_Timely", "Acknowledgement Timely", 16)}
-                  </div>
-                  <div className="col-xs-6 col-md-4">
-                    {InputField("Timeframe_Extended", "Timeframe Extended", 30)}
-                  </div>
-                  <div className="col-xs-6 col-md-4">
-                    {InputField("Case_in_Compliance", "Case in Compliance", 30)}
-                  </div>
-                </div>
-                <div className="row my-2">
-                  <div className="col-xs-6 col-md-4">
-                    {InputField("Out_of_Compliance_Reason", "Out of Compliance Reason", 30)}
-                  </div>
-                  <div className="col-xs-6 col-md-4">
-                    {DatePicker("Case_Received_Date", "Case Received Date", "Date of Birth")}
-                  </div>
-                  <div className="col-xs-6 col-md-4">
-                    {DatePicker("AOR_Received_Date", "AOR Received Date", "AOR Received Date")}
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-xs-6 col-md-4">
-                    {DatePicker("WOL_Received_Date", "WOR Received Date", "WOR Received Date")}
+                    className="accordion-collapse collapse show"
+                    aria-labelledby="panelsStayOpen-Timelines"
+                >
+                  <div className="accordion-body">
+                    <div className="row my-2">
+                      <div className="col-xs-6 col-md-4">
+                        {SelectField('Case_Filing_Method', 'Case Filing Method', caseFilingMethodValues)}
+                      </div>
+                      <div className="col-xs-6 col-md-4">
+                        {InputField("Case_Aging", "Case Aging", 16)}
+                      </div>
+                      <div className="col-xs-6 col-md-4">
+                        {InputField("Compliance_Time_Left_to_Finish", "Compliance Time Left to Finish", 16)}
+                      </div>
+                    </div>
+                    <div className="row my-2">
+                      <div className="col-xs-6 col-md-4">
+                        {InputField("Acknowledgment_Timely", "Acknowledgement Timely", 16)}
+                      </div>
+                      <div className="col-xs-6 col-md-4">
+                        {InputField("Timeframe_Extended", "Timeframe Extended", 30)}
+                      </div>
+                      <div className="col-xs-6 col-md-4">
+                        {InputField("Case_in_Compliance", "Case in Compliance", 30)}
+                      </div>
+                    </div>
+                    <div className="row my-2">
+                      <div className="col-xs-6 col-md-4">
+                        {InputField("Out_of_Compliance_Reason", "Out of Compliance Reason", 30)}
+                      </div>
+                      <div className="col-xs-6 col-md-4">
+                        {DatePicker("Case_Received_Date", "Case Received Date", "Date of Birth")}
+                      </div>
+                      <div className="col-xs-6 col-md-4">
+                        {DatePicker("AOR_Received_Date", "AOR Received Date", "AOR Received Date")}
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col-xs-6 col-md-4">
+                        {DatePicker("WOL_Received_Date", "WOR Received Date", "WOR Received Date")}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </Form>
-      )}
-    </Formik>
+            </Form>
+        )}
+      </Formik>
   );
 };
 
