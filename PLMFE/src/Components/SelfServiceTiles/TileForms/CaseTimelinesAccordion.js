@@ -58,6 +58,7 @@ const CaseTimelinesAccordion = (props) => {
                       maxLength={maxLength}
                       type="text"
                       id={name}
+                      autoComplete="off"
                       className={`form-control ${meta.error
                           ? "is-invalid"
                           : field.value
@@ -90,11 +91,11 @@ const CaseTimelinesAccordion = (props) => {
   const DatePicker = (name, label, placeholder) => {
     const CustomInput = (props) => (
         <div className="form-floating">
-          <input {...props} placeholder={wrapPlaceholder(name, placeholder)}/>
+          <input {...props} autoComplete="off" placeholder={wrapPlaceholder(name, placeholder)}/>
           <label htmlFor={name}>{wrapPlaceholder(name, label)}</label>
         </div>
     );
-    const dateValue = caseTimelinesData[name + "#date"] ? new Date(caseTimelinesData[name + "#date"]): caseTimelinesData[name];
+    const dateValue = caseTimelinesData[name + "#date"] ? new Date(caseTimelinesData[name + "#date"]) : caseTimelinesData[name];
     return (
         <div>
           <ReactDatePicker
@@ -157,7 +158,6 @@ const CaseTimelinesAccordion = (props) => {
                 id={name}
                 isMulti={false}
                 onChange={(value) => handleCaseTimelinesData(name, value?.value, true)}
-                onBlur={persistCaseTimelinesData}
                 value={caseTimelinesData[name] ? {
                   label: caseTimelinesData[name],
                   value: caseTimelinesData[name]

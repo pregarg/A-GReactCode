@@ -35,13 +35,6 @@ export default function useFormikValidation(){
                 inputField.focus();
             }, 500);
             }
-            /*divElems.every((el)=>{
-            const inputField = el.querySelector(`input[name="${errorKeys[0]}"]`)
-            console.log("Input Field===== ",inputField);
-            if(inputField){     
-                return false;
-            }
-            })*/
         }
         else{
             document.getElementsByName(errorKeys[0])[0].focus();

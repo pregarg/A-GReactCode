@@ -596,6 +596,7 @@ const CaseClaimInformation = (props) => {
                       maxLength={maxLength}
                       type="text"
                       id={name}
+                      autoComplete="off"
                       className={`form-control ${meta.error
                           ? "is-invalid"
                           : field.value
@@ -629,7 +630,7 @@ const CaseClaimInformation = (props) => {
     const CustomInput = (props) => {
       return (
           <div className="form-floating">
-            <input {...props} placeholder={wrapPlaceholder(name, placeholder)}/>
+            <input {...props} autoComplete="off" placeholder={wrapPlaceholder(name, placeholder)}/>
             <label htmlFor={name}>{wrapPlaceholder(name, label)}</label>
           </div>
       )
@@ -697,7 +698,6 @@ const CaseClaimInformation = (props) => {
                 id={name}
                 isMulti={false}
                 onChange={(value) => handleClaimInformationData(name, value?.value, true)}
-                onBlur={persistClaimInformationData}
                 value={claimInformationData[name] ? {
                   label: claimInformationData[name],
                   value: claimInformationData[name]
