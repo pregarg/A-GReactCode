@@ -567,22 +567,9 @@ export default function DashboardHomepage() {
         if (res.data.CallProcedure_Output.Status === 0) {
           let chartData = {};
           let respData = [...res.data.CallProcedure_Output.data];
-          printConsole(
-            "Get data Response for getBarChartData final data: ",
-            respData
-          );
-          let provFiltered = respData.filter((elem) => elem.FLOWID === 2);
-          chartData.Provider = provFiltered;
-          //setProvChartData(provFiltered);
-          printConsole(
-            "Get data Response for getBarChartData provChartRef data: ",
-            provChartRef.current
-          );
-          let contFiltered = respData.filter((elem) => elem.FLOWID === 1);
-          chartData.Contracting = contFiltered;
-          setProvChartData(chartData);
           let appealFiltered = respData.filter((elem) => elem.FLOWID === 3);
           chartData.Appealing = appealFiltered;
+          setProvChartData(chartData);
         }
       })
       .catch((err) => {
@@ -600,6 +587,7 @@ export default function DashboardHomepage() {
       StageName: "=~" + stageName,
       FlowId: "=~" + flowId,
     };
+    console.log("dashboard api json ",getApiJson )
     customAxios
       .post("/generic/get", getApiJson, {
         headers: { Authorization: `Bearer ${token}` },
@@ -1908,59 +1896,8 @@ export default function DashboardHomepage() {
                   setTableRows={getAllCases}
                 />
               )}
-              <Grid item md={6}>
-                <div
-                  className="card"
-                  style={{
-                    height: "auto",
-                    borderTop: "5px solid var(--text)",
-                  }}
-                >
-                  <div className="card-body">
-                    <div className="card-title" style={{ textAlign: "left" }}>
-                      Provider Cases
-                    </div>
-                    <div className="card-text my-2">
-                      {provChartData.Provider.length > 0 && (
-                        <div>
-                          <p>{console.log("provChartData.Provider.length", provChartData.Provider.length)}</p>
-                          <DashboardBarChart
-                            gridData={provChartData.Provider}
-                            gridName={"Provider"}
-                            dashboardTableData={getDashboardTableData}
-                            isRender={donutRender}
-                          ></DashboardBarChart>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </Grid>
-              <Grid item md={6}>
-                <div
-                  className="card"
-                  style={{
-                    height: "auto",
-                    borderTop: "5px solid var(--text)",
-                  }}
-                >
-                  <div className="card-body">
-                    <div className="card-title" style={{ textAlign: "left" }}>
-                      Provider Contracting Cases
-                    </div>
-                    <div className="card-text my-2">
-                      {provChartData.Contracting.length > 0 && (
-                        <DashboardBarChart
-                          gridData={provChartData.Contracting}
-                          gridName={"Contracting"}
-                          dashboardTableData={getDashboardTableData}
-                          isRender={donutRender}
-                        ></DashboardBarChart>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </Grid>
+
+  
               <Grid item md={6}>
                 <div
                   className="card"
@@ -1974,7 +1911,7 @@ export default function DashboardHomepage() {
                       Appeal Cases
                     </div>
                     <div className="card-text my-2">
-                      {provChartData.Contracting.length > 0 && (
+                      {provChartData.Appealing.length > 0 && (
                         <DashboardBarChart
                           gridData={provChartData.Appealing}
                           gridName={"Appealing"}

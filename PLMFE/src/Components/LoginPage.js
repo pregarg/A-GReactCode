@@ -13,7 +13,7 @@ import {
   getMasterAdditionalQues,
   getMasterContractType,
   getMasterDecision,
-  getMasterDecisionReason,
+ // getMasterDecisionReason,
   getMasterTaxonomyCode,
   getMasterProviderType,
   getMasterDocumentName,
@@ -244,14 +244,14 @@ export default function LoginPage() {
           onMasterLoadSuccess
         )
       );
-      dispatch(
-        getMasterDecisionReason(
-          loginToken,
-          false,
-          onMasterLoadFail,
-          onMasterLoadSuccess
-        )
-      );
+      // dispatch(
+      //   getMasterDecisionReason(
+      //     loginToken,
+      //     false,
+      //     onMasterLoadFail,
+      //     onMasterLoadSuccess
+      //   )
+      // );
       dispatch(
         getMasterTaxonomyCode(
           loginToken,

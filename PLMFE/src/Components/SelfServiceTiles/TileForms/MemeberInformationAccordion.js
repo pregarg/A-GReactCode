@@ -145,8 +145,10 @@ const MemeberInformationAccordion = (props) => {
                 if (apiResponse.hasOwnProperty("Date_of_Birth") && typeof apiResponse.Date_of_Birth === "string") {
                   const mad = new Date(getDatePartOnly(apiResponse.Date_of_Birth));
                   apiResponse.Date_of_Birth = extractDate(mad);
+                  
                   console.log("dob-->",mad)
                   console.log("dob2-->",extractDate(mad))
+                 
     
                 }
                 if (apiResponse.hasOwnProperty("Plan_Effective_Date") && typeof apiResponse.Plan_Effective_Date === "string") {
@@ -487,7 +489,7 @@ const MemeberInformationAccordion = (props) => {
                                         //         ? new Date(memberInformationData.Date_of_Birth)
                                         //         : null
                                         
-                                        memberInformationData.Date_of_Birth
+                                       memberInformationData.Date_of_Birth
                                        }
                                     name="dateofbirth"
                                     dateFormat="MM/dd/yyyy"
@@ -1348,22 +1350,14 @@ const MemeberInformationAccordion = (props) => {
                                 <ReactDatePicker
                                     id="datePicker"
                                     className="form-control example-custom-input-provider"
-                                    selected={
-                                        // memberInformationData?.
-                                        // Plan_Effective_Date?.value !== undefined
-                                        //     ? new Date(memberInformationData.
-                                        //         Plan_Effective_Date
-                                        //         .value)
-                                        //     : memberInformationData?.
-                                        //     Plan_Effective_Date
-                                        //      !== undefined
-                                        //         ? new Date(memberInformationData.
-                                        //             Plan_Effective_Date
-                                        //             )
-                                        //         : null
-                                        
-                                         memberInformationData.Plan_Effective_Date
-                                        }
+                                    // selected={
+                                    //     // memberInformationData?.Plan_Effective_Date?.value !== undefined
+                                    //     //     ? new Date(memberInformationData. Plan_Effective_Date.value.toString())
+                                    //     //     : memberInformationData?.Plan_Effective_Date !== undefined
+                                    //     //         ? new Date(memberInformationData.Plan_Effective_Date.toString())
+                                    //     //         : null
+                                    //     memberInformationData.Plan_Effective_Date
+                                    //     }
                                     name="planeffectivedate"
                                     dateFormat="MM/dd/yyyy"
                                     peekNextMonth
@@ -1399,14 +1393,14 @@ const MemeberInformationAccordion = (props) => {
                                 <ReactDatePicker
                                     id="datePicker"
                                     className="form-control example-custom-input-provider"
-                                    selected={
-                                        // memberInformationData?.Plan_Expiration_Date?.value !== undefined
-                                        // ? new Date(memberInformationData.Plan_Expiration_Date.value)
-                                        // : memberInformationData?.Plan_Expiration_Date !== undefined
-                                        //     ? new Date(memberInformationData.Plan_Expiration_Date)
-                                        //     : null
-                                        memberInformationData.Plan_Expiration_Date
-                                        }
+                                    // selected={
+                                    //     // memberInformationData?.Plan_Expiration_Date?.value !== undefined
+                                    //     // ? new Date(memberInformationData.Plan_Expiration_Date.value.toString())
+                                    //     // : memberInformationData?.Plan_Expiration_Date !== undefined
+                                    //     //     ? new Date(memberInformationData.Plan_Expiration_Date.toString())
+                                    //     //     : null
+                                    //     memberInformationData.Plan_Expiration_Date
+                                    //     }
                                     name="planexpirationdate"
                                     dateFormat="MM/dd/yyyy"
                                     peekNextMonth

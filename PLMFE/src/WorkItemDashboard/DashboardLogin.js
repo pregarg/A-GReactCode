@@ -47,7 +47,7 @@ import {
   getMasterSpeciality,
   getMasterGraduateType,
   getMasterDecision,
-  getMasterDecisionReason,
+  //getMasterDecisionReason,
   getMasterDocumentName,
   getMasterDocumentList,
   getMasterAdditionalQues,
@@ -227,14 +227,14 @@ export default function DashboardLogin() {
         onMasterLoadSuccess
       )
     );
-    dispatch(
-      getMasterDecisionReason(
-        loginToken,
-        false,
-        onMasterLoadFail,
-        onMasterLoadSuccess
-      )
-    );
+    // dispatch(
+    //   getMasterDecisionReason(
+    //     loginToken,
+    //     false,
+    //     onMasterLoadFail,
+    //     onMasterLoadSuccess
+    //   )
+    // );
     dispatch(
       getMasterDocumentName(
         loginToken,

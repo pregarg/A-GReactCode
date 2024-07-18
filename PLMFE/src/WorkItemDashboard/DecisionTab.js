@@ -188,7 +188,6 @@ export default function DecisionTab(tabInput) {
   };
 
   const handleLinearFieldChange = (evt) => {
-    console.log("decisionNotes-->")
     const value = evt.target.value;
     if (evt.target.name === "decisionNotes") {
       console.log("evt.target.name--->",evt.target.name)
@@ -202,35 +201,45 @@ export default function DecisionTab(tabInput) {
 
   const handleModalShowHide = (index, flagValue, requestedFrom) => {
     const stageName = prop.state.stageName;
-  
+    console.log("inside handlemodalshow 1----", stageName);
+
     if (requestedFrom === "Close") {
-      setFileState([...fileState, { selectedFile: null, fileIndex: index }]);
+        setFileState([...fileState, { selectedFile: null, fileIndex: index }]);
     }
-  
+
     let newArray = [...documentData];
     newArray = convertArrayToOuterArray(newArray);
-    let documentName =
-      newArray[index]["documentType"] === undefined
-        ? ""
-        : newArray[index]["documentType"].value;
-  
-    if (documentName === "") {
-      alert("Please select Document Name first");
-      selectRef.current.focus();
-      return; 
-    } 
-  
-    if (stageName === "Case Completed") {
-      alert("Documents can't be modified");
-      return; 
+    let documentName = "";
+
+    if (Array.isArray(newArray) && newArray[index]) {
+        let documentType = newArray[index].documentType;
+        console.log("DocumentType at index:", documentType);
+        if (documentType) {
+            documentName = documentType;
+        }
     }
-  
+
+    if (documentName === "") {
+        alert("Please select Document Name first");
+        selectRef.current.focus();
+        return;
+    }
+
+    if (stageName === "Case Completed") {
+        let existingDocument = newArray[index]?.docUploadPath;
+        if (existingDocument) {
+            alert("Documents can't be modified");
+            return;
+        }
+    }
+
     let docIndexJson = { ...docClickedIndex.current };
     docIndexJson.FileUpload = index;
     docClickedIndex.current = docIndexJson;
-  
+
     setModalShow({ ...modalShow, FileUpload: flagValue });
-  };
+};
+;
   
   const handleFileUpload = (evnt, index) => {
     if (evnt.target.files[0] === undefined) {
@@ -421,74 +430,70 @@ export default function DecisionTab(tabInput) {
   useEffect(() => {
     let selectJson = {};
     let mappedObject = {};
+    let decisionOptions = [];
 
-    console.log("stageName--->",stageName)
+    console.log("stageName--->", stageName);
+
     if (decisonRef.current !== null && tabInput?.buttonClicked !== "callProc") {
-      decisonRef.current.clearValue();
+        decisonRef.current.clearValue();
     }
 
-    //Decison Dropdown
+    // Decision Dropdown
     if (mastersSelector.hasOwnProperty("masterAngDecision")) {
-     
-    
-     
-        console.log("logger descision : ", mastersSelector["masterAngDecision"])
-      
-        selectJson.decisionOptions =
-          mastersSelector["masterAngDecision"].length === 0
-            ? []
-            : mastersSelector["masterAngDecision"][0];
-          
-        selectJson["decisionOptions"]
-          .filter(
-           
+        console.log("logger decision: ", mastersSelector["masterAngDecision"]);
 
-            (data) =>{console.log("data--->",data.WORKSTEP)
-              return  data.WORKSTEP.toLowerCase() == stageName.toLowerCase()
-            }
-          ).map((val) => {
-            const existingIndex = decisionOptions.findIndex((item) => item.value === val.DECISION);
-            
-            if (existingIndex === -1) {
-              decisionOptions.push({
-                value: val.DECISION,
-                label: val.DECISION
-              });
-            }
-          }
-          );
-          
+        selectJson.decisionOptions = Array.isArray(mastersSelector["masterAngDecision"]) 
+            ? mastersSelector["masterAngDecision"][0] || [] 
+            : [];
 
-        selectJson["decisionOptions"]
-          .filter(
-            (data) => data.WORKSTEP.toLowerCase() == stageName.toLowerCase()
-          ).map((val) => {
-            let stageName = val.WORKSTEP;
-            let decision = val.DECISION;
-            let decisionReason = val.DECISION_REASON;
-            if (!mappedObject[stageName]) {
-              mappedObject[stageName] = {};
-            }
-            if (!mappedObject[stageName][decision]) {
-              mappedObject[stageName][decision] = [];
-            }
-            mappedObject[stageName][decision].push({
-              value: decisionReason,
-              label: decisionReason
-            });
-          }
-          );
-      
+        if (Array.isArray(selectJson.decisionOptions)) {
+            selectJson.decisionOptions
+                .filter((data) => {
+                    console.log("data--->", data.WORKSTEP);
+                    return data.WORKSTEP.toLowerCase() == stageName.toLowerCase();
+                })
+                .map((val) => {
+                    const existingIndex = decisionOptions.findIndex((item) => item.value === val.DECISION);
+                    if (existingIndex === -1) {
+                        decisionOptions.push({
+                            value: val.DECISION,
+                            label: val.DECISION,
+                        });
+                    }
+                });
+
+            selectJson.decisionOptions
+                .filter((data) => data.WORKSTEP.toLowerCase() == stageName.toLowerCase())
+                .map((val) => {
+                    let stageName = val.WORKSTEP;
+                    let decision = val.DECISION;
+                    let decisionReason = val.DECISION_REASON;
+                    if (!mappedObject[stageName]) {
+                        mappedObject[stageName] = {};
+                    }
+                    if (!mappedObject[stageName][decision]) {
+                        mappedObject[stageName][decision] = [];
+                    }
+                    mappedObject[stageName][decision].push({
+                        value: decisionReason,
+                        label: decisionReason,
+                    });
+                });
+        } else {
+            console.error("selectJson.decisionOptions is not an array");
+        }
     }
+
     console.log("decision options", decisionOptions);
     console.log("mapped object", mappedObject);
 
     setTimeout(() => {
-      setSelectValues(decisionOptions);
-      setDecisionReasonArray(mappedObject);
-      console.log("logger selectValues ", selectValues);
+        setSelectValues(decisionOptions);
+        setDecisionReasonArray(mappedObject);
+        console.log("logger selectValues ", selectValues);
     }, 1000);
-  }, [tabInput]);
+}, [tabInput]);
+
 
   const openDecisionModal = (index) => {
     let docIndexJson = { ...docClickedIndex.current };

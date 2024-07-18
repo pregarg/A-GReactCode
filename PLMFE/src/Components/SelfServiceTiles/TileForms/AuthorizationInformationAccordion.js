@@ -7,6 +7,7 @@ import useGetDBTables from "../../CustomHooks/useGetDBTables";
 import CaseHeader from './CaseHeader';
 import AuthorizationInformationTable from "../TileFormsTables/AuthorizationInformationTable";
 import useUpdateDecision from '../../CustomHooks/useUpdateDecision';
+import AuthSearch from "../TileForms/AuthSearch";
 
 const AuthorizationInformationAccordion = (props) => {
     const {
@@ -30,6 +31,8 @@ const AuthorizationInformationAccordion = (props) => {
     const [gridFieldTempState, setGridFieldTempState] = useState({});
 
     const mastersSelector = useSelector((masters) => masters);
+    const [showAuthSearch, setShowAuthSearch] = useState(false);
+   
 
     const CustomValueContainer = ({ children, ...props }) => {
         return (
@@ -43,6 +46,10 @@ const AuthorizationInformationAccordion = (props) => {
             </ValueContainer>
         );
     };
+    
+    const handleShowAuthSearch = () => {
+        setShowAuthSearch(true);
+    }
 
     const tabRef = useRef("HomeView");
     let prop = useLocation();
@@ -336,6 +343,7 @@ const AuthorizationInformationAccordion = (props) => {
                     aria-labelledby="panelsStayOpen-claimInformation"
                 >
                     <div className="accordion-body">
+                    <button type="button" class="btn btn-outline-primary" onClick={event => handleShowAuthSearch(event)}>Auth Search</button>         
                         <div className="row my-2">
                             <div className="col-xs-6 col-md-4">
                                 <Field name="authdecision">
@@ -469,10 +477,16 @@ const AuthorizationInformationAccordion = (props) => {
                                 ></AuthorizationInformationTable>
                             </div>
                         </div>
+                        {showAuthSearch && (
+                            <AuthSearch 
+                            />
+                        )
+                        }
                     </div>
                 </div>
             </div>
         </div>
-    )
+    );
 }
+
 export default AuthorizationInformationAccordion;
