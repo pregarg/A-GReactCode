@@ -187,7 +187,7 @@ export default function MemberSearch(modalProps) {
                         id="memberLastNameId"
                         placeholder="Enter Member Last Name"
                         name="memberLastNameId"
-                        value={modalProps.selectSearchValues?.memberLasstNameId || ""}
+                        value={modalProps.selectSearchValues?.memberLastNameId || ""}
                         onChange={(event) => handleCriteriaChangeValue(event)}
                         disabled={modalProps.selectedCriteria !== "memberFirstName"}
                       />

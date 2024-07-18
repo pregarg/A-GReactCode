@@ -1633,37 +1633,37 @@ export const getMasterDecision = (
   };
 };
 
-export const getMasterDecisionReason = (
-  token,
-  clearFlag = false,
-  onError,
-  onSuccess
-) => {
-  return (dispatch) => {
+// export const getMasterDecisionReason = (
+//   token,
+//   clearFlag = false,
+//   onError,
+//   onSuccess
+// ) => {
+//   return (dispatch) => {
 
-    if (!clearFlag) {
-      axios
-        .get("/master/decision/reason", {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then((response) => {
-          console.log(response);
-          dispatch({ type: "GET_DECISION_REASON", payload: response.data });
-          if (onSuccess) {
-            onSuccess(response);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-          if (onError) {
-            onError(error);
-          }
-        });
-    } else if (clearFlag) {
-      dispatch({ type: "CLEAR_DECISION_REASON", payload: "" });
-    }
-  };
-};
+//     if (!clearFlag) {
+//       axios
+//         .get("/master/decision/reason", {
+//           headers: { Authorization: `Bearer ${token}` },
+//         })
+//         .then((response) => {
+//           console.log(response);
+//           dispatch({ type: "GET_DECISION_REASON", payload: response.data });
+//           if (onSuccess) {
+//             onSuccess(response);
+//           }
+//         })
+//         .catch((error) => {
+//           console.log(error);
+//           if (onError) {
+//             onError(error);
+//           }
+//         });
+//     } else if (clearFlag) {
+//       dispatch({ type: "CLEAR_DECISION_REASON", payload: "" });
+//     }
+//   };
+// };
 
 export const getMasterDocumentName = (
   token,

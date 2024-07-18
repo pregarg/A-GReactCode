@@ -147,8 +147,8 @@ const CaseClaimInformation = (props) => {
 
     const angDecision = mastersSelector?.masterAngDecision?.[0] || [];
     console.log("abc-->",angDecision)
-    // setDecisionValues([...new Set(angDecision.data.map(e => convertToCase(e.DECISION)))].map(kvMapper));
-    // setDecisionReasonValues([...new Set(angDecision.data.map(e => convertToCase(e.DECISION_REASON)))].map(kvMapper));
+    setDecisionValues([...new Set(angDecision.map(e => convertToCase(e.DECISION)))].map(kvMapper));
+    setDecisionReasonValues([...new Set(angDecision.map(e => convertToCase(e.DECISION_REASON)))].map(kvMapper));
 
     const authServiceType = mastersSelector?.masterAngAuthServiceType?.[0] || [];
     setServiceTypeValues(authServiceType.map(e => e.SERVICE_TYPE_DESC).map(kvMapper));
