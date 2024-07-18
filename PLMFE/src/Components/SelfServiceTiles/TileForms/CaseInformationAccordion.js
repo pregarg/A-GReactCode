@@ -113,6 +113,7 @@ const CaseInformationAccordion = (props) => {
                       maxLength={maxLength}
                       type="text"
                       id={name}
+                      autoComplete="off"
                       className={`form-control ${meta.error
                           ? "is-invalid"
                           : field.value
@@ -170,7 +171,6 @@ const CaseInformationAccordion = (props) => {
                 id={name}
                 isMulti={false}
                 onChange={(value) => handleCaseInformationData(name, value?.value, true)}
-                onBlur={persistCaseInformationData}
                 value={caseInformationData[name] ? {
                   label: caseInformationData[name],
                   value: caseInformationData[name]

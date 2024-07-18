@@ -85,7 +85,7 @@ export const useCaseHeader = () => {
     Review_Type: Yup.string().required(),
   });
   const claimInformationValidationSchema = Yup.object().shape({
-    //Claim_Decision: Yup.string().required(),
+    Claim_Decision: Yup.string().required(),
     Payment_Method: Yup.string().required(),
     Payment_Number: Yup.string().required(),
     Effectuation_Notes: Yup.string().required(),
@@ -100,7 +100,7 @@ export const useCaseHeader = () => {
       claimInformationValidationSchema.validate(claimInformation)
     ]).then(() => setHasSubmitError(false))
         .catch(err => setHasSubmitError(true));
-  }, [caseTimelines, caseInformation]);
+  }, [caseTimelines, caseInformation, claimInformation]);
 
   const submitData = async () => {
 
