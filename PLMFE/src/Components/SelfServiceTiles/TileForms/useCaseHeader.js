@@ -66,6 +66,53 @@ export const useCaseHeader = () => {
     Service_Start_Date: undefined,
     Service_End_Date: undefined,
   });
+  const [memberInformation, setMemberInformation] = useState({
+    caseNumber: "",
+    Address_Line_1: "",
+    Address_Line_2: "",
+    City: "",
+    Communication_Preference: "",
+    ContractPlan_ID: "",
+    County: "",
+    Date_of_Birth: undefined,
+    Deceased: "",
+    Dual_Plan: "",
+    Email_Address: "",
+    Email_ID: "",
+    Fax_Number: "",
+    Gender: "",
+    Mail_to_Address: "",
+    Medicaid_ID: "",
+    Medicare_ID_HICN: "",
+    Members_Age: "",
+    Member_First_Name: "",
+    Member_ID: "",
+    Member_IPA: "",
+    Member_Last_Name: "",
+    PBP: "",
+    PCP_ID: "",
+    PCP_NPI_ID: "",
+    Phone_Number: "",
+    Plan_Code: "",
+    Plan_Description: "",
+    Plan_Effective_Date: undefined,
+    Plan_Expiration_Date: undefined,
+    Plan_Name: "",
+    Preferred_Language: "",
+    Primary_Care_Physician_PCP: "",
+    Special_Need_Indicator: "",
+    State_: "",
+    Zip_Code: "",
+  });
+  const [expeditedRequest, setExpeditedRequest] = useState({
+    Expedited_Requested: "",
+    Expedited_Reason: "",
+    Standard_Upgraded_to_Expedited: "",
+    Expedited_Denied: "",
+    Expedited_Upgrade_Date_Time: undefined,
+    Expedited_Denied_Date: undefined,
+    Decision_Letter_Date: undefined
+  });
 
   const caseTimelinesValidationSchema = Yup.object().shape({
     Case_Filing_Method: Yup.string().required(),
@@ -92,15 +139,19 @@ export const useCaseHeader = () => {
     Claim_Adjusted_Date: Yup.date().required(),
     Payment_Mail_Date_Postmark: Yup.date().required(),
   });
+  const memberInformationValidationSchema = Yup.object().shape({});
+  const expeditedRequestValidationSchema = Yup.object().shape({});
 
   useEffect(() => {
     Promise.all([
       caseTimelinesValidationSchema.validate(caseTimelines),
       caseInformationValidationSchema.validate(caseInformation),
-      claimInformationValidationSchema.validate(claimInformation)
+      claimInformationValidationSchema.validate(claimInformation),
+      memberInformationValidationSchema.validate(memberInformation),
+      expeditedRequestValidationSchema.validate(expeditedRequest)
     ]).then(() => setHasSubmitError(false))
         .catch(err => setHasSubmitError(true));
-  }, [caseTimelines, caseInformation, claimInformation]);
+  }, [caseTimelines, caseInformation, claimInformation, memberInformation, expeditedRequest]);
 
   const submitData = async () => {
 
@@ -145,7 +196,7 @@ export const useCaseHeader = () => {
     const stageName = caseheaderConfigData["StageName"];
 
     apiJson["MainCaseTable"] = mainCaseReqBody;
-    console.log("APIJSON--->",apiJson);
+    console.log("APIJSON--->", apiJson);
 
     const response = await customAxios.post("/generic/create", apiJson, {
       headers: {Authorization: `Bearer ${token}`},
@@ -173,7 +224,7 @@ export const useCaseHeader = () => {
       procDataState.formNames = 'Appeals';
       procData.state = procDataState;
       console.log("PocData State: ", procData);
-      console.log( "Inside Add Provider File UPLOAD DATA: ",documentSectionDataRef.current);
+      console.log("Inside Add Provider File UPLOAD DATA: ", documentSectionDataRef.current);
       if (documentSectionDataRef.current.length > 0) {
         let documentArray = [...documentSectionDataRef.current];
         documentArray = documentArray.filter(
@@ -190,7 +241,8 @@ export const useCaseHeader = () => {
           fileUploadData.append("docType", e.documentType);
           fileUpDownAxios
               .post("/uploadFile", fileUploadData)
-              .then((response) => {});
+              .then((response) => {
+              });
         });
       }
       alert(
@@ -249,45 +301,6 @@ export const useCaseHeader = () => {
 
   const [providerInformationGrid, setProviderInformationGrid] = useState([]);
 
-  const [memberInformation, setMemberInformation] = useState({
-    caseNumber: "",
-    Address_Line_1: "",
-    Address_Line_2: "",
-    City: "",
-    Communication_Preference: "",
-    ContractPlan_ID: "",
-    County: "",
-    Date_of_Birth: "",
-    Deceased: "",
-    Dual_Plan: "",
-    Email_Address: "",
-    Email_ID: "",
-    Fax_Number: "",
-    Gender: "",
-    Mail_to_Address: "",
-    Medicaid_ID: "",
-    Medicare_ID_HICN: "",
-    Members_Age: "",
-    Member_First_Name: "",
-    Member_ID: "",
-    Member_IPA: "",
-    Member_Last_Name: "",
-    PBP: "",
-    PCP_ID: "",
-    PCP_NPI_ID: "",
-    Phone_Number: "",
-    Plan_Code: "",
-    Plan_Description: "",
-    Plan_Effective_Date: "",
-    Plan_Expiration_Date: "",
-    Plan_Name: "",
-    Preferred_Language: "",
-    Primary_Care_Physician_PCP: "",
-    Special_Need_Indicator: "",
-    State_: "",
-    Zip_Code: "",
-  });
-
   const [representativeInformationGrid, setRepresentativeInformationGrid] = useState([]);
 
   const [authorizationInformation, setAuthorizationInformation] = useState({
@@ -296,16 +309,6 @@ export const useCaseHeader = () => {
   });
 
   const [authorizationInformationGrid, setAuthorizationInformationGrid] = useState([]);
-
-  const [expeditedRequest, setExpeditedRequest] = useState({
-    Expedited_Requested: "",
-    Expedited_Reason: "",
-    Standard_Upgraded_to_Expedited: "",
-    Expedited_Denied: "",
-    Expedited_Upgrade_Date_Time: "",
-    Expedited_Denied_Date: "",
-    Decision_Letter_Date: ""
-  });
 
   const [mainCaseDetails, setMainCaseDetails] = useState({
     flowId: 0,
@@ -357,7 +360,8 @@ export const useCaseHeader = () => {
   const mastersSelector = useSelector((masters) => masters);
   const {
     trimJsonValues,
-    extractDate, getTableDetails, getDatePartOnly
+    extractDate,
+    getTableDetails
   } = useGetDBTables();
   const {
     submitCase,
@@ -375,20 +379,8 @@ export const useCaseHeader = () => {
   const handleCaseHeaderChange = (value, name) => {
     setCaseHeader({...caseHeader, [name]: value});
   };
-  const handleCaseInformationChange = (value, name) => {
-    setCaseInformation({...caseInformation, [name]: value});
-  }
-  const handleClaimInformationChange = (value, name) => {
-    setClaimInformation({...claimInformation, [name]: value});
-  };
-  const handleMemberInformationChange = (value, name) => {
-    setMemberInformation({...memberInformation, [name]: value});
-  };
   const handleAuthorizationInformationChange = (value, name) => {
     setAuthorizationInformation({...authorizationInformation, [name]: value});
-  };
-  const handleExpeditedRequestChange = (value, name) => {
-    setExpeditedRequest({...expeditedRequest, [name]: value});
   };
 
   const getGridDataValues = (tableData) => {
@@ -428,38 +420,6 @@ export const useCaseHeader = () => {
       returnArray.push(trimJsonValues(dataObject));
     });
     return returnArray;
-  };
-
-  const convertToDateObj = (jsonObj) => {
-    try {
-      const jsonKeys = Object.keys(jsonObj);
-      jsonKeys.forEach((elem) => {
-        if (elem.includes("#date")) {
-          const date = new Date(getDatePartOnly(jsonObj[elem]));
-          const oldKey = elem;
-          const newKey = elem.split("#")[0];
-          jsonObj = renameKey(jsonObj, oldKey, newKey);
-          jsonObj[newKey] = date;
-        }
-      });
-      return jsonObj;
-    } catch (error) {
-      // Handle the error here
-      console.error("An error occurred convertToDateObj:", error);
-    }
-  };
-
-  const renameKey = (obj, oldKey, newKey) => {
-    try {
-      if (obj.hasOwnProperty(oldKey)) {
-        obj[newKey] = obj[oldKey];
-        delete obj[oldKey];
-      }
-      return obj;
-    } catch (error) {
-      // Handle the error here
-      console.error("An error occurred renameKey:", error);
-    }
   };
 
   function getCaseByCaseNumber() {
@@ -819,11 +779,9 @@ export const useCaseHeader = () => {
     setCaseTimelines,
     handleCaseHeaderChange,
     caseHeader,
-    handleCaseInformationChange,
     caseInformation,
     setCaseInformation,
     caseInformationValidationSchema,
-    handleClaimInformationChange,
     claimInformation,
     setClaimInformation,
     claimInformationValidationSchema,
@@ -831,16 +789,18 @@ export const useCaseHeader = () => {
     setClaimInformationGrid,
     providerInformationGrid,
     setProviderInformationGrid,
-    handleMemberInformationChange,
     memberInformation,
+    memberInformationValidationSchema,
+    setMemberInformation,
     representativeInformationGrid,
     setRepresentativeInformationGrid,
     handleAuthorizationInformationChange,
     authorizationInformation,
     authorizationInformationGrid,
     setAuthorizationInformationGrid,
-    handleExpeditedRequestChange,
     expeditedRequest,
+    setExpeditedRequest,
+    expeditedRequestValidationSchema,
     location,
     navigateHome,
     saveAndExit,

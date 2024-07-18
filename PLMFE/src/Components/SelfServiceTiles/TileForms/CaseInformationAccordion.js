@@ -14,7 +14,6 @@ const CaseInformationAccordion = (props) => {
   const [caseInformationData, setCaseInformationData] = useState(props.caseInformationData);
   const mastersSelector = useSelector((masters) => masters);
 
-  const tabRef = useRef("HomeView");
   let location = useLocation();
 
   const [lobValues, setLobValues] = useState([]);
