@@ -1,4 +1,4 @@
-import React,{useRef} from "react";
+import React from "react";
 import {Formik} from "formik";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
@@ -8,22 +8,22 @@ import CaseInformationAccordion from "./CaseInformationAccordion";
 import CaseClaimInformation from "./CaseClaimInformation";
 import DecisionTab from "../../../WorkItemDashboard/DecisionTab";
 import CaseInformation from "../../../WorkItemDashboard/CaseInformation";
-import MemeberInformationAccordion from "./MemeberInformationAccordion";
+import MemberInformationAccordion from "./MemberInformationAccordion";
 import AuthorizationInformationAccordion from "./AuthorizationInformationAccordion";
 import ExpeditedRequestAccordion from "./ExpeditedRequestAccordion";
 import RepresentativeInformationAccordion from "./RepresentativeInformationAccordion";
 import {useCaseHeader} from "./useCaseHeader";
 import DocumentSection from "../DocumentSection";
-import { useLocation, useNavigate } from "react-router-dom";
+import {useLocation} from "react-router-dom";
 
 const CaseHeader = () => {
   let prop = useLocation();
   let stageNameCheck = prop.state?.stageName?.props?.stageName;
-  console.log("caseheader prop-->",prop,stageNameCheck)
-   //let documentSectionDataRef = useRef([]);
+  console.log("caseheader prop-->", prop, stageNameCheck)
+  //let documentSectionDataRef = useRef([]);
   CaseHeader.displayName = "Appeals";
   let caseheaderConfigData = JSON.parse(
-    process.env.REACT_APP_CASEHEADER_DETAILS);
+      process.env.REACT_APP_CASEHEADER_DETAILS);
 
   const {
     caseTimelines,
@@ -34,7 +34,6 @@ const CaseHeader = () => {
     caseInformation,
     setCaseInformation,
     caseInformationValidationSchema,
-    handleClaimInformationChange,
     claimInformation,
     setClaimInformation,
     claimInformationValidationSchema,
@@ -42,16 +41,18 @@ const CaseHeader = () => {
     setClaimInformationGrid,
     providerInformationGrid,
     setProviderInformationGrid,
-    handleMemberInformationChange,
     memberInformation,
+    memberInformationValidationSchema,
+    setMemberInformation,
     representativeInformationGrid,
     setRepresentativeInformationGrid,
     handleAuthorizationInformationChange,
     authorizationInformation,
     authorizationInformationGrid,
     setAuthorizationInformationGrid,
-    handleExpeditedRequestChange,
     expeditedRequest,
+    setExpeditedRequest,
+    expeditedRequestValidationSchema,
     location,
     navigateHome,
     saveAndExit,
@@ -62,7 +63,6 @@ const CaseHeader = () => {
     callProcRef,
     hasSubmitError,
     documentSectionDataRef
-    
   } = useCaseHeader();
 
   const FormComponent = () => (
@@ -70,7 +70,8 @@ const CaseHeader = () => {
           className="accordion AddProviderLabel"
           id="accordionPanelsStayOpenExample"
       >
-        <Formik initialValues={{}} onSubmit={() => {}}>
+        <Formik initialValues={{}} onSubmit={() => {
+        }}>
           <div className="container">
             <div className="row">
               <div className="col-xs-6" style={{textAlign: "center"}}>
@@ -98,9 +99,10 @@ const CaseHeader = () => {
                     handleProviderInformationGridData={providerInformationGrid}
                     updateProviderInformationGridData={setProviderInformationGrid}
                 />
-                <MemeberInformationAccordion
-                    handleOnChange={handleMemberInformationChange}
-                    handleData={memberInformation}
+                <MemberInformationAccordion
+                    memberInformationData={memberInformation}
+                    setMemberInformationData={setMemberInformation}
+                    memberInformationValidationSchema={memberInformationValidationSchema}
                 />
                 <RepresentativeInformationAccordion
                     handleRepresentativeInformationGridData={representativeInformationGrid}
@@ -113,16 +115,17 @@ const CaseHeader = () => {
                     updateAuthorizationInformationGridData={setAuthorizationInformationGrid}
                 />
                 <ExpeditedRequestAccordion
-                    handleOnChange={handleExpeditedRequestChange}
-                    handleData={expeditedRequest}
-                />{prop.state.formView === "DashboardHomeView" &&(
-                 <DocumentSection
+                    expeditedRequestData={expeditedRequest}
+                    setExpeditedRequestData={setExpeditedRequest}
+                    expeditedRequestValidationSchema={expeditedRequestValidationSchema}
+                />
+                {prop.state.formView === "DashboardHomeView" && (
+                  <DocumentSection
                       fileDataRef={documentSectionDataRef.current}
                       displayName={CaseHeader.displayName}
                       stageName={caseheaderConfigData["StageName"]}
-                  
-                    />
-                  )}
+                  />
+              )}
               </div>
             </div>
           </div>

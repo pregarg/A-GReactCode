@@ -146,7 +146,6 @@ const CaseClaimInformation = (props) => {
     setClaimTypeValues([...new Set(claimType.map(e => convertToCase(e.Claim_Type)))].map(kvMapper));
 
     const angDecision = mastersSelector?.masterAngDecision?.[0] || [];
-    console.log("abc-->",angDecision)
     setDecisionValues([...new Set(angDecision.map(e => convertToCase(e.DECISION)))].map(kvMapper));
     setDecisionReasonValues([...new Set(angDecision.map(e => convertToCase(e.DECISION_REASON)))].map(kvMapper));
 
@@ -217,7 +216,6 @@ const CaseClaimInformation = (props) => {
         let res = await axios.post("/generic/callProcedure", getApiJson, {
           headers: {Authorization: `Bearer ${token}`},
         });
-        console.log("res1-->",res)
         let resApiData = res.data.CallProcedure_Output?.data || [];
         resApiData = (resApiData?.length > 0) ? resApiData : [];
 
