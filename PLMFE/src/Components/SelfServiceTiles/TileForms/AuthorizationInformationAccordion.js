@@ -8,6 +8,8 @@ import CaseHeader from './CaseHeader';
 import AuthorizationInformationTable from "../TileFormsTables/AuthorizationInformationTable";
 import useUpdateDecision from '../../CustomHooks/useUpdateDecision';
 import AuthSearch from "../TileForms/AuthSearch";
+import {useAxios} from "../../../api/axios.hook";
+import TableComponent from "../../../../src/util/TableComponent";
 
 const AuthorizationInformationAccordion = (props) => {
     const {
@@ -19,6 +21,8 @@ const AuthorizationInformationAccordion = (props) => {
         acceptNumbersOnly
     } = useGetDBTables();
 
+    const {customAxios: axios} = useAxios();
+    const token = useSelector((state) => state.auth.token);
     const { getRowNumberForGrid } = useUpdateDecision();
 
     const { ValueContainer, Placeholder } = components;
@@ -31,7 +35,12 @@ const AuthorizationInformationAccordion = (props) => {
     const [gridFieldTempState, setGridFieldTempState] = useState({});
 
     const mastersSelector = useSelector((masters) => masters);
+
     const [showAuthSearch, setShowAuthSearch] = useState(false);
+    const [selectedCriteria, setSelectedCriteria] = useState();
+    const [selectSearchValues, setSelectSearchValues] = useState();
+    const [responseData, setResponseData] = useState([]);
+    let [selectedAddress, setSelectedAddress] = useState([]);
    
 
     const CustomValueContainer = ({ children, ...props }) => {
@@ -50,6 +59,56 @@ const AuthorizationInformationAccordion = (props) => {
     const handleShowAuthSearch = () => {
         setShowAuthSearch(true);
     }
+
+    const handleCloseSearch = () => {
+        setShowAuthSearch(false)
+        setSelectedCriteria([]);
+        setSelectSearchValues([]);
+        setResponseData([]);
+      }
+      const handleClearAuthSearch = () => {
+        setSelectSearchValues([]);
+        setSelectedCriteria([]);
+        setResponseData([]);
+      }
+      const handleCheckBoxChange = (event, ind) => {
+        let jsn = responseData[ind];
+        jsn.isChecked = event.target.checked;
+        setSelectedAddress([...selectedAddress, jsn]);
+      };
+      const handleCheckBoxHeaderChange = (event) => {
+        const updatedTableData = responseData.map((jsn) => {
+          jsn.isChecked = event.target.checked;
+          return jsn;
+        });
+        setSelectedAddress(updatedTableData);
+      };
+    
+      const handleSelectedAuth = (flag) => {
+        let rowNumber = getRowNumberForGrid(authorizationInformationGridData)
+        let addressToPopulate = []
+        if (selectedAddress.length > 0) {
+          selectedAddress.map((elem) => {
+            if (elem?.isChecked) {
+              elem.rowNumber = rowNumber;
+              elem.operation = 'I';
+              delete elem['isChecked'];
+              rowNumber++;
+              addressToPopulate.push(elem);
+            }
+          })
+        }
+    
+        if (addressToPopulate.length > 0) {
+          setAuthorizationInformationGridData([...authorizationInformationGridData, ...addressToPopulate])
+          props.updateAuthorizationInformationGridData([...authorizationInformationGridData, ...addressToPopulate]);
+        }
+    
+        setShowAuthSearch(false);
+        setSelectedCriteria([]);
+        setSelectSearchValues([]);
+        setResponseData([]);
+      }
 
     const tabRef = useRef("HomeView");
     let prop = useLocation();
@@ -262,6 +321,94 @@ const AuthorizationInformationAccordion = (props) => {
             }
         };
     }
+
+    const showAuths = async () => {
+        let FromDate     = selectSearchValues?.fromDate || selectSearchValues?.fromDate2;
+        let ToDate = selectSearchValues?.toDate || selectSearchValues?.toDate2;
+        let ProviderID = selectSearchValues?.providerId || selectSearchValues?.providerId2;
+        let AdmitPrimaryFromDate    = selectSearchValues?.admitPrimaryFromDate || selectSearchValues?.admitPrimaryFromDate2
+        let AdmitPrimaryToDate = selectSearchValues?.admitPrimaryToDate || selectSearchValues?.admitPrimaryToDate2;
+        let SequentialID = selectSearchValues?.sequentialIDId || selectSearchValues?.sequentialID2
+        let AuthorizationNumber = selectSearchValues?.authorizationNumber;
+        // Check if at least one search parameter has a value
+        if (FromDate || ToDate || ProviderID || AdmitPrimaryFromDate || AdmitPrimaryToDate || SequentialID || AuthorizationNumber) {
+          let getApiJson = {
+            option: 'GETAUTHSEARCHDATA',
+            From_Date: extractDate(FromDate) || '',
+            To_Date: extractDate(ToDate) || '',
+            Admit_Primary_From_Date: extractDate(AdmitPrimaryFromDate) || '',
+            Admit_Primary_To_Date: extractDate(AdmitPrimaryToDate) || '',
+            Provider_ID: ProviderID || '',
+            Sequential_ID: SequentialID ||'',
+            Authorization_Number: AuthorizationNumber || ''   
+          };
+    
+          try {
+            let res = await axios.post("/generic/callProcedure", getApiJson, {
+              headers: {Authorization: `Bearer ${token}`},
+            });
+            let resApiData = res.data.CallProcedure_Output?.data || [];
+            resApiData = (resApiData?.length > 0) ? resApiData : [];
+    
+            if (resApiData.length > 0) {
+              const respKeys = Object.keys(resApiData);
+              respKeys.forEach(k => {
+    
+                let apiResponse = resApiData[k];
+                if (apiResponse.hasOwnProperty("Service_Start_Date") && typeof apiResponse.Service_Start_Date === "string") {
+                  const mad = new Date(getDatePartOnly(apiResponse.Service_Start_Date));
+                  apiResponse.Service_Start_Date = extractDate(mad);
+    
+                }
+                if (apiResponse.hasOwnProperty("Auth_Expiration_Date") && typeof apiResponse.Auth_Expiration_Date === "string") {
+                  const rad = new Date(getDatePartOnly(apiResponse.Auth_Expiration_Date));
+                  apiResponse.Auth_Expiration_Date = extractDate(rad);
+    
+                }
+                if (apiResponse.hasOwnProperty("Auth_Request_Date") && typeof apiResponse.Auth_Request_Date === "string") {
+                  const rad = new Date(getDatePartOnly(apiResponse.Auth_Request_Date));
+                  apiResponse.Auth_Request_Date = extractDate(rad);
+    
+                }
+              });
+    
+              setResponseData(resApiData);
+            }
+            const apiStat = res.data.CallProcedure_Output.Status;
+            if (apiStat === -1) {
+              alert("Error in fetching data");
+            }
+          } catch (error) {
+            console.error("API Error:", error);
+            alert("Error in fetching data. Please try again later.");
+          }
+        } else {
+          alert("Please select at least one search value.");
+        }
+      };
+    
+      const authSearchTableComponent = () => {
+        let columnNames = 'Authorization Number~Authorization_Number,Authorization Type~Authorization_Type,Auth Type Description~Auth_Type_Description,Provider Name~Provider_Name,Auth Request Date~Auth_Request_Date,Auth Service Start Date~Service_Start_Date,Auth Expiration Date~Auth_Expiration_Date,Auth Status~Auth_Status,Denial Code~Denial_Code,Denial Reason~Denial_Reason'
+        if (responseData.length > 0) {
+          return (
+              <>
+                <TableComponent
+    
+                    columnName={columnNames}
+                    rowValues={responseData}
+                    showCheckBox={true}
+                    handleCheckBoxChange={handleCheckBoxChange}
+                    handleCheckBoxHeaderChange={handleCheckBoxHeaderChange}
+                    CheckBoxInHeader={true}
+    
+                />
+              </>
+          )
+    
+        } else {
+          return (<></>);
+        }
+      }
 
     const getGridDataValues = (tableData) => {
         //var headers = document.getElementById(tableId).headers;
@@ -479,6 +626,19 @@ const AuthorizationInformationAccordion = (props) => {
                         </div>
                         {showAuthSearch && (
                             <AuthSearch 
+                            handleCloseSearch={handleCloseSearch}
+                            selectedCriteria={selectedCriteria}
+                            setSelectedCriteria={setSelectedCriteria}
+                            selectSearchValues={selectSearchValues}
+                            setSelectSearchValues={setSelectSearchValues}
+                            showAuths={showAuths}
+                            authSearchTableComponent={authSearchTableComponent}
+                            responseData={responseData}
+                            setResponseData={setResponseData}
+                            handleClearAuthSearch={handleClearAuthSearch}
+                            showAuthSearch={showAuthSearch}
+                            handleSelectedAuth = {handleSelectedAuth}
+                            
                             />
                         )
                         }
