@@ -63,7 +63,7 @@ export default function AuthorizationInformationTable({
             <div className="Container AddProviderLabel AddModalLabel">
                 <div className="row">
                     <div className="col-xs-6 col-md-3">
-                        <label>Issue Number</label>
+                        <label>Issue Number *</label>
                         <br />
                         <input
                             type="text"
