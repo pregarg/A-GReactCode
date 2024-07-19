@@ -63,7 +63,7 @@ export default function AuthorizationInformationTable({
             <div className="Container AddProviderLabel AddModalLabel">
                 <div className="row">
                     <div className="col-xs-6 col-md-3">
-                        <label>Issue Number *</label>
+                        <label>Issue Number</label>
                         <br />
                         <input
                             type="text"
@@ -232,12 +232,11 @@ export default function AuthorizationInformationTable({
                         <div className="form-floating">
                             <ReactDatePicker
                                 className="form-control example-custom-input-modal"
-                                selected={                        
-                                        data?.Auth_Request_Date?.value !== undefined
-                                        ? new Date(data.Auth_Request_Date.value)
-                                        : data?.Auth_Request_Date !== undefined
-                                            ? new Date(data.Auth_Request_Date)
-                                            : null
+                                selected={
+                                    "Auth_Request_Date" in data &&
+                                        data.Auth_Request_Date.value !== undefined
+                                        ? data.Auth_Request_Date.value
+                                        : data.Auth_Request_Date
                                 }
                                 name="Auth_Request_Date"
                                 onChange={(selectValue, event) =>
@@ -274,12 +273,10 @@ export default function AuthorizationInformationTable({
                             <ReactDatePicker
                                 className="form-control example-custom-input-modal"
                                 selected={
-
-                                        data?.Auth_Expiration_Date?.value !== undefined
-                                        ? new Date(data.Auth_Expiration_Date.value)
-                                        : data?.Auth_Expiration_Date !== undefined
-                                            ? new Date(data.Auth_Expiration_Date)
-                                            : null
+                                    "Auth_Expiration_Date" in data &&
+                                        data.Auth_Expiration_Date.value !== undefined
+                                        ? data.Auth_Expiration_Date.value
+                                        : data.Auth_Expiration_Date
                                 }
                                 name="Auth_Expiration_Date"
                                 onChange={(selectValue, event) =>
@@ -344,11 +341,10 @@ export default function AuthorizationInformationTable({
                             <ReactDatePicker
                                 className="form-control example-custom-input-modal"
                                 selected={
-                                        data?.Service_Start_Date?.value !== undefined
-                                        ? new Date(data.Service_Start_Date.value)
-                                        : data?.Service_Start_Date !== undefined
-                                            ? new Date(data.Service_Start_Date)
-                                            : null
+                                    "Service_Start_Date" in data &&
+                                        data.Service_Start_Date.value !== undefined
+                                        ? data.Service_Start_Date.value
+                                        : data.Service_Start_Date
                                 }
                                 name="Service_Start_Date"
                                 onChange={(selectValue, event) =>
@@ -378,50 +374,6 @@ export default function AuthorizationInformationTable({
                             />
                         </div>
                     </div>
-
-                    <div className="col-xs-6 col-md-3">
-                        <label>Denial Code</label>
-                        <br />
-                        <input
-                            type="text"
-                            value={
-                                "Denial_Code" in data && data.Denial_Code.value !== undefined
-                                    ? convertToCase(data.Denial_Code.value)
-                                    : convertToCase(data.Denial_Code)
-                            }
-                            onChange={(evnt) =>
-                                handleGridFieldChange(index, evnt, AuthorizationInformationTable.displayName)
-                            }
-                            name="Denial_Code"
-                            className="form-control"
-                            maxLength="50"
-                            title="Please Enter Denial Code"
-                          
-                        />
-                    </div>
-
-                    <div className="col-xs-6 col-md-3">
-                        <label>Denial Reason</label>
-                        <br />
-                        <input
-                            type="text"
-                            value={
-                                "Denial_Reason" in data && data.Denial_Reason.value !== undefined
-                                    ? convertToCase(data.Denial_Reason.value)
-                                    : convertToCase(data.Denial_Reason)
-                            }
-                            onChange={(evnt) =>
-                                handleGridFieldChange(index, evnt, AuthorizationInformationTable.displayName)
-                            }
-                            name="Denial_Reason"
-                            className="form-control"
-                            maxLength="50"
-                            title="Please Enter Denial Reason"
-                          
-                        />
-                    </div>
-
-
                 </div>
             </div>
         );
@@ -546,7 +498,6 @@ export default function AuthorizationInformationTable({
                                 data.Auth_Expiration_Date.value !== undefined
                                 ? formatDate(data.Auth_Expiration_Date.value)
                                 : formatDate(data.Auth_Expiration_Date)}
-
                         </td>
                         <td className="tableData">
                             {"CPT_Descriptions" in data &&
@@ -559,16 +510,6 @@ export default function AuthorizationInformationTable({
                                 data.Service_Start_Date.value !== undefined
                                 ? formatDate(data.Service_Start_Date.value)
                                 : formatDate(data.Service_Start_Date)}
-                        </td>
-                        <td className="tableData">
-                            {"Denial_Code" in data && data.Denial_Code.value !== undefined
-                                ? convertToCase(data.Denial_Code.value)
-                                : convertToCase(data.Denial_Code)}
-                        </td>
-                        <td className="tableData">
-                            {"Denial_Reason" in data && data.Denial_Reason.value !== undefined
-                                ? convertToCase(data.Denial_Reason.value)
-                                : convertToCase(data.Denial_Reason)}
                         </td>
                     </tr>
                 );
@@ -669,8 +610,6 @@ export default function AuthorizationInformationTable({
                             <th scope="col">Auth Expiration Date</th>
                             <th scope="col">CPT Descriptions</th>
                             <th scope="col">Service Start Date</th>
-                            <th scope="col">Denial Code</th>
-                            <th scope="col">Denial Reason</th>
                         </tr>
                     </thead>
                     <tbody>
