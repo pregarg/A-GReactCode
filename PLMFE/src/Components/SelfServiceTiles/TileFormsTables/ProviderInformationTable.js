@@ -603,7 +603,7 @@ export default function ProviderInformationTable({
                             />
                         </div>
                         <div className="col-xs-6 col-md-3">
-                            <label>Point of Contact *</label>
+                            <label>Point of Contact</label>
                             <br />
                             <input
                                 type="text"

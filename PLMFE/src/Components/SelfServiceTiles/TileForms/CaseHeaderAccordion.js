@@ -48,7 +48,7 @@ const CaseHeaderAccordion = (props) => {
                             {arr.map(el => (
                                 <div className="col-xs-6 col-md-4 case-field-wrapper">
                                     <span>{el.key}: </span>
-                                    <span>{convertToCase(caseHeaderData[el?.value])}</span>
+                                    <span>{convertToCase(caseHeaderData[el.value])}</span>
                                 </div>
                             ))}
                         </div>
