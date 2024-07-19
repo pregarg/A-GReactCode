@@ -88,6 +88,7 @@ export default function DecisionTab(tabInput) {
   console.log("logger prop ", prop.state)
   const formName = prop.state.formNames;
   const stageName = prop.state.stageName && prop.state.stageName.trim();
+
   const [selectValues, setSelectValues] = useState({});
   const [selectReasonValues, setReasonSelectValues] = useState([]);
   const [decisionReasonArray, setDecisionReasonArray] = useState({})
@@ -187,7 +188,6 @@ export default function DecisionTab(tabInput) {
   };
 
   const handleLinearFieldChange = (evt) => {
-    console.log("decisionNotes-->")
     const value = evt.target.value;
     if (evt.target.name === "decisionNotes") {
       console.log("evt.target.name--->",evt.target.name)
@@ -200,28 +200,47 @@ export default function DecisionTab(tabInput) {
   };
 
   const handleModalShowHide = (index, flagValue, requestedFrom) => {
+    const stageName = prop.state.stageName;
+    console.log("inside handlemodalshow 1----", stageName);
+
     if (requestedFrom === "Close") {
-      setFileState([...fileState, { selectedFile: null, fileIndex: index }]);
+        setFileState([...fileState, { selectedFile: null, fileIndex: index }]);
     }
 
     let newArray = [...documentData];
     newArray = convertArrayToOuterArray(newArray);
-    let documentName =
-      newArray[index]["documentType"] === undefined
-        ? ""
-        : newArray[index]["documentType"].value;
-    if (documentName === "") {
-      alert("Please select Document Name first");
-      selectRef.current.focus();
-    } else {
-      let docIndexJson = { ...docClickedIndex.current };
-      docIndexJson.FileUpload = index;
-      docClickedIndex.current = docIndexJson;
+    let documentName = "";
 
-      setModalShow({ ...modalShow, FileUpload: flagValue });
+    if (Array.isArray(newArray) && newArray[index]) {
+        let documentType = newArray[index].documentType;
+        console.log("DocumentType at index:", documentType);
+        if (documentType) {
+            documentName = documentType;
+        }
     }
-  };
 
+    if (documentName === "") {
+        alert("Please select Document Name first");
+        selectRef.current.focus();
+        return;
+    }
+
+    if (stageName === "Case Completed") {
+        let existingDocument = newArray[index]?.docUploadPath;
+        if (existingDocument) {
+            alert("Documents can't be modified");
+            return;
+        }
+    }
+
+    let docIndexJson = { ...docClickedIndex.current };
+    docIndexJson.FileUpload = index;
+    docClickedIndex.current = docIndexJson;
+
+    setModalShow({ ...modalShow, FileUpload: flagValue });
+};
+;
+  
   const handleFileUpload = (evnt, index) => {
     if (evnt.target.files[0] === undefined) {
       setFileState([...fileState, { selectedFile: null, fileIndex: index }]);
@@ -411,81 +430,70 @@ export default function DecisionTab(tabInput) {
   useEffect(() => {
     let selectJson = {};
     let mappedObject = {};
-    const stageName = String(prop.state.stageName);
-    const transactionType = String(prop.state.formNames);
-    const flowId = Number(prop.state.flowId);
+    let decisionOptions = [];
+
+    console.log("stageName--->", stageName);
+
     if (decisonRef.current !== null && tabInput?.buttonClicked !== "callProc") {
-      decisonRef.current.clearValue();
+        decisonRef.current.clearValue();
     }
 
-    //Decison Dropdown
-    if (mastersSelector.hasOwnProperty("masterDecision")) {
-      const delegateParsedVal = getDelegatedValue(tabInput?.delegatedVal);
+    // Decision Dropdown
+    if (mastersSelector.hasOwnProperty("masterAngDecision")) {
+        console.log("logger decision: ", mastersSelector["masterAngDecision"]);
 
-      if (
-        (transactionType == "Provider Modification" ||
-          transactionType == "Ancillary/Facility Modification" ||
-          transactionType == "Termination" ||
-          delegateParsedVal === "yes" ||
-          delegateParsedVal === "y") &&
-        stageName == "QA"
-      ) {
-        decisionOptions.push(
-          { label: "Submit", value: "Submit" },
-          { label: "Discard", value: "Discard" }
-        );
-      } else {
-        console.log("logger descision : ", mastersSelector["masterDecision"])
-        selectJson.decisionOptions =
-          mastersSelector["masterDecision"].length === 0
-            ? []
-            : mastersSelector["masterDecision"][0];
+        selectJson.decisionOptions = Array.isArray(mastersSelector["masterAngDecision"]) 
+            ? mastersSelector["masterAngDecision"][0] || [] 
+            : [];
 
-        selectJson["decisionOptions"]
-          .filter(
-            (data) => data.WORKSTEP.trim() == stageName.trim()
-          ).map((val) => {
-            const existingIndex = decisionOptions.findIndex((item) => item.value === val.DECISION);
+        if (Array.isArray(selectJson.decisionOptions)) {
+            selectJson.decisionOptions
+                .filter((data) => {
+                    console.log("data--->", data.WORKSTEP);
+                    return data.WORKSTEP.toLowerCase() == stageName.toLowerCase();
+                })
+                .map((val) => {
+                    const existingIndex = decisionOptions.findIndex((item) => item.value === val.DECISION);
+                    if (existingIndex === -1) {
+                        decisionOptions.push({
+                            value: val.DECISION,
+                            label: val.DECISION,
+                        });
+                    }
+                });
 
-            if (existingIndex === -1) {
-              decisionOptions.push({
-                value: val.DECISION,
-                label: val.DECISION
-              });
-            }
-          }
-          );
-
-        selectJson["decisionOptions"]
-          .filter(
-            (data) => data.WORKSTEP.trim() == stageName.trim()
-          ).map((val) => {
-            let stageName = val.WORKSTEP;
-            let decision = val.DECISION;
-            let decisionReason = val.DECISION_REASON;
-            if (!mappedObject[stageName]) {
-              mappedObject[stageName] = {};
-            }
-            if (!mappedObject[stageName][decision]) {
-              mappedObject[stageName][decision] = [];
-            }
-            mappedObject[stageName][decision].push({
-              value: decisionReason,
-              label: decisionReason
-            });
-          }
-          );
-      }
+            selectJson.decisionOptions
+                .filter((data) => data.WORKSTEP.toLowerCase() == stageName.toLowerCase())
+                .map((val) => {
+                    let stageName = val.WORKSTEP;
+                    let decision = val.DECISION;
+                    let decisionReason = val.DECISION_REASON;
+                    if (!mappedObject[stageName]) {
+                        mappedObject[stageName] = {};
+                    }
+                    if (!mappedObject[stageName][decision]) {
+                        mappedObject[stageName][decision] = [];
+                    }
+                    mappedObject[stageName][decision].push({
+                        value: decisionReason,
+                        label: decisionReason,
+                    });
+                });
+        } else {
+            console.error("selectJson.decisionOptions is not an array");
+        }
     }
+
     console.log("decision options", decisionOptions);
     console.log("mapped object", mappedObject);
 
     setTimeout(() => {
-      setSelectValues(decisionOptions);
-      setDecisionReasonArray(mappedObject);
-      console.log("logger selectValues ", selectValues);
+        setSelectValues(decisionOptions);
+        setDecisionReasonArray(mappedObject);
+        console.log("logger selectValues ", selectValues);
     }, 1000);
-  }, [tabInput]);
+}, [tabInput]);
+
 
   const openDecisionModal = (index) => {
     let docIndexJson = { ...docClickedIndex.current };
@@ -928,6 +936,7 @@ export default function DecisionTab(tabInput) {
                     alt="..."
                     style={{ height: "30px", background: "inherit" }}
                     onClick={() => handleModalShowHide(index, true)}
+                   
                   ></img>
                 )}
               </td>
@@ -1449,6 +1458,7 @@ export default function DecisionTab(tabInput) {
                           Source
                         </th>
                         <th style={{ width: "10%" }} scope="col">
+                        
                           Upload
                         </th>
                         <th style={{ width: "10%" }} scope="col">
@@ -1511,6 +1521,7 @@ export default function DecisionTab(tabInput) {
             uploadFile={uploadFile}
             currIndex={docClickedIndex.current.FileUpload}
             documentData={documentData}
+            
           />
         )}
 

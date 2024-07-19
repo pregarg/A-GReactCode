@@ -7,6 +7,8 @@ import FileUpload from "../../WorkItemDashboard/DashboardFileUpload/FileUpload";
 import useUpdateDecision from "../CustomHooks/useUpdateDecision";
 
 export default function DocumentSection(prop) {
+
+  
   const docClickedIndex = useRef();
 
   const selectRef = useRef(null);
@@ -48,27 +50,28 @@ export default function DocumentSection(prop) {
   const [documentNameValues, setDocumentNameValues] = useState([]);
 
   useEffect(() => {
-    const flowId = Number(prop.flowId);
-    if (mastersSelector.hasOwnProperty("masterDocumentName")) {
+    const stageName = prop.stageName || prop.stageName.trim();
+    if (mastersSelector.hasOwnProperty("masterAngDocument")) {
       let documentOptions =
-        mastersSelector["masterDocumentName"].length === 0
+        mastersSelector["masterAngDocument"].length === 0
           ? []
-          : mastersSelector["masterDocumentName"][0];
-      // console.log("Document Section documentOptions: ", documentOptions);
-      // console.log("Document Section flowId: ", flowId);
+          : mastersSelector["masterAngDocument"][0];
+      console.log("Document Section documentOptions: ", documentOptions);
+      console.log("Document Section stagename: ", stageName);
       if (documentOptions.length > 0) {
         documentOptions = documentOptions.filter(
-          (elem) => elem.FlowId == flowId
+          (elem) => 
+          elem.WORKSTEP_NAME.trim().toLowerCase() == stageName.trim().toLowerCase()
         );
-        // console.log(
-        //   "Document Section documentOptions after filter: ",
-        //   documentOptions
-        // );
+        console.log(
+          "Document Section documentOptions after filter: ",
+          documentOptions
+        );
         let newDocumentValues = [];
         documentOptions.forEach((element) => {
           let sJson = {};
-          sJson.label = element.DocumentName;
-          sJson.value = element.DocumentName;
+          sJson.label = element.DOCUMENT_NAME;
+          sJson.value = element.DOCUMENT_NAME;
           //console.log("DocumentSection sJSON: ", sJson);
           // newDocumentValues = [...documentNameValues];
           // console.log(
@@ -85,7 +88,7 @@ export default function DocumentSection(prop) {
       }
     }
   }, []);
-  //console.log("Document Section documentName Values: ", documentNameValues);
+  
   
 
   const handleGridSelectChange = (index, selectedValue, documentName) => {

@@ -37,6 +37,8 @@ export default function ClaimInformationTable({
 
     const mastersSelector = useSelector((masters) => masters);
 
+    let prop = useLocation();
+
     let lineNumberOptions = [];
     let filedTimelyValues = [];
     let grantGoodCauseValues = [];
@@ -96,7 +98,13 @@ export default function ClaimInformationTable({
                                 className="form-control"
                                 maxLength="50"
                                 title="Please Enter Valid Type"
-                                disabled={lockStatus == "V"}
+                                disabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                             />
                         </div>
                         <div className="col-xs-6 col-md-3">
@@ -121,7 +129,13 @@ export default function ClaimInformationTable({
                                 options={lineNumberOptions}
                                 name="Line_Number"
                                 id="lineNumberDropDown"
-                                isDisabled={lockStatus == "V"}
+                                isDisabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                                 isClearable
                             />
                         </div>
@@ -142,7 +156,13 @@ export default function ClaimInformationTable({
                                 className="form-control"
                                 maxLength="50"
                                 title="Please Enter Valid Type"
-                                disabled={lockStatus == "V"}
+                                disabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                             />
                         </div>
                         <div className="col-xs-6 col-md-3">
@@ -163,7 +183,13 @@ export default function ClaimInformationTable({
                                 className="form-control"
                                 maxLength="50"
                                 title="Please Enter Valid Type"
-                                disabled={lockStatus == "V"}
+                                disabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                             />
                         </div>
                     </div>
@@ -185,7 +211,13 @@ export default function ClaimInformationTable({
                                 className="form-control"
                                 maxLength="50"
                                 title="Please Enter Valid Type"
-                                disabled={lockStatus == "V"}
+                                disabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                             />
                         </div>
                         <div className="col-xs-6 col-md-3">
@@ -205,7 +237,13 @@ export default function ClaimInformationTable({
                                 className="form-control"
                                 maxLength="50"
                                 title="Please Enter Valid Type"
-                                disabled={lockStatus == "V"}
+                                disabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                             />
                         </div>
                         <div className="col-xs-6 col-md-3">
@@ -213,7 +251,7 @@ export default function ClaimInformationTable({
                             <br />
                             <div className="form-floating">
                                 <ReactDatePicker
-                                    className="example-custom-input-modal"
+                                    className="form-control example-custom-input-modal"
                                     selected={
                                         "Payment_Mail_Date_Postmark" in data &&
                                             data.Payment_Mail_Date_Postmark.value !== undefined
@@ -239,7 +277,12 @@ export default function ClaimInformationTable({
                                     dropdownMode="select"
                                     dateFormat="MM/dd/yyyy"
                                     id="datePicker"
-                                    disabled={lockStatus == "V"}
+                                    disabled={
+                                        prop.state.formView === "DashboardView" &&
+                                            (prop.state.stageName === "Research" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                            ? true
+                                            : false
+                                    }
                                 />
                             </div>
                         </div>
@@ -260,7 +303,13 @@ export default function ClaimInformationTable({
                                 className="form-control"
                                 maxLength="50"
                                 title="Please Enter Valid Type"
-                                disabled={lockStatus == "V"}
+                                disabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                             />
                         </div>
                     </div>
@@ -282,7 +331,12 @@ export default function ClaimInformationTable({
                                 className="form-control"
                                 maxLength="50"
                                 title="Please Enter Valid Type"
-                                disabled={lockStatus == "V"}
+                                disabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Research" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                             />
                         </div>
                         <div className="col-xs-6 col-md-3">
@@ -302,7 +356,12 @@ export default function ClaimInformationTable({
                                 className="form-control"
                                 maxLength="50"
                                 title="Please Enter Valid Type"
-                                disabled={lockStatus == "V"}
+                                disabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Research" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                             />
                         </div>
                         <div className="col-xs-6 col-md-3">
@@ -327,7 +386,13 @@ export default function ClaimInformationTable({
                                 options={filedTimelyValues}
                                 name="Filed_Timely"
                                 id="lineNumberDropDown"
-                                isDisabled={lockStatus == "V"}
+                                isDisabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Intake" || prop.state.stageName === "Acknowledge" || prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                                 isClearable
                             />
                         </div>
@@ -353,7 +418,13 @@ export default function ClaimInformationTable({
                                 options={grantGoodCauseValues}
                                 name="Grant_Good_Cause"
                                 id="lineNumberDropDown"
-                                isDisabled={lockStatus == "V"}
+                                isDisabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Intake" || prop.state.stageName === "Acknowledge" || prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                                 isClearable
                             />
                         </div>
@@ -376,7 +447,13 @@ export default function ClaimInformationTable({
                                 className="form-control"
                                 maxLength="50"
                                 title="Please Enter Valid Type"
-                                disabled={lockStatus == "V"}
+                                disabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Intake" || prop.state.stageName === "Acknowledge" || prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                             />
                         </div>
                         <div className="col-xs-6 col-md-3">
@@ -396,7 +473,13 @@ export default function ClaimInformationTable({
                                 className="form-control"
                                 maxLength="50"
                                 title="Please Enter Valid Type"
-                                disabled={lockStatus == "V"}
+                                disabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                             />
                         </div>
                         <div className="col-xs-6 col-md-3">
@@ -404,7 +487,7 @@ export default function ClaimInformationTable({
                             <br />
                             <div className="form-floating">
                                 <ReactDatePicker
-                                    className="example-custom-input-modal"
+                                    className="form-control example-custom-input-modal"
                                     selected={
                                         "Number_of_Days_in_Span" in data &&
                                             data.Number_of_Days_in_Span.value !== undefined
@@ -429,7 +512,13 @@ export default function ClaimInformationTable({
                                     dropdownMode="select"
                                     dateFormat="MM/dd/yyyy"
                                     id="datePicker"
-                                    disabled={lockStatus == "V"}
+                                    disabled={
+                                        prop.state.formView === "DashboardView" &&
+                                            (prop.state.stageName === "Redirect Review" ||
+                                                prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                            ? true
+                                            : false
+                                    }
                                 />
                             </div>
                         </div>
@@ -438,8 +527,7 @@ export default function ClaimInformationTable({
                             <br />
                             <div className="form-floating">
                                 <ReactDatePicker
-                                    className="example-custom-input-modal"
-
+                                    className="form-control example-custom-input-modal"
                                     selected={
                                         data?.Service_Start_Date?.value !== undefined
                                             ? new Date(data.Service_Start_Date.value)
@@ -447,9 +535,6 @@ export default function ClaimInformationTable({
                                                 ? new Date(data.Service_Start_Date)
                                                 : null
                                     }
-
-
-
                                     name="Service_Start_Date"
                                     onChange={(selectValue, event) =>
                                         handleGridDateChange(
@@ -468,7 +553,13 @@ export default function ClaimInformationTable({
                                     dropdownMode="select"
                                     dateFormat="MM/dd/yyyy"
                                     id="datePicker"
-                                    disabled={lockStatus == "V"}
+                                    disabled={
+                                        prop.state.formView === "DashboardView" &&
+                                            (prop.state.stageName === "Redirect Review" ||
+                                                prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                            ? true
+                                            : false
+                                    }
                                 />
                             </div>
                         </div>
@@ -479,8 +570,7 @@ export default function ClaimInformationTable({
                             <br />
                             <div className="form-floating">
                                 <ReactDatePicker
-                                    className="example-custom-input-modal"
-
+                                    className="form-control example-custom-input-modal"
                                     selected={
                                         data?.Service_End_Date?.value !== undefined
                                             ? new Date(data.Service_End_Date.value)
@@ -507,7 +597,13 @@ export default function ClaimInformationTable({
                                     dropdownMode="select"
                                     dateFormat="MM/dd/yyyy"
                                     id="datePicker"
-                                    disabled={lockStatus == "V"}
+                                    disabled={
+                                        prop.state.formView === "DashboardView" &&
+                                            (prop.state.stageName === "Redirect Review" ||
+                                                prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                            ? true
+                                            : false
+                                    }
                                 />
                             </div>
                         </div>
@@ -516,7 +612,7 @@ export default function ClaimInformationTable({
                             <br />
                             <div className="form-floating">
                                 <ReactDatePicker
-                                    className="example-custom-input-modal"
+                                    className="form-control example-custom-input-modal"
                                     selected={
                                         "Claim_Status" in data &&
                                             data.Claim_Status.value !== undefined
@@ -541,7 +637,13 @@ export default function ClaimInformationTable({
                                     dropdownMode="select"
                                     dateFormat="MM/dd/yyyy"
                                     id="datePicker"
-                                    disabled={lockStatus == "V"}
+                                    disabled={
+                                        prop.state.formView === "DashboardView" &&
+                                            (prop.state.stageName === "Redirect Review" ||
+                                                prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                            ? true
+                                            : false
+                                    }
                                 />
                             </div>
                         </div>
@@ -550,7 +652,7 @@ export default function ClaimInformationTable({
                             <br />
                             <div className="form-floating">
                                 <ReactDatePicker
-                                    className="example-custom-input-modal"
+                                    className="form-control example-custom-input-modal"
                                     selected={
                                         "Claim_Adjusted_Date" in data &&
                                             data.Claim_Adjusted_Date.value !== undefined
@@ -575,7 +677,12 @@ export default function ClaimInformationTable({
                                     dropdownMode="select"
                                     dateFormat="MM/dd/yyyy"
                                     id="datePicker"
-                                    disabled={lockStatus == "V"}
+                                    disabled={
+                                        prop.state.formView === "DashboardView" &&
+                                            (prop.state.stageName === "Research" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                            ? true
+                                            : false
+                                    }
                                 />
                             </div>
                         </div>
@@ -584,7 +691,7 @@ export default function ClaimInformationTable({
                             <br />
                             <div className="form-floating">
                                 <ReactDatePicker
-                                    className="example-custom-input-modal"
+                                    className="form-control example-custom-input-modal"
                                     selected={
                                         "Payment_Date" in data &&
                                             data.Payment_Date.value !== undefined
@@ -609,7 +716,12 @@ export default function ClaimInformationTable({
                                     dropdownMode="select"
                                     dateFormat="MM/dd/yyyy"
                                     id="datePicker"
-                                    disabled={lockStatus == "V"}
+                                    disabled={
+                                        prop.state.formView === "DashboardView" &&
+                                            (prop.state.stageName === "Research" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                            ? true
+                                            : false
+                                    }
                                 />
                             </div>
                         </div>
@@ -632,7 +744,13 @@ export default function ClaimInformationTable({
                                 className="form-control"
                                 maxLength="50"
                                 title="Please Enter Valid Type"
-                                disabled={lockStatus == "V"}
+                                disabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                             />
                         </div>
                         <div className="col-xs-6 col-md-3">
@@ -652,7 +770,13 @@ export default function ClaimInformationTable({
                                 className="form-control"
                                 maxLength="50"
                                 title="Please Enter Valid Type"
-                                disabled={lockStatus == "V"}
+                                disabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                             />
                         </div>
                         <div className="col-xs-6 col-md-3">
@@ -672,7 +796,13 @@ export default function ClaimInformationTable({
                                 className="form-control"
                                 maxLength="50"
                                 title="Please Enter Valid Type"
-                                disabled={lockStatus == "V"}
+                                disabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                             />
                         </div>
                         <div className="col-xs-6 col-md-3">
@@ -886,7 +1016,7 @@ export default function ClaimInformationTable({
                             <br />
                             <div className="form-floating">
                                 <ReactDatePicker
-                                    className="example-custom-input-modal"
+                                    className="form-control example-custom-input-modal"
 
                                     selected={
                                         data?.DenialDate?.value !== undefined
@@ -953,7 +1083,7 @@ export default function ClaimInformationTable({
                                     >
                                         <button
                                             className="deleteBtn"
-                                            style={{ width: "75%",float: "left" }}
+                                            style={{ width: "75%", float: "left" }}
                                             onClick={() => {
                                                 deleteTableRows(
                                                     index,
@@ -968,7 +1098,7 @@ export default function ClaimInformationTable({
                                         </button>
                                         <button
                                             className="editBtn"
-                                            style={{ width: "75%",float: "right" }}
+                                            style={{ width: "75%", float: "right" }}
                                             type="button"
                                             onClick={() => {
                                                 editTableRows(index, ClaimInformationTable.displayName);

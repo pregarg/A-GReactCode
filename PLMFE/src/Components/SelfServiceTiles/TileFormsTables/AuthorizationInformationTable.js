@@ -4,6 +4,7 @@ import GridModal from "./GridModal";
 import Select from "react-select";
 import ReactDatePicker from "react-datepicker";
 import useGetDBTables from "../../CustomHooks/useGetDBTables";
+import { useLocation } from "react-router-dom";
 
 export default function AuthorizationInformationTable({
     authorizationInformationGridData,
@@ -31,6 +32,8 @@ export default function AuthorizationInformationTable({
     const { getGridJson, convertToCase } = useGetDBTables();
 
     const mastersSelector = useSelector((masters) => masters);
+
+    let prop = useLocation();
 
     let authTypeDescriptionValues = [];
 
@@ -76,7 +79,13 @@ export default function AuthorizationInformationTable({
                             className="form-control"
                             maxLength="50"
                             title="Please Enter Valid Type"
-                            disabled={lockStatus == "V"}
+                            disabled={
+                                prop.state.formView === "DashboardView" &&
+                                    (prop.state.stageName === "Redirect Review" ||
+                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                    ? true
+                                    : false
+                            }
                         />
                     </div>
                     <div className="col-xs-6 col-md-3">
@@ -96,7 +105,13 @@ export default function AuthorizationInformationTable({
                             className="form-control"
                             maxLength="50"
                             title="Please Enter Valid Type"
-                            disabled={lockStatus == "V"}
+                            disabled={
+                                prop.state.formView === "DashboardView" &&
+                                    (prop.state.stageName === "Redirect Review" ||
+                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                    ? true
+                                    : false
+                            }
                         />
                     </div>
                     <div className="col-xs-6 col-md-3">
@@ -116,7 +131,13 @@ export default function AuthorizationInformationTable({
                             className="form-control"
                             maxLength="50"
                             title="Please Enter Valid Type"
-                            disabled={lockStatus == "V"}
+                            disabled={
+                                prop.state.formView === "DashboardView" &&
+                                    (prop.state.stageName === "Redirect Review" ||
+                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                    ? true
+                                    : false
+                            }
                         />
                     </div>
                     <div className="col-xs-6 col-md-3">
@@ -136,7 +157,13 @@ export default function AuthorizationInformationTable({
                             className="form-control"
                             maxLength="50"
                             title="Please Enter Valid Type"
-                            disabled={lockStatus == "V"}
+                            disabled={
+                                prop.state.formView === "DashboardView" &&
+                                    (prop.state.stageName === "Redirect Review" ||
+                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                    ? true
+                                    : false
+                            }
                         />
                     </div>
                 </div>
@@ -158,7 +185,13 @@ export default function AuthorizationInformationTable({
                             className="form-control"
                             maxLength="50"
                             title="Please Enter Valid Type"
-                            disabled={lockStatus == "V"}
+                            disabled={
+                                prop.state.formView === "DashboardView" &&
+                                    (prop.state.stageName === "Redirect Review" ||
+                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                    ? true
+                                    : false
+                            }
                         />
                     </div>
                     <div className="col-xs-6 col-md-3">
@@ -183,7 +216,13 @@ export default function AuthorizationInformationTable({
                             options={authTypeDescriptionValues}
                             name="Auth_Type_Description"
                             id="lineNumberDropDown"
-                            isDisabled={lockStatus == "V"}
+                            isDisabled={
+                                prop.state.formView === "DashboardView" &&
+                                    (prop.state.stageName === "Redirect Review" ||
+                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                    ? true
+                                    : false
+                            }
                             isClearable
                         />
                     </div>
@@ -192,7 +231,7 @@ export default function AuthorizationInformationTable({
                         <br />
                         <div className="form-floating">
                             <ReactDatePicker
-                                className="example-custom-input-modal"
+                                className="form-control example-custom-input-modal"
                                 selected={
                                     "Auth_Request_Date" in data &&
                                         data.Auth_Request_Date.value !== undefined
@@ -217,7 +256,13 @@ export default function AuthorizationInformationTable({
                                 dropdownMode="select"
                                 dateFormat="MM/dd/yyyy"
                                 id="datePicker"
-                                disabled={lockStatus == "V"}
+                                disabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                             />
                         </div>
                     </div>
@@ -226,7 +271,7 @@ export default function AuthorizationInformationTable({
                         <br />
                         <div className="form-floating">
                             <ReactDatePicker
-                                className="example-custom-input-modal"
+                                className="form-control example-custom-input-modal"
                                 selected={
                                     "Auth_Expiration_Date" in data &&
                                         data.Auth_Expiration_Date.value !== undefined
@@ -251,7 +296,13 @@ export default function AuthorizationInformationTable({
                                 dropdownMode="select"
                                 dateFormat="MM/dd/yyyy"
                                 id="datePicker"
-                                disabled={lockStatus == "V"}
+                                disabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                             />
                         </div>
                     </div>
@@ -274,7 +325,13 @@ export default function AuthorizationInformationTable({
                             className="form-control"
                             maxLength="50"
                             title="Please Enter Valid Type"
-                            disabled={lockStatus == "V"}
+                            disabled={
+                                prop.state.formView === "DashboardView" &&
+                                    (prop.state.stageName === "Redirect Review" ||
+                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                    ? true
+                                    : false
+                            }
                         />
                     </div>
                     <div className="col-xs-6 col-md-3">
@@ -282,7 +339,7 @@ export default function AuthorizationInformationTable({
                         <br />
                         <div className="form-floating">
                             <ReactDatePicker
-                                className="example-custom-input-modal"
+                                className="form-control example-custom-input-modal"
                                 selected={
                                     "Service_Start_Date" in data &&
                                         data.Service_Start_Date.value !== undefined
@@ -307,7 +364,13 @@ export default function AuthorizationInformationTable({
                                 dropdownMode="select"
                                 dateFormat="MM/dd/yyyy"
                                 id="datePicker"
-                                disabled={lockStatus == "V"}
+                                disabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                             />
                         </div>
                     </div>
@@ -341,7 +404,7 @@ export default function AuthorizationInformationTable({
                                     >
                                         <button
                                             className="deleteBtn"
-                                            style={{width: "75%", float: "left" }}
+                                            style={{ width: "75%", float: "left" }}
                                             onClick={() => {
                                                 deleteTableRows(
                                                     index,
@@ -356,7 +419,7 @@ export default function AuthorizationInformationTable({
                                         </button>
                                         <button
                                             className="editBtn"
-                                            style={{width: "75%", float: "right" }}
+                                            style={{ width: "75%", float: "right" }}
                                             type="button"
                                             onClick={() => {
                                                 editTableRows(index, AuthorizationInformationTable.displayName);

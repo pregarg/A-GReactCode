@@ -4,6 +4,7 @@ import GridModal from "./GridModal";
 import Select from "react-select";
 import ReactDatePicker from "react-datepicker";
 import useGetDBTables from "../../CustomHooks/useGetDBTables";
+import { useLocation } from "react-router-dom";
 
 export default function ProviderInformationTable({
     providerInformationGridData,
@@ -31,6 +32,8 @@ export default function ProviderInformationTable({
     const { getGridJson, convertToCase } = useGetDBTables();
 
     const mastersSelector = useSelector((masters) => masters);
+
+    let prop = useLocation();
 
     let lineNumberOptions = [];
     let providerRoleValues = [];
@@ -151,7 +154,13 @@ export default function ProviderInformationTable({
                                 className="form-control"
                                 maxLength="50"
                                 title="Please Enter Valid Type"
-                                disabled={lockStatus == "V"}
+                                disabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                             />
                         </div>
                         <div className="col-xs-6 col-md-3">
@@ -171,7 +180,13 @@ export default function ProviderInformationTable({
                                 className="form-control"
                                 maxLength="50"
                                 title="Please Enter Valid Type"
-                                disabled={lockStatus == "V"}
+                                disabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                             />
                         </div>
                         <div className="col-xs-6 col-md-3">
@@ -191,7 +206,13 @@ export default function ProviderInformationTable({
                                 className="form-control"
                                 maxLength="50"
                                 title="Please Enter Valid Type"
-                                disabled={lockStatus == "V"}
+                                disabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                             />
                         </div>
                         <div className="col-xs-6 col-md-3">
@@ -214,7 +235,7 @@ export default function ProviderInformationTable({
                                 disabled={lockStatus == "V"}
                             />
                         </div>
-                      
+
                     </div>
                     <div className="row">
                         <div className="col-xs-6 col-md-3">
@@ -234,7 +255,13 @@ export default function ProviderInformationTable({
                                 className="form-control"
                                 maxLength="50"
                                 title="Please Enter Valid Type"
-                                disabled={lockStatus == "V"}
+                                disabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                             />
                         </div>
                         <div className="col-xs-6 col-md-3">
@@ -254,7 +281,13 @@ export default function ProviderInformationTable({
                                 className="form-control"
                                 maxLength="50"
                                 title="Please Enter Valid Type"
-                                disabled={lockStatus == "V"}
+                                disabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                             />
                         </div>
                         <div className="col-xs-6 col-md-3">
@@ -274,7 +307,13 @@ export default function ProviderInformationTable({
                                 className="form-control"
                                 maxLength="50"
                                 title="Please Enter Valid Type"
-                                disabled={lockStatus == "V"}
+                                disabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                             />
                         </div>
                         <div className="col-xs-6 col-md-3">
@@ -294,7 +333,13 @@ export default function ProviderInformationTable({
                                 className="form-control"
                                 maxLength="50"
                                 title="Please Enter Valid Type"
-                                disabled={lockStatus == "V"}
+                                disabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                             />
                         </div>
                     </div>
@@ -316,7 +361,13 @@ export default function ProviderInformationTable({
                                 className="form-control"
                                 maxLength="50"
                                 title="Please Enter Valid Type"
-                                disabled={lockStatus == "V"}
+                                disabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                             />
                         </div>
                         <div className="col-xs-6 col-md-3">
@@ -341,7 +392,13 @@ export default function ProviderInformationTable({
                                 options={participatingProviderValues}
                                 name="Participating_Provider"
                                 id="lineNumberDropDown"
-                                isDisabled={lockStatus == "V"}
+                                isDisabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                                 isClearable
                             />
                         </div>
@@ -367,7 +424,13 @@ export default function ProviderInformationTable({
                                 options={providerTypeValues}
                                 name="Provider_Type"
                                 id="lineNumberDropDown"
-                                isDisabled={lockStatus == "V"}
+                                isDisabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                                 isClearable
                             />
                         </div>
@@ -388,7 +451,13 @@ export default function ProviderInformationTable({
                                 className="form-control"
                                 maxLength="50"
                                 title="Please Enter Valid Type"
-                                disabled={lockStatus == "V"}
+                                disabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                             />
                         </div>
                         <div className="col-xs-6 col-md-3">
@@ -470,7 +539,13 @@ export default function ProviderInformationTable({
                                 className="form-control"
                                 maxLength="50"
                                 title="Please Enter Valid Type"
-                                disabled={lockStatus == "V"}
+                                disabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                             />
                         </div>
                     </div>
@@ -492,7 +567,13 @@ export default function ProviderInformationTable({
                                 className="form-control"
                                 maxLength="50"
                                 title="Please Enter Valid Type"
-                                disabled={lockStatus == "V"}
+                                disabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                             />
                         </div>
                         <div className="col-xs-6 col-md-3">
@@ -512,7 +593,13 @@ export default function ProviderInformationTable({
                                 className="form-control"
                                 maxLength="50"
                                 title="Please Enter Valid Type"
-                                disabled={lockStatus == "V"}
+                                disabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                             />
                         </div>
                         <div className="col-xs-6 col-md-3">
@@ -532,7 +619,13 @@ export default function ProviderInformationTable({
                                 className="form-control"
                                 maxLength="50"
                                 title="Please Enter Valid Type"
-                                disabled={lockStatus == "V"}
+                                disabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                             />
                         </div>
                         <div className="col-xs-6 col-md-3">
@@ -557,11 +650,17 @@ export default function ProviderInformationTable({
                                 options={providerRoleValues}
                                 name="Provider_Role"
                                 id="lineNumberDropDown"
-                                isDisabled={lockStatus == "V"}
+                                isDisabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                                 isClearable
                             />
                         </div>
-                     
+
                     </div>
                     <div className="row">
                         <div className="col-xs-6 col-md-3">
@@ -581,7 +680,13 @@ export default function ProviderInformationTable({
                                 className="form-control"
                                 maxLength="50"
                                 title="Please Enter Valid Type"
-                                disabled={lockStatus == "V"}
+                                disabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                             />
                         </div>
                         <div className="col-xs-6 col-md-3">
@@ -606,7 +711,13 @@ export default function ProviderInformationTable({
                                 options={portalEnrolledValues}
                                 name="Portal_Enrolled"
                                 id="lineNumberDropDown"
-                                isDisabled={lockStatus == "V"}
+                                isDisabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                                 isClearable
                             />
                         </div>
@@ -627,7 +738,13 @@ export default function ProviderInformationTable({
                                 className="form-control"
                                 maxLength="50"
                                 title="Please Enter Valid Type"
-                                disabled={lockStatus == "V"}
+                                disabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Intake" || prop.state.stageName === "Acknowledge" || prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Research" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                             />
                         </div>
                         <div className="col-xs-6 col-md-3">
@@ -647,7 +764,13 @@ export default function ProviderInformationTable({
                                 className="form-control"
                                 maxLength="50"
                                 title="Please Enter Valid Type"
-                                disabled={lockStatus == "V"}
+                                disabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                             />
                         </div>
                     </div>
@@ -669,7 +792,13 @@ export default function ProviderInformationTable({
                                 className="form-control"
                                 maxLength="50"
                                 title="Please Enter Valid Type"
-                                disabled={lockStatus == "V"}
+                                disabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                             />
                         </div>
                         <div className="col-xs-6 col-md-3">
@@ -689,7 +818,13 @@ export default function ProviderInformationTable({
                                 className="form-control"
                                 maxLength="50"
                                 title="Please Enter Valid Type"
-                                disabled={lockStatus == "V"}
+                                disabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                             />
                         </div>
                         <div className="col-xs-6 col-md-3">
@@ -709,7 +844,13 @@ export default function ProviderInformationTable({
                                 className="form-control"
                                 maxLength="50"
                                 title="Please Enter Valid Type"
-                                disabled={lockStatus == "V"}
+                                disabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                             />
                         </div>
                         <div className="col-xs-6 col-md-3">
@@ -729,7 +870,13 @@ export default function ProviderInformationTable({
                                 className="form-control"
                                 maxLength="50"
                                 title="Please Enter Valid Type"
-                                disabled={lockStatus == "V"}
+                                disabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                             />
                         </div>
                     </div>
@@ -751,7 +898,13 @@ export default function ProviderInformationTable({
                                 className="form-control"
                                 maxLength="50"
                                 title="Please Enter Valid Type"
-                                disabled={lockStatus == "V"}
+                                disabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                             />
                         </div>
                         <div className="col-xs-6 col-md-3">
@@ -759,15 +912,7 @@ export default function ProviderInformationTable({
                             <br />
                             <div className="form-floating">
                                 <ReactDatePicker
-                                    className="example-custom-input-modal"
-                                    // selected={
-                                    //     "Par_Provider_Start_Date" in data &&
-                                    //         data.Par_Provider_Start_Date.value !== undefined
-                                    //         ? data.Par_Provider_Start_Date.value
-                                    //         : data.Par_Provider_Start_Date
-                                    // }
-
-
+                                    className="form-control example-custom-input-modal"
                                     selected={
                                         data?.Par_Provider_Start_Date?.value !== undefined
                                             ? new Date(data.Par_Provider_Start_Date.value)
@@ -793,17 +938,23 @@ export default function ProviderInformationTable({
                                     dropdownMode="select"
                                     dateFormat="MM/dd/yyyy"
                                     id="datePicker"
-                                    disabled={lockStatus == "V"}
+                                    disabled={
+                                        prop.state.formView === "DashboardView" &&
+                                            (prop.state.stageName === "Redirect Review" ||
+                                                prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                            ? true
+                                            : false
+                                    }
                                 />
                             </div>
                         </div>
-                        
+
                         <div className="col-xs-6 col-md-3">
                             <label htmlFor="datePicker">Par Provider End Date</label>
                             <br />
                             <div className="form-floating">
                                 <ReactDatePicker
-                                    className="example-custom-input-modal"
+                                    className="form-control example-custom-input-modal"
                                     selected={
                                         data?.Par_Provider_End_Date?.value !== undefined
                                             ? new Date(data.Par_Provider_End_Date.value)
@@ -829,7 +980,13 @@ export default function ProviderInformationTable({
                                     dropdownMode="select"
                                     dateFormat="MM/dd/yyyy"
                                     id="datePicker"
-                                    disabled={lockStatus == "V"}
+                                    disabled={
+                                        prop.state.formView === "DashboardView" &&
+                                            (prop.state.stageName === "Redirect Review" ||
+                                                prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                            ? true
+                                            : false
+                                    }
                                 />
                             </div>
                         </div>
@@ -870,7 +1027,7 @@ export default function ProviderInformationTable({
                                 />
                             </div>
                         </div>
-                      
+
                     </div>
                     <div className="row">
                         <div className="col-xs-6 col-md-6">
@@ -890,7 +1047,13 @@ export default function ProviderInformationTable({
                                 className="form-control"
                                 maxLength="50"
                                 title="Please Enter Valid Type"
-                                disabled={lockStatus == "V"}
+                                disabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                             />
                         </div>
                         <div className="col-xs-6 col-md-6">
@@ -910,7 +1073,13 @@ export default function ProviderInformationTable({
                                 className="form-control"
                                 maxLength="50"
                                 title="Please Enter Valid Type"
-                                disabled={lockStatus == "V"}
+                                disabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                             />
                         </div>
                     </div>
@@ -932,7 +1101,13 @@ export default function ProviderInformationTable({
                                 className="form-control"
                                 maxLength="50"
                                 title="Please Enter Valid Type"
-                                disabled={lockStatus == "V"}
+                                disabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                             />
                         </div>
                         <div className="col-xs-6 col-md-3">
@@ -952,7 +1127,13 @@ export default function ProviderInformationTable({
                                 className="form-control"
                                 maxLength="50"
                                 title="Please Enter Valid Type"
-                                disabled={lockStatus == "V"}
+                                disabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                             />
                         </div>
                         <div className="col-xs-6 col-md-3">
@@ -972,7 +1153,13 @@ export default function ProviderInformationTable({
                                 className="form-control"
                                 maxLength="50"
                                 title="Please Enter Valid Type"
-                                disabled={lockStatus == "V"}
+                                disabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                             />
                         </div>
                         <div className="col-xs-6 col-md-3">
@@ -997,7 +1184,13 @@ export default function ProviderInformationTable({
                                 options={mailToAddressValues}
                                 name="Mail_to_Address"
                                 id="lineNumberDropDown"
-                                isDisabled={lockStatus == "V"}
+                                isDisabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                                 isClearable
                             />
                         </div>
@@ -1024,11 +1217,17 @@ export default function ProviderInformationTable({
                                 options={commPrefValues}
                                 name="Communication_Preference"
                                 id="lineNumberDropDown"
-                                isDisabled={lockStatus == "V"}
+                                isDisabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                                 isClearable
                             />
                         </div>
-                       
+
                     </div>
                 </div>
             </>
@@ -1061,7 +1260,7 @@ export default function ProviderInformationTable({
                                     >
                                         <button
                                             className="deleteBtn"
-                                            style={{ width: "75%",float: "left" }}
+                                            style={{ width: "75%", float: "left" }}
                                             onClick={() => {
                                                 deleteTableRows(
                                                     index,
@@ -1076,7 +1275,7 @@ export default function ProviderInformationTable({
                                         </button>
                                         <button
                                             className="editBtn"
-                                            style={{width: "75%", float: "right" }}
+                                            style={{ width: "75%", float: "right" }}
                                             type="button"
                                             onClick={() => {
                                                 editTableRows(index, ProviderInformationTable.displayName);
@@ -1133,8 +1332,8 @@ export default function ProviderInformationTable({
                                 ? convertToCase(data.Provider_Last_Name.value)
                                 : convertToCase(data.Provider_Last_Name)}
                         </td>
-						
-						 <td className="tableData">
+
+                        <td className="tableData">
                             {"Contact_Phone_Number" in data &&
                                 data.Contact_Phone_Number.value !== undefined
                                 ? convertToCase(data.Contact_Phone_Number.value)
@@ -1146,22 +1345,22 @@ export default function ProviderInformationTable({
                                 ? convertToCase(data.Contact_Email_Address.value)
                                 : convertToCase(data.Contact_Email_Address)}
                         </td>
-						   <td className="tableData">
+                        <td className="tableData">
                             {"Provider_Par_Date" in data &&
                                 data.Provider_Par_Date.value !== undefined
                                 ? formatDate(data.Provider_Par_Date.value)
                                 : formatDate(data.Provider_Par_Date)}
                         </td>
-						
-						<td className="tableData">
+
+                        <td className="tableData">
                             {"Provider_Taxonomy" in data &&
                                 data.Provider_Taxonomy.value !== undefined
                                 ? convertToCase(data.Provider_Taxonomy.value)
                                 : convertToCase(data.Provider_Taxonomy)}
                         </td>
-                                           
-                      
-                        
+
+
+
                         <td className="tableData">
                             {"Provider_TIN" in data &&
                                 data.Provider_TIN.value !== undefined
@@ -1216,7 +1415,7 @@ export default function ProviderInformationTable({
                                 ? convertToCase(data.Provider_IPA.value)
                                 : convertToCase(data.Provider_IPA)}
                         </td>
-                        
+
                         <td className="tableData">
                             {"Provider_Vendor_Specialty" in data &&
                                 data.Provider_Vendor_Specialty.value !== undefined
@@ -1241,7 +1440,7 @@ export default function ProviderInformationTable({
                                 ? convertToCase(data.Provider_Role.value)
                                 : convertToCase(data.Provider_Role)}
                         </td>
-                    
+
                         <td className="tableData">
                             {"Email_Address" in data &&
                                 data.Email_Address.value !== undefined
@@ -1296,7 +1495,7 @@ export default function ProviderInformationTable({
                                 ? convertToCase(data.Fax_Number.value)
                                 : convertToCase(data.Fax_Number)}
                         </td>
-                     
+
                         <td className="tableData">
                             {"Par_Provider_Start_Date" in data &&
                                 data.Par_Provider_Start_Date.value !== undefined
@@ -1309,7 +1508,7 @@ export default function ProviderInformationTable({
                                 ? formatDate(data.Par_Provider_End_Date.value)
                                 : formatDate(data.Par_Provider_End_Date)}
                         </td>
-                     
+
                         <td className="tableData">
                             {"Address_Line_1" in data &&
                                 data.Address_Line_1.value !== undefined
@@ -1340,7 +1539,7 @@ export default function ProviderInformationTable({
                                 ? convertToCase(data.Zip_Code.value)
                                 : convertToCase(data.Zip_Code)}
                         </td>
-                       
+
                         <td className="tableData">
                             {"Mail_to_Address" in data &&
                                 data.Mail_to_Address.value !== undefined
@@ -1353,7 +1552,7 @@ export default function ProviderInformationTable({
                                 ? convertToCase(data.Communication_Preference.value)
                                 : convertToCase(data.Communication_Preference)}
                         </td>
-                       
+
                     </tr>
                 );
             });
@@ -1482,7 +1681,7 @@ export default function ProviderInformationTable({
                             <th scope="col">Zip Code</th>
                             <th scope="col">Mail to Address</th>
                             <th scope="col">Communication Preference</th>
-                            
+
                         </tr>
                     </thead>
                     <tbody>

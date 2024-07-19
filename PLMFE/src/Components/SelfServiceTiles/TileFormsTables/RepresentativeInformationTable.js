@@ -4,6 +4,7 @@ import GridModal from "./GridModal";
 import Select from "react-select";
 import ReactDatePicker from "react-datepicker";
 import useGetDBTables from "../../CustomHooks/useGetDBTables";
+import { useLocation } from "react-router-dom";
 
 export default function RepresentativeInformationTable({
     representativeInformationGridData,
@@ -31,6 +32,8 @@ export default function RepresentativeInformationTable({
     const { getGridJson, convertToCase } = useGetDBTables();
 
     const mastersSelector = useSelector((masters) => masters);
+
+    let prop = useLocation();
 
     let relationshipValues = [];
     let aorTypeValues = [];
@@ -130,7 +133,13 @@ export default function RepresentativeInformationTable({
                             className="form-control"
                             maxLength="50"
                             title="Please Enter Valid Type"
-                            disabled={lockStatus == "V"}
+                            disabled={
+                                prop.state.formView === "DashboardView" &&
+                                    (prop.state.stageName === "Redirect Review" ||
+                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "CaseArchived")
+                                    ? true
+                                    : false
+                            }
                         />
                     </div>
                     <div className="col-xs-6 col-md-3">
@@ -150,7 +159,13 @@ export default function RepresentativeInformationTable({
                             className="form-control"
                             maxLength="50"
                             title="Please Enter Valid Type"
-                            disabled={lockStatus == "V"}
+                            disabled={
+                                prop.state.formView === "DashboardView" &&
+                                    (prop.state.stageName === "Redirect Review" ||
+                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                    ? true
+                                    : false
+                            }
                         />
                     </div>
                     <div className="col-xs-6 col-md-3">
@@ -170,7 +185,13 @@ export default function RepresentativeInformationTable({
                             className="form-control"
                             maxLength="50"
                             title="Please Enter Valid Type"
-                            disabled={lockStatus == "V"}
+                            disabled={
+                                prop.state.formView === "DashboardView" &&
+                                    (prop.state.stageName === "Redirect Review" ||
+                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                    ? true
+                                    : false
+                            }
                         />
                     </div>
                     <div className="col-xs-6 col-md-3">
@@ -195,7 +216,13 @@ export default function RepresentativeInformationTable({
                             options={relationshipValues}
                             name="Relationship"
                             id="lineNumberDropDown"
-                            isDisabled={lockStatus == "V"}
+                            isDisabled={
+                                prop.state.formView === "DashboardView" &&
+                                    (prop.state.stageName === "Redirect Review" ||
+                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                    ? true
+                                    : false
+                            }
                             isClearable
                         />
                     </div>
@@ -223,7 +250,13 @@ export default function RepresentativeInformationTable({
                             options={aorTypeValues}
                             name="AOR_Type"
                             id="lineNumberDropDown"
-                            isDisabled={lockStatus == "V"}
+                            isDisabled={
+                                prop.state.formView === "DashboardView" &&
+                                    (prop.state.stageName === "Redirect Review" ||
+                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                    ? true
+                                    : false
+                            }
                             isClearable
                         />
                     </div>
@@ -232,7 +265,7 @@ export default function RepresentativeInformationTable({
                         <br />
                         <div className="form-floating">
                             <ReactDatePicker
-                                className="example-custom-input-modal"
+                                className="form-control example-custom-input-modal"
                                 selected={
                                     "AOR_Approved_Date" in data &&
                                         data.AOR_Approved_Date.value !== undefined
@@ -257,7 +290,13 @@ export default function RepresentativeInformationTable({
                                 dropdownMode="select"
                                 dateFormat="MM/dd/yyyy"
                                 id="datePicker"
-                                disabled={lockStatus == "V"}
+                                disabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                             />
                         </div>
                     </div>
@@ -266,7 +305,7 @@ export default function RepresentativeInformationTable({
                         <br />
                         <div className="form-floating">
                             <ReactDatePicker
-                                className="example-custom-input-modal"
+                                className="form-control example-custom-input-modal"
                                 selected={
                                     "AOR_Expiration_Date" in data &&
                                         data.AOR_Expiration_Date.value !== undefined
@@ -291,7 +330,13 @@ export default function RepresentativeInformationTable({
                                 dropdownMode="select"
                                 dateFormat="MM/dd/yyyy"
                                 id="datePicker"
-                                disabled={lockStatus == "V"}
+                                disabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                             />
                         </div>
                     </div>
@@ -317,7 +362,13 @@ export default function RepresentativeInformationTable({
                             options={commPrefValues}
                             name="Communication_Preference"
                             id="lineNumberDropDown"
-                            isDisabled={lockStatus == "V"}
+                            isDisabled={
+                                prop.state.formView === "DashboardView" &&
+                                    (prop.state.stageName === "Redirect Review" ||
+                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                    ? true
+                                    : false
+                            }
                             isClearable
                         />
                     </div>
@@ -345,7 +396,13 @@ export default function RepresentativeInformationTable({
                             options={mailToAddressValues}
                             name="Mail_to_Address"
                             id="lineNumberDropDown"
-                            isDisabled={lockStatus == "V"}
+                            isDisabled={
+                                prop.state.formView === "DashboardView" &&
+                                    (prop.state.stageName === "Redirect Review" ||
+                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                    ? true
+                                    : false
+                            }
                             isClearable
                         />
                     </div>
@@ -366,7 +423,13 @@ export default function RepresentativeInformationTable({
                             className="form-control"
                             maxLength="50"
                             title="Please Enter Valid Type"
-                            disabled={lockStatus == "V"}
+                            disabled={
+                                prop.state.formView === "DashboardView" &&
+                                    (prop.state.stageName === "Redirect Review" ||
+                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                    ? true
+                                    : false
+                            }
                         />
                     </div>
                     <div className="col-xs-6 col-md-3">
@@ -386,7 +449,13 @@ export default function RepresentativeInformationTable({
                             className="form-control"
                             maxLength="50"
                             title="Please Enter Valid Type"
-                            disabled={lockStatus == "V"}
+                            disabled={
+                                prop.state.formView === "DashboardView" &&
+                                    (prop.state.stageName === "Redirect Review" ||
+                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                    ? true
+                                    : false
+                            }
                         />
                     </div>
                     <div className="col-xs-6 col-md-3">
@@ -406,7 +475,13 @@ export default function RepresentativeInformationTable({
                             className="form-control"
                             maxLength="50"
                             title="Please Enter Valid Type"
-                            disabled={lockStatus == "V"}
+                            disabled={
+                                prop.state.formView === "DashboardView" &&
+                                    (prop.state.stageName === "Redirect Review" ||
+                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                    ? true
+                                    : false
+                            }
                         />
                     </div>
                 </div>
@@ -428,7 +503,13 @@ export default function RepresentativeInformationTable({
                             className="form-control"
                             maxLength="50"
                             title="Please Enter Valid Type"
-                            disabled={lockStatus == "V"}
+                            disabled={
+                                prop.state.formView === "DashboardView" &&
+                                    (prop.state.stageName === "Redirect Review" ||
+                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                    ? true
+                                    : false
+                            }
                         />
                     </div>
                     <div className="col-xs-6 col-md-6">
@@ -448,7 +529,13 @@ export default function RepresentativeInformationTable({
                             className="form-control"
                             maxLength="50"
                             title="Please Enter Valid Type"
-                            disabled={lockStatus == "V"}
+                            disabled={
+                                prop.state.formView === "DashboardView" &&
+                                    (prop.state.stageName === "Redirect Review" ||
+                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                    ? true
+                                    : false
+                            }
                         />
                     </div>
                 </div>
@@ -470,7 +557,13 @@ export default function RepresentativeInformationTable({
                             className="form-control"
                             maxLength="50"
                             title="Please Enter Valid Type"
-                            disabled={lockStatus == "V"}
+                            disabled={
+                                prop.state.formView === "DashboardView" &&
+                                    (prop.state.stageName === "Redirect Review" ||
+                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                    ? true
+                                    : false
+                            }
                         />
                     </div>
                     <div className="col-xs-6 col-md-3">
@@ -490,7 +583,13 @@ export default function RepresentativeInformationTable({
                             className="form-control"
                             maxLength="50"
                             title="Please Enter Valid Type"
-                            disabled={lockStatus == "V"}
+                            disabled={
+                                prop.state.formView === "DashboardView" &&
+                                    (prop.state.stageName === "Redirect Review" ||
+                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                    ? true
+                                    : false
+                            }
                         />
                     </div>
                     <div className="col-xs-6 col-md-3">
@@ -510,7 +609,13 @@ export default function RepresentativeInformationTable({
                             className="form-control"
                             maxLength="50"
                             title="Please Enter Valid Type"
-                            disabled={lockStatus == "V"}
+                            disabled={
+                                prop.state.formView === "DashboardView" &&
+                                    (prop.state.stageName === "Redirect Review" ||
+                                        prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                    ? true
+                                    : false
+                            }
                         />
                     </div>
                 </div>
@@ -543,7 +648,7 @@ export default function RepresentativeInformationTable({
                                     >
                                         <button
                                             className="deleteBtn"
-                                            style={{ width: "75%",float: "left" }}
+                                            style={{ width: "75%", float: "left" }}
                                             onClick={() => {
                                                 deleteTableRows(
                                                     index,
@@ -558,7 +663,7 @@ export default function RepresentativeInformationTable({
                                         </button>
                                         <button
                                             className="editBtn"
-                                            style={{ width: "75%",float: "right" }}
+                                            style={{ width: "75%", float: "right" }}
                                             type="button"
                                             onClick={() => {
                                                 editTableRows(index, RepresentativeInformationTable.displayName);

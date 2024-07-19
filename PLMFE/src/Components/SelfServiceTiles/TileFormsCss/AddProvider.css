@@ -1,5 +1,4 @@
 .AddProviderLabel{
-    font-weight: bold;
     font-family: 'Open Sans', sans-serif; 
 }
 
@@ -13,10 +12,10 @@
     border-radius: 12px;
     user-select: none;
 }
+
 input:invalid {
     border: 3px solid red;
 }
-
 
 .accordionButtonStyle{
     background-color: #1a73e9 !important;
