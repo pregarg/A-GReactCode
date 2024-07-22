@@ -483,7 +483,120 @@ export default function RepresentativeInformationTable({
                                     : false
                             }
                         />
+                      </div>
+                      <div className="col-xs-6 col-md-3">
+                        <label htmlFor="datePicker">Authorization Approved Date</label>
+                        <br />
+                        <div className="form-floating">
+                            <ReactDatePicker
+                                className="form-control example-custom-input-modal"
+                                selected={
+                                    data?.Authorization_Approved_Date?.value !== undefined
+                                        ? new Date(data.Authorization_Approved_Date.value)
+                                        : data?.Authorization_Approved_Date !== undefined
+                                            ? new Date(data.Authorization_Approved_Date)
+                                            : null
+                                }
+                                name="Authorization_Approved_Date"
+                                onChange={(selectValue, event) =>
+                                    handleGridDateChange(
+                                        index,
+                                        selectValue,
+                                        "Authorization_Approved_Date",
+                                        RepresentativeInformationTable.displayName
+                                    )
+                                }
+                                peekNextMonth
+                                showMonthDropdown
+                                onKeyDown={(e) => {
+                                    e.preventDefault();
+                                }}
+                                showYearDropdown
+                                dropdownMode="select"
+                                dateFormat="MM/dd/yyyy"
+                                id="datePicker"
+                             
+                            />
+                        </div>
                     </div>
+
+                    <div className="col-xs-6 col-md-3">
+                        <label htmlFor="datePicker">Authorization Expiration Date</label>
+                        <br />
+                        <div className="form-floating">
+                            <ReactDatePicker
+                                className="form-control example-custom-input-modal"
+                                selected={
+                                        data?.Authorization_Expiration_Date?.value !== undefined
+                                        ? new Date(data.Authorization_Expiration_Date.value)
+                                        : data?.Authorization_Expiration_Date !== undefined
+                                            ? new Date(data.Authorization_Expiration_Date)
+                                            : null
+      
+                                }
+                                name="Authorization_Expiration_Date"
+                                onChange={(selectValue, event) =>
+                                    handleGridDateChange(
+                                        index,
+                                        selectValue,
+                                        "Authorization_Expiration_Date",
+                                        RepresentativeInformationTable.displayName
+                                    )
+                                }
+                                peekNextMonth
+                                showMonthDropdown
+                                onKeyDown={(e) => {
+                                    e.preventDefault();
+                                }}
+                                showYearDropdown
+                                dropdownMode="select"
+                                dateFormat="MM/dd/yyyy"
+                                id="datePicker"
+                             
+                            />
+                        </div>
+                    </div>
+                    <div className="col-xs-6 col-md-3">
+                        <label>Authorization Type</label>
+                        <br />
+                        <input
+                            type="text"
+                            value={
+                                "Authorization_Type" in data && data.Authorization_Type.value !== undefined
+                                    ? convertToCase(data.Authorization_Type.value)
+                                    : convertToCase(data.Authorization_Type)
+                            }
+                            onChange={(evnt) =>
+                                handleGridFieldChange(index, evnt, RepresentativeInformationTable.displayName)
+                            }
+                            name="Authorization_Type"
+                            className="form-control"
+                            maxLength="50"
+                            title="Please Enter Valid Type"
+             
+                        />
+                    </div>
+                    <div className="col-xs-6 col-md-3">
+                        <label>Notes</label>
+                        <br />
+                        <input
+                            type="text"
+                            value={
+                                "Notes" in data && data.Notes.value !== undefined
+                                    ? convertToCase(data.Notes.value)
+                                    : convertToCase(data.Notes)
+                            }
+                            onChange={(evnt) =>
+                                handleGridFieldChange(index, evnt, RepresentativeInformationTable.displayName)
+                            }
+                            name="Notes"
+                            className="form-control"
+                            maxLength="50"
+                            title="Please Enter Valid Type"
+             
+                        />
+                    </div>
+
                 </div>
                 <div className="row">
                     <div className="col-xs-6 col-md-6">
@@ -616,6 +729,26 @@ export default function RepresentativeInformationTable({
                                     ? true
                                     : false
                             }
+                        />
+                    </div>
+                    <div className="col-xs-6 col-md-3">
+                        <label>County</label>
+                        <br />
+                        <input
+                            type="text"
+                            value={
+                                "County" in data && data.County.value !== undefined
+                                    ? convertToCase(data.County.value)
+                                    : convertToCase(data.County)
+                            }
+                            onChange={(evnt) =>
+                                handleGridFieldChange(index, evnt, RepresentativeInformationTable.displayName)
+                            }
+                            name="County"
+                            className="form-control"
+                            maxLength="50"
+                            title="Please Enter Valid Type"
+             
                         />
                     </div>
                 </div>
@@ -758,6 +891,26 @@ export default function RepresentativeInformationTable({
                                 : convertToCase(data.Fax_Number)}
                         </td>
                         <td className="tableData">
+                            {"Authorization_Approved_Date" in data && data.Authorization_Approved_Date.value !== undefined
+                                ? formatDate(data.Authorization_Approved_Date.value)
+                                : formatDate(data.Authorization_Approved_Date)}
+                        </td>
+                        <td className="tableData">
+                            {"Authorization_Expiration_Date" in data && data.Authorization_Expiration_Date.value !== undefined
+                                ? formatDate(data.Authorization_Expiration_Date.value)
+                                : formatDate(data.Authorization_Expiration_Date)}
+                        </td>
+                        <td className="tableData">
+                            {"Authorization_Type" in data && data.Authorization_Type.value !== undefined
+                                ? convertToCase(data.Authorization_Type.value)
+                                : convertToCase(data.Authorization_Type)}
+                        </td>
+                        <td className="tableData">
+                            {"Notes" in data && data.Notes.value !== undefined
+                                ? convertToCase(data.Notes.value)
+                                : convertToCase(data.Notes)}
+                        </td>
+                        <td className="tableData">
                             {"Address_Line_1" in data && data.Address_Line_1.value !== undefined
                                 ? convertToCase(data.Address_Line_1.value)
                                 : convertToCase(data.Address_Line_1)}
@@ -781,6 +934,11 @@ export default function RepresentativeInformationTable({
                             {"Zip_Code" in data && data.Zip_Code.value !== undefined
                                 ? convertToCase(data.Zip_Code.value)
                                 : convertToCase(data.Zip_Code)}
+                        </td>
+                        <td className="tableData">
+                            {"County" in data && data.County.value !== undefined
+                                ? convertToCase(data.County.value)
+                                : convertToCase(data.County)}
                         </td>
                     </tr>
                 );
@@ -883,11 +1041,16 @@ export default function RepresentativeInformationTable({
                             <th scope="col">Email Address</th>
                             <th scope="col">Phone Number</th>
                             <th scope="col">Fax Number</th>
+                            <th scope="col">Authorization Approved Date</th>
+                            <th scope="col">Authorization Expiration Date</th>
+                            <th scope="col">Authorization Type</th>
+                            <th scope="col">Notes</th>
                             <th scope="col">Address Line 1</th>
                             <th scope="col">Address Line 2</th>
                             <th scope="col">City</th>
                             <th scope="col">State</th>
                             <th scope="col">Zip Code</th>
+                            <th scope="col">County</th>
                         </tr>
                     </thead>
                     <tbody>

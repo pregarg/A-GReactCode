@@ -366,6 +366,7 @@ export default function AuthorizationInformationTable({
                                 }}
                                 showYearDropdown
                                 dropdownMode="select"
+                              //  isClearable
                                 dateFormat="MM/dd/yyyy"
                                 id="datePicker"
                                 disabled={

@@ -183,12 +183,19 @@ const MemberInformationAccordion = (props) => {
       )
     };
     const dateValue = !!memberInformationData[name + "#date"] ? new Date(memberInformationData[name + "#date"]) : memberInformationData[name];
+  //  const dateString = memberInformationData[name + "#date"];
+  //  const dateValue = !!dateString ? new Date(dateString) : null; 
+   console.log("datevalue", dateValue); //datevalue 1980-01-01
     return (
         <div>
           <ReactDatePicker
               id={name}
               className="form-control example-custom-input-provider"
-              selected={dateValue}
+              selected={dateValue?.value != undefined  ? 
+                new Date(dateValue.value)
+                : dateValue !== undefined
+                    ? new Date(dateValue)
+                    : null}
               name={name}
               dateFormat="MM/dd/yyyy"
               onChange={(date) => handleMemberInformationData(name, date, true)}
@@ -217,7 +224,7 @@ const MemberInformationAccordion = (props) => {
         </div>
     )
   };
-
+  console.log("memberInformationData:", memberInformationData);
   const handleShowMemberSearch = () => {
     setShowMemberSearch(true);
   }
@@ -248,6 +255,7 @@ const MemberInformationAccordion = (props) => {
 
   const handleSelectedMembers = () => {
     setMemberInformationData({...selectedAddress[0]});
+    
     setShowMemberSearch(false);
     setSelectedCriteria([]);
     setSelectSearchValues([]);
@@ -289,10 +297,11 @@ const MemberInformationAccordion = (props) => {
             let apiResponse = resApiData[k];
             console.log("apiResponse", apiResponse)
             if (apiResponse.hasOwnProperty("Date_of_Birth") && typeof apiResponse.Date_of_Birth === "string") {
+              
               const mad = new Date(getDatePartOnly(apiResponse.Date_of_Birth));
               apiResponse.Date_of_Birth = extractDate(mad);
 
-              console.log("dob-->", mad)
+              console.log("dob-->",mad)
               console.log("dob2-->", extractDate(mad))
 
 
@@ -300,12 +309,12 @@ const MemberInformationAccordion = (props) => {
             if (apiResponse.hasOwnProperty("Plan_Effective_Date") && typeof apiResponse.Plan_Effective_Date === "string") {
               const mad = new Date(getDatePartOnly(apiResponse.Plan_Effective_Date));
               apiResponse.Plan_Effective_Date = extractDate(mad);
-              console.log("dob-->", apiResponse.Plan_Effective_Date)
+             console.log("dob-->", apiResponse.Plan_Effective_Date)
             }
 
             if (apiResponse.hasOwnProperty("Plan_Expiration_Date") && typeof apiResponse.Plan_Expiration_Date === "string") {
               const mad = new Date(getDatePartOnly(apiResponse.Plan_Expiration_Date));
-              apiResponse.Plan_Expiration_Date = extractDate(mad);
+             apiResponse.Plan_Expiration_Date = extractDate(mad);
               console.log("dob-->", apiResponse.Plan_Expiration_Date)
 
             }
@@ -527,6 +536,9 @@ const MemberInformationAccordion = (props) => {
             <div className="row my-2">
               <div className="col-xs-6 col-md-4">
                 {InputField("Zip_Code", "Zip Code", 50)}
+              </div>
+              <div className="col-xs-6 col-md-4">
+                {InputField("Action", "Action", 50)}
               </div>
             </div>
           </div>
