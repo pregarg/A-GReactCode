@@ -13,7 +13,7 @@ export default function DocumentSection(prop) {
 
   const selectRef = useRef(null);
 
-  const { printConsole } = useUpdateDecision();
+  const { printConsole, getRowNumberForGrid } = useUpdateDecision();
 
   // const customStyles: StylesConfig = {
   //   control: (provided: Record<string, unknown>, state: any) => ({
@@ -106,7 +106,8 @@ export default function DocumentSection(prop) {
     //   rowsInput[index][name]
     // );
     setDocumentData(rowsInput);
-    //console.log("documentData handleGridSelectChange", documentData);
+    
+    console.log("documentData handleGridSelectChange", documentData);
   };
 
   const uploadFile = (paramData, index) => {
@@ -250,7 +251,8 @@ export default function DocumentSection(prop) {
 
   const addTableRows = () => {
     const rowsInput = {};
-    rowsInput.rowNumber = documentData.length + 1;
+   // rowsInput.rowNumber = documentData.length + 1;
+   rowsInput.rowNumber = getRowNumberForGrid(documentData);
     rowsInput.docStatus = "Pending";
     setDocumentData([...documentData, rowsInput]);
     console.log("Last added row: ", documentData[documentData.length - 1]);

@@ -6,6 +6,9 @@ import useGetDBTables from "../../CustomHooks/useGetDBTables";
 import CaseHeader from './CaseHeader';
 import RepresentativeInformationTable from "../TileFormsTables/RepresentativeInformationTable";
 import useUpdateDecision from '../../CustomHooks/useUpdateDecision';
+import TableComponent from "../../../../src/util/TableComponent";
+import {useAxios} from "../../../api/axios.hook";
+import RepresentativeSearch from "./RepresentativeSearch.js";
 
 const RepresentativeInformationAccordion = (props) => {
     const {
@@ -27,6 +30,14 @@ const RepresentativeInformationAccordion = (props) => {
 
     const mastersSelector = useSelector((masters) => masters);
 
+    const [selectedCriteria, setSelectedCriteria] = useState();
+  const [selectSearchValues, setSelectSearchValues] = useState();
+  const [responseData, setResponseData] = useState([]);
+  const [showRepresentativeSearch, setshowRepresentativeSearch] = useState(false);
+  const token = useSelector((state) => state.auth.token);
+  const {customAxios: axios} = useAxios();
+  const [selectedAddress, setSelectedAddress] = useState([]);
+
     const CustomValueContainer = ({ children, ...props }) => {
         return (
             <ValueContainer {...props}>
@@ -39,6 +50,61 @@ const RepresentativeInformationAccordion = (props) => {
             </ValueContainer>
         );
     };
+    const handleshowRepresentativeSearch = () => {
+        setshowRepresentativeSearch(true);
+      }
+      const handleCloseSearch = () => {
+        setshowRepresentativeSearch(false);
+        setSelectedCriteria([]);
+        setSelectSearchValues([]);
+        setResponseData([]);
+      }
+    
+      const handleClearRepresentativeSearch = () => {
+        setSelectSearchValues([]);
+        setSelectedCriteria([]);
+        setResponseData([]);
+      }
+      const handleCheckBoxChange = (event, ind) => {
+        let jsn = responseData[ind];
+        jsn.isChecked = event.target.checked;
+        setSelectedAddress([...selectedAddress, jsn]);
+      };
+      const handleCheckBoxHeaderChange = (event) => {
+        const updatedTableData = responseData.map((jsn) => {
+          jsn.isChecked = event.target.checked;
+          return jsn;
+        });
+        setSelectedAddress(updatedTableData);
+      };    
+    
+      const handleSelectedRepresentatives = () => {
+        let rowNumber = getRowNumberForGrid(representativeInformationGridData)
+        let addressToPopulate = []
+        if (selectedAddress.length > 0) {
+          selectedAddress.map((elem) => {
+            if (elem?.isChecked) {
+              elem.rowNumber = rowNumber;
+              elem.operation = 'I';
+              delete elem['isChecked'];
+              rowNumber++;
+              addressToPopulate.push(elem);
+            }
+          })
+        }
+    
+        if (addressToPopulate.length > 0) {
+         setRepresentativeInformationGridData([...representativeInformationGridData, ...addressToPopulate])
+         props.updateRepresentativeInformationGridData([...representativeInformationGridData, ...addressToPopulate]);
+        }
+    
+       
+        setshowRepresentativeSearch(false);
+        setSelectedCriteria([]);
+        setSelectSearchValues([]);
+        setResponseData([]);
+      }
+    
 
     const tabRef = useRef("HomeView");
     let prop = useLocation();
@@ -139,6 +205,88 @@ const RepresentativeInformationAccordion = (props) => {
         setGridFieldTempState(tempInput);
         console.log("gridFieldTempState", gridFieldTempState);
     };
+
+
+
+    const showRepresentatives = async () => {
+        let SequentialMember     = selectSearchValues?.SequentialMemberID
+        let searchType =  selectSearchValues?.searchTypeID 
+        let fordate = selectSearchValues?.fordateID
+        let AddressType  = selectSearchValues?.AddressTypeID 
+        // Check if at least one search parameter has a value
+        if (SequentialMember || searchType || fordate || AddressType) {
+          let getApiJson = {
+            option: 'GETREPRESENTATIVESEARCHDATA',
+           
+            Seq_Member_ID: SequentialMember || '',
+            Search_Type: searchType ||'',
+            For_Date: extractDate(fordate) || '',
+            Address_Type: AddressType || ''   
+          };
+    
+          try {
+            let res = await axios.post("/generic/callProcedure", getApiJson, {
+              headers: {Authorization: `Bearer ${token}`},
+            });
+            let resApiData = res.data.CallProcedure_Output?.data || [];
+            resApiData = (resApiData?.length > 0) ? resApiData : [];
+    
+            if (resApiData.length > 0) {
+              const respKeys = Object.keys(resApiData);
+              respKeys.forEach(k => {
+    
+                let apiResponse = resApiData[k];
+                if (apiResponse.hasOwnProperty("Authorization_Approved_Date") && typeof apiResponse.Authorization_Approved_Date === "string") {
+                  const mad = new Date(getDatePartOnly(apiResponse.Authorization_Approved_Date));
+                  apiResponse.Authorization_Approved_Date = extractDate(mad);
+    
+                }
+                if (apiResponse.hasOwnProperty("Authorization_Expiration_Date") && typeof apiResponse.Authorization_Expiration_Date === "string") {
+                    const mad = new Date(getDatePartOnly(apiResponse.Authorization_Expiration_Date));
+                    apiResponse.Authorization_Expiration_Date = extractDate(mad);
+      
+                  }
+               
+              });
+    
+              setResponseData(resApiData);
+            }
+            const apiStat = res.data.CallProcedure_Output.Status;
+            if (apiStat === -1) {
+              alert("Error in fetching data");
+            }
+          } catch (error) {
+            console.error("API Error:", error);
+            alert("Error in fetching data. Please try again later.");
+          }
+        } else {
+          alert("Please select at least one search value.");
+        }
+      };
+    
+      const representativeSearchTableComponent = () => {
+        let columnNames = 'First Name~First_Name,Last Name~Last_Name,Authorization Approved Date~Authorization_Approved_Date,Authorization Expiration Date~Authorization_Expiration_Date,Authorization Type~Authorization_Type,Phone Number~Phone_Number,Notes~Notes,Address (line 1)~Address_Line_1,Address (line 2)~Address_Line_2,City~City,State~State_,Zip Code~Zip_Code,County~County'
+        if (responseData.length > 0) {
+          return (
+              <>
+                <TableComponent
+    
+                    columnName={columnNames}
+                    rowValues={responseData}
+                    showCheckBox={true}
+                    handleCheckBoxChange={handleCheckBoxChange}
+                    handleCheckBoxHeaderChange={handleCheckBoxHeaderChange}
+                    CheckBoxInHeader={true}
+    
+                />
+              </>
+          )
+    
+        } else {
+          return (<></>);
+        }
+      }
+
 
     const editTableRows = (index, triggeredFormName) => {
         console.log("Inside Representative editTableRows: ", triggeredFormName);
@@ -294,8 +442,12 @@ const RepresentativeInformationAccordion = (props) => {
                     className="accordion-collapse collapse show"
                     aria-labelledby="panelsStayOpen-claimInformation"
                 >
+               
                     <div className="accordion-body">
-                        <div className="row">
+                    <button type="button" className="btn btn-outline-primary"
+                          onClick={event => handleshowRepresentativeSearch(event)}>Representative Search
+                  </button>
+                        <div className="row my-2">
                             <div className="col-xs-6 col-md-12">
                                 <RepresentativeInformationTable
                                     representativeInformationGridData={representativeInformationGridData}
@@ -319,8 +471,29 @@ const RepresentativeInformationAccordion = (props) => {
                                     transactionType={CaseHeader.displayName}
                                 ></RepresentativeInformationTable>
                             </div>
+
                         </div>
                     </div>
+                    {showRepresentativeSearch && (
+                            <RepresentativeSearch 
+                            handleCloseSearch={handleCloseSearch}
+                            selectedCriteria={selectedCriteria}
+                            setSelectedCriteria={setSelectedCriteria}
+                            selectSearchValues={selectSearchValues}
+                            setSelectSearchValues={setSelectSearchValues}
+                            showRepresentatives = {showRepresentatives}
+                            representativeSearchTableComponent={representativeSearchTableComponent}
+                            responseData={responseData}
+                            setResponseData={setResponseData}
+                            handleClearRepresentativeSearch={handleClearRepresentativeSearch}
+                            showRepresentativeSearch={showRepresentativeSearch}
+                            handleSelectedRepresentatives = {handleSelectedRepresentatives}
+                            
+                            />
+                        )
+                        }
+
+
                 </div>
             </div>
         </div>
