@@ -9,6 +9,7 @@ import _ from "lodash";
 
 export const useCaseHeader = () => {
   const [hasSubmitError, setHasSubmitError] = useState(true);
+  const [hasSaveSubmitError, setHasSaveSubmitError] = useState(true);
   const {fileUpDownAxios} = useAxios();
   let documentSectionDataRef = useRef([]);
   const [caseTimelines, setCaseTimelines] = useState({
@@ -113,6 +114,7 @@ export const useCaseHeader = () => {
     Expedited_Denied_Date: undefined,
     Decision_Letter_Date: undefined
   });
+  const [decisionState, setDecisionState] = useState({ decisionNotes: "" });
 
   const caseTimelinesValidationSchema = Yup.object().shape({
     Case_Filing_Method: Yup.string().required(),
@@ -142,7 +144,29 @@ export const useCaseHeader = () => {
   const memberInformationValidationSchema = Yup.object().shape({});
   const expeditedRequestValidationSchema = Yup.object().shape({});
 
+  const [providerInformationGrid, setProviderInformationGrid] = useState([]);
+  const [authorizationInformationGrid, setAuthorizationInformationGrid] = useState([]);
+
   useEffect(() => {
+    if (!decisionState?.decisionNotes || decisionState.decisionNotes.trim() === "") {
+      console.log('curtsk dn');
+      setHasSaveSubmitError(true);
+    } else {
+      setHasSaveSubmitError(false);
+    }
+  }, [decisionState, hasSubmitError]);
+
+  useEffect(() => {
+    if (getGridDataValues(providerInformationGrid).some(e => !e.Point_of_Contact)) {
+      console.log('curtsk poc');
+      setHasSubmitError(true);
+      return;
+    }
+    if (getGridDataValues(authorizationInformationGrid).some(e => !e.Issue_Number)) {
+      console.log('curtsk aig');
+      setHasSubmitError(true);
+      return;
+    }
     Promise.all([
       caseTimelinesValidationSchema.validate(caseTimelines),
       caseInformationValidationSchema.validate(caseInformation),
@@ -151,7 +175,8 @@ export const useCaseHeader = () => {
       expeditedRequestValidationSchema.validate(expeditedRequest)
     ]).then(() => setHasSubmitError(false))
         .catch(err => setHasSubmitError(true));
-  }, [caseTimelines, caseInformation, claimInformation, memberInformation, expeditedRequest]);
+  }, [caseTimelines, caseInformation, claimInformation, memberInformation,
+    expeditedRequest, providerInformationGrid, authorizationInformationGrid]);
 
   const submitData = async () => {
 
@@ -299,16 +324,12 @@ export const useCaseHeader = () => {
 
   const [claimInformationGrid, setClaimInformationGrid] = useState([]);
 
-  const [providerInformationGrid, setProviderInformationGrid] = useState([]);
-
   const [representativeInformationGrid, setRepresentativeInformationGrid] = useState([]);
 
   const [authorizationInformation, setAuthorizationInformation] = useState({
     Authorization_Decision: "",
     Authorization_Decision_Reason: "",
   });
-
-  const [authorizationInformationGrid, setAuthorizationInformationGrid] = useState([]);
 
   const [mainCaseDetails, setMainCaseDetails] = useState({
     flowId: 0,
@@ -810,6 +831,9 @@ export const useCaseHeader = () => {
     apiTestState,
     callProcRef,
     hasSubmitError,
-    documentSectionDataRef
+    documentSectionDataRef,
+    decisionState,
+    setDecisionState,
+    hasSaveSubmitError
   }
 }
