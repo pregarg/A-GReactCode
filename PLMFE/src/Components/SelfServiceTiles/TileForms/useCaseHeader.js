@@ -149,7 +149,6 @@ export const useCaseHeader = () => {
 
   useEffect(() => {
     if (!decisionState?.decisionNotes || decisionState.decisionNotes.trim() === "") {
-      console.log('curtsk dn');
       setHasSaveSubmitError(true);
     } else {
       setHasSaveSubmitError(false);
@@ -157,12 +156,15 @@ export const useCaseHeader = () => {
   }, [decisionState, hasSubmitError]);
 
   useEffect(() => {
-    if (getGridDataValues(providerInformationGrid).some(e => !e.Point_of_Contact)) {
+    console.log('curtsk', getGridDataValues(providerInformationGrid))
+    if (getGridDataValues(providerInformationGrid)?.length === 0 ||
+        getGridDataValues(providerInformationGrid).some(e => !e.Point_of_Contact)) {
       console.log('curtsk poc');
       setHasSubmitError(true);
       return;
     }
-    if (getGridDataValues(authorizationInformationGrid).some(e => !e.Issue_Number)) {
+    if (getGridDataValues(authorizationInformationGrid)?.length === 0 ||
+        getGridDataValues(authorizationInformationGrid).some(e => !e.Issue_Number)) {
       console.log('curtsk aig');
       setHasSubmitError(true);
       return;
