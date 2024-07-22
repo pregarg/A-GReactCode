@@ -62,10 +62,7 @@ const CaseHeader = () => {
     apiTestState,
     callProcRef,
     hasSubmitError,
-    documentSectionDataRef,
-    decisionState,
-    setDecisionState,
-    hasSaveSubmitError
+    documentSectionDataRef
   } = useCaseHeader();
 
   const FormComponent = () => (
@@ -165,7 +162,6 @@ const CaseHeader = () => {
                     className="btn btn-outline-primary btnStyle"
                     name="saveAndSubmit"
                     onClick={saveAndExit}
-                    disabled={hasSaveSubmitError}
                     style={{float: "right", marginRight: "10px"}}
                 >
                   Save & Submit
@@ -175,7 +171,6 @@ const CaseHeader = () => {
                     className="btn btn-outline-primary btnStyle"
                     name="saveAndExit"
                     onClick={saveAndExit}
-                    disabled={hasSaveSubmitError}
                     style={{float: "right", marginRight: "10px"}}
                 >
                   Save & Exit
@@ -224,8 +219,6 @@ const CaseHeader = () => {
                           handleActionSelectChange={handleActionSelectChange}
                           delegatedVal={apiTestState?.delegated}
                           buttonClicked={callProcRef.current}
-                          decisionState={decisionState}
-                          setDecisionState={setDecisionState}
                       ></DecisionTab>
 
 
