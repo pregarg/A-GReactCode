@@ -1340,7 +1340,6 @@ export default function DecisionTab(tabInput) {
                       />
                     </div>
 
-                    {/* descision reason */}
                     {
                       prop.state.formNames == "Appeals" && <div className="col-xs-12 col-md-4">
                         <label>Decision Reason</label>
