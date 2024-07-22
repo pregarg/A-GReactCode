@@ -1607,8 +1607,12 @@ export default function ProviderInformationTable({
     };
 
     const handleModalChange = (flag) => {
+        // setDataIndex({
+        //     ...dataIndex,
+        //     ...opertnData
+        // });
+        //console.log("Handle Modal Change Data Index After: ",dataIndex);
         setModalShow(flag);
-
     };
 
     const handleDataIndex = (index) => {
