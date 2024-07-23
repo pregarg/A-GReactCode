@@ -153,6 +153,13 @@ export const useCaseHeader = () => {
         .catch(err => setHasSubmitError(true));
   }, [caseTimelines, caseInformation, claimInformation, memberInformation, expeditedRequest]);
 
+  const location = useLocation();
+  const [disableSaveAndExit, setDisableSaveAndExit] = useState(true);
+
+  setInterval(() => {
+    setDisableSaveAndExit(!location.state?.decisionNotes?.trim());
+  }, 500);
+
   const submitData = async () => {
 
     if (hasSubmitError) {
@@ -272,7 +279,6 @@ export const useCaseHeader = () => {
           });
     }
   };
-  let location = useLocation();
 
   const caseData = useSelector((store) => store.dashboardNavigationState);
   const caseheaderConfigData = JSON.parse(process.env.REACT_APP_CASEHEADER_DETAILS || "{}");
@@ -810,6 +816,7 @@ export const useCaseHeader = () => {
     apiTestState,
     callProcRef,
     hasSubmitError,
-    documentSectionDataRef
+    documentSectionDataRef,
+    disableSaveAndExit
   }
 }

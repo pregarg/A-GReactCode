@@ -62,7 +62,8 @@ const CaseHeader = () => {
     apiTestState,
     callProcRef,
     hasSubmitError,
-    documentSectionDataRef
+    documentSectionDataRef,
+    disableSaveAndExit
   } = useCaseHeader();
 
   // const [memberInformation, setMemberInformation] = useState();
@@ -165,6 +166,7 @@ const CaseHeader = () => {
                     name="saveAndSubmit"
                     onClick={saveAndExit}
                     style={{float: "right", marginRight: "10px"}}
+                    disabled={disableSaveAndExit}
                 >
                   Save & Submit
                 </button>
@@ -174,6 +176,7 @@ const CaseHeader = () => {
                     name="saveAndExit"
                     onClick={saveAndExit}
                     style={{float: "right", marginRight: "10px"}}
+                    disabled={disableSaveAndExit}
                 >
                   Save & Exit
                 </button>
