@@ -10,6 +10,7 @@ import useUpdateDecision from '../../CustomHooks/useUpdateDecision';
 import AuthSearch from "../TileForms/AuthSearch";
 import {useAxios} from "../../../api/axios.hook";
 import TableComponent from "../../../../src/util/TableComponent";
+import {selectStyle} from "./SelectStyle";
 
 const AuthorizationInformationAccordion = (props) => {
     const {
@@ -321,7 +322,20 @@ const AuthorizationInformationAccordion = (props) => {
             }
         };
     }
+    const authorizationDecisionValues = [
+        { value: 'APPROVED', label: 'APPROVED' },
+        { value: 'DENIED', label: 'DENIED' },
+        
+    ];
 
+    const authorizationDecisionReasonValues = [
+        { label: 'INSUFFICIENT INFORMATION', value: 'INSUFFICIENT INFORMATION' },
+        { label: 'DOCUMENTATION INCOMPLETE', value: 'DOCUMENTATION INCOMPLETE' },
+        { label: 'PENDING APPROVAL', value: 'PENDING APPROVAL' },
+        { label: 'OTHER', value: 'OTHER' },
+      ];
+      
+      
     const showAuths = async () => {
         let FromDate     = selectSearchValues?.fromDate || selectSearchValues?.fromDate2;
         let ToDate = selectSearchValues?.toDate || selectSearchValues?.toDate2;
@@ -409,7 +423,12 @@ const AuthorizationInformationAccordion = (props) => {
           return (<></>);
         }
       }
-
+      const wrapPlaceholder = (name, placeholder) => {
+        const field = props.caseInformationValidationSchema?.fields?.[name];
+        const required = (field?.type === 'date' && field?.internalTests?.optionality) ||
+            (field?.tests?.some(test => test.OPTIONS?.name === 'required'));
+        return `${placeholder}${required ? ' *' : ''}`;
+      };
     const getGridDataValues = (tableData) => {
         //var headers = document.getElementById(tableId).headers;
         let returnArray = [];
@@ -499,44 +518,42 @@ const AuthorizationInformationAccordion = (props) => {
                                         meta
                                     }) => (
                                         <div className="form-floating">
-                                            <input
-                                                maxLength="30"
-                                                type="text"
-                                                id="authdecision"
-                                                className={`form-control ${meta.touched && meta.error
-                                                    ? "is-invalid"
-                                                    : field.value
-                                                        ? "is-valid"
-                                                        : ""
-                                                    }`}
-                                                placeholder="Authorization Decision"
-                                                {...field}
-                                                onChange={(event) => {
-                                                    setAuthorizationInformationData({ ...authorizationInformationData, 'Authorization_Decision': event.target['value'] })
-                                                }}
-                                                onBlur={(event) =>
-                                                    props.handleOnChange(event.target['value'], 'Authorization_Decision')
-                                                }
-                                                value={convertToCase(authorizationInformationData['Authorization_Decision'])} disabled={
-                                                    prop.state.formView === "DashboardView" &&
-                                                        (prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "CaseArchived")
-                                                        ? true
-                                                        : false
-                                                }
-
-                                            />
-                                            <label htmlFor="floatingInputGrid">
-                                                Authorization Decision
-                                            </label>
-                                            {meta.touched && meta.error && (
-                                                <div
-                                                    className="invalid-feedback"
-                                                    style={{ display: "block" }}
-                                                >
-                                                    {meta.error}
-                                                </div>
-                                            )}
-                                        </div>
+                                        
+                                        <Select
+                                            styles={{...selectStyle}}
+                                            components={{
+                                                ValueContainer: CustomValueContainer,
+                                              }}
+                                            value={authorizationInformationData['Authorization_Decision']}
+                                            onChange={(selectValue, event) => {
+                                                setAuthorizationInformationData({ ...authorizationInformationData, 'Authorization_Decision': selectValue });
+                                                props.handleOnChange(selectValue, 'Authorization_Decision');
+                                            }}
+                                            options={authorizationDecisionValues} 
+                                            name="authdecision"
+                                            id="authdecision"
+                                            disabled={
+                                                prop.state.formView === "DashboardView" &&
+                                                    (prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || 
+                                                        prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || 
+                                                        prop.state.stageName === "CaseArchived")
+                                                    ? true
+                                                    : false
+                                            }
+                                            className="basic-multi-select"
+                                            isClearable
+                                            placeholder={wrapPlaceholder("authdecision", "Authorization Decision")}
+                                        />
+                                        {meta.touched && meta.error && (
+                                            <div
+                                                className="invalid-feedback"
+                                                style={{ display: "block" }}
+                                            >
+                                                {meta.error}
+                                            </div>
+                                        )}
+                                    </div>
+                                    
                                     )}
                                 </Field>
                                 <ErrorMessage
@@ -552,46 +569,44 @@ const AuthorizationInformationAccordion = (props) => {
                                         meta
                                     }) => (
                                         <div className="form-floating">
-                                            <input
-                                                maxLength="30"
-                                                type="text"
-                                                id="authdecisionreason"
-                                                className={`form-control ${meta.touched && meta.error
-                                                    ? "is-invalid"
-                                                    : field.value
-                                                        ? "is-valid"
-                                                        : ""
-                                                    }`}
-                                                placeholder="Authorization Decision Reason"
-                                                {...field}
-                                                onChange={(event) => {
-                                                    setAuthorizationInformationData({ ...authorizationInformationData, 'Authorization_Decision_Reason': event.target['value'] })
-                                                }}
-                                                onBlur={(event) =>
-                                                    props.handleOnChange(event.target['value'], 'Authorization_Decision_Reason')
-                                                }
-                                                value={convertToCase(authorizationInformationData['Authorization_Decision_Reason'])}
-                                                disabled={
-                                                    prop.state.formView === "DashboardView" &&
-                                                        (prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen")
-                                                        ? true
-                                                        : false
-                                                }
-                                            />
-                                            <label htmlFor="floatingInputGrid">
-                                                Authorization Decision Reason
-                                            </label>
-                                            {meta.touched && meta.error && (
-                                                <div
-                                                    className="invalid-feedback"
-                                                    style={{ display: "block" }}
-                                                >
-                                                    {meta.error}
+                                            <Select
+                                            styles={{...selectStyle}}
+                                            components={{
+                                                ValueContainer: CustomValueContainer,
+                                              }}
+                                              value={authorizationInformationData['Authorization_Decision_Reason']}
+                                              onChange={(selectValue) => {
+                                                console.log('Selected value:', selectValue);
+                                                setAuthorizationInformationData({ ...authorizationInformationData, 'Authorization_Decision_Reason': selectValue})
+                                                props.handleOnChange(selectValue, 'Authorization_Decision_Reason');
+                                            }}
+                                            options={authorizationDecisionReasonValues}
+                                            name = "authdecisionreason"
+                                            id="authdecisionreason"
+                                            disabled={
+                                                prop.state.formView === "DashboardView" &&
+                                                    (prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" ||
+                                                         prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" ||
+                                                          prop.state.stageName === "Reopen")
+                                                    ? true
+                                                    : false
+                                            }
+                                            className="basic-multi-select"
+                                            isClearable
+                                            placeholder={wrapPlaceholder("authdecisionreason", "Authorization Decision Reason")}   
+                                                />
+                                                {meta.touched && meta.error &&(
+                                                       <div
+                                                       className="invalid-feedback"
+                                                       style={{ display: "block" }}
+                                                   >
+                                                       {meta.error}
+                                                   </div>
+                                                )}
                                                 </div>
-                                            )}
-                                        </div>
                                     )}
                                 </Field>
+
                                 <ErrorMessage
                                     component="div"
                                     name="authdecisionreason"

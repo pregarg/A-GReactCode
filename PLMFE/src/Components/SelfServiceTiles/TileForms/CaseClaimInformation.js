@@ -117,9 +117,9 @@ const CaseClaimInformation = (props) => {
     }
 
     setShowProviderSearch(false);
-    setSelectedCriteria([]);
-    setSelectSearchValues([]);
-    setResponseData([]);
+    // setSelectedCriteria([]);
+    // setSelectSearchValues([]);
+    // setResponseData([]);
   }
   const handleCheckBoxChange = (event, ind) => {
     let jsn = responseData[ind];
@@ -146,8 +146,9 @@ const CaseClaimInformation = (props) => {
     setClaimTypeValues([...new Set(claimType.map(e => convertToCase(e.Claim_Type)))].map(kvMapper));
 
     const angDecision = mastersSelector?.masterAngDecision?.[0] || [];
-    // setDecisionValues([...new Set(angDecision.map(e => convertToCase(e.DECISION)))].map(kvMapper));
-    // setDecisionReasonValues([...new Set(angDecision.map(e => convertToCase(e.DECISION_REASON)))].map(kvMapper));
+    console.log("prerna1234--->",angDecision);
+    setDecisionValues([...new Set(angDecision.map(e => convertToCase(e.DECISION)))].map(kvMapper));
+    setDecisionReasonValues([...new Set(angDecision.map(e => convertToCase(e.DECISION_REASON)))].map(kvMapper));
 
     const authServiceType = mastersSelector?.masterAngAuthServiceType?.[0] || [];
     setServiceTypeValues(authServiceType.map(e => e.SERVICE_TYPE_DESC).map(kvMapper));
