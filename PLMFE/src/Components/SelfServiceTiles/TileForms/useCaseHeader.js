@@ -141,6 +141,13 @@ export const useCaseHeader = () => {
   });
   const memberInformationValidationSchema = Yup.object().shape({});
   const expeditedRequestValidationSchema = Yup.object().shape({});
+  const providerInformationValidationSchema = Yup.object().shape({
+    Point_of_Contact: Yup.object().shape({
+      label: Yup.string().required(),
+      value: Yup.string().required(),
+    }),
+  });
+  const [providerInformationGrid, setProviderInformationGrid] = useState([]);
 
   useEffect(() => {
     Promise.all([
@@ -148,10 +155,16 @@ export const useCaseHeader = () => {
       caseInformationValidationSchema.validate(caseInformation),
       claimInformationValidationSchema.validate(claimInformation),
       memberInformationValidationSchema.validate(memberInformation),
-      expeditedRequestValidationSchema.validate(expeditedRequest)
+      expeditedRequestValidationSchema.validate(expeditedRequest),
+      new Promise((resolve, reject) => {
+        if (providerInformationGrid.length > 0) resolve(true);
+        else reject(true);
+      }),
+      ...providerInformationGrid.map(e => providerInformationValidationSchema.validate(e)),
     ]).then(() => setHasSubmitError(false))
         .catch(err => setHasSubmitError(true));
-  }, [caseTimelines, caseInformation, claimInformation, memberInformation, expeditedRequest]);
+  }, [caseTimelines, caseInformation, claimInformation,
+    memberInformation, expeditedRequest, providerInformationGrid]);
 
   const location = useLocation();
   const [disableSaveAndExit, setDisableSaveAndExit] = useState(true);
@@ -304,8 +317,6 @@ export const useCaseHeader = () => {
   });
 
   const [claimInformationGrid, setClaimInformationGrid] = useState([]);
-
-  const [providerInformationGrid, setProviderInformationGrid] = useState([]);
 
   const [representativeInformationGrid, setRepresentativeInformationGrid] = useState([]);
 

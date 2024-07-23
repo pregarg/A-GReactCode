@@ -113,7 +113,6 @@ const CaseClaimInformation = (props) => {
 
     if (addressToPopulate.length > 0) {
       setProviderInformationGridData([...providerInformationGridData, ...addressToPopulate])
-      props.updateProviderInformationGridData([...providerInformationGridData, ...addressToPopulate]);
     }
 
     setShowProviderSearch(false);
@@ -445,6 +444,7 @@ const CaseClaimInformation = (props) => {
         if (!checkGridJsonLength(clonedJson)) {
           providerInformationGridData[index] = clonedJson;
           setProviderInformationGridData([...providerInformationGridData]);
+          props.updateProviderInformationGridData([...providerInformationGridData]);
         }
       }
 
