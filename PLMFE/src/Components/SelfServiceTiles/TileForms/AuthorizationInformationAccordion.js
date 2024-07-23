@@ -102,7 +102,6 @@ const AuthorizationInformationAccordion = (props) => {
     
         if (addressToPopulate.length > 0) {
           setAuthorizationInformationGridData([...authorizationInformationGridData, ...addressToPopulate])
-          props.updateAuthorizationInformationGridData([...authorizationInformationGridData, ...addressToPopulate]);
         }
     
         setShowAuthSearch(false);
@@ -116,10 +115,6 @@ const AuthorizationInformationAccordion = (props) => {
     const fetchAutoPopulate = useRef(false);
 
     const gridDataRef = useRef({});
-
-    useEffect(() => {
-        console.log("formdataauthorizationinformation", authorizationInformationData);
-    }, [authorizationInformationData]);
 
     const addTableRows = (triggeredFormName, index) => {
         let rowsInput = {};
@@ -137,7 +132,6 @@ const AuthorizationInformationAccordion = (props) => {
         ) {
             gridRowsFinalSubmit(triggeredFormName, index, "Delete");
             if (triggeredFormName === "AuthorizationInformationTable") {
-                console.log("auth delete");
                 const rows = [...authorizationInformationGridData];
                 rows.splice(index, 1);
                 setAuthorizationInformationGridData(rows);
@@ -223,10 +217,6 @@ const AuthorizationInformationAccordion = (props) => {
             rowInput = authorizationInformationGridData[index];
             setGridFieldTempState(rowInput);
         }
-        // if (triggeredFormName === "ProviderInformationTable") {
-        //     rowInput = providerInformationGridData[index];
-        //     setGridFieldTempState(rowInput);
-        // }
     };
 
     const gridRowsFinalSubmit = (triggeredFormName, index, operationType) => {
@@ -252,24 +242,9 @@ const AuthorizationInformationAccordion = (props) => {
                     authorizationInformationGridData[index] = clonedJson;
                     setAuthorizationInformationGridData(authorizationInformationGridData);
                 }
+                props.updateAuthorizationInformationGridData(authorizationInformationGridData.slice(0, -1));
+                setTimeout(() => props.updateAuthorizationInformationGridData(authorizationInformationGridData), 500);
             }
-            // if (triggeredFormName === "ProviderInformationTable") {
-            //     let indexJson = providerInformationGridData[index];
-
-            //     if (indexJson !== undefined && indexJson !== null) {
-            //         clonedJson = Object.assign(indexJson, gridFieldTempState);
-            //     }
-
-            //     if (!checkGridJsonLength(clonedJson)) {
-            //         console.log(
-            //             "Inside gridRowsFinalSubmit clonedJson if value: ",
-            //             clonedJson
-            //         );
-            //         providerInformationGridData[index] = clonedJson;
-            //         setProviderInformationGridData(providerInformationGridData);
-            //     }
-            // }
-
             //Handling for data update/Delete/Insert inside grids.
             if (tabRef.current === "DashboardView") {
                 //let gridRow = getGridDataArray(triggeredFormName);
@@ -305,22 +280,8 @@ const AuthorizationInformationAccordion = (props) => {
                         gridDataRef.current.authorizationInformationTable = getGridDataValues(gridRowArray);
                     }
                 }
-                // if (triggeredFormName === "ProviderInformationTable") {
-                //     gridRowArray = gridDataRef.current.hasOwnProperty("providerInformationTable")
-                //         ? [...gridDataRef.current.providerInformationTable]
-                //         : [];
-                //     gridRowJson = { ...providerInformationGridData[index] };
-
-                //     if (Object.keys(gridRowJson).length !== 0) {
-                //         gridRowJson["operation"] = oprtn;
-
-                //         gridRowArray.push(trimJsonValues(gridRowJson));
-
-                //         gridDataRef.current.providerInformationTable = getGridDataValues(gridRowArray);
-                //     }
-                // }
             }
-        };
+        }
     }
     const authorizationDecisionValues = [
         { value: 'APPROVED', label: 'APPROVED' },

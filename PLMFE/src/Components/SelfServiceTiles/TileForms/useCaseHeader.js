@@ -147,7 +147,15 @@ export const useCaseHeader = () => {
       value: Yup.string().required(),
     }),
   });
+  const authorizationInformationValidationSchema = Yup.object().shape({
+    Issue_Number: Yup.object().shape({
+      label: Yup.string().required(),
+      value: Yup.string().required(),
+    }),
+  });
+
   const [providerInformationGrid, setProviderInformationGrid] = useState([]);
+  const [authorizationInformationGrid, setAuthorizationInformationGrid] = useState([]);
 
   useEffect(() => {
     Promise.all([
@@ -161,10 +169,14 @@ export const useCaseHeader = () => {
         else reject(true);
       }),
       ...providerInformationGrid.map(e => providerInformationValidationSchema.validate(e)),
-    ]).then(() => setHasSubmitError(false))
-        .catch(err => setHasSubmitError(true));
-  }, [caseTimelines, caseInformation, claimInformation,
-    memberInformation, expeditedRequest, providerInformationGrid]);
+      new Promise((resolve, reject) => {
+        if (authorizationInformationGrid.length > 0) resolve(true);
+        else reject(true);
+      }),
+      ...authorizationInformationGrid.map(e => authorizationInformationValidationSchema.validate(e))
+    ]).then(() => setHasSubmitError(false)).catch(err => setHasSubmitError(true));
+  }, [caseTimelines, caseInformation, claimInformation, memberInformation,
+    expeditedRequest, providerInformationGrid, authorizationInformationGrid]);
 
   const location = useLocation();
   const [disableSaveAndExit, setDisableSaveAndExit] = useState(true);
@@ -216,7 +228,6 @@ export const useCaseHeader = () => {
     const stageName = caseheaderConfigData["StageName"];
 
     apiJson["MainCaseTable"] = mainCaseReqBody;
-    console.log("APIJSON--->", apiJson);
 
     const response = await customAxios.post("/generic/create", apiJson, {
       headers: {Authorization: `Bearer ${token}`},
@@ -243,8 +254,6 @@ export const useCaseHeader = () => {
           : "system";
       procDataState.formNames = 'Appeals';
       procData.state = procDataState;
-      console.log("PocData State: ", procData);
-      console.log("Inside Add Provider File UPLOAD DATA: ", documentSectionDataRef.current);
       if (documentSectionDataRef.current.length > 0) {
         let documentArray = [...documentSectionDataRef.current];
         documentArray = documentArray.filter(
@@ -324,8 +333,6 @@ export const useCaseHeader = () => {
     Authorization_Decision: "",
     Authorization_Decision_Reason: "",
   });
-
-  const [authorizationInformationGrid, setAuthorizationInformationGrid] = useState([]);
 
   const [mainCaseDetails, setMainCaseDetails] = useState({
     flowId: 0,
@@ -461,7 +468,6 @@ export const useCaseHeader = () => {
             setCaseHeader(data["angCaseHeader"][0]);
             setCaseTimelines(data["angCaseTimelines"][0]);
             setCaseInformation(data["angCaseInformation"][0]);
-            console.log("prernnaaa12345--->", setCaseInformation(data["angCaseInformation"][0]));
             setClaimInformation(data["angClaimInformation"][0]);
             setClaimInformationGrid(data["angClaimInformationGrid"]);
             setProviderInformationGrid(data["angProviderInformationGrid"]);
@@ -494,7 +500,7 @@ export const useCaseHeader = () => {
           }
         })
         .catch((err) => {
-          console.log(err.message);
+          console.error(err.message);
         });
   }
 
