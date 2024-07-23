@@ -603,7 +603,7 @@ export default function ProviderInformationTable({
                             />
                         </div>
                         <div className="col-xs-6 col-md-3">
-                            <label>Point of Contact *</label>
+                            <label>Point of Contact</label>
                             <br />
                             <input
                                 type="text"
@@ -1607,8 +1607,12 @@ export default function ProviderInformationTable({
     };
 
     const handleModalChange = (flag) => {
+        // setDataIndex({
+        //     ...dataIndex,
+        //     ...opertnData
+        // });
+        //console.log("Handle Modal Change Data Index After: ",dataIndex);
         setModalShow(flag);
-
     };
 
     const handleDataIndex = (index) => {

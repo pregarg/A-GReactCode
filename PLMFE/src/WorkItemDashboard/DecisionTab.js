@@ -174,9 +174,8 @@ export default function DecisionTab(tabInput) {
       }
     }
     setDecisionState({ ...decisionState, [name]: selectedValue });
-    if (tabInput?.setDecisionState) {
-      tabInput.setDecisionState({ ...decisionState, [name]: selectedValue });
-    }
+
+
   };
 
 
@@ -198,12 +197,6 @@ export default function DecisionTab(tabInput) {
       ...decisionState,
       [evt.target.name]: evt.target.value,
     });
-    if (tabInput?.setDecisionState) {
-      tabInput.setDecisionState({
-        ...decisionState,
-        [evt.target.name]: evt.target.value,
-      });
-    }
   };
 
   const handleModalShowHide = (index, flagValue, requestedFrom) => {
@@ -1347,7 +1340,6 @@ export default function DecisionTab(tabInput) {
                       />
                     </div>
 
-                    {/* descision reason */}
                     {
                       prop.state.formNames == "Appeals" && <div className="col-xs-12 col-md-4">
                         <label>Decision Reason</label>
@@ -1391,7 +1383,7 @@ export default function DecisionTab(tabInput) {
 
                   <div className="row my-2">
                     <div className="col-xs-12">
-                      <label>Case Notes{tabInput?.setDecisionState ? '* ' : ''}:</label>
+                      <label>Case Notes:</label>
                       <textarea
                         onChange={handleLinearFieldChange}
                         value={
