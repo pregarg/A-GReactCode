@@ -1391,7 +1391,7 @@ export default function DecisionTab(tabInput) {
 
                   <div className="row my-2">
                     <div className="col-xs-12">
-                      <label>Case Notes{tabInput?.setDecisionState ? '* ' : ''}:</label>
+                      <label>Case Notes *:</label>
                       <textarea
                         onChange={handleLinearFieldChange}
                         value={
