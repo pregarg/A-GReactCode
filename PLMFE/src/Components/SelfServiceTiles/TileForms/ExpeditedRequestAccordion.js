@@ -220,7 +220,7 @@ const ExpeditedRequestAccordion = (props) => {
 
     const angSt = mastersSelector?.masterAngStUpExpedited?.[0] || [];
     setStUpExpeditedValues(angSt.map(e => e.St_Up_Expedited).map(kvMapper));
-  });
+  },[]);
 
   return (
       <div>

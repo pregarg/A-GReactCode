@@ -254,8 +254,12 @@ const MemberInformationAccordion = (props) => {
   };
 
   const handleSelectedMembers = () => {
-    setMemberInformationData({...selectedAddress[0]});
-    
+    let addressToPopulate ={...selectedAddress[0]};
+   // setMemberInformationData({...memberInformationData,...addressToPopulate});
+   setMemberInformationData(prevState => ({
+    ...prevState,
+    ...addressToPopulate
+  }));
     setShowMemberSearch(false);
     setSelectedCriteria([]);
     setSelectSearchValues([]);
@@ -386,19 +390,20 @@ const MemberInformationAccordion = (props) => {
 
     const commAngPref = mastersSelector?.masterAngCommPref?.[0] || [];
     setCommPrefValues(commAngPref.map(e => e.Comm_Pref).map(kvMapper));
-  });
+  },[]);
 
   return (
-      <div className="accordion-item" id="caseHeader">
+    <div>
+      <div className="accordion-item" id="memberInformation">
         <h2
             className="accordion-header"
-            id="panelsStayOpen-Header"
+            id="panelsStayOpen-memberInformation"
         >
           <button
               className="accordion-button accordionButtonStyle"
               type="button"
               data-bs-toggle="collapse"
-              data-bs-target="#panelsStayOpen-collapseHeader"
+              data-bs-target="#panelsStayOpen-collapsememberInformation"
               aria-expanded="true"
               aria-controls="panelsStayOpen-collapseOne"
           >
@@ -406,9 +411,9 @@ const MemberInformationAccordion = (props) => {
           </button>
         </h2>
         <div
-            id="panelsStayOpen-collapseHeader"
+            id="panelsStayOpen-collapsememberInformation"
             className="accordion-collapse collapse show"
-            aria-labelledby="panelsStayOpen-Header"
+            aria-labelledby="panelsStayOpen-memberInformation"
         >
           <div className="accordion-body">
             <button type="button" className="btn btn-outline-primary"
@@ -524,7 +529,7 @@ const MemberInformationAccordion = (props) => {
             </div>
             <div className="row ny-2">
               <div className="col-xs-6 col-md-4">
-                {SelectField("Communication_Preference", "Communication Preference", commPrefValues)}
+                {SelectField("Comm_Pref", "Communication Preference", commPrefValues)}
               </div>
               <div className="col-xs-6 col-md-4">
                 {InputField("Phone_Number", "Phone Number", 50)}
@@ -560,7 +565,7 @@ const MemberInformationAccordion = (props) => {
             />
         )}
       </div>
-
+      </div>
 
   );
 }

@@ -5,6 +5,11 @@ import Select, { StylesConfig } from "react-select";
 import { useSelector } from "react-redux";
 import FileUpload from "../../WorkItemDashboard/DashboardFileUpload/FileUpload";
 import useUpdateDecision from "../CustomHooks/useUpdateDecision";
+import useSwalWrapper from "../../Components/SweetAlearts/hooks"
+import { useAxios } from "../../api/axios.hook";
+import DocumentViewer from "../../Components/CommonComponents/DocumentViewer";
+
+
 
 export default function DocumentSection(prop) {
 
@@ -12,8 +17,93 @@ export default function DocumentSection(prop) {
   const docClickedIndex = useRef();
 
   const selectRef = useRef(null);
-
+  const Swal = useSwalWrapper();
+  const { fileUpDownAxios } = useAxios();
   const { printConsole, getRowNumberForGrid } = useUpdateDecision();
+  
+  const [docViewDialog, setDocViewDialog] = useState({
+    open: false,
+    url: "",
+    fileName: "",
+    fileType: "",
+  });
+
+  let restrictedFileTypes = ["xls", "eps", "sql", "xlsx", "docx"];
+  const downloadedfileBlob = (index, documentData) => {
+    const {documentType, documentName, docUploadPath } =
+      documentData[index] || {};
+
+    if (!documentType && !documentName) {
+      Swal.fire({
+        icon: "error",
+        title: "Please Upload The File First",
+      });
+      return;
+    }
+    let newArray = [...documentData];
+    const convertArrayToOuterArray = (arr) => {
+      let newArray = [...arr];
+      newArray.sort((a, b) =>
+        a.uploadedDateTime < b.uploadedDateTime
+          ? 1
+          : b.uploadedDateTime < a.uploadedDateTime
+            ? -1
+            : 0
+      );
+      //filtering results by documentType and fetching result of each documentType
+  
+      const unique = newArray.filter((obj, index) => {
+        if (obj.documentType !== "Other Documents") {
+          return (
+            index ===
+            newArray.findIndex((o) => obj.documentType === o.documentType)
+          );
+        } else {
+          return obj;
+        }
+      });
+      return unique;
+    };
+    //const caseId = Number(caseNumber) ?? 0;
+    const fileData = new FormData();
+    if (docUploadPath !== undefined) {
+      fileData.append("downloadFilePath", docUploadPath);
+    }
+    fileData.append("caseNumber", "");
+    fileData.append("docType", documentType);
+    fileData.append("docName", documentName);
+
+    fileUpDownAxios
+      .post("/downloadFile", fileData, { responseType: "blob" })
+      .then((response) => {
+        const docName = documentName;
+        const filename = `${documentType}_${docName.substring(
+          docName.lastIndexOf(".")
+        )}`;
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const lastIndex = docName.lastIndexOf(".");
+        const fileType = docName.slice(lastIndex + 1);
+        if (restrictedFileTypes.includes(fileType)) {
+          Swal.fire({
+            icon: "error",
+            title: "This FileType Is Not Visible In The Browser",
+          });
+          return;
+        }
+
+        setDocViewDialog({
+          ...docViewDialog,
+          open: true,
+          fileName: filename,
+          fileType: fileType,
+          url: url,
+        });
+      })
+      .catch((err) => {
+        printConsole("Caught in download file: ", err);
+        alert("Please upload the file first1234");
+      });
+  };
 
   // const customStyles: StylesConfig = {
   //   control: (provided: Record<string, unknown>, state: any) => ({
@@ -39,7 +129,16 @@ export default function DocumentSection(prop) {
   //     // }
   //   }),
   // };
-
+  const customStyles = {
+    menu: (provided) => ({
+      ...provided,
+      zIndex: 1000, // Set your desired z-index value here
+    }),
+    control: (provided) => ({
+      ...provided,
+      zIndex: 1000, // Set z-index for the control if needed
+    }),
+  };
   const mastersSelector = useSelector((masters) => masters);
   console.log("Document Masters Selector: ", mastersSelector);
 
@@ -48,6 +147,7 @@ export default function DocumentSection(prop) {
   const [fileState, setFileState] = useState([]);
 
   const [documentNameValues, setDocumentNameValues] = useState([]);
+  const [documentData, setDocumentData] = useState([]);
 
   useEffect(() => {
     const stageName = prop.stageName || prop.stageName.trim();
@@ -238,14 +338,28 @@ export default function DocumentSection(prop) {
     }
   };
 
-  const handleFileUpload = (evnt,index) => {
+ 
+  const handleFileUpload = (evnt, index) => {
     if (evnt.target.files[0] === undefined) {
-      setFileState([...fileState,{ selectedFile: null, fileIndex : index }]);
+      setFileState([...fileState, { selectedFile: null, fileIndex: index }]);
     }
 
     if (evnt.target.files[0] !== undefined) {
-      setFileState([...fileState,{ selectedFile: evnt.target.files[0], fileIndex : index }]);
-      //setFileState({ selectedFile: evnt.target.files[0] });
+      if (
+        documentData[index].documentType === "Draft Contract" ||
+        documentData[index].documentType === "Final Contract"
+      ) {
+        const fileExt = evnt.target.files[0].name.split(".").pop();
+        if (fileExt !== "docx" && fileExt !== "doc") {
+          alert("Only docx or doc file type supported.");
+          evnt.target.value = null;
+          return;
+        }
+      }
+      setFileState([
+        ...fileState,
+        { selectedFile: evnt.target.files[0], fileIndex: index },
+      ]);
     }
   };
 
@@ -258,7 +372,7 @@ export default function DocumentSection(prop) {
     console.log("Last added row: ", documentData[documentData.length - 1]);
   };
 
-  const [documentData, setDocumentData] = useState([]);
+
 
   const deleteTableRows = (index) => {
     setFileState([]);
@@ -279,6 +393,7 @@ export default function DocumentSection(prop) {
 
   const documentsData = () => {
     console.log("documentData: ", documentData);
+    let unique = [...documentData];
     //console.log("documentData.documentType: ",data['documentType']);
 
     if (documentData.length > 0) {
@@ -321,7 +436,7 @@ export default function DocumentSection(prop) {
                 <Select
                   //value={(('documentType' in data) && (data.documentType.value !== undefined)) ? (data.documentType.value) : (data.documentType)}
                   value={data.documentType}
-                  // styles={customStyles}
+                  styles={customStyles}
                   ref={selectRef}
                   menuPlacement={handleSelectItemPos() ? "top" : "auto"}
 
@@ -355,6 +470,21 @@ export default function DocumentSection(prop) {
                                 style={{height:"30px",background:"inherit"}} onClick={()=> downloadFile(index)}></img>
                             </td> */}
               <td>{data.docStatus}</td>
+               <td>
+                <i
+                  className="fa fa-eye"
+                  style={{
+                    height: "30px",
+                    background: "inherit",
+                    fontSize: "20px",
+                    alignContent: "center",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => {
+                    downloadedfileBlob(index, unique);
+                  }}
+                ></i>
+              </td>
             </tr>
           </>
         );
@@ -413,6 +543,9 @@ export default function DocumentSection(prop) {
                     <th style={{ width: "20%" }} scope="col">
                       Status
                     </th>
+                    <th style={{ width: "10%" }} scope="col">
+                          View
+                        </th>
                   </tr>
                 </thead>
                 <tbody>{documentsData()}</tbody>
@@ -428,6 +561,16 @@ export default function DocumentSection(prop) {
           currIndex={docClickedIndex.current}
           documentData={documentData}
         />
+
+        {docViewDialog.open && (
+          <DocumentViewer
+            open={docViewDialog}
+            close={() =>
+              setDocViewDialog({ ...docViewDialog, open: false, url: "" })
+            }
+            dialogViewData={docViewDialog}
+          />
+        )}
       </div>
     </>
   );

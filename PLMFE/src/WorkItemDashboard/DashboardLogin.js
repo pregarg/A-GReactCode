@@ -46,7 +46,7 @@ import {
   getMasterGridLicenseType,
   getMasterSpeciality,
   getMasterGraduateType,
-  getMasterDecision,
+  //getMasterDecision,
   //getMasterDecisionReason,
   getMasterDocumentName,
   getMasterDocumentList,
@@ -219,14 +219,14 @@ export default function DashboardLogin() {
         onMasterLoadSuccess
       )
     );
-    dispatch(
-      getMasterDecision(
-        loginToken,
-        false,
-        onMasterLoadFail,
-        onMasterLoadSuccess
-      )
-    );
+    // dispatch(
+    //   getMasterDecision(
+    //     loginToken,
+    //     false,
+    //     onMasterLoadFail,
+    //     onMasterLoadSuccess
+    //   )
+    // );
     // dispatch(
     //   getMasterDecisionReason(
     //     loginToken,

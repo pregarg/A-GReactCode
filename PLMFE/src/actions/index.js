@@ -1601,37 +1601,37 @@ export const getMasterDocumentList = (
   };
 };
 
-export const getMasterDecision = (
-  token,
-  clearFlag = false,
-  onError,
-  onSuccess
-) => {
-  return (dispatch) => {
-    if (!clearFlag) {
-      // axios.get("/master/decision?flowId="+flowId+"&stageName="+stageName, {
-      axios
-        .get("/master/decision", {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then((response) => {
-          console.log(response);
-          dispatch({ type: "GET_DECISION", payload: response });
-          if (onSuccess) {
-            onSuccess(response);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-          if (onError) {
-            onError(error);
-          }
-        });
-    } else if (clearFlag) {
-      dispatch({ type: "CLEAR_DECISION", payload: "" });
-    }
-  };
-};
+// export const getMasterDecision = (
+//   token,
+//   clearFlag = false,
+//   onError,
+//   onSuccess
+// ) => {
+//   return (dispatch) => {
+//     if (!clearFlag) {
+//       // axios.get("/master/decision?flowId="+flowId+"&stageName="+stageName, {
+//       axios
+//         .get("/master/decision", {
+//           headers: { Authorization: `Bearer ${token}` },
+//         })
+//         .then((response) => {
+//           console.log(response);
+//           dispatch({ type: "GET_DECISION", payload: response });
+//           if (onSuccess) {
+//             onSuccess(response);
+//           }
+//         })
+//         .catch((error) => {
+//           console.log(error);
+//           if (onError) {
+//             onError(error);
+//           }
+//         });
+//     } else if (clearFlag) {
+//       dispatch({ type: "CLEAR_DECISION", payload: "" });
+//     }
+//   };
+// };
 
 // export const getMasterDecisionReason = (
 //   token,

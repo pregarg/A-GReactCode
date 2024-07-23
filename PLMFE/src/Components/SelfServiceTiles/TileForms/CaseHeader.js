@@ -1,4 +1,4 @@
-import React from "react";
+import {React,useState}  from "react";
 import {Formik} from "formik";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
@@ -64,6 +64,8 @@ const CaseHeader = () => {
     hasSubmitError,
     documentSectionDataRef
   } = useCaseHeader();
+
+  // const [memberInformation, setMemberInformation] = useState();
 
   const FormComponent = () => (
       <div
