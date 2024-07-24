@@ -113,12 +113,13 @@ const CaseClaimInformation = (props) => {
 
     if (addressToPopulate.length > 0) {
       setProviderInformationGridData([...providerInformationGridData, ...addressToPopulate])
+      props.updateProviderInformationGridData([...providerInformationGridData, ...addressToPopulate])
     }
 
     setShowProviderSearch(false);
-    // setSelectedCriteria([]);
-    // setSelectSearchValues([]);
-    // setResponseData([]);
+    setSelectedCriteria([]);
+    setSelectSearchValues([]);
+    setResponseData([]);
   }
   const handleCheckBoxChange = (event, ind) => {
     let jsn = responseData[ind];

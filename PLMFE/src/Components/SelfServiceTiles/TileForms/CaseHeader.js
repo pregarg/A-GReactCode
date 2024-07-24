@@ -15,6 +15,7 @@ import RepresentativeInformationAccordion from "./RepresentativeInformationAccor
 import {useCaseHeader} from "./useCaseHeader";
 import DocumentSection from "../DocumentSection";
 import {useLocation} from "react-router-dom";
+import DocumentTab from "../../../WorkItemDashboard/DashboardHome/Globalsearch/DocumentTab";
 
 const CaseHeader = () => {
   let prop = useLocation();
@@ -129,6 +130,20 @@ const CaseHeader = () => {
                       stageName={caseheaderConfigData["StageName"]}
                   />
               )}
+                 {/* {prop.state.formView === "DashboardHomeView" && (
+                  <DocumentTab
+                      fileDataRef={documentSectionDataRef.current}
+                      displayName={CaseHeader.displayName}
+                      stageName={caseheaderConfigData["StageName"]}
+                  />
+              )} */}
+                   {/* {prop.state.formView === "DashboardHomeView" && (
+                  <DecisionTab
+                      fileDataRef={documentSectionDataRef.current}
+                      displayName={CaseHeader.displayName}
+                      stageName={caseheaderConfigData["StageName"]}
+                  />
+              )} */}
               </div>
             </div>
           </div>

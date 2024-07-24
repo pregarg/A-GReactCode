@@ -29,6 +29,7 @@ export default function useUpdateDecision() {
   }
 
   const updateDecision = (prop, saveType, transactionType) => {
+    console.log("updatedecision1",prop)
     const decsn = (prop.state.decision === undefined) ? '' : prop.state.decision;
     let procInput = {};
     if (transactionType === 'Appeals') {

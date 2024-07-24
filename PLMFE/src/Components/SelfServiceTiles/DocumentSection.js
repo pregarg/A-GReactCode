@@ -30,7 +30,7 @@ export default function DocumentSection(prop) {
 
   let restrictedFileTypes = ["xls", "eps", "sql", "xlsx", "docx"];
   const downloadedfileBlob = (index, documentData) => {
-    const {documentType, documentName, docUploadPath } =
+    const {caseNumber,documentType, documentName, docUploadPath } =
       documentData[index] || {};
 
     if (!documentType && !documentName) {
@@ -64,12 +64,12 @@ export default function DocumentSection(prop) {
       });
       return unique;
     };
-    //const caseId = Number(caseNumber) ?? 0;
+    const caseId = Number(caseNumber) ?? 0;
     const fileData = new FormData();
     if (docUploadPath !== undefined) {
       fileData.append("downloadFilePath", docUploadPath);
     }
-    fileData.append("caseNumber", "");
+    fileData.append("caseNumber", caseId);
     fileData.append("docType", documentType);
     fileData.append("docName", documentName);
 

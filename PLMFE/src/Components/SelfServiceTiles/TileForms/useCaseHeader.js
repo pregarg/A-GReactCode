@@ -263,9 +263,7 @@ export const useCaseHeader = () => {
           const fileUploadData = new FormData();
           fileUploadData.append("file", e.fileData);
           fileUploadData.append("source", "Manual");
-          fileUploadData.append(
-              "caseNumber",
-              response.data["CreateCase_Output"]["CaseNo"]
+          fileUploadData.append("caseNumber",response.data["CreateCase_Output"]["CaseNo"]
           );
           fileUploadData.append("docType", e.documentType);
           fileUpDownAxios
@@ -768,7 +766,9 @@ export const useCaseHeader = () => {
       }
 
       if (apiStat === 0) {
+        console.log("locationdata--->",location)
         updateDecision(location, saveType, "Appeals");
+        
         let procData = {};
         let procDataState = {};
         procDataState.stageName = location.state.stageName;

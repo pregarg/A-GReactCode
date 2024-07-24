@@ -254,12 +254,13 @@ const MemberInformationAccordion = (props) => {
   };
 
   const handleSelectedMembers = () => {
-    let addressToPopulate ={...selectedAddress[0]};
-   // setMemberInformationData({...memberInformationData,...addressToPopulate});
-   setMemberInformationData(prevState => ({
-    ...prevState,
-    ...addressToPopulate
-  }));
+    // let addressToPopulate ={...selectedAddress[0]};
+    // setMemberInformationData({...memberInformationData,...addressToPopulate});
+    setMemberInformationData(selectedAddress[0]);
+  //  setMemberInformationData(prevState => ({
+  //   ...prevState,
+  //   ...addressToPopulate
+  // }));
     setShowMemberSearch(false);
     setSelectedCriteria([]);
     setSelectSearchValues([]);
