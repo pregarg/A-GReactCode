@@ -102,6 +102,7 @@ const AuthorizationInformationAccordion = (props) => {
     
         if (addressToPopulate.length > 0) {
           setAuthorizationInformationGridData([...authorizationInformationGridData, ...addressToPopulate])
+          props.updateAuthorizationInformationGridData([...authorizationInformationGridData, ...addressToPopulate]);
         }
     
         setShowAuthSearch(false);
