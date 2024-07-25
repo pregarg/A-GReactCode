@@ -97,55 +97,86 @@ export default function useGetDBTables() {
   };
 
   const getGridJson = (jsonObj) => {
-    //Added by Nidhi Gupta on 10/27/2023
-    //Commented by NG as handling will be done while calling this function
-    /* if (jsonObj === null || typeof jsonObj !== 'object') {
-            console.error('Invalid input in getGridJson: jsonObj is null or not an object');
-            return;
-        }*/
-
-    //Till Here
     console.log("Inside getGridJson jsonObj: ", jsonObj);
-    if (jsonObj !== null || jsonObj !== undefined) {
-      const jsonKeys = Object.keys(jsonObj);
-      console.log("Inside getGridJson jsonObj1: ", jsonObj);
-      jsonKeys.forEach((elem) => {
-        const dataKeyType = typeof jsonObj[elem];
-        //if(dataKeyType === 'object'){
-        //console.log("Inside getGridJson dataKeyType: ", dataKeyType , jsonObj[elem]  , elem);
-        if (
-          (dataKeyType === "object" &&
-            !jsonObj[elem].hasOwnProperty("label") &&
-            !jsonObj[elem].hasOwnProperty("value")) ||
-          dataKeyType !== "object"
-        ) {
-          jsonObj[elem] = { label: jsonObj[elem], value: jsonObj[elem] };
-        }
-        //}
-        // if(dataKeyType !== 'object'){
-        //     jsonObj[elem] = {'label':jsonObj[elem], 'value':jsonObj[elem]};
-        // }
 
-        // Added by Nidhi Gupta on 11/10/2023 form making languages multi select
-        else if (
-          dataKeyType === "object" &&
-          jsonObj[elem].hasOwnProperty("label") &&
-          typeof jsonObj[elem]["label"] === "object"
-        ) {
-          //console.log("came inside here   " ,elem ,   typeof (jsonObj[elem]['label'] ))
-          jsonObj[elem] = jsonObj[elem]["label"];
-        }
-        //till here
-      });
-      //console.log("Inside getGridJson processedData: ", jsonObj);
-      return jsonObj;
+    if (jsonObj && typeof jsonObj === 'object') {
+        const jsonKeys = Object.keys(jsonObj);
+        jsonKeys.forEach((elem) => {
+            const dataKeyType = typeof jsonObj[elem];
+
+            if (
+                (dataKeyType === "object" &&
+                    !jsonObj[elem]?.hasOwnProperty("label") &&
+                    !jsonObj[elem]?.hasOwnProperty("value")) ||
+                dataKeyType !== "object"
+            ) {
+                jsonObj[elem] = { label: jsonObj[elem], value: jsonObj[elem] };
+            } else if (
+                dataKeyType === "object" &&
+                jsonObj[elem].hasOwnProperty("label") &&
+                typeof jsonObj[elem]["label"] === "object"
+            ) {
+                jsonObj[elem] = jsonObj[elem]["label"];
+            }
+        });
+        return jsonObj;
     } else {
-      console.error(
-        "Invalid input in getGridJson: jsonObj is null or not an object"
-      );
-      return;
+        console.error("Invalid input in getGridJson: jsonObj is null or not an object");
+        return {};
     }
-  };
+};
+
+
+  // const getGridJson = (jsonObj) => {
+  //   //Added by Nidhi Gupta on 10/27/2023
+  //   //Commented by NG as handling will be done while calling this function
+  //   /* if (jsonObj === null || typeof jsonObj !== 'object') {
+  //           console.error('Invalid input in getGridJson: jsonObj is null or not an object');
+  //           return;
+  //       }*/
+
+  //   //Till Here
+  //   console.log("Inside getGridJson jsonObj: ", jsonObj);
+  //   if (jsonObj !== null || jsonObj !== undefined) {
+  //     const jsonKeys = Object.keys(jsonObj);
+  //     console.log("Inside getGridJson jsonObj1: ", jsonObj);
+  //     jsonKeys.forEach((elem) => {
+  //       const dataKeyType = typeof jsonObj[elem];
+  //       //if(dataKeyType === 'object'){
+  //       //console.log("Inside getGridJson dataKeyType: ", dataKeyType , jsonObj[elem]  , elem);
+  //       if (
+  //         (dataKeyType === "object" &&
+  //           !jsonObj[elem]?.hasOwnProperty("label") &&
+  //           !jsonObj[elem]?.hasOwnProperty("value")) ||
+  //         dataKeyType !== "object"
+  //       ) {
+  //         jsonObj[elem] = { label: jsonObj[elem], value: jsonObj[elem] };
+  //       }
+  //       //}
+  //       // if(dataKeyType !== 'object'){
+  //       //     jsonObj[elem] = {'label':jsonObj[elem], 'value':jsonObj[elem]};
+  //       // }
+
+  //       // Added by Nidhi Gupta on 11/10/2023 form making languages multi select
+  //       else if (
+  //         dataKeyType === "object" &&
+  //         jsonObj[elem].hasOwnProperty("label") &&
+  //         typeof jsonObj[elem]["label"] === "object"
+  //       ) {
+  //         //console.log("came inside here   " ,elem ,   typeof (jsonObj[elem]['label'] ))
+  //         jsonObj[elem] = jsonObj[elem]["label"];
+  //       }
+  //       //till here
+  //     });
+  //     //console.log("Inside getGridJson processedData: ", jsonObj);
+  //     return jsonObj;
+  //   } else {
+  //     console.error(
+  //       "Invalid input in getGridJson: jsonObj is null or not an object"
+  //     );
+  //     return;
+  //   }
+  // };
 
   const convertToDateObj = (jsonObj) => {
     const jsonKeys = Object.keys(jsonObj);

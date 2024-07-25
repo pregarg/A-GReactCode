@@ -445,7 +445,7 @@ const CaseClaimInformation = (props) => {
         if (!checkGridJsonLength(clonedJson)) {
           providerInformationGridData[index] = clonedJson;
           setProviderInformationGridData([...providerInformationGridData]);
-          props.updateProviderInformationGridData([...providerInformationGridData]);
+        //  props.updateProviderInformationGridData([...providerInformationGridData]);
         }
       }
 

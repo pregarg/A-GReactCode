@@ -529,11 +529,19 @@ export default function ClaimInformationTable({
                                 <ReactDatePicker
                                     className="form-control example-custom-input-modal"
                                     selected={
-                                        data?.Service_Start_Date?.value !== undefined
-                                            ? new Date(data.Service_Start_Date.value)
-                                            : data?.Service_Start_Date !== undefined
-                                                ? new Date(data.Service_Start_Date)
-                                                : null
+                                        // data?.Service_Start_Date?.value !== undefined
+                                        //     ? new Date(data.Service_Start_Date.value)
+                                        //     : data?.Service_Start_Date !== undefined
+                                        //         ? new Date(data.Service_Start_Date)
+                                        //         : null
+                                         data?.Service_Start_Date?.value === null
+                ? null
+                : data?.Service_Start_Date?.value !== undefined
+                    ? new Date(data.Service_Start_Date.value)
+                    : data?.Service_Start_Date !== undefined
+                        ? new Date(data.Service_Start_Date)
+                        : null
+                                                
                                     }
                                     name="Service_Start_Date"
                                     onChange={(selectValue, event) =>
@@ -545,10 +553,12 @@ export default function ClaimInformationTable({
                                         )
                                     }
                                     peekNextMonth
+                                    isClearable={true}
                                     showMonthDropdown
                                     onKeyDown={(e) => {
                                         e.preventDefault();
                                     }}
+                                    
                                     showYearDropdown
                                     dropdownMode="select"
                                     dateFormat="MM/dd/yyyy"
@@ -562,6 +572,7 @@ export default function ClaimInformationTable({
                                     }
                                 />
                             </div>
+                           
                         </div>
                     </div>
                     <div className="row">
@@ -1055,7 +1066,7 @@ export default function ClaimInformationTable({
         );
         //}
     };
-
+    
     const tdData = () => {
         console.log("Inside tdData");
         console.log("claimgrid", claimInformationGridData);
@@ -1251,9 +1262,9 @@ export default function ClaimInformationTable({
                         </td>
                         <td className="tableData">
                             {"Service_Start_Date" in data &&
-                                data.Service_Start_Date.value !== undefined
-                                ? formatDate(data.Service_Start_Date.value)
-                                : formatDate(data.Service_Start_Date)}
+                                data?.Service_Start_Date.value !== undefined
+                                ? formatDate(data?.Service_Start_Date.value)
+                                : formatDate(data?.Service_Start_Date)}
                         </td>
                         <td className="tableData">
                             {"Service_End_Date" in data &&

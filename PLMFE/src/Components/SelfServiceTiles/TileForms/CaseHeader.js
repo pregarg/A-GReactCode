@@ -130,20 +130,7 @@ const CaseHeader = () => {
                       stageName={caseheaderConfigData["StageName"]}
                   />
               )}
-                 {/* {prop.state.formView === "DashboardHomeView" && (
-                  <DocumentTab
-                      fileDataRef={documentSectionDataRef.current}
-                      displayName={CaseHeader.displayName}
-                      stageName={caseheaderConfigData["StageName"]}
-                  />
-              )} */}
-                   {/* {prop.state.formView === "DashboardHomeView" && (
-                  <DecisionTab
-                      fileDataRef={documentSectionDataRef.current}
-                      displayName={CaseHeader.displayName}
-                      stageName={caseheaderConfigData["StageName"]}
-                  />
-              )} */}
+               
               </div>
             </div>
           </div>
@@ -181,7 +168,7 @@ const CaseHeader = () => {
                     name="saveAndSubmit"
                     onClick={saveAndExit}
                     style={{float: "right", marginRight: "10px"}}
-                    disabled={disableSaveAndExit}
+                   // disabled={disableSaveAndExit}
                 >
                   Save & Submit
                 </button>
@@ -191,7 +178,7 @@ const CaseHeader = () => {
                     name="saveAndExit"
                     onClick={saveAndExit}
                     style={{float: "right", marginRight: "10px"}}
-                    disabled={disableSaveAndExit}
+                   // disabled={disableSaveAndExit}
                 >
                   Save & Exit
                 </button>
