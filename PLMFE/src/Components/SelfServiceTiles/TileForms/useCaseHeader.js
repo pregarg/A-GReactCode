@@ -180,10 +180,12 @@ export const useCaseHeader = () => {
 
   const location = useLocation();
   const [disableSaveAndExit, setDisableSaveAndExit] = useState(true);
+  console.log("locationData---->",location)
+  console.log("setDisableSaveAndExit",location.state.decisionNotes)
 
-  setInterval(() => {
-    setDisableSaveAndExit(!location.state?.decisionNotes?.trim());
-  }, 500);
+  // setInterval(() => {
+  //   setDisableSaveAndExit(!location.state?.decisionNotes?.trim());
+  // }, 500);
 
   const submitData = async () => {
 

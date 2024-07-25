@@ -29,81 +29,7 @@ export default function DocumentSection(prop) {
   });
 
   let restrictedFileTypes = ["xls", "eps", "sql", "xlsx", "docx"];
-  const downloadedfileBlob = (index, documentData) => {
-    const {caseNumber,documentType, documentName, docUploadPath } =
-      documentData[index] || {};
 
-    if (!documentType && !documentName) {
-      Swal.fire({
-        icon: "error",
-        title: "Please Upload The File First",
-      });
-      return;
-    }
-    let newArray = [...documentData];
-    const convertArrayToOuterArray = (arr) => {
-      let newArray = [...arr];
-      newArray.sort((a, b) =>
-        a.uploadedDateTime < b.uploadedDateTime
-          ? 1
-          : b.uploadedDateTime < a.uploadedDateTime
-            ? -1
-            : 0
-      );
-      //filtering results by documentType and fetching result of each documentType
-  
-      const unique = newArray.filter((obj, index) => {
-        if (obj.documentType !== "Other Documents") {
-          return (
-            index ===
-            newArray.findIndex((o) => obj.documentType === o.documentType)
-          );
-        } else {
-          return obj;
-        }
-      });
-      return unique;
-    };
-    const caseId = Number(caseNumber) ?? 0;
-    const fileData = new FormData();
-    if (docUploadPath !== undefined) {
-      fileData.append("downloadFilePath", docUploadPath);
-    }
-    fileData.append("caseNumber", caseId);
-    fileData.append("docType", documentType);
-    fileData.append("docName", documentName);
-
-    fileUpDownAxios
-      .post("/downloadFile", fileData, { responseType: "blob" })
-      .then((response) => {
-        const docName = documentName;
-        const filename = `${documentType}_${docName.substring(
-          docName.lastIndexOf(".")
-        )}`;
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        const lastIndex = docName.lastIndexOf(".");
-        const fileType = docName.slice(lastIndex + 1);
-        if (restrictedFileTypes.includes(fileType)) {
-          Swal.fire({
-            icon: "error",
-            title: "This FileType Is Not Visible In The Browser",
-          });
-          return;
-        }
-
-        setDocViewDialog({
-          ...docViewDialog,
-          open: true,
-          fileName: filename,
-          fileType: fileType,
-          url: url,
-        });
-      })
-      .catch((err) => {
-        printConsole("Caught in download file: ", err);
-        alert("Please upload the file first1234");
-      });
-  };
 
   // const customStyles: StylesConfig = {
   //   control: (provided: Record<string, unknown>, state: any) => ({
@@ -339,11 +265,34 @@ export default function DocumentSection(prop) {
   };
 
  
+  //   if (evnt.target.files[0] === undefined) {
+  //     setFileState([...fileState, { selectedFile: null, fileIndex: index }]);
+  //   }
+
+  //   if (evnt.target.files[0] !== undefined) {
+  //     if (
+  //       documentData[index].documentType === "Draft Contract" ||
+  //       documentData[index].documentType === "Final Contract"
+  //     ) {
+  //       const fileExt = evnt.target.files[0].name.split(".").pop();
+  //       if (fileExt !== "docx" && fileExt !== "doc") {
+  //         alert("Only docx or doc file type supported.");
+  //         evnt.target.value = null;
+  //         return;
+  //       }
+  //     }
+  //     setFileState([
+  //       ...fileState,
+  //       { selectedFile: evnt.target.files[0], fileIndex: index },
+  //     ]);
+  //   }
+  // };
+
   const handleFileUpload = (evnt, index) => {
     if (evnt.target.files[0] === undefined) {
       setFileState([...fileState, { selectedFile: null, fileIndex: index }]);
     }
-
+  
     if (evnt.target.files[0] !== undefined) {
       if (
         documentData[index].documentType === "Draft Contract" ||
@@ -356,12 +305,26 @@ export default function DocumentSection(prop) {
           return;
         }
       }
+  
+      const file = evnt.target.files[0];
+      const objectUrl = URL.createObjectURL(file);
+      console.log("object url--->", objectUrl)
       setFileState([
         ...fileState,
-        { selectedFile: evnt.target.files[0], fileIndex: index },
+        { selectedFile: file, fileIndex: index },
       ]);
+  
+
+      const newDocumentData = [...documentData];
+      newDocumentData[index] = {
+        ...newDocumentData[index],
+        fileUrl: objectUrl,
+        documentName: file.name,
+      };
+      setDocumentData(newDocumentData);
     }
   };
+  
 
   const addTableRows = () => {
     const rowsInput = {};
@@ -390,107 +353,85 @@ export default function DocumentSection(prop) {
       return true;
     } else return false;
   };
-
   const documentsData = () => {
     console.log("documentData: ", documentData);
-    let unique = [...documentData];
-    //console.log("documentData.documentType: ",data['documentType']);
-
+  
     if (documentData.length > 0) {
-      console.log("Inside documentsData documentNameValues===== ",documentNameValues)
-      return documentData.map((data, index) => {
-        //data['documentType']= {label: data['documentType'], value: data['documentType']};
-        //console.log("data: ", data);
-        //console.log("documentData.documentType: ",data.documentType);
-        //let newJson={};
-        //newJson.docType={label: data.documentType, value: data.documentType};
-        //console.log("newJson.docType: ",newJson);
-        //data.documentType=newJson.docType;
-        //console.log("data.documentType: ",data.documentType);
-        return (
-          <>
-            <tr key={index}>
-              {
-                <>
-                  <td>
-                    {data.sno == undefined ? (
-                      <button
-                        className="deleteBtn"
-                        style={{ textAlign: "center" }}
-                        onClick={() => {
-                          deleteTableRows(index);
-                        }}
-                      >
-                        <i className="fa fa-trash"></i>
-                      </button>
-                    ) : (
-                      index + 1
-                    )}
-                  </td>
-                </>
-              }
-
-              <td className="tableData">
-                {/* {data.documentType==undefined? */}
-                {data.docStatus !== 'Uploaded'?
-                <Select
-                  //value={(('documentType' in data) && (data.documentType.value !== undefined)) ? (data.documentType.value) : (data.documentType)}
-                  value={data.documentType}
-                  styles={customStyles}
-                  ref={selectRef}
-                  menuPlacement={handleSelectItemPos() ? "top" : "auto"}
-
-                  //options={documentNames}
-                  options={documentNameValues}
-                  onChange={(selectValue, event) =>
-                    handleGridSelectChange(index, selectValue, event)
-                  }
-                  name="documentType"
-                  id="documentType"
-                />
-                : data.documentType.value}
-                 
-              </td>
-
-              <td>{data.documentName}</td>
-              <td>
-                {/* {data.documentName==undefined? */}
-                <img
-                  id="w9DocUploadImage"
-                  src={documentUploadImage}
-                  className="img-fluid"
-                  alt="..."
-                  style={{ height: "30px", background: "inherit" }}
-                  onClick={() => handleModalShowHide(index, true)}
-                ></img>
-                {/* :data.documentName} */}
-              </td>
-              {/* <td>
-                                <img id ='w9DocDownloadImage' src = {documentDownloadImage} className="img-fluid" alt="..."
-                                style={{height:"30px",background:"inherit"}} onClick={()=> downloadFile(index)}></img>
-                            </td> */}
-              <td>{data.docStatus}</td>
-               <td>
-                <i
-                  className="fa fa-eye"
-                  style={{
-                    height: "30px",
-                    background: "inherit",
-                    fontSize: "20px",
-                    alignContent: "center",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => {
-                    downloadedfileBlob(index, unique);
-                  }}
-                ></i>
-              </td>
-            </tr>
-          </>
-        );
-      });
+      return documentData.map((data, index) => (
+        <tr key={index}>
+          <td>
+            {data.sno == undefined ? (
+              <button
+                className="deleteBtn"
+                style={{ textAlign: "center" }}
+                onClick={() => {
+                  deleteTableRows(index);
+                }}
+              >
+                <i className="fa fa-trash"></i>
+              </button>
+            ) : (
+              index + 1
+            )}
+          </td>
+          <td className="tableData">
+            {data.docStatus !== 'Uploaded' ? (
+              <Select
+                value={data.documentType}
+                styles={customStyles}
+                ref={selectRef}
+                menuPlacement={handleSelectItemPos() ? "top" : "auto"}
+                options={documentNameValues}
+                onChange={(selectValue, event) =>
+                  handleGridSelectChange(index, selectValue, event)
+                }
+                name="documentType"
+                id="documentType"
+              />
+            ) : (
+              data.documentType.value
+            )}
+          </td>
+          <td>{data.documentName}</td>
+          <td>
+            <img
+              id="w9DocUploadImage"
+              src={documentUploadImage}
+              className="img-fluid"
+              alt="..."
+              style={{ height: "30px", background: "inherit" }}
+              onClick={() => handleModalShowHide(index, true)}
+            ></img>
+          </td>
+          <td>{data.docStatus}</td>
+          <td>
+            {data.fileUrl && (
+              <i
+                className="fa fa-eye"
+                style={{
+                  height: "30px",
+                  background: "inherit",
+                  fontSize: "20px",
+                  alignContent: "center",
+                  cursor: "pointer",
+                }}
+                onClick={() => {
+                  setDocViewDialog({
+                    open: true,
+                    url: data.fileUrl,
+                    fileName: data.documentName,
+                    fileType: data.documentName.split('.').pop(),
+                  });
+                }}
+              ></i>
+            )}
+          </td>
+        </tr>
+      ));
     }
   };
+  
+ 
   return (
     <>
       <div className="DocumentSection">

@@ -93,7 +93,7 @@ export default function DecisionTab(tabInput) {
   const [selectReasonValues, setReasonSelectValues] = useState([]);
   const [decisionReasonArray, setDecisionReasonArray] = useState({})
 
-  let restrictedFileTypes = ["xls", "eps", "sql", "xlsx", "docx"];
+ // let restrictedFileTypes = ["xls", "eps", "sql", "xlsx", "docx"];
   const downloadedfileBlob = (index, documentData) => {
     const { caseNumber, documentType, documentName, docUploadPath } =
       documentData[index] || {};
@@ -125,13 +125,13 @@ export default function DecisionTab(tabInput) {
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const lastIndex = docName.lastIndexOf(".");
         const fileType = docName.slice(lastIndex + 1);
-        if (restrictedFileTypes.includes(fileType)) {
-          Swal.fire({
-            icon: "error",
-            title: "This FileType Is Not Visible In The Browser",
-          });
-          return;
-        }
+        // if (restrictedFileTypes.includes(fileType)) {
+        //   Swal.fire({
+        //     icon: "error",
+        //     title: "This FileType Is Not Visible In The Browser",
+        //   });
+        //   return;
+        // }
 
         setDocViewDialog({
           ...docViewDialog,
@@ -174,9 +174,9 @@ export default function DecisionTab(tabInput) {
       }
     }
     setDecisionState({ ...decisionState, [name]: selectedValue });
-    if (tabInput?.setDecisionState) {
-      tabInput.setDecisionState({ ...decisionState, [name]: selectedValue });
-    }
+    // if (tabInput?.setDecisionState) {
+    //   tabInput.setDecisionState({ ...decisionState, [name]: selectedValue });
+    // }
   };
 
 
@@ -198,12 +198,12 @@ export default function DecisionTab(tabInput) {
       ...decisionState,
       [evt.target.name]: evt.target.value,
     });
-    if (tabInput?.setDecisionState) {
-      tabInput.setDecisionState({
-        ...decisionState,
-        [evt.target.name]: evt.target.value,
-      });
-    }
+    // if (tabInput?.setDecisionState) {
+    //   tabInput.setDecisionState({
+    //     ...decisionState,
+    //     [evt.target.name]: evt.target.value,
+    //   });
+    // }
   };
 
   const handleModalShowHide = (index, flagValue, requestedFrom) => {
