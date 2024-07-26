@@ -49,6 +49,7 @@ const CaseHeader = () => {
     setRepresentativeInformationGrid,
     handleAuthorizationInformationChange,
     authorizationInformation,
+    setAuthorizationInformation,
     authorizationInformationGrid,
     setAuthorizationInformationGrid,
     expeditedRequest,
@@ -59,7 +60,6 @@ const CaseHeader = () => {
     saveAndExit,
     submitData,
     potentialDupData,
-    handleActionSelectChange,
     apiTestState,
     callProcRef,
     hasSubmitError,
@@ -223,7 +223,8 @@ const CaseHeader = () => {
                                 : location.state.lockStatus
                           }
                           potentialDupData={potentialDupData}
-                          handleActionSelectChange={handleActionSelectChange}
+                          authorizationInformationData={authorizationInformation}
+                          updateAuthorizationInformationData={setAuthorizationInformation}
                           delegatedVal={apiTestState?.delegated}
                           buttonClicked={callProcRef.current}
                       ></DecisionTab>

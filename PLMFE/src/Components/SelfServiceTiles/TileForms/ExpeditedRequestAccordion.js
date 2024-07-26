@@ -12,7 +12,9 @@ const ExpeditedRequestAccordion = (props) => {
 
   const [expeditedRequestData, setExpeditedRequestData] = useState(props.expeditedRequestData);
 
-  const mastersSelector = useSelector((masters) => masters);
+  const expReqSelector = useSelector((state) => state?.masterAngExpeditedRequested);
+  const expDenSelector = useSelector((state) => state?.masterAngExpeditedDenied);
+  const angStSelector = useSelector((state) => state?.masterAngStUpExpedited);
 
   const location = useLocation();
 
@@ -212,13 +214,13 @@ const ExpeditedRequestAccordion = (props) => {
 
   useEffect(() => {
     const kvMapper = e => ({label: convertToCase(e), value: convertToCase(e)});
-    const expReq = mastersSelector?.masterAngExpeditedRequested?.[0] || [];
+    const expReq = expReqSelector?.[0] || [];
     setExpeditedRequestedValues(expReq.map(e => e.Expedited_Requested).map(kvMapper));
 
-    const expDen = mastersSelector?.masterAngExpeditedDenied?.[0] || [];
+    const expDen = expDenSelector?.[0] || [];
     setExpeditedDeniedValues(expDen.map(e => e.Expedited_Denied).map(kvMapper));
 
-    const angSt = mastersSelector?.masterAngStUpExpedited?.[0] || [];
+    const angSt = angStSelector?.[0] || [];
     setStUpExpeditedValues(angSt.map(e => e.St_Up_Expedited).map(kvMapper));
   },[]);
 

@@ -31,7 +31,12 @@ export default function ProviderInformationTable({
 
     const { getGridJson, convertToCase } = useGetDBTables();
 
-    const mastersSelector = useSelector((masters) => masters);
+    const masterAngProviderRoleSelector = useSelector((state) => state?.masterAngProviderRole);
+    const masterAngParProviderSelector = useSelector((state) => state?.masterAngParProvider);
+    const masterAngProviderTypeSelector = useSelector((state) => state?.masterAngProviderType);
+    const masterAngCommPrefSelector = useSelector((state) => state?.masterAngCommPref);
+    const masterAngPortalEnrolledSelector = useSelector((state) => state?.masterAngPortalEnrolled);
+    const masterAngMailToAddressSelector = useSelector((state) => state?.masterAngMailToAddress);
 
     let prop = useLocation();
 
@@ -44,55 +49,55 @@ export default function ProviderInformationTable({
     let mailToAddressValues = [];
 
     useEffect(() => {
-        if (mastersSelector.hasOwnProperty("masterAngProviderRole")) {
+        if (masterAngProviderRoleSelector) {
             const providerRoleArray =
-                mastersSelector["masterAngProviderRole"].length === 0
+                masterAngProviderRoleSelector.length === 0
                     ? []
-                    : mastersSelector["masterAngProviderRole"][0];
+                    : masterAngProviderRoleSelector[0];
 
             for (let i = 0; i < providerRoleArray.length; i++) {
                 providerRoleValues.push({ label: convertToCase(providerRoleArray[i].Provider_Role), value: convertToCase(providerRoleArray[i].Provider_Role) });
             }
         }
 
-        if (mastersSelector.hasOwnProperty("masterAngParProvider")) {
+        if (masterAngParProviderSelector) {
             const parProviderArray =
-                mastersSelector["masterAngParProvider"].length === 0
+                masterAngParProviderSelector.length === 0
                     ? []
-                    : mastersSelector["masterAngParProvider"][0];
+                    : masterAngParProviderSelector[0];
 
             for (let i = 0; i < parProviderArray.length; i++) {
                 participatingProviderValues.push({ label: convertToCase(parProviderArray[i].Par_Provider), value: convertToCase(parProviderArray[i].Par_Provider) });
             }
         }
 
-        if (mastersSelector.hasOwnProperty("masterAngProviderType")) {
+        if (masterAngProviderTypeSelector) {
             const providerTypeArray =
-                mastersSelector["masterAngProviderType"].length === 0
+                masterAngProviderTypeSelector.length === 0
                     ? []
-                    : mastersSelector["masterAngProviderType"][0];
+                    : masterAngProviderTypeSelector[0];
 
             for (let i = 0; i < providerTypeArray.length; i++) {
                 providerTypeValues.push({ label: convertToCase(providerTypeArray[i].Provider_Type), value: convertToCase(providerTypeArray[i].Provider_Type) });
             }
         }
 
-        if (mastersSelector.hasOwnProperty("masterAngCommPref")) {
+        if (masterAngCommPrefSelector) {
             const commPrefArray =
-                mastersSelector["masterAngCommPref"].length === 0
+                masterAngCommPrefSelector.length === 0
                     ? []
-                    : mastersSelector["masterAngCommPref"][0];
+                    : masterAngCommPrefSelector[0];
 
             for (let i = 0; i < commPrefArray.length; i++) {
                 commPrefValues.push({ label: convertToCase(commPrefArray[i].Comm_Pref), value: convertToCase(commPrefArray[i].Comm_Pref) });
             }
         }
 
-        if (mastersSelector.hasOwnProperty("masterAngPortalEnrolled")) {
+        if (masterAngPortalEnrolledSelector) {
             const portalEnrolledArray =
-                mastersSelector["masterAngPortalEnrolled"].length === 0
+                masterAngPortalEnrolledSelector.length === 0
                     ? []
-                    : mastersSelector["masterAngPortalEnrolled"][0];
+                    : masterAngPortalEnrolledSelector[0];
             const uniquePortalEnrolledValues = {};
 
             for (let i = 0; i < portalEnrolledArray.length; i++) {
@@ -105,11 +110,11 @@ export default function ProviderInformationTable({
             }
         }
 
-        if (mastersSelector.hasOwnProperty("masterAngMailToAddress")) {
+        if (masterAngMailToAddressSelector) {
             const mailToAddressArray =
-                mastersSelector["masterAngMailToAddress"].length === 0
+                masterAngMailToAddressSelector.length === 0
                     ? []
-                    : mastersSelector["masterAngMailToAddress"][0];
+                    : masterAngMailToAddressSelector[0];
             const uniqueMailToAddressValues = {};
 
             for (let i = 0; i < mailToAddressArray.length; i++) {

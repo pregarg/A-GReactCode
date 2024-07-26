@@ -32,8 +32,7 @@ import {
   Typography,
 } from "@mui/material";
 
-//export default function DecisionTab({potentialDupData,handleActionSelectChange}) {
-export default function DecisionTab(tabInput) {
+export default function DecisionTab(props) {
   const [modalShow, setModalShow] = useState({
     FileUpload: false,
     Version: false,
@@ -89,9 +88,21 @@ export default function DecisionTab(tabInput) {
   const formName = prop.state.formNames;
   const stageName = prop.state.stageName && prop.state.stageName.trim();
 
-  const [selectValues, setSelectValues] = useState({});
+  const [selectValues, setSelectValues] = useState([]);
   const [selectReasonValues, setReasonSelectValues] = useState([]);
-  const [decisionReasonArray, setDecisionReasonArray] = useState({})
+  const [decisionReasonArray, setDecisionReasonArray] = useState([]);
+
+  const [authorizationInformationData, setAuthorizationInformationData] = useState(props.authorizationInformationData || {});
+  const handleAuthorizationInformationData = (name, value, persist) => {
+    const newData = {...authorizationInformationData, [name]: typeof value === 'string' ? convertToCase(value) : value};
+    setAuthorizationInformationData(newData);
+    if (persist) {
+      props.updateAuthorizationInformationData(newData);
+    }
+  };
+  const persistAuthorizationInformationData = () => {
+    props.updateAuthorizationInformationData(authorizationInformationData);
+  }
 
  // let restrictedFileTypes = ["xls", "eps", "sql", "xlsx", "docx"];
   const downloadedfileBlob = (index, documentData) => {
@@ -161,7 +172,7 @@ export default function DecisionTab(tabInput) {
       decisonReasonRef.current.clearValue();
 
     }
-    if (prop.state.formNames === 'Appeals') {
+    /* if (prop.state.formNames === 'Appeals') {
 
 
       if (selectedValue?.value) {
@@ -173,7 +184,7 @@ export default function DecisionTab(tabInput) {
 
       }
     }
-    setDecisionState({ ...decisionState, [name]: selectedValue });
+    setDecisionState({ ...decisionState, [name]: selectedValue });*/
     // if (tabInput?.setDecisionState) {
     //   tabInput.setDecisionState({ ...decisionState, [name]: selectedValue });
     // }
@@ -312,10 +323,8 @@ export default function DecisionTab(tabInput) {
     }
   };
 
-  // decision dropdown
-  let decisionOptions = [];
-
-  const mastersSelector = useSelector((masters) => masters);
+  const masterAngDecisionSelector = useSelector((state) => state?.masterAngDecision);
+  const masterAngDocumentSelector = useSelector((state) => state?.masterAngDocument);
 
   const [documentData, setDocumentData] = useState([]);
 
@@ -430,76 +439,27 @@ export default function DecisionTab(tabInput) {
         // console.log(err.message);
       });
 
-    //calling for Prov_CaseDocuments
     docFunction();
   }, []);
 
   useEffect(() => {
-    let selectJson = {};
-    let mappedObject = {};
-    let decisionOptions = [];
 
-    console.log("stageName--->", stageName);
-
-    if (decisonRef.current !== null && tabInput?.buttonClicked !== "callProc") {
+    if (decisonRef.current !== null && props?.buttonClicked !== "callProc") {
         decisonRef.current.clearValue();
     }
 
-    // Decision Dropdown
-    if (mastersSelector.hasOwnProperty("masterAngDecision")) {
-        console.log("logger decision: ", mastersSelector["masterAngDecision"]);
-
-        selectJson.decisionOptions = Array.isArray(mastersSelector["masterAngDecision"]) 
-            ? mastersSelector["masterAngDecision"][0] || [] 
-            : [];
-
-        if (Array.isArray(selectJson.decisionOptions)) {
-            selectJson.decisionOptions
-                .filter((data) => {
-                    console.log("data--->", data.WORKSTEP);
-                    return data.WORKSTEP.toLowerCase() == stageName.toLowerCase();
-                })
-                .map((val) => {
-                    const existingIndex = decisionOptions.findIndex((item) => item.value === val.DECISION);
-                    if (existingIndex === -1) {
-                        decisionOptions.push({
-                            value: val.DECISION,
-                            label: val.DECISION,
-                        });
-                    }
-                });
-
-            selectJson.decisionOptions
-                .filter((data) => data.WORKSTEP.toLowerCase() == stageName.toLowerCase())
-                .map((val) => {
-                    let stageName = val.WORKSTEP;
-                    let decision = val.DECISION;
-                    let decisionReason = val.DECISION_REASON;
-                    if (!mappedObject[stageName]) {
-                        mappedObject[stageName] = {};
-                    }
-                    if (!mappedObject[stageName][decision]) {
-                        mappedObject[stageName][decision] = [];
-                    }
-                    mappedObject[stageName][decision].push({
-                        value: decisionReason,
-                        label: decisionReason,
-                    });
-                });
-        } else {
-            console.error("selectJson.decisionOptions is not an array");
-        }
+    const angSel = masterAngDecisionSelector?.[0] || [];
+    if (angSel && angSel.length) {
+      setSelectValues([
+          ...new Set(angSel.filter(e => e.WORKSTEP.toLowerCase() === stageName.toLowerCase())
+            .map(e => convertToCase(e.DECISION)))
+      ].map(e => ({label: e, value: e})));
+      setReasonSelectValues([
+        ...new Set(angSel.filter(e => e.WORKSTEP.toLowerCase() === stageName.toLowerCase())
+            .map(e => convertToCase(e.DECISION_REASON)))
+      ].map(e => ({label: e, value: e})));
     }
-
-    console.log("decision options", decisionOptions);
-    console.log("mapped object", mappedObject);
-
-    setTimeout(() => {
-        setSelectValues(decisionOptions);
-        setDecisionReasonArray(mappedObject);
-        console.log("logger selectValues ", selectValues);
-    }, 1000);
-}, [tabInput]);
+}, [masterAngDecisionSelector, props]);
 
 
   const openDecisionModal = (index) => {
@@ -720,13 +680,13 @@ export default function DecisionTab(tabInput) {
     }
   };
   const reviewData = () => {
-    if (tabInput.potentialDupData != undefined) {
-      if (tabInput.potentialDupData.length > 0) {
-        return tabInput.potentialDupData.map((data, index) => {
+    if (props.potentialDupData != undefined) {
+      if (props.potentialDupData.length > 0) {
+        return props.potentialDupData.map((data, index) => {
           return (
             <>
               <tr key={index}>
-                {tabInput.lockStatus !== "Y" && (
+                {props.lockStatus !== "Y" && (
                   <>
                     <td>{index + 1}</td>
                   </>
@@ -850,9 +810,9 @@ export default function DecisionTab(tabInput) {
     // }
 
     selectJson.docOptions =
-      mastersSelector["masterAngDocument"].length === 0
+        masterAngDocumentSelector.length === 0
         ? []
-        : mastersSelector["masterAngDocument"][0];
+        : masterAngDocumentSelector[0];
 
     selectJson["docOptions"]
       .filter(
@@ -882,7 +842,7 @@ export default function DecisionTab(tabInput) {
         return (
           <>
             <tr key={index}>
-              {tabInput.lockStatus !== "Y" && (
+              {props.lockStatus !== "Y" && (
                 <>
                   <td>
                     {data.sno == undefined ? (
@@ -1116,8 +1076,8 @@ export default function DecisionTab(tabInput) {
                               <FormControl>
                                 <RadioGroup
                                   value={
-                                    tabInput?.potentialDupData?.length > 0 &&
-                                    tabInput?.potentialDupData[0]?.action?.value
+                                    props?.potentialDupData?.length > 0 &&
+                                    props?.potentialDupData[0]?.action?.value
                                   }
                                 >
                                   <FormControlLabel
@@ -1126,12 +1086,12 @@ export default function DecisionTab(tabInput) {
                                     control={
                                       <Radio
                                         size="small"
-                                        onClick={(event) =>
-                                          tabInput.handleActionSelectChange(
+                                        /* onClick={(event) =>
+                                          props.handleActionSelectChange(
                                             event.target?.name,
                                             event?.target?.value
                                           )
-                                        }
+                                        }*/
                                       />
                                     }
                                     label={
@@ -1150,12 +1110,12 @@ export default function DecisionTab(tabInput) {
                                     control={
                                       <Radio
                                         size="small"
-                                        onClick={(event) =>
-                                          tabInput.handleActionSelectChange(
+                                        /* onClick={(event) =>
+                                          props.handleActionSelectChange(
                                             event?.target?.name,
                                             event?.target?.value
                                           )
-                                        }
+                                        } */
                                       />
                                     }
                                     label={
@@ -1335,21 +1295,20 @@ export default function DecisionTab(tabInput) {
                               : "",
                           }),
                         }}
-                        //value={selectJson['decisionOptions'][0]}
-                        onChange={(selectValue, event) =>
-                          handleSelectChange(selectValue, event)
-                        }
+                        //onChange={(value) => handleAuthorizationInformationData("Authorization_Decision", value?.value, true)}
+                          //value={authorizationInformationData["Authorization_Decision"] ? {
+                          //  label: convertToCase(authorizationInformationData["Authorization_Decision"]),
+                          //  value: convertToCase(authorizationInformationData["Authorization_Decision"])
+                          //} : undefined}
                         options={selectValues}
                         ref={decisonRef}
-                        // isDisabled={(tabInput.lockStatus==='Y')?true:false}
                         name="decision"
                         id="decisionDropdown"
                       />
                     </div>
 
-                    {/* descision reason */}
                     {
-                      prop.state.formNames == "Appeals" && <div className="col-xs-12 col-md-4">
+                      prop.state.formNames === "Appeals" && <div className="col-xs-12 col-md-4">
                         <label>Decision Reason</label>
                         <Select
                           styles={{
@@ -1361,13 +1320,12 @@ export default function DecisionTab(tabInput) {
                                 : "",
                             }),
                           }}
-                          //value={selectJson['decisionOptions'][0]}
-                          onChange={(selectValue, event) =>
-                            handleSelectChangeReason(selectValue, event)
-                          }
+                          //onChange={(value) => handleAuthorizationInformationData("Authorization_Decision_Reason", value?.value, true)}
+                          //value={authorizationInformationData["Authorization_Decision_Reason"] ? {
+                          //  label: convertToCase(authorizationInformationData["Authorization_Decision_Reason"]),
+                          //  value: convertToCase(authorizationInformationData["Authorization_Decision_Reason"])
+                          //} : undefined}
                           options={selectReasonValues}
-
-                          // isDisabled={(tabInput.lockStatus==='Y')?true:false}
                           name="decisionReason"
                           ref={decisonReasonRef}
                           id="decisionReasonDropdown"
@@ -1393,13 +1351,9 @@ export default function DecisionTab(tabInput) {
                     <div className="col-xs-12">
                       <label>Case Notes *:</label>
                       <textarea
-                        onChange={handleLinearFieldChange}
-                        value={
-                          "decisionNotes" in decisionState &&
-                            decisionState.decisionNotes?.value !== undefined
-                            ? convertToCase(decisionState?.decisionNotes?.value)
-                            : convertToCase(decisionState?.decisionNotes)
-                        }
+                          //onChange={(event) => handleAuthorizationInformationData("Authorization_Case_Notes", event.target.value)}
+                          //onBlur={persistAuthorizationInformationData}
+                          value={authorizationInformationData["Authorization_Case_Notes"]}
                         style={{ width: "100%" }}
                         name="decisionNotes"
                       // disabled={(tabInput.lockStatus==='Y')?true:false}
@@ -1444,7 +1398,7 @@ export default function DecisionTab(tabInput) {
                   >
                     <thead>
                       <tr className="tableRowStyle tableHeaderColor">
-                        {tabInput.lockStatus !== "Y" && (
+                        {props.lockStatus !== "Y" && (
                           <th style={{ width: "6%" }}>
                             <button
                               className="addBtn"

@@ -47,9 +47,12 @@ const CaseClaimInformation = (props) => {
   const [gridFieldTempState, setGridFieldTempState] = useState({});
 
   const [responseData, setResponseData] = useState([]);
-  let [selectedAddress, setSelectedAddress] = useState([]);
+  const [selectedAddress, setSelectedAddress] = useState([]);
 
-  const mastersSelector = useSelector((masters) => masters);
+  const masterAngClaimTypeSelector = useSelector(state => state?.masterAngClaimType);
+  const masterAngDecisionSelector = useSelector(state => state?.masterAngDecision);
+  const masterAngAuthServiceTypeSelector = useSelector(state => state?.masterAngAuthServiceType);
+  const masterAngProcessingStatusSelector = useSelector(state => state?.masterAngProcessingStatus);
 
 
   const handleShowClaimSearch = () => {
@@ -142,18 +145,17 @@ const CaseClaimInformation = (props) => {
 
   useEffect(() => {
     const kvMapper = e => ({label: convertToCase(e), value: convertToCase(e)});
-    const claimType = mastersSelector?.masterAngClaimType?.[0] || [];
+    const claimType = masterAngClaimTypeSelector?.[0] || [];
     setClaimTypeValues([...new Set(claimType.map(e => convertToCase(e.Claim_Type)))].map(kvMapper));
 
-    const angDecision = mastersSelector?.masterAngDecision?.[0] || [];
-    console.log("prerna1234--->",angDecision);
+    const angDecision = masterAngDecisionSelector?.[0] || [];
     setDecisionValues([...new Set(angDecision.map(e => convertToCase(e.DECISION)))].map(kvMapper));
     setDecisionReasonValues([...new Set(angDecision.map(e => convertToCase(e.DECISION_REASON)))].map(kvMapper));
 
-    const authServiceType = mastersSelector?.masterAngAuthServiceType?.[0] || [];
+    const authServiceType = masterAngAuthServiceTypeSelector?.[0] || [];
     setServiceTypeValues(authServiceType.map(e => e.SERVICE_TYPE_DESC).map(kvMapper));
 
-    const procStatus = mastersSelector?.masterAngProcessingStatus?.[0] || [];
+    const procStatus = masterAngProcessingStatusSelector?.[0] || [];
     setProcessingStatusValues([...new Set(procStatus.map(e => convertToCase(e.Processing_Status)))].map(kvMapper));
   }, []);
   const gridDataRef = useRef({});

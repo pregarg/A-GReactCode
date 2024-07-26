@@ -35,8 +35,6 @@ const AuthorizationInformationAccordion = (props) => {
 
     const [gridFieldTempState, setGridFieldTempState] = useState({});
 
-    const mastersSelector = useSelector((masters) => masters);
-
     const [showAuthSearch, setShowAuthSearch] = useState(false);
     const [selectedCriteria, setSelectedCriteria] = useState();
     const [selectSearchValues, setSelectSearchValues] = useState();

@@ -269,17 +269,16 @@ export default function useUpdateDecision() {
     }
     return contArr;
   }
-  // Added by Shivani
-  const mastersSelector = useSelector((masters) => masters);
+
+  const masterExclusionListSelector = useSelector(state => state?.masterExclusionList);
+  const masterCountySelector = useSelector(state => state?.masterCounty);
 
   const getNPIFromMaster = (caqhNpiId, decision, callProc) => {
     let responseNPI = false;
-    console.log("npimaster decision", decision, callProc);
     if (decision?.toLowerCase() !== 'discard' && callProc !== "notCallProc") {
-      printConsole("Inside getNPIFromMaster master data", mastersSelector.masterExclusionList[0]);
-      if (mastersSelector.masterExclusionList[0] !== undefined && mastersSelector.masterExclusionList[0] !== null) {
+      if (masterExclusionListSelector[0] !== undefined && masterExclusionListSelector[0] !== null) {
 
-        let NPIres = mastersSelector.masterExclusionList[0].find(el => el.NPI === caqhNpiId);
+        let NPIres = masterExclusionListSelector[0].find(el => el.NPI === caqhNpiId);
         if (NPIres !== undefined) {
           responseNPI = true;
         }
@@ -292,11 +291,10 @@ export default function useUpdateDecision() {
   }
 
   const getCountyFromMaster = (DataState, Zip) => {
-    console.log("County data table", mastersSelector.masterCounty);
     console.log("DataState", DataState, Zip);
     let responseCounty = '';
-    if (mastersSelector.masterCounty[0] !== undefined && mastersSelector.masterCounty[0] !== null) {
-      mastersSelector.masterCounty[0].forEach((elem) => {
+    if (masterCountySelector[0] !== undefined && masterCountySelector[0] !== null) {
+      masterCountySelector[0].forEach((elem) => {
         if (elem.StateId === (DataState.trim()) && elem.ZipCodes.includes(Zip.trim())) {
           responseCounty = elem.CountyName.toUpperCase();
           return;

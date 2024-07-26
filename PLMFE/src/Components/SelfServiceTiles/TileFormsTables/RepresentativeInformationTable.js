@@ -31,7 +31,10 @@ export default function RepresentativeInformationTable({
 
     const { getGridJson, convertToCase } = useGetDBTables();
 
-    const mastersSelector = useSelector((masters) => masters);
+    const masterAngRelationshipSelector = useSelector((state) => state?.masterAngRelationship);
+    const masterAngAORTypeSelector = useSelector((state) => state?.masterAngAORType);
+    const masterAngCommPrefSelector = useSelector((state) => state?.masterAngCommPref);
+    const masterAngMailToAddressSelector = useSelector((state) => state?.masterAngMailToAddress);
 
     let prop = useLocation();
 
@@ -41,11 +44,11 @@ export default function RepresentativeInformationTable({
     let mailToAddressValues = [];
 
     useEffect(() => {
-        if (mastersSelector.hasOwnProperty("masterAngRelationship")) {
+        if (masterAngRelationshipSelector) {
             const relationshipArray =
-                mastersSelector["masterAngRelationship"].length === 0
+                masterAngRelationshipSelector.length === 0
                     ? []
-                    : mastersSelector["masterAngRelationship"][0];
+                    : masterAngRelationshipSelector[0];
             const uniquerelationshipValues = {};
 
             for (let i = 0; i < relationshipArray.length; i++) {
@@ -58,11 +61,11 @@ export default function RepresentativeInformationTable({
             }
         }
 
-        if (mastersSelector.hasOwnProperty("masterAngAORType")) {
+        if (masterAngAORTypeSelector) {
             const aorTypeArray =
-                mastersSelector["masterAngAORType"].length === 0
+                masterAngAORTypeSelector.length === 0
                     ? []
-                    : mastersSelector["masterAngAORType"][0];
+                    : masterAngAORTypeSelector[0];
             const uniqueAORTypeValues = {};
 
             for (let i = 0; i < aorTypeArray.length; i++) {
@@ -75,22 +78,22 @@ export default function RepresentativeInformationTable({
             }
         }
 
-        if (mastersSelector.hasOwnProperty("masterAngCommPref")) {
+        if (masterAngCommPrefSelector) {
             const commPrefArray =
-                mastersSelector["masterAngCommPref"].length === 0
+                masterAngCommPrefSelector.length === 0
                     ? []
-                    : mastersSelector["masterAngCommPref"][0];
+                    : masterAngCommPrefSelector[0];
 
             for (let i = 0; i < commPrefArray.length; i++) {
                 commPrefValues.push({ label: convertToCase(commPrefArray[i].Comm_Pref), value: convertToCase(commPrefArray[i].Comm_Pref) });
             }
         }
 
-        if (mastersSelector.hasOwnProperty("masterAngMailToAddress")) {
+        if (masterAngMailToAddressSelector) {
             const mailToAddressArray =
-                mastersSelector["masterAngMailToAddress"].length === 0
+                masterAngMailToAddressSelector.length === 0
                     ? []
-                    : mastersSelector["masterAngMailToAddress"][0];
+                    : masterAngMailToAddressSelector[0];
             const uniqueMailToAddressValues = {};
 
             for (let i = 0; i < mailToAddressArray.length; i++) {

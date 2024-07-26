@@ -9,8 +9,8 @@ export default function SessionTimeoutModal(navTo){
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const {updateLockStatus} = useUpdateDecision();
-    const mastersSelector = useSelector((masters) => masters);
-    const userId = ((mastersSelector.hasOwnProperty('auth')?(mastersSelector.auth.hasOwnProperty('userId')?mastersSelector.auth.userId:0):0));
+    const authSelector = useSelector((state) => state.auth);
+    const userId = authSelector.userId || 0;
     const expiry  = useSelector(state => state.auth.expiry);
     const [consfirmModal, setConfirmModal] = useState(false);
     let timer;
