@@ -27,9 +27,6 @@ const RepresentativeInformationAccordion = (props) => {
     const [representativeInformationGridData, setRepresentativeInformationGridData] = useState(props.handleRepresentativeInformationGridData);
 
     const [gridFieldTempState, setGridFieldTempState] = useState({});
-
-    const mastersSelector = useSelector((masters) => masters);
-
     const [selectedCriteria, setSelectedCriteria] = useState();
   const [selectSearchValues, setSelectSearchValues] = useState();
   const [responseData, setResponseData] = useState([]);
@@ -59,7 +56,7 @@ const RepresentativeInformationAccordion = (props) => {
         setSelectSearchValues([]);
         setResponseData([]);
       }
-    
+
       const handleClearRepresentativeSearch = () => {
         setSelectSearchValues([]);
         setSelectedCriteria([]);
@@ -76,8 +73,8 @@ const RepresentativeInformationAccordion = (props) => {
           return jsn;
         });
         setSelectedAddress(updatedTableData);
-      };    
-    
+      };
+
       const handleSelectedRepresentatives = () => {
         let rowNumber = getRowNumberForGrid(representativeInformationGridData)
         let addressToPopulate = []
@@ -92,19 +89,19 @@ const RepresentativeInformationAccordion = (props) => {
             }
           })
         }
-    
+
         if (addressToPopulate.length > 0) {
          setRepresentativeInformationGridData([...representativeInformationGridData, ...addressToPopulate])
          props.updateRepresentativeInformationGridData([...representativeInformationGridData, ...addressToPopulate]);
         }
-    
-       
+
+
         setshowRepresentativeSearch(false);
         setSelectedCriteria([]);
         setSelectSearchValues([]);
         setResponseData([]);
       }
-    
+
 
     const tabRef = useRef("HomeView");
     let prop = useLocation();
@@ -210,45 +207,45 @@ const RepresentativeInformationAccordion = (props) => {
 
     const showRepresentatives = async () => {
         let SequentialMember     = selectSearchValues?.SequentialMemberID
-        let searchType =  selectSearchValues?.searchTypeID 
+        let searchType =  selectSearchValues?.searchTypeID
         let fordate = selectSearchValues?.fordateID
-        let AddressType  = selectSearchValues?.AddressTypeID 
+        let AddressType  = selectSearchValues?.AddressTypeID
         // Check if at least one search parameter has a value
         if (SequentialMember || searchType || fordate || AddressType) {
           let getApiJson = {
             option: 'GETREPRESENTATIVESEARCHDATA',
-           
+
             Seq_Member_ID: SequentialMember || '',
             Search_Type: searchType ||'',
             For_Date: extractDate(fordate) || '',
-            Address_Type: AddressType || ''   
+            Address_Type: AddressType || ''
           };
-    
+
           try {
             let res = await axios.post("/generic/callProcedure", getApiJson, {
               headers: {Authorization: `Bearer ${token}`},
             });
             let resApiData = res.data.CallProcedure_Output?.data || [];
             resApiData = (resApiData?.length > 0) ? resApiData : [];
-    
+
             if (resApiData.length > 0) {
               const respKeys = Object.keys(resApiData);
               respKeys.forEach(k => {
-    
+
                 let apiResponse = resApiData[k];
                 if (apiResponse.hasOwnProperty("Authorization_Approved_Date") && typeof apiResponse.Authorization_Approved_Date === "string") {
                   const mad = new Date(getDatePartOnly(apiResponse.Authorization_Approved_Date));
                   apiResponse.Authorization_Approved_Date = extractDate(mad);
-    
+
                 }
                 if (apiResponse.hasOwnProperty("Authorization_Expiration_Date") && typeof apiResponse.Authorization_Expiration_Date === "string") {
                     const mad = new Date(getDatePartOnly(apiResponse.Authorization_Expiration_Date));
                     apiResponse.Authorization_Expiration_Date = extractDate(mad);
-      
+
                   }
-               
+
               });
-    
+
               setResponseData(resApiData);
             }
             const apiStat = res.data.CallProcedure_Output.Status;
@@ -263,25 +260,25 @@ const RepresentativeInformationAccordion = (props) => {
           alert("Please select at least one search value.");
         }
       };
-    
+
       const representativeSearchTableComponent = () => {
         let columnNames = 'First Name~First_Name,Last Name~Last_Name,Authorization Approved Date~Authorization_Approved_Date,Authorization Expiration Date~Authorization_Expiration_Date,Authorization Type~Authorization_Type,Phone Number~Phone_Number,Notes~Notes,Address (line 1)~Address_Line_1,Address (line 2)~Address_Line_2,City~City,State~State_,Zip Code~Zip_Code,County~County'
         if (responseData.length > 0) {
           return (
               <>
                 <TableComponent
-    
+
                     columnName={columnNames}
                     rowValues={responseData}
                     showCheckBox={true}
                     handleCheckBoxChange={handleCheckBoxChange}
                     handleCheckBoxHeaderChange={handleCheckBoxHeaderChange}
                     CheckBoxInHeader={true}
-    
+
                 />
               </>
           )
-    
+
         } else {
           return (<></>);
         }
@@ -442,7 +439,7 @@ const RepresentativeInformationAccordion = (props) => {
                     className="accordion-collapse collapse show"
                     aria-labelledby="panelsStayOpen-claimInformation"
                 >
-               
+
                     <div className="accordion-body">
                     <button type="button" className="btn btn-outline-primary"
                           onClick={event => handleshowRepresentativeSearch(event)}>Representative Search
@@ -475,7 +472,7 @@ const RepresentativeInformationAccordion = (props) => {
                         </div>
                     </div>
                     {showRepresentativeSearch && (
-                            <RepresentativeSearch 
+                            <RepresentativeSearch
                             handleCloseSearch={handleCloseSearch}
                             selectedCriteria={selectedCriteria}
                             setSelectedCriteria={setSelectedCriteria}
@@ -488,7 +485,7 @@ const RepresentativeInformationAccordion = (props) => {
                             handleClearRepresentativeSearch={handleClearRepresentativeSearch}
                             showRepresentativeSearch={showRepresentativeSearch}
                             handleSelectedRepresentatives = {handleSelectedRepresentatives}
-                            
+
                             />
                         )
                         }

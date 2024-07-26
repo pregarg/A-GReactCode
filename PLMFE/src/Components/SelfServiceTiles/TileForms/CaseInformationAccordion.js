@@ -12,9 +12,15 @@ const CaseInformationAccordion = (props) => {
     convertToCase,
   } = useGetDBTables();
   const [caseInformationData, setCaseInformationData] = useState(props.caseInformationData);
-  const mastersSelector = useSelector((masters) => masters);
+  const masterAngLOBMappingSelector = useSelector((state) => state?.masterAngLOBMapping);
+  const appellantDescSelector = useSelector((state) => state?.masterAngAppellantDesc);
+  const appellantTypeSelector = useSelector((state) => state?.masterAngAppellantType);
+  const appealTypeSelector = useSelector((state) => state?.masterAngAppealType);
+  const caseLevelSelector = useSelector((state) => state?.masterAngCaseLevelPriority);
+  const issueLevelSelector = useSelector((state) => state?.masterAngIssueLevel);
+  const masterAngSelector = useSelector((state) => state?.masterAngReviewType);
 
-  let location = useLocation();
+  const location = useLocation();
 
   const [lobValues, setLobValues] = useState([]);
   const [appellantDescValues, setAppellantDescValues] = useState([]);
@@ -28,27 +34,27 @@ const CaseInformationAccordion = (props) => {
 
   useEffect(() => {
     const kvMapper = e => ({label: convertToCase(e), value: convertToCase(e)})
-    const arr = mastersSelector?.masterAngLOBMapping?.[0] || [];
+    const arr = masterAngLOBMappingSelector?.[0] || [];
     setLobValues(arr.map(e => e.LOB).map(kvMapper));
     setProductValues(arr.map(e => e.Product).map(kvMapper));
     setProductStateValues(arr.map(e => e.State).map(kvMapper));
 
-    const appellantDesc = mastersSelector?.masterAngAppellantDesc?.[0] || [];
+    const appellantDesc = appellantDescSelector?.[0] || [];
     setAppellantDescValues([...new Set(appellantDesc.map(e => convertToCase(e.APPELLANT_DESC)))].map(kvMapper));
 
-    const appellantType = mastersSelector?.masterAngAppellantType?.[0] || [];
+    const appellantType = appellantTypeSelector?.[0] || [];
     setAppellantTypeValues(appellantType.map(e => e.Appellant_Type).map(kvMapper));
 
-    const appealType = mastersSelector?.masterAngAppealType?.[0] || [];
+    const appealType = appealTypeSelector?.[0] || [];
     setAppealTypeValues(appealType.map(e => e.Appeal_Type).map(kvMapper));
 
-    const caseLevel = mastersSelector?.masterAngCaseLevelPriority?.[0] || [];
+    const caseLevel = caseLevelSelector?.[0] || [];
     setCaseLevelPriorityValues(caseLevel.map(e => e.Case_Level_Priority).map(kvMapper));
 
-    const issueLevel = mastersSelector?.masterAngIssueLevel?.[0] || [];
+    const issueLevel = issueLevelSelector?.[0] || [];
     setIssueLevelValues(issueLevel.map(e => e.Issue_Level).map(kvMapper));
 
-    const masterAng = mastersSelector?.masterAngReviewType?.[0] || [];
+    const masterAng = masterAngSelector?.[0] || [];
     setReviewTypeValues(masterAng.map(e => e.Review_Type).map(kvMapper));
   }, []);
 

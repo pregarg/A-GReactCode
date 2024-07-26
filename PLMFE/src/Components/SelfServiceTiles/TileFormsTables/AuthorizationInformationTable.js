@@ -31,18 +31,18 @@ export default function AuthorizationInformationTable({
 
     const { getGridJson, convertToCase } = useGetDBTables();
 
-    const mastersSelector = useSelector((masters) => masters);
+    const masterAngAuthServiceTypeSelector = useSelector((state) => state?.masterAngAuthServiceType);
 
     let prop = useLocation();
 
     let authTypeDescriptionValues = [];
 
     useEffect(() => {
-        if (mastersSelector.hasOwnProperty("masterAngAuthServiceType")) {
+        if (masterAngAuthServiceTypeSelector) {
             const authTypeDescriptionArray =
-                mastersSelector["masterAngAuthServiceType"].length === 0
+                masterAngAuthServiceTypeSelector.length === 0
                     ? []
-                    : mastersSelector["masterAngAuthServiceType"][0];
+                    : masterAngAuthServiceTypeSelector[0];
 
             for (let i = 0; i < authTypeDescriptionArray.length; i++) {
                 authTypeDescriptionValues.push({ label: convertToCase(authTypeDescriptionArray[i].SERVICE_TYPE_DESC), value: convertToCase(authTypeDescriptionArray[i].SERVICE_TYPE_DESC) });

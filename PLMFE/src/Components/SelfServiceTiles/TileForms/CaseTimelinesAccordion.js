@@ -11,7 +11,7 @@ import './Appeals.css';
 const CaseTimelinesAccordion = (props) => {
   let location = useLocation();
   const {convertToCase, getDatePartOnly} = useGetDBTables();
-  const mastersSelector = useSelector((masters) => masters);
+  const masterAngCaseFilingMethodSelector = useSelector((state) => state?.masterAngCaseFilingMethod);
   const [caseTimelinesData, setCaseTimelinesData] = useState(props.caseTimelinesData || {});
   const [caseFilingMethodValues, setCaseFilingMethodValues] = useState([]);
 
@@ -186,9 +186,9 @@ const CaseTimelinesAccordion = (props) => {
   </>
 
   useEffect(() => {
-    if (mastersSelector?.masterAngCaseFilingMethod) {
+    if (masterAngCaseFilingMethodSelector) {
       const caseFilingMethodArray =
-          mastersSelector.masterAngCaseFilingMethod?.[0] || [];
+          masterAngCaseFilingMethodSelector?.[0] || [];
       setCaseFilingMethodValues(caseFilingMethodArray.map(e => ({
         label: convertToCase(e.Case_Filing_Method),
         value: convertToCase(e.Case_Filing_Method)

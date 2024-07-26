@@ -332,7 +332,12 @@ export const useCaseHeader = () => {
   const [authorizationInformation, setAuthorizationInformation] = useState({
     Authorization_Decision: "",
     Authorization_Decision_Reason: "",
+    Authorization_Case_Notes: ""
   });
+
+  useEffect(() => {
+    console.log('curtsk', authorizationInformation)
+  }, [authorizationInformation])
 
   const [mainCaseDetails, setMainCaseDetails] = useState({
     flowId: 0,
@@ -368,15 +373,6 @@ export const useCaseHeader = () => {
       getCaseByCaseNumber();
     }
   }, []);
-
-  const handleActionSelectChange = (propertyName, propertyValue) => {
-    const updatedData = potentialDupData.map((data) => ({
-      ...data,
-      [propertyName]: {label: propertyValue, value: propertyValue},
-    }));
-
-    setPotentialDupData(updatedData);
-  };
 
   const dispatch = useDispatch();
   const {customAxios} = useAxios();
@@ -821,6 +817,7 @@ export const useCaseHeader = () => {
     setRepresentativeInformationGrid,
     handleAuthorizationInformationChange,
     authorizationInformation,
+    setAuthorizationInformation,
     authorizationInformationGrid,
     setAuthorizationInformationGrid,
     expeditedRequest,
@@ -831,7 +828,6 @@ export const useCaseHeader = () => {
     saveAndExit,
     submitData,
     potentialDupData,
-    handleActionSelectChange,
     apiTestState,
     callProcRef,
     hasSubmitError,

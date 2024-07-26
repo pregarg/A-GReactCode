@@ -35,7 +35,8 @@ export default function ClaimInformationTable({
 
     const { getGridJson, convertToCase } = useGetDBTables();
 
-    const mastersSelector = useSelector((masters) => masters);
+    const masterAngFiledTimelySelector = useSelector((state) => state?.masterAngFiledTimely);
+    const masterAngGrantGoodCauseSelector = useSelector((state) => state?.masterAngGrantGoodCause);
 
     let prop = useLocation();
 
@@ -44,22 +45,22 @@ export default function ClaimInformationTable({
     let grantGoodCauseValues = [];
 
     useEffect(() => {
-        if (mastersSelector.hasOwnProperty("masterAngFiledTimely")) {
+        if (masterAngFiledTimelySelector) {
             const filedTimelyArray =
-                mastersSelector["masterAngFiledTimely"].length === 0
+                masterAngFiledTimelySelector.length === 0
                     ? []
-                    : mastersSelector["masterAngFiledTimely"][0];
+                    : masterAngFiledTimelySelector[0];
 
             for (let i = 0; i < filedTimelyArray.length; i++) {
                 filedTimelyValues.push({ label: convertToCase(filedTimelyArray[i].Filed_Timely), value: convertToCase(filedTimelyArray[i].Filed_Timely) });
             }
         }
 
-        if (mastersSelector.hasOwnProperty("masterAngGrantGoodCause")) {
+        if (masterAngGrantGoodCauseSelector) {
             const grantGoodCauseArray =
-                mastersSelector["masterAngGrantGoodCause"].length === 0
+                masterAngGrantGoodCauseSelector.length === 0
                     ? []
-                    : mastersSelector["masterAngGrantGoodCause"][0];
+                    : masterAngGrantGoodCauseSelector[0];
 
             for (let i = 0; i < grantGoodCauseArray.length; i++) {
                 grantGoodCauseValues.push({ label: convertToCase(grantGoodCauseArray[i].Grant_Good_Cause), value: convertToCase(grantGoodCauseArray[i].Grant_Good_Cause) });
