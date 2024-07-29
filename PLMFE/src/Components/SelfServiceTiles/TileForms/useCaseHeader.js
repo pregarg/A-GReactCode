@@ -11,7 +11,7 @@ export const useCaseHeader = () => {
   const [hasSubmitError, setHasSubmitError] = useState(true);
   const {fileUpDownAxios} = useAxios();
   let documentSectionDataRef = useRef([]);
-  
+
   const [caseHeader, setCaseHeader] = useState({
     Case_Due_Date: "",
     Case_Owner: "",
@@ -196,12 +196,15 @@ export const useCaseHeader = () => {
 
   const location = useLocation();
   const [disableSaveAndExit, setDisableSaveAndExit] = useState(true);
-  // console.log("locationData---->",location)
-  // console.log("setDisableSaveAndExit",location.state.decisionNotes)
+  const [authorizationInformation, setAuthorizationInformation] = useState({
+    Authorization_Decision: "",
+    Authorization_Decision_Reason: "",
+    Authorization_Case_Notes: ""
+  });
 
-  // setInterval(() => {
-  //   setDisableSaveAndExit(!location.state?.decisionNotes?.trim());
-  // }, 500);
+  useEffect(() => {
+    setDisableSaveAndExit(!authorizationInformation?.Authorization_Case_Notes?.trim())
+  }, [authorizationInformation]);
 
   const submitData = async () => {
 
@@ -217,7 +220,6 @@ export const useCaseHeader = () => {
     const angAuthorizationInformationGrid = getGridDataValues(authorizationInformationGrid);
 
     const angCaseHeader = trimJsonValues({...caseHeader});
-    console.log("case header data--->",angCaseHeader);
     const angCaseTimelines = trimJsonValues({...caseTimelines});
     const angCaseInformation = trimJsonValues({...caseInformation});
     const angClaimInformation = trimJsonValues({...claimInformation});
@@ -236,7 +238,7 @@ export const useCaseHeader = () => {
     apiJson["ANG_Authorization_Information"] = angAuthorizationInformation;
     apiJson["ANG_Authorization_Information_Grid"] = angAuthorizationInformationGrid;
     apiJson["ANG_Expedited_Request"] = angExpeditedRequest;
-    console.log("ANG_Case_Header",apiJson["ANG_Case_Header"])
+
     let mainCaseReqBody = {
       ...mainCaseDetails,
       caseStatus: "Open",
@@ -251,7 +253,7 @@ export const useCaseHeader = () => {
     const response = await customAxios.post("/generic/create", apiJson, {
       headers: {Authorization: `Bearer ${token}`},
     });
-    console.log("Responsee--->",response)
+
     // Handle the response from the create endpoint.
     const apiStat = response.data.CreateCase_Output.Status;
 
@@ -332,16 +334,6 @@ export const useCaseHeader = () => {
   const [claimInformationGrid, setClaimInformationGrid] = useState([]);
 
   const [representativeInformationGrid, setRepresentativeInformationGrid] = useState([]);
-
-  const [authorizationInformation, setAuthorizationInformation] = useState({
-    Authorization_Decision: "",
-    Authorization_Decision_Reason: "",
-    //Authorization_Case_Notes: ""
-  });
-
-  useEffect(() => {
-    console.log('curtsk', authorizationInformation)
-  }, [authorizationInformation])
 
   const [mainCaseDetails, setMainCaseDetails] = useState({
     flowId: 0,
@@ -480,7 +472,7 @@ export const useCaseHeader = () => {
             Environmental_Description: angCaseHeader.Environmental_Description,
             Case_Received_Date: res.data.CreationDateTime,
           }));
-            
+
            // setCaseHeader(data?.["angCaseHeader"]?.[0] || {});
             setCaseTimelines(data?.["angCaseTimelines"]?.[0] || {});
             setCaseInformation(data?.["angCaseInformation"]?.[0] || {});
@@ -496,21 +488,17 @@ export const useCaseHeader = () => {
             setFormData(_.cloneDeep(data));
 
             const caseIDToUpdate = res?.data?.data?.mainTable[0]?.CaseID;
-            console.log("caseid to updtae",caseIDToUpdate)
             const indexToUpdate = caseData.data.findIndex(
                 (item) => item?.CaseID === caseIDToUpdate
             );
-            console.log("a,",indexToUpdate)
 
             if (indexToUpdate !== -1) {
               caseData.data[indexToUpdate] = res?.data?.data?.mainTable[0];
             }
-            console.log("B", caseData.data[indexToUpdate] )
 
             const caseInfo = res?.data?.data?.angCaseInformation[0];
             caseInformation["Product"] = caseInfo.Product;
-            console.log("b",caseInfo)
-            console.log("c",caseInformation["Product"])
+
             dispatch({
               type: "UPDATE_DATA",
               payload: {
