@@ -65,8 +65,11 @@ export default function DocumentSection(prop) {
       zIndex: 1000, // Set z-index for the control if needed
     }),
   };
-  const mastersSelector = useSelector((masters) => masters);
-  console.log("Document Masters Selector: ", mastersSelector);
+  // const mastersSelector = useSelector((masters) => masters);
+  // console.log("Document Masters Selector: ", mastersSelector);
+
+  const masterAngDocumentSelector = useSelector(state => state?.masterAngDocument);
+   console.log("Document Masters Selector: ", masterAngDocumentSelector);
 
   const [modalShow, setModalShow] = useState(false);
 
@@ -77,17 +80,27 @@ export default function DocumentSection(prop) {
 
   useEffect(() => {
     const stageName = prop.stageName || prop.stageName.trim();
-    if (mastersSelector.hasOwnProperty("masterAngDocument")) {
+    // if (mastersSelector.hasOwnProperty("masterAngDocument")) {
+    //   let documentOptions =
+    //     mastersSelector["masterAngDocument"].length === 0
+    //       ? []
+    //       : mastersSelector["masterAngDocument"][0];
+
+    
+    if (masterAngDocumentSelector) {
       let documentOptions =
-        mastersSelector["masterAngDocument"].length === 0
+      masterAngDocumentSelector.length === 0
           ? []
-          : mastersSelector["masterAngDocument"][0];
+          : masterAngDocumentSelector[0];
+
+
       console.log("Document Section documentOptions: ", documentOptions);
       console.log("Document Section stagename: ", stageName);
       if (documentOptions.length > 0) {
         documentOptions = documentOptions.filter(
           (elem) => 
-          elem.WORKSTEP_NAME.trim().toLowerCase() == stageName.trim().toLowerCase()
+         // elem.WORKSTEP_NAME.trim().toLowerCase() == stageName.trim().toLowerCase()
+          elem.WORKSTEP_NAME.toLowerCase()  == stageName.toLowerCase() 
         );
         console.log(
           "Document Section documentOptions after filter: ",

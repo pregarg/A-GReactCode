@@ -11,6 +11,22 @@ export const useCaseHeader = () => {
   const [hasSubmitError, setHasSubmitError] = useState(true);
   const {fileUpDownAxios} = useAxios();
   let documentSectionDataRef = useRef([]);
+  
+  const [caseHeader, setCaseHeader] = useState({
+    Case_Due_Date: "",
+    Case_Owner: "",
+    Case_Received_Date: "",
+    Case_Status: "",
+    Case_Validation: "",
+    Environmental_Description: "",
+    Extended_Case_Due_Date: "",
+    Internal_Due_Date: "",
+    Subcase_ID: "",
+    White_Glove_Indicator: "",
+    caseNumber: ""
+  });
+
+
   const [caseTimelines, setCaseTimelines] = useState({
     caseNumber: "",
     Acknowledgment_Timely: "",
@@ -180,8 +196,8 @@ export const useCaseHeader = () => {
 
   const location = useLocation();
   const [disableSaveAndExit, setDisableSaveAndExit] = useState(true);
-  console.log("locationData---->",location)
-  console.log("setDisableSaveAndExit",location.state.decisionNotes)
+  // console.log("locationData---->",location)
+  // console.log("setDisableSaveAndExit",location.state.decisionNotes)
 
   // setInterval(() => {
   //   setDisableSaveAndExit(!location.state?.decisionNotes?.trim());
@@ -201,6 +217,7 @@ export const useCaseHeader = () => {
     const angAuthorizationInformationGrid = getGridDataValues(authorizationInformationGrid);
 
     const angCaseHeader = trimJsonValues({...caseHeader});
+    console.log("case header data--->",angCaseHeader);
     const angCaseTimelines = trimJsonValues({...caseTimelines});
     const angCaseInformation = trimJsonValues({...caseInformation});
     const angClaimInformation = trimJsonValues({...claimInformation});
@@ -219,7 +236,7 @@ export const useCaseHeader = () => {
     apiJson["ANG_Authorization_Information"] = angAuthorizationInformation;
     apiJson["ANG_Authorization_Information_Grid"] = angAuthorizationInformationGrid;
     apiJson["ANG_Expedited_Request"] = angExpeditedRequest;
-
+    console.log("ANG_Case_Header",apiJson["ANG_Case_Header"])
     let mainCaseReqBody = {
       ...mainCaseDetails,
       caseStatus: "Open",
@@ -234,7 +251,7 @@ export const useCaseHeader = () => {
     const response = await customAxios.post("/generic/create", apiJson, {
       headers: {Authorization: `Bearer ${token}`},
     });
-
+    console.log("Responsee--->",response)
     // Handle the response from the create endpoint.
     const apiStat = response.data.CreateCase_Output.Status;
 
@@ -311,19 +328,6 @@ export const useCaseHeader = () => {
 
   const [formData, setFormData] = useState({});
 
-  const [caseHeader, setCaseHeader] = useState({
-    caseNumber: "",
-    Case_Due_Date: "",
-    Case_Owner: "",
-    Case_Received_Date: "",
-    Case_Status: "",
-    Case_Validation: "",
-    Environmental_Description: "",
-    Extended_Case_Due_Date: "",
-    Internal_Due_Date: "",
-    Subcase_ID: "",
-    White_Glove_Indicator: "",
-  });
 
   const [claimInformationGrid, setClaimInformationGrid] = useState([]);
 
@@ -332,7 +336,7 @@ export const useCaseHeader = () => {
   const [authorizationInformation, setAuthorizationInformation] = useState({
     Authorization_Decision: "",
     Authorization_Decision_Reason: "",
-    Authorization_Case_Notes: ""
+    //Authorization_Case_Notes: ""
   });
 
   useEffect(() => {
@@ -461,32 +465,52 @@ export const useCaseHeader = () => {
 
           if (apiStat === 0) {
             let data = res.data.data;
-            setCaseHeader(data["angCaseHeader"][0]);
-            setCaseTimelines(data["angCaseTimelines"][0]);
-            setCaseInformation(data["angCaseInformation"][0]);
-            setClaimInformation(data["angClaimInformation"][0]);
-            setClaimInformationGrid(data["angClaimInformationGrid"]);
-            setProviderInformationGrid(data["angProviderInformationGrid"]);
-            setMemberInformation(data["angMemberInformation"][0]);
-            setRepresentativeInformationGrid(data["angRepresentativeInformationGrid"]);
-            setAuthorizationInformation(data["angAuthorizationInformation"][0]);
-            setAuthorizationInformationGrid(data["angAuthorizationInformationGrid"]);
-            setExpeditedRequest(data["angExpeditedRequest"][0]);
+            console.log("dataa11111-->",res.data)
+            console.log("data22222",data)
+
+            let angCaseHeader = data["angCaseHeader"][0];
+          setCaseHeader(prevState => ({
+            ...prevState,
+            caseNumber: angCaseHeader.caseNumber,
+            Case_Owner: angCaseHeader.Case_Owner,
+            Case_Status: angCaseHeader.Case_Status,
+            White_Glove_Indicator: angCaseHeader.White_Glove_Indicator,
+            Subcase_ID: angCaseHeader.Subcase_ID,
+            Case_Validation: angCaseHeader.Case_Validation,
+            Environmental_Description: angCaseHeader.Environmental_Description,
+            Case_Received_Date: res.data.CreationDateTime,
+          }));
+            
+           // setCaseHeader(data?.["angCaseHeader"]?.[0] || {});
+            setCaseTimelines(data?.["angCaseTimelines"]?.[0] || {});
+            setCaseInformation(data?.["angCaseInformation"]?.[0] || {});
+            setClaimInformation(data?.["angClaimInformation"]?.[0] || {});
+            setClaimInformationGrid(data?.["angClaimInformationGrid"] || []);
+            setProviderInformationGrid(data?.["angProviderInformationGrid"] || []);
+            setMemberInformation(data?.["angMemberInformation"]?.[0] || {});
+            setRepresentativeInformationGrid(data?.["angRepresentativeInformationGrid"] || []);
+            setAuthorizationInformation(data?.["angAuthorizationInformation"]?.[0] || {});
+            setAuthorizationInformationGrid(data?.["angAuthorizationInformationGrid"] || []);
+            setExpeditedRequest(data?.["angExpeditedRequest"]?.[0] || {});
 
             setFormData(_.cloneDeep(data));
 
             const caseIDToUpdate = res?.data?.data?.mainTable[0]?.CaseID;
+            console.log("caseid to updtae",caseIDToUpdate)
             const indexToUpdate = caseData.data.findIndex(
                 (item) => item?.CaseID === caseIDToUpdate
             );
+            console.log("a,",indexToUpdate)
 
             if (indexToUpdate !== -1) {
               caseData.data[indexToUpdate] = res?.data?.data?.mainTable[0];
             }
+            console.log("B", caseData.data[indexToUpdate] )
 
             const caseInfo = res?.data?.data?.angCaseInformation[0];
             caseInformation["Product"] = caseInfo.Product;
-
+            console.log("b",caseInfo)
+            console.log("c",caseInformation["Product"])
             dispatch({
               type: "UPDATE_DATA",
               payload: {
@@ -800,6 +824,7 @@ export const useCaseHeader = () => {
     setCaseTimelines,
     handleCaseHeaderChange,
     caseHeader,
+    setCaseHeader,
     caseInformation,
     setCaseInformation,
     caseInformationValidationSchema,

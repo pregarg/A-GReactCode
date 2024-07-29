@@ -119,10 +119,12 @@ const RepresentativeInformationAccordion = (props) => {
     };
 
     const deleteTableRows = (index, triggeredFormName, operationValue) => {
+        console.log("deleteTableRows data ",index , triggeredFormName, operationValue)
         if (
             operationValue !== "Edit" &&
             (operationValue === "Add" || operationValue === "Force Delete")
         ) {
+            console.log("operation value1--",operationValue)
             gridRowsFinalSubmit(triggeredFormName, index, "Delete");
             if (triggeredFormName === "RepresentativeInformationTable") {
                 console.log("auth delete");
@@ -308,6 +310,7 @@ const RepresentativeInformationAccordion = (props) => {
 
                 if (indexJson !== undefined && indexJson !== null) {
                     clonedJson = Object.assign(indexJson, gridFieldTempState);
+                    console.log("Inside gridRowsFinalSubmit clonedJson value: ",clonedJson);
                 }
 
                 if (!checkGridJsonLength(clonedJson)) {
