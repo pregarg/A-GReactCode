@@ -171,7 +171,7 @@ const CaseHeader = () => {
                     name="saveAndSubmit"
                     onClick={saveAndExit}
                     style={{float: "right", marginRight: "10px"}}
-                   // disabled={disableSaveAndExit}
+                    disabled={disableSaveAndExit}
                 >
                   Save & Submit
                 </button>
@@ -181,7 +181,7 @@ const CaseHeader = () => {
                     name="saveAndExit"
                     onClick={saveAndExit}
                     style={{float: "right", marginRight: "10px"}}
-                   // disabled={disableSaveAndExit}
+                    disabled={disableSaveAndExit}
                 >
                   Save & Exit
                 </button>
