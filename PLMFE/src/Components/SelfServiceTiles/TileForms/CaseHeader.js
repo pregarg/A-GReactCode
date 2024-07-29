@@ -15,12 +15,13 @@ import RepresentativeInformationAccordion from "./RepresentativeInformationAccor
 import {useCaseHeader} from "./useCaseHeader";
 import DocumentSection from "../DocumentSection";
 import {useLocation} from "react-router-dom";
-import DocumentTab from "../../../WorkItemDashboard/DashboardHome/Globalsearch/DocumentTab";
+
 
 const CaseHeader = () => {
   let prop = useLocation();
-  let stageNameCheck = prop.state?.stageName?.props?.stageName;
-  console.log("caseheader prop-->", prop, stageNameCheck)
+ let stageNameCheck = prop.state?.stageName
+   console.log("caseheader prop-->", prop)
+   console.log("stageNameCheck-->", stageNameCheck)
   //let documentSectionDataRef = useRef([]);
   CaseHeader.displayName = "Appeals";
   let caseheaderConfigData = JSON.parse(
@@ -32,6 +33,7 @@ const CaseHeader = () => {
     setCaseTimelines,
     handleCaseHeaderChange,
     caseHeader,
+    setCaseHeader,
     caseInformation,
     setCaseInformation,
     caseInformationValidationSchema,
@@ -83,6 +85,7 @@ const CaseHeader = () => {
                 <CaseHeaderAccordion
                     handleOnChange={handleCaseHeaderChange}
                     handleData={caseHeader}
+                    setCaseHeader ={setCaseHeader}
                 />
                 <CaseTimelinesAccordion
                     caseTimelinesData={caseTimelines}

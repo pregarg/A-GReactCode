@@ -950,17 +950,17 @@ export default function RepresentativeInformationTable({
     }
 
     const formatDate = (dateObj) => {
-        console.log("Inside formatDate ", typeof dateObj);
+        // console.log("Inside formatDate ", typeof dateObj);
 
         if (dateObj) {
             if (typeof dateObj === "string") {
                 const localDate = new Date(Date.parse(dateObj));
 
-                console.log(
-                    "Inside formatDate typeof",
-                    Date.parse(dateObj),
-                    localDate.getDate()
-                );
+                // console.log(
+                //     "Inside formatDate typeof",
+                //     Date.parse(dateObj),
+                //     localDate.getDate()
+                // );
                 dateObj = localDate;
             } else if (typeof dateObj === "number") {
                 const localDate2 = new Date(dateObj);

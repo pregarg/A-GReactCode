@@ -10,6 +10,7 @@ import './Appeals.css';
 
 const CaseTimelinesAccordion = (props) => {
   let location = useLocation();
+  console.log("CaseTimelinesAccordion",location)
   const {convertToCase, getDatePartOnly} = useGetDBTables();
   const masterAngCaseFilingMethodSelector = useSelector((state) => state?.masterAngCaseFilingMethod);
   const [caseTimelinesData, setCaseTimelinesData] = useState(props.caseTimelinesData || {});

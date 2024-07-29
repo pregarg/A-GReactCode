@@ -189,9 +189,8 @@ const MemberInformationAccordion = (props) => {
       )
     };
     const dateValue = !!memberInformationData[name + "#date"] ? new Date(memberInformationData[name + "#date"]) : memberInformationData[name];
-  //  const dateString = memberInformationData[name + "#date"];
-  //  const dateValue = !!dateString ? new Date(dateString) : null; 
-   console.log("datevalue", dateValue); //datevalue 1980-01-01
+
+ //  console.log("datevalue", dateValue); //datevalue 1980-01-01
     return (
         <div>
           <ReactDatePicker

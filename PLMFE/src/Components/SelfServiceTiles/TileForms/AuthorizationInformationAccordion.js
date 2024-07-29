@@ -125,10 +125,13 @@ const AuthorizationInformationAccordion = (props) => {
     };
 
     const deleteTableRows = (index, triggeredFormName, operationValue) => {
+        console.log("operation value--",operationValue)
         if (
+            
             operationValue !== "Edit" &&
             (operationValue === "Add" || operationValue === "Force Delete")
         ) {
+            console.log("operation value1--",operationValue)
             gridRowsFinalSubmit(triggeredFormName, index, "Delete");
             if (triggeredFormName === "AuthorizationInformationTable") {
                 const rows = [...authorizationInformationGridData];
