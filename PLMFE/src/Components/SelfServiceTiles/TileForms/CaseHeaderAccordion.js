@@ -26,7 +26,7 @@ const CaseHeaderAccordion = (props) => {
             {key: 'White Glove Indicator', value: 'White_Glove_Indicator'},
         ],
         [
-            {key: 'Case Received Date', value: 'Case_Received_Date'},
+            {key: 'Case Received Date', value: 'Case_Received_Date#date'},
             {key: 'Environmental Description', value: 'Environmental_Description'},
         ],
     ];
