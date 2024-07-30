@@ -189,18 +189,13 @@ const MemberInformationAccordion = (props) => {
       )
     };
     const dateValue = !!memberInformationData[name + "#date"] ? new Date(memberInformationData[name + "#date"]) : memberInformationData[name];
-
- //  console.log("datevalue", dateValue); //datevalue 1980-01-01
+    const dv = dateValue?.value || dateValue;
     return (
         <div>
           <ReactDatePicker
               id={name}
               className="form-control example-custom-input-provider"
-              selected={dateValue?.value != undefined  ? 
-                new Date(dateValue.value)
-                : dateValue !== undefined
-                    ? new Date(dateValue)
-                    : null}
+              selected={dv ? new Date(dv) : null}
               name={name}
               dateFormat="MM/dd/yyyy"
               onChange={(date) => handleMemberInformationData(name, date, true)}
@@ -259,17 +254,11 @@ const MemberInformationAccordion = (props) => {
   };
 
   const handleSelectedMembers = () => {
-    // let addressToPopulate ={...selectedAddress[0]};
-    // setMemberInformationData({...memberInformationData,...addressToPopulate});
-    setMemberInformationData({...selectedAddress[0]});
-  //  setMemberInformationData(prevState => ({
-  //   ...prevState,
-  //   ...addressToPopulate
-  // }));
     setShowMemberSearch(false);
     setSelectedCriteria([]);
     setSelectSearchValues([]);
     setResponseData([]);
+    props.setMemberInformationData({...selectedAddress[0]});
   }
 
   const showMembers = async () => {

@@ -190,7 +190,7 @@ export const useCaseHeader = () => {
         else reject(true);
       }),
       ...authorizationInformationGrid.map(e => authorizationInformationValidationSchema.validate(e))
-    ]).then(() => setHasSubmitError(false)).catch(err => setHasSubmitError(true));
+    ]).then(() => setHasSubmitError(false)).catch(() => setHasSubmitError(true));
   }, [caseTimelines, caseInformation, claimInformation, memberInformation,
     expeditedRequest, providerInformationGrid, authorizationInformationGrid]);
 
@@ -245,8 +245,8 @@ export const useCaseHeader = () => {
       lockStatus: "N",
     }
 
-    const flowId = caseheaderConfigData["FlowId"];
-    const stageName = caseheaderConfigData["StageName"];
+    const flowId = caseHeaderConfigData["FlowId"];
+    const stageName = caseHeaderConfigData["StageName"];
 
     apiJson["MainCaseTable"] = mainCaseReqBody;
 
@@ -276,21 +276,18 @@ export const useCaseHeader = () => {
       procDataState.formNames = 'Appeals';
       procData.state = procDataState;
       if (documentSectionDataRef.current.length > 0) {
-        let documentArray = [...documentSectionDataRef.current];
-        documentArray = documentArray.filter(
+        const documentArray = [...documentSectionDataRef.current].filter(
             (x) => x.docStatus === "Uploaded"
         );
         documentArray.forEach((e) => {
           const fileUploadData = new FormData();
           fileUploadData.append("file", e.fileData);
           fileUploadData.append("source", "Manual");
-          fileUploadData.append("caseNumber",response.data["CreateCase_Output"]["CaseNo"]
-          );
+          fileUploadData.append("caseNumber",response.data["CreateCase_Output"]["CaseNo"]);
           fileUploadData.append("docType", e.documentType);
           fileUpDownAxios
               .post("/uploadFile", fileUploadData)
-              .then((response) => {
-              });
+              .then(() => {});
         });
       }
       alert(
@@ -322,9 +319,9 @@ export const useCaseHeader = () => {
   };
 
   const caseData = useSelector((store) => store.dashboardNavigationState);
-  const caseheaderConfigData = JSON.parse(process.env.REACT_APP_CASEHEADER_DETAILS || "{}");
-  const [potentialDupData, setPotentialDupData] = useState([]);
-  const [apiTestState, setApiTestState] = useState({
+  const caseHeaderConfigData = JSON.parse(process.env.REACT_APP_CASEHEADER_DETAILS || "{}");
+  const [potentialDupData] = useState([]);
+  const [apiTestState] = useState({
     delegated: "",
   });
 
@@ -783,11 +780,11 @@ export const useCaseHeader = () => {
         let procDataState = {};
         procDataState.stageName = location.state.stageName;
         procDataState.flowId = location.state.flowId;
-        procDataState.decisionNotes = location.state.decisionNotes;
+        procDataState.decisionNotes = authorizationInformation.Authorization_Case_Notes;
         procDataState.caseNumber = location.state.caseNumber;
-        procDataState.decision = location.state.decision;
+        procDataState.decision = authorizationInformation.Authorization_Decision;
 
-        procDataState.decisionReason = location.state.decisionReason;
+        procDataState.decisionReason = authorizationInformation.Authorization_Decision_Reason;
         procDataState.userName = mastersSelector.hasOwnProperty("auth")
             ? mastersSelector.auth.hasOwnProperty("userName")
                 ? mastersSelector.auth.userName
