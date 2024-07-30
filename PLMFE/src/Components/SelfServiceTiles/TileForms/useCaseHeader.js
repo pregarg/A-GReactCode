@@ -199,19 +199,35 @@ export const useCaseHeader = () => {
   const [authorizationInformation, setAuthorizationInformation] = useState({
     Authorization_Decision: "",
     Authorization_Decision_Reason: "",
-    Authorization_Case_Notes: ""
+    //Authorization_Case_Notes: ""
   });
 
   useEffect(() => {
     setDisableSaveAndExit(!authorizationInformation?.Authorization_Case_Notes?.trim())
   }, [authorizationInformation]);
 
+ 
+  // const currentDateTime = new Date().toISOString().split('T')[0];
+  //   const updatedCaseHeader = {
+  //     ...caseHeader,
+  //     Case_Received_Date: currentDateTime
+  //   };
+  const currentDate = new Date();
+  const formattedDate = `${(currentDate.getMonth() + 1).toString().padStart(2, '0')}/${currentDate.getDate().toString().padStart(2, '0')}/${currentDate.getFullYear()}`;
+
+ 
   const submitData = async () => {
 
     if (hasSubmitError) {
       return;
     }
-
+    const currentUser = mastersSelector.auth.userName || "system";
+    const updatedCaseHeader = {
+      ...caseHeader,
+      Case_Owner: currentUser, 
+      Case_Received_Date: formattedDate
+    };
+    console.log("abc", updatedCaseHeader)
     let apiJson = {};
 
     const angClaimInformationGrid = getGridDataValues(claimInformationGrid);
@@ -219,7 +235,7 @@ export const useCaseHeader = () => {
     const angRepresentativeInformationGrid = getGridDataValues(representativeInformationGrid);
     const angAuthorizationInformationGrid = getGridDataValues(authorizationInformationGrid);
 
-    const angCaseHeader = trimJsonValues({...caseHeader});
+    const angCaseHeader = trimJsonValues({...updatedCaseHeader});
     const angCaseTimelines = trimJsonValues({...caseTimelines});
     const angCaseInformation = trimJsonValues({...caseInformation});
     const angClaimInformation = trimJsonValues({...claimInformation});
@@ -294,7 +310,7 @@ export const useCaseHeader = () => {
         });
       }
       alert(
-          "Case created successfully: " +
+          "Case created successfully: " + 
           response.data["CreateCase_Output"]["CaseNo"]
       );
       submitCase(procData, navigateHome);
@@ -438,80 +454,114 @@ export const useCaseHeader = () => {
     return returnArray;
   };
 
-  function getCaseByCaseNumber() {
+
+  const getCaseStatus = async (stageName) => {
+    let getApiJson = {};
+    getApiJson["tableNames"] = getTableDetails()["angCaseStatusTable"];
+    getApiJson["whereClause"] = { WORKSTEP: stageName };
+  
+    try {
+      const res = await customAxios.post("/generic/get", getApiJson, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+  
+      const apiStat = res.data.Status;
+  
+      if (apiStat === -1) {
+        alert("Error in fetching case status.");
+        return null; 
+      }
+  
+      if (apiStat === 0) {
+        const caseStatusData = res.data.data.angCaseStatus;
+        console.log("Case Status Data:", caseStatusData);
+        if (caseStatusData && caseStatusData.length > 0) {
+          return caseStatusData[0].CASE_STATUS;
+           
+        } else {
+          return null; 
+        }
+      }
+     
+    } catch (error) {
+      console.error("API request error:", error);
+      alert("An error occurred while fetching case status.");
+      return null; 
+    }
+  };
+  
+
+  const getCaseByCaseNumber = async () => {
     let getApiJson = {};
     getApiJson["tableNames"] = getTableDetails()["angTables"];
-    getApiJson["whereClause"] = {caseNumber: location.state.caseNumber};
+    getApiJson["whereClause"] = { caseNumber: location.state.caseNumber };
+  
+    try {
+      const res = await customAxios.post("/generic/get", getApiJson, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+  
+      const apiStat = res.data.Status;
+  
+      if (apiStat === -1) {
+        alert("Error in fetching case data.");
+        return; 
+      }
+  
+      if (apiStat === 0) {
+        const data = res.data.data;
+        console.log("Response Data:", res.data);
+        console.log("Case Data:", data);
+  
+        
+        const stageName = location.state.stageName; 
+        const caseStatus = await getCaseStatus(stageName);
+        console.log("ppppppppp-->",data?.["angCaseInformation"])
 
-    customAxios
-        .post("/generic/get", getApiJson, {
-          headers: {Authorization: `Bearer ${token}`},
-        })
-        .then((res) => {
 
-          const apiStat = res.data.Status;
-
-          if (apiStat === -1) {
-            alert("Error in fetching data.");
-          }
-
-          if (apiStat === 0) {
-            let data = res.data.data;
-            console.log("dataa11111-->",res.data)
-            console.log("data22222",data)
-
-            let angCaseHeader = data["angCaseHeader"][0];
-          setCaseHeader(prevState => ({
-            ...prevState,
-            caseNumber: angCaseHeader.caseNumber,
-            Case_Owner: angCaseHeader.Case_Owner,
-            Case_Status: angCaseHeader.Case_Status,
-            White_Glove_Indicator: angCaseHeader.White_Glove_Indicator,
-            Subcase_ID: angCaseHeader.Subcase_ID,
-            Case_Validation: angCaseHeader.Case_Validation,
-            Environmental_Description: angCaseHeader.Environmental_Description,
-            Case_Received_Date: res.data.CreationDateTime,
-          }));
-
-           // setCaseHeader(data?.["angCaseHeader"]?.[0] || {});
-            setCaseTimelines(data?.["angCaseTimelines"]?.[0] || {});
-            setCaseInformation(data?.["angCaseInformation"]?.[0] || {});
-            setClaimInformation(data?.["angClaimInformation"]?.[0] || {});
-            setClaimInformationGrid(data?.["angClaimInformationGrid"] || []);
-            setProviderInformationGrid(data?.["angProviderInformationGrid"] || []);
-            setMemberInformation(data?.["angMemberInformation"]?.[0] || {});
-            setRepresentativeInformationGrid(data?.["angRepresentativeInformationGrid"] || []);
-            setAuthorizationInformation(data?.["angAuthorizationInformation"]?.[0] || {});
-            setAuthorizationInformationGrid(data?.["angAuthorizationInformationGrid"] || []);
-            setExpeditedRequest(data?.["angExpeditedRequest"]?.[0] || {});
-
-            setFormData(_.cloneDeep(data));
-
-            const caseIDToUpdate = res?.data?.data?.mainTable[0]?.CaseID;
-            const indexToUpdate = caseData.data.findIndex(
-                (item) => item?.CaseID === caseIDToUpdate
-            );
-
-            if (indexToUpdate !== -1) {
-              caseData.data[indexToUpdate] = res?.data?.data?.mainTable[0];
-            }
-
-            const caseInfo = res?.data?.data?.angCaseInformation[0];
-            caseInformation["Product"] = caseInfo.Product;
-
-            dispatch({
-              type: "UPDATE_DATA",
-              payload: {
-                data: caseData.data,
-              },
-            });
-          }
-        })
-        .catch((err) => {
-          console.error(err.message);
+       
+       
+        setCaseHeader((prevState) => ({
+          ...prevState,
+          ...data?.["angCaseHeader"]?.[0] || {},
+          Case_Status: caseStatus || prevState.Case_Status 
+        }));
+        setCaseTimelines(data?.["angCaseTimelines"]?.[0] || {});
+        setCaseInformation(data?.["angCaseInformation"]?.[0] || {});
+        setClaimInformation(data?.["angClaimInformation"]?.[0] || {});
+        setClaimInformationGrid(data?.["angClaimInformationGrid"] || []);
+        setProviderInformationGrid(data?.["angProviderInformationGrid"] || []);
+        setMemberInformation(data?.["angMemberInformation"]?.[0] || {});
+        setRepresentativeInformationGrid(data?.["angRepresentativeInformationGrid"] || []);
+        setAuthorizationInformation(data?.["angAuthorizationInformation"]?.[0] || {});
+        setAuthorizationInformationGrid(data?.["angAuthorizationInformationGrid"] || []);
+        setExpeditedRequest(data?.["angExpeditedRequest"]?.[0] || {});
+  
+        setFormData(_.cloneDeep(data));
+  
+        const caseIDToUpdate = res?.data?.data?.mainTable[0]?.CaseID;
+        const indexToUpdate = caseData.data.findIndex(
+          (item) => item?.CaseID === caseIDToUpdate
+        );
+  
+        if (indexToUpdate !== -1) {
+          caseData.data[indexToUpdate] = res?.data?.data?.mainTable[0];
+        }
+  
+        const caseInfo = res?.data?.data?.angCaseInformation[0];
+        caseInformation["Product"] = caseInfo.Product;
+  
+        dispatch({
+          type: "UPDATE_DATA",
+          payload: {
+            data: caseData.data,
+          },
         });
-  }
-
+      }
+    } catch (error) {
+      console.error("API request error:", error);
+    }
+  };
   //save and exit button
   const saveAndExit = async () => {
 

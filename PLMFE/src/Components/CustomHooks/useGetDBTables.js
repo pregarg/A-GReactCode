@@ -92,6 +92,7 @@ export default function useGetDBTables() {
         "ANG_Authorization_Information_Grid~angAuthorizationInformationGrid",
         "ANG_Expedited_Request~angExpeditedRequest"
       ],
+      angCaseStatusTable: ["ANG_MASTER_CASE_STATUS~angCaseStatus"],
     };
     return tableJson;
   };
