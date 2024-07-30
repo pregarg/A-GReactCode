@@ -213,8 +213,11 @@ export const useCaseHeader = () => {
   //     Case_Received_Date: currentDateTime
   //   };
   const currentDate = new Date();
-  const formattedDate = `${(currentDate.getMonth() + 1).toString().padStart(2, '0')}/${currentDate.getDate().toString().padStart(2, '0')}/${currentDate.getFullYear()}`;
-
+  
+  console.log("currentDate",currentDate)
+ 
+  // const formattedDate = `${(currentDate.getMonth() + 1).toString().padStart(2, '0')}/${currentDate.getDate().toString().padStart(2, '0')}/${currentDate.getFullYear()}`;
+  // const formattedDate = `${(currentDate.getMonth() + 1).toString().padStart(2, '0')}/${currentDate.getDate().toString().padStart(2, '0')}/${currentDate.getFullYear()} ${currentDate.getHours().toString().padStart(2, '0')}:${currentDate.getMinutes().toString().padStart(2, '0')}:${currentDate.getSeconds().toString().padStart(2, '0')}`;
  
   const submitData = async () => {
 
@@ -222,10 +225,12 @@ export const useCaseHeader = () => {
       return;
     }
     const currentUser = mastersSelector.auth.userName || "system";
+    const receivedDate = extractDate(currentDate);
+    console.log("receivedDate",receivedDate)
     const updatedCaseHeader = {
       ...caseHeader,
       Case_Owner: currentUser, 
-      Case_Received_Date: formattedDate
+      Case_Received_Date: receivedDate
     };
     console.log("abc", updatedCaseHeader)
     let apiJson = {};
@@ -518,14 +523,44 @@ export const useCaseHeader = () => {
         const caseStatus = await getCaseStatus(stageName);
         console.log("ppppppppp-->",data?.["angCaseInformation"])
 
+        if (
+          (data?.["angCaseInformation"]?.[0].Product ==="MEDICAID" || data?.["angCaseInformation"]?.[0].Product === "")&& 
+          (data?.["angCaseInformation"]?.[0].Product_State === "NC"||data?.["angCaseInformation"]?.[0].Product_State === "") && 
+          (data?.["angCaseInformation"]?.[0].Line_of_Business_LOB === "NCD" || data?.["angCaseInformation"]?.[0].Line_of_Business_LOB ==="") && 
+           data?.["angCaseInformation"]?.[0].Appellant_Type === "MEMBER" &&
+           data?.["angCaseInformation"]?.[0].Appeal_Type === "PRE-SERVICE" &&
+           data?.["angCaseInformation"]?.[0].Case_Level_Priority === "EXPEDITED"
+         ) {
+           console.log("condition satisfied.")
+           
+           const dateString = data.angCaseHeader[0]["Case_Received_Date#date"];
+           const caseReceivedDate = new Date(dateString);
+           const caseDueDate = new Date(caseReceivedDate.getTime() + 72 * 60 * 60 * 1000);
+           console.log("dateString",dateString) 
+           console.log("caseReceivedDate",caseReceivedDate) 
+           console.log("caseDueDate",caseDueDate)
+           setCaseHeader((prevState) => ({
+             ...prevState,
+             ...data?.["angCaseHeader"]?.[0] || {},
+             Case_Status: caseStatus || prevState.Case_Status,
+             Case_Due_Date: caseDueDate.toISOString() 
+           }));
+         } else {
+           setCaseHeader((prevState) => ({
+             ...prevState,
+             ...data?.["angCaseHeader"]?.[0] || {},
+             Case_Status: caseStatus || prevState.Case_Status
+           }));
+         }
 
        
        
-        setCaseHeader((prevState) => ({
-          ...prevState,
-          ...data?.["angCaseHeader"]?.[0] || {},
-          Case_Status: caseStatus || prevState.Case_Status 
-        }));
+        // setCaseHeader((prevState) => ({
+        //   ...prevState,
+        //   ...data?.["angCaseHeader"]?.[0] || {},
+        //   Case_Status: caseStatus || prevState.Case_Status 
+        // }));
+
         setCaseTimelines(data?.["angCaseTimelines"]?.[0] || {});
         setCaseInformation(data?.["angCaseInformation"]?.[0] || {});
         setClaimInformation(data?.["angClaimInformation"]?.[0] || {});
