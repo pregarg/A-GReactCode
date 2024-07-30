@@ -4,9 +4,6 @@ import { Button, Modal } from "react-bootstrap";
 import ReactDatePicker from "react-datepicker";
 
 export default function MemberSearch(modalProps) {
-  console.log("Modal props==== ", modalProps);
-  const navigate = useNavigate();
-
   const handleCriteriaChange = (event) => {
     modalProps.setSelectedCriteria(event.target.value);
     modalProps.setSelectSearchValues({});
