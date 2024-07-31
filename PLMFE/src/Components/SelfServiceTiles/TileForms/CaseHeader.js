@@ -66,7 +66,9 @@ const CaseHeader = () => {
     callProcRef,
     hasSubmitError,
     documentSectionDataRef,
-    disableSaveAndExit
+    disableSaveAndExit,
+    decisionTab,
+    setDecisionTab
   } = useCaseHeader();
 
   // const [memberInformation, setMemberInformation] = useState();
@@ -226,8 +228,8 @@ const CaseHeader = () => {
                                 : location.state.lockStatus
                           }
                           potentialDupData={potentialDupData}
-                          authorizationInformationData={authorizationInformation}
-                          updateAuthorizationInformationData={setAuthorizationInformation}
+                          decisionTabData={decisionTab}
+                          updateDecisionTabData={setDecisionTab}
                           delegatedVal={apiTestState?.delegated}
                           buttonClicked={callProcRef.current}
                       ></DecisionTab>

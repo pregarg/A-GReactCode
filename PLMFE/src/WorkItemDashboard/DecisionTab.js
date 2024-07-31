@@ -87,16 +87,16 @@ export default function DecisionTab(props) {
   const [selectReasonValues, setReasonSelectValues] = useState([]);
   const [decisionReasonArray, setDecisionReasonArray] = useState([]);
 
-  const [authorizationInformationData, setAuthorizationInformationData] = useState(props.authorizationInformationData || {});
-  const handleAuthorizationInformationData = (name, value, persist) => {
-    const newData = {...authorizationInformationData, [name]: typeof value === 'string' ? convertToCase(value) : value};
-    setAuthorizationInformationData(newData);
+  const [decisionTabData, setDecisionTabData] = useState(props.decisionTabData || {});
+  const handleDecisionTabData = (name, value, persist) => {
+    const newData = {...decisionTabData, [name]: typeof value === 'string' ? convertToCase(value) : value};
+    setDecisionTabData(newData);
     if (persist) {
-      props.updateAuthorizationInformationData(newData);
+      props.updateDecisionTabData(newData);
     }
   };
-  const persistAuthorizationInformationData = () => {
-    props.updateAuthorizationInformationData(authorizationInformationData);
+  const persistDecisionTabData = () => {
+    props.updateDecisionTabData(decisionTabData);
   }
 
  // let restrictedFileTypes = ["xls", "eps", "sql", "xlsx", "docx"];
@@ -1227,10 +1227,10 @@ export default function DecisionTab(props) {
                               : "",
                           }),
                         }}
-                        onChange={(value) => handleAuthorizationInformationData("Authorization_Decision", value?.value, true)}
-                        value={authorizationInformationData["Authorization_Decision"] ? {
-                            label: convertToCase(authorizationInformationData["Authorization_Decision"]),
-                            value: convertToCase(authorizationInformationData["Authorization_Decision"])
+                        onChange={(value) => handleDecisionTabData("Authorization_Decision", value?.value, true)}
+                        value={decisionTabData["Authorization_Decision"] ? {
+                            label: convertToCase(decisionTabData["Authorization_Decision"]),
+                            value: convertToCase(decisionTabData["Authorization_Decision"])
                         } : undefined}
                         options={selectValues}
                         name="decision"
@@ -1251,10 +1251,10 @@ export default function DecisionTab(props) {
                                 : "",
                             }),
                           }}
-                          onChange={(value) => handleAuthorizationInformationData("Authorization_Decision_Reason", value?.value, true)}
-                          value={authorizationInformationData["Authorization_Decision_Reason"] ? {
-                            label: convertToCase(authorizationInformationData["Authorization_Decision_Reason"]),
-                            value: convertToCase(authorizationInformationData["Authorization_Decision_Reason"])
+                          onChange={(value) => handleDecisionTabData("Authorization_Decision_Reason", value?.value, true)}
+                          value={decisionTabData["Authorization_Decision_Reason"] ? {
+                            label: convertToCase(decisionTabData["Authorization_Decision_Reason"]),
+                            value: convertToCase(decisionTabData["Authorization_Decision_Reason"])
                           } : undefined}
                           options={selectReasonValues}
                           name="decisionReason"
@@ -1281,9 +1281,9 @@ export default function DecisionTab(props) {
                     <div className="col-xs-12">
                       <label>Case Notes *:</label>
                       <textarea
-                          onChange={(event) => handleAuthorizationInformationData("Authorization_Case_Notes", event.target.value)}
-                          onBlur={persistAuthorizationInformationData}
-                          value={authorizationInformationData["Authorization_Case_Notes"]}
+                          onChange={(event) => handleDecisionTabData("Authorization_Case_Notes", event.target.value)}
+                          onBlur={persistDecisionTabData}
+                          value={decisionTabData["Authorization_Case_Notes"]}
                         style={{ width: "100%" }}
                         name="decisionNotes"
                       />

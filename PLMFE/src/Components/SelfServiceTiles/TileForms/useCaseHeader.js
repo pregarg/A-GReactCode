@@ -11,6 +11,7 @@ export const useCaseHeader = () => {
   const [hasSubmitError, setHasSubmitError] = useState(true);
   const {fileUpDownAxios} = useAxios();
   let documentSectionDataRef = useRef([]);
+  const authSelector = useSelector((state) => state.auth);
 
   const [caseHeader, setCaseHeader] = useState({
     Case_Due_Date: "",
@@ -25,7 +26,6 @@ export const useCaseHeader = () => {
     White_Glove_Indicator: "",
     caseNumber: ""
   });
-
 
   const [caseTimelines, setCaseTimelines] = useState({
     caseNumber: "",
@@ -198,43 +198,32 @@ export const useCaseHeader = () => {
   const [disableSaveAndExit, setDisableSaveAndExit] = useState(true);
   const [authorizationInformation, setAuthorizationInformation] = useState({
     Authorization_Decision: "",
+    Authorization_Decision_Reason: ""
+  });
+  const [decisionTab, setDecisionTab] = useState({
+    Authorization_Decision: "",
     Authorization_Decision_Reason: "",
-    //Authorization_Case_Notes: ""
+    Authorization_Case_Notes: ""
   });
 
   useEffect(() => {
-    setDisableSaveAndExit(!authorizationInformation?.Authorization_Case_Notes?.trim())
-  }, [authorizationInformation]);
+    setDisableSaveAndExit(!decisionTab?.Authorization_Case_Notes?.trim())
+  }, [decisionTab]);
 
- 
-  // const currentDateTime = new Date().toISOString().split('T')[0];
-  //   const updatedCaseHeader = {
-  //     ...caseHeader,
-  //     Case_Received_Date: currentDateTime
-  //   };
   const currentDate = new Date();
-  
-  console.log("currentDate",currentDate)
- 
-  // const formattedDate = `${(currentDate.getMonth() + 1).toString().padStart(2, '0')}/${currentDate.getDate().toString().padStart(2, '0')}/${currentDate.getFullYear()}`;
-  // const formattedDate = `${(currentDate.getMonth() + 1).toString().padStart(2, '0')}/${currentDate.getDate().toString().padStart(2, '0')}/${currentDate.getFullYear()} ${currentDate.getHours().toString().padStart(2, '0')}:${currentDate.getMinutes().toString().padStart(2, '0')}:${currentDate.getSeconds().toString().padStart(2, '0')}`;
- 
   const submitData = async () => {
 
     if (hasSubmitError) {
       return;
     }
-    const currentUser = mastersSelector.auth.userName || "system";
+    const currentUser = authSelector.userName || "system";
     const receivedDate = extractDate(currentDate);
-    console.log("receivedDate",receivedDate)
     const updatedCaseHeader = {
       ...caseHeader,
       Case_Owner: currentUser, 
       Case_Received_Date: receivedDate
     };
-    console.log("abc", updatedCaseHeader)
 
-    
     let apiJson = {};
 
     const angClaimInformationGrid = getGridDataValues(claimInformationGrid);
@@ -291,11 +280,7 @@ export const useCaseHeader = () => {
       procDataState.flowId = flowId;
       procDataState.caseNumber = response.data["CreateCase_Output"]["CaseNo"];
       procDataState.decision = "Submit";
-      procDataState.userName = mastersSelector.hasOwnProperty("auth")
-          ? mastersSelector.auth.hasOwnProperty("userName")
-              ? mastersSelector.auth.userName
-              : "system"
-          : "system";
+      procDataState.userName = authSelector.userName || "system";
       procDataState.formNames = 'Appeals';
       procData.state = procDataState;
       if (documentSectionDataRef.current.length > 0) {
@@ -392,8 +377,6 @@ export const useCaseHeader = () => {
 
   const dispatch = useDispatch();
   const {customAxios} = useAxios();
-
-  const mastersSelector = useSelector((masters) => masters);
   const {
     trimJsonValues,
     extractDate,
@@ -406,11 +389,7 @@ export const useCaseHeader = () => {
     CompareJSON
   } = useUpdateDecision();
 
-  const token = mastersSelector.hasOwnProperty("auth")
-      ? mastersSelector.auth.hasOwnProperty("token")
-          ? mastersSelector.auth.token
-          : ""
-      : "";
+  const token = authSelector.token || "";
 
   const handleCaseHeaderChange = (value, name) => {
     setCaseHeader({...caseHeader, [name]: value});
@@ -478,7 +457,6 @@ export const useCaseHeader = () => {
   
       if (apiStat === 0) {
         const caseStatusData = res.data.data.angCaseStatus;
-        console.log("Case Status Data:", caseStatusData);
         if (caseStatusData && caseStatusData.length > 0) {
           return caseStatusData[0].CASE_STATUS;
            
@@ -551,6 +529,7 @@ function calculateCaseDueDate(caseReceivedDate, caseLevelPriority, appealType) {
       }
 
       if (apiStat === 0) {
+
           const data = res.data.data;
           console.log("Response Data:", res.data);
           console.log("Case Data:", data);
@@ -623,6 +602,7 @@ function calculateCaseDueDate(caseReceivedDate, caseLevelPriority, appealType) {
                   data: caseData.data,
               },
           });
+
       }
   }
    catch (error) {
@@ -893,23 +873,17 @@ function calculateCaseDueDate(caseReceivedDate, caseLevelPriority, appealType) {
       }
 
       if (apiStat === 0) {
-        console.log("locationdata--->",location)
         updateDecision(location, saveType, "Appeals");
         
         let procData = {};
         let procDataState = {};
         procDataState.stageName = location.state.stageName;
         procDataState.flowId = location.state.flowId;
-        procDataState.decisionNotes = authorizationInformation.Authorization_Case_Notes;
+        procDataState.decisionNotes = decisionTab.Authorization_Case_Notes;
         procDataState.caseNumber = location.state.caseNumber;
-        procDataState.decision = authorizationInformation.Authorization_Decision;
-
-        procDataState.decisionReason = authorizationInformation.Authorization_Decision_Reason;
-        procDataState.userName = mastersSelector.hasOwnProperty("auth")
-            ? mastersSelector.auth.hasOwnProperty("userName")
-                ? mastersSelector.auth.userName
-                : "system"
-            : "system";
+        procDataState.decision = decisionTab.Authorization_Decision;
+        procDataState.decisionReason = decisionTab.Authorization_Decision_Reason;
+        procDataState.userName = authSelector.userName || "system";
         procDataState.formNames = 'Appeals';
         procData.state = procDataState;
 
@@ -962,6 +936,8 @@ function calculateCaseDueDate(caseReceivedDate, caseLevelPriority, appealType) {
     callProcRef,
     hasSubmitError,
     documentSectionDataRef,
-    disableSaveAndExit
+    disableSaveAndExit,
+    decisionTab,
+    setDecisionTab
   }
 }
