@@ -7,8 +7,10 @@ import useGetDBTables from "../../CustomHooks/useGetDBTables";
 import "./ClaimInformationTable.css";
 import { useLocation } from "react-router-dom";
 
+
 export default function ClaimInformationTable({
     claimInformationGridData,
+    setClaimInformationGridData,
     updateGridData,
     deleteTableRows,
     handleGridSelectChange,
@@ -42,7 +44,7 @@ export default function ClaimInformationTable({
 
     let lineNumberOptions = [];
     let filedTimelyValues = [];
-    let grantGoodCauseValues = [];
+    let grantGoodCauseValues = [];    
 
     useEffect(() => {
         if (masterAngFiledTimelySelector) {
@@ -68,6 +70,9 @@ export default function ClaimInformationTable({
         }
     });
 
+
+
+    
     const tdDataReplica = (index) => {
         console.log("Inside tdDataReplica");
         console.log("gridfieldtempstate", gridFieldTempState);

@@ -223,6 +223,7 @@ export const useCaseHeader = () => {
       Case_Owner: currentUser, 
       Case_Received_Date: receivedDate
     };
+
     let apiJson = {};
 
     const angClaimInformationGrid = getGridDataValues(claimInformationGrid);
@@ -470,97 +471,141 @@ export const useCaseHeader = () => {
       return null; 
     }
   };
+
+  function hasAnyNonEmptyValue(obj, keys) {
+    return keys.some(key => obj[key]?.trim() !== "");
+}
   
+function calculateCaseDueDate(caseReceivedDate, caseLevelPriority, appealType) {
+  if (!caseReceivedDate) return { dueDate: null, internalDate: null };
+
+  const caseReceivedDateObj = new Date(caseReceivedDate);
+  let dueDate;
+  let internalDate;
+
+  switch (caseLevelPriority) {
+      case "EXPEDITED":
+          dueDate = new Date(caseReceivedDateObj.getTime() + 72 * 60 * 60 * 1000); 
+          internalDate = dueDate; 
+          break;
+      case "STANDARD":
+        console.log("inside standard")
+          dueDate = new Date(caseReceivedDateObj.getTime() + 30 * 24 * 60 * 60 * 1000); 
+          if (appealType === "PRE-SERVICE") {
+            console.log("inside PRE-SERVICE")
+              internalDate = new Date(caseReceivedDateObj.getTime() + 25 * 24 * 60 * 60 * 1000); 
+          } else if (appealType === "RETRO") {
+            console.log("inside RETRO")
+              internalDate = new Date(caseReceivedDateObj.getTime() + 30 * 24 * 60 * 60 * 1000); 
+              
+          }
+          console.log("INTERNAL DUE DATE", internalDate)
+          break;
+      default:
+          dueDate = caseReceivedDateObj; 
+          internalDate = caseReceivedDateObj; 
+          break;
+  }
+  
+  return { dueDate, internalDate };
+}
 
   const getCaseByCaseNumber = async () => {
     let getApiJson = {};
     getApiJson["tableNames"] = getTableDetails()["angTables"];
     getApiJson["whereClause"] = { caseNumber: location.state.caseNumber };
-  
     try {
+      // Make API request
       const res = await customAxios.post("/generic/get", getApiJson, {
-        headers: { Authorization: `Bearer ${token}` },
+          headers: { Authorization: `Bearer ${token}` },
       });
-  
+
       const apiStat = res.data.Status;
-  
+
+      // Handle API status errors
       if (apiStat === -1) {
-        alert("Error in fetching case data.");
-        return; 
+          alert("Error in fetching case data.");
+          return;
       }
-  
+
       if (apiStat === 0) {
-        const data = res.data.data;
 
-        const stageName = location.state.stageName; 
-        const caseStatus = await getCaseStatus(stageName);
+          const data = res.data.data;
+          console.log("Response Data:", res.data);
+          console.log("Case Data:", data);
 
-        if (
-          (data?.["angCaseInformation"]?.[0].Product ==="MEDICAID" || data?.["angCaseInformation"]?.[0].Product === "")&& 
-          (data?.["angCaseInformation"]?.[0].Product_State === "NC"||data?.["angCaseInformation"]?.[0].Product_State === "") && 
-          (data?.["angCaseInformation"]?.[0].Line_of_Business_LOB === "NCD" || data?.["angCaseInformation"]?.[0].Line_of_Business_LOB ==="") && 
-           data?.["angCaseInformation"]?.[0].Appellant_Type === "MEMBER" &&
-           data?.["angCaseInformation"]?.[0].Appeal_Type === "PRE-SERVICE" &&
-           data?.["angCaseInformation"]?.[0].Case_Level_Priority === "EXPEDITED"
-         ) {
-           const dateString = data.angCaseHeader[0]["Case_Received_Date#date"];
-           const caseReceivedDate = new Date(dateString);
-           const caseDueDate = new Date(caseReceivedDate.getTime() + 72 * 60 * 60 * 1000);
-           setCaseHeader((prevState) => ({
-             ...prevState,
-             ...data?.["angCaseHeader"]?.[0] || {},
-             Case_Status: caseStatus || prevState.Case_Status,
-             Case_Due_Date: caseDueDate.toISOString() 
-           }));
-         } else {
-           setCaseHeader((prevState) => ({
-             ...prevState,
-             ...data?.["angCaseHeader"]?.[0] || {},
-             Case_Status: caseStatus || prevState.Case_Status
-           }));
-         }
+          // Extract data
+          const stageName = location.state.stageName;
+          const caseStatus = await getCaseStatus(stageName);
+          const caseReceivedDate = new Date(data.angCaseHeader[0]["Case_Received_Date#date"]);
 
-       
-       
-        // setCaseHeader((prevState) => ({
-        //   ...prevState,
-        //   ...data?.["angCaseHeader"]?.[0] || {},
-        //   Case_Status: caseStatus || prevState.Case_Status 
-        // }));
+          const caseInfo = data?.["angCaseInformation"]?.[0];
+          const keysToCheck = ['Product', 'Product_State', 'Line_of_Business_LOB'];
+          const hasAnyValue = hasAnyNonEmptyValue(caseInfo, keysToCheck);
 
-        setCaseTimelines(data?.["angCaseTimelines"]?.[0] || {});
-        setCaseInformation(data?.["angCaseInformation"]?.[0] || {});
-        setClaimInformation(data?.["angClaimInformation"]?.[0] || {});
-        setClaimInformationGrid(data?.["angClaimInformationGrid"] || []);
-        setProviderInformationGrid(data?.["angProviderInformationGrid"] || []);
-        setMemberInformation(data?.["angMemberInformation"]?.[0] || {});
-        setRepresentativeInformationGrid(data?.["angRepresentativeInformationGrid"] || []);
-        setAuthorizationInformation(data?.["angAuthorizationInformation"]?.[0] || {});
-        setAuthorizationInformationGrid(data?.["angAuthorizationInformationGrid"] || []);
-        setExpeditedRequest(data?.["angExpeditedRequest"]?.[0] || {});
-  
-        setFormData(_.cloneDeep(data));
-  
-        const caseIDToUpdate = res?.data?.data?.mainTable[0]?.CaseID;
-        const indexToUpdate = caseData.data.findIndex(
-          (item) => item?.CaseID === caseIDToUpdate
-        );
-  
-        if (indexToUpdate !== -1) {
-          caseData.data[indexToUpdate] = res?.data?.data?.mainTable[0];
-        }
-  
-        const caseInfo = res?.data?.data?.angCaseInformation[0];
-        caseInformation["Product"] = caseInfo.Product;
-  
-        dispatch({
-          type: "UPDATE_DATA",
-          payload: {
-            data: caseData.data,
-          },
-        });
+          if (caseInfo && hasAnyValue) {
+
+              const caseLevelPriority = caseInfo.Case_Level_Priority;
+              const appealType = caseInfo.Appeal_Type;
+              const appellant_Type = caseInfo.Appellant_Type;
+              console.log("case info",caseLevelPriority , appealType , appellant_Type);
+              const { dueDate, internalDate } = calculateCaseDueDate(caseReceivedDate, caseLevelPriority, appealType);
+              const caseDueDateString = dueDate ? dueDate.toISOString() : null;
+              const internalDueDateString = internalDate ? internalDate.toISOString() : null;
+              console.log("final  due date ",caseDueDateString,  internalDueDateString)
+              setCaseHeader((prevState) => ({
+                ...prevState,
+                ...data?.["angCaseHeader"]?.[0] || {},
+                Case_Status: caseStatus || prevState.Case_Status,
+                Case_Due_Date: caseDueDateString,
+                Internal_Due_Date: internalDueDateString
+            }));
+          } else {
+              setCaseHeader((prevState) => ({
+                  ...prevState,
+                  ...data?.["angCaseHeader"]?.[0] || {},
+                  Case_Status: caseStatus || prevState.Case_Status
+              }));
+          }
+
+          // Update other state values
+          setCaseTimelines(data?.["angCaseTimelines"]?.[0] || {});
+          setCaseInformation(data?.["angCaseInformation"]?.[0] || {});
+          setClaimInformation(data?.["angClaimInformation"]?.[0] || {});
+          setClaimInformationGrid(data?.["angClaimInformationGrid"] || []);
+          setProviderInformationGrid(data?.["angProviderInformationGrid"] || []);
+          setMemberInformation(data?.["angMemberInformation"]?.[0] || {});
+          setRepresentativeInformationGrid(data?.["angRepresentativeInformationGrid"] || []);
+          setAuthorizationInformation(data?.["angAuthorizationInformation"]?.[0] || {});
+          setAuthorizationInformationGrid(data?.["angAuthorizationInformationGrid"] || []);
+          setExpeditedRequest(data?.["angExpeditedRequest"]?.[0] || {});
+          setFormData(_.cloneDeep(data));
+
+          // Update case data in caseData array
+          const caseIDToUpdate = data?.mainTable?.[0]?.CaseID;
+          const indexToUpdate = caseData.data.findIndex(
+              (item) => item?.CaseID === caseIDToUpdate
+          );
+
+          if (indexToUpdate !== -1) {
+              caseData.data[indexToUpdate] = data?.mainTable?.[0];
+          }
+
+          // Update case information
+          const caseInfoProduct = data?.angCaseInformation?.[0]?.Product;
+          caseInformation["Product"] = caseInfoProduct;
+
+          // Dispatch action to update data
+          dispatch({
+              type: "UPDATE_DATA",
+              payload: {
+                  data: caseData.data,
+              },
+          });
+
       }
-    } catch (error) {
+  }
+   catch (error) {
       console.error("API request error:", error);
     }
   };

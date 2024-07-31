@@ -19,6 +19,8 @@ const CaseInformationAccordion = (props) => {
   const caseLevelSelector = useSelector((state) => state?.masterAngCaseLevelPriority);
   const issueLevelSelector = useSelector((state) => state?.masterAngIssueLevel);
   const masterAngSelector = useSelector((state) => state?.masterAngReviewType);
+ 
+
 
   const location = useLocation();
 
@@ -74,6 +76,16 @@ const CaseInformationAccordion = (props) => {
             location.state.stageName === "Reopen" ||
             location.state.stageName === "CaseArchived"))
   }, [location]);
+
+  useEffect(() => {
+    const { Product, Product_State, Line_of_Business_LOB } = caseInformationData;
+    if (Product === "MEDICAID" && Product_State === "NC" && Line_of_Business_LOB === "NCD") {
+      setCaseInformationData(prevData => ({
+        ...prevData,
+        LOB_Description: "NORTH CAROLINA MEDICAID"
+      }));
+    }
+  }, [caseInformationData]);
 
   const handleCaseInformationData = (name, value, persist) => {
     const newData = {...caseInformationData, [name]: typeof value === 'string' ? convertToCase(value) : value};
