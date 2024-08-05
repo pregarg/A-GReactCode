@@ -487,10 +487,18 @@ const AuthorizationInformationAccordion = (props) => {
                                             components={{
                                                 ValueContainer: CustomValueContainer,
                                               }}
-                                            value={authorizationInformationData['Authorization_Decision']}
+                                              value={authorizationDecisionValues.find(option => option.value === authorizationInformationData['Authorization_Decision']) || null}
+                                            //value={authorizationInformationData['Authorization_Decision']}
+                                            // onChange={(selectValue, event) => {
+                                            //     setAuthorizationInformationData({ ...authorizationInformationData, 'Authorization_Decision': selectValue });
+                                            //     props.handleOnChange(selectValue, 'Authorization_Decision');
+                                            // }}
                                             onChange={(selectValue, event) => {
-                                                setAuthorizationInformationData({ ...authorizationInformationData, 'Authorization_Decision': selectValue });
-                                                props.handleOnChange(selectValue, 'Authorization_Decision');
+                                                
+                                                const value = selectValue ? selectValue.value : null;
+                                                console.log('Selected value1111:', value);
+                                               // setAuthorizationInformationData({ ...authorizationInformationData, 'Authorization_Decision': value });
+                                                props.handleOnChange(value, 'Authorization_Decision');
                                             }}
                                             options={authorizationDecisionValues} 
                                             name="authdecision"
@@ -537,11 +545,13 @@ const AuthorizationInformationAccordion = (props) => {
                                             components={{
                                                 ValueContainer: CustomValueContainer,
                                               }}
-                                              value={authorizationInformationData['Authorization_Decision_Reason']}
+                                               value={authorizationDecisionReasonValues.find(option => option.value === authorizationInformationData['Authorization_Decision_Reason']) || null}
+                                              //value={authorizationInformationData['Authorization_Decision_Reason']}
                                               onChange={(selectValue) => {
-                                                console.log('Selected value:', selectValue);
-                                                setAuthorizationInformationData({ ...authorizationInformationData, 'Authorization_Decision_Reason': selectValue})
-                                                props.handleOnChange(selectValue, 'Authorization_Decision_Reason');
+                                                const value = selectValue ? selectValue.value : null;
+                                                console.log('Selected value:', value);
+                                               // setAuthorizationInformationData({ ...authorizationInformationData, 'Authorization_Decision_Reason': value})
+                                                props.handleOnChange(value, 'Authorization_Decision_Reason');
                                             }}
                                             options={authorizationDecisionReasonValues}
                                             name = "authdecisionreason"
