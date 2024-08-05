@@ -226,6 +226,7 @@ export const useCaseHeader = () => {
       Case_Owner: currentUser, 
       Case_Received_Date: receivedDate
     };
+
     let apiJson = {};
 
     const angClaimInformationGrid = getGridDataValues(claimInformationGrid);
@@ -537,6 +538,7 @@ function calculateCaseDueDate(caseReceivedDate, caseLevelPriority, appealType,ap
       }
 
       if (apiStat === 0) {
+
           const data = res.data.data;
           console.log("Response Data:", res.data);
           console.log("Case Data:", data);
@@ -546,6 +548,7 @@ function calculateCaseDueDate(caseReceivedDate, caseLevelPriority, appealType,ap
           const caseStatus = await getCaseStatus(stageName);
           const caseReceivedDate = new Date(data.angCaseHeader[0]["Case_Received_Date#date"]);
           console.log("caseReceivedDate",caseReceivedDate)
+
           const caseInfo = data?.["angCaseInformation"]?.[0];
           const keysToCheck = ['Product', 'Product_State', 'Line_of_Business_LOB'];
           const hasAnyValue = hasAnyNonEmptyValue(caseInfo, keysToCheck);
@@ -615,6 +618,7 @@ function calculateCaseDueDate(caseReceivedDate, caseLevelPriority, appealType,ap
                   data: caseData.data,
               },
           });
+
       }
   }
    catch (error) {
