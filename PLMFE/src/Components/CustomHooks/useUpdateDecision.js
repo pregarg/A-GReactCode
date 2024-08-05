@@ -28,22 +28,23 @@ export default function useUpdateDecision() {
     })
   }
 
-  const updateDecision = (prop, saveType, transactionType) => {
-    console.log("updatedecision1",prop)
-    const decsn = (prop.state.decision === undefined) ? '' : prop.state.decision;
+
+  const updateDecision = (location, saveType, transactionType) => {
+    console.log("updatedecision1",location)
+    const decsn = (location.state.decision === undefined) ? '' : location.state.decision;
     let procInput = {};
     if (transactionType === 'Appeals') {
-      procInput['DECISON_REASON'] = (prop.state.decisionReason) ? prop.state.decisionReason : '';
+      procInput['DECISON_REASON'] = (location.state.decisionReason) ? location.state.decisionReason : '';
     }        /*procInput.input1 = "testing";
         procInput.input2 = AddProvider.displayName;
-        procInput.input3 = prop.state.caseNumber;*/
+        procInput.input3 = location.state.caseNumber;*/
     procInput.option = 'UPDATEQUEUEVARIABLES';
-    procInput.DecisionNotes = (prop.state.decisionNotes != undefined) ? (prop.state.decisionNotes.trim()) : "";
+    procInput.DecisionNotes = (location.state.decisionNotes != undefined) ? (location.state.decisionNotes.trim()) : "";
     procInput.DECISION = decsn;
-    procInput.StageName = prop.state.stageName;
-    procInput.FlowId = prop.state.flowId;
-    procInput.CaseNumber = prop.state.caseNumber;
-    procInput.UserName = prop.state.userName;
+    procInput.StageName = location.state.stageName;
+    procInput.FlowId = location.state.flowId;
+    procInput.CaseNumber = location.state.caseNumber;
+    procInput.UserName = location.state.userName;
     procInput.Type = saveType;
     procInput.Input2 = transactionType
     /*customAxios
@@ -121,9 +122,6 @@ export default function useUpdateDecision() {
       //updateInputs.append('FlowId',2);
       updateInputs.append('FlowId', Number(prop.state.flowId));
       updateInputs.append('Decision', decsn);
-      if (prop.state.formNames === 'Appeals') {
-        updateInputs.append('DECISON_REASON', prop.state.decisionReason ? prop.state.decisionReason : '');
-      }
       console.log("update inputs", updateInputs);
       //const putApi =  + 'updateCaseDecision';
       axios.put('/updateCaseDecision', updateInputs, { headers: { 'Authorization': `Bearer ${token}` } }).then((res) => {
@@ -135,7 +133,7 @@ export default function useUpdateDecision() {
           procInput.transactionType = prop.state.formNames;
           procInput.caseID = prop.state.caseNumber;
           procInput.decision = decsn; 
-          procInput.decNotes =
+          procInput.decNotes = 
               prop.state.decisionNotes === undefined
                 ? ""
                 : prop.state.decisionNotes;

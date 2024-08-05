@@ -43,6 +43,7 @@ export default function DecisionTab(props) {
     useGetDBTables();
 
   const token = useSelector((state) => state.auth.token);
+  const [decisionState, setDecisionState] = useState({ decisionNotes: "" });
 
   const dispatch = useDispatch();
 
@@ -82,23 +83,50 @@ export default function DecisionTab(props) {
   console.log("logger prop ", prop.state)
   const formName = prop.state.formNames;
   const stageName = prop.state.stageName && prop.state.stageName.trim();
-
+ 
   const [selectValues, setSelectValues] = useState([]);
   const [selectReasonValues, setReasonSelectValues] = useState([]);
   const [decisionReasonArray, setDecisionReasonArray] = useState([]);
 
-  const [decisionTabData, setDecisionTabData] = useState(props.decisionTabData || {});
-  const handleDecisionTabData = (name, value, persist) => {
-    const newData = {...decisionTabData, [name]: typeof value === 'string' ? convertToCase(value) : value};
-    setDecisionTabData(newData);
-    if (persist) {
-      props.updateDecisionTabData(newData);
+  // const [decisionTabData, setDecisionTabData] = useState(props.decisionTabData || {});
+  // const handleDecisionTabData = (name, value, persist) => {
+  //   const newData = {...decisionTabData, [name]: typeof value === 'string' ? convertToCase(value) : value};
+  //   setDecisionTabData(newData);
+  //   if (persist) {
+  //     props.updateDecisionTabData(newData);
+  //   }
+  // };
+  // const persistDecisionTabData = () => {
+  //   props.updateDecisionTabData(decisionTabData);
+  // }
+  
+  const decisonRef = React.createRef();
+  const decisonReasonRef = useRef();
+  const handleSelectChange = (selectedValue, evnt) => {
+    const { name } = evnt;
+    if (name === "decision") {
+      prop.state.decision = selectedValue?.value;
+    }
+    setDecisionState({ ...decisionState, [name]: selectedValue });
+  };
+  const handleSelectChangeReason = (selectedValue, evnt) => {
+    const { name } = evnt;
+    if (name === "decisionReason") {
+      prop.state.decisionReason = selectedValue?.value;
+      
     }
   };
-  const persistDecisionTabData = () => {
-    props.updateDecisionTabData(decisionTabData);
-  }
 
+  const handleLinearFieldChange = (evt) => {
+    const value = evt.target.value;
+    if (evt.target.name === "decisionNotes") {
+      prop.state.decisionNotes = convertToCase(evt.target.value);
+    }
+    setDecisionState({
+      ...decisionState,
+      [evt.target.name]: evt.target.value,
+    });
+  };
  // let restrictedFileTypes = ["xls", "eps", "sql", "xlsx", "docx"];
   const downloadedfileBlob = (index, documentData) => {
     const { caseNumber, documentType, documentName, docUploadPath } =
@@ -1214,7 +1242,7 @@ export default function DecisionTab(props) {
                 aria-labelledby="panelsStayOpen-headingNotes"
               >
                 <div className="accordion-body">
-                  <div className="row">
+                  {/* <div className="row">
                     <div className="col-xs-12 col-md-4">
                       <label>Decision</label>
                       <Select
@@ -1227,10 +1255,10 @@ export default function DecisionTab(props) {
                               : "",
                           }),
                         }}
-                        onChange={(value) => handleDecisionTabData("Authorization_Decision", value?.value, true)}
-                        value={decisionTabData["Authorization_Decision"] ? {
-                            label: convertToCase(decisionTabData["Authorization_Decision"]),
-                            value: convertToCase(decisionTabData["Authorization_Decision"])
+                        onChange={(value) => handleDecisionTabData("Decision", value?.value, true)}
+                        value={decisionTabData["Decision"] ? {
+                            label: convertToCase(decisionTabData["Decision"]),
+                            value: convertToCase(decisionTabData["Decision"])
                         } : undefined}
                         options={selectValues}
                         name="decision"
@@ -1251,10 +1279,10 @@ export default function DecisionTab(props) {
                                 : "",
                             }),
                           }}
-                          onChange={(value) => handleDecisionTabData("Authorization_Decision_Reason", value?.value, true)}
-                          value={decisionTabData["Authorization_Decision_Reason"] ? {
-                            label: convertToCase(decisionTabData["Authorization_Decision_Reason"]),
-                            value: convertToCase(decisionTabData["Authorization_Decision_Reason"])
+                          onChange={(value) => handleDecisionTabData("Decision_Reason", value?.value, true)}
+                          value={decisionTabData["Decision_Reason"] ? {
+                            label: convertToCase(decisionTabData["Decision_Reason"]),
+                            value: convertToCase(decisionTabData["Decision_Reason"])
                           } : undefined}
                           options={selectReasonValues}
                           name="decisionReason"
@@ -1275,17 +1303,103 @@ export default function DecisionTab(props) {
                         disabled
                       />
                     </div>
-                  </div>
-
-                  <div className="row my-2">
+                  </div> */}
+                  
+                  {/* <div className="row my-2">
                     <div className="col-xs-12">
                       <label>Case Notes *:</label>
                       <textarea
-                          onChange={(event) => handleDecisionTabData("Authorization_Case_Notes", event.target.value)}
+                          onChange={(event) => handleDecisionTabData("Decision_Case_Notes", event.target.value)}
                           onBlur={persistDecisionTabData}
-                          value={decisionTabData["Authorization_Case_Notes"]}
+                          value={decisionTabData["Decision_Case_Notes"]}
                         style={{ width: "100%" }}
                         name="decisionNotes"
+                      />
+                    </div>
+                  </div> */}
+
+
+
+<div className="row">
+                    <div className="col-xs-12 col-md-4">
+                      <label>Decision</label>
+                      <Select
+                        styles={{
+                          control: (provided) => ({
+                            ...provided,
+                            fontWeight: "lighter",
+                            backgroundColor: changeColorOfSelect(prop, "PDM")
+                              ? "#F0F0F0"
+                              : "",
+                          }),
+                        }}
+                        //value={selectJson['decisionOptions'][0]}
+                        onChange={(selectValue, event) =>
+                          handleSelectChange(selectValue, event)
+                        }
+                        options={selectValues}
+                        ref={decisonRef}
+                        // isDisabled={(tabInput.lockStatus==='Y')?true:false}
+                        name="decision"
+                        id="decisionDropdown"
+                      />
+                    </div>
+
+                    {/* descision reason */}
+                    {
+                      prop.state.formNames == "Appeals" && <div className="col-xs-12 col-md-4">
+                        <label>Decision Reason</label>
+                        <Select
+                          styles={{
+                            control: (provided) => ({
+                              ...provided,
+                              fontWeight: "lighter",
+                              backgroundColor: changeColorOfSelect(prop, "PDM")
+                                ? "#F0F0F0"
+                                : "",
+                            }),
+                          }}
+                          //value={selectJson['decisionOptions'][0]}
+                          onChange={(selectValue, event) =>
+                            handleSelectChangeReason(selectValue, event)
+                          }
+                          options={selectReasonValues}
+
+                          // isDisabled={(tabInput.lockStatus==='Y')?true:false}
+                          name="decisionReason"
+                          ref={decisonReasonRef}
+                          id="decisionReasonDropdown"
+                        />
+                      </div>
+                    }
+
+
+                    <div className="col-xs-12 col-md-4">
+                      <label>Decision Date</label>
+                      <input
+                        type="text"
+                        value={getDate()}
+                        name="decisionDateDesc"
+                        id="decisionDate"
+                        className="form-control"
+                        disabled
+                      />
+                    </div>
+                  </div>
+                    <div className="row my-2">
+                    <div className="col-xs-12">
+                      <label>Case Notes:</label>
+                      <textarea
+                        onChange={handleLinearFieldChange}
+                        value={
+                          "decisionNotes" in decisionState &&
+                          decisionState.decisionNotes?.value !== undefined
+                            ? convertToCase(decisionState?.decisionNotes?.value)
+                            : convertToCase(decisionState?.decisionNotes)
+                        }
+                        style={{ width: "100%" }}
+                        name="decisionNotes"
+                       
                       />
                     </div>
                   </div>

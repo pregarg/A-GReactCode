@@ -85,7 +85,7 @@ const CaseInformationAccordion = (props) => {
         LOB_Description: "NORTH CAROLINA MEDICAID"
       }));
     }
-  }, [caseInformationData]);
+  }, [caseInformationData.Product, caseInformationData.Product_State, caseInformationData.Line_of_Business_LOB]);
 
   const handleCaseInformationData = (name, value, persist) => {
     const newData = {...caseInformationData, [name]: typeof value === 'string' ? convertToCase(value) : value};
