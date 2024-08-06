@@ -472,7 +472,12 @@ const AuthorizationInformationAccordion = (props) => {
                     aria-labelledby="panelsStayOpen-claimInformation"
                 >
                     <div className="accordion-body">
-                    <button type="button" class="btn btn-outline-primary" onClick={event => handleShowAuthSearch(event)}>Auth Search</button>         
+                    <button type="button" class="btn btn-outline-primary" 
+                    onClick={event => handleShowAuthSearch(event)}
+                    disabled ={(prop.state.stageName === "Redirect Review" || prop.state.stageName === "Documents Needed"
+                        || prop.state.stageName  === "CaseArchived"
+                      )}
+                        >Auth Search</button>         
                         <div className="row my-2">
                             <div className="col-xs-6 col-md-4">
                                 <Field name="authdecision">

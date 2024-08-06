@@ -22,16 +22,15 @@ const ExpeditedRequestAccordion = (props) => {
 
   useEffect(() => {
     setInvalidInputState(location.state.formView === "DashboardView" &&
-        (location.state.stageName === "Intake" ||
-            location.state.stageName === "Acknowledge" ||
+        (
+           
             location.state.stageName === "Redirect Review" ||
             location.state.stageName === "Documents Needed" ||
-            location.state.stageName === "Research" ||
             location.state.stageName === "Effectuate" ||
             location.state.stageName === "Pending Effectuate" ||
             location.state.stageName === "Resolve" ||
             location.state.stageName === "Case Completed" ||
-            location.state.stageName === "Reopen" ||
+            
             location.state.stageName === "CaseArchived"))
   }, [location]);
 
@@ -128,7 +127,7 @@ const ExpeditedRequestAccordion = (props) => {
                         location.state.stageName === "Pending Effectuate" ||
                         location.state.stageName === "Resolve" ||
                         location.state.stageName === "Case Completed" ||
-                        location.state.stageName === "Reopen" ||
+                        
                         location.state.stageName === "CaseArchived")
                 }
                 className="basic-multi-select"
@@ -195,11 +194,12 @@ const ExpeditedRequestAccordion = (props) => {
               disabled={
                   location.state.formView === "DashboardView" &&
                   (location.state.stageName === "Redirect Review" ||
+                    location.state.stageName === "Documents Needed" ||
                       location.state.stageName === "Effectuate" ||
                       location.state.stageName === "Pending Effectuate" ||
                       location.state.stageName === "Resolve" ||
                       location.state.stageName === "Case Completed" ||
-                      location.state.stageName === "Reopen" ||
+                     
                       location.state.stageName === "CaseArchived")
               }
           />

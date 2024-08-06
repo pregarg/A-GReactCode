@@ -445,7 +445,11 @@ const RepresentativeInformationAccordion = (props) => {
 
                     <div className="accordion-body">
                     <button type="button" className="btn btn-outline-primary"
-                          onClick={event => handleshowRepresentativeSearch(event)}>Representative Search
+                          onClick={event => handleshowRepresentativeSearch(event)}
+                          disabled ={(prop.state.stageName === "Redirect Review" || prop.state.stageName === "Documents Needed"
+                            || prop.state.stageName  === "CaseArchived"
+                          )}
+                          >Representative Search
                   </button>
                         <div className="row my-2">
                             <div className="col-xs-6 col-md-12">
