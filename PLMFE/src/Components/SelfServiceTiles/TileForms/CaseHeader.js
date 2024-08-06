@@ -18,13 +18,8 @@ import {useLocation} from "react-router-dom";
 
 
 const CaseHeader = () => {
-  let prop = useLocation();
- let stageNameCheck = prop.state?.stageName
-   console.log("caseheader prop-->", prop)
-   console.log("stageNameCheck-->", stageNameCheck)
-  //let documentSectionDataRef = useRef([]);
   CaseHeader.displayName = "Appeals";
-  let caseheaderConfigData = JSON.parse(
+  const caseHeaderConfigData = JSON.parse(
       process.env.REACT_APP_CASEHEADER_DETAILS);
 
   const {
@@ -68,7 +63,8 @@ const CaseHeader = () => {
     documentSectionDataRef,
     disableSaveAndExit,
     decisionTab,
-    setDecisionTab
+    setDecisionTab,
+    caseTimelinesErrors
   } = useCaseHeader();
 
   // const [memberInformation, setMemberInformation] = useState();
@@ -93,6 +89,7 @@ const CaseHeader = () => {
                     caseTimelinesData={caseTimelines}
                     setCaseTimelinesData={setCaseTimelines}
                     caseTimelinesValidationSchema={caseTimelinesValidationSchema}
+                    caseTimelinesErrors={caseTimelinesErrors}
                 />
                 <CaseInformationAccordion
                     caseInformationData={caseInformation}
@@ -128,11 +125,11 @@ const CaseHeader = () => {
                     setExpeditedRequestData={setExpeditedRequest}
                     expeditedRequestValidationSchema={expeditedRequestValidationSchema}
                 />
-                {prop.state.formView === "DashboardHomeView" && (
+                {location.state.formView === "DashboardHomeView" && (
                   <DocumentSection
                       fileDataRef={documentSectionDataRef.current}
                       displayName={CaseHeader.displayName}
-                      stageName={caseheaderConfigData["StageName"]}
+                      stageName={caseHeaderConfigData["StageName"]}
                   />
               )}
                
