@@ -10,7 +10,11 @@ import './Appeals.css';
 
 const CaseTimelinesAccordion = (props) => {
   let location = useLocation();
+  const caseHeaderConfigData = JSON.parse(process.env.REACT_APP_CASEHEADER_DETAILS || "{}");
+  const stageName = caseHeaderConfigData["StageName"];
+  console.log("stagename123-->",stageName)
   console.log("CaseTimelinesAccordion",location)
+  
   const {convertToCase, getDatePartOnly} = useGetDBTables();
   const masterAngCaseFilingMethodSelector = useSelector((state) => state?.masterAngCaseFilingMethod);
   const [caseTimelinesData, setCaseTimelinesData] = useState(props.caseTimelinesData || {});
@@ -125,7 +129,8 @@ const CaseTimelinesAccordion = (props) => {
                       location.state.stageName === "Resolve" ||
                       location.state.stageName === "Case Completed" ||
                       location.state.stageName === "Reopen" ||
-                      location.state.stageName === "CaseArchived")
+                      location.state.stageName === "CaseArchived") ||
+             (name === "Case_Received_Date" && location.state.stageName === "Documents Needed")
               }
           />
         </div>
@@ -145,7 +150,7 @@ const CaseTimelinesAccordion = (props) => {
                 isClearable
                 isDisabled={
                     location.state.formView === "DashboardView" &&
-                    (location.state.stageName === "Redirect Review" ||
+                    (   location.state.stageName === "Redirect Review" ||
                         location.state.stageName === "Documents Needed" ||
                         location.state.stageName === "Effectuate" ||
                         location.state.stageName === "Pending Effectuate" ||
@@ -200,8 +205,10 @@ const CaseTimelinesAccordion = (props) => {
   const [invalidInputState, setInvalidInputState] = useState(false);
 
   useEffect(() => {
-    setInvalidInputState(location.state.formView === "DashboardView" &&
-        (location.state.stageName === "Intake" ||
+    setInvalidInputState( location.state.formView === "DashboardView" &&
+        //  (location.state.formView === "DashboardView" || location.state.formView === "DashboardHomeView") &&
+          ( stageName === 'Start' ||
+            location.state.stageName === "Intake" ||
             location.state.stageName === "Acknowledge" ||
             location.state.stageName === "Redirect Review" ||
             location.state.stageName === "Documents Needed" ||

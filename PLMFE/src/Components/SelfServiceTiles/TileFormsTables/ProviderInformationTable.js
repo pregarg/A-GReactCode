@@ -39,6 +39,9 @@ export default function ProviderInformationTable({
     const masterAngMailToAddressSelector = useSelector((state) => state?.masterAngMailToAddress);
 
     let prop = useLocation();
+    const caseHeaderConfigData = JSON.parse(process.env.REACT_APP_CASEHEADER_DETAILS || "{}");
+  const stageName = caseHeaderConfigData["StageName"];
+  console.log("providerstagename@-->",stageName)
 
     let lineNumberOptions = [];
     let providerRoleValues = [];
@@ -744,8 +747,9 @@ export default function ProviderInformationTable({
                                 maxLength="50"
                                 title="Please Enter Valid Type"
                                 disabled={
-                                    prop.state.formView === "DashboardView" &&
-                                        (prop.state.stageName === "Intake" || prop.state.stageName === "Acknowledge" || prop.state.stageName === "Redirect Review" ||
+                                    (prop.state.formView === "DashboardView" || prop.state.formView=== "DashboardHomeView") &&
+                                    ( stageName === 'Start' ||
+                                    prop.state.stageName === "Intake" || prop.state.stageName === "Acknowledge" || prop.state.stageName === "Redirect Review" ||
                                             prop.state.stageName === "Documents Needed" || prop.state.stageName === "Research" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
                                         ? true
                                         : false

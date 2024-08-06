@@ -39,11 +39,10 @@ const MemberInformationAccordion = (props) => {
 
   useEffect(() => {
     setInvalidInputState(location.state.formView === "DashboardView" &&
-        (location.state.stageName === "Intake" ||
-            location.state.stageName === "Acknowledge" ||
+        (
+           
             location.state.stageName === "Redirect Review" ||
             location.state.stageName === "Documents Needed" ||
-            location.state.stageName === "Research" ||
             location.state.stageName === "Effectuate" ||
             location.state.stageName === "Pending Effectuate" ||
             location.state.stageName === "Resolve" ||
@@ -213,6 +212,7 @@ const MemberInformationAccordion = (props) => {
               disabled={
                   location.state.formView === "DashboardView" &&
                   (location.state.stageName === "Redirect Review" ||
+                    location.state.stageName === "Documents Needed" ||
                       location.state.stageName === "Effectuate" ||
                       location.state.stageName === "Pending Effectuate" ||
                       location.state.stageName === "Resolve" ||
@@ -412,7 +412,12 @@ const MemberInformationAccordion = (props) => {
         >
           <div className="accordion-body">
             <button type="button" className="btn btn-outline-primary"
-                    onClick={event => handleShowMemberSearch(event)}>Member Search
+                    onClick={event => handleShowMemberSearch(event)}
+                    disabled ={(location.state.stageName === "Redirect Review" || location.state.stageName === "Documents Needed"
+                      || location.state.stageName  === "CaseArchived"
+                    )}
+                    >Member Search
+                   
             </button>
             <div className="row my-2">
               <div className="col-xs-6 col-md-4">

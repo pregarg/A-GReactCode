@@ -555,22 +555,6 @@ const CaseClaimInformation = (props) => {
   const persistClaimInformationData = () => {
     props.setClaimInformationData(claimInformationData);
   }
-  const [invalidInputState, setInvalidInputState] = useState(false);
-
-  useEffect(() => {
-    setInvalidInputState(location.state.formView === "DashboardView" &&
-        (location.state.stageName === "Intake" ||
-            location.state.stageName === "Acknowledge" ||
-            location.state.stageName === "Redirect Review" ||
-            location.state.stageName === "Documents Needed" ||
-            location.state.stageName === "Research" ||
-            location.state.stageName === "Effectuate" ||
-            location.state.stageName === "Pending Effectuate" ||
-            location.state.stageName === "Resolve" ||
-            location.state.stageName === "Case Completed" ||
-            location.state.stageName === "Reopen" ||
-            location.state.stageName === "CaseArchived"))
-  }, [location]);
 
   const {ValueContainer, Placeholder} = components;
   const CustomValueContainer = ({children, ...props}) => {
@@ -609,7 +593,24 @@ const CaseClaimInformation = (props) => {
                       onChange={(event) => handleClaimInformationData(name, event.target.value)}
                       onBlur={persistClaimInformationData}
                       value={claimInformationData[name]}
-                      disabled={invalidInputState}
+                      disabled={(location.state.formView === "DashboardView" &&
+                        (
+                            ((location.state.stageName === "Redirect Review"|| location.state.stageName === "Documents Needed"
+                              || location.state.stageName === "Effectuate" || location.state.stageName === "Pending Effectuate" 
+                            ) &&
+                             (name === "Claim_Number" || name === "Authorization_Number")
+                            )||
+                            
+                            ((location.state.stageName === "Research") &&
+                             (name === "Payment_Method" || name === "Payment_Number" || name === "Effectuation_Notes" ||
+                               name === "Reason_Text"))||
+                            
+                            
+                            
+                            location.state.stageName === "Resolve" ||
+                            location.state.stageName === "Case Completed" ||
+                            location.state.stageName === "Reopen" ||
+                            location.state.stageName === "CaseArchived"))}
                   />
                   <label htmlFor="floatingInputGrid">
                     {wrapPlaceholder(name, placeholder)}
@@ -660,9 +661,13 @@ const CaseClaimInformation = (props) => {
               customInput={<CustomInput/>}
               disabled={
                   location.state.formView === "DashboardView" &&
-                  (location.state.stageName === "Redirect Review" ||
-                      location.state.stageName === "Effectuate" ||
-                      location.state.stageName === "Pending Effectuate" ||
+                  (((location.state.stageName === "Redirect Review" || location.state.stageName === "Documents Needed" 
+                    || location.state.stageName === "Effectuate" ||  location.state.stageName === "Pending Effectuate" 
+                  ) &&
+                  (name === "Service_Start_Date" ||name === "Service_End_Date" || name === "Original_Denial_Date"))||
+                  ((location.state.stageName === "Research" ) &&
+                  (name === "Claim_Adjusted_Date" ||name === "Payment_Date" || name === "Payment_Mail_Date_Postmark"))||
+                    
                       location.state.stageName === "Resolve" ||
                       location.state.stageName === "Case Completed" ||
                       location.state.stageName === "Reopen" ||
@@ -672,6 +677,11 @@ const CaseClaimInformation = (props) => {
         </div>
     )
   };
+  // const shouldDisplayField = (stageName) => {
+  //   console.log("caseclaiminformationstage--->",stageName)
+  //   const stagesToHideServiceType = ["Start","Intake"]; // Add other stages if needed
+  //   return !stagesToHideServiceType.includes(stageName);
+  // };
   const SelectField = (name, placeholder, options) => <>
     <Field name={name}>
       {({
@@ -686,10 +696,11 @@ const CaseClaimInformation = (props) => {
                 isClearable
                 isDisabled={
                     location.state.formView === "DashboardView" &&
-                    (location.state.stageName === "Redirect Review" ||
-                        location.state.stageName === "Documents Needed" ||
-                        location.state.stageName === "Effectuate" ||
-                        location.state.stageName === "Pending Effectuate" ||
+                    (((location.state.stageName === "Redirect Review"||location.state.stageName === "Documents Needed")
+                     && name === "Claim_type")||
+                     ((location.state.stageName === "Research") && (name === "Processing_Status"))||
+                       ((location.state.stageName === "Effectuate" )&& (name === "Claim_type"||name === "Service_Type"))||
+                        ((location.state.stageName === "Pending Effectuate")&& (name === "Claim_type"||name === "Service_Type")) ||
                         location.state.stageName === "Resolve" ||
                         location.state.stageName === "Case Completed" ||
                         location.state.stageName === "Reopen" ||
@@ -755,6 +766,10 @@ const CaseClaimInformation = (props) => {
               <button type="button"
                       className="btn btn-outline-primary"
                       onClick={event => handleShowClaimSearch(event)}
+                      disabled ={(location.state.stageName === "Redirect Review" || location.state.stageName === "Documents Needed"
+                        || location.state.stageName  === "CaseArchived"
+                      )}
+                      
               >Claim Search
               </button>
               <div className="row my-2">
@@ -782,6 +797,7 @@ const CaseClaimInformation = (props) => {
               <div className="row my-2">
                 <div className="col-xs-6 col-md-4">
                   {SelectField('Service_Type', 'Service Type', serviceTypeValues)}
+                 {/* {SelectField('Service_Type', 'Service Type', serviceTypeValues, shouldDisplayField(location.state.stageName))} */}
                 </div>
                 <div className="col-xs-6 col-md-4">
                   {DatePicker("Service_Start_Date", "Service Start Date", "Service Start Date")}
@@ -889,6 +905,10 @@ const CaseClaimInformation = (props) => {
               <button type="button"
                       className="btn btn-outline-primary"
                       onClick={event => handleShowProviderSearch(event)}
+                      disabled ={(location.state.stageName === "Redirect Review" || location.state.stageName === "Documents Needed"
+                        || location.state.stageName  === "CaseArchived"
+                      )}
+                      
               >Provider Search
               </button>
               <div className="row my-2">

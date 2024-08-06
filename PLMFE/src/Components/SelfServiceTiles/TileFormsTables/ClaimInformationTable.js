@@ -39,9 +39,10 @@ export default function ClaimInformationTable({
 
     const masterAngFiledTimelySelector = useSelector((state) => state?.masterAngFiledTimely);
     const masterAngGrantGoodCauseSelector = useSelector((state) => state?.masterAngGrantGoodCause);
-
+    const caseHeaderConfigData = JSON.parse(process.env.REACT_APP_CASEHEADER_DETAILS || "{}");
+    const claimStageName = caseHeaderConfigData["StageName"];
     let prop = useLocation();
-
+    console.log("prernaaa@@@", prop.state.stageName)
     let lineNumberOptions = [];
     let filedTimelyValues = [];
     let grantGoodCauseValues = [];    
@@ -393,9 +394,13 @@ export default function ClaimInformationTable({
                                 name="Filed_Timely"
                                 id="lineNumberDropDown"
                                 isDisabled={
-                                    prop.state.formView === "DashboardView" &&
-                                        (prop.state.stageName === "Intake" || prop.state.stageName === "Acknowledge" || prop.state.stageName === "Redirect Review" ||
-                                            prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                    ((prop.state.formView === "DashboardView" || prop.state.formView === "DashboardHomeView")  &&
+                                         ( claimStageName === "Start" ||
+                                            prop.state.stageName === "Intake" || prop.state.stageName === "Acknowledge" || prop.state.stageName === "Redirect Review" ||
+                                            prop.state.stageName === "Documents Needed" || 
+                                            prop.state.stageName === "Intake" ||
+                                            prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || 
+                                            prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived"))
                                         ? true
                                         : false
                                 }
@@ -425,8 +430,9 @@ export default function ClaimInformationTable({
                                 name="Grant_Good_Cause"
                                 id="lineNumberDropDown"
                                 isDisabled={
-                                    prop.state.formView === "DashboardView" &&
-                                        (prop.state.stageName === "Intake" || prop.state.stageName === "Acknowledge" || prop.state.stageName === "Redirect Review" ||
+                                    (prop.state.formView === "DashboardView" || prop.state.formView === "DashboardHomeView" ) &&
+                                    ( claimStageName === "Start" ||
+                                    prop.state.stageName === "Intake" || prop.state.stageName === "Acknowledge" || prop.state.stageName === "Redirect Review" ||
                                             prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
                                         ? true
                                         : false
@@ -453,9 +459,9 @@ export default function ClaimInformationTable({
                                 className="form-control"
                                 maxLength="50"
                                 title="Please Enter Valid Type"
-                                disabled={
-                                    prop.state.formView === "DashboardView" &&
-                                        (prop.state.stageName === "Intake" || prop.state.stageName === "Acknowledge" || prop.state.stageName === "Redirect Review" ||
+                                disabled={(prop.state.formView === "DashboardView" || prop.state.formView === "DashboardHomeView" ) &&
+                                    (claimStageName === "Start"||
+                                    prop.state.stageName === "Intake" || prop.state.stageName === "Acknowledge" || prop.state.stageName === "Redirect Review" ||
                                             prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
                                         ? true
                                         : false

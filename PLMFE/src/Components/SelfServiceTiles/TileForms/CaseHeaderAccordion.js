@@ -12,21 +12,23 @@ const CaseHeaderAccordion = (props) => {
     const headerFields = [
         [
             {key: 'Case ID', value: 'caseNumber'},
-            {key: 'Sub Case ID', value: 'Subcase_ID'},
+            //{key: 'Sub Case ID', value: 'Subcase_ID'},
             {key: 'Case Owner', value: 'Case_Owner'},
-        ],
-        [
             {key: 'Case Status', value: 'Case_Status'},
-            {key: 'Case Due Date', value: 'Case_Due_Date'},
-            {key: 'Extended Case Due Date', value: 'Extended_Case_Due_Date'},
-        ],
-        [
-            {key: 'Case Validation', value: 'Case_Validation'},
-            {key: 'Internal Due Date', value: 'Internal_Due_Date'},
-            {key: 'White Glove Indicator', value: 'White_Glove_Indicator'},
+            
         ],
         [
             {key: 'Case Received Date', value: 'Case_Received_Date#date'},
+            {key: 'Case Due Date', value: 'Case_Due_Date'},
+            {key: 'Internal Due Date', value: 'Internal_Due_Date'},
+        ],
+        [
+            {key: 'Case Validation', value: 'Case_Validation'},      
+            {key: 'Extended Case Due Date', value: 'Extended_Case_Due_Date'},
+            {key: 'White Glove Indicator', value: 'White_Glove_Indicator'},
+            
+        ],
+        [        
             {key: 'Environmental Description', value: 'Environmental_Description'},
         ],
     ];

@@ -23,6 +23,9 @@ const CaseInformationAccordion = (props) => {
 
 
   const location = useLocation();
+  const caseHeaderConfigData = JSON.parse(process.env.REACT_APP_CASEHEADER_DETAILS || "{}");
+  const stageName = caseHeaderConfigData["StageName"];
+  console.log("CaseInformationAccordion stagename-->",stageName)
 
   const [lobValues, setLobValues] = useState([]);
   const [appellantDescValues, setAppellantDescValues] = useState([]);
@@ -59,23 +62,6 @@ const CaseInformationAccordion = (props) => {
     const masterAng = masterAngSelector?.[0] || [];
     setReviewTypeValues(masterAng.map(e => e.Review_Type).map(kvMapper));
   }, []);
-
-  const [invalidInputState, setInvalidInputState] = useState(false);
-
-  useEffect(() => {
-    setInvalidInputState(location.state.formView === "DashboardView" &&
-        (location.state.stageName === "Intake" ||
-            location.state.stageName === "Acknowledge" ||
-            location.state.stageName === "Redirect Review" ||
-            location.state.stageName === "Documents Needed" ||
-            location.state.stageName === "Research" ||
-            location.state.stageName === "Effectuate" ||
-            location.state.stageName === "Pending Effectuate" ||
-            location.state.stageName === "Resolve" ||
-            location.state.stageName === "Case Completed" ||
-            location.state.stageName === "Reopen" ||
-            location.state.stageName === "CaseArchived"))
-  }, [location]);
 
   useEffect(() => {
     const { Product, Product_State, Line_of_Business_LOB } = caseInformationData;
@@ -118,6 +104,19 @@ const CaseInformationAccordion = (props) => {
     );
   };
   const InputField = (name, placeholder, maxLength) => {
+    const isDisabled = (location.state.formView === "DashboardView" || location.state.formView === "DashboardHomeView") &&
+           (((stageName === 'Start' || location.state.stageName === "Intake" || 
+            location.state.stageName === "Acknowledge" ) && 
+            (name === "Claim_Number" || name === "LOB_Description")) ||
+            location.state.stageName === "Redirect Review" ||
+            (location.state.stageName === "Documents Needed" && name === "Inbound_Email_ID")  ||
+            (location.state.stageName === "Research" && name === "Inbound_Email_ID" ) ||
+            location.state.stageName === "Effectuate" ||
+            location.state.stageName === "Pending Effectuate" ||
+            location.state.stageName === "Resolve" ||
+            location.state.stageName === "Case Completed" ||
+            location.state.stageName === "Reopen" ||
+            location.state.stageName === "CaseArchived")
     return (
         <>
           <Field name={name}>
@@ -141,7 +140,7 @@ const CaseInformationAccordion = (props) => {
                       onChange={(event) => handleCaseInformationData(name, event.target.value)}
                       onBlur={persistCaseInformationData}
                       value={caseInformationData[name]}
-                      disabled={invalidInputState}
+                      disabled={isDisabled}
                   />
                   <label htmlFor="floatingInputGrid">
                     {wrapPlaceholder(name, placeholder)}
@@ -175,6 +174,9 @@ const CaseInformationAccordion = (props) => {
                 isDisabled={
                     location.state.formView === "DashboardView" &&
                     (location.state.stageName === "Redirect Review" ||
+                     (location.state.stageName === "Research" && (name === "Line_of_Business_LOB"
+                      || name === "Product_State" || name === "Product")
+                     )||
                         location.state.stageName === "Documents Needed" ||
                         location.state.stageName === "Effectuate" ||
                         location.state.stageName === "Pending Effectuate" ||
