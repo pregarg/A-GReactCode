@@ -20,6 +20,7 @@ const selectStyle = {
   container: (provided, state) => ({
     ...provided,
     marginTop: 0,
+    borderRadius: "0.25rem"
   }),
   valueContainer: (provided, state) => {
     if (state.getValue()?.length && state.getValue()[0].label && state.getValue()[0].value) {
@@ -93,7 +94,7 @@ export const FormikSelectField = ({name, placeholder, options, disabled, data, o
                 }}
                 isClearable
                 isDisabled={disabled}
-                className={`form-control basic-multi-select ${errors[name] ? "is-invalid" : data[name] ? "is-valid" : ""}`}
+                className={`${errors[name] ? "is-invalid" : data[name] ? "is-valid" : ""}`}
                 options={options}
                 id={name}
                 isMulti={false}
@@ -110,7 +111,7 @@ export const FormikSelectField = ({name, placeholder, options, disabled, data, o
             {errors[name] && (
                 <div
                     className="invalid-feedback"
-                    style={{display: "block"}}
+                    style={{display: "block", fontSize: "12px"}}
                 >
                   {errors[name]}
                 </div>

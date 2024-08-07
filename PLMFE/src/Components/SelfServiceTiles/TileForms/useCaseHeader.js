@@ -136,39 +136,42 @@ export const useCaseHeader = () => {
     Acknowledgment_Timely: Yup.string().required("Case Acknowledgment Timely is mandatory"),
     Case_in_Compliance: Yup.string().required("Case in Compliance is mandatory"),
     Out_of_Compliance_Reason: Yup.string().required("Out of Compliance Reason is mandatory"),
-    Case_Received_Date: Yup.date().required("Case Received Date is mandatory"),
+    Case_Received_Date: Yup.date().required("Case Received Date is mandatory").max(new Date(), "Case Received  Date cannot be in future"),
     AOR_Received_Date: Yup.date().required("AOR Received Date is mandatory").max(new Date(), "AOR Received Date cannot be in future"),
     WOL_Received_Date: Yup.date().required("WOL Received Date is mandatory").max(new Date(), "WOL Received Date cannot be in future")
   });
   const caseInformationValidationSchema = Yup.object().shape({
     Line_of_Business_LOB: Yup.string().required("Line of Business is mandatory"),
-    LOB_Description: Yup.string().required(),
-    Product_State: Yup.string().required(),
-    Product: Yup.string().required(),
-    Product_Type: Yup.string().required(),
-    Appeal_Type: Yup.string().required(),
-    Appellant_Type: Yup.string().required(),
-    Review_Type: Yup.string().required(),
+    LOB_Description: Yup.string().required("LOB Description is mandatory"),
+    Product_State: Yup.string().required("Product State is mandatory"),
+    Product: Yup.string().required("Product is mandatory"),
+    Product_Type: Yup.string().required("Product Type is mandatory"),
+    Appeal_Type: Yup.string().required("Appeal Type is mandatory"),
+    Appellant_Type: Yup.string().required("Appellant Type is mandatory"),
+    Review_Type: Yup.string().required("Review Type is mandatory"),
   });
   const claimInformationValidationSchema = Yup.object().shape({
-    Payment_Method: Yup.string().required(),
-    Payment_Number: Yup.string().required(),
-    Effectuation_Notes: Yup.string().required(),
-    Claim_Adjusted_Date: Yup.date().required(),
-    Payment_Mail_Date_Postmark: Yup.date().required(),
+    Payment_Method: Yup.string().required("Payment Method is mandatory"),
+    Claim_Decision: Yup.string().required("Claim Decision is mandatory"),
+    Service_Type: Yup.string().required("Service_Type is mandatory"),
+    Decision_Reason: Yup.string().required("Decision Reason is mandatory"),
+    Payment_Number: Yup.string().required("Payment Number is mandatory"),
+    Effectuation_Notes: Yup.string().required("Effectuation Notes is mandatory"),
+    Claim_Adjusted_Date: Yup.date().required("Claim Adjusted Date is mandatory"),
+    Payment_Mail_Date_Postmark: Yup.date().required("Payment Mail Date Postmark is mandatory"),
   });
   const memberInformationValidationSchema = Yup.object().shape({});
   const expeditedRequestValidationSchema = Yup.object().shape({});
   const providerInformationValidationSchema = Yup.object().shape({
     Point_of_Contact: Yup.object().shape({
-      label: Yup.string().required(),
-      value: Yup.string().required(),
+      label: Yup.string().required("Point of Contact is mandatory"),
+      value: Yup.string().required("Point of Contact is mandatory"),
     }),
   });
   const authorizationInformationValidationSchema = Yup.object().shape({
     Issue_Number: Yup.object().shape({
-      label: Yup.string().required(),
-      value: Yup.string().required(),
+      label: Yup.string().required("Issue Number is mandatory"),
+      value: Yup.string().required("Issue Number is mandatory"),
     }),
   });
 
@@ -965,7 +968,8 @@ export const useCaseHeader = () => {
     callProcRef,
     hasSubmitError,
     documentSectionDataRef,
-    caseTimelinesErrors
+    caseTimelinesErrors,
+    caseInformationErrors,
     // disableSaveAndExit
     // decisionTab,
     // setDecisionTab

@@ -1,4 +1,4 @@
-import {React,useState}  from "react";
+import {React, useState} from "react";
 import {Formik} from "formik";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
@@ -64,7 +64,8 @@ const CaseHeader = () => {
     disableSaveAndExit,
     decisionTab,
     setDecisionTab,
-    caseTimelinesErrors
+    caseTimelinesErrors,
+    caseInformationErrors,
   } = useCaseHeader();
 
   // const [memberInformation, setMemberInformation] = useState();
@@ -83,7 +84,7 @@ const CaseHeader = () => {
                 <CaseHeaderAccordion
                     handleOnChange={handleCaseHeaderChange}
                     handleData={caseHeader}
-                    setCaseHeader ={setCaseHeader}
+                    setCaseHeader={setCaseHeader}
                 />
                 <CaseTimelinesAccordion
                     caseTimelinesData={caseTimelines}
@@ -95,6 +96,7 @@ const CaseHeader = () => {
                     caseInformationData={caseInformation}
                     setCaseInformationData={setCaseInformation}
                     caseInformationValidationSchema={caseInformationValidationSchema}
+                    caseInformationErrors={caseInformationErrors}
                 />
                 <CaseClaimInformation
                     claimInformationData={claimInformation}
@@ -126,13 +128,13 @@ const CaseHeader = () => {
                     expeditedRequestValidationSchema={expeditedRequestValidationSchema}
                 />
                 {location.state.formView === "DashboardHomeView" && (
-                  <DocumentSection
-                      fileDataRef={documentSectionDataRef.current}
-                      displayName={CaseHeader.displayName}
-                      stageName={caseHeaderConfigData["StageName"]}
-                  />
-              )}
-               
+                    <DocumentSection
+                        fileDataRef={documentSectionDataRef.current}
+                        displayName={CaseHeader.displayName}
+                        stageName={caseHeaderConfigData["StageName"]}
+                    />
+                )}
+
               </div>
             </div>
           </div>
