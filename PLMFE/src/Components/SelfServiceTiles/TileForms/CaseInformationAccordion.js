@@ -1,11 +1,10 @@
-import React, {useState, useEffect, useRef} from "react";
+import React, {useState, useEffect} from "react";
 import {useLocation} from "react-router-dom";
 import {useSelector} from "react-redux";
-import {Field, ErrorMessage} from "formik";
 import useGetDBTables from "../../CustomHooks/useGetDBTables";
-import Select, {components} from "react-select";
 import "./CaseHeader.css";
-import {selectStyle} from "./SelectStyle";
+import {FormikInputField} from "../Common/FormikInputField";
+import {FormikSelectField} from "../Common/FormikSelectField";
 
 const CaseInformationAccordion = (props) => {
   const {
@@ -19,13 +18,10 @@ const CaseInformationAccordion = (props) => {
   const caseLevelSelector = useSelector((state) => state?.masterAngCaseLevelPriority);
   const issueLevelSelector = useSelector((state) => state?.masterAngIssueLevel);
   const masterAngSelector = useSelector((state) => state?.masterAngReviewType);
- 
-
 
   const location = useLocation();
   const caseHeaderConfigData = JSON.parse(process.env.REACT_APP_CASEHEADER_DETAILS || "{}");
   const stageName = caseHeaderConfigData["StageName"];
-  console.log("CaseInformationAccordion stagename-->",stageName)
 
   const [lobValues, setLobValues] = useState([]);
   const [appellantDescValues, setAppellantDescValues] = useState([]);
@@ -64,7 +60,7 @@ const CaseInformationAccordion = (props) => {
   }, []);
 
   useEffect(() => {
-    const { Product, Product_State, Line_of_Business_LOB } = caseInformationData;
+    const {Product, Product_State, Line_of_Business_LOB} = caseInformationData;
     if (Product === "MEDICAID" && Product_State === "NC" && Line_of_Business_LOB === "NCD") {
       setCaseInformationData(prevData => ({
         ...prevData,
@@ -84,138 +80,54 @@ const CaseInformationAccordion = (props) => {
     props.setCaseInformationData(caseInformationData);
   }
 
-  const wrapPlaceholder = (name, placeholder) => {
-    const field = props.caseInformationValidationSchema?.fields?.[name];
-    const required = (field?.type === 'date' && field?.internalTests?.optionality) ||
-        (field?.tests?.some(test => test.OPTIONS?.name === 'required'));
-    return `${placeholder}${required ? ' *' : ''}`;
-  };
-  const {ValueContainer, Placeholder} = components;
-  const CustomValueContainer = ({children, ...props}) => {
-    return (
-        <ValueContainer {...props}>
-          <Placeholder {...props} isFocused={props.isFocused}>
-            {wrapPlaceholder(props.selectProps.name, props.selectProps.placeholder)}
-          </Placeholder>
-          {React.Children.map(children, (child) =>
-              child && child.type !== Placeholder ? child : null
-          )}
-        </ValueContainer>
-    );
-  };
-  const InputField = (name, placeholder, maxLength) => {
-    const isDisabled = (location.state.formView === "DashboardView" || location.state.formView === "DashboardHomeView") &&
-           (((stageName === 'Start' || location.state.stageName === "Intake" || 
-            location.state.stageName === "Acknowledge" ) && 
-            (name === "Claim_Number" || name === "LOB_Description")) ||
-            location.state.stageName === "Redirect Review" ||
-            (location.state.stageName === "Documents Needed" && name === "Inbound_Email_ID")  ||
-            (location.state.stageName === "Research" && name === "Inbound_Email_ID" ) ||
-            location.state.stageName === "Effectuate" ||
-            location.state.stageName === "Pending Effectuate" ||
-            location.state.stageName === "Resolve" ||
-            location.state.stageName === "Case Completed" ||
-            location.state.stageName === "Reopen" ||
-            location.state.stageName === "CaseArchived")
-    return (
-        <>
-          <Field name={name}>
-            {({
-                field,
-                meta,
-              }) => (
-                <div className="form-floating">
-                  <input
-                      maxLength={maxLength}
-                      type="text"
-                      id={name}
-                      autoComplete="off"
-                      className={`form-control ${meta.error
-                          ? "is-invalid"
-                          : field.value
-                              ? "is-valid"
-                              : ""
-                      }`}
-                      placeholder={wrapPlaceholder(name, placeholder)}
-                      onChange={(event) => handleCaseInformationData(name, event.target.value)}
-                      onBlur={persistCaseInformationData}
-                      value={caseInformationData[name]}
-                      disabled={isDisabled}
-                  />
-                  <label htmlFor="floatingInputGrid">
-                    {wrapPlaceholder(name, placeholder)}
-                  </label>
-                  {meta.error && (
-                      <div
-                          className="invalid-feedback"
-                          style={{display: "block"}}
-                      >
-                        {meta.error}
-                      </div>
-                  )}
-                </div>
-            )}
-          </Field>
-        </>
-    )
-  }
-  const SelectField = (name, placeholder, options) => <>
-    <Field name={name}>
-      {({
-          meta,
-        }) => (
-          <div className="form-floating">
-            <Select
-                styles={{...selectStyle}}
-                components={{
-                  ValueContainer: CustomValueContainer,
-                }}
-                isClearable
-                isDisabled={
-                    location.state.formView === "DashboardView" &&
-                    (location.state.stageName === "Redirect Review" ||
-                     (location.state.stageName === "Research" && (name === "Line_of_Business_LOB"
-                      || name === "Product_State" || name === "Product")
-                     )||
-                        location.state.stageName === "Documents Needed" ||
-                        location.state.stageName === "Effectuate" ||
-                        location.state.stageName === "Pending Effectuate" ||
-                        location.state.stageName === "Resolve" ||
-                        location.state.stageName === "Case Completed" ||
-                        location.state.stageName === "Reopen" ||
-                        location.state.stageName === "CaseArchived")
-                }
-                className="basic-multi-select"
-                options={options}
-                id={name}
-                isMulti={false}
-                onChange={(value) => handleCaseInformationData(name, value?.value, true)}
-                value={caseInformationData[name] ? {
-                  label: caseInformationData[name],
-                  value: caseInformationData[name]
-                } : undefined}
-                placeholder={wrapPlaceholder(name, placeholder)}
-                isSearchable={
-                    document.documentElement.clientHeight <= document.documentElement.clientWidth
-                }
-            />
-            {meta.touched && meta.error && (
-                <div
-                    className="invalid-feedback"
-                    style={{display: "block"}}
-                >
-                  {meta.error}
-                </div>
-            )}
-          </div>
-      )}
-    </Field>
-    <ErrorMessage
-        component="div"
-        name={name}
-        className="invalid-feedback"
-    />
-  </>
+  const renderInputField = (name, placeholder, maxLength) => (
+      <div className="col-xs-6 col-md-4">
+        <FormikInputField name={name}
+                          placeholder={placeholder}
+                          maxLength={maxLength}
+                          data={caseInformationData}
+                          onChange={handleCaseInformationData}
+                          disabled={(location.state.formView === "DashboardView" || location.state.formView === "DashboardHomeView") &&
+                              (((stageName === 'Start' || location.state.stageName === "Intake" ||
+                                          location.state.stageName === "Acknowledge") &&
+                                      (name === "Claim_Number" || name === "LOB_Description")) ||
+                                  location.state.stageName === "Redirect Review" ||
+                                  (location.state.stageName === "Documents Needed" && name === "Inbound_Email_ID") ||
+                                  (location.state.stageName === "Research" && name === "Inbound_Email_ID") ||
+                                  location.state.stageName === "Effectuate" ||
+                                  location.state.stageName === "Pending Effectuate" ||
+                                  location.state.stageName === "Resolve" ||
+                                  location.state.stageName === "Case Completed" ||
+                                  location.state.stageName === "Reopen" ||
+                                  location.state.stageName === "CaseArchived")}
+                          persist={persistCaseInformationData}
+                          schema={props.caseInformationValidationSchema}
+                          errors={props.caseInformationErrors}/>
+      </div>
+  )
+  const renderSelectField = (name, placeholder, options) => (
+      <div className="col-xs-6 col-md-4">
+        <FormikSelectField name={name}
+                           placeholder={placeholder}
+                           data={caseInformationData}
+                           options={options}
+                           onChange={handleCaseInformationData}
+                           disabled={location.state.formView === "DashboardView" &&
+                               (location.state.stageName === "Redirect Review" ||
+                                   (location.state.stageName === "Research" && (name === "Line_of_Business_LOB"
+                                           || name === "Product_State" || name === "Product")
+                                   ) ||
+                                   location.state.stageName === "Documents Needed" ||
+                                   location.state.stageName === "Effectuate" ||
+                                   location.state.stageName === "Pending Effectuate" ||
+                                   location.state.stageName === "Resolve" ||
+                                   location.state.stageName === "Case Completed" ||
+                                   location.state.stageName === "Reopen" ||
+                                   location.state.stageName === "CaseArchived")}
+                           schema={props.caseInformationValidationSchema}
+                           errors={props.caseInformationErrors}/>
+      </div>
+  )
 
   return (
       <div className="accordion-item" id="caseInformationData">
@@ -241,74 +153,42 @@ const CaseInformationAccordion = (props) => {
         >
           <div className="accordion-body">
             <div className="row my-2">
-              <div className="col-xs-6 col-md-4">
-                {SelectField('Line_of_Business_LOB', 'Line of Business', lobValues)}
-              </div>
-              <div className="col-xs-6 col-md-4">
-                {InputField("LOB_Description", "LOB Description", 300)}
-              </div>
-              <div className="col-xs-6 col-md-4">
-                {InputField("Claim_Number", "Claim Number", 16)}
-              </div>
+              {renderSelectField('Line_of_Business_LOB', 'Line of Business', lobValues)}
+              {renderInputField("LOB_Description", "LOB Description", 300)}
+              {renderInputField("Claim_Number", "Claim Number", 16)}
             </div>
             <div className="row my-2">
-              <div className="col-xs-6 col-md-4">
-                {SelectField('Product', 'Product', productValues)}
-              </div>
-              <div className="col-xs-6 col-md-4">
-                {SelectField('Product_Type', 'Product Type', [
-                  {label: "USER", value: "USER"}
-                ])}
-              </div>
-              <div className="col-xs-6 col-md-4">
-                {SelectField('Product_State', 'Product State', productStateValues)}
-              </div>
+              {renderSelectField('Product', 'Product', productValues)}
+              {renderSelectField('Product_Type', 'Product Type', [
+                {label: "USER", value: "USER"}
+              ])}
+              {renderSelectField('Product_State', 'Product State', productStateValues)}
             </div>
             <div className="row my-2">
-              <div className="col-xs-6 col-md-4">
-                {SelectField('Appellant_Description', 'Appellant Description', appellantDescValues)}
-              </div>
-              <div className="col-xs-6 col-md-4">
-                {SelectField('Appellant_Type', 'Appellant Type', appellantTypeValues)}
-              </div>
-              <div className="col-xs-6 col-md-4">
-                {SelectField('Appeal_Type', 'Appeal Type', appealTypeValues)}
-              </div>
+              {renderSelectField('Appellant_Description', 'Appellant Description', appellantDescValues)}
+              {renderSelectField('Appellant_Type', 'Appellant Type', appellantTypeValues)}
+              {renderSelectField('Appeal_Type', 'Appeal Type', appealTypeValues)}
             </div>
             <div className="row my-2">
-              <div className="col-xs-6 col-md-4">
-                {SelectField('Issue_Level', 'Issue Level', issueLevelValues)}
-              </div>
-              <div className="col-xs-6 col-md-4">
-                {InputField("Issue_Description", "Issue Description", 4000)}
-              </div>
-              <div className="col-xs-6 col-md-4">
-                {SelectField('Case_Level_Priority', 'Case Level Priority', caseLevelPriorityValues)}
-              </div>
+              {renderSelectField('Issue_Level', 'Issue Level', issueLevelValues)}
+              {renderInputField("Issue_Description", "Issue Description", 4000)}
+              {renderSelectField('Case_Level_Priority', 'Case Level Priority', caseLevelPriorityValues)}
             </div>
             <div className="row my-2">
-              <div className="col-xs-6 col-md-4">
-                {SelectField('Review_Type', 'Review Type', reviewTypeValues)}
-              </div>
-              <div className="col-xs-6 col-md-4">
-                {SelectField('Denial_Type', 'Denial Type', [
-                  {label: "USER", value: "USER"}
-                ])}
-              </div>
-              <div className="col-xs-6 col-md-4">
-                {SelectField('Research_Type', 'Research Type', [
-                  {label: "USER", value: "USER"}
-                ])}
-              </div>
+              {renderSelectField('Review_Type', 'Review Type', reviewTypeValues)}
+              {renderSelectField('Denial_Type', 'Denial Type', [
+                {label: "USER", value: "USER"}
+              ])}
+              {renderSelectField('Research_Type', 'Research Type', [
+                {label: "USER", value: "USER"}
+              ])}
             </div>
             <div className="row">
-              <div className="col-xs-6 col-md-4">
-                {InputField("Inbound_Email_ID", "Inbound Email ID", 4000)}
-              </div>
+              {renderInputField("Inbound_Email_ID", "Inbound Email ID", 4000)}
             </div>
             <div className="row my-2"></div>
             <div className="case Collobaration">
-              <p className="collobarationheader">Case Collabaration</p>
+              <p className="collobarationheader">Case Collaboration</p>
               <div className="row my-2">
                 <div className="col-xs-6 col-md-4">
                   <p className="prevcase">Previous Case</p>

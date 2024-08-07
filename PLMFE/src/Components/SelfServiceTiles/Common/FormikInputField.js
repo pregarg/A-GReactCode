@@ -31,7 +31,7 @@ export const FormikInputField = ({name, placeholder, maxLength, disabled, data, 
                 {errors[name] && (
                     <div
                         className="invalid-feedback"
-                        style={{display: "block"}}
+                        style={{display: "block", fontSize: "12px"}}
                     >
                       {errors[name]}
                     </div>
