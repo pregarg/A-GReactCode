@@ -17,6 +17,7 @@ import {selectStyle} from "./SelectStyle";
 import caseClaimInformation from "./CaseClaimInformation";
 
 const CaseClaimInformation = (props) => {
+
   const {
     convertToCase,
     checkGridJsonLength,
@@ -677,11 +678,7 @@ const CaseClaimInformation = (props) => {
         </div>
     )
   };
-  // const shouldDisplayField = (stageName) => {
-  //   console.log("caseclaiminformationstage--->",stageName)
-  //   const stagesToHideServiceType = ["Start","Intake"]; // Add other stages if needed
-  //   return !stagesToHideServiceType.includes(stageName);
-  // };
+  
   const SelectField = (name, placeholder, options) => <>
     <Field name={name}>
       {({
@@ -738,6 +735,62 @@ const CaseClaimInformation = (props) => {
     />
   </>
 
+
+  // const visibilityMapping = {
+  //   Intake: ['Claim_Decision', 'Service_Type'],
+  // }
+  // const isFieldVisible = (fieldName, stageName) => {
+  //   return !visibilityMapping[stageName]?.includes(fieldName);
+  // };
+  // // const SelectField = (name, placeholder, options, isVisible) => 
+  //   isVisible ? (
+  //     <>
+  //       <Field name={name}>
+  //         {({ meta }) => (
+  //           <div className="form-floating">
+  //             <Select
+  //               styles={{ ...selectStyle }}
+  //               components={{
+  //                 ValueContainer: CustomValueContainer,
+  //               }}
+  //               isClearable
+  //               isDisabled={
+  //                 location.state.formView === "DashboardView" &&
+  //                 (((location.state.stageName === "Redirect Review" || location.state.stageName === "Documents Needed") && name === "Claim_type") ||
+  //                   ((location.state.stageName === "Research") && (name === "Processing_Status")) ||
+  //                   ((location.state.stageName === "Effectuate") && (name === "Claim_type" || name === "Service_Type")) ||
+  //                   ((location.state.stageName === "Pending Effectuate") && (name === "Claim_type" || name === "Service_Type")) ||
+  //                   location.state.stageName === "Resolve" ||
+  //                   location.state.stageName === "Case Completed" ||
+  //                   location.state.stageName === "Reopen" ||
+  //                   location.state.stageName === "CaseArchived")
+  //               }
+  //               className="basic-multi-select"
+  //               options={options}
+  //               id={name}
+  //               isMulti={false}
+  //               onChange={(value) => handleClaimInformationData(name, value?.value, true)}
+  //               value={claimInformationData[name] ? {
+  //                 label: claimInformationData[name],
+  //                 value: claimInformationData[name]
+  //               } : undefined}
+  //               placeholder={wrapPlaceholder(name, placeholder)}
+  //               isSearchable={
+  //                 document.documentElement.clientHeight <= document.documentElement.clientWidth
+  //               }
+  //             />
+  //             {meta.touched && meta.error && (
+  //               <div className="invalid-feedback" style={{ display: "block" }}>
+  //                 {meta.error}
+  //               </div>
+  //             )}
+  //           </div>
+  //         )}
+  //       </Field>
+  //       <ErrorMessage component="div" name={name} className="invalid-feedback" />
+  //     </>
+  //   ) : null;
+  
   return (
       <div>
         <div className="accordion-item" id="claimInformation">
@@ -797,7 +850,7 @@ const CaseClaimInformation = (props) => {
               <div className="row my-2">
                 <div className="col-xs-6 col-md-4">
                   {SelectField('Service_Type', 'Service Type', serviceTypeValues)}
-                 {/* {SelectField('Service_Type', 'Service Type', serviceTypeValues, shouldDisplayField(location.state.stageName))} */}
+      
                 </div>
                 <div className="col-xs-6 col-md-4">
                   {DatePicker("Service_Start_Date", "Service Start Date", "Service Start Date")}
