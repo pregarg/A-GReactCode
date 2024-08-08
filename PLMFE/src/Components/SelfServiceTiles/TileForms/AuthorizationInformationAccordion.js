@@ -21,7 +21,9 @@ const AuthorizationInformationAccordion = (props) => {
         getDatePartOnly,
         acceptNumbersOnly
     } = useGetDBTables();
-
+    const caseHeaderConfigData = JSON.parse(process.env.REACT_APP_CASEHEADER_DETAILS || "{}");
+    const stageName = caseHeaderConfigData["StageName"];
+    
     const {customAxios: axios} = useAxios();
     const token = useSelector((state) => state.auth.token);
     const { getRowNumberForGrid } = useUpdateDecision();
@@ -447,7 +449,7 @@ const AuthorizationInformationAccordion = (props) => {
         });
         return returnArray;
     };
-
+    console.log("auth@@@123-->",prop.state.stageName)
     return (
         <div>
             <div className="accordion-item" id="claimInformation">
@@ -477,9 +479,16 @@ const AuthorizationInformationAccordion = (props) => {
                     disabled ={(prop.state.stageName === "Redirect Review" || prop.state.stageName === "Documents Needed"
                         || prop.state.stageName  === "CaseArchived"
                       )}
-                        >Auth Search</button>         
+                        >Auth Search</button>    
+
                         <div className="row my-2">
-                            <div className="col-xs-6 col-md-4">
+                        { (prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" ||
+                           prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" ||
+                           prop.state.stageName === "Reopen" || prop.state.stageName === "Research" 
+                        ) 
+    
+                        && (
+                        <div className="col-xs-6 col-md-4">
                                 <Field name="authdecision">
                                     {({
                                         field,
@@ -508,7 +517,7 @@ const AuthorizationInformationAccordion = (props) => {
                                             options={authorizationDecisionValues} 
                                             name="authdecision"
                                             id="authdecision"
-                                            disabled={
+                                            isDisabled={
                                                 prop.state.formView === "DashboardView" &&
                                                     (prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || 
                                                         prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || 
@@ -516,6 +525,7 @@ const AuthorizationInformationAccordion = (props) => {
                                                     ? true
                                                     : false
                                             }
+                                            
                                             className="basic-multi-select"
                                             isClearable
                                             placeholder={wrapPlaceholder("authdecision", "Authorization Decision")}
@@ -538,6 +548,16 @@ const AuthorizationInformationAccordion = (props) => {
                                     className="invalid-feedback"
                                 />
                             </div>
+                            )}
+
+                            
+                        { (prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" ||
+                           prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" ||
+                           prop.state.stageName === "Reopen" || prop.state.stageName === "Research" ||
+                           prop.state.stageName === "CaseArchived"
+                        ) 
+    
+                        && (
                             <div className="col-xs-6 col-md-4">
                                 <Field name="authdecisionreason">
                                     {({
@@ -561,7 +581,7 @@ const AuthorizationInformationAccordion = (props) => {
                                             options={authorizationDecisionReasonValues}
                                             name = "authdecisionreason"
                                             id="authdecisionreason"
-                                            disabled={
+                                            isDisabled={
                                                 prop.state.formView === "DashboardView" &&
                                                     (prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" ||
                                                          prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" ||
@@ -591,7 +611,9 @@ const AuthorizationInformationAccordion = (props) => {
                                     className="invalid-feedback"
                                 />
                             </div>
+                             )}
                         </div>
+                               
                         <div className="row">
                             <div className="col-xs-6 col-md-12">
                                 <AuthorizationInformationTable

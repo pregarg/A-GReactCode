@@ -56,6 +56,12 @@ const CaseClaimInformation = (props) => {
   const masterAngProcessingStatusSelector = useSelector(state => state?.masterAngProcessingStatus);
 
 
+  const caseHeaderConfigData = JSON.parse(process.env.REACT_APP_CASEHEADER_DETAILS || "{}");
+  const stageName = caseHeaderConfigData["StageName"];
+
+  const excludedStages = ["Start","Intake", "Acknowledge", "Redirect Review", "Documents Needed"];
+  const shouldHideFields = !excludedStages.includes(location.state.stageName||stageName);
+
   const handleShowClaimSearch = () => {
     setShowClaimSearch(true);
   }
@@ -680,6 +686,7 @@ const CaseClaimInformation = (props) => {
   };
   
   const SelectField = (name, placeholder, options) => <>
+  
     <Field name={name}>
       {({
           meta,
@@ -742,7 +749,7 @@ const CaseClaimInformation = (props) => {
   // const isFieldVisible = (fieldName, stageName) => {
   //   return !visibilityMapping[stageName]?.includes(fieldName);
   // };
-  // // const SelectField = (name, placeholder, options, isVisible) => 
+  // const SelectField = (name, placeholder, options, isVisible) => 
   //   isVisible ? (
   //     <>
   //       <Field name={name}>
@@ -832,62 +839,85 @@ const CaseClaimInformation = (props) => {
                 <div className="col-xs-6 col-md-4">
                   {InputField("Claim_Number", "Claim Number", 16)}
                 </div>
+               
                 <div className="col-xs-6 col-md-4">
-                  {DatePicker("Claim_Adjusted_Date", "Claim Adjusted Date", "Claim Adjusted Date")}
+                  {InputField("Authorization_Number", "Authorization Number", 9)}
                 </div>
               </div>
               <div className="row my-2">
-                <div className="col-xs-6 col-md-4">
-                  {SelectField('Claim_Decision', 'Claim Decision', decisionValues)}
-                </div>
-                <div className="col-xs-6 col-md-4">
-                  {SelectField('Decision_Reason', 'Decision Reason', decisionReasonValues)}
-                </div>
-                <div className="col-xs-6 col-md-4">
-                  {InputField("Reason_Text", "Reason Text", 4000)}
-                </div>
-              </div>
-              <div className="row my-2">
-                <div className="col-xs-6 col-md-4">
-                  {SelectField('Service_Type', 'Service Type', serviceTypeValues)}
-      
-                </div>
-                <div className="col-xs-6 col-md-4">
+              <div className="col-xs-6 col-md-4">
                   {DatePicker("Service_Start_Date", "Service Start Date", "Service Start Date")}
                 </div>
                 <div className="col-xs-6 col-md-4">
                   {DatePicker("Service_End_Date", "Service End Date", "Service End Date")}
-                </div>
-              </div>
-              <div className='row my-2'>
-                <div className="col-xs-6 col-md-4">
-                  {InputField("Authorization_Number", "Authorization Number", 9)}
-                </div>
-                <div className="col-xs-6 col-md-4">
-                  {SelectField('Processing_Status', 'Processing Status', processingStatusValues)}
                 </div>
                 <div className="col-xs-6 col-md-4">
                   {DatePicker("Original_Denial_Date", "Original Denial Date", "Original Denial Date")}
                 </div>
               </div>
               <div className='row my-2'>
-                <div className="col-xs-6 col-md-4">
-                  {InputField("Payment_Method", "Payment Method", 30)}
+
+              {shouldHideFields && (
+              <div className="col-xs-6 col-md-4">
+                  {DatePicker("Claim_Adjusted_Date", "Claim Adjusted Date", "Claim Adjusted Date")}
                 </div>
+              )}
+              {shouldHideFields && (
                 <div className="col-xs-6 col-md-4">
-                  {InputField("Payment_Number", "Payment Number", 50)}
+                  {InputField("Reason_Text", "Reason Text", 4000)}
                 </div>
+              )}
+              {shouldHideFields && (
                 <div className="col-xs-6 col-md-4">
-                  {DatePicker("Payment_Date", "Payment Date", "Payment Date")}
+                  {SelectField('Processing_Status', 'Processing Status', processingStatusValues)}
                 </div>
+              )}
               </div>
               <div className="row my-2">
+              {shouldHideFields && (
                 <div className="col-xs-6 col-md-4">
                   {DatePicker("Payment_Mail_Date_Postmark", "Payment Mail Date Postmark", "Payment Mail Date Postmark")}
                 </div>
+              )}
+              {shouldHideFields && (
                 <div className="col-xs-6 col-md-4">
                   {InputField("Effectuation_Notes", "Effectuation Notes", 4000)}
                 </div>
+              )}
+              {shouldHideFields && (
+                <div className="col-xs-6 col-md-4">
+                  {SelectField('Decision_Reason', 'Decision Reason', decisionReasonValues)}
+                </div>
+              )}
+              </div>
+              <div className='row my-2'>
+              {shouldHideFields && (
+                <div className="col-xs-6 col-md-4">
+                  {InputField("Payment_Method", "Payment Method", 30)}
+                </div>
+              )}
+              {shouldHideFields && (
+                <div className="col-xs-6 col-md-4">
+                  {InputField("Payment_Number", "Payment Number", 50)}
+                </div>
+              )}
+              {shouldHideFields && (
+                <div className="col-xs-6 col-md-4">
+                  {DatePicker("Payment_Date", "Payment Date", "Payment Date")}
+                </div>
+              )}
+              </div>
+              <div className="row my-2">
+              {shouldHideFields && (
+                <div className="col-xs-6 col-md-4">
+                  {SelectField('Claim_Decision', 'Claim Decision', decisionValues)}
+                </div>
+              )}
+               {shouldHideFields && location.state.stageName === "Research" && (
+                <div className="col-xs-6 col-md-4">
+                  {SelectField('Service_Type', 'Service Type', serviceTypeValues)}
+                </div>
+               )}
               </div>
               <div className="row">
                 <div className="col-xs-6 col-md-12">
