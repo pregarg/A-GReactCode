@@ -36,6 +36,7 @@ const CaseTimelinesAccordion = (props) => {
                           maxLength={maxLength}
                           data={caseTimelinesData}
                           onChange={handleCaseTimelinesData}
+                          displayErrors={props.shouldShowSubmitError}
                           disabled={ ((location.state.formView === "DashboardView" || location.state.formView === "DashboardHomeView") &&
                             ((stageName === 'Start' && (name !== "Acknowledgment_Timely" 
                               && name !== "Case_in_Compliance" && name !== "Out_of_Compliance_Reason"
@@ -63,6 +64,7 @@ const CaseTimelinesAccordion = (props) => {
                           data={caseTimelinesData}
                           label={label}
                           onChange={handleCaseTimelinesData}
+                          displayErrors={props.shouldShowSubmitError}
                           disabled={location.state.formView === "DashboardView" &&
                               (location.state.stageName === "Redirect Review" ||
                                   location.state.stageName === "Effectuate" ||
@@ -83,6 +85,7 @@ const CaseTimelinesAccordion = (props) => {
                            data={caseTimelinesData}
                            options={options}
                            onChange={handleCaseTimelinesData}
+                           displayErrors={props.shouldShowSubmitError}
                            disabled={location.state.formView === "DashboardView" &&
                                (location.state.stageName === "Redirect Review" ||
                                    location.state.stageName === "Documents Needed" ||

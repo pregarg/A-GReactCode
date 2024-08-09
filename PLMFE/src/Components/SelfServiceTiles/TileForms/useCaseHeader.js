@@ -8,7 +8,9 @@ import useUpdateDecision from "../../CustomHooks/useUpdateDecision";
 import _ from "lodash";
 
 export const useCaseHeader = () => {
+  const location = useLocation();
   const [hasSubmitError, setHasSubmitError] = useState(true);
+  const [shouldShowSubmitError, setShowSubmitError] = useState(false);
   const {fileUpDownAxios} = useAxios();
   let documentSectionDataRef = useRef([]);
   const authSelector = useSelector((state) => state.auth);
@@ -131,6 +133,21 @@ export const useCaseHeader = () => {
   const [providerInformationGrid, setProviderInformationGrid] = useState([]);
   const [authorizationInformationGrid, setAuthorizationInformationGrid] = useState([]);
 
+  const conditionalActivateOnStage = (stages, errorMessage) =>
+      stages.includes(location.state?.stageName?.toLowerCase())
+          ? Yup.string().notRequired()
+          : Yup.string().required(errorMessage)
+  const conditionalString = (dependsOn, valueEquals, validationMsg) => (
+      Yup.string().when(dependsOn, {
+        is: value => value === valueEquals,
+        then: schema => schema.required(validationMsg),
+        otherwise: schema => schema.notRequired()
+      })
+  )
+
+  const pair1 = ["intake", "acknowledge", "re-direct review", "documents needed"];
+  const pair2 = ["intake", "acknowledge", "re-direct review", "documents needed", "research"];
+
   const caseTimelinesValidationSchema = Yup.object().shape({
     Case_Filing_Method: Yup.string().required("Case Filing Method is mandatory"),
     Acknowledgment_Timely: Yup.string().required("Case Acknowledgment Timely is mandatory"),
@@ -151,16 +168,20 @@ export const useCaseHeader = () => {
     Review_Type: Yup.string().required("Review Type is mandatory"),
   });
   const claimInformationValidationSchema = Yup.object().shape({
-    Payment_Method: Yup.string().required("Payment Method is mandatory"),
-    Claim_Decision: Yup.string().required("Claim Decision is mandatory"),
-    Service_Type: Yup.string().required("Service_Type is mandatory"),
-    Decision_Reason: Yup.string().required("Decision Reason is mandatory"),
-    Payment_Number: Yup.string().required("Payment Number is mandatory"),
-    Effectuation_Notes: Yup.string().required("Effectuation Notes is mandatory"),
-    Claim_Adjusted_Date: Yup.date().required("Claim Adjusted Date is mandatory"),
+    Payment_Method: conditionalActivateOnStage(pair1,"Payment Method is mandatory"),
+    Claim_Decision: conditionalActivateOnStage(pair1, "Claim Decision is mandatory"),
+    Service_Type: conditionalActivateOnStage(pair2, "Service Type is mandatory"),
+    Reason_Text: conditionalString('Processing_Status', 'NOT ADJUSTED', "Reason Text is mandatory"),
+    Decision_Reason: conditionalActivateOnStage(pair1, "Decision Reason is mandatory"),
+    Payment_Number: conditionalActivateOnStage(pair1, "Payment Number is mandatory"),
+    Effectuation_Notes: conditionalActivateOnStage(pair1, "Effectuation Notes is mandatory"),
+    Claim_Adjusted_Date: conditionalActivateOnStage(pair1, "Claim Adjusted Date is mandatory"),
     Payment_Mail_Date_Postmark: Yup.date().required("Payment Mail Date Postmark is mandatory"),
   });
-  const memberInformationValidationSchema = Yup.object().shape({});
+  const memberInformationValidationSchema = Yup.object().shape({
+    Email_ID: conditionalString('Communication_Preference', 'EMAIL', "Email ID is mandatory"),
+    Fax_Number: conditionalString('Communication_Preference', 'FAX', "Fax Number is mandatory"),
+  });
   const expeditedRequestValidationSchema = Yup.object().shape({});
   const providerInformationValidationSchema = Yup.object().shape({
     Point_of_Contact: Yup.object().shape({
@@ -193,7 +214,7 @@ export const useCaseHeader = () => {
   }
 
   useEffect(() => {
-    Promise.all([
+    /*Promise.all([
       caseTimelinesValidationSchema.validate(caseTimelines, {abortEarly: false}),
       caseInformationValidationSchema.validate(caseInformation),
       claimInformationValidationSchema.validate(claimInformation),
@@ -209,7 +230,7 @@ export const useCaseHeader = () => {
         else reject(true);
       }),
       ...authorizationInformationGrid.map(e => authorizationInformationValidationSchema.validate(e))
-    ]).then(() => setHasSubmitError(false)).catch((err) => setHasSubmitError(true));
+    ]).then(() => setHasSubmitError(false)).catch((err) => setHasSubmitError(true));*/
 
     validateSync(caseTimelinesValidationSchema, caseTimelines, setCaseTimelinesErrors);
     validateSync(caseInformationValidationSchema, caseInformation, setCaseInformationErrors);
@@ -220,7 +241,22 @@ export const useCaseHeader = () => {
   }, [caseTimelines, caseInformation, claimInformation, memberInformation,
     expeditedRequest, providerInformationGrid, authorizationInformationGrid]);
 
-  const location = useLocation();
+  useEffect(() => {
+    setHasSubmitError(
+        Object.keys({
+          ...caseTimelinesErrors,
+          ...caseInformationErrors,
+          ...claimInformationErrors,
+          ...memberInformationErrors,
+          ...expeditedRequestErrors
+        }).length > 0);
+  }, [
+    caseTimelinesErrors,
+    caseInformationErrors,
+    claimInformationErrors,
+    memberInformationErrors,
+    expeditedRequestErrors
+  ]);
   const [disableSaveAndExit, setDisableSaveAndExit] = useState(true);
   const [authorizationInformation, setAuthorizationInformation] = useState({
     Authorization_Decision: "",
@@ -230,7 +266,6 @@ export const useCaseHeader = () => {
   //   Decision: "",
   //   Decision_Reason: "",
   //   Decision_Case_Notes: ""
-
   // });
 
   // useEffect(() => {
@@ -241,6 +276,7 @@ export const useCaseHeader = () => {
   const submitData = async () => {
 
     if (hasSubmitError) {
+      setShowSubmitError(true);
       return;
     }
     const currentUser = authSelector.userName || "system";
@@ -970,8 +1006,8 @@ export const useCaseHeader = () => {
     documentSectionDataRef,
     caseTimelinesErrors,
     caseInformationErrors,
-    // disableSaveAndExit
-    // decisionTab,
-    // setDecisionTab
+    claimInformationErrors,
+    memberInformationErrors,
+    shouldShowSubmitError,
   }
 }
