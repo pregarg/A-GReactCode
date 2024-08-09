@@ -59,8 +59,8 @@ const CaseClaimInformation = (props) => {
   const caseHeaderConfigData = JSON.parse(process.env.REACT_APP_CASEHEADER_DETAILS || "{}");
   const stageName = caseHeaderConfigData["StageName"];
 
-  const excludedStages = ["Start","Intake", "Acknowledge", "Redirect Review", "Documents Needed"];
-  const shouldHideFields = !excludedStages.includes(location.state.stageName||stageName);
+  const excludedStages = ["Start", "Intake", "Acknowledge", "Redirect Review", "Documents Needed"];
+  const shouldHideFields = !excludedStages.includes(location.state.stageName ||stageName);
 
   const handleShowClaimSearch = () => {
     setShowClaimSearch(true);
@@ -741,62 +741,6 @@ const CaseClaimInformation = (props) => {
         className="invalid-feedback"
     />
   </>
-
-
-  // const visibilityMapping = {
-  //   Intake: ['Claim_Decision', 'Service_Type'],
-  // }
-  // const isFieldVisible = (fieldName, stageName) => {
-  //   return !visibilityMapping[stageName]?.includes(fieldName);
-  // };
-  // const SelectField = (name, placeholder, options, isVisible) => 
-  //   isVisible ? (
-  //     <>
-  //       <Field name={name}>
-  //         {({ meta }) => (
-  //           <div className="form-floating">
-  //             <Select
-  //               styles={{ ...selectStyle }}
-  //               components={{
-  //                 ValueContainer: CustomValueContainer,
-  //               }}
-  //               isClearable
-  //               isDisabled={
-  //                 location.state.formView === "DashboardView" &&
-  //                 (((location.state.stageName === "Redirect Review" || location.state.stageName === "Documents Needed") && name === "Claim_type") ||
-  //                   ((location.state.stageName === "Research") && (name === "Processing_Status")) ||
-  //                   ((location.state.stageName === "Effectuate") && (name === "Claim_type" || name === "Service_Type")) ||
-  //                   ((location.state.stageName === "Pending Effectuate") && (name === "Claim_type" || name === "Service_Type")) ||
-  //                   location.state.stageName === "Resolve" ||
-  //                   location.state.stageName === "Case Completed" ||
-  //                   location.state.stageName === "Reopen" ||
-  //                   location.state.stageName === "CaseArchived")
-  //               }
-  //               className="basic-multi-select"
-  //               options={options}
-  //               id={name}
-  //               isMulti={false}
-  //               onChange={(value) => handleClaimInformationData(name, value?.value, true)}
-  //               value={claimInformationData[name] ? {
-  //                 label: claimInformationData[name],
-  //                 value: claimInformationData[name]
-  //               } : undefined}
-  //               placeholder={wrapPlaceholder(name, placeholder)}
-  //               isSearchable={
-  //                 document.documentElement.clientHeight <= document.documentElement.clientWidth
-  //               }
-  //             />
-  //             {meta.touched && meta.error && (
-  //               <div className="invalid-feedback" style={{ display: "block" }}>
-  //                 {meta.error}
-  //               </div>
-  //             )}
-  //           </div>
-  //         )}
-  //       </Field>
-  //       <ErrorMessage component="div" name={name} className="invalid-feedback" />
-  //     </>
-  //   ) : null;
   
   return (
       <div>
@@ -913,7 +857,7 @@ const CaseClaimInformation = (props) => {
                   {SelectField('Claim_Decision', 'Claim Decision', decisionValues)}
                 </div>
               )}
-               {shouldHideFields && location.state.stageName === "Research" && (
+               {(shouldHideFields && location.state.stageName !== "Research")&& (
                 <div className="col-xs-6 col-md-4">
                   {SelectField('Service_Type', 'Service Type', serviceTypeValues)}
                 </div>
