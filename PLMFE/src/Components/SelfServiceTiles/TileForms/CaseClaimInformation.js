@@ -2,19 +2,17 @@ import React, {useState, useRef, useEffect} from 'react';
 import {useAxios} from "../../../api/axios.hook";
 import {useLocation} from "react-router-dom";
 import {useSelector} from "react-redux";
-import {Field, ErrorMessage} from "formik";
 import useGetDBTables from "../../CustomHooks/useGetDBTables";
 import ClaimInformationTable from "../TileFormsTables/ClaimInformationTable";
-import ReactDatePicker from "react-datepicker";
-import Select, {components} from "react-select";
 import CaseHeader from './CaseHeader';
 import ProviderInformationTable from '../TileFormsTables/ProviderInformationTable';
 import TableComponent from "../../../../src/util/TableComponent";
 import ClaimSearch from "../TileForms/ClaimSearch";
 import ProviderSearch from "../TileForms/ProviderSearch";
 import useUpdateDecision from '../../CustomHooks/useUpdateDecision';
-import {selectStyle} from "./SelectStyle";
-import caseClaimInformation from "./CaseClaimInformation";
+import {FormikInputField} from "../Common/FormikInputField";
+import {FormikDatePicker} from "../Common/FormikDatePicker";
+import {FormikSelectField} from "../Common/FormikSelectField";
 
 const CaseClaimInformation = (props) => {
 
@@ -563,240 +561,81 @@ const CaseClaimInformation = (props) => {
     props.setClaimInformationData(claimInformationData);
   }
 
-  const {ValueContainer, Placeholder} = components;
-  const CustomValueContainer = ({children, ...props}) => {
-    return (
-        <ValueContainer {...props}>
-          <Placeholder {...props} isFocused={props.isFocused}>
-            {props.selectProps.placeholder}
-          </Placeholder>
-          {React.Children.map(children, (child) =>
-              child && child.type !== Placeholder ? child : null
-          )}
-        </ValueContainer>
-    );
-  };
-  const InputField = (name, placeholder, maxLength) => {
-    return (
-        <>
-          <Field name={name}>
-            {({
-                field,
-                meta,
-              }) => (
-                <div className="form-floating">
-                  <input
-                      maxLength={maxLength}
-                      type="text"
-                      id={name}
-                      autoComplete="off"
-                      className={`form-control ${meta.error
-                          ? "is-invalid"
-                          : field.value
-                              ? "is-valid"
-                              : ""
-                      }`}
-                      placeholder={wrapPlaceholder(name, placeholder)}
-                      onChange={(event) => handleClaimInformationData(name, event.target.value)}
-                      onBlur={persistClaimInformationData}
-                      value={claimInformationData[name]}
-                      disabled={(location.state.formView === "DashboardView" &&
-                        (
-                            ((location.state.stageName === "Redirect Review"|| location.state.stageName === "Documents Needed"
-                              || location.state.stageName === "Effectuate" || location.state.stageName === "Pending Effectuate" 
-                            ) &&
-                             (name === "Claim_Number" || name === "Authorization_Number")
-                            )||
-                            
-                            ((location.state.stageName === "Research") &&
-                             (name === "Payment_Method" || name === "Payment_Number" || name === "Effectuation_Notes" ||
-                               name === "Reason_Text"))||
-                            
-                            
-                            
-                            location.state.stageName === "Resolve" ||
-                            location.state.stageName === "Case Completed" ||
-                            location.state.stageName === "Reopen" ||
-                            location.state.stageName === "CaseArchived"))}
-                  />
-                  <label htmlFor="floatingInputGrid">
-                    {wrapPlaceholder(name, placeholder)}
-                  </label>
-                  {meta.error && (
-                      <div
-                          className="invalid-feedback"
-                          style={{display: "block"}}
-                      >
-                        {meta.error}
-                      </div>
-                  )}
-                </div>
-            )}
-          </Field>
-        </>
-    )
-  }
-  const DatePicker = (name, label, placeholder) => {
-    const CustomInput = (props) => {
-      return (
-          <div className="form-floating">
-            <input {...props} autoComplete="off" placeholder={wrapPlaceholder(name, placeholder)}/>
-            <label htmlFor={name}>{wrapPlaceholder(name, label)}</label>
-          </div>
-      )
-    };
-    const dateValue = !!claimInformationData[name + "#date"] ? new Date(claimInformationData[name + "#date"]): claimInformationData[name];
-    return (
-        <div>
-          <ReactDatePicker
-              id={name}
-              className="form-control example-custom-input-provider"
-              selected={dateValue}
-              name={name}
-              dateFormat="MM/dd/yyyy"
-              onChange={(date) => handleClaimInformationData(name, date, true)}
-              peekNextMonth
-              showMonthDropdown
-              showYearDropdown
-              isClearable
-              onKeyDown={(e) => e.preventDefault()}
-              dropdownMode="select"
-              style={{
-                position: "relative",
-                zIndex: "999",
-              }}
-              customInput={<CustomInput/>}
-              disabled={
-                  location.state.formView === "DashboardView" &&
-                  (((location.state.stageName === "Redirect Review" || location.state.stageName === "Documents Needed" 
-                    || location.state.stageName === "Effectuate" ||  location.state.stageName === "Pending Effectuate" 
-                  ) &&
-                  (name === "Service_Start_Date" ||name === "Service_End_Date" || name === "Original_Denial_Date"))||
-                  ((location.state.stageName === "Research" ) &&
-                  (name === "Claim_Adjusted_Date" ||name === "Payment_Date" || name === "Payment_Mail_Date_Postmark"))||
-                    
-                      location.state.stageName === "Resolve" ||
-                      location.state.stageName === "Case Completed" ||
-                      location.state.stageName === "Reopen" ||
-                      location.state.stageName === "CaseArchived")
-              }
-          />
-        </div>
-    )
-  };
-  
-  const SelectField = (name, placeholder, options) => <>
-  
-    <Field name={name}>
-      {({
-          meta,
-        }) => (
-          <div className="form-floating">
-            <Select
-                styles={{...selectStyle}}
-                components={{
-                  ValueContainer: CustomValueContainer,
-                }}
-                isClearable
-                isDisabled={
-                    location.state.formView === "DashboardView" &&
-                    (((location.state.stageName === "Redirect Review"||location.state.stageName === "Documents Needed")
-                     && name === "Claim_type")||
-                     ((location.state.stageName === "Research") && (name === "Processing_Status"))||
-                       ((location.state.stageName === "Effectuate" )&& (name === "Claim_type"||name === "Service_Type"))||
-                        ((location.state.stageName === "Pending Effectuate")&& (name === "Claim_type"||name === "Service_Type")) ||
-                        location.state.stageName === "Resolve" ||
-                        location.state.stageName === "Case Completed" ||
-                        location.state.stageName === "Reopen" ||
-                        location.state.stageName === "CaseArchived")
-                }
-                className="basic-multi-select"
-                options={options}
-                id={name}
-                isMulti={false}
-                onChange={(value) => handleClaimInformationData(name, value?.value, true)}
-                value={claimInformationData[name] ? {
-                  label: claimInformationData[name],
-                  value: claimInformationData[name]
-                } : undefined}
-                placeholder={wrapPlaceholder(name, placeholder)}
-                isSearchable={
-                    document.documentElement.clientHeight <= document.documentElement.clientWidth
-                }
-            />
-            {meta.touched && meta.error && (
-                <div
-                    className="invalid-feedback"
-                    style={{display: "block"}}
-                >
-                  {meta.error}
-                </div>
-            )}
-          </div>
-      )}
-    </Field>
-    <ErrorMessage
-        component="div"
-        name={name}
-        className="invalid-feedback"
-    />
-  </>
+  const renderInputField = (name, placeholder, maxLength) => (
+      <div className="col-xs-6 col-md-4">
+        <FormikInputField name={name}
+                          placeholder={placeholder}
+                          maxLength={maxLength}
+                          data={claimInformationData}
+                          onChange={handleClaimInformationData}
+                          displayErrors={props.shouldShowSubmitError}
+                          disabled={(location.state.formView === "DashboardView" &&
+                              (
+                                  ((location.state.stageName === "Redirect Review"|| location.state.stageName === "Documents Needed"
+                                          || location.state.stageName === "Effectuate" || location.state.stageName === "Pending Effectuate"
+                                      ) &&
+                                      (name === "Claim_Number" || name === "Authorization_Number")
+                                  )||
 
+                                  ((location.state.stageName === "Research") &&
+                                      (name === "Payment_Method" || name === "Payment_Number" || name === "Effectuation_Notes" ||
+                                          name === "Reason_Text"))||
 
-  // const visibilityMapping = {
-  //   Intake: ['Claim_Decision', 'Service_Type'],
-  // }
-  // const isFieldVisible = (fieldName, stageName) => {
-  //   return !visibilityMapping[stageName]?.includes(fieldName);
-  // };
-  // const SelectField = (name, placeholder, options, isVisible) => 
-  //   isVisible ? (
-  //     <>
-  //       <Field name={name}>
-  //         {({ meta }) => (
-  //           <div className="form-floating">
-  //             <Select
-  //               styles={{ ...selectStyle }}
-  //               components={{
-  //                 ValueContainer: CustomValueContainer,
-  //               }}
-  //               isClearable
-  //               isDisabled={
-  //                 location.state.formView === "DashboardView" &&
-  //                 (((location.state.stageName === "Redirect Review" || location.state.stageName === "Documents Needed") && name === "Claim_type") ||
-  //                   ((location.state.stageName === "Research") && (name === "Processing_Status")) ||
-  //                   ((location.state.stageName === "Effectuate") && (name === "Claim_type" || name === "Service_Type")) ||
-  //                   ((location.state.stageName === "Pending Effectuate") && (name === "Claim_type" || name === "Service_Type")) ||
-  //                   location.state.stageName === "Resolve" ||
-  //                   location.state.stageName === "Case Completed" ||
-  //                   location.state.stageName === "Reopen" ||
-  //                   location.state.stageName === "CaseArchived")
-  //               }
-  //               className="basic-multi-select"
-  //               options={options}
-  //               id={name}
-  //               isMulti={false}
-  //               onChange={(value) => handleClaimInformationData(name, value?.value, true)}
-  //               value={claimInformationData[name] ? {
-  //                 label: claimInformationData[name],
-  //                 value: claimInformationData[name]
-  //               } : undefined}
-  //               placeholder={wrapPlaceholder(name, placeholder)}
-  //               isSearchable={
-  //                 document.documentElement.clientHeight <= document.documentElement.clientWidth
-  //               }
-  //             />
-  //             {meta.touched && meta.error && (
-  //               <div className="invalid-feedback" style={{ display: "block" }}>
-  //                 {meta.error}
-  //               </div>
-  //             )}
-  //           </div>
-  //         )}
-  //       </Field>
-  //       <ErrorMessage component="div" name={name} className="invalid-feedback" />
-  //     </>
-  //   ) : null;
+                                  location.state.stageName === "Resolve" ||
+                                  location.state.stageName === "Case Completed" ||
+                                  location.state.stageName === "Reopen" ||
+                                  location.state.stageName === "CaseArchived"))}
+                          persist={persistClaimInformationData}
+                          schema={props.claimInformationValidationSchema}
+                          errors={props.claimInformationErrors}/>
+      </div>
+  )
+  const renderDatePicker = (name, placeholder, label) => (
+      <div className="col-xs-6 col-md-4">
+        <FormikDatePicker name={name}
+                          placeholder={placeholder}
+                          data={claimInformationData}
+                          label={label}
+                          onChange={handleClaimInformationData}
+                          displayErrors={props.shouldShowSubmitError}
+                          disabled={location.state.formView === "DashboardView" &&
+                              (((location.state.stageName === "Redirect Review" || location.state.stageName === "Documents Needed"
+                                          || location.state.stageName === "Effectuate" ||  location.state.stageName === "Pending Effectuate"
+                                      ) &&
+                                      (name === "Service_Start_Date" ||name === "Service_End_Date" || name === "Original_Denial_Date"))||
+                                  ((location.state.stageName === "Research" ) &&
+                                      (name === "Claim_Adjusted_Date" ||name === "Payment_Date" || name === "Payment_Mail_Date_Postmark"))||
+
+                                  location.state.stageName === "Resolve" ||
+                                  location.state.stageName === "Case Completed" ||
+                                  location.state.stageName === "Reopen" ||
+                                  location.state.stageName === "CaseArchived")}
+                          schema={props.claimInformationValidationSchema}
+                          errors={props.claimInformationErrors}/>
+      </div>
+  )
+  const renderSelectField = (name, placeholder, options) => (
+      <div className="col-xs-6 col-md-4">
+        <FormikSelectField name={name}
+                           placeholder={placeholder}
+                           data={claimInformationData}
+                           options={options}
+                           onChange={handleClaimInformationData}
+                           displayErrors={props.shouldShowSubmitError}
+                           disabled={location.state.formView === "DashboardView" &&
+                               (((location.state.stageName === "Redirect Review"||location.state.stageName === "Documents Needed")
+                                       && name === "Claim_type")||
+                                   ((location.state.stageName === "Research") && (name === "Processing_Status"))||
+                                   ((location.state.stageName === "Effectuate" )&& (name === "Claim_type"||name === "Service_Type"))||
+                                   ((location.state.stageName === "Pending Effectuate")&& (name === "Claim_type"||name === "Service_Type")) ||
+                                   location.state.stageName === "Resolve" ||
+                                   location.state.stageName === "Case Completed" ||
+                                   location.state.stageName === "Reopen" ||
+                                   location.state.stageName === "CaseArchived")}
+                           schema={props.claimInformationValidationSchema}
+                           errors={props.claimInformationErrors}/>
+      </div>
+  )
   
   return (
       <div>
@@ -833,92 +672,34 @@ const CaseClaimInformation = (props) => {
               >Claim Search
               </button>
               <div className="row my-2">
-                <div className="col-xs-6 col-md-4">
-                  {SelectField('Claim_type', 'Claim type', claimTypeValues)}
-                </div>
-                <div className="col-xs-6 col-md-4">
-                  {InputField("Claim_Number", "Claim Number", 16)}
-                </div>
-               
-                <div className="col-xs-6 col-md-4">
-                  {InputField("Authorization_Number", "Authorization Number", 9)}
-                </div>
+                {renderSelectField('Claim_type', 'Claim type', claimTypeValues)}
+                {renderInputField("Claim_Number", "Claim Number", 16)}
+                {renderDatePicker("Claim_Adjusted_Date", "Claim Adjusted Date", "Claim Adjusted Date")}
               </div>
               <div className="row my-2">
-              <div className="col-xs-6 col-md-4">
-                  {DatePicker("Service_Start_Date", "Service Start Date", "Service Start Date")}
-                </div>
-                <div className="col-xs-6 col-md-4">
-                  {DatePicker("Service_End_Date", "Service End Date", "Service End Date")}
-                </div>
-                <div className="col-xs-6 col-md-4">
-                  {DatePicker("Original_Denial_Date", "Original Denial Date", "Original Denial Date")}
-                </div>
+                {renderSelectField('Claim_Decision', 'Claim Decision', decisionValues)}
+                {renderSelectField('Decision_Reason', 'Decision Reason', decisionReasonValues)}
+                {renderInputField("Reason_Text", "Reason Text", 4000)}
               </div>
-              <div className='row my-2'>
-
-              {shouldHideFields && (
-              <div className="col-xs-6 col-md-4">
-                  {DatePicker("Claim_Adjusted_Date", "Claim Adjusted Date", "Claim Adjusted Date")}
-                </div>
-              )}
-              {shouldHideFields && (
-                <div className="col-xs-6 col-md-4">
-                  {InputField("Reason_Text", "Reason Text", 4000)}
-                </div>
-              )}
-              {shouldHideFields && (
-                <div className="col-xs-6 col-md-4">
-                  {SelectField('Processing_Status', 'Processing Status', processingStatusValues)}
-                </div>
-              )}
-              </div>
-              <div className="row my-2">
-              {shouldHideFields && (
-                <div className="col-xs-6 col-md-4">
-                  {DatePicker("Payment_Mail_Date_Postmark", "Payment Mail Date Postmark", "Payment Mail Date Postmark")}
-                </div>
-              )}
-              {shouldHideFields && (
-                <div className="col-xs-6 col-md-4">
-                  {InputField("Effectuation_Notes", "Effectuation Notes", 4000)}
-                </div>
-              )}
-              {shouldHideFields && (
-                <div className="col-xs-6 col-md-4">
-                  {SelectField('Decision_Reason', 'Decision Reason', decisionReasonValues)}
-                </div>
-              )}
-              </div>
-              <div className='row my-2'>
-              {shouldHideFields && (
-                <div className="col-xs-6 col-md-4">
-                  {InputField("Payment_Method", "Payment Method", 30)}
-                </div>
-              )}
-              {shouldHideFields && (
-                <div className="col-xs-6 col-md-4">
-                  {InputField("Payment_Number", "Payment Number", 50)}
-                </div>
-              )}
-              {shouldHideFields && (
-                <div className="col-xs-6 col-md-4">
-                  {DatePicker("Payment_Date", "Payment Date", "Payment Date")}
-                </div>
-              )}
-              </div>
-              <div className="row my-2">
-              {shouldHideFields && (
-                <div className="col-xs-6 col-md-4">
-                  {SelectField('Claim_Decision', 'Claim Decision', decisionValues)}
-                </div>
-              )}
-               {shouldHideFields && location.state.stageName === "Research" && (
-                <div className="col-xs-6 col-md-4">
-                  {SelectField('Service_Type', 'Service Type', serviceTypeValues)}
-                </div>
-               )}
-              </div>
+              {shouldHideFields && <div className="row my-2">
+                {renderSelectField('Service_Type', 'Service Type', serviceTypeValues)}
+                {renderDatePicker("Service_Start_Date", "Service Start Date", "Service Start Date")}
+                {renderDatePicker("Service_End_Date", "Service End Date", "Service End Date")}
+              </div>}
+              {shouldHideFields && <div className='row my-2'>
+                {renderInputField("Authorization_Number", "Authorization Number", 9)}
+                {renderSelectField('Processing_Status', 'Processing Status', processingStatusValues)}
+                {renderDatePicker("Original_Denial_Date", "Original Denial Date", "Original Denial Date")}
+              </div>}
+              {shouldHideFields && <div className='row my-2'>
+                {renderInputField("Payment_Method", "Payment Method", 30)}
+                {renderInputField("Payment_Number", "Payment Number", 50)}
+                {renderDatePicker("Payment_Date", "Payment Date", "Payment Date")}
+              </div>}
+              {shouldHideFields && <div className="row my-2">
+                {renderDatePicker("Payment_Mail_Date_Postmark", "Payment Mail Date Postmark", "Payment Mail Date Postmark")}
+                {renderInputField("Effectuation_Notes", "Effectuation Notes", 4000)}
+              </div>}
               <div className="row">
                 <div className="col-xs-6 col-md-12">
                   <ClaimInformationTable

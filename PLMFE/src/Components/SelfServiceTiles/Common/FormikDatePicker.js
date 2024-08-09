@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDatePicker from "react-datepicker";
 
-export const FormikDatePicker = ({name, placeholder, label, disabled, data, onChange, schema, errors}) => {
+export const FormikDatePicker = ({name, placeholder, label, disabled, data, onChange, schema, errors, displayErrors}) => {
   const wrapPlaceholder = (name, placeholder) => {
     const field = schema?.fields?.[name];
     const required = (field?.type === 'date' && field?.internalTests?.optionality) ||
@@ -11,7 +11,7 @@ export const FormikDatePicker = ({name, placeholder, label, disabled, data, onCh
   const CustomInput = (props) => (
       <div className="form-floating">
         <input {...props} autoComplete="off" placeholder={wrapPlaceholder(name, placeholder)}
-               className={`form-control ${errors[name] ? "is-invalid" : data[name] ? "is-valid" : ""}`} />
+               className={`form-control ${errors[name] && displayErrors ? "is-invalid" : data[name] ? "is-valid" : ""}`} />
         <label htmlFor={name}>{wrapPlaceholder(name, label)}</label>
       </div>
   );
@@ -38,7 +38,7 @@ export const FormikDatePicker = ({name, placeholder, label, disabled, data, onCh
             customInput={<CustomInput/>}
             disabled={disabled}
         />
-        {errors[name] && (
+        {errors[name] && displayErrors && (
             <div
                 className="invalid-feedback"
                 style={{display: "block", fontSize: "12px"}}

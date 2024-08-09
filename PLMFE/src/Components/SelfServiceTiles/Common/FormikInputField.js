@@ -1,7 +1,7 @@
 import {Field} from "formik";
 import React from "react";
 
-export const FormikInputField = ({name, placeholder, maxLength, disabled, data, persist, onChange, schema, errors}) => {
+export const FormikInputField = ({name, placeholder, maxLength, disabled, data, persist, onChange, schema, errors, displayErrors}) => {
   const wrapPlaceholder = (name, placeholder) => {
     const field = schema?.fields?.[name];
     const required = (field?.type === 'date' && field?.internalTests?.optionality) ||
@@ -18,7 +18,7 @@ export const FormikInputField = ({name, placeholder, maxLength, disabled, data, 
                     type="text"
                     id={name}
                     autoComplete="off"
-                    className={`form-control ${errors[name] ? "is-invalid" : data[name] ? "is-valid" : ""}`}
+                    className={`form-control ${errors[name] && displayErrors ? "is-invalid" : data[name] ? "is-valid" : ""}`}
                     placeholder={wrapPlaceholder(name, placeholder)}
                     onChange={(event) => onChange(name, event.target.value)}
                     onBlur={persist}
@@ -28,7 +28,7 @@ export const FormikInputField = ({name, placeholder, maxLength, disabled, data, 
                 <label htmlFor="floatingInputGrid">
                   {wrapPlaceholder(name, placeholder)}
                 </label>
-                {errors[name] && (
+                {errors[name] && displayErrors && (
                     <div
                         className="invalid-feedback"
                         style={{display: "block", fontSize: "12px"}}

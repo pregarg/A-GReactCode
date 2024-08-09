@@ -87,6 +87,7 @@ const CaseInformationAccordion = (props) => {
                           maxLength={maxLength}
                           data={caseInformationData}
                           onChange={handleCaseInformationData}
+                          displayErrors={props.shouldShowSubmitError}
                           disabled={(location.state.formView === "DashboardView" || location.state.formView === "DashboardHomeView") &&
                               (((stageName === 'Start' || location.state.stageName === "Intake" ||
                                           location.state.stageName === "Acknowledge") &&
@@ -112,6 +113,7 @@ const CaseInformationAccordion = (props) => {
                            data={caseInformationData}
                            options={options}
                            onChange={handleCaseInformationData}
+                           displayErrors={props.shouldShowSubmitError}
                            disabled={location.state.formView === "DashboardView" &&
                                (location.state.stageName === "Redirect Review" ||
                                    (location.state.stageName === "Research" && (name === "Line_of_Business_LOB"
