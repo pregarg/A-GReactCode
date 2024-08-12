@@ -57,8 +57,8 @@ const CaseClaimInformation = (props) => {
   const caseHeaderConfigData = JSON.parse(process.env.REACT_APP_CASEHEADER_DETAILS || "{}");
   const stageName = caseHeaderConfigData["StageName"];
 
-  const excludedStages = ["Start","Intake", "Acknowledge", "Redirect Review", "Documents Needed"];
-  const shouldHideFields = !excludedStages.includes(location.state.stageName||stageName);
+  const excludedStages = ["Start", "Intake", "Acknowledge", "Redirect Review", "Documents Needed"];
+  const shouldHideFields = !excludedStages.includes(location.state.stageName ||stageName);
 
   const handleShowClaimSearch = () => {
     setShowClaimSearch(true);
@@ -561,6 +561,7 @@ const CaseClaimInformation = (props) => {
     props.setClaimInformationData(claimInformationData);
   }
 
+
   const renderInputField = (name, placeholder, maxLength) => (
       <div className="col-xs-6 col-md-4">
         <FormikInputField name={name}
@@ -636,6 +637,7 @@ const CaseClaimInformation = (props) => {
                            errors={props.claimInformationErrors}/>
       </div>
   )
+
   
   return (
       <div>
@@ -677,9 +679,11 @@ const CaseClaimInformation = (props) => {
                 {renderDatePicker("Claim_Adjusted_Date", "Claim Adjusted Date", "Claim Adjusted Date")}
               </div>
               <div className="row my-2">
+
                 {renderSelectField('Claim_Decision', 'Claim Decision', decisionValues)}
                 {renderSelectField('Decision_Reason', 'Decision Reason', decisionReasonValues)}
                 {renderInputField("Reason_Text", "Reason Text", 4000)}
+
               </div>
               {shouldHideFields && <div className="row my-2">
                 {renderSelectField('Service_Type', 'Service Type', serviceTypeValues)}

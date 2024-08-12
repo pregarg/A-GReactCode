@@ -284,7 +284,8 @@ export const useCaseHeader = () => {
     const updatedCaseHeader = {
       ...caseHeader,
       Case_Owner: currentUser,
-      Case_Received_Date: receivedDate
+      Case_Received_Date: receivedDate,
+      Case_Validation: "Valid"
     };
     let apiJson = {};
 

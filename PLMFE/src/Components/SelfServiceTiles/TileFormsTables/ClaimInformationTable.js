@@ -41,8 +41,13 @@ export default function ClaimInformationTable({
     const masterAngGrantGoodCauseSelector = useSelector((state) => state?.masterAngGrantGoodCause);
     const caseHeaderConfigData = JSON.parse(process.env.REACT_APP_CASEHEADER_DETAILS || "{}");
     const claimStageName = caseHeaderConfigData["StageName"];
+    
+
+
     let prop = useLocation();
     console.log("prernaaa@@@", prop.state.stageName)
+    const excludedStages = ["Start", "Intake", "Acknowledge", "Redirect Review", "Documents Needed"];
+    const shouldHideFields = !excludedStages.includes(prop.state.stageName||claimStageName);
     let lineNumberOptions = [];
     let filedTimelyValues = [];
     let grantGoodCauseValues = [];    
@@ -254,29 +259,29 @@ export default function ClaimInformationTable({
                             />
                         </div>
                         <div className="col-xs-6 col-md-3">
-                            <label htmlFor="datePicker">Payment Mail Date (Postmark)</label>
+                            
+                            <label htmlFor="datePicker">Claim Status</label>
                             <br />
                             <div className="form-floating">
                                 <ReactDatePicker
                                     className="form-control example-custom-input-modal"
                                     selected={
-                                        "Payment_Mail_Date_Postmark" in data &&
-                                            data.Payment_Mail_Date_Postmark.value !== undefined
-                                            ? data.Payment_Mail_Date_Postmark.value
-                                            : data.Payment_Mail_Date_Postmark
+                                        "Claim_Status" in data &&
+                                            data.Claim_Status.value !== undefined
+                                            ? data.Claim_Status.value
+                                            : data.Claim_Status
                                     }
-                                    name="Payment_Date"
+                                    name="Claim_Status"
                                     onChange={(selectValue, event) =>
                                         handleGridDateChange(
                                             index,
                                             selectValue,
-                                            "Payment_Mail_Date_Postmark",
+                                            "Claim_Status",
                                             ClaimInformationTable.displayName
                                         )
                                     }
                                     peekNextMonth
                                     showMonthDropdown
-                                    isClearable
                                     onKeyDown={(e) => {
                                         e.preventDefault();
                                     }}
@@ -286,7 +291,8 @@ export default function ClaimInformationTable({
                                     id="datePicker"
                                     disabled={
                                         prop.state.formView === "DashboardView" &&
-                                            (prop.state.stageName === "Research" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                            (prop.state.stageName === "Redirect Review" ||
+                                                prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
                                             ? true
                                             : false
                                     }
@@ -321,56 +327,8 @@ export default function ClaimInformationTable({
                         </div>
                     </div>
                     <div className="row">
-                        <div className="col-xs-6 col-md-3">
-                            <label>Payment Method</label>
-                            <br />
-                            <input
-                                type="text"
-                                value={
-                                    "Payment_Method" in data && data.Payment_Method.value !== undefined
-                                        ? convertToCase(data.Payment_Method.value)
-                                        : convertToCase(data.Payment_Method)
-                                }
-                                onChange={(evnt) =>
-                                    handleGridFieldChange(index, evnt, ClaimInformationTable.displayName)
-                                }
-                                name="Payment_Method"
-                                className="form-control"
-                                maxLength="50"
-                                title="Please Enter Valid Type"
-                                disabled={
-                                    prop.state.formView === "DashboardView" &&
-                                        (prop.state.stageName === "Research" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
-                                        ? true
-                                        : false
-                                }
-                            />
-                        </div>
-                        <div className="col-xs-6 col-md-3">
-                            <label>Payment Number</label>
-                            <br />
-                            <input
-                                type="text"
-                                value={
-                                    "Payment_Number" in data && data.Payment_Number.value !== undefined
-                                        ? convertToCase(data.Payment_Number.value)
-                                        : convertToCase(data.Payment_Number)
-                                }
-                                onChange={(evnt) =>
-                                    handleGridFieldChange(index, evnt, ClaimInformationTable.displayName)
-                                }
-                                name="Payment_Number"
-                                className="form-control"
-                                maxLength="50"
-                                title="Please Enter Valid Type"
-                                disabled={
-                                    prop.state.formView === "DashboardView" &&
-                                        (prop.state.stageName === "Research" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
-                                        ? true
-                                        : false
-                                }
-                            />
-                        </div>
+                        
+                       
                         <div className="col-xs-6 col-md-3">
                             <label>Filed Timely</label>
                             <br />
@@ -439,6 +397,63 @@ export default function ClaimInformationTable({
                                 }
                                 isClearable
                             />
+                        </div>
+                        <div className="col-xs-6 col-md-3">
+                            <label>Denial Code</label>
+                            <br />
+                            <input
+                                type="text"
+                                value={
+                                    "DenialCode" in data && data.DenialCode.value !== undefined
+                                        ? convertToCase(data.DenialCode.value)
+                                        : convertToCase(data.DenialCode)
+                                }
+                                onChange={(evnt) =>
+                                    handleGridFieldChange(index, evnt, ClaimInformationTable.displayName)
+                                }
+                                name="DenialCode"
+                                className="form-control"
+                                maxLength="50"
+                                title="Please Enter DenialCode"
+                                disabled={lockStatus == "V"}
+                            />
+                        </div>
+                        <div className="col-xs-6 col-md-3">
+                            <label htmlFor="datePicker">Denial Date</label>
+                            <br />
+                            <div className="form-floating">
+                                <ReactDatePicker
+                                    className="form-control example-custom-input-modal"
+
+                                    selected={
+                                        data?.DenialDate?.value !== undefined
+                                            ? new Date(data.DenialDate.value)
+                                            : data?.DenialDate !== undefined
+                                                ? new Date(data.DenialDate)
+                                                : null
+                                    }
+
+                                    name="DenialDate"
+                                    onChange={(selectValue, event) =>
+                                        handleGridDateChange(
+                                            index,
+                                            selectValue,
+                                            "DenialDate",
+                                            ClaimInformationTable.displayName
+                                        )
+                                    }
+                                    peekNextMonth
+                                    showMonthDropdown
+                                    onKeyDown={(e) => {
+                                        e.preventDefault();
+                                    }}
+                                    showYearDropdown
+                                    dropdownMode="select"
+                                    dateFormat="MM/dd/yyyy"
+                                    id="datePicker"
+                                    disabled={lockStatus == "V"}
+                                />
+                            </div>
                         </div>
                     </div>
                     <div className="row">
@@ -631,123 +646,66 @@ export default function ClaimInformationTable({
                             </div>
                         </div>
                         <div className="col-xs-6 col-md-3">
-                            <label htmlFor="datePicker">Claim Status</label>
+                            <label>Member First Name</label>
                             <br />
-                            <div className="form-floating">
-                                <ReactDatePicker
-                                    className="form-control example-custom-input-modal"
-                                    selected={
-                                        "Claim_Status" in data &&
-                                            data.Claim_Status.value !== undefined
-                                            ? data.Claim_Status.value
-                                            : data.Claim_Status
-                                    }
-                                    name="Claim_Status"
-                                    onChange={(selectValue, event) =>
-                                        handleGridDateChange(
-                                            index,
-                                            selectValue,
-                                            "Claim_Status",
-                                            ClaimInformationTable.displayName
-                                        )
-                                    }
-                                    peekNextMonth
-                                    showMonthDropdown
-                                    onKeyDown={(e) => {
-                                        e.preventDefault();
-                                    }}
-                                    showYearDropdown
-                                    dropdownMode="select"
-                                    dateFormat="MM/dd/yyyy"
-                                    id="datePicker"
-                                    disabled={
-                                        prop.state.formView === "DashboardView" &&
-                                            (prop.state.stageName === "Redirect Review" ||
-                                                prop.state.stageName === "Documents Needed" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
-                                            ? true
-                                            : false
-                                    }
-                                />
-                            </div>
+                            <input
+                                type="text"
+                                value={
+                                    "MemberFirstName" in data && data.MemberFirstName.value !== undefined
+                                        ? convertToCase(data.MemberFirstName.value)
+                                        : convertToCase(data.MemberFirstName)
+                                }
+                                onChange={(evnt) =>
+                                    handleGridFieldChange(index, evnt, ClaimInformationTable.displayName)
+                                }
+                                name="MemberFirstName"
+                                className="form-control"
+                                maxLength="50"
+                                title="Please Enter MemberFirstName"
+                                disabled={lockStatus == "V"}
+                            />
                         </div>
                         <div className="col-xs-6 col-md-3">
-                            <label htmlFor="datePicker">Claim Adjusted Date</label>
+                            <label>Member Last Name</label>
                             <br />
-                            <div className="form-floating">
-                                <ReactDatePicker
-                                    className="form-control example-custom-input-modal"
-                                    selected={
-                                        "Claim_Adjusted_Date" in data &&
-                                            data.Claim_Adjusted_Date.value !== undefined
-                                            ? data.Claim_Adjusted_Date.value
-                                            : data.Claim_Adjusted_Date
-                                    }
-                                    name="Claim_Adjusted_Date"
-                                    onChange={(selectValue, event) =>
-                                        handleGridDateChange(
-                                            index,
-                                            selectValue,
-                                            "Claim_Adjusted_Date",
-                                            ClaimInformationTable.displayName
-                                        )
-                                    }
-                                    peekNextMonth
-                                    showMonthDropdown
-                                    onKeyDown={(e) => {
-                                        e.preventDefault();
-                                    }}
-                                    showYearDropdown
-                                    dropdownMode="select"
-                                    dateFormat="MM/dd/yyyy"
-                                    id="datePicker"
-                                    disabled={
-                                        prop.state.formView === "DashboardView" &&
-                                            (prop.state.stageName === "Research" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
-                                            ? true
-                                            : false
-                                    }
-                                />
-                            </div>
+                            <input
+                                type="text"
+                                value={
+                                    "MemberLastName" in data && data.MemberLastName.value !== undefined
+                                        ? convertToCase(data.MemberLastName.value)
+                                        : convertToCase(data.MemberLastName)
+                                }
+                                onChange={(evnt) =>
+                                    handleGridFieldChange(index, evnt, ClaimInformationTable.displayName)
+                                }
+                                name="MemberLastName"
+                                className="form-control"
+                                maxLength="50"
+                                title="Please Enter MemberLastName"
+                                disabled={lockStatus == "V"}
+                            />
                         </div>
                         <div className="col-xs-6 col-md-3">
-                            <label htmlFor="datePicker">Payment Date</label>
+                            <label>Denial Description</label>
                             <br />
-                            <div className="form-floating">
-                                <ReactDatePicker
-                                    className="form-control example-custom-input-modal"
-                                    selected={
-                                        "Payment_Date" in data &&
-                                            data.Payment_Date.value !== undefined
-                                            ? data.Payment_Date.value
-                                            : data.Payment_Date
-                                    }
-                                    name="Payment_Date"
-                                    onChange={(selectValue, event) =>
-                                        handleGridDateChange(
-                                            index,
-                                            selectValue,
-                                            "Payment_Date",
-                                            ClaimInformationTable.displayName
-                                        )
-                                    }
-                                    peekNextMonth
-                                    showMonthDropdown
-                                    onKeyDown={(e) => {
-                                        e.preventDefault();
-                                    }}
-                                    showYearDropdown
-                                    dropdownMode="select"
-                                    dateFormat="MM/dd/yyyy"
-                                    id="datePicker"
-                                    disabled={
-                                        prop.state.formView === "DashboardView" &&
-                                            (prop.state.stageName === "Research" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
-                                            ? true
-                                            : false
-                                    }
-                                />
-                            </div>
+                            <input
+                                type="text"
+                                value={
+                                    "DenialDescription" in data && data.DenialDescription.value !== undefined
+                                        ? convertToCase(data.DenialDescription.value)
+                                        : convertToCase(data.DenialDescription)
+                                }
+                                onChange={(evnt) =>
+                                    handleGridFieldChange(index, evnt, ClaimInformationTable.displayName)
+                                }
+                                name="DenialDescription"
+                                className="form-control"
+                                maxLength="50"
+                                title="Please Enter DenialDescription"
+                                disabled={lockStatus == "V"}
+                            />
                         </div>
+                      
                     </div>
                     <div className="row">
                         <div className="col-xs-6 col-md-3">
@@ -952,109 +910,52 @@ export default function ClaimInformationTable({
                                 disabled={lockStatus == "V"}
                             />
                         </div>
-
+                        {shouldHideFields && (
                         <div className="col-xs-6 col-md-3">
-                            <label>Denial Description</label>
+                            <label>Payment Number</label>
                             <br />
                             <input
                                 type="text"
                                 value={
-                                    "DenialDescription" in data && data.DenialDescription.value !== undefined
-                                        ? convertToCase(data.DenialDescription.value)
-                                        : convertToCase(data.DenialDescription)
+                                    "Payment_Number" in data && data.Payment_Number.value !== undefined
+                                        ? convertToCase(data.Payment_Number.value)
+                                        : convertToCase(data.Payment_Number)
                                 }
                                 onChange={(evnt) =>
                                     handleGridFieldChange(index, evnt, ClaimInformationTable.displayName)
                                 }
-                                name="DenialDescription"
+                                name="Payment_Number"
                                 className="form-control"
                                 maxLength="50"
-                                title="Please Enter DenialDescription"
-                                disabled={lockStatus == "V"}
+                                title="Please Enter Valid Type"
+                                disabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Research" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
                             />
                         </div>
-
+                        )}
+                         {shouldHideFields && (
                         <div className="col-xs-6 col-md-3">
-                            <label>Member First Name</label>
-                            <br />
-                            <input
-                                type="text"
-                                value={
-                                    "MemberFirstName" in data && data.MemberFirstName.value !== undefined
-                                        ? convertToCase(data.MemberFirstName.value)
-                                        : convertToCase(data.MemberFirstName)
-                                }
-                                onChange={(evnt) =>
-                                    handleGridFieldChange(index, evnt, ClaimInformationTable.displayName)
-                                }
-                                name="MemberFirstName"
-                                className="form-control"
-                                maxLength="50"
-                                title="Please Enter MemberFirstName"
-                                disabled={lockStatus == "V"}
-                            />
-                        </div>
-                        <div className="col-xs-6 col-md-3">
-                            <label>Member Last Name</label>
-                            <br />
-                            <input
-                                type="text"
-                                value={
-                                    "MemberLastName" in data && data.MemberLastName.value !== undefined
-                                        ? convertToCase(data.MemberLastName.value)
-                                        : convertToCase(data.MemberLastName)
-                                }
-                                onChange={(evnt) =>
-                                    handleGridFieldChange(index, evnt, ClaimInformationTable.displayName)
-                                }
-                                name="MemberLastName"
-                                className="form-control"
-                                maxLength="50"
-                                title="Please Enter MemberLastName"
-                                disabled={lockStatus == "V"}
-                            />
-                        </div>
-                        <div className="col-xs-6 col-md-3">
-                            <label>Denial Code</label>
-                            <br />
-                            <input
-                                type="text"
-                                value={
-                                    "DenialCode" in data && data.DenialCode.value !== undefined
-                                        ? convertToCase(data.DenialCode.value)
-                                        : convertToCase(data.DenialCode)
-                                }
-                                onChange={(evnt) =>
-                                    handleGridFieldChange(index, evnt, ClaimInformationTable.displayName)
-                                }
-                                name="DenialCode"
-                                className="form-control"
-                                maxLength="50"
-                                title="Please Enter DenialCode"
-                                disabled={lockStatus == "V"}
-                            />
-                        </div>
-                        <div className="col-xs-6 col-md-3">
-                            <label htmlFor="datePicker">Denial Date</label>
+                            <label htmlFor="datePicker">Claim Adjusted Date</label>
                             <br />
                             <div className="form-floating">
                                 <ReactDatePicker
                                     className="form-control example-custom-input-modal"
-
                                     selected={
-                                        data?.DenialDate?.value !== undefined
-                                            ? new Date(data.DenialDate.value)
-                                            : data?.DenialDate !== undefined
-                                                ? new Date(data.DenialDate)
-                                                : null
+                                        "Claim_Adjusted_Date" in data &&
+                                            data.Claim_Adjusted_Date.value !== undefined
+                                            ? data.Claim_Adjusted_Date.value
+                                            : data.Claim_Adjusted_Date
                                     }
-
-                                    name="DenialDate"
+                                    name="Claim_Adjusted_Date"
                                     onChange={(selectValue, event) =>
                                         handleGridDateChange(
                                             index,
                                             selectValue,
-                                            "DenialDate",
+                                            "Claim_Adjusted_Date",
                                             ClaimInformationTable.displayName
                                         )
                                     }
@@ -1067,10 +968,130 @@ export default function ClaimInformationTable({
                                     dropdownMode="select"
                                     dateFormat="MM/dd/yyyy"
                                     id="datePicker"
-                                    disabled={lockStatus == "V"}
+                                    disabled={
+                                        prop.state.formView === "DashboardView" &&
+                                            (prop.state.stageName === "Research" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                            ? true
+                                            : false
+                                    }
                                 />
                             </div>
                         </div>
+                         )}
+                         {shouldHideFields && (
+                        <div className="col-xs-6 col-md-3">
+                            <label htmlFor="datePicker">Payment Date</label>
+                            <br />
+                            <div className="form-floating">
+                                <ReactDatePicker
+                                    className="form-control example-custom-input-modal"
+                                    selected={
+                                        "Payment_Date" in data &&
+                                            data.Payment_Date.value !== undefined
+                                            ? data.Payment_Date.value
+                                            : data.Payment_Date
+                                    }
+                                    name="Payment_Date"
+                                    onChange={(selectValue, event) =>
+                                        handleGridDateChange(
+                                            index,
+                                            selectValue,
+                                            "Payment_Date",
+                                            ClaimInformationTable.displayName
+                                        )
+                                    }
+                                    peekNextMonth
+                                    showMonthDropdown
+                                    onKeyDown={(e) => {
+                                        e.preventDefault();
+                                    }}
+                                    showYearDropdown
+                                    dropdownMode="select"
+                                    dateFormat="MM/dd/yyyy"
+                                    id="datePicker"
+                                    disabled={
+                                        prop.state.formView === "DashboardView" &&
+                                            (prop.state.stageName === "Research" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                            ? true
+                                            : false
+                                    }
+                                />
+                            </div>
+                        </div>
+                         )}
+                        <div className="row">
+                        {shouldHideFields && (
+                        <div className="col-xs-6 col-md-3">
+                            <label>Payment Method</label>
+                            <br />
+                            <input
+                                type="text"
+                                value={
+                                    "Payment_Method" in data && data.Payment_Method.value !== undefined
+                                        ? convertToCase(data.Payment_Method.value)
+                                        : convertToCase(data.Payment_Method)
+                                }
+                                onChange={(evnt) =>
+                                    handleGridFieldChange(index, evnt, ClaimInformationTable.displayName)
+                                }
+                                name="Payment_Method"
+                                className="form-control"
+                                maxLength="50"
+                                title="Please Enter Valid Type"
+                                disabled={
+                                    prop.state.formView === "DashboardView" &&
+                                        (prop.state.stageName === "Research" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                        ? true
+                                        : false
+                                }
+                            />
+                        </div>
+                      )}
+                       {shouldHideFields && (
+                            <div className="col-xs-6 col-md-3">
+                            <label htmlFor="datePicker">Payment Mail Date (Postmark)</label>
+                            <br />
+                            <div className="form-floating">
+                                <ReactDatePicker
+                                    className="form-control example-custom-input-modal"
+                                    selected={
+                                        "Payment_Mail_Date_Postmark" in data &&
+                                            data.Payment_Mail_Date_Postmark.value !== undefined
+                                            ? data.Payment_Mail_Date_Postmark.value
+                                            : data.Payment_Mail_Date_Postmark
+                                    }
+                                    name="Payment_Date"
+                                    onChange={(selectValue, event) =>
+                                        handleGridDateChange(
+                                            index,
+                                            selectValue,
+                                            "Payment_Mail_Date_Postmark",
+                                            ClaimInformationTable.displayName
+                                        )
+                                    }
+                                    peekNextMonth
+                                    showMonthDropdown
+                                    isClearable
+                                    onKeyDown={(e) => {
+                                        e.preventDefault();
+                                    }}
+                                    showYearDropdown
+                                    dropdownMode="select"
+                                    dateFormat="MM/dd/yyyy"
+                                    id="datePicker"
+                                    disabled={
+                                        prop.state.formView === "DashboardView" &&
+                                            (prop.state.stageName === "Research" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" || prop.state.stageName === "CaseArchived")
+                                            ? true
+                                            : false
+                                    }
+                                />
+                            </div>
+                         
+                        </div>
+                       )}
+                        </div>
+                       
 
                     </div>
                 </div>
