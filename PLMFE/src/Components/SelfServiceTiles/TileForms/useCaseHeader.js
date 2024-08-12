@@ -34,10 +34,10 @@ export const useCaseHeader = () => {
     AOR_Received_Date: undefined,
     Case_Aging: "",
     Case_Filing_Method: "",
-    Case_in_Compliance: "",
+    Case_in_Compliance: "No",
     Case_Received_Date: undefined,
     Compliance_Time_Left_to_Finish: "",
-    Out_of_Compliance_Reason: "",
+    Out_of_Compliance_Reason: "Case still within compliance timeframe.",
     Timeframe_Extended: "",
     WOL_Received_Date: undefined,
   });
@@ -574,13 +574,14 @@ export const useCaseHeader = () => {
   }
 
   const getCaseByCaseNumber = async () => {
+    let daysLeft, hoursLeft, minutesLeft, secondsLeft;
     let getApiJson = {};
     getApiJson["tableNames"] = getTableDetails()["angTables"];
     getApiJson["whereClause"] = {caseNumber: location.state.caseNumber};
     try {
       // Make API request
       const res = await customAxios.post("/generic/get", getApiJson, {
-        headers: {Authorization: `Bearer ${token}`},
+        headers: { Authorization: `Bearer ${token}` },
       });
 
       const apiStat = res.data.Status;
@@ -592,65 +593,93 @@ export const useCaseHeader = () => {
       }
 
       if (apiStat === 0) {
-
         const data = res.data.data;
         // Extract data
         const stageName = location.state.stageName;
         const caseStatus = await getCaseStatus(stageName);
-        const caseReceivedDate = new Date(data.angCaseHeader[0]["Case_Received_Date#date"]);
+        const caseReceivedDate = new Date(
+          data.angCaseHeader[0]["Case_Received_Date#date"]
+        );
 
         const caseInfo = data?.["angCaseInformation"]?.[0];
-        const keysToCheck = ['Product', 'Product_State', 'Line_of_Business_LOB'];
+        const keysToCheck = ["Product", "Product_State", "Line_of_Business_LOB"];
         const hasAnyValue = hasAnyNonEmptyValue(caseInfo, keysToCheck);
 
         if (caseInfo && hasAnyValue) {
-
           const caseLevelPriority = caseInfo.Case_Level_Priority;
           const appealType = caseInfo.Appeal_Type;
           const appellant_Type = caseInfo.Appellant_Type;
-          const {
-            dueDate,
-            internalDate
-          } = calculateCaseDueDate(caseReceivedDate, caseLevelPriority, appealType, appellant_Type);
-          // const caseDueDateString = dueDate ? dueDate.toISOString() : null;
+          const { dueDate, internalDate } = calculateCaseDueDate(
+            caseReceivedDate,
+            caseLevelPriority,
+            appealType,
+            appellant_Type
+          );
+
+          const currentDate = new Date();
 
           const caseDueDateString = extractDate(dueDate);
           const internalDueDateString = extractDate(internalDate);
-          const finalcaseReceivedDate = extractDate(caseReceivedDate)
+          const finalcaseReceivedDate = extractDate(caseReceivedDate);
+
+          // Calculate the time left until the case due date
+          const timeLeft = dueDate - currentDate
+          
+          daysLeft = Math.max(Math.floor(timeLeft / (1000 * 60 * 60 * 24)), 0);
+          hoursLeft = Math.max(Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)), 0);
+          minutesLeft = Math.max(Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60)), 0);
+          secondsLeft = Math.max(Math.floor((timeLeft % (1000 * 60)) / 1000), 0);
 
           setCaseHeader((prevState) => ({
             ...prevState,
-            ...data?.["angCaseHeader"]?.[0] || {},
+            ...(data?.["angCaseHeader"]?.[0] || {}),
             Case_Received_Date: finalcaseReceivedDate,
             Case_Status: caseStatus || prevState.Case_Status,
             Case_Due_Date: caseDueDateString,
-            Internal_Due_Date: internalDueDateString
+            Internal_Due_Date: internalDueDateString,
           }));
         } else {
           setCaseHeader((prevState) => ({
             ...prevState,
-            ...data?.["angCaseHeader"]?.[0] || {},
-            Case_Status: caseStatus || prevState.Case_Status
+            ...(data?.["angCaseHeader"]?.[0] || {}),
+            Case_Status: caseStatus || prevState.Case_Status,
           }));
         }
 
+        // Calculate case aging
+        const timeDifference = currentDate - caseReceivedDate;
+        const caseAgingInDays = Math.floor(
+          timeDifference / (1000 * 60 * 60 * 24)
+        );
+        const complianceTime = `${daysLeft}d ${hoursLeft}h ${minutesLeft}m ${secondsLeft}s`;
+        // Now you can use `daysLeft` in `setCaseTimelines`
+        setCaseTimelines((prevState) => ({
+          ...prevState,
+          ...(data?.["angCaseTimelines"]?.[0] || {}),
+          Case_Aging: caseAgingInDays + " days",
+         Compliance_Time_Left_to_Finish: complianceTime + " remaining",
+        }));
+
         // Update other state values
-        setCaseTimelines(data?.["angCaseTimelines"]?.[0] || {});
         setCaseInformation(data?.["angCaseInformation"]?.[0] || {});
         setClaimInformation(data?.["angClaimInformation"]?.[0] || {});
         setClaimInformationGrid(data?.["angClaimInformationGrid"] || []);
         setProviderInformationGrid(data?.["angProviderInformationGrid"] || []);
         setMemberInformation(data?.["angMemberInformation"]?.[0] || {});
-        setRepresentativeInformationGrid(data?.["angRepresentativeInformationGrid"] || []);
+        setRepresentativeInformationGrid(
+          data?.["angRepresentativeInformationGrid"] || []
+        );
         setAuthorizationInformation(data?.["angAuthorizationInformation"]?.[0] || {});
-        setAuthorizationInformationGrid(data?.["angAuthorizationInformationGrid"] || []);
+        setAuthorizationInformationGrid(
+          data?.["angAuthorizationInformationGrid"] || []
+        );
         setExpeditedRequest(data?.["angExpeditedRequest"]?.[0] || {});
         setFormData(_.cloneDeep(data));
 
         // Update case data in caseData array
         const caseIDToUpdate = data?.mainTable?.[0]?.CaseID;
         const indexToUpdate = caseData.data.findIndex(
-            (item) => item?.CaseID === caseIDToUpdate
+          (item) => item?.CaseID === caseIDToUpdate
         );
 
         if (indexToUpdate !== -1) {
@@ -668,12 +697,12 @@ export const useCaseHeader = () => {
             data: caseData.data,
           },
         });
-
       }
     } catch (error) {
       console.error("API request error:", error);
     }
   };
+
   //save and exit button
   const saveAndExit = async () => {
 

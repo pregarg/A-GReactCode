@@ -13,6 +13,15 @@ const CaseTimelinesAccordion = (props) => {
   const caseHeaderConfigData = JSON.parse(process.env.REACT_APP_CASEHEADER_DETAILS || "{}");
   const stageName = caseHeaderConfigData["StageName"];
 
+  const getInitialValues = (data = {}) => {
+    console.log("initial data12345$", data);
+  
+    return {
+      Case_in_Compliance: (data.Case_in_Compliance || 'No'),
+      
+    };
+  
+  };
   const {convertToCase} = useGetDBTables();
   const masterAngCaseFilingMethodSelector = useSelector((state) => state?.masterAngCaseFilingMethod);
   const [caseTimelinesData, setCaseTimelinesData] = useState(props.caseTimelinesData || {});
@@ -28,6 +37,7 @@ const CaseTimelinesAccordion = (props) => {
   const persistCaseTimelinesData = () => {
     props.setCaseTimelinesData(caseTimelinesData);
   }
+  
 
   const renderInputField = (name, placeholder, maxLength) => (
       <div className="col-xs-6 col-md-4">
@@ -36,10 +46,11 @@ const CaseTimelinesAccordion = (props) => {
                           maxLength={maxLength}
                           data={caseTimelinesData}
                           onChange={handleCaseTimelinesData}
+                          
                           displayErrors={props.shouldShowSubmitError}
                           disabled={ ((location.state.formView === "DashboardView" || location.state.formView === "DashboardHomeView") &&
                             ((stageName === 'Start' && (name !== "Acknowledgment_Timely" 
-                              && name !== "Case_in_Compliance" && name !== "Out_of_Compliance_Reason"
+                              // && name !== "Case_in_Compliance" && name !== "Out_of_Compliance_Reason"
                             ))||
                             location.state.stageName === "Intake" ||
                             location.state.stageName === "Acknowledge" ||
@@ -113,10 +124,13 @@ const CaseTimelinesAccordion = (props) => {
 
 
   return (
-      <Formik initialValues={props.caseTimelinesData}
+      <Formik initialValues={getInitialValues(props.caseTimelinesData)}
+
               validationSchema={props.caseTimelinesValidationSchema}
               onSubmit={() => {
-              }}>
+              }}
+              enableReinitialize
+              >
         {() => (
             <Form>
               <div className="accordion-item" id="caseTimelines">

@@ -569,7 +569,7 @@ const CaseClaimInformation = (props) => {
                           data={claimInformationData}
                           onChange={handleClaimInformationData}
                           displayErrors={props.shouldShowSubmitError}
-                          disabled={(location.state.formView === "DashboardView" &&
+                          disabled={(location.state.formView === "DashboardView" && 
                               (
                                   ((location.state.stageName === "Redirect Review"|| location.state.stageName === "Documents Needed"
                                           || location.state.stageName === "Effectuate" || location.state.stageName === "Pending Effectuate"
