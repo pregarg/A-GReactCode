@@ -677,9 +677,11 @@ const CaseClaimInformation = (props) => {
                 {renderDatePicker("Claim_Adjusted_Date", "Claim Adjusted Date", "Claim Adjusted Date")}
               </div>
               <div className="row my-2">
+
                 {renderSelectField('Claim_Decision', 'Claim Decision', decisionValues)}
                 {renderSelectField('Decision_Reason', 'Decision Reason', decisionReasonValues)}
                 {renderInputField("Reason_Text", "Reason Text", 4000)}
+
               </div>
               {shouldHideFields && <div className="row my-2">
                 {renderSelectField('Service_Type', 'Service Type', serviceTypeValues)}
