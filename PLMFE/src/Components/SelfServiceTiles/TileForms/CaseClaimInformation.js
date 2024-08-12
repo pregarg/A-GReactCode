@@ -561,7 +561,6 @@ const CaseClaimInformation = (props) => {
     props.setClaimInformationData(claimInformationData);
   }
 
-
   const renderInputField = (name, placeholder, maxLength) => (
       <div className="col-xs-6 col-md-4">
         <FormikInputField name={name}
@@ -570,7 +569,7 @@ const CaseClaimInformation = (props) => {
                           data={claimInformationData}
                           onChange={handleClaimInformationData}
                           displayErrors={props.shouldShowSubmitError}
-                          disabled={(location.state.formView === "DashboardView" &&
+                          disabled={(location.state.formView === "DashboardView" && 
                               (
                                   ((location.state.stageName === "Redirect Review"|| location.state.stageName === "Documents Needed"
                                           || location.state.stageName === "Effectuate" || location.state.stageName === "Pending Effectuate"
@@ -637,7 +636,6 @@ const CaseClaimInformation = (props) => {
                            errors={props.claimInformationErrors}/>
       </div>
   )
-
   
   return (
       <div>
