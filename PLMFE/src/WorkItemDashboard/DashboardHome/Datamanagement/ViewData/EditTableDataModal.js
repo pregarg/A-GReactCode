@@ -93,7 +93,7 @@ export default function EditTableModal(show) {
     }
   };
   const tdDataReplica = () => {
-    if (!!selectedData) {
+    if (selectedData) {
       return (
         <>
           <div className="container AddProviderLabel AddModalLabel">

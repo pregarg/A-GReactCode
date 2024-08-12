@@ -1096,11 +1096,11 @@ export default function Globalsearch(props) {
 
   const mapSpecialityTable = (res) => {
     const transformed = {
-      speciality: !!res["SPECIALITY"] ? res["SPECIALITY"] : undefined,
-      subSpeciality: !!res["SUBSPECIALITY"] ? res["SUBSPECIALITY"] : undefined,
+      speciality: res["SPECIALITY"] ? res["SPECIALITY"] : undefined,
+      subSpeciality: res["SUBSPECIALITY"] ? res["SUBSPECIALITY"] : undefined,
 
       //Added by Nidhi Gupta on 07/26/2023
-      specPrimary: !!res["PRIMARYSPECIALITY"]
+      specPrimary: res["PRIMARYSPECIALITY"]
         ? res["PRIMARYSPECIALITY"] === "Y"
           ? "Yes"
           : res["PRIMARYSPECIALITY"] === "N"
@@ -1108,14 +1108,14 @@ export default function Globalsearch(props) {
           : ""
         : undefined,
       //Till Here
-      pcp: !!res["PCP"] ? (res["PCP"] == "Y" ? "Yes" : "No") : undefined,
-      hsdCode: !!res["HSDCODE"] ? res["HSDCODE"] : undefined,
-      taxonomyCode: !!res["TAXONOMYCODE"] ? res["TAXONOMYCODE"] : undefined,
-      taxonomyDesc: !!res["TAXONOMYDESCRIPTION"]
+      pcp: res["PCP"] ? (res["PCP"] == "Y" ? "Yes" : "No") : undefined,
+      hsdCode: res["HSDCODE"] ? res["HSDCODE"] : undefined,
+      taxonomyCode: res["TAXONOMYCODE"] ? res["TAXONOMYCODE"] : undefined,
+      taxonomyDesc: res["TAXONOMYDESCRIPTION"]
         ? res["TAXONOMYDESCRIPTION"]
         : undefined,
-      taxonomyGrp: !!res["TAXONOMYGROUP"] ? res["TAXONOMYGROUP"] : undefined,
-      boardCerti: !!res["BOARDCERTIFICATE"]
+      taxonomyGrp: res["TAXONOMYGROUP"] ? res["TAXONOMYGROUP"] : undefined,
+      boardCerti: res["BOARDCERTIFICATE"]
         ? res["BOARDCERTIFICATE"] === "Y"
           ? "Yes"
           : res["BOARDCERTIFICATE"] === "N"
@@ -1178,17 +1178,17 @@ export default function Globalsearch(props) {
   const mapPayToTable = (res) => {
     const transformed = {
       //Added by Nidhi Gupta on 07/26/2023
-      taxId: !!res["TAXID"] ? res["TAXID"] : undefined,
-      locationName: !!res["LOCATIONNAME"] ? res["LOCATIONNAME"] : undefined,
-      county: !!res["COUNTY"] ? res["COUNTY"] : undefined,
-      payToNpi: !!res["PAYTONPI"] ? res["PAYTONPI"] : undefined,
-      address1: !!res["ADDRESS1"] ? res["ADDRESS1"] : undefined,
+      taxId: res["TAXID"] ? res["TAXID"] : undefined,
+      locationName: res["LOCATIONNAME"] ? res["LOCATIONNAME"] : undefined,
+      county: res["COUNTY"] ? res["COUNTY"] : undefined,
+      payToNpi: res["PAYTONPI"] ? res["PAYTONPI"] : undefined,
+      address1: res["ADDRESS1"] ? res["ADDRESS1"] : undefined,
       //Till Here
 
-      address2: !!res["ADDRESS2"] ? res["ADDRESS2"] : undefined,
-      city: !!res["CITY"] ? res["CITY"] : undefined,
-      stateValue: !!res["STATEVALUE"] ? res["STATEVALUE"] : undefined,
-      zipCode: !!res["ZIPCODE"] ? res["ZIPCODE"] : undefined,
+      address2: res["ADDRESS2"] ? res["ADDRESS2"] : undefined,
+      city: res["CITY"] ? res["CITY"] : undefined,
+      stateValue: res["STATEVALUE"] ? res["STATEVALUE"] : undefined,
+      zipCode: res["ZIPCODE"] ? res["ZIPCODE"] : undefined,
     };
 
     return truncateUndefined(transformed);
@@ -1238,7 +1238,7 @@ export default function Globalsearch(props) {
     let result = {};
     Object.keys(transformed).forEach((key) => {
       //console.log("truncateUndefined transformed location;", !!transformed[key]);
-      if (!!transformed[key]) {
+      if (transformed[key]) {
         result = {
           ...result,
           [key]: transformed[key],

@@ -1273,7 +1273,7 @@ if(mastersSelector.hasOwnProperty('masterStateSymbol')){
           requestBody.capitationType = ((apiTestStateComp.capitationType!==undefined)?apiTestStateComp.capitationType.value:'');
           requestBody.capitationTerm = ((apiTestStateComp.capitationTerm!==undefined)?apiTestStateComp.capitationTerm.value:'');
           requestBody.criticalAccess = ((apiTestStateComp.criticalAccess!==undefined)?apiTestStateComp.criticalAccess.value:'');
-          requestBody.conEffectiveDate = !!apiTestStateComp.conEffectiveDate ? apiTestStateComp.conEffectiveDate.toLocaleDateString() : null;
+          requestBody.conEffectiveDate = apiTestStateComp.conEffectiveDate ? apiTestStateComp.conEffectiveDate.toLocaleDateString() : null;
           //requestBody.conEffectiveDate = apiTestStateComp.conEffectiveDate;
           console.log("Nidhi requestBody Update: ",requestBody);
           //till here

@@ -537,7 +537,7 @@ export default function DecisionTab(props) {
   const contractData = () => {
     return (
       <>
-        <table class="table table-bordered tableLayout">
+        <table className="table table-bordered tableLayout">
           <thead>
             <tr className="tableRowStyle tableHeaderColor">
               <th scope="col">Operation</th>
@@ -583,7 +583,7 @@ export default function DecisionTab(props) {
   const decsHistoryData = () => {
     return (
       <>
-        <table class="table table-bordered tableLayout">
+        <table className="table table-bordered tableLayout">
           <thead>
             <tr className="tableRowStyle tableHeaderColor">
               <th scope="col">User Name</th>
@@ -970,7 +970,7 @@ export default function DecisionTab(props) {
                   >
                     <div className="accordion-body">
                       <table
-                        class="table table-bordered tableLayout"
+                        className="table table-bordered tableLayout"
                         style={{ textAlign: "center" }}
                       >
                         <thead>
@@ -1430,7 +1430,7 @@ export default function DecisionTab(props) {
               >
                 <div className="accordion-body">
                   <table
-                    class="table table-bordered tableLayout"
+                    className="table table-bordered tableLayout"
                     style={{ textAlign: "center" }}
                   >
                     <thead>

@@ -72,12 +72,12 @@ export default function LoginPage() {
                         <div className="col-xs-6 col-md-6 loginSection" style={{ boxShadow: 'rgb(126 142 177 / 35%) 0px 0px 3px 3px', borderRadius: 5, backgroundColor: '#FFF'}}>
                             <label id="loginDefinition" className='PortalLoginLabel'>Portal Login</label>
                             <div className='loginFieldContainer'>
-                                <label for="loginField" class="form-label">Email:</label>
-                                <input class="form-control" name="loginField" placeholder="name@example.com" type="text" onChange={event => handleChange(event)} value={changeState.loginField}/>
+                                <label htmlFor="loginField" className="form-label">Email:</label>
+                                <input className="form-control" name="loginField" placeholder="name@example.com" type="text" onChange={event => handleChange(event)} value={changeState.loginField}/>
                             </div>
                             <div className='loginFieldContainer'>
-                                <label for="passwordField" class="form-label">Password:</label>
-                                <input class="form-control" id="passwordField" name="passwordField" placeholder="**********" type="password" onChange={event => handleChange(event)} value={changeState.passwordField}/>
+                                <label htmlFor="passwordField" className="form-label">Password:</label>
+                                <input className="form-control" id="passwordField" name="passwordField" placeholder="**********" type="password" onChange={event => handleChange(event)} value={changeState.passwordField}/>
                             </div>
                             <div className='loginButtonContainer'>
                                 <button className="loginPageBottomButton button" id="loginButton" onClick={navigateHome}>Login</button>

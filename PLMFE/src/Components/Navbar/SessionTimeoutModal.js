@@ -17,7 +17,7 @@ export default function SessionTimeoutModal(navTo){
 
     useState(()=>{
         if((expiry*1000 - Date.now()) > 0){
-            if(!!timer){
+            if(timer){
                 clearTimeout(timer);
             }
 
@@ -60,7 +60,7 @@ export default function SessionTimeoutModal(navTo){
       </div>
       </Modal.Body>
       <Modal.Footer>
-          <button type="button" class="btn btn-success" onClick={logout}>Ok</button>
+          <button type="button" className="btn btn-success" onClick={logout}>Ok</button>
         
       </Modal.Footer>
     </Modal>

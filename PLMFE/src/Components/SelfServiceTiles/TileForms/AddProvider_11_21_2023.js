@@ -57,7 +57,7 @@ const checkDataAvailable = (data) => {
 const getTransformed = (dataObj) => {
   const transformedObj = {};
   Object.keys(dataObj).forEach((key) => {
-    if (!!dataObj[key]) {
+    if (dataObj[key]) {
       transformedObj[key] = dataObj[key];
     }
   });
@@ -65,7 +65,7 @@ const getTransformed = (dataObj) => {
 };
 
 const populateAccessibility = (node, staticValue) => {
-  return !!checkDataAvailable(node.Accessibility)
+  return checkDataAvailable(node.Accessibility)
     ? Array.isArray(node.Accessibility)
       ? node.Accessibility.map((data1) =>
           !!checkDataAvailable(data1.Accessibility) &&
@@ -3310,16 +3310,16 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
       // requestBody.dateOfBirth = !!apiTestState.dateOfBirth
       //   ? apiTestState.dateOfBirth.toLocaleDateString()
       //   : null;
-        requestBody.dateOfBirth = !!apiTestState.dateOfBirth
+        requestBody.dateOfBirth = apiTestState.dateOfBirth
         ? apiTestState.dateOfBirth.toLocaleDateString()
         : null;
-        requestBody.ecfmgIssueDate = !!apiTestState.ecfmgIssueDate
+        requestBody.ecfmgIssueDate = apiTestState.ecfmgIssueDate
         ? apiTestState.ecfmgIssueDate.toLocaleDateString()
         : null;
-        requestBody.ecfmgExpirationDate = !!apiTestState.ecfmgExpirationDate
+        requestBody.ecfmgExpirationDate = apiTestState.ecfmgExpirationDate
         ? apiTestState.ecfmgExpirationDate.toLocaleDateString()
         : null;
-        requestBody.attestationDate = !!apiTestState.attestationDate
+        requestBody.attestationDate = apiTestState.attestationDate
         ? apiTestState.attestationDate.toLocaleDateString()
         : null;
         requestBody.Medicaid = apiTestState.Medicaid;
@@ -3834,9 +3834,9 @@ const saveData = (values) => {
       networkBody.qualityFlagL = ((apiTestStateComp.qualityFlagL && apiTestStateComp.qualityFlagL.value)?apiTestStateComp.qualityFlagL.value:'');
       networkBody.qualityFlagM = ((apiTestStateComp.qualityFlagM && apiTestStateComp.qualityFlagM.value)?apiTestStateComp.qualityFlagM.value:'');
       networkBody.qualityFlagN = ((apiTestStateComp.qualityFlagN && apiTestStateComp.qualityFlagN.value)?apiTestStateComp.qualityFlagN.value:'');
-      networkBody.conEffectiveDate = !!apiTestStateComp.conEffectiveDate ? apiTestStateComp.conEffectiveDate.toLocaleDateString() : null;
-      networkBody.mocAttestationDate = !!apiTestStateComp.mocAttestationDate ? apiTestStateComp.mocAttestationDate.toLocaleDateString() : null;
-      networkBody.mocRenewalAttDate = !!apiTestStateComp.mocRenewalAttDate ? apiTestStateComp.mocRenewalAttDate.toLocaleDateString() : null;
+      networkBody.conEffectiveDate = apiTestStateComp.conEffectiveDate ? apiTestStateComp.conEffectiveDate.toLocaleDateString() : null;
+      networkBody.mocAttestationDate = apiTestStateComp.mocAttestationDate ? apiTestStateComp.mocAttestationDate.toLocaleDateString() : null;
+      networkBody.mocRenewalAttDate = apiTestStateComp.mocRenewalAttDate ? apiTestStateComp.mocRenewalAttDate.toLocaleDateString() : null;
       //Till Here
       console.log("networkBody Update: ",networkBody);
       gridDataRef.current.SelfServ_Network_Details = trimJsonValues(networkBody);
@@ -4316,8 +4316,8 @@ const saveData = (values) => {
 
         if (dataKeyType === "object") {
          console.log("Inside Data Object if: ", dataObject);
-          if (!!data[dataValue]) {
-            if (!!data[dataValue].value) {
+          if (data[dataValue]) {
+            if (data[dataValue].value) {
               if (data[dataValue].value instanceof Date) {
                 dataObject[dataValue] =
                   data[dataValue].value.toLocaleDateString();
@@ -4388,7 +4388,7 @@ const saveData = (values) => {
       console.log("CAQHId:", caqhId, "Hi");
       //console.log("Inside getData orgName: ", orgName);
       //console.log("Inside getData contractNo: ", contractNo);
-      if (!!caqhId) {
+      if (caqhId) {
         if (userType == "P" && !ssn) {
           setCaqhGenericModal({
             header: "Field Required!",
@@ -4436,7 +4436,7 @@ const saveData = (values) => {
             // }).then((res) => {
             // console.log("api response: ",res.data);
             if (res.status === 200) {
-              if (!!res.data) {
+              if (res.data) {
                 if (
                   res.data.roosterStatus == "ACTIVE" &&
                   res.data.providerFoundFlag == "Y" &&
@@ -4505,7 +4505,7 @@ const saveData = (values) => {
                               apiResponse.FirstName
                             ),
                             // middleName: checkDataAvailable(apiResponse.MiddleName),
-                            middleName: !!checkDataAvailable(
+                            middleName: checkDataAvailable(
                               apiResponse.MiddleName
                             )
                               ? checkDataAvailable(apiResponse.MiddleName)
@@ -4521,7 +4521,7 @@ const saveData = (values) => {
                                     value: apiResponse.Gender.GenderDescription,
                                   }
                                 : null,
-                            suffix: !!checkDataAvailable(apiResponse.suffix)
+                            suffix: checkDataAvailable(apiResponse.suffix)
                               ? checkDataAvailable(apiResponse.suffix)
                               : "", //Changed by Nidhi Gupta on 5/17/2023
                             caqhId: caqhId,
@@ -4540,7 +4540,7 @@ const saveData = (values) => {
                               apiResponse.ECFMGFlag == 1
                                 ? { label: "Yes", value: "Yes" }
                                 : { label: "No", value: "No" },
-                            dateOfBirth: !!checkDataAvailable(
+                            dateOfBirth: checkDataAvailable(
                               apiResponse.BirthDate
                             )
                               ? new Date(apiResponse.BirthDate)
@@ -4564,17 +4564,17 @@ const saveData = (values) => {
                             //exchange:apiResponse.exchange,
                             //commercial:apiResponse.commercial,
                             // ecfmgNumber: checkDataAvailable(apiResponse.ECFMGNumber),
-                            ecfmgNumber: !!checkDataAvailable(
+                            ecfmgNumber: checkDataAvailable(
                               apiResponse.ECFMGNumber
                             )
                               ? checkDataAvailable(apiResponse.ECFMGNumber)
                               : "", //Changed by Nidhi Gupta on 5/17/2023
-                            ecfmgIssueDate: !!checkDataAvailable(
+                            ecfmgIssueDate: checkDataAvailable(
                               apiResponse.ECFMGIssueDate
                             )
                               ? new Date(apiResponse.ECFMGIssueDate)
                               : null,
-                            ecfmgExpirationDate: !!checkDataAvailable(
+                            ecfmgExpirationDate: checkDataAvailable(
                               apiResponse.ECFMGExpirationDate
                             )
                               ? new Date(apiResponse.ECFMGExpirationDate)
@@ -4582,7 +4582,7 @@ const saveData = (values) => {
                             attestationId: checkDataAvailable(
                               apiResponse.ProviderAttestID
                             ),
-                            attestationDate: !!apiResponse.AttestDate
+                            attestationDate: apiResponse.AttestDate
                               ? new Date(apiResponse.AttestDate)
                               : "",
                             medicaidId:
@@ -4610,7 +4610,7 @@ const saveData = (values) => {
 
                         // alert('ashish12123213');
                         let licenseArray = [];
-                        if (!!apiResponse.ProviderLicense) {
+                        if (apiResponse.ProviderLicense) {
                           if (Array.isArray(apiResponse.ProviderLicense)) {
                             let row = 1;
                             licenseArray = apiResponse.ProviderLicense.map(
@@ -4631,7 +4631,7 @@ const saveData = (values) => {
                                   stateAbbreviation: checkDataAvailable(
                                     data.State
                                   ),
-                                  expirationDate: !!checkDataAvailable(
+                                  expirationDate: checkDataAvailable(
                                     data.ExpirationDate
                                   )
                                     ? new Date(data.ExpirationDate)
@@ -4658,7 +4658,7 @@ const saveData = (values) => {
                               stateAbbreviation: checkDataAvailable(
                                 apiResponse.ProviderLicense.State
                               ),
-                              expirationDate: !!checkDataAvailable(
+                              expirationDate: checkDataAvailable(
                                 apiResponse.ProviderLicense.ExpirationDate
                               )
                                 ? new Date(
@@ -4682,7 +4682,7 @@ const saveData = (values) => {
                               apiResponse.ProviderDEA.State
                             ),
                             type: "DEA Number",
-                            expirationDate: !!checkDataAvailable(
+                            expirationDate: checkDataAvailable(
                                 apiResponse.ProviderDEA.ExpirationDate) ? new Date(apiResponse.ProviderDEA.ExpirationDate):'',
                           };
                           licenseArray.push(getTransformed(DataObject1));
@@ -4691,7 +4691,7 @@ const saveData = (values) => {
 
 
                         let specialityArray = [];
-                        if (!!apiResponse.Specialty) {
+                        if (apiResponse.Specialty) {
                           if (Array.isArray(apiResponse.Specialty)) {
                             let row = 1;
                             specialityArray = apiResponse.Specialty.map(
@@ -4704,7 +4704,7 @@ const saveData = (values) => {
                                   ),
                                   //   taxonomyDesc: "",
 
-                                  taxonomyDesc: !!checkDataAvailable(
+                                  taxonomyDesc: checkDataAvailable(
                                     data.NUCCTaxonomyCode
                                   )
                                     ? checktaxdec(data.NUCCTaxonomyCode)
@@ -4719,7 +4719,7 @@ const saveData = (values) => {
                                       : { label: "No", value: "N" },
                                   // boardCerti: {label: data.SpecialtyBoardName,value: data.SpecialtyBoardName},
                                   // taxonomyGrp: '',
-                                  speciality: !!checkDataAvailable(
+                                  speciality: checkDataAvailable(
                                     data.Specialty
                                   )
                                     ? checkDataAvailable(
@@ -4748,7 +4748,7 @@ const saveData = (values) => {
                                 apiResponse.Specialty.NUCCTaxonomyCode
                               ),
                               //  taxonomyDesc: "",
-                              taxonomyDesc: !!checkDataAvailable(
+                              taxonomyDesc: checkDataAvailable(
                                 apiResponse.Specialty.NUCCTaxonomyCode
                               )
                                 ? checktaxdec(
@@ -4764,7 +4764,7 @@ const saveData = (values) => {
                                   ? { label: "Yes", value: "Y" }
                                   : { label: "No", value: "N" },
                               taxonomyGrp: "",
-                              speciality: !!checkDataAvailable(
+                              speciality: checkDataAvailable(
                                 apiResponse.Specialty.Specialty
                               )
                                 ? checkDataAvailable(
@@ -4789,7 +4789,7 @@ const saveData = (values) => {
                         setspecialityTableRowsData(specialityArray);
 
                         let locationArray = [];
-                        if (!!apiResponse.Practice) {
+                        if (apiResponse.Practice) {
                           if (Array.isArray(apiResponse.Practice)) {
                             let row = 1;
                             apiResponse.Practice.map((data) => {
@@ -4962,7 +4962,7 @@ const saveData = (values) => {
                         setLocationTableRowsData(locationArray);
 
                         let paytoArray = [];
-                        if (!!apiResponse.Practice) {
+                        if (apiResponse.Practice) {
                           if (Array.isArray(apiResponse.Practice)) {
                             let row = 1;
                             paytoArray = apiResponse.Practice.map((data) => {
@@ -5039,7 +5039,7 @@ const saveData = (values) => {
                         setPayToTableRowsData(paytoArray);
 
                         let educationDetails = [];
-                        if (!!apiResponse.Education) {
+                        if (apiResponse.Education) {
                           if (Array.isArray(apiResponse.Education)) {
                             let row = 1;
                             educationDetails = apiResponse.Education.map(
@@ -5051,7 +5051,7 @@ const saveData = (values) => {
                                   professionalSchool: checkDataAvailable(
                                     data.InstitutionName
                                   ),
-                                  graduateType: !!checkDataAvailable(
+                                  graduateType: checkDataAvailable(
                                     data.Degree
                                   )
                                     ? checkDataAvailable(
@@ -5061,7 +5061,7 @@ const saveData = (values) => {
                                   degree: checkDataAvailable(
                                     data.EducationTypeName
                                   ),
-                                  graduationDate: !!checkDataAvailable(
+                                  graduationDate: checkDataAvailable(
                                     data.EndDate
                                   )
                                     ? new Date(data.EndDate)
@@ -5077,7 +5077,7 @@ const saveData = (values) => {
                               professionalSchool: checkDataAvailable(
                                 apiResponse.Education.InstitutionName
                               ),
-                              graduateType: !!checkDataAvailable(
+                              graduateType: checkDataAvailable(
                                 apiResponse.Education.Degree
                               )
                                 ? checkDataAvailable(
@@ -5088,7 +5088,7 @@ const saveData = (values) => {
                               degree: checkDataAvailable(
                                 apiResponse.Education.EducationTypeName
                               ),
-                              graduationDate: !!checkDataAvailable(
+                              graduationDate: checkDataAvailable(
                                 apiResponse.Education.EndDate
                               )
                                 ? new Date(apiResponse.Education.EndDate)
@@ -5100,7 +5100,7 @@ const saveData = (values) => {
                         setEducationTableRowsData(educationDetails);
 
                         let workTableDataArray = [];
-                        if (!!apiResponse.WorkHistory) {
+                        if (apiResponse.WorkHistory) {
                           if (Array.isArray(apiResponse.WorkHistory)) {
                             workTableDataArray = apiResponse.WorkHistory.map(
                               (data) => {
@@ -5111,12 +5111,12 @@ const saveData = (values) => {
                                   empName: checkDataAvailable(
                                     data.EmployerName
                                   ),
-                                  startDate: !!checkDataAvailable(
+                                  startDate: checkDataAvailable(
                                     data.StartDate
                                   )
                                     ? new Date(data.StartDate)
                                     : null,
-                                  endDate: !!checkDataAvailable(data.EndDate)
+                                  endDate: checkDataAvailable(data.EndDate)
                                     ? new Date(data.EndDate)
                                     : "",
                                   currentEmp:
@@ -5139,12 +5139,12 @@ const saveData = (values) => {
                               empName: checkDataAvailable(
                                 apiResponse.WorkHistory.EmployerName
                               ),
-                              startDate: !!checkDataAvailable(
+                              startDate: checkDataAvailable(
                                 apiResponse.WorkHistory.StartDate
                               )
                                 ? new Date(apiResponse.WorkHistory.StartDate)
                                 : null,
-                              endDate: !!checkDataAvailable(
+                              endDate: checkDataAvailable(
                                 apiResponse.WorkHistory.EndDate
                               )
                                 ? new Date(!!apiResponse.WorkHistory.EndDate)
@@ -5165,7 +5165,7 @@ const saveData = (values) => {
                         setWorkTableRowsData(workTableDataArray);
 
                         let insuranceTableDataArray = [];
-                        if (!!apiResponse.Insurance) {
+                        if (apiResponse.Insurance) {
                           if (Array.isArray(apiResponse.Insurance)) {
                             let row = 1;
                             insuranceTableDataArray = apiResponse.Insurance.map(
@@ -5185,12 +5185,12 @@ const saveData = (values) => {
                                   covAmountAgg: checkDataAvailable(
                                     data.CoverageAmountAggregate
                                   ),
-                                  effectiveDate: !!checkDataAvailable(
+                                  effectiveDate: checkDataAvailable(
                                     data.StartDate
                                   )
                                     ? new Date(data.StartDate)
                                     : null,
-                                  expirationDate: !!checkDataAvailable(
+                                  expirationDate: checkDataAvailable(
                                     data.EndDate
                                   )
                                     ? new Date(data.EndDate)
@@ -5215,12 +5215,12 @@ const saveData = (values) => {
                               covAmountAgg: checkDataAvailable(
                                 apiResponse.Insurance.CoverageAmountAggregate
                               ),
-                              effectiveDate: !!checkDataAvailable(
+                              effectiveDate: checkDataAvailable(
                                 apiResponse.Insurance.StartDate
                               )
                                 ? new Date(apiResponse.Insurance.StartDate)
                                 : null,
-                              expirationDate: !!checkDataAvailable(
+                              expirationDate: checkDataAvailable(
                                 apiResponse.Insurance.EndDate
                               )
                                 ? new Date(apiResponse.Insurance.EndDate)
@@ -8523,7 +8523,7 @@ const saveData = (values) => {
             <Modal.Footer>
               <button
                 type="button"
-                class="btn btn-success"
+                className="btn btn-success"
                 onClick={() => {
                   addRoster(caqhModal.id);
                   setCaqhModal({
@@ -8538,7 +8538,7 @@ const saveData = (values) => {
               </button>
               <button
                 type="button"
-                class="btn"
+                className="btn"
                 onClick={() => {
                   setCaqhModal({
                     id: null,
@@ -8583,7 +8583,7 @@ const saveData = (values) => {
             <Modal.Footer>
               <button
                 type="button"
-                class="btn btn-success"
+                className="btn btn-success"
                 onClick={() => {
                   setCaqhGenericModal({
                     body: null,

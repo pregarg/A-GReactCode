@@ -37,7 +37,7 @@ export default function MasterFieldsTable({
       const isPrimarySet = tableFields.find(
         (f, i) => f.isPrimary && fieldData.isPrimary && i != index
       );
-      if (!!isPrimarySet) {
+      if (isPrimarySet) {
         Swal.fire({
           icon: "error",
           title: "Primary key already exists for another field.",
@@ -50,7 +50,7 @@ export default function MasterFieldsTable({
       const isFieldNameExist = tableFields.find(
         (f, i) => f.fieldName == fieldData.fieldName && i != index
       );
-      if (!!isFieldNameExist) {
+      if (isFieldNameExist) {
         Swal.fire({
           icon: "error",
           title: "Field name already exist",
@@ -68,7 +68,7 @@ export default function MasterFieldsTable({
       const isPrimarySet = tableFields.find(
         (f) => f.isPrimary && fieldData.isPrimary
       );
-      if (!!isPrimarySet) {
+      if (isPrimarySet) {
         Swal.fire({
           icon: "error",
           title: "Primary key already exists for another field.",
@@ -81,7 +81,7 @@ export default function MasterFieldsTable({
         (f) => f.isAutoIdentity && fieldData.isAutoIdentity
       );
 
-      if (!!isAutoIdentity) {
+      if (isAutoIdentity) {
         Swal.fire({
           icon: "error",
           title: "Identity Column already exists for another field.",
@@ -94,7 +94,7 @@ export default function MasterFieldsTable({
       const isFieldNameExist = tableFields.find(
         (f) => f.fieldName == fieldData.fieldName
       );
-      if (!!isFieldNameExist) {
+      if (isFieldNameExist) {
         Swal.fire({
           icon: "error",
           title: "Field name already exist",

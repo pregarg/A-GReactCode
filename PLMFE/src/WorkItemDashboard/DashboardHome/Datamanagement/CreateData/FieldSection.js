@@ -26,7 +26,7 @@ export default function FieldSection() {
       const isPrimarySet = tableFields.find(
         (f, i) => f.isPrimary && fieldData.isPrimary && i != index
       );
-      if (!!isPrimarySet) {
+      if (isPrimarySet) {
         setShowError({
           show: true,
           msg: "Primary key already exists for another field.",
@@ -37,7 +37,7 @@ export default function FieldSection() {
       const isFieldNameExist = tableFields.find(
         (f, i) => f.fieldName == fieldData.fieldName && i != index
       );
-      if (!!isFieldNameExist) {
+      if (isFieldNameExist) {
         setShowError({ show: true, msg: "Field name already exist" });
         return;
       }
@@ -50,7 +50,7 @@ export default function FieldSection() {
       const isPrimarySet = tableFields.find(
         (f) => f.isPrimary && fieldData.isPrimary
       );
-      if (!!isPrimarySet) {
+      if (isPrimarySet) {
         setShowError({
           show: true,
           msg: "Primary key already exists for another field.",
@@ -61,7 +61,7 @@ export default function FieldSection() {
       const isFieldNameExist = tableFields.find(
         (f) => f.fieldName == fieldData.fieldName
       );
-      if (!!isFieldNameExist) {
+      if (isFieldNameExist) {
         setShowError({ show: true, msg: "Field name already exist" });
         return;
       }

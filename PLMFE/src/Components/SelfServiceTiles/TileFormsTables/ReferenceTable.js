@@ -23,7 +23,7 @@ export default function RefereceTable ({referenceTableRowsData}){
                         {(('description' in data) && (data.description.value !== undefined)) ? (data.description.value) : (data.description)}
                     </td>
                     <td>
-                        <a href={reference} target="_blank">{reference}</a>
+                        <a href={reference} target="_blank" rel="noreferrer">{reference}</a>
                     </td>
                     																																								    
                 </tr>

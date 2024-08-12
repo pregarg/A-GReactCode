@@ -900,9 +900,9 @@ export default function DashboardHomepage() {
               mastersSelector.auth.hasOwnProperty("userType") &&
               mastersSelector.auth.userType === "A" && (
                 <td className="tableData">
-                  <div class="form-check">
+                  <div className="form-check">
                     <input
-                      class="form-check-input"
+                      className="form-check-input"
                       type="checkbox"
                       onChange={(event) => handleCheckBoxChange(event, index)}
                       value=""

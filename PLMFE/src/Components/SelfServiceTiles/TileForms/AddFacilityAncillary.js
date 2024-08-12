@@ -4179,8 +4179,8 @@ export default function AddFacilityAncillary() {
           dataObject[dataValue] = data[dataValue];
         }*/
 
-        if (!!data[dataValue]) {
-          if (!!data[dataValue].value) {
+        if (data[dataValue]) {
+          if (data[dataValue].value) {
             if (data[dataValue].value instanceof Date) {
               // dataObject[dataValue] =
               //   data[dataValue].value.toLocaleDateString();
@@ -4762,7 +4762,7 @@ export default function AddFacilityAncillary() {
                                             : ""
                                         }`}
                                         placeholder="John"
-                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                        onInput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
                                         {...field}
                                         //ref = {npiIdRef}
                                       />

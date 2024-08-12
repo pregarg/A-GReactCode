@@ -8,7 +8,7 @@ export default function Document() {
         <div className="row">
           <div className="col-xs-6">
             <br/>
-          <table class="table table-striped table-bordered dashboardTableBorder" style={{textAlign:"center"}}>
+          <table className="table table-striped table-bordered dashboardTableBorder" style={{textAlign:"center"}}>
                 <thead >
                   <tr className='dashboardTableHeader'>
                     <th scope="col">Type</th>

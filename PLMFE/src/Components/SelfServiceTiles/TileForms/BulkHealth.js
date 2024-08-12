@@ -488,7 +488,7 @@ console.log("ReadFile",evnt.target.files[0]);
                   <div className="row">
                     <div className="col-xs-6">
                       <table
-                        class="table table-striped table-bordered"
+                        className="table table-striped table-bordered"
                         style={{ textAlign: "center" }}
                       >
                         <thead>
@@ -506,7 +506,7 @@ console.log("ReadFile",evnt.target.files[0]);
                   <button
                     type="button"
                     style={{ marginBottom: "30px" }}
-                    class="btn btn-success"
+                    className="btn btn-success"
                     disabled={fileState.length > 0 ? false : true}
                     onClick={() => uploadFile()}
                   >

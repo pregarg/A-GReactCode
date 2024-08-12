@@ -158,7 +158,7 @@ export default function LocationTable({locationTableRowsData,deleteTableRows, ha
             console.log("Inside validateAddressData newAddress: ",validatedAdd.current);
             return (
                 <>
-                    <table class="table table-striped table-bordered dashboardTableBorder ">
+                    <table className="table table-striped table-bordered dashboardTableBorder ">
                         <thead>
                         <tr className='dashboardTableHeader'>
                             <th></th>
@@ -193,7 +193,7 @@ export default function LocationTable({locationTableRowsData,deleteTableRows, ha
                     <br/>
                     <br/>
 
-                    <table class="table table-striped table-bordered dashboardTableBorder ">
+                    <table className="table table-striped table-bordered dashboardTableBorder ">
                         <thead>
                         <tr className='dashboardTableHeader'>
                             <th></th>

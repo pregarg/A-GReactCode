@@ -471,8 +471,8 @@ export const useCaseHeader = () => {
       dataKeys.forEach((dataValue) => {
         const dataKeyType = typeof data[dataValue];
         if (dataKeyType === "object") {
-          if (!!data[dataValue]) {
-            if (!!data[dataValue].value) {
+          if (data[dataValue]) {
+            if (data[dataValue].value) {
               if (data[dataValue].value instanceof Date) {
                 dataObject[dataValue] = extractDate(data[dataValue].value);
               } else {

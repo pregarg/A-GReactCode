@@ -149,7 +149,7 @@ export default function StageRights(props) {
       setFlow(flow);
       setDataRows([]);
       setColumns([]);
-      if (!!flow) {
+      if (flow) {
         getTableData(flow);
         setResetPaginationToggle(0);
       }
@@ -159,7 +159,7 @@ export default function StageRights(props) {
 
   const updateData = async () => {
     try {
-      if (!!flow) {
+      if (flow) {
         let rights = { STAGERIGHTS: rightsChangedIndexes.current };
 
         if (rightsChangedIndexes.current.length > 0) {

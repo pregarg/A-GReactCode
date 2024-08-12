@@ -170,7 +170,7 @@ const ExpeditedRequestAccordion = (props) => {
           </div>
       )
     };
-    const dateValue = !!expeditedRequestData[name + "#date"] ? new Date(expeditedRequestData[name + "#date"]) : expeditedRequestData[name];
+    const dateValue = expeditedRequestData[name + "#date"] ? new Date(expeditedRequestData[name + "#date"]) : expeditedRequestData[name];
     return (
         <div>
           <ReactDatePicker

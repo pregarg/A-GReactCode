@@ -54,7 +54,7 @@ const checkDataAvailable = (data)=>{
 const getTransformed = (dataObj)=>{
     const transformedObj = {};
     Object.keys(dataObj).forEach(key => {
-        if(!!dataObj[key]){
+        if(dataObj[key]){
             transformedObj[key] = dataObj[key]
         }
     })
@@ -62,7 +62,7 @@ const getTransformed = (dataObj)=>{
 }
 
 const populateAccessibility = (node, staticValue)=>{
-    return !!checkDataAvailable(node.Accessibility) ?
+    return checkDataAvailable(node.Accessibility) ?
         (Array.isArray(node.Accessibility) ?
             (node.Accessibility.map(data1 =>
                 (!!checkDataAvailable(data1.Accessibility) && checkDataAvailable(data1.Accessibility.AccessibilityDescription) == staticValue
@@ -1430,7 +1430,7 @@ const abc="auto"
                 requestBody.placeInDirectory = ((apiTestState.placeInDirectory!==undefined)?apiTestState.placeInDirectory.value:'');
                 requestBody.delegated = ((apiTestState.delegated!==undefined)?apiTestState.delegated.value:null);
                 requestBody.contractId = ((apiTestState.contractId!==undefined)?apiTestState.contractId.value:'');
-                requestBody.dateOfBirth =  !!apiTestState.dateOfBirth ? apiTestState.dateOfBirth.toLocaleDateString(): null;
+                requestBody.dateOfBirth =  apiTestState.dateOfBirth ? apiTestState.dateOfBirth.toLocaleDateString(): null;
 
                 requestBody = trimJsonValues(requestBody);
                 console.log("Save Form Data requestBody: ",requestBody);
@@ -1811,8 +1811,8 @@ const abc="auto"
 
              if(dataKeyType === 'object'){
                  console.log("Inside Data Object if: ",dataObject);
-                 if(!!data[dataValue]) {
-                     if(!!data[dataValue].value) {
+                 if(data[dataValue]) {
+                     if(data[dataValue].value) {
                         if(data[dataValue].value instanceof Date){
                            dataObject[dataValue] = data[dataValue].value.toLocaleDateString()
                         }else{
@@ -3605,11 +3605,11 @@ console.log("setApiOrgState address: ",apiOrgState)
                     </div>
                     </Modal.Body>
                     <Modal.Footer>
-                        <button type="button" class="btn btn-success" onClick={()=>{
+                        <button type="button" className="btn btn-success" onClick={()=>{
                             addRoster(caqhModal.id);
                             setCaqhModal({id:null, header:null, body:null, show:false});
                         }}>Yes</button>
-                        <button type="button" class="btn" onClick={()=>{setCaqhModal({id:null, header:null, body:null, show:false})}}>No</button>
+                        <button type="button" className="btn" onClick={()=>{setCaqhModal({id:null, header:null, body:null, show:false})}}>No</button>
                     </Modal.Footer>
                 </Modal>
 
@@ -3639,7 +3639,7 @@ console.log("setApiOrgState address: ",apiOrgState)
                     </div>
                     </Modal.Body>
                     <Modal.Footer>
-                        <button type="button" class="btn btn-success" onClick={()=>{
+                        <button type="button" className="btn btn-success" onClick={()=>{
                             setCaqhGenericModal({body: null, header:null, state:false});
                         }}>Close</button>
 

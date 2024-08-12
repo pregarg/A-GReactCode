@@ -422,7 +422,7 @@ export default function useUpdateDecision() {
           const dataKeyType = typeof Json2[dataValue];
           //console.log("data key : ",dataValue, " type: ", dataKeyType,"Instance",Json2[dataValue] instanceof Date, "VALUE ",Json2[dataValue]);
           if (dataKeyType === "object" || dataKeyType === "string") {
-            if (!!Json2[dataValue]) {
+            if (Json2[dataValue]) {
               if (Array.isArray(Json2[dataValue])) {
                 let str = '';
                 Json2[dataValue].forEach((elem) => {
@@ -466,7 +466,7 @@ export default function useUpdateDecision() {
 
         }
         else {
-          if (!!Json1[dataValue]) {
+          if (Json1[dataValue]) {
             updatedLinearJson[dataValue] = Json1[dataValue];
           }
 

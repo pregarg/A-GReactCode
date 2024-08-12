@@ -100,7 +100,7 @@ export default function LoginPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!!authData.isSignedIn) {
+    if (authData.isSignedIn) {
       navigate("/Home", { replace: true });
     }
 

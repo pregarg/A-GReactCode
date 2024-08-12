@@ -35,7 +35,20 @@ const AuthorizationInformationAccordion = (props) => {
 
     const [authorizationInformationGridData, setAuthorizationInformationGridData] = useState(props.handleAuthorizationInformationGridData);
 
-    const [gridFieldTempState, setGridFieldTempState] = useState({});
+    const [gridFieldTempState, setGridFieldTempState] = useState({
+      Issue_Number: undefined,
+      Authorization_Number: undefined,
+      Auth_Status: undefined,
+      Provider_Name: undefined,
+      Authorization_Type: undefined,
+      Auth_Type_Description: undefined,
+      Auth_Request_Date: undefined,
+      Auth_Expiration_Date: undefined,
+      CPT_Descriptions: undefined,
+      Service_Start_Date: undefined,
+      Denial_Code: undefined,
+      Denial_Reason: undefined,
+    });
 
     const [showAuthSearch, setShowAuthSearch] = useState(false);
     const [selectedCriteria, setSelectedCriteria] = useState();
@@ -151,66 +164,44 @@ const AuthorizationInformationAccordion = (props) => {
     const handleGridSelectChange = (
         index,
         selectedValue,
-        evnt,
-        triggeredFormName
+        event
     ) => {
-        // console.log("Inside select change index: ", index);
-        console.log("Inside select change selectedValue: ", evnt, selectedValue);
-        // console.log("Inside select change evnt: ", evnt);
-        // console.log("Inside select change trigeredFormName: ", triggeredFormName);
         let rowsInput = { ...gridFieldTempState };
-
-        const { name } = evnt;
+        const { name } = event;
         let val = selectedValue;
-        if (evnt.action === "clear") {
+        if (event.action === "clear") {
             if (name.toLowerCase() === "languages") {
                 val = [];
-            }
-            else {
+            } else {
                 val = { label: "", value: "" };
             }
         } else {
-
-            if (selectedValue && selectedValue.label && selectedValue.value) {
+            if (selectedValue?.label && selectedValue?.value) {
                 val = {
                     label: selectedValue.label.toUpperCase(),
                     value: selectedValue.value.toUpperCase(),
                 };
-            } else {
-                // Handle the case where selectedValue or its properties are undefined
-                console.log("selectedValue or its properties are undefined");
             }
         }
-
-        console.log("Inside handleSelectChange Val: ", val);
         rowsInput[name] = val;
-
         setGridFieldTempState(rowsInput);
     };
 
     const handleGridDateChange = (
         index,
         selectedValue,
-        fieldName,
-        triggeredFormName
+        fieldName
     ) => {
         let tempInput = { ...gridFieldTempState };
         tempInput[fieldName] = selectedValue;
-        //console.log("Inside handleGridDateChange tempInput: ",tempInput);
         setGridFieldTempState(tempInput);
     };
 
-    const handleGridFieldChange = (index, evnt, triggeredFormName) => {
-        console.log("Inside handleGridFieldChange: ", triggeredFormName);
-        //let rowsInput = "";
-
+    const handleGridFieldChange = (index, event) => {
         let tempInput = { ...gridFieldTempState };
-        let { name, value } = evnt.target;
-        console.log("Inside handleGridFieldChange: ", value, tempInput);
-
+        let { name, value } = event.target;
         tempInput[name] = value.toUpperCase();
         setGridFieldTempState(tempInput);
-        console.log("gridFieldTempState", gridFieldTempState);
     };
 
     const editTableRows = (index, triggeredFormName) => {
@@ -409,8 +400,8 @@ const AuthorizationInformationAccordion = (props) => {
 
                 if (dataKeyType === "object") {
                     console.log("Inside Data Object if: ", dataObject);
-                    if (!!data[dataValue]) {
-                        if (!!data[dataValue].value) {
+                    if (data[dataValue]) {
+                        if (data[dataValue].value) {
                             if (data[dataValue].value instanceof Date) {
                                 // dataObject[dataValue] =
                                 //   data[dataValue].value.toLocaleDateString();
@@ -474,7 +465,7 @@ const AuthorizationInformationAccordion = (props) => {
                     aria-labelledby="panelsStayOpen-claimInformation"
                 >
                     <div className="accordion-body">
-                    <button type="button" class="btn btn-outline-primary" 
+                    <button type="button" className="btn btn-outline-primary" 
                     onClick={event => handleShowAuthSearch(event)}
                     disabled ={(prop.state.stageName === "Redirect Review" || prop.state.stageName === "Documents Needed"
                         || prop.state.stageName  === "CaseArchived"

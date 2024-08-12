@@ -157,20 +157,20 @@ export default function AdvancedSearchModal(prop) {
              <div className="row my-2">
                 
                 <div className="col-xs-6 col-md-6">
-                    <div class="form-floating">
+                    <div className="form-floating">
                         <input type="text" className="form-control uppercase-input" id="legalEntityName" placeholder="" 
                         name="LegalEntityName" onChange={(event) => setStateData(event)}
                         onKeyDown={(event) => handleKeyDown(event)}/>
-                        <label for="legalEntityName">Legal Entity Name</label>
+                        <label htmlFor="legalEntityName">Legal Entity Name</label>
                     </div>
                 </div>
 
                 <div className="col-xs-6 col-md-6">
-                    <div class="form-floating">
+                    <div className="form-floating">
                         <input type="text" className="form-control uppercase-input" id="npi" placeholder="" 
                         name="NpiId" onChange={(event) => setStateData(event)}
                         onKeyDown={(event) => handleKeyDown(event)}/>
-                        <label for="npi">NPI ID</label>
+                        <label htmlFor="npi">NPI ID</label>
                     </div>
                 </div>
 
@@ -179,20 +179,20 @@ export default function AdvancedSearchModal(prop) {
             <div className="row my-2">
 
                 <div className="col-xs-6 col-md-6">
-                    <div class="form-floating">
+                    <div className="form-floating">
                         <input type="text" className="form-control uppercase-input" id="caseNumber" placeholder="" 
                         name="CaseNumber" onChange={(event) => setStateData(event)}
                         onKeyDown={(event) => handleKeyDown(event)}/>
-                        <label for="caseNumber">Case Number</label>
+                        <label htmlFor="caseNumber">Case Number</label>
                     </div>
                 </div>
 
                 <div className="col-xs-6 col-md-6">
-                    <div class="form-floating">
+                    <div className="form-floating">
                         <input type="text" className="form-control uppercase-input" id="firstName" placeholder="" 
                         name="FirstName" onChange={(event) => setStateData(event)}
                         onKeyDown={(event) => handleKeyDown(event)}/>
-                        <label for="firstName">First Name</label>
+                        <label htmlFor="firstName">First Name</label>
                     </div>
                 </div>
 
@@ -201,11 +201,11 @@ export default function AdvancedSearchModal(prop) {
             <div className="row my-2">
                 
                 <div className="col-xs-6 col-md-6">
-                    <div class="form-floating">
+                    <div className="form-floating">
                         <input type="text" className="form-control uppercase-input" id="lastName" placeholder="" 
                         name="LastName" onChange={(event) => setStateData(event)}
                         onKeyDown={(event) => handleKeyDown(event)}/>
-                        <label for="lastName">Last Name</label>
+                        <label htmlFor="lastName">Last Name</label>
                     </div>
                 </div>
 
@@ -537,7 +537,7 @@ export default function AdvancedSearchModal(prop) {
               {searchFields()}
             </Modal.Body>
             <Modal.Footer>
-                <button type="button" class="btn btn-success" id="advanceSearchButton" onClick={()=>{handleModalShowHide(false); prop.setTableRows(fieldState)}}>Search</button>
+                <button type="button" className="btn btn-success" id="advanceSearchButton" onClick={()=>{handleModalShowHide(false); prop.setTableRows(fieldState)}}>Search</button>
             </Modal.Footer>
             </Modal>
             

@@ -60,7 +60,7 @@ const checkDataAvailable = (data) => {
 const getTransformed = (dataObj) => {
   const transformedObj = {};
   Object.keys(dataObj).forEach((key) => {
-    if (!!dataObj[key]) {
+    if (dataObj[key]) {
       transformedObj[key] = dataObj[key];
     }
   });
@@ -68,7 +68,7 @@ const getTransformed = (dataObj) => {
 };
 
 const populateAccessibility = (node, staticValue) => {
-  return !!checkDataAvailable(node.Accessibility)
+  return checkDataAvailable(node.Accessibility)
     ? Array.isArray(node.Accessibility)
       ? node.Accessibility.map((data1) =>
         !!checkDataAvailable(data1.Accessibility) &&
@@ -5375,8 +5375,8 @@ export default function AddProvider() {
 
         if (dataKeyType === "object") {
           console.log("Inside Data Object if: ", dataObject);
-          if (!!data[dataValue]) {
-            if (!!data[dataValue].value) {
+          if (data[dataValue]) {
+            if (data[dataValue].value) {
               if (data[dataValue].value instanceof Date) {
                 // dataObject[dataValue] =
                 //   data[dataValue].value.toLocaleDateString();
@@ -5467,7 +5467,7 @@ export default function AddProvider() {
       console.log("CAQHId:", caqhId, "Hi");
       //console.log("Inside getData orgName: ", orgName);
       //console.log("Inside getData contractNo: ", contractNo);
-      if (!!caqhId) {
+      if (caqhId) {
         if (userType == "P" && !ssn) {
           setCaqhGenericModal({
             header: "Field Required!",
@@ -5515,7 +5515,7 @@ export default function AddProvider() {
             // }).then((res) => {
             // console.log("api response: ",res.data);
             if (res.status === 200) {
-              if (!!res.data) {
+              if (res.data) {
                 if (
                   res.data.roosterStatus == "ACTIVE" &&
                   res.data.providerFoundFlag == "Y" &&
@@ -5593,7 +5593,7 @@ export default function AddProvider() {
                               apiResponse.FirstName
                             ),
                             // middleName: checkDataAvailable(apiResponse.MiddleName),
-                            middleName: !!checkDataAvailable(
+                            middleName: checkDataAvailable(
                               apiResponse.MiddleName
                             )
                               ? checkDataAvailable(apiResponse.MiddleName)
@@ -5613,7 +5613,7 @@ export default function AddProvider() {
                                   ),
                                 }
                                 : null,
-                            suffix: !!checkDataAvailable(apiResponse.suffix)
+                            suffix: checkDataAvailable(apiResponse.suffix)
                               ? checkDataAvailable(apiResponse.suffix)
                               : "", //Changed by Nidhi Gupta on 5/17/2023
                             caqhId: caqhId,
@@ -5632,7 +5632,7 @@ export default function AddProvider() {
                                 apiResponse.ECFMGFlag == 1
                                 ? { label: "Yes", value: "Yes" }
                                 : { label: "No", value: "No" },
-                            dateOfBirth: !!checkDataAvailable(
+                            dateOfBirth: checkDataAvailable(
                               apiResponse.BirthDate
                             )
                               ? new Date(apiResponse.BirthDate)
@@ -5661,17 +5661,17 @@ export default function AddProvider() {
                             //exchange:apiResponse.exchange,
                             //commercial:apiResponse.commercial,
                             // ecfmgNumber: checkDataAvailable(apiResponse.ECFMGNumber),
-                            ecfmgNumber: !!checkDataAvailable(
+                            ecfmgNumber: checkDataAvailable(
                               apiResponse.ECFMGNumber
                             )
                               ? checkDataAvailable(apiResponse.ECFMGNumber)
                               : "", //Changed by Nidhi Gupta on 5/17/2023
-                            ecfmgIssueDate: !!checkDataAvailable(
+                            ecfmgIssueDate: checkDataAvailable(
                               apiResponse.ECFMGIssueDate
                             )
                               ? new Date(apiResponse.ECFMGIssueDate)
                               : null,
-                            ecfmgExpirationDate: !!checkDataAvailable(
+                            ecfmgExpirationDate: checkDataAvailable(
                               apiResponse.ECFMGExpirationDate
                             )
                               ? new Date(apiResponse.ECFMGExpirationDate)
@@ -5679,7 +5679,7 @@ export default function AddProvider() {
                             attestationId: checkDataAvailable(
                               apiResponse.ProviderAttestID
                             ),
-                            attestationDate: !!apiResponse.AttestDate
+                            attestationDate: apiResponse.AttestDate
                               ? new Date(apiResponse.AttestDate)
                               : "",
                             medicaidId:
@@ -5710,7 +5710,7 @@ export default function AddProvider() {
 
                         // alert('ashish12123213');
                         let licenseArray = [];
-                        if (!!apiResponse.ProviderLicense) {
+                        if (apiResponse.ProviderLicense) {
                           if (Array.isArray(apiResponse.ProviderLicense)) {
                             let row = 1;
                             licenseArray = apiResponse.ProviderLicense.map(
@@ -5731,7 +5731,7 @@ export default function AddProvider() {
                                   // stateAbbreviation: checkDataAvailable(
                                   //   data.State
                                   // ),
-                                  expirationDate: !!checkDataAvailable(
+                                  expirationDate: checkDataAvailable(
                                     data.ExpirationDate
                                   )
                                     ? new Date(data.ExpirationDate)
@@ -5758,7 +5758,7 @@ export default function AddProvider() {
                               stateAbbreviation: checkDataAvailable(
                                 apiResponse.ProviderLicense.State
                               ),
-                              expirationDate: !!checkDataAvailable(
+                              expirationDate: checkDataAvailable(
                                 apiResponse.ProviderLicense.ExpirationDate
                               )
                                 ? new Date(
@@ -5782,7 +5782,7 @@ export default function AddProvider() {
                               apiResponse.ProviderDEA.State
                             ),
                             type: "DEA Number",
-                            expirationDate: !!checkDataAvailable(
+                            expirationDate: checkDataAvailable(
                               apiResponse.ProviderDEA.ExpirationDate
                             )
                               ? new Date(apiResponse.ProviderDEA.ExpirationDate)
@@ -5793,7 +5793,7 @@ export default function AddProvider() {
                         setLicenseTableRowsData(licenseArray);
 
                         let specialityArray = [];
-                        if (!!apiResponse.Specialty) {
+                        if (apiResponse.Specialty) {
                           if (Array.isArray(apiResponse.Specialty)) {
                             let row = 1;
                             specialityArray = apiResponse.Specialty.map(
@@ -5806,7 +5806,7 @@ export default function AddProvider() {
                                   ),
                                   //   taxonomyDesc: "",
 
-                                  taxonomyDesc: !!checkDataAvailable(
+                                  taxonomyDesc: checkDataAvailable(
                                     data.NUCCTaxonomyCode
                                   )
                                     ? checktaxdec(data.NUCCTaxonomyCode)
@@ -5821,7 +5821,7 @@ export default function AddProvider() {
                                       : { label: "No", value: "N" },
                                   // boardCerti: {label: data.SpecialtyBoardName,value: data.SpecialtyBoardName},
                                   // taxonomyGrp: '',
-                                  speciality: !!checkDataAvailable(
+                                  speciality: checkDataAvailable(
                                     data.Specialty
                                   )
                                     ? checkDataAvailable(
@@ -5850,7 +5850,7 @@ export default function AddProvider() {
                                 apiResponse.Specialty.NUCCTaxonomyCode
                               ),
                               //  taxonomyDesc: "",
-                              taxonomyDesc: !!checkDataAvailable(
+                              taxonomyDesc: checkDataAvailable(
                                 apiResponse.Specialty.NUCCTaxonomyCode
                               )
                                 ? checktaxdec(
@@ -5866,7 +5866,7 @@ export default function AddProvider() {
                                   ? { label: "Yes", value: "Y" }
                                   : { label: "No", value: "N" },
                               taxonomyGrp: "",
-                              speciality: !!checkDataAvailable(
+                              speciality: checkDataAvailable(
                                 apiResponse.Specialty.Specialty
                               )
                                 ? checkDataAvailable(
@@ -5891,7 +5891,7 @@ export default function AddProvider() {
                         setspecialityTableRowsData(specialityArray);
 
                         let locationArray = [];
-                        if (!!apiResponse.Practice) {
+                        if (apiResponse.Practice) {
                           if (Array.isArray(apiResponse.Practice)) {
                             let row = 1;
                             apiResponse.Practice.map((data) => {
@@ -6100,7 +6100,7 @@ export default function AddProvider() {
                         setLocationTableRowsData(locationArray);
 
                         let paytoArray = [];
-                        if (!!apiResponse.Practice) {
+                        if (apiResponse.Practice) {
                           if (Array.isArray(apiResponse.Practice)) {
                             let row = 1;
                             paytoArray = apiResponse.Practice.map((data) => {
@@ -6183,7 +6183,7 @@ export default function AddProvider() {
                         setPayToTableRowsData(paytoArray);
 
                         let educationDetails = [];
-                        if (!!apiResponse.Education) {
+                        if (apiResponse.Education) {
                           if (Array.isArray(apiResponse.Education)) {
                             let row = 1;
                             educationDetails = apiResponse.Education.map(
@@ -6195,7 +6195,7 @@ export default function AddProvider() {
                                   professionalSchool: checkDataAvailable(
                                     data.InstitutionName
                                   ),
-                                  graduateType: !!checkDataAvailable(
+                                  graduateType: checkDataAvailable(
                                     data.Degree
                                   )
                                     ? checkDataAvailable(
@@ -6205,7 +6205,7 @@ export default function AddProvider() {
                                   degree: checkDataAvailable(
                                     data.EducationTypeName
                                   ),
-                                  graduationDate: !!checkDataAvailable(
+                                  graduationDate: checkDataAvailable(
                                     data.EndDate
                                   )
                                     ? new Date(data.EndDate)
@@ -6221,7 +6221,7 @@ export default function AddProvider() {
                               professionalSchool: checkDataAvailable(
                                 apiResponse.Education.InstitutionName
                               ),
-                              graduateType: !!checkDataAvailable(
+                              graduateType: checkDataAvailable(
                                 apiResponse.Education.Degree
                               )
                                 ? checkDataAvailable(
@@ -6232,7 +6232,7 @@ export default function AddProvider() {
                               degree: checkDataAvailable(
                                 apiResponse.Education.EducationTypeName
                               ),
-                              graduationDate: !!checkDataAvailable(
+                              graduationDate: checkDataAvailable(
                                 apiResponse.Education.EndDate
                               )
                                 ? new Date(apiResponse.Education.EndDate)
@@ -6244,7 +6244,7 @@ export default function AddProvider() {
                         setEducationTableRowsData(educationDetails);
 
                         let workTableDataArray = [];
-                        if (!!apiResponse.WorkHistory) {
+                        if (apiResponse.WorkHistory) {
                           if (Array.isArray(apiResponse.WorkHistory)) {
                             workTableDataArray = apiResponse.WorkHistory.map(
                               (data) => {
@@ -6255,12 +6255,12 @@ export default function AddProvider() {
                                   empName: checkDataAvailable(
                                     data.EmployerName
                                   ),
-                                  startDate: !!checkDataAvailable(
+                                  startDate: checkDataAvailable(
                                     data.StartDate
                                   )
                                     ? new Date(data.StartDate)
                                     : null,
-                                  endDate: !!checkDataAvailable(data.EndDate)
+                                  endDate: checkDataAvailable(data.EndDate)
                                     ? new Date(data.EndDate)
                                     : "",
                                   currentEmp:
@@ -6283,12 +6283,12 @@ export default function AddProvider() {
                               empName: checkDataAvailable(
                                 apiResponse.WorkHistory.EmployerName
                               ),
-                              startDate: !!checkDataAvailable(
+                              startDate: checkDataAvailable(
                                 apiResponse.WorkHistory.StartDate
                               )
                                 ? new Date(apiResponse.WorkHistory.StartDate)
                                 : null,
-                              endDate: !!checkDataAvailable(
+                              endDate: checkDataAvailable(
                                 apiResponse.WorkHistory.EndDate
                               )
                                 ? new Date(!!apiResponse.WorkHistory.EndDate)
@@ -6309,7 +6309,7 @@ export default function AddProvider() {
                         setWorkTableRowsData(workTableDataArray);
 
                         let insuranceTableDataArray = [];
-                        if (!!apiResponse.Insurance) {
+                        if (apiResponse.Insurance) {
                           if (Array.isArray(apiResponse.Insurance)) {
                             let row = 1;
                             insuranceTableDataArray = apiResponse.Insurance.map(
@@ -6329,12 +6329,12 @@ export default function AddProvider() {
                                   covAmountAgg: checkDataAvailable(
                                     data.CoverageAmountAggregate
                                   ),
-                                  effectiveDate: !!checkDataAvailable(
+                                  effectiveDate: checkDataAvailable(
                                     data.StartDate
                                   )
                                     ? new Date(data.StartDate)
                                     : null,
-                                  expirationDate: !!checkDataAvailable(
+                                  expirationDate: checkDataAvailable(
                                     data.EndDate
                                   )
                                     ? new Date(data.EndDate)
@@ -6359,12 +6359,12 @@ export default function AddProvider() {
                               covAmountAgg: checkDataAvailable(
                                 apiResponse.Insurance.CoverageAmountAggregate
                               ),
-                              effectiveDate: !!checkDataAvailable(
+                              effectiveDate: checkDataAvailable(
                                 apiResponse.Insurance.StartDate
                               )
                                 ? new Date(apiResponse.Insurance.StartDate)
                                 : null,
-                              expirationDate: !!checkDataAvailable(
+                              expirationDate: checkDataAvailable(
                                 apiResponse.Insurance.EndDate
                               )
                                 ? new Date(apiResponse.Insurance.EndDate)
@@ -10085,7 +10085,7 @@ export default function AddProvider() {
             <Modal.Footer>
               <button
                 type="button"
-                class="btn btn-success"
+                className="btn btn-success"
                 onClick={() => {
                   addRoster(caqhModal.id);
                   setCaqhModal({
@@ -10100,7 +10100,7 @@ export default function AddProvider() {
               </button>
               <button
                 type="button"
-                class="btn"
+                className="btn"
                 onClick={() => {
                   setCaqhModal({
                     id: null,
@@ -10145,7 +10145,7 @@ export default function AddProvider() {
             <Modal.Footer>
               <button
                 type="button"
-                class="btn btn-success"
+                className="btn btn-success"
                 onClick={() => {
                   setCaqhGenericModal({
                     body: null,

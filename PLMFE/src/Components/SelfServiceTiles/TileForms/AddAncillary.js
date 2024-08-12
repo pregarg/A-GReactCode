@@ -133,14 +133,14 @@ export default function AddAncillary() {
                             <div className="row g-2 my-2">
                                 <div className="col-md">
                                     <div className="form-floating">
-                                        <select class="form-select" id="floatingSelect" aria-label="Floating label select example" name="State" onChange={event => handleChange(event)} value={changeState.State}>
+                                        <select className="form-select" id="floatingSelect" aria-label="Floating label select example" name="State" onChange={event => handleChange(event)} value={changeState.State}>
                                         <option selected>Select</option>
                                         <option value="1">AL</option>
                                         <option value="2">FL</option>
                                         <option value="3">AU</option>
                                         <option value="3">ZL</option>
                                         </select>
-                                        <label for="floatingSelect">State</label>
+                                        <label htmlFor="floatingSelect">State</label>
                                     </div>
                                 </div>
                                 <div className="col col-md-4 mx-2">
@@ -177,45 +177,45 @@ export default function AddAncillary() {
                         <div className="row g-2">
                                 <div className="col-md mx-2">
                                     <div className="form-floating">
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="medicaidSwitch"/>
-                                        <label class="form-check-label" htmlFor="medicaidSwitch">Medicaid</label>
+                                    <div className="form-check form-switch">
+                                        <input className="form-check-input" type="checkbox" id="medicaidSwitch"/>
+                                        <label className="form-check-label" htmlFor="medicaidSwitch">Medicaid</label>
                                     </div>
                                     </div>
                                 </div>
 
                                 <div className="col-md mx-2">
                                     <div className="form-floating">
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="medicareSwitch"/>
-                                        <label class="form-check-label" htmlFor="medicareSwitch">Medicare</label>
+                                    <div className="form-check form-switch">
+                                        <input className="form-check-input" type="checkbox" id="medicareSwitch"/>
+                                        <label className="form-check-label" htmlFor="medicareSwitch">Medicare</label>
                                     </div>
                                     </div>
                                 </div>
 
                                 <div className="col-md mx-2">
                                     <div className="form-floating">
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="exchangeSwitch"/>
-                                        <label class="form-check-label" htmlFor="exchangeSwitch">Exchange</label>
+                                    <div className="form-check form-switch">
+                                        <input className="form-check-input" type="checkbox" id="exchangeSwitch"/>
+                                        <label className="form-check-label" htmlFor="exchangeSwitch">Exchange</label>
                                     </div>
                                     </div>
                                 </div>
 
                                 <div className="col-md mx-2">
                                     <div className="form-floating">
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="commercialSwitch"/>
-                                        <label class="form-check-label" htmlFor="commercialSwitch">Commercial</label>
+                                    <div className="form-check form-switch">
+                                        <input className="form-check-input" type="checkbox" id="commercialSwitch"/>
+                                        <label className="form-check-label" htmlFor="commercialSwitch">Commercial</label>
                                     </div>
                                     </div>
                                 </div>
 
                                 <div className="col-md mx-2">
                                     <div className="form-floating">
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="behavioralSwitch"/>
-                                        <label class="form-check-label" htmlFor="behavioralSwitch">Behavioral Health</label>
+                                    <div className="form-check form-switch">
+                                        <input className="form-check-input" type="checkbox" id="behavioralSwitch"/>
+                                        <label className="form-check-label" htmlFor="behavioralSwitch">Behavioral Health</label>
                                     </div>
                                     </div>
                                 </div>
@@ -227,7 +227,7 @@ export default function AddAncillary() {
       </div>
     </div>
     <footer style={{textAlign: "left",boxShadow: "0 2px 4px 0 rgb(0 0 0 / 15%)",background:"white"}}>
-      <button type="button" class="btn btn-outline-primary" onClick={event => navigateHome(event)}>Go To Home</button>
+      <button type="button" className="btn btn-outline-primary" onClick={event => navigateHome(event)}>Go To Home</button>
     </footer>
     </>
   )

@@ -132,7 +132,7 @@ export default function DecisionAnciTab() {
     const decsHistoryData = () => {
         return (
             <>
-                <table class="table table-bordered tableLayout">
+                <table className="table table-bordered tableLayout">
                 <thead>
                   <tr className='tableRowStyle tableHeaderColor'>
                     <th scope="col">User Name</th>
@@ -153,7 +153,7 @@ export default function DecisionAnciTab() {
     const contractData = () => {
         return (
             <>
-                <table class="table table-striped table-bordered tableLayout">
+                <table className="table table-striped table-bordered tableLayout">
                 <thead>
                   <tr className='tableRowStyle tableHeaderColor'>
                     <th scope="col">Operation</th>
@@ -282,7 +282,7 @@ export default function DecisionAnciTab() {
                                 </h2>
                                 <div id="panelsStayOpen-collapseDocuments" className="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingDocuments">
                                     <div className="accordion-body">
-                                    <table class="table table-bordered tableLayout" style={{textAlign:"center"}} id="DocumentsTable">
+                                    <table className="table table-bordered tableLayout" style={{textAlign:"center"}} id="DocumentsTable">
                                         <thead>
                                         <tr className='tableRowStyle tableHeaderColor'>
                                             <th scope="col">Document Name</th>

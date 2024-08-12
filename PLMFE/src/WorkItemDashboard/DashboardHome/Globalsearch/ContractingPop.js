@@ -332,7 +332,7 @@ export default function ContractingPop(prop) {
   const truncateUndefined = (transformed) => {
     let result = {};
     Object.keys(transformed).forEach((key) => {
-      if (!!transformed[key]) {
+      if (transformed[key]) {
         result = {
           ...result,
           [key]: transformed[key],
@@ -2233,8 +2233,8 @@ export default function ContractingPop(prop) {
         const dataKeyType = typeof data[dataValue];
 
         if (dataKeyType === "object") {
-          if (!!data[dataValue]) {
-            if (!!data[dataValue].value) {
+          if (data[dataValue]) {
+            if (data[dataValue].value) {
               if (data[dataValue].value instanceof Date) {
                 dataObject[dataValue] = extractDate(data[dataValue].value);
               } else {

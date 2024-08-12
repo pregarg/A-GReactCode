@@ -52,7 +52,7 @@ const checkDataAvailable = (data) => {
 const getTransformed = (dataObj) => {
   const transformedObj = {};
   Object.keys(dataObj).forEach((key) => {
-    if (!!dataObj[key]) {
+    if (dataObj[key]) {
       transformedObj[key] = dataObj[key];
     }
   });
@@ -60,7 +60,7 @@ const getTransformed = (dataObj) => {
 };
 
 const populateAccessibility = (node, staticValue) => {
-  return !!checkDataAvailable(node.Accessibility)
+  return checkDataAvailable(node.Accessibility)
     ? Array.isArray(node.Accessibility)
       ? node.Accessibility.map((data1) =>
           !!checkDataAvailable(data1.Accessibility) &&
@@ -2913,8 +2913,8 @@ export default function ProviderDemo() {
 
         if (dataKeyType === "object") {
           console.log("Inside Data Object if: ", dataObject);
-          if (!!data[dataValue]) {
-            if (!!data[dataValue].value) {
+          if (data[dataValue]) {
+            if (data[dataValue].value) {
               if (data[dataValue].value instanceof Date) {
                 //dataObject[dataValue] = data[dataValue].value.toLocaleDateString()
                 dataObject[dataValue] = extractDate(data[dataValue].value);
@@ -5901,7 +5901,7 @@ export default function ProviderDemo() {
             <Modal.Footer>
               <button
                 type="button"
-                class="btn btn-success"
+                className="btn btn-success"
                 onClick={() => {
                   addRoster(caqhModal.id);
                   setCaqhModal({
@@ -5916,7 +5916,7 @@ export default function ProviderDemo() {
               </button>
               <button
                 type="button"
-                class="btn"
+                className="btn"
                 onClick={() => {
                   setCaqhModal({
                     id: null,
@@ -5961,7 +5961,7 @@ export default function ProviderDemo() {
             <Modal.Footer>
               <button
                 type="button"
-                class="btn btn-success"
+                className="btn btn-success"
                 onClick={() => {
                   setCaqhGenericModal({
                     body: null,

@@ -320,7 +320,7 @@ export default function LocationTable({
     return (
       <>
         <label className="validatAddressLabel">Form Address:</label>
-        <table class="table table-striped table-bordered dashboardTableBorder ">
+        <table className="table table-striped table-bordered dashboardTableBorder ">
           <thead>
             <tr className="dashboardTableHeader">
               <th></th>
@@ -368,7 +368,7 @@ export default function LocationTable({
         <br />
 
         <label className="validatAddressLabel">USPS Address:</label>
-        <table class="table table-striped table-bordered dashboardTableBorder ">
+        <table className="table table-striped table-bordered dashboardTableBorder ">
           <thead>
             <tr className="dashboardTableHeader">
               <th></th>
@@ -423,7 +423,7 @@ export default function LocationTable({
 
     return (
       <>
-        <form novalidate>
+        <form noValidate>
           <div className="container AddProviderLabel AddModalLabel">
             <div className="row">
               <div className="col-xs-6 col-md-6">

@@ -18,36 +18,36 @@ export default function DecisionHistoryModal(prop) {
                     <div className="container">
                             <div className="row my-2">
                                 <div className="col-xs-6 col-md-6">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control" id="userName" placeholder="" name="userName"
+                                    <div className="form-floating">
+                                        <input type="text" className="form-control" id="userName" placeholder="" name="userName"
                                         value={(('userName' in data) && (data.userName.value !== undefined)) ? (convertToCase(data.userName.value)) : (convertToCase(data.userName))}/>
-                                        <label for="userName">User Name</label>
+                                        <label htmlFor="userName">User Name</label>
                                     </div>
                                 </div>
 
                                 <div className="col-xs-6 col-md-6">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control" id="workstepName" placeholder="" name="workstepName"
+                                    <div className="form-floating">
+                                        <input type="text" className="form-control" id="workstepName" placeholder="" name="workstepName"
                                         value={(('workstepName' in data) && (data.workstepName.value !== undefined)) ? (convertToCase(data.workstepName.value)) : (convertToCase(data.workstepName))}/>
-                                        <label for="workstepName">Workstep Name</label>
+                                        <label htmlFor="workstepName">Workstep Name</label>
                                     </div>
                                 </div>
                             </div>
 
                             <div className="row my-2">
                                 <div className="col-xs-6 col-md-6">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control" id="caseDec" placeholder=""  name="caseDec"
+                                    <div className="form-floating">
+                                        <input type="text" className="form-control" id="caseDec" placeholder=""  name="caseDec"
                                         value={(('caseDecision' in data) && (data.caseDecision.value !== undefined)) ? (convertToCase(data.caseDecision.value)) : (convertToCase(data.caseDecision))}/>
-                                        <label for="caseDec">Case Decision</label>
+                                        <label htmlFor="caseDec">Case Decision</label>
                                     </div>
                                 </div>
 
                                 <div className="col-xs-6 col-md-6">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control" id="entryDateTime" placeholder="" name="entryDateTime"
+                                    <div className="form-floating">
+                                        <input type="text" className="form-control" id="entryDateTime" placeholder="" name="entryDateTime"
                                         value={(('entryDateTime' in data) && (data.entryDateTime.value !== undefined)) ? (prop.formatDecHistDate(data.entryDateTime.value)) : (prop.formatDecHistDate(data.entryDateTime))}/>
-                                        <label for="entryDateTime">Entry Date Time</label>
+                                        <label htmlFor="entryDateTime">Entry Date Time</label>
                                     </div>
                                 </div>
 
@@ -55,21 +55,21 @@ export default function DecisionHistoryModal(prop) {
 
 
                                 <div className="col-xs-6 col-md-6">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control" id="exitDateTime" placeholder="" name="exitDateTime"
+                                    <div className="form-floating">
+                                        <input type="text" className="form-control" id="exitDateTime" placeholder="" name="exitDateTime"
                                         value={(('exitDateTime' in data) && (data.exitDateTime.value !== undefined)) ? (prop.formatDecHistDate(data.exitDateTime.value)) : (prop.formatDecHistDate(data.exitDateTime))}/>
-                                        <label for="exitDateTime">Exit Date Time</label>
+                                        <label htmlFor="exitDateTime">Exit Date Time</label>
                                     </div>
                                 </div>
                             </div>
 
                             <div className="row my-2">
                                 <div className="col-xs-6 col-md-12">
-                                    <div class="form-floating">
-                                        <textarea type="text" class="form-control" id="caseNotes" name="caseNotes"
+                                    <div className="form-floating">
+                                        <textarea type="text" className="form-control" id="caseNotes" name="caseNotes"
                                         value={(('caseDecNotes' in data) && (data.caseDecNotes.value !== undefined)) ? (data.caseDecNotes.value) : (data.caseDecNotes)}
                                         style={{height:"auto",width:"100%"}}/>
-                                        <label for="caseNotes">Case Decision Notes</label>
+                                        <label htmlFor="caseNotes">Case Decision Notes</label>
                                     </div>
                                 </div>
                             </div>

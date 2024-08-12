@@ -157,7 +157,7 @@ export default function PayToTable({
     return (
       <>
         <label className="validatAddressLabel">Form Address:</label>
-        <table class="table table-striped table-bordered dashboardTableBorder ">
+        <table className="table table-striped table-bordered dashboardTableBorder ">
           <thead>
             <tr className="dashboardTableHeader">
               <th></th>
@@ -205,7 +205,7 @@ export default function PayToTable({
         <br />
 
         <label className="validatAddressLabel">USPS Address:</label>
-        <table class="table table-striped table-bordered dashboardTableBorder ">
+        <table className="table table-striped table-bordered dashboardTableBorder ">
           <thead>
             <tr className="dashboardTableHeader">
               <th></th>

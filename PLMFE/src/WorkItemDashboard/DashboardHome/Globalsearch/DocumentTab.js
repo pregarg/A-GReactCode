@@ -565,7 +565,7 @@ export default function DocumentTab(props) {
           >
             <div className="accordion-body">
               <table
-                class="table table-bordered tableLayout"
+                className="table table-bordered tableLayout"
                 style={{ textAlign: "center" }}
               >
                 <thead>
@@ -629,7 +629,7 @@ export default function DocumentTab(props) {
           >
             <div className="accordion-body">
               <table
-                class="table table-bordered tableLayout"
+                className="table table-bordered tableLayout"
                 style={{ textAlign: "center" }}
               >
                 <thead className="backGroundColor">

@@ -24,10 +24,10 @@ export default function (prop) {
           <div className="container">
             <div className="row">
                 <div className="col-md">
-                    <div class="mb-3">
-                        <input class="form-control" type="file" id="formFile" onChange={(event)=>prop.handleFileUpload(event,prop.clickedIndex)}/>
+                    <div className="mb-3">
+                        <input className="form-control" type="file" id="formFile" onChange={(event)=>prop.handleFileUpload(event,prop.clickedIndex)}/>
                     </div>
-                    <button type="button" class="btn btn-success" onClick={()=>prop.handleModalShowHide(false,prop.clickedIndex,'upload')}>Upload</button>
+                    <button type="button" className="btn btn-success" onClick={()=>prop.handleModalShowHide(false,prop.clickedIndex,'upload')}>Upload</button>
                 </div>
             </div>
           </div>

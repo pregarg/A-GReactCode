@@ -27,10 +27,10 @@ export default function FileUpload(prop) {
               <div className="container">
                 <div className="row">
                     <div className="col-md">
-                        <div class="mb-3">
-                            <input class="form-control" type="file" id="formFile" onChange={(event)=>prop.handleFileUpload(event,prop.currIndex)}/>
+                        <div className="mb-3">
+                            <input className="form-control" type="file" id="formFile" onChange={(event)=>prop.handleFileUpload(event,prop.currIndex)}/>
                         </div>
-                        <button type="button" class="btn btn-success" onClick={()=>prop.uploadFile(prop.documentData,prop.currIndex)}>Upload</button>
+                        <button type="button" className="btn btn-success" onClick={()=>prop.uploadFile(prop.documentData,prop.currIndex)}>Upload</button>
                     </div>
                 </div>
               </div>

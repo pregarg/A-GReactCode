@@ -13,8 +13,8 @@ const getGridDataValues = (tableData) => {
 
         if (dataKeyType === "object") {
          console.log("Inside Data Object if: ", dataObject);
-          if (!!data[dataValue]) {
-            if (!!data[dataValue].value) {
+          if (data[dataValue]) {
+            if (data[dataValue].value) {
               if (data[dataValue].value instanceof Date) {
                 // dataObject[dataValue] =
                 //   data[dataValue].value.toLocaleDateString();
