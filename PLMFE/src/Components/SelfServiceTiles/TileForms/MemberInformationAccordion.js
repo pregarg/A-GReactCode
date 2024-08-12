@@ -1,14 +1,13 @@
 import React, {useState, useEffect} from "react";
 import {useLocation} from "react-router-dom";
 import {useSelector} from "react-redux";
-import {Field, ErrorMessage} from "formik";
-import Select, {components} from "react-select";
 import useGetDBTables from "../../CustomHooks/useGetDBTables";
-import ReactDatePicker from "react-datepicker";
-import {selectStyle} from "./SelectStyle";
 import MemberSearch from "../TileForms/MemberSearch";
 import TableComponent from "../../../../src/util/TableComponent";
 import {useAxios} from "../../../api/axios.hook";
+import {FormikInputField} from "../Common/FormikInputField";
+import {FormikDatePicker} from "../Common/FormikDatePicker";
+import {FormikSelectField} from "../Common/FormikSelectField";
 
 const MemberInformationAccordion = (props) => {
   const {
@@ -38,9 +37,7 @@ const MemberInformationAccordion = (props) => {
   const [invalidInputState, setInvalidInputState] = useState(false);
 
   useEffect(() => {
-    setInvalidInputState(location.state.formView === "DashboardView" &&
-        (
-           
+    setInvalidInputState(location.state.formView === "DashboardView" && (
             location.state.stageName === "Redirect Review" ||
             location.state.stageName === "Documents Needed" ||
             location.state.stageName === "Effectuate" ||
@@ -62,169 +59,63 @@ const MemberInformationAccordion = (props) => {
     props.setMemberInformationData(memberInformationData);
   }
 
-  const wrapPlaceholder = (name, placeholder) => {
-    const field = props.memberInformationValidationSchema?.fields?.[name];
-    const required = (field?.type === 'date' && field?.internalTests?.optionality) ||
-        (field?.tests?.some(test => test.OPTIONS?.name === 'required'));
-    return `${placeholder}${required ? ' *' : ''}`;
-  };
-  const {ValueContainer, Placeholder} = components;
-  const CustomValueContainer = ({children, ...props}) => {
-    return (
-        <ValueContainer {...props}>
-          <Placeholder {...props} isFocused={props.isFocused}>
-            {wrapPlaceholder(props.selectProps.name, props.selectProps.placeholder)}
-          </Placeholder>
-          {React.Children.map(children, (child) =>
-              child && child.type !== Placeholder ? child : null
-          )}
-        </ValueContainer>
-    );
-  };
-  const InputField = (name, placeholder, maxLength) => {
-    return (
-        <>
-          <Field name={name}>
-            {({
-                field,
-                meta,
-              }) => (
-                <div className="form-floating">
-                  <input
-                      maxLength={maxLength}
-                      type="text"
-                      id={name}
-                      autoComplete="off"
-                      className={`form-control ${meta.error
-                          ? "is-invalid"
-                          : field.value
-                              ? "is-valid"
-                              : ""
-                      }`}
-                      placeholder={wrapPlaceholder(name, placeholder)}
-                      onChange={(event) => handleMemberInformationData(name, event.target.value)}
-                      onBlur={persistMemberInformationData}
-                      value={memberInformationData[name]}
-                      disabled={invalidInputState}
-                  />
-                  <label htmlFor="floatingInputGrid">
-                    {wrapPlaceholder(name, placeholder)}
-                  </label>
-                  {meta.error && (
-                      <div
-                          className="invalid-feedback"
-                          style={{display: "block"}}
-                      >
-                        {meta.error}
-                      </div>
-                  )}
-                </div>
-            )}
-          </Field>
-        </>
-    )
-  }
-  const SelectField = (name, placeholder, options) => <>
-    <Field name={name}>
-      {({
-          meta,
-        }) => (
-          <div className="form-floating">
-            <Select
-                styles={{...selectStyle}}
-                components={{
-                  ValueContainer: CustomValueContainer,
-                }}
-                isClearable
-                isDisabled={
-                    location.state.formView === "DashboardView" &&
-                    (location.state.stageName === "Redirect Review" ||
-                        location.state.stageName === "Documents Needed" ||
-                        location.state.stageName === "Effectuate" ||
-                        location.state.stageName === "Pending Effectuate" ||
-                        location.state.stageName === "Resolve" ||
-                        location.state.stageName === "Case Completed" ||
-                        location.state.stageName === "Reopen" ||
-                        location.state.stageName === "CaseArchived")
-                }
-                className="basic-multi-select"
-                options={options}
-                id={name}
-                isMulti={false}
-                onChange={(value) => handleMemberInformationData(name, value?.value, true)}
-                value={memberInformationData[name] ? {
-                  label: memberInformationData[name],
-                  value: memberInformationData[name]
-                } : undefined}
-                placeholder={wrapPlaceholder(name, placeholder)}
-                isSearchable={
-                    document.documentElement.clientHeight <= document.documentElement.clientWidth
-                }
-            />
-            {meta.touched && meta.error && (
-                <div
-                    className="invalid-feedback"
-                    style={{display: "block"}}
-                >
-                  {meta.error}
-                </div>
-            )}
-          </div>
-      )}
-    </Field>
-    <ErrorMessage
-        component="div"
-        name={name}
-        className="invalid-feedback"
-    />
-  </>
-  const DatePicker = (name, label, placeholder) => {
-    const CustomInput = (props) => {
-      return (
-          <div className="form-floating">
-            <input {...props} autoComplete="off" placeholder={wrapPlaceholder(name, placeholder)}/>
-            <label htmlFor={name}>{wrapPlaceholder(name, label)}</label>
-          </div>
-      )
-    };
-    const dateValue = !!memberInformationData[name + "#date"] ? new Date(memberInformationData[name + "#date"]) : memberInformationData[name];
-    const dv = dateValue?.value || dateValue;
-    return (
-        <div>
-          <ReactDatePicker
-              id={name}
-              className="form-control example-custom-input-provider"
-              selected={dv ? new Date(dv) : null}
-              name={name}
-              dateFormat="MM/dd/yyyy"
-              onChange={(date) => handleMemberInformationData(name, date, true)}
-              peekNextMonth
-              showMonthDropdown
-              showYearDropdown
-              isClearable
-              onKeyDown={(e) => e.preventDefault()}
-              dropdownMode="select"
-              style={{
-                position: "relative",
-                zIndex: "999",
-              }}
-              customInput={<CustomInput/>}
-              disabled={
-                  location.state.formView === "DashboardView" &&
-                  (location.state.stageName === "Redirect Review" ||
-                    location.state.stageName === "Documents Needed" ||
-                      location.state.stageName === "Effectuate" ||
-                      location.state.stageName === "Pending Effectuate" ||
-                      location.state.stageName === "Resolve" ||
-                      location.state.stageName === "Case Completed" ||
-                      location.state.stageName === "Reopen" ||
-                      location.state.stageName === "CaseArchived")
-              }
-          />
-        </div>
-    )
-  };
-  console.log("memberInformationData:", memberInformationData);
+  const renderInputField = (name, placeholder, maxLength) => (
+      <div className="col-xs-6 col-md-4">
+        <FormikInputField name={name}
+                          placeholder={placeholder}
+                          maxLength={maxLength}
+                          data={memberInformationData}
+                          onChange={handleMemberInformationData}
+                          disabled={invalidInputState}
+                          persist={persistMemberInformationData}
+                          schema={props.memberInformationValidationSchema}
+                          displayErrors={props.shouldShowSubmitError}
+                          errors={props.memberInformationErrors} />
+      </div>
+  )
+  const renderDatePicker = (name, placeholder, label) => (
+      <div className="col-xs-6 col-md-4">
+        <FormikDatePicker name={name}
+                          placeholder={placeholder}
+                          data={memberInformationData}
+                          label={label}
+                          onChange={handleMemberInformationData}
+                          disabled={ location.state.formView === "DashboardView" &&
+                              (location.state.stageName === "Redirect Review" ||
+                                  location.state.stageName === "Documents Needed" ||
+                                  location.state.stageName === "Effectuate" ||
+                                  location.state.stageName === "Pending Effectuate" ||
+                                  location.state.stageName === "Resolve" ||
+                                  location.state.stageName === "Case Completed" ||
+                                  location.state.stageName === "Reopen" ||
+                                  location.state.stageName === "CaseArchived")}
+                          displayErrors={props.shouldShowSubmitError}
+                          schema={props.memberInformationValidationSchema}
+                          errors={props.memberInformationErrors}/>
+      </div>
+  )
+  const renderSelectField = (name, placeholder, options) => (
+      <div className="col-xs-6 col-md-4">
+        <FormikSelectField name={name}
+                           placeholder={placeholder}
+                           data={memberInformationData}
+                           options={options}
+                           onChange={handleMemberInformationData}
+                           displayErrors={props.shouldShowSubmitError}
+                           disabled={location.state.formView === "DashboardView" &&
+                               (location.state.stageName === "Redirect Review" ||
+                                   location.state.stageName === "Documents Needed" ||
+                                   location.state.stageName === "Effectuate" ||
+                                   location.state.stageName === "Pending Effectuate" ||
+                                   location.state.stageName === "Resolve" ||
+                                   location.state.stageName === "Case Completed" ||
+                                   location.state.stageName === "Reopen" ||
+                                   location.state.stageName === "CaseArchived")}
+                           schema={props.memberInformationValidationSchema}
+                           errors={props.memberInformationErrors}/>
+      </div>
+  )
+
   const handleShowMemberSearch = () => {
     setShowMemberSearch(true);
   }
@@ -420,131 +311,62 @@ const MemberInformationAccordion = (props) => {
                    
             </button>
             <div className="row my-2">
-              <div className="col-xs-6 col-md-4">
-                {InputField("Member_ID", "Member ID", 50)}
-              </div>
-              <div className="col-xs-6 col-md-4">
-                {InputField("Member_First_Name", "Member FirstName", 50)}
-              </div>
-              <div className="col-xs-6 col-md-4">
-                {InputField("Member_Last_Name", "Member Last Name", 60)}
-              </div>
+              {renderInputField("Member_ID", "Member ID", 50)}
+              {renderInputField("Member_First_Name", "Member FirstName", 50)}
+              {renderInputField("Member_Last_Name", "Member Last Name", 60)}
             </div>
             <div className="row my-2">
-              <div className="col-xs-6 col-md-4">
-                {DatePicker("Date_of_Birth", "Date of Birth", "Date of Birth")}
-              </div>
-              <div className="col-xs-6 col-md-4">
-                {InputField("Members_Age", "Members Age", 50)}
-              </div>
-              <div className="col-xs-6 col-md-4">
-                {SelectField("Gender", "Gender", genderValues)}
-              </div>
+              {renderDatePicker("Date_of_Birth", "Date of Birth", "Date of Birth")}
+              {renderInputField("Members_Age", "Members Age", 50)}
+              {renderSelectField("Gender", "Gender", genderValues)}
             </div>
             <div className="row my-2">
-              <div className="col-xs-6 col-md-4">
-                {SelectField("Deceased", "Deceased", deceasedValues)}
-              </div>
-              <div className="col-xs-6 col-md-4">
-                {SelectField("Dual_Plan", "Dual Plan", dualPlanValues)}
-              </div>
-              <div className="col-xs-6 col-md-4">
-                {SelectField("Preferred_Language", "Preferred Language", preferredLanguageValues)}
-              </div>
+              {renderSelectField("Deceased", "Deceased", deceasedValues)}
+              {renderSelectField("Dual_Plan", "Dual Plan", dualPlanValues)}
+              {renderSelectField("Preferred_Language", "Preferred Language", preferredLanguageValues)}
             </div>
             <div className="row my-2">
-              <div className="col-xs-6 col-md-4">
-                {InputField("Member_IPA", "Member IPA", 50)}
-              </div>
-              <div className="col-xs-6 col-md-4">
-                {InputField("Medicare_ID_HICN", "Medicare ID HICN", 50)}
-              </div>
-              <div className="col-xs-6 col-md-4">
-                {InputField("Medicaid_ID", "Medicaid ID", 50)}
-              </div>
+              {renderInputField("Member_IPA", "Member IPA", 50)}
+              {renderInputField("Medicare_ID_HICN", "Medicare ID HICN", 50)}
+              {renderInputField("Medicaid_ID", "Medicaid ID", 50)}
             </div>
             <div className="row my-2">
-              <div className="col-xs-6 col-md-4">
-                {InputField("Primary_Care_Physician_PCP", "Primary Care Physician PCP", 50)}
-              </div>
-              <div className="col-xs-6 col-md-4">
-                {InputField("PCP_ID", "PCP ID", 50)}
-              </div>
-              <div className="col-xs-6 col-md-4">
-                {InputField("PCP_NPI_ID", "PCP NPI ID", 50)}
-              </div>
+              {renderInputField("Primary_Care_Physician_PCP", "Primary Care Physician PCP", 50)}
+              {renderInputField("PCP_ID", "PCP ID", 50)}
+              {renderInputField("PCP_NPI_ID", "PCP NPI ID", 50)}
             </div>
             <div className="row my-2">
-              <div className="col-xs-6 col-md-4">
-                {InputField("ContractPlan_ID", "Contract Plan ID", 50)}
-              </div>
-              <div className="col-xs-6 col-md-4">
-                {InputField("Plan_Name", "Plan Name", 50)}
-              </div>
-              <div className="col-xs-6 col-md-4">
-                {InputField("Plan_Description", "Plan Description", 240)}
-              </div>
+              {renderInputField("ContractPlan_ID", "Contract Plan ID", 50)}
+              {renderInputField("Plan_Name", "Plan Name", 50)}
+              {renderInputField("Plan_Description", "Plan Description", 240)}
             </div>
             <div className="row my-2">
-              <div className="col-xs-6 col-md-4">
-                {InputField("Plan_Code", "Plan Code", 50)}
-              </div>
-
-              <div className="col-xs-6 col-md-4">
-                {DatePicker("Plan_Effective_Date", "Plan Effective Date", "Plan Effective Date")}
-              </div>
-              <div className="col-xs-6 col-md-4">
-                {DatePicker("Plan_Expiration_Date", "Plan Expiration Date", "Plan Expiration Date")}
-              </div>
+              {renderInputField("Plan_Code", "Plan Code", 50)}
+              {renderDatePicker("Plan_Effective_Date", "Plan Effective Date", "Plan Effective Date")}
+              {renderDatePicker("Plan_Expiration_Date", "Plan Expiration Date", "Plan Expiration Date")}
             </div>
             <div className="row my-2">
-              <div className="col-xs-6 col-md-4">
-                {InputField("Email_ID", "Email ID", 100)}
-              </div>
-              <div className="col-xs-6 col-md-4">
-                {SelectField("Mail_to_Address", "Mail to Address", mailToAddressValues)}
-              </div>
-              <div className="col-xs-6 col-md-4">
-                {SelectField("Special_Need_Indicator", "Special Need Indicator", specialNeedsValues)}
-              </div>
+              {renderInputField("Email_ID", "Email ID", 100)}
+              {renderSelectField("Mail_to_Address", "Mail to Address", mailToAddressValues)}
+              {renderSelectField("Special_Need_Indicator", "Special Need Indicator", specialNeedsValues)}
             </div>
             <div className="row my-2">
-              <div className="col-xs-6 col-md-6">
-                {InputField("Address_Line_1", "Address Line 1", 100)}
-              </div>
-              <div className="col-xs-6 col-md-6">
-                {InputField("Address_Line_2", "Address Line 2", 100)}
-              </div>
+              {renderInputField("Address_Line_1", "Address Line 1", 100)}
+              {renderInputField("Address_Line_2", "Address Line 2", 100)}
             </div>
             <div className="row my-2">
-              <div className="col-xs-6 col-md-4">
-                {InputField("City", "City", 50)}
-              </div>
-              <div className="col-xs-6 col-md-4">
-                {InputField("County", "County", 50)}
-              </div>
-              <div className="col-xs-6 col-md-4">
-                {InputField("State_", "State", 240)}
-              </div>
+              {renderInputField("City", "City", 50)}
+              {renderInputField("County", "County", 50)}
+              {renderInputField("State_", "State", 240)}
             </div>
             <div className="row ny-2">
-              <div className="col-xs-6 col-md-4">
-                {SelectField("Comm_Pref", "Communication Preference", commPrefValues)}
-              </div>
-              <div className="col-xs-6 col-md-4">
-                {InputField("Phone_Number", "Phone Number", 50)}
-              </div>
-              <div className="col-xs-6 col-md-4">
-                {InputField("Fax_Number", "Fax Number", 50)}
-              </div>
+              {renderSelectField("Communication_Preference", "Communication Preference", commPrefValues)}
+              {renderInputField("Phone_Number", "Phone Number", 50)}
+              {renderInputField("Fax_Number", "Fax Number", 50)}
             </div>
             <div className="row my-2">
-              <div className="col-xs-6 col-md-4">
-                {InputField("Zip_Code", "Zip Code", 50)}
-              </div>
-              <div className="col-xs-6 col-md-4">
-                {InputField("Action", "Action", 50)}
-              </div>
+              {renderInputField("Zip_Code", "Zip Code", 50)}
+              {renderInputField("Action", "Action", 50)}
             </div>
           </div>
         </div>

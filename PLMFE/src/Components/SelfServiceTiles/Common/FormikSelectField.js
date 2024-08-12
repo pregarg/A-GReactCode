@@ -63,7 +63,7 @@ const selectStyle = {
   }),
 }
 
-export const FormikSelectField = ({name, placeholder, options, disabled, data, onChange, schema, errors}) => {
+export const FormikSelectField = ({name, placeholder, options, disabled, data, onChange, schema, errors, displayErrors}) => {
   const wrapPlaceholder = (name, placeholder) => {
     const field = schema?.fields?.[name];
     const required = (field?.type === 'date' && field?.internalTests?.optionality) ||
@@ -94,7 +94,7 @@ export const FormikSelectField = ({name, placeholder, options, disabled, data, o
                 }}
                 isClearable
                 isDisabled={disabled}
-                className={`${errors[name] ? "is-invalid" : data[name] ? "is-valid" : ""}`}
+                className={`${errors[name] && displayErrors ? "is-invalid" : data[name] ? "is-valid" : ""}`}
                 options={options}
                 id={name}
                 isMulti={false}
@@ -108,7 +108,7 @@ export const FormikSelectField = ({name, placeholder, options, disabled, data, o
                     document.documentElement.clientHeight <= document.documentElement.clientWidth
                 }
             />
-            {errors[name] && (
+            {errors[name] && displayErrors && (
                 <div
                     className="invalid-feedback"
                     style={{display: "block", fontSize: "12px"}}

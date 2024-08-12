@@ -59,13 +59,15 @@ const CaseHeader = () => {
     potentialDupData,
     apiTestState,
     callProcRef,
-    hasSubmitError,
     documentSectionDataRef,
     disableSaveAndExit,
     decisionTab,
     setDecisionTab,
     caseTimelinesErrors,
     caseInformationErrors,
+    claimInformationErrors,
+    memberInformationErrors,
+    shouldShowSubmitError,
   } = useCaseHeader();
 
   // const [memberInformation, setMemberInformation] = useState();
@@ -91,18 +93,22 @@ const CaseHeader = () => {
                     setCaseTimelinesData={setCaseTimelines}
                     caseTimelinesValidationSchema={caseTimelinesValidationSchema}
                     caseTimelinesErrors={caseTimelinesErrors}
+                    shouldShowSubmitError={shouldShowSubmitError}
                 />
                 <CaseInformationAccordion
                     caseInformationData={caseInformation}
                     setCaseInformationData={setCaseInformation}
                     caseInformationValidationSchema={caseInformationValidationSchema}
                     caseInformationErrors={caseInformationErrors}
+                    shouldShowSubmitError={shouldShowSubmitError}
                 />
                 <CaseClaimInformation
                     claimInformationData={claimInformation}
                     setClaimInformationData={setClaimInformation}
                     claimInformationValidationSchema={claimInformationValidationSchema}
                     handleClaimInformationGridData={claimInformationGrid}
+                    claimInformationErrors={claimInformationErrors}
+                    shouldShowSubmitError={shouldShowSubmitError}
                     updateClaimInformationGridData={setClaimInformationGrid}
                     handleProviderInformationGridData={providerInformationGrid}
                     updateProviderInformationGridData={setProviderInformationGrid}
@@ -111,6 +117,8 @@ const CaseHeader = () => {
                     memberInformationData={memberInformation}
                     setMemberInformationData={setMemberInformation}
                     memberInformationValidationSchema={memberInformationValidationSchema}
+                    memberInformationErrors={memberInformationErrors}
+                    shouldShowSubmitError={shouldShowSubmitError}
                 />
                 <RepresentativeInformationAccordion
                     handleRepresentativeInformationGridData={representativeInformationGrid}
@@ -192,7 +200,6 @@ const CaseHeader = () => {
                     className="btn btn-outline-primary btnStyle"
                     name="submit"
                     onClick={submitData}
-                    disabled={hasSubmitError}
                     style={{float: "right", marginRight: "10px"}}
                 >
                   Submit
