@@ -405,8 +405,25 @@ const CaseClaimInformation = (props) => {
     let tempInput = {...gridFieldTempState};
     tempInput[fieldName] = selectedValue;
     setGridFieldTempState(tempInput);
+    if (fieldName === "Service_Start_Date" || fieldName === "Service_End_Date") {
+      const startDate = tempInput["Service_Start_Date"];
+      const endDate = tempInput["Service_End_Date"];
+      
+      const daysSpan = calculateDaysDifference(startDate, endDate);
+      
+      // Update the state with the calculated number of days in span
+      tempInput["Number_of_Days_in_Span"] = daysSpan;
+      setGridFieldTempState(tempInput); // Update the state with the new value
+  }
   };
-
+  const calculateDaysDifference = (startDate, endDate) => {
+    if (!startDate || !endDate) return null;
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const timeDiff = end.getTime() - start.getTime();
+    const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+    return daysDiff;
+};
   const handleGridFieldChange = (index, event) => {
     let tempInput = {...gridFieldTempState};
     let {name, value} = event.target;
@@ -712,9 +729,11 @@ const CaseClaimInformation = (props) => {
                       handleGridSelectChange={handleGridSelectChange}
                       handleGridDateChange={handleGridDateChange}
                       handleGridFieldChange={handleGridFieldChange}
+                      calculateDaysDifference = {calculateDaysDifference}
                       gridFieldTempState={gridFieldTempState}
                       editTableRows={editTableRows}
                       gridRowsFinalSubmit={gridRowsFinalSubmit}
+                    
                       //selectJson={selectValues}
                       lockStatus={
                         location.state.lockStatus !== undefined &&

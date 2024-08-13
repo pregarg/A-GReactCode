@@ -17,6 +17,8 @@ const ExpeditedRequestAccordion = (props) => {
   const angStSelector = useSelector((state) => state?.masterAngStUpExpedited);
 
   const location = useLocation();
+  console.log("expedited1234567@@@",location)
+  
 
   const [invalidInputState, setInvalidInputState] = useState(false);
 
@@ -44,6 +46,7 @@ const ExpeditedRequestAccordion = (props) => {
   const persistExpeditedRequestData = () => {
     props.setExpeditedRequestData(expeditedRequestData);
   }
+
 
   const wrapPlaceholder = (name, placeholder) => {
     const field = props.expeditedRequestValidationSchema?.fields?.[name];
