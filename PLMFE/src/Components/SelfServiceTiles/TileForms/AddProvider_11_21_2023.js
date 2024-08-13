@@ -35,7 +35,7 @@ import { useAxios } from "../../../api/axios.hook";
 import { data } from "jquery";
 import AlertModal from "../TileFormModals/AlertModal";
 import useCallApi from "../../CustomHooks/useCallApi";
-import CompensationTab from '../../ContractingHome/ContractingTileForms/CompensationTab';
+import CompensationTab from "../../ContractingHome/ContractingTileForms/CompensationTab";
 
 const override = {
   display: "block",
@@ -48,7 +48,7 @@ const override = {
 
 const checkDataAvailable = (data) => {
   if (data == undefined || data == null) {
-    return '';
+    return "";
   } else {
     return data;
   }
@@ -73,17 +73,17 @@ const populateAccessibility = (node, staticValue) => {
             staticValue &&
           checkDataAvailable(data1.AccessibilityFlag) == "1"
             ? "Yes"
-            : "No"
+            : "No",
         ).indexOf("Yes") > -1
         ? { label: "Yes", value: "Y" }
         : { label: "No", value: "N" }
       : !!checkDataAvailable(node.Accessibility.Accessibility) &&
-        checkDataAvailable(
-          node.Accessibility.Accessibility.AccessibilityDescription
-        ) == staticValue &&
-        checkDataAvailable(node.Accessibility.AccessibilityFlag) == "1"
-      ? { label: "Yes", value: "Y" }
-      : { label: "No", value: "N" }
+          checkDataAvailable(
+            node.Accessibility.Accessibility.AccessibilityDescription,
+          ) == staticValue &&
+          checkDataAvailable(node.Accessibility.AccessibilityFlag) == "1"
+        ? { label: "Yes", value: "Y" }
+        : { label: "No", value: "N" }
     : { label: "No", value: "N" };
 };
 
@@ -104,7 +104,7 @@ const initState = {
   attestationId: "",
   emailId: "",
   gender: "",
-  delegated:""
+  delegated: "",
   //ecfmgExpirationDate:'',
   //ecfmgIssueDate:'',
   //attestationDate:'',
@@ -131,7 +131,7 @@ export default function AddProvider() {
   const { customAxios } = useAxios();
   const userType = useSelector((store) => store.auth.userType);
 
-  const [gridFieldTempState,setGridFieldTempState] = useState({});
+  const [gridFieldTempState, setGridFieldTempState] = useState({});
 
   console.log("Custom Axios Add Provider: ", customAxios);
   const mastersSelector = useSelector((masters) => masters);
@@ -150,7 +150,7 @@ export default function AddProvider() {
   let documentSectionDataRef = useRef([]);
 
   let credentialingConfigData = JSON.parse(
-    process.env.REACT_APP_CREDENTIALING_DETAILS
+    process.env.REACT_APP_CREDENTIALING_DETAILS,
   );
   const dispatch = useDispatch();
   const [loadForm, setLoadForm] = useState(true);
@@ -168,183 +168,218 @@ export default function AddProvider() {
   });
 
   //Added by Nidhi Gupta on 09/26/2023
-const [apiTestStateComp,setApiTestStateComp] = useState({
-  pcpId 		:'',
-  taxId 		:'',
-  medicalLicense : '',
-  groupRiskId 	:'',
-  networkId : '',
-  planValue : '',
-  networkState 		:'',
-  feeSchedule :'',
-  riskState 		:'',
-  riskAssignment :'',
-//Added by Nidhi Gupta on 10/06/2023
-    starsIncentive : '',
-    awvIncentive : '',
-    medicalHome : '',
-    criticalAccess :'',
-    pricingAWP : '',
-    pricingASP : '',
-    annualEscl : '',
-    sequesApplies : '',
-    terminationClause : '',
-    contractTypeComp:'',
-    qualityFlagI : '' ,
-    qualityFlagJ : '' ,
-    qualityFlagK : '' ,
-    qualityFlagL : '' ,
-    qualityFlagM : '',
-    qualityFlagN : ''
- //Till Here
-});
+  const [apiTestStateComp, setApiTestStateComp] = useState({
+    pcpId: "",
+    taxId: "",
+    medicalLicense: "",
+    groupRiskId: "",
+    networkId: "",
+    planValue: "",
+    networkState: "",
+    feeSchedule: "",
+    riskState: "",
+    riskAssignment: "",
+    //Added by Nidhi Gupta on 10/06/2023
+    starsIncentive: "",
+    awvIncentive: "",
+    medicalHome: "",
+    criticalAccess: "",
+    pricingAWP: "",
+    pricingASP: "",
+    annualEscl: "",
+    sequesApplies: "",
+    terminationClause: "",
+    contractTypeComp: "",
+    qualityFlagI: "",
+    qualityFlagJ: "",
+    qualityFlagK: "",
+    qualityFlagL: "",
+    qualityFlagM: "",
+    qualityFlagN: "",
+    //Till Here
+  });
 
-/////
-const [firlTableRowsData, setFirlTableRowsData] = useState([]);
-const [compensationTableRowsData, setCompensationTableRowsData] = useState([]);
-/////
+  /////
+  const [firlTableRowsData, setFirlTableRowsData] = useState([]);
+  const [compensationTableRowsData, setCompensationTableRowsData] = useState(
+    [],
+  );
+  /////
 
+  const handleMedicalGrpNoShow = (evt) => {
+    console.log("handleMedicalGrpNoShow evt: ", evt);
 
-const handleMedicalGrpNoShow = (evt) => {
+    let groupRiskIdValue = apiTestStateComp.groupRiskId;
+    let riskStateValue = "";
+    let riskValue = "";
+    let taxValue = "";
 
-  console.log("handleMedicalGrpNoShow evt: ",evt);
+    riskStateValue =
+      apiTestStateComp.riskState && apiTestStateComp.riskState.value
+        ? apiTestStateComp.riskState.value
+        : "--";
+    riskValue =
+      apiTestStateComp.riskAssignment && apiTestStateComp.riskAssignment.value
+        ? apiTestStateComp.riskAssignment.value.substring(0, 2)
+        : "--";
+    taxValue =
+      apiTestStateComp.taxId !== undefined && apiTestStateComp.taxId !== ""
+        ? apiTestStateComp.taxId.substring(apiTestStateComp.taxId.length - 5)
+        : "-----";
 
-  let groupRiskIdValue = apiTestStateComp.groupRiskId;
-  let riskStateValue='';
-  let riskValue='';
-  let taxValue='';
-
-  riskStateValue=((apiTestStateComp.riskState && apiTestStateComp.riskState.value)?apiTestStateComp.riskState.value:'--');
-  riskValue=((apiTestStateComp.riskAssignment && apiTestStateComp.riskAssignment.value)?apiTestStateComp.riskAssignment.value.substring(0,2):'--');
-  taxValue=((apiTestStateComp.taxId!==undefined && apiTestStateComp.taxId!=='')?
-  (apiTestStateComp.taxId.substring(apiTestStateComp.taxId.length-5)):'-----'
-  )
-
-  //console.log('Inside handleMedicalGrpNoShow riskStateValue: ',riskStateValue);
-  //console.log('Inside handleMedicalGrpNoShow riskValue: ',riskValue);
-  //console.log('Inside handleMedicalGrpNoShow taxValue: ',taxValue);
-  groupRiskIdValue=riskStateValue+riskValue+taxValue;
-  //console.log('Inside handleMedicalGrpNoShow groupRiskIdValue: ',groupRiskIdValue);
+    //console.log('Inside handleMedicalGrpNoShow riskStateValue: ',riskStateValue);
+    //console.log('Inside handleMedicalGrpNoShow riskValue: ',riskValue);
+    //console.log('Inside handleMedicalGrpNoShow taxValue: ',taxValue);
+    groupRiskIdValue = riskStateValue + riskValue + taxValue;
+    //console.log('Inside handleMedicalGrpNoShow groupRiskIdValue: ',groupRiskIdValue);
 
     setApiTestStateComp({
-          ...apiTestStateComp,
-          groupRiskId: groupRiskIdValue
-      })
-  }
+      ...apiTestStateComp,
+      groupRiskId: groupRiskIdValue,
+    });
+  };
 
   const handleLinearFieldChange = (evt) => {
     let value = evt.target.value || "";
     value = value.toUpperCase();
     setApiTestStateComp({
-        ...apiTestStateComp,
-        [evt.target.name]: value  //changed by Nidhi Gupta on 10/16/2023
-    })
+      ...apiTestStateComp,
+      [evt.target.name]: value, //changed by Nidhi Gupta on 10/16/2023
+    });
     //console.log(" handleLinearFieldChange apiTestStateComp: ",apiTestStateComp);
-  }
+  };
 
-const handleNetworkIdShow = (evt) => {
+  const handleNetworkIdShow = (evt) => {
+    console.log("handleNetworkIdShow evt: ", evt);
 
-      console.log("handleNetworkIdShow evt: ",evt);
+    let networkIdValue = apiTestStateComp.networkId;
+    let networkStateValue = "";
+    let planValue = "";
 
-      let networkIdValue = apiTestStateComp.networkId;
-      let networkStateValue='';
-      let planValue='';
+    networkStateValue =
+      apiTestStateComp.networkState && apiTestStateComp.networkState.value
+        ? apiTestStateComp.networkState.value
+        : "--";
+    planValue =
+      apiTestStateComp.planValue !== undefined &&
+      apiTestStateComp.planValue !== ""
+        ? apiTestStateComp.planValue
+        : "";
 
+    //console.log('Inside handleNetworkIdShow networkStateValue: ',networkStateValue);
+    //console.log('Inside handleNetworkIdShow planValue: ',planValue);
+    networkIdValue = planValue + networkStateValue;
+    //console.log('Inside handleNetworkIdShow groupRiskIdValue: ',networkIdValue);
 
-      networkStateValue=((apiTestStateComp.networkState && apiTestStateComp.networkState.value)?apiTestStateComp.networkState.value:'--');
-      planValue=((apiTestStateComp.planValue!==undefined && apiTestStateComp.planValue!=='')?
-      (apiTestStateComp.planValue):'')
+    setApiTestStateComp({
+      ...apiTestStateComp,
+      networkId: networkIdValue,
+    });
+  };
 
+  const handlePcpIdShow = (evt) => {
+    console.log("handlePcpIdShow evt: ", evt);
+
+    let pcpIdValue = apiTestStateComp.pcpId;
+    let medicalLicenseValue = "";
+    let constant = "GK";
+
+    medicalLicenseValue =
+      apiTestStateComp.medicalLicense !== undefined &&
+      apiTestStateComp.medicalLicense !== ""
+        ? apiTestStateComp.medicalLicense
+        : "";
+    pcpIdValue = constant + medicalLicenseValue;
+    //console.log('Inside handlePcpIdShow pcpIdValue: ',pcpIdValue);
+
+    setApiTestStateComp({
+      ...apiTestStateComp,
+      pcpId: pcpIdValue,
+    });
+  };
+
+  const handleLinearSelectChangeComp = (selectValue, evnt) => {
+    console.log(" handleLinearSelectChange evnt.name: ", evnt.name);
+
+    const { name } = evnt;
+    let groupRiskIdValue = apiTestStateComp.groupRiskId;
+
+    let networkIdValue = apiTestStateComp.networkId;
+
+    if (name === "riskState" || name === "riskAssignment") {
+      let riskStateValue = "";
+      let riskValue = "";
+      let taxValue = "";
+
+      ///
+
+      riskStateValue =
+        name === "riskState"
+          ? selectValue && selectValue.value
+            ? selectValue.value
+            : "--"
+          : apiTestStateComp.riskState && apiTestStateComp.riskState.value
+            ? apiTestStateComp.riskState.value
+            : "--";
+      riskValue =
+        name === "riskAssignment"
+          ? selectValue && selectValue.value
+            ? selectValue.value.substring(0, 2)
+            : "--"
+          : apiTestStateComp.riskAssignment &&
+              apiTestStateComp.riskAssignment.value
+            ? apiTestStateComp.riskAssignment.value.substring(0, 2)
+            : "--";
+
+      taxValue =
+        apiTestStateComp.taxId !== undefined && apiTestStateComp.taxId !== ""
+          ? apiTestStateComp.taxId.substring(apiTestStateComp.taxId.length - 5)
+          : "-----";
+
+      groupRiskIdValue = riskStateValue + riskValue + taxValue;
+      //console.log('Inside handleMedicalGrpNoShow riskStateValue: ',riskStateValue);
+      //console.log('Inside handleMedicalGrpNoShow riskValue: ',riskValue);
+      //console.log('Inside handleMedicalGrpNoShow taxValue: ',taxValue);
+      //console.log('Inside handleMedicalGrpNoShow groupRiskIdValue: ',groupRiskIdValue);
+    }
+
+    if (name === "networkState") {
+      let networkStateValue = "";
+      let planValue = "";
+
+      networkStateValue =
+        name === "networkState"
+          ? selectValue && selectValue.value
+            ? selectValue.value
+            : "--"
+          : apiTestStateComp.networkState && apiTestStateComp.networkState.value
+            ? apiTestStateComp.networkState.value
+            : "--";
+
+      planValue =
+        apiTestStateComp.planValue !== undefined &&
+        apiTestStateComp.planValue !== ""
+          ? apiTestStateComp.planValue
+          : "";
+      networkIdValue = planValue + networkStateValue;
       //console.log('Inside handleNetworkIdShow networkStateValue: ',networkStateValue);
       //console.log('Inside handleNetworkIdShow planValue: ',planValue);
-      networkIdValue=planValue+networkStateValue;
-      //console.log('Inside handleNetworkIdShow groupRiskIdValue: ',networkIdValue);
+      //console.log('Inside handleNetworkIdShow networkIdValue: ',networkIdValue);
+    }
 
-        setApiTestStateComp({
-              ...apiTestStateComp,
-              networkId: networkIdValue
-          })
-  }
+    setApiTestStateComp({
+      ...apiTestStateComp,
+      groupRiskId: groupRiskIdValue,
+      [name]: selectValue,
+      networkId: networkIdValue,
+    });
 
-const handlePcpIdShow = (evt) => {
-
-      console.log("handlePcpIdShow evt: ",evt);
-
-       let pcpIdValue = apiTestStateComp.pcpId;
-       let medicalLicenseValue='';
-       let constant='GK';
-
-      medicalLicenseValue=((apiTestStateComp.medicalLicense!==undefined && apiTestStateComp.medicalLicense!=='')?
-      (apiTestStateComp.medicalLicense):'')
-      pcpIdValue=constant+medicalLicenseValue;
-      //console.log('Inside handlePcpIdShow pcpIdValue: ',pcpIdValue);
-
-        setApiTestStateComp({
-              ...apiTestStateComp,
-              pcpId: pcpIdValue
-          })
-  }
-
-const handleLinearSelectChangeComp = (selectValue, evnt) => {
-        console.log(" handleLinearSelectChange evnt.name: ",evnt.name);
-
-        const {name} = evnt;
-        let groupRiskIdValue = apiTestStateComp.groupRiskId;
-
-        let networkIdValue = apiTestStateComp.networkId;
-
-        if (name ==='riskState' || name==='riskAssignment' )
-        {
-        let riskStateValue='';
-        let riskValue='';
-        let taxValue='';
-
-
-        ///
-
-          riskStateValue=(name ==='riskState'?((selectValue && selectValue.value)?selectValue.value:'--'):((apiTestStateComp.riskState && apiTestStateComp.riskState.value)?apiTestStateComp.riskState.value:'--'));
-          riskValue=(name ==='riskAssignment'?((selectValue && selectValue.value)?selectValue.value.substring(0,2):'--'):((apiTestStateComp.riskAssignment && apiTestStateComp.riskAssignment.value)?apiTestStateComp.riskAssignment.value.substring(0,2):'--'));
-
-
-        taxValue=((apiTestStateComp.taxId!==undefined && apiTestStateComp.taxId!=='')?
-          (apiTestStateComp.taxId.substring(apiTestStateComp.taxId.length-5)):'-----')
-
-          groupRiskIdValue=riskStateValue+riskValue+taxValue;
-        //console.log('Inside handleMedicalGrpNoShow riskStateValue: ',riskStateValue);
-        //console.log('Inside handleMedicalGrpNoShow riskValue: ',riskValue);
-        //console.log('Inside handleMedicalGrpNoShow taxValue: ',taxValue);
-        //console.log('Inside handleMedicalGrpNoShow groupRiskIdValue: ',groupRiskIdValue);
-      }
-
-
-        if(name==='networkState'){
-        let networkStateValue='';
-        let planValue='';
-
-
-        networkStateValue=(name ==='networkState'?((selectValue && selectValue.value)?selectValue.value:'--'):((apiTestStateComp.networkState && apiTestStateComp.networkState.value)?apiTestStateComp.networkState.value:'--'));
-
-
-        planValue=((apiTestStateComp.planValue!==undefined && apiTestStateComp.planValue!=='')?
-        (apiTestStateComp.planValue):'')
-        networkIdValue=planValue+networkStateValue;
-        //console.log('Inside handleNetworkIdShow networkStateValue: ',networkStateValue);
-        //console.log('Inside handleNetworkIdShow planValue: ',planValue);
-        //console.log('Inside handleNetworkIdShow networkIdValue: ',networkIdValue);
-         }
-
-
-
-          setApiTestStateComp({
-                ...apiTestStateComp,
-                groupRiskId: groupRiskIdValue,
-                [name] : selectValue, networkId : networkIdValue
-            })
-
-      console.log("handleLinearSelectChange apiTestStateComp: ",apiTestStateComp);
-
-  }
-//Till Here
+    console.log(
+      "handleLinearSelectChange apiTestStateComp: ",
+      apiTestStateComp,
+    );
+  };
+  //Till Here
   const [alertModalShow, setAlertModalShow] = useState({ show: false });
 
   const [formikInitializeState, setFormikInitializeState] = useState(false);
@@ -371,7 +406,7 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
       .max(10, "CAQH ID max length exceeded")
       .matches(
         /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
-        "Only numbers are accepted"
+        "Only numbers are accepted",
       ),
     caqhNpiId: Yup.string()
       //        .typeError('NPI ID must be a number')
@@ -379,16 +414,16 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
       .max(10, "NPI ID max length exceeded")
       .matches(
         /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
-        "Only numbers are accepted"
+        "Only numbers are accepted",
       ),
     ssn: Yup.string()
       //        .typeError('SSN must be a number')
       .required("Please enter SSN Number")
-      .min(9,"SSN length should be 9 digits")
+      .min(9, "SSN length should be 9 digits")
       .max(9, "SSN max length exceeded")
       .matches(
         /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
-        "Only numbers are accepted"
+        "Only numbers are accepted",
       ),
     medicareId: Yup.string()
       //        .typeError('Medicare ID must be a number')
@@ -401,7 +436,7 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
       .max(15, "Medicaid ID max length exceeded")
       .matches(
         /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
-        "Only numbers are accepted"
+        "Only numbers are accepted",
       ),
     ecfmgNumber: Yup.string()
       //       .typeError('ECFMG Number must be a number')
@@ -409,7 +444,7 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
       .max(13, "ECFMG Number max length exceeded")
       .matches(
         /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
-        "Only numbers are accepted"
+        "Only numbers are accepted",
       ),
     attestationId: Yup.string()
       //      .typeError('ECFMG Number must be a number')
@@ -417,7 +452,7 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
       .max(10, "Attestation ID max length exceeded")
       .matches(
         /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
-        "Only numbers are accepted"
+        "Only numbers are accepted",
       ),
     //New Nidhi
     emailId: Yup.string()
@@ -426,19 +461,17 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
       .max(50, "Email Id max length exceeded"),
     //Till here
     // gender: Yup.object().nullable().required("Please select Gender"),
-    delegated: Yup.object().nullable().required('Please select Delegated')
+    delegated: Yup.object().nullable().required("Please select Delegated"),
   });
 
   const checktaxdec = (data) => {
     console.log("y------------------->" + data);
     const taxDescValues =
-    mastersSelector["masterTaxonomyCode"].length === 0
-      ? []
-      : mastersSelector["masterTaxonomyCode"][0].data;
+      mastersSelector["masterTaxonomyCode"].length === 0
+        ? []
+        : mastersSelector["masterTaxonomyCode"][0].data;
     console.log(taxDescValues);
-    if (
-      taxDescValues.length > 0
-    ) {
+    if (taxDescValues.length > 0) {
       const desc = taxDescValues.find((val) => {
         return val.taxonomycode.trim() == data.trim();
       });
@@ -453,21 +486,19 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
   };
 
   const checkSubSpeciality = (inpJson) => {
-    console.log("checkSubSpeciality------------------->" ,inpJson);
+    console.log("checkSubSpeciality------------------->", inpJson);
     let retValue = "";
     const specialityValues =
-    mastersSelector["masterSpeciality"].length === 0
-      ? []
-      : mastersSelector["masterSpeciality"][0].data;
+      mastersSelector["masterSpeciality"].length === 0
+        ? []
+        : mastersSelector["masterSpeciality"][0].data;
     console.log(specialityValues);
-    if (
-      specialityValues.length > 0
-    ) {
+    if (specialityValues.length > 0) {
       const desc = specialityValues.find((val) => {
         //console.log("checkSubSpeciality find val------------------->" ,val);
-        return (val.speciality.trim() == inpJson.speciality.trim());
+        return val.speciality.trim() == inpJson.speciality.trim();
       });
-      printConsole('Inside checkSubSpeciality function found json: ',desc);
+      printConsole("Inside checkSubSpeciality function found json: ", desc);
       if (desc) {
         inpJson.subSpeciality = desc.subSpeciality;
         inpJson.hsdCode = desc.hsdCodeValue;
@@ -488,7 +519,7 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
     validatePotentialDupDec,
     setContractIdDropDown,
     updateDecision,
-    checkDecision
+    checkDecision,
   } = useUpdateDecision();
   const { getTableDetails, trimJsonValues, getDatePartOnly } = useGetDBTables();
   const { getLinkingData } = useCallApi();
@@ -565,7 +596,7 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
 
   const [selectValues, setSelectValues] = useState({});
   const [subSpecialityOptions, setSubSpecialityOptions] = useState([]);
-  const[potentialDupData, setPotentialDupData] = useState([]);
+  const [potentialDupData, setPotentialDupData] = useState([]);
 
   //Nidhi commented this
   //const [addQuesValues, setAddQuesValues] = useState([]);
@@ -627,7 +658,7 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
   // NPI ID is valid
   const checkLuhn = (caqhNpiId) => {
     console.log("Inside onBlur event of NPI ID");
-    if (caqhNpiId!==undefined && caqhNpiId.length>0) {
+    if (caqhNpiId !== undefined && caqhNpiId.length > 0) {
       var tmp;
       var sum;
       var i;
@@ -693,9 +724,7 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
           });
 
     }*/
-
   };
-
 
   /*const npiOnBlur = (e, values) => {
     console.log("Inside npiOnBlur()");
@@ -755,7 +784,7 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
   //Till Here
 
   useEffect(() => {
-   // console.log("Auth Data: ", authData);
+    // console.log("Auth Data: ", authData);
 
     /*TO DO: Need to uncomment this*/
     // if(!authData.isSignedIn){
@@ -924,13 +953,13 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
       const provContLinkData = mastersSelector["masterProvContLinkData"];
       printConsole(
         "Inside getDashboardData provContLinkData Data: ",
-        provContLinkData
+        provContLinkData,
       );
       if (provContLinkData.length > 0) {
         const contractIdData = provContLinkData[0][0];
         printConsole(
           "Inside getDashboardData contractIdData Data: ",
-          contractIdData
+          contractIdData,
         );
         if (contractIdData !== undefined) {
           if (contractIdData.hasOwnProperty("MainTable")) {
@@ -958,7 +987,7 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
     //     selectJson.decisionOptions = ((mastersSelector['masterDecision'].length===0) ? [] : (mastersSelector['masterDecision'][0].data));
     //  }
 
-    if(prop.state.formView !== "DashboardView"){
+    if (prop.state.formView !== "DashboardView") {
       setTimeout(() => setSelectValues(selectJson), 1000);
     }
 
@@ -974,7 +1003,7 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
         additionalQuesValues.push({
           questionId: val.questionId,
           label: val.quesDescription,
-        })
+        }),
       );
 
     console.log("additionalQuesValues here: ", additionalQuesValues);
@@ -1023,7 +1052,7 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
 
       let getApiJson = {};
       getApiJson["tableNames"] = getTableDetails()["providerLinear"].concat(
-        getTableDetails()["gridTables"]
+        getTableDetails()["gridTables"],
       );
       getApiJson["whereClause"] = { caseNumber: prop.state.caseNumber };
 
@@ -1052,7 +1081,8 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
 
             //console.log("respKeys: ", respKeys);
             //console.log("respData: ", respData);
-            prop.state.organizationName=respData.linearTable[0].organizationName;
+            prop.state.organizationName =
+              respData.linearTable[0].organizationName;
             //console.log('Nidhi prop.state.organizationName: ',prop.state.organizationName);
 
             respKeys.forEach((k) => {
@@ -1065,25 +1095,33 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
                   if (apiResponse.hasOwnProperty("dateOfBirth")) {
                     console.log("apiResponse Nidhi Date: ");
                     if (typeof apiResponse.dateOfBirth === "string") {
-                      const dob = new Date(getDatePartOnly(apiResponse.dateOfBirth));
+                      const dob = new Date(
+                        getDatePartOnly(apiResponse.dateOfBirth),
+                      );
                       apiResponse.dateOfBirth = dob;
                     }
                   }
                   if (apiResponse.hasOwnProperty("ecfmgIssueDate")) {
                     if (typeof apiResponse.ecfmgIssueDate === "string") {
-                      const eid = new Date(getDatePartOnly(apiResponse.ecfmgIssueDate));
+                      const eid = new Date(
+                        getDatePartOnly(apiResponse.ecfmgIssueDate),
+                      );
                       apiResponse.ecfmgIssueDate = eid;
                     }
                   }
                   if (apiResponse.hasOwnProperty("ecfmgExpirationDate")) {
                     if (typeof apiResponse.ecfmgExpirationDate === "string") {
-                      const eed = new Date(getDatePartOnly(apiResponse.ecfmgExpirationDate));
+                      const eed = new Date(
+                        getDatePartOnly(apiResponse.ecfmgExpirationDate),
+                      );
                       apiResponse.ecfmgExpirationDate = eed;
                     }
                   }
                   if (apiResponse.hasOwnProperty("attestationDate")) {
                     if (typeof apiResponse.attestationDate === "string") {
-                      const atd = new Date(getDatePartOnly(apiResponse.attestationDate));
+                      const atd = new Date(
+                        getDatePartOnly(apiResponse.attestationDate),
+                      );
                       apiResponse.dateOfBirth = atd;
                     }
                   }
@@ -1138,18 +1176,26 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
 
                   apiResponse = convertToDateObj(apiResponse);
 
-                  if(prop.state.formView === 'DashboardView'){
+                  if (prop.state.formView === "DashboardView") {
                     console.log("inside populate in dashboardview");
-                    if((apiResponse.contractId.value === '' || apiResponse.contractId.value === undefined) && apiResponse.organizationName !== ''){
-                    populateContractIdDropdown('organizationName',apiResponse.organizationName,apiResponse,selectJson);
-
+                    if (
+                      (apiResponse.contractId.value === "" ||
+                        apiResponse.contractId.value === undefined) &&
+                      apiResponse.organizationName !== ""
+                    ) {
+                      populateContractIdDropdown(
+                        "organizationName",
+                        apiResponse.organizationName,
+                        apiResponse,
+                        selectJson,
+                      );
+                    }
+                    //To load master and linear fields if above condition fails
+                    else {
+                      setTimeout(() => setSelectValues(selectJson), 1000);
+                      setApiTestState(apiResponse);
+                    }
                   }
-                  //To load master and linear fields if above condition fails
-                  else{
-                    setTimeout(() => setSelectValues(selectJson), 1000);
-                    setApiTestState(apiResponse);
-                  }
-                }
 
                   //setApiTestState(apiResponse);
                   setFormikInitializeState(true);
@@ -1157,7 +1203,6 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
               }
 
               if (k === "licenseTable") {
-
                 let apiResponseArray = [];
                 respData[k].forEach((js) => {
                   const newJson = convertToDateObj(js);
@@ -1167,11 +1212,9 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
                 });
 
                 setLicenseTableRowsData(apiResponseArray);
-
               }
 
               if (k === "locationTable") {
-
                 // respData[k].forEach((js) => {
                 //     const newJson = convertToDateObj(js);
                 //     setLocationTableRowsData([...locationTableRowsData,newJson]);
@@ -1180,7 +1223,6 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
 
                 let apiResponseArray = [];
                 respData[k].forEach((js) => {
-
                   const apiResponse = js;
                   if (apiResponse.hasOwnProperty("electronicHealthRecord")) {
                     if (apiResponse.electronicHealthRecord === "Y") {
@@ -1248,8 +1290,8 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
                     }
                   }
 
-                   //Added by Nidhi Gupta on 11/10/2023
-                   /*if (apiResponse.hasOwnProperty("languages")) {
+                  //Added by Nidhi Gupta on 11/10/2023
+                  /*if (apiResponse.hasOwnProperty("languages")) {
                     apiResponse.languages =  apiResponse.languages
                     .split(",")
                     .map((ele) => {
@@ -1257,11 +1299,11 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
                     });
 
                 }*/
-                //Till here
+                  //Till here
                   apiResponseArray.push(apiResponse);
                   console.log(
                     "locationTableRowsData apiResponse: ",
-                    apiResponse
+                    apiResponse,
                   );
                 });
                 setLocationTableRowsData(apiResponseArray);
@@ -1324,29 +1366,44 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
                   }
 
                   //if (apiResponse.hasOwnProperty("DataSource")) {
-                    //printConsole("Inside useEffect speciality if datasource value ",apiResponse.DataSource);
-                    //printConsole("Inside useEffect speciality if taxonomyCode value ",apiResponse.taxonomyCode);
-                    //if(apiResponse.DataSource === 'CredentialingApi'){
-                      if (apiResponse.taxonomyCode !== undefined && apiResponse.taxonomyCode !== null && apiResponse.taxonomyCode !== "") {
-                        const taxDesc = checktaxdec(apiResponse.taxonomyCode);
-                        printConsole("Inside useEffect speciality if taxDesc value ",taxDesc);
-                        apiResponse.taxonomyDesc = taxDesc;
-                      }
-                      if (apiResponse.speciality !== undefined && apiResponse.speciality !== null && apiResponse.speciality !== "") {
-                          apiResponse = checkSubSpeciality(apiResponse);
-                          printConsole("Speciality response after inserting subSpeciality============= ",apiResponse);
-                      }
+                  //printConsole("Inside useEffect speciality if datasource value ",apiResponse.DataSource);
+                  //printConsole("Inside useEffect speciality if taxonomyCode value ",apiResponse.taxonomyCode);
+                  //if(apiResponse.DataSource === 'CredentialingApi'){
+                  if (
+                    apiResponse.taxonomyCode !== undefined &&
+                    apiResponse.taxonomyCode !== null &&
+                    apiResponse.taxonomyCode !== ""
+                  ) {
+                    const taxDesc = checktaxdec(apiResponse.taxonomyCode);
+                    printConsole(
+                      "Inside useEffect speciality if taxDesc value ",
+                      taxDesc,
+                    );
+                    apiResponse.taxonomyDesc = taxDesc;
+                  }
+                  if (
+                    apiResponse.speciality !== undefined &&
+                    apiResponse.speciality !== null &&
+                    apiResponse.speciality !== ""
+                  ) {
+                    apiResponse = checkSubSpeciality(apiResponse);
+                    printConsole(
+                      "Speciality response after inserting subSpeciality============= ",
+                      apiResponse,
+                    );
+                  }
 
-                    //}
-                    printConsole("Inside useEffect speciality if final specialty value ",apiResponse);
                   //}
-
-
+                  printConsole(
+                    "Inside useEffect speciality if final specialty value ",
+                    apiResponse,
+                  );
+                  //}
 
                   apiResponseArray.push(apiResponse);
                   console.log(
                     "specialityTableRowsData apiResponse: ",
-                    apiResponse
+                    apiResponse,
                   );
                 });
                 setspecialityTableRowsData(apiResponseArray);
@@ -1358,7 +1415,7 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
                   const newJson = convertToDateObj(js);
                   console.log(
                     "Add a provider insuranceTable newJson;",
-                    newJson
+                    newJson,
                   );
                   apiResponseArray.push(newJson);
                   // setEducationTableRowsData([...educationTableRowsData,newJson]);
@@ -1390,7 +1447,7 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
                   apiResponseArray.push(apiResponse);
                   console.log(
                     "trainingTableRowsData apiResponse: ",
-                    apiResponse
+                    apiResponse,
                   );
                 });
                 setTrainingTableRowsData(apiResponseArray);
@@ -1427,7 +1484,7 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
                   const newJson = convertToDateObj(js);
                   console.log(
                     "Add a provider insuranceTable newJson;",
-                    newJson
+                    newJson,
                   );
                   apiResponseArray.push(newJson);
                   // setInsuranceTableRowsData([...insuranceTableRowsData,newJson]);
@@ -1458,7 +1515,7 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
                   apiResponseArray.push(apiResponse);
                   console.log(
                     "credentialTableRowsData apiResponse: ",
-                    apiResponse
+                    apiResponse,
                   );
                 });
                 setCredentialTableRowsData(apiResponseArray);
@@ -1468,7 +1525,10 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
               if (k === "additionalQuesGrid") {
                 console.log("additionalQuesValues k: ", additionalQuesValues);
                 const masterMap = new Map(
-                  additionalQuesValues.map((obj) => [obj.questionId, obj.label])
+                  additionalQuesValues.map((obj) => [
+                    obj.questionId,
+                    obj.label,
+                  ]),
                 );
 
                 console.log("masterMap newJson:", masterMap);
@@ -1495,7 +1555,7 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
 
                 console.log("quesAnsList: ", quesAnsList);
                 const quesAnsMap = new Map(
-                  quesAnsList.map((obj) => [obj.questionId, obj])
+                  quesAnsList.map((obj) => [obj.questionId, obj]),
                 );
                 console.log("quesAnsMap: ", quesAnsMap);
 
@@ -1527,235 +1587,361 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
                 }
                 console.log(
                   "additionalQuesGrid quesAnsListJson :",
-                  quesAnsListJson
+                  quesAnsListJson,
                 );
               }
-
 
               //till here 02
             });
 
-             //Added Newly by Nidhi Gupta on 08/22/2023
-             if(prop.state.stageName=='Cred Specialist'){
-              console.log("prop.state.organizationName 1152: ",prop.state.organizationName);
+            //Added Newly by Nidhi Gupta on 08/22/2023
+            if (prop.state.stageName == "Cred Specialist") {
+              console.log(
+                "prop.state.organizationName 1152: ",
+                prop.state.organizationName,
+              );
               let resJson = {};
-              customAxios.get(`/fetchPotentialDuplicate?legalEntityName=${prop.state.organizationName}&strRouteTo=${prop.state.stageName}&caseNumber=${prop.state.caseNumber}&transactionType=${AddProvider.displayName}`,
-              {headers:{'Authorization':`Bearer ${token}`}})
-              .then((res) => {
-                  resJson = {...res};
-                  console.log("resJson: ",resJson);
-                  if(res.status === 200){
-                      console.log("FindDuplicateProc executed successully");
-                      let getApiJson= {};
-                      console.log("prop.state.caseNumber 1162: ",prop.state.caseNumber);
-                      getApiJson['tableNames'] = getTableDetails()['provPotentialDuplicate'];
-                      getApiJson['whereClause'] = {'caseNumber':prop.state.caseNumber, 'StageName':'<>~Exit&&Discard'};
+              customAxios
+                .get(
+                  `/fetchPotentialDuplicate?legalEntityName=${prop.state.organizationName}&strRouteTo=${prop.state.stageName}&caseNumber=${prop.state.caseNumber}&transactionType=${AddProvider.displayName}`,
+                  { headers: { Authorization: `Bearer ${token}` } },
+                )
+                .then((res) => {
+                  resJson = { ...res };
+                  console.log("resJson: ", resJson);
+                  if (res.status === 200) {
+                    console.log("FindDuplicateProc executed successully");
+                    let getApiJson = {};
+                    console.log(
+                      "prop.state.caseNumber 1162: ",
+                      prop.state.caseNumber,
+                    );
+                    getApiJson["tableNames"] =
+                      getTableDetails()["provPotentialDuplicate"];
+                    getApiJson["whereClause"] = {
+                      caseNumber: prop.state.caseNumber,
+                      StageName: "<>~Exit&&Discard",
+                    };
 
-                      customAxios.post('/generic/get',getApiJson,{headers:{'Authorization':`Bearer ${token}`}}).then((res) => {
-                        console.log("Generic get api response compensation Nidhi: ",res);
+                    customAxios
+                      .post("/generic/get", getApiJson, {
+                        headers: { Authorization: `Bearer ${token}` },
+                      })
+                      .then((res) => {
+                        console.log(
+                          "Generic get api response compensation Nidhi: ",
+                          res,
+                        );
                         const apiStat = res.data.Status;
-                        if(apiStat === -1){
-                            alert("Error in fetching data")
+                        if (apiStat === -1) {
+                          alert("Error in fetching data");
                         }
-                        if(apiStat === 0){
+                        if (apiStat === 0) {
                           const respData = [...res.data.data.potentialDup];
-                          console.log("respData: ",respData);
-                          let newArr = []
+                          console.log("respData: ", respData);
+                          let newArr = [];
                           respData.forEach((js) => {
-                              const newJson = convertToDateObj(js);
-                              newJson.action= {'label':newJson.action,'value':newJson.action};
-                              newArr.push(newJson);
-                              console.log('Potential Duplicate Json: ',newJson);
-
+                            const newJson = convertToDateObj(js);
+                            newJson.action = {
+                              label: newJson.action,
+                              value: newJson.action,
+                            };
+                            newArr.push(newJson);
+                            console.log("Potential Duplicate Json: ", newJson);
                           });
-                          console.log('Potential Duplicate Array: ',newArr);
+                          console.log("Potential Duplicate Array: ", newArr);
                           setPotentialDupData(newArr);
-
-
                         }
-                      }).catch((err) => {
+                      })
+                      .catch((err) => {
                         console.log(err.message);
-                     });
-
+                      });
                   }
-
-              }) .catch((err) => {
-
-                console.log("Caught in fetch potential duplicate api call: " ,err.message);
-                alert("Error occured in finding potenial duplicate.");
-                setButtonDisableFlag(false);
-                               });
-
-
-
-
-
+                })
+                .catch((err) => {
+                  console.log(
+                    "Caught in fetch potential duplicate api call: ",
+                    err.message,
+                  );
+                  alert("Error occured in finding potenial duplicate.");
+                  setButtonDisableFlag(false);
+                });
             }
-            console.log("potentialDupData 1205: ",potentialDupData);
+            console.log("potentialDupData 1205: ", potentialDupData);
 
             //Till Here
 
             //Added Newly by Nidhi Gupta on 09/26/2023
-            if(true){
-              let getApiJson= {};
-              getApiJson['tableNames'] = getTableDetails()['networkLinear'].concat(getTableDetails()['networkGridTables']);;
-              getApiJson['whereClause'] = {'caseNumber':prop.state.caseNumber};
+            if (true) {
+              let getApiJson = {};
+              getApiJson["tableNames"] = getTableDetails()[
+                "networkLinear"
+              ].concat(getTableDetails()["networkGridTables"]);
+              getApiJson["whereClause"] = { caseNumber: prop.state.caseNumber };
 
-              customAxios.post('/generic/get',getApiJson,{headers:{'Authorization':`Bearer ${token}`}}).then((res) => {
-                //console.log("Generic get api response compensation Nidhi01: ",res);
-                const apiStat = res.data.Status;
-                if(apiStat === -1){
-                    alert("Error in fetching data")
-                }
-                if(apiStat === 0){
-                    const respKeys = Object.keys(res.data['data']);
-                    const respData = res.data['data'];
-                    respKeys.forEach(k => {
-                        //console.log("Response key Nidhi: ",k);
-                        if(k === 'networkLinearTable'){
-                            let apiResponse = {};
-                            if(respData[k][0]!==undefined){
-                                apiResponse = respData[k][0];
+              customAxios
+                .post("/generic/get", getApiJson, {
+                  headers: { Authorization: `Bearer ${token}` },
+                })
+                .then((res) => {
+                  //console.log("Generic get api response compensation Nidhi01: ",res);
+                  const apiStat = res.data.Status;
+                  if (apiStat === -1) {
+                    alert("Error in fetching data");
+                  }
+                  if (apiStat === 0) {
+                    const respKeys = Object.keys(res.data["data"]);
+                    const respData = res.data["data"];
+                    respKeys.forEach((k) => {
+                      //console.log("Response key Nidhi: ",k);
+                      if (k === "networkLinearTable") {
+                        let apiResponse = {};
+                        if (respData[k][0] !== undefined) {
+                          apiResponse = respData[k][0];
 
-                              //Added by Nidhi Gupta on 10/06/23
-                              if(apiResponse.hasOwnProperty('conEffectiveDate')){
-                                  if(typeof apiResponse.conEffectiveDate === 'string'){
-                                      const cfd = new Date(apiResponse.conEffectiveDate);
-                                      apiResponse.conEffectiveDate = cfd;
-                                  }
-                              }
-                              if(apiResponse.hasOwnProperty('mocAttestationDate')){
-                                  if(typeof apiResponse.mocAttestationDate === 'string'){
-                                      const mad = new Date(apiResponse.mocAttestationDate);
-                                      apiResponse.mocAttestationDate = mad;
-                                  }
-                              }
-                              if(apiResponse.hasOwnProperty('mocRenewalAttDate')){
-                                  if(typeof apiResponse.mocRenewalAttDate === 'string'){
-                                      const rad = new Date(apiResponse.mocRenewalAttDate);
-                                      apiResponse.mocRenewalAttDate = rad;
-                                  }
-                              }
-                              //Till Here
-                                console.log("NetworkTab apiResponse",apiResponse);
-                                apiResponse.networkState = {'label':apiResponse.networkState,'value':apiResponse.networkState};
-                                apiResponse.feeSchedule = {'label':apiResponse.feeSchedule,'value':apiResponse.feeSchedule};
-                                apiResponse.riskState = {'label':apiResponse.riskState,'value':apiResponse.riskState};
-                                apiResponse.riskAssignment = {'label':apiResponse.riskAssignment,'value':apiResponse.riskAssignment};
-
-                                //Added by Nidhi Gupta on 10/06/23
-                                apiResponse.sequesApplies = {'label':apiResponse.sequesApplies,'value':apiResponse.sequesApplies};
-                                apiResponse.contractTypeComp = {'label':apiResponse.contractTypeComp,'value':apiResponse.contractTypeComp};
-                                if (apiResponse.criticalAccess !== undefined && apiResponse.criticalAccess.length>0) {
-                                  if ( apiResponse.criticalAccess === 'Y')
-                                  {apiResponse.criticalAccess = {'label':'Yes','value':apiResponse.criticalAccess};}
-                                  else if ( apiResponse.criticalAccess === 'N')
-                                  { apiResponse.criticalAccess = {'label':'No','value':apiResponse.criticalAccess};}
-                              }
-
-                              if (apiResponse.qualityFlagI!==undefined && apiResponse.qualityFlagI.length>0) {
-                                  if ( apiResponse.qualityFlagI === 'Y')
-                                  {apiResponse.qualityFlagI = {'label':'Yes','value':apiResponse.qualityFlagI};}
-                                  else if ( apiResponse.qualityFlagI === 'No')
-                                  { apiResponse.qualityFlagI = {'label':'No','value':apiResponse.qualityFlagI};}
-                              }
-
-                              if (apiResponse.qualityFlagJ!==undefined && apiResponse.qualityFlagJ.length>0) {
-                                  if ( apiResponse.qualityFlagJ === 'Y')
-                                  {apiResponse.qualityFlagJ = {'label':'Yes','value':apiResponse.qualityFlagJ};}
-                                  else if ( apiResponse.qualityFlagJ === 'N')
-                                  { apiResponse.qualityFlagJ = {'label':'No','value':apiResponse.qualityFlagJ};}
-                              }
-
-                              if (apiResponse.qualityFlagK!==undefined && apiResponse.qualityFlagK.length>0) {
-                                  if ( apiResponse.qualityFlagK === 'Y')
-                                  {apiResponse.qualityFlagK = {'label':'Yes','value':apiResponse.qualityFlagK};}
-                                  else if ( apiResponse.qualityFlagK === 'N')
-                                  { apiResponse.qualityFlagK = {'label':'No','value':apiResponse.qualityFlagK};}
-                              }
-
-                              if (apiResponse.qualityFlagL!==undefined && apiResponse.qualityFlagL.length>0) {
-                                  if ( apiResponse.qualityFlagL === 'Y')
-                                  {apiResponse.qualityFlagL = {'label':'Yes','value':apiResponse.qualityFlagL};}
-                                  else if ( apiResponse.qualityFlagL === 'N')
-                                  { apiResponse.qualityFlagL = {'label':'No','value':apiResponse.qualityFlagL};}
-                              }
-
-                              if (apiResponse.qualityFlagM!==undefined && apiResponse.qualityFlagM.length>0) {
-                                  if ( apiResponse.qualityFlagM === 'Y')
-                                  {apiResponse.qualityFlagM = {'label':'Yes','value':apiResponse.qualityFlagM};}
-                                  else if ( apiResponse.qualityFlagM === 'N')
-                                  { apiResponse.qualityFlagM = {'label':'No','value':apiResponse.qualityFlagM};}
-                              }
-
-                              if (apiResponse.qualityFlagN!==undefined && apiResponse.qualityFlagN.length>0) {
-                                  if ( apiResponse.qualityFlagN === 'Y')
-                                  {apiResponse.qualityFlagN = {'label':'Yes','value':apiResponse.qualityFlagN};}
-                                  else if ( apiResponse.qualityFlagN === 'N')
-                                  { apiResponse.qualityFlagN = {'label':'No','value':apiResponse.qualityFlagN};}
-                              }
-
-                              //console.log("NetworkTab apiResponse: ", apiResponse)
-                                apiResponse = convertToDateObj(apiResponse);
-
-
-                                //Till Here
-
-                                setApiTestStateComp(apiResponse);
-                                //setFormikInitializeState(true);
+                          //Added by Nidhi Gupta on 10/06/23
+                          if (apiResponse.hasOwnProperty("conEffectiveDate")) {
+                            if (
+                              typeof apiResponse.conEffectiveDate === "string"
+                            ) {
+                              const cfd = new Date(
+                                apiResponse.conEffectiveDate,
+                              );
+                              apiResponse.conEffectiveDate = cfd;
                             }
+                          }
+                          if (
+                            apiResponse.hasOwnProperty("mocAttestationDate")
+                          ) {
+                            if (
+                              typeof apiResponse.mocAttestationDate === "string"
+                            ) {
+                              const mad = new Date(
+                                apiResponse.mocAttestationDate,
+                              );
+                              apiResponse.mocAttestationDate = mad;
+                            }
+                          }
+                          if (apiResponse.hasOwnProperty("mocRenewalAttDate")) {
+                            if (
+                              typeof apiResponse.mocRenewalAttDate === "string"
+                            ) {
+                              const rad = new Date(
+                                apiResponse.mocRenewalAttDate,
+                              );
+                              apiResponse.mocRenewalAttDate = rad;
+                            }
+                          }
+                          //Till Here
+                          console.log("NetworkTab apiResponse", apiResponse);
+                          apiResponse.networkState = {
+                            label: apiResponse.networkState,
+                            value: apiResponse.networkState,
+                          };
+                          apiResponse.feeSchedule = {
+                            label: apiResponse.feeSchedule,
+                            value: apiResponse.feeSchedule,
+                          };
+                          apiResponse.riskState = {
+                            label: apiResponse.riskState,
+                            value: apiResponse.riskState,
+                          };
+                          apiResponse.riskAssignment = {
+                            label: apiResponse.riskAssignment,
+                            value: apiResponse.riskAssignment,
+                          };
 
+                          //Added by Nidhi Gupta on 10/06/23
+                          apiResponse.sequesApplies = {
+                            label: apiResponse.sequesApplies,
+                            value: apiResponse.sequesApplies,
+                          };
+                          apiResponse.contractTypeComp = {
+                            label: apiResponse.contractTypeComp,
+                            value: apiResponse.contractTypeComp,
+                          };
+                          if (
+                            apiResponse.criticalAccess !== undefined &&
+                            apiResponse.criticalAccess.length > 0
+                          ) {
+                            if (apiResponse.criticalAccess === "Y") {
+                              apiResponse.criticalAccess = {
+                                label: "Yes",
+                                value: apiResponse.criticalAccess,
+                              };
+                            } else if (apiResponse.criticalAccess === "N") {
+                              apiResponse.criticalAccess = {
+                                label: "No",
+                                value: apiResponse.criticalAccess,
+                              };
+                            }
+                          }
+
+                          if (
+                            apiResponse.qualityFlagI !== undefined &&
+                            apiResponse.qualityFlagI.length > 0
+                          ) {
+                            if (apiResponse.qualityFlagI === "Y") {
+                              apiResponse.qualityFlagI = {
+                                label: "Yes",
+                                value: apiResponse.qualityFlagI,
+                              };
+                            } else if (apiResponse.qualityFlagI === "No") {
+                              apiResponse.qualityFlagI = {
+                                label: "No",
+                                value: apiResponse.qualityFlagI,
+                              };
+                            }
+                          }
+
+                          if (
+                            apiResponse.qualityFlagJ !== undefined &&
+                            apiResponse.qualityFlagJ.length > 0
+                          ) {
+                            if (apiResponse.qualityFlagJ === "Y") {
+                              apiResponse.qualityFlagJ = {
+                                label: "Yes",
+                                value: apiResponse.qualityFlagJ,
+                              };
+                            } else if (apiResponse.qualityFlagJ === "N") {
+                              apiResponse.qualityFlagJ = {
+                                label: "No",
+                                value: apiResponse.qualityFlagJ,
+                              };
+                            }
+                          }
+
+                          if (
+                            apiResponse.qualityFlagK !== undefined &&
+                            apiResponse.qualityFlagK.length > 0
+                          ) {
+                            if (apiResponse.qualityFlagK === "Y") {
+                              apiResponse.qualityFlagK = {
+                                label: "Yes",
+                                value: apiResponse.qualityFlagK,
+                              };
+                            } else if (apiResponse.qualityFlagK === "N") {
+                              apiResponse.qualityFlagK = {
+                                label: "No",
+                                value: apiResponse.qualityFlagK,
+                              };
+                            }
+                          }
+
+                          if (
+                            apiResponse.qualityFlagL !== undefined &&
+                            apiResponse.qualityFlagL.length > 0
+                          ) {
+                            if (apiResponse.qualityFlagL === "Y") {
+                              apiResponse.qualityFlagL = {
+                                label: "Yes",
+                                value: apiResponse.qualityFlagL,
+                              };
+                            } else if (apiResponse.qualityFlagL === "N") {
+                              apiResponse.qualityFlagL = {
+                                label: "No",
+                                value: apiResponse.qualityFlagL,
+                              };
+                            }
+                          }
+
+                          if (
+                            apiResponse.qualityFlagM !== undefined &&
+                            apiResponse.qualityFlagM.length > 0
+                          ) {
+                            if (apiResponse.qualityFlagM === "Y") {
+                              apiResponse.qualityFlagM = {
+                                label: "Yes",
+                                value: apiResponse.qualityFlagM,
+                              };
+                            } else if (apiResponse.qualityFlagM === "N") {
+                              apiResponse.qualityFlagM = {
+                                label: "No",
+                                value: apiResponse.qualityFlagM,
+                              };
+                            }
+                          }
+
+                          if (
+                            apiResponse.qualityFlagN !== undefined &&
+                            apiResponse.qualityFlagN.length > 0
+                          ) {
+                            if (apiResponse.qualityFlagN === "Y") {
+                              apiResponse.qualityFlagN = {
+                                label: "Yes",
+                                value: apiResponse.qualityFlagN,
+                              };
+                            } else if (apiResponse.qualityFlagN === "N") {
+                              apiResponse.qualityFlagN = {
+                                label: "No",
+                                value: apiResponse.qualityFlagN,
+                              };
+                            }
+                          }
+
+                          //console.log("NetworkTab apiResponse: ", apiResponse)
+                          apiResponse = convertToDateObj(apiResponse);
+
+                          //Till Here
+
+                          setApiTestStateComp(apiResponse);
+                          //setFormikInitializeState(true);
                         }
+                      }
 
-                       //Added by Nidhi Gupta on 10/06/2023
-                        if(k === 'firlGrid'){
-                          let apiResponseArray = [];
-                          respData[k].forEach((js) => {
-                              const newJson = convertToDateObj(js);
-                              console.log("Compensation Tab firlGrid newJson: ", newJson);
-                              apiResponseArray.push(newJson);
-                          });
-                          setFirlTableRowsData(apiResponseArray);
-                                            }
+                      //Added by Nidhi Gupta on 10/06/2023
+                      if (k === "firlGrid") {
+                        let apiResponseArray = [];
+                        respData[k].forEach((js) => {
+                          const newJson = convertToDateObj(js);
+                          console.log(
+                            "Compensation Tab firlGrid newJson: ",
+                            newJson,
+                          );
+                          apiResponseArray.push(newJson);
+                        });
+                        setFirlTableRowsData(apiResponseArray);
+                      }
 
                       if (k === "compensationGrid") {
-
-                          let apiResponseArray = [];
-                          respData[k].forEach((js) => {
-                            const apiResponse = js;
-                            if (apiResponse.hasOwnProperty("schedule")) {
-                                apiResponse.schedule = {
-                                  label: apiResponse.schedule,
-                                  value: apiResponse.schedule
-                                };
-
-                            }
-                            if (apiResponse.hasOwnProperty("speciality")) {
-                              apiResponse.speciality = {
-                                label: apiResponse.speciality,
-                                value: apiResponse.speciality
-                              };
-
+                        let apiResponseArray = [];
+                        respData[k].forEach((js) => {
+                          const apiResponse = js;
+                          if (apiResponse.hasOwnProperty("schedule")) {
+                            apiResponse.schedule = {
+                              label: apiResponse.schedule,
+                              value: apiResponse.schedule,
+                            };
                           }
-                            apiResponseArray.push(apiResponse);
-                            console.log("Compensation Tab compensationGrid newJson: ",apiResponse);
-                          });
-                          setCompensationTableRowsData(apiResponseArray);
-                                                    }
+                          if (apiResponse.hasOwnProperty("speciality")) {
+                            apiResponse.speciality = {
+                              label: apiResponse.speciality,
+                              value: apiResponse.speciality,
+                            };
+                          }
+                          apiResponseArray.push(apiResponse);
+                          console.log(
+                            "Compensation Tab compensationGrid newJson: ",
+                            apiResponse,
+                          );
+                        });
+                        setCompensationTableRowsData(apiResponseArray);
+                      }
 
                       //Till Here
-                    })
-                }
-              }).catch((err) => {
-                console.log("Network Tab catch: ",err);
-             });
+                    });
+                  }
+                })
+                .catch((err) => {
+                  console.log("Network Tab catch: ", err);
+                });
               //console.log("getApiJson Network Tab: ",getApiJson);
-                     }
+            }
             //Till Here
           }
         })
         .catch((err) => {
-          console.log("Provider Get Api catch: ",err);
+          console.log("Provider Get Api catch: ", err);
         });
 
       console.log("getApiJson: ", getApiJson);
@@ -1926,98 +2112,136 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
   const gridRowsFinalSubmit = (triggeredFormName, index, operationType) => {
     console.log("Inside gridRowsFinalSubmit with view: ", tabRef);
 
-    console.log("Inside gridRowsFinalSubmit gridFieldTempState Value ====  ",gridFieldTempState);
-    console.log("Inside gridRowsFinalSubmit gridFieldTempState keys ====  ",Object.keys(gridFieldTempState).length);
-    if(Object.keys(gridFieldTempState).length !== 0){
+    console.log(
+      "Inside gridRowsFinalSubmit gridFieldTempState Value ====  ",
+      gridFieldTempState,
+    );
+    console.log(
+      "Inside gridRowsFinalSubmit gridFieldTempState keys ====  ",
+      Object.keys(gridFieldTempState).length,
+    );
+    if (Object.keys(gridFieldTempState).length !== 0) {
       if (triggeredFormName === "LicenseTable") {
         let indexJson = licenseTableRowsData[index];
-        const clonedJson = Object.assign(indexJson,gridFieldTempState);
-        console.log("Inside gridRowsFinalSubmit clonedJson value: ",clonedJson);
+        const clonedJson = Object.assign(indexJson, gridFieldTempState);
+        console.log(
+          "Inside gridRowsFinalSubmit clonedJson value: ",
+          clonedJson,
+        );
         licenseTableRowsData[index] = clonedJson;
         setLicenseTableRowsData(licenseTableRowsData);
       }
 
       if (triggeredFormName === "SpecialityTable") {
         let indexJson = specialityTableRowsData[index];
-        const clonedJson = Object.assign(indexJson,gridFieldTempState);
-        console.log("Inside gridRowsFinalSubmit clonedJson value: ",clonedJson);
+        const clonedJson = Object.assign(indexJson, gridFieldTempState);
+        console.log(
+          "Inside gridRowsFinalSubmit clonedJson value: ",
+          clonedJson,
+        );
         specialityTableRowsData[index] = clonedJson;
         setspecialityTableRowsData(specialityTableRowsData);
       }
 
       if (triggeredFormName === "LocationTable") {
         let indexJson = locationTableRowsData[index];
-        const clonedJson = Object.assign(indexJson,gridFieldTempState);
-        console.log("Inside gridRowsFinalSubmit clonedJson value: ",clonedJson);
+        const clonedJson = Object.assign(indexJson, gridFieldTempState);
+        console.log(
+          "Inside gridRowsFinalSubmit clonedJson value: ",
+          clonedJson,
+        );
         locationTableRowsData[index] = clonedJson;
         setLocationTableRowsData(locationTableRowsData);
       }
 
       if (triggeredFormName === "PayToTable") {
         let indexJson = payToTableRowsData[index];
-        const clonedJson = Object.assign(indexJson,gridFieldTempState);
-        console.log("Inside gridRowsFinalSubmit clonedJson value: ",clonedJson);
+        const clonedJson = Object.assign(indexJson, gridFieldTempState);
+        console.log(
+          "Inside gridRowsFinalSubmit clonedJson value: ",
+          clonedJson,
+        );
         payToTableRowsData[index] = clonedJson;
         setPayToTableRowsData(payToTableRowsData);
       }
 
       if (triggeredFormName === "EducationTable") {
         let indexJson = educationTableRowsData[index];
-        const clonedJson = Object.assign(indexJson,gridFieldTempState);
-        console.log("Inside gridRowsFinalSubmit clonedJson value: ",clonedJson);
+        const clonedJson = Object.assign(indexJson, gridFieldTempState);
+        console.log(
+          "Inside gridRowsFinalSubmit clonedJson value: ",
+          clonedJson,
+        );
         educationTableRowsData[index] = clonedJson;
         setEducationTableRowsData(educationTableRowsData);
       }
 
       if (triggeredFormName === "TrainingTable") {
         let indexJson = trainingTableRowsData[index];
-        const clonedJson = Object.assign(indexJson,gridFieldTempState);
-        console.log("Inside gridRowsFinalSubmit clonedJson value: ",clonedJson);
+        const clonedJson = Object.assign(indexJson, gridFieldTempState);
+        console.log(
+          "Inside gridRowsFinalSubmit clonedJson value: ",
+          clonedJson,
+        );
         trainingTableRowsData[index] = clonedJson;
         setTrainingTableRowsData(trainingTableRowsData);
       }
 
       if (triggeredFormName === "WorkTable") {
         let indexJson = workTableRowsData[index];
-        const clonedJson = Object.assign(indexJson,gridFieldTempState);
-        console.log("Inside gridRowsFinalSubmit clonedJson value: ",clonedJson);
+        const clonedJson = Object.assign(indexJson, gridFieldTempState);
+        console.log(
+          "Inside gridRowsFinalSubmit clonedJson value: ",
+          clonedJson,
+        );
         workTableRowsData[index] = clonedJson;
         setWorkTableRowsData(workTableRowsData);
       }
 
       if (triggeredFormName === "InsuranceTable") {
         let indexJson = insuranceTableRowsData[index];
-        const clonedJson = Object.assign(indexJson,gridFieldTempState);
-        console.log("Inside gridRowsFinalSubmit clonedJson value: ",clonedJson);
+        const clonedJson = Object.assign(indexJson, gridFieldTempState);
+        console.log(
+          "Inside gridRowsFinalSubmit clonedJson value: ",
+          clonedJson,
+        );
         insuranceTableRowsData[index] = clonedJson;
         setInsuranceTableRowsData(insuranceTableRowsData);
       }
 
       if (triggeredFormName === "CredentialTable") {
         let indexJson = credentialTableRowsData[index];
-        const clonedJson = Object.assign(indexJson,gridFieldTempState);
-        console.log("Inside gridRowsFinalSubmit clonedJson value: ",clonedJson);
+        const clonedJson = Object.assign(indexJson, gridFieldTempState);
+        console.log(
+          "Inside gridRowsFinalSubmit clonedJson value: ",
+          clonedJson,
+        );
         credentialTableRowsData[index] = clonedJson;
         setCredentialTableRowsData(credentialTableRowsData);
       }
 
-
       /////
-      if(triggeredFormName === 'FIRLTable'){
+      if (triggeredFormName === "FIRLTable") {
         let indexJson = firlTableRowsData[index];
-        const clonedJson = Object.assign(indexJson,gridFieldTempState);
-        console.log("Inside gridRowsFinalSubmit clonedJson value: ",clonedJson);
+        const clonedJson = Object.assign(indexJson, gridFieldTempState);
+        console.log(
+          "Inside gridRowsFinalSubmit clonedJson value: ",
+          clonedJson,
+        );
         firlTableRowsData[index] = clonedJson;
         setFirlTableRowsData(firlTableRowsData);
-    }
+      }
 
-    if(triggeredFormName === 'CompensationTable'){
-      let indexJson = compensationTableRowsData[index];
-      const clonedJson = Object.assign(indexJson,gridFieldTempState);
-      console.log("Inside gridRowsFinalSubmit clonedJson value: ",clonedJson);
-      compensationTableRowsData[index] = clonedJson;
-      setCompensationTableRowsData(compensationTableRowsData);
-    }
+      if (triggeredFormName === "CompensationTable") {
+        let indexJson = compensationTableRowsData[index];
+        const clonedJson = Object.assign(indexJson, gridFieldTempState);
+        console.log(
+          "Inside gridRowsFinalSubmit clonedJson value: ",
+          clonedJson,
+        );
+        compensationTableRowsData[index] = clonedJson;
+        setCompensationTableRowsData(compensationTableRowsData);
+      }
       setGridFieldTempState({});
     }
 
@@ -2152,7 +2376,10 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
       }
 
       if (triggeredFormName === "CredentialTable") {
-        console.log("Grid data ref current for credential===== ",gridDataRef.current.credentialTable);
+        console.log(
+          "Grid data ref current for credential===== ",
+          gridDataRef.current.credentialTable,
+        );
         gridRowArray = gridDataRef.current.hasOwnProperty("credentialTable")
           ? [...gridDataRef.current.credentialTable]
           : [];
@@ -2160,39 +2387,51 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
         gridRowJson["operation"] = oprtn;
         //gridRowJson = trimJsonValues(gridRowJson);
         gridRowArray.push(trimJsonValues(gridRowJson));
-        console.log("Final array: ",getGridDataValues(gridRowArray));
+        console.log("Final array: ", getGridDataValues(gridRowArray));
         // //licenseTableRowsData[index].operation = oprtn;
         gridDataRef.current.credentialTable = getGridDataValues(gridRowArray);
-        console.log("gridDataRef.current for credential: ", gridDataRef.current);
+        console.log(
+          "gridDataRef.current for credential: ",
+          gridDataRef.current,
+        );
       }
 
-
       /////
-      if(triggeredFormName === 'FIRLTable'){
-        gridRowArray = (gridDataRef.current.hasOwnProperty('SelfServ_HospitalComp_Grid'))
-         ? [...gridDataRef.current.SelfServ_HospitalComp_Grid]
-         : [];
-        gridRowJson = {...firlTableRowsData[index]};
-        gridRowJson['operation'] = oprtn;
+      if (triggeredFormName === "FIRLTable") {
+        gridRowArray = gridDataRef.current.hasOwnProperty(
+          "SelfServ_HospitalComp_Grid",
+        )
+          ? [...gridDataRef.current.SelfServ_HospitalComp_Grid]
+          : [];
+        gridRowJson = { ...firlTableRowsData[index] };
+        gridRowJson["operation"] = oprtn;
         gridRowArray.push(gridRowJson);
-        gridDataRef.current.SelfServ_HospitalComp_Grid = getGridDataValues(gridRowArray);
-        console.log("Inside gridRowsFinalSubmit gridDataRef.current FIRLTable: ",gridDataRef.current);
-    }
-    if(triggeredFormName === 'CompensationTable'){
-        gridRowArray = (gridDataRef.current.hasOwnProperty('SelfServ_ProviderComp_Grid'))
-         ? [...gridDataRef.current.SelfServ_ProviderComp_Grid]
-         : [];
-        gridRowJson = {...compensationTableRowsData[index]};
-        gridRowJson['operation'] = oprtn;
+        gridDataRef.current.SelfServ_HospitalComp_Grid =
+          getGridDataValues(gridRowArray);
+        console.log(
+          "Inside gridRowsFinalSubmit gridDataRef.current FIRLTable: ",
+          gridDataRef.current,
+        );
+      }
+      if (triggeredFormName === "CompensationTable") {
+        gridRowArray = gridDataRef.current.hasOwnProperty(
+          "SelfServ_ProviderComp_Grid",
+        )
+          ? [...gridDataRef.current.SelfServ_ProviderComp_Grid]
+          : [];
+        gridRowJson = { ...compensationTableRowsData[index] };
+        gridRowJson["operation"] = oprtn;
         gridRowArray.push(gridRowJson);
-        gridDataRef.current.SelfServ_ProviderComp_Grid = getGridDataValues(gridRowArray);
-        console.log("Inside gridRowsFinalSubmit gridDataRef.current CompensationTable: ",gridDataRef.current);
-    }
-
-     
+        gridDataRef.current.SelfServ_ProviderComp_Grid =
+          getGridDataValues(gridRowArray);
+        console.log(
+          "Inside gridRowsFinalSubmit gridDataRef.current CompensationTable: ",
+          gridDataRef.current,
+        );
+      }
     }
     //Handling For Portal and DashboardHomeView Side grids Save&Close
-      /*if (triggeredFormName === "CredentialTable") {
+    /*if (triggeredFormName === "CredentialTable") {
         finalGridSaveDataRef.current[triggeredFormName] = [...credentialTableRowsData];
       }*/
   };
@@ -2346,7 +2585,6 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
   //       console.log("gridDataRef.current for credential: ", gridDataRef.current);
   //     }
 
-
   //     /////
   //     if(triggeredFormName === 'FIRLTable'){
   //       gridRowArray = (gridDataRef.current.hasOwnProperty('SelfServ_HospitalComp_Grid'))
@@ -2372,14 +2610,13 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
   //     /////
   //   }
 
-
   //   //Handling For Portal and DashboardHomeView Side grids Save&Close
   //     /*if (triggeredFormName === "CredentialTable") {
   //       finalGridSaveDataRef.current[triggeredFormName] = [...credentialTableRowsData];
   //     }*/
   // };
 
- // let tableRowsDataTempRef = useRef({});
+  // let tableRowsDataTempRef = useRef({});
 
   /*const editTableRows = (triggeredFormName,index,initialTableRows) => {
     console.log("Inside editTableRows")
@@ -2390,25 +2627,25 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
   }*/
 
   //Added by Harshit
-  const editTableRows = (index,triggeredFormName) =>{
-    console.log("Inside editTableRows: ",triggeredFormName);
+  const editTableRows = (index, triggeredFormName) => {
+    console.log("Inside editTableRows: ", triggeredFormName);
     let rowInput = {};
-    if(triggeredFormName === 'LicenseTable'){
+    if (triggeredFormName === "LicenseTable") {
       rowInput = licenseTableRowsData[index];
       setGridFieldTempState(rowInput);
     }
 
-    if(triggeredFormName === 'SpecialityTable'){
+    if (triggeredFormName === "SpecialityTable") {
       rowInput = specialityTableRowsData[index];
       setGridFieldTempState(rowInput);
     }
 
-    if(triggeredFormName === 'LocationTable'){
+    if (triggeredFormName === "LocationTable") {
       rowInput = locationTableRowsData[index];
       setGridFieldTempState(rowInput);
     }
 
-    if(triggeredFormName === 'PayToTable'){
+    if (triggeredFormName === "PayToTable") {
       rowInput = payToTableRowsData[index];
       setGridFieldTempState(rowInput);
     }
@@ -2438,19 +2675,17 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
       setGridFieldTempState(rowInput);
     }
 
-
     /////
-    if(triggeredFormName === 'FIRLTable'){
+    if (triggeredFormName === "FIRLTable") {
       rowInput = firlTableRowsData[index];
       setGridFieldTempState(rowInput);
-  }
+    }
 
-  if(triggeredFormName === 'CompensationTable'){
-    rowInput = compensationTableRowsData[index];
-    setGridFieldTempState(rowInput);
-  }
-
-  }
+    if (triggeredFormName === "CompensationTable") {
+      rowInput = compensationTableRowsData[index];
+      setGridFieldTempState(rowInput);
+    }
+  };
 
   const addTableRows = (triggeredFormName, index) => {
     // fetchAutoPopulate.current=false;
@@ -2502,19 +2737,29 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
     }
 
     /////
-    if(triggeredFormName === 'FIRLTable' && firlTableRowsData!==undefined){
-      rowsInput.rowNumber = firlTableRowsData.length+1;
+    if (triggeredFormName === "FIRLTable" && firlTableRowsData !== undefined) {
+      rowsInput.rowNumber = firlTableRowsData.length + 1;
       setFirlTableRowsData([...firlTableRowsData, rowsInput]);
-  }
-  if(triggeredFormName === 'CompensationTable' && compensationTableRowsData!==undefined){
-     rowsInput.rowNumber = compensationTableRowsData.length+1;
-     setCompensationTableRowsData([...compensationTableRowsData, rowsInput]);
- }
+    }
+    if (
+      triggeredFormName === "CompensationTable" &&
+      compensationTableRowsData !== undefined
+    ) {
+      rowsInput.rowNumber = compensationTableRowsData.length + 1;
+      setCompensationTableRowsData([...compensationTableRowsData, rowsInput]);
+    }
     /////
   };
 
   const deleteTableRows = (index, triggeredFormName, operationValue) => {
-    console.log("Inside deleteTableRows with all values==== ",index," & ",triggeredFormName," & ",operationValue );
+    console.log(
+      "Inside deleteTableRows with all values==== ",
+      index,
+      " & ",
+      triggeredFormName,
+      " & ",
+      operationValue,
+    );
     if (
       operationValue !== "Edit" &&
       (operationValue === "Add" || operationValue === "Force Delete")
@@ -2572,34 +2817,32 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
         rows.splice(index, 1);
         setCredentialTableRowsData(rows);
       }
-    if(triggeredFormName === 'FIRLTable'){
+      if (triggeredFormName === "FIRLTable") {
         const rows = [...firlTableRowsData];
         rows.splice(index, 1);
         setFirlTableRowsData(rows);
-    }
-    if(triggeredFormName === 'CompensationTable'){
+      }
+      if (triggeredFormName === "CompensationTable") {
         const rows = [...compensationTableRowsData];
         rows.splice(index, 1);
         setCompensationTableRowsData(rows);
-    }
+      }
     }
 
-    if(operationValue === 'Edit'){
+    if (operationValue === "Edit") {
       setGridFieldTempState({});
     }
-
   };
 
   const handleGridFieldChange = (index, evnt, triggeredFormName) => {
     console.log("Inside handleGridFieldChange: ", triggeredFormName);
     //let rowsInput = "";
-    let tempInput = {...gridFieldTempState};
+    let tempInput = { ...gridFieldTempState };
     let { name, value } = evnt.target;
-    console.log("Inside handleGridFieldChange: ", value,tempInput);
+    console.log("Inside handleGridFieldChange: ", value, tempInput);
     tempInput[name] = value.toUpperCase();
     setGridFieldTempState(tempInput);
-  }
-
+  };
 
   //Commented By Harshit and modified this method wrt to "save data only on grid save and close"
   // const handleGridFieldChange = (index, evnt, triggeredFormName) => {
@@ -2733,7 +2976,6 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
     let rowsInput = {};
     const { name, value } = evnt.target;
 
-
     if (triggeredFormName === "SpecialityTable") {
       //rowsInput = [...specialityTableRowsData];
       if (value !== "" && value !== undefined) {
@@ -2744,7 +2986,7 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
         // );
         if (selectValues.taxonomyOptions.length > 0) {
           const foundOption = selectValues.taxonomyOptions.find(
-            (option) => option.taxonomycode === value
+            (option) => option.taxonomycode === value,
           );
           //console.log("Inside handleOnBlur foundOption: ", foundOption);
           if (
@@ -2757,13 +2999,13 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
             //   "Inside handleOnBlur foundOption if: ",
             //   rowsInput[index]["taxonomyDesc"]
             // );
-            console.log("gridFieldTempState Nidhi: ",gridFieldTempState);
-            rowsInput = {...gridFieldTempState};
+            console.log("gridFieldTempState Nidhi: ", gridFieldTempState);
+            rowsInput = { ...gridFieldTempState };
             rowsInput["taxonomyDesc"] = foundOption.taxonomydesc;
           } else {
             alert("Please enter valid Taxonomy Code");
-             rowsInput["taxonomyDesc"]='';
-             rowsInput["taxonomyCode"]='';
+            rowsInput["taxonomyDesc"] = "";
+            rowsInput["taxonomyCode"] = "";
             //rowsInput[index]['taxonomyDesc'] = undefined;
           }
           if (
@@ -2774,23 +3016,21 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
             rowsInput["taxonomyGrp"] = foundOption.taxonomygrp;
           } else {
             //alert("Please enter valid Taxonomy Code");
-            rowsInput["taxonomyCode"]='';
-            rowsInput["taxonomyGrp"]='';
+            rowsInput["taxonomyCode"] = "";
+            rowsInput["taxonomyGrp"] = "";
           }
           console.log("rowsInput Nidhi: ", rowsInput);
-        //  setGridFieldTempState(rowsInput);
-        
+          //  setGridFieldTempState(rowsInput);
         }
       } else {
         alert(
-          "Please fill Taxonomy Code to populate Taxonomy Description and Taxonomy Group"
+          "Please fill Taxonomy Code to populate Taxonomy Description and Taxonomy Group",
         );
-         rowsInput["taxonomyDesc"]='';
-         rowsInput["taxonomyGrp"]='';
-         //setGridFieldTempState(rowsInput);
-
+        rowsInput["taxonomyDesc"] = "";
+        rowsInput["taxonomyGrp"] = "";
+        //setGridFieldTempState(rowsInput);
       }
-      setGridFieldTempState({...gridFieldTempState,...rowsInput});
+      setGridFieldTempState({ ...gridFieldTempState, ...rowsInput });
     }
   };
 
@@ -2799,44 +3039,43 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
     index,
     selectedValue,
     evnt,
-    triggeredFormName
+    triggeredFormName,
   ) => {
     console.log("Inside handleSelectSpecialityOnBlur index: ", index);
     console.log(
       "Inside handleSelectSpecialityOnBlur selectedValue: ",
-      selectedValue
+      selectedValue,
     );
     console.log("Inside handleSelectSpecialityOnBlur evnt: ", evnt);
     console.log(
       "Inside handleSelectSpecialityOnBlur trigeredFormName: ",
-      triggeredFormName
+      triggeredFormName,
     );
   };
   //till here
 
   //08/22/2023
-  const handleActionSelectChange = (evnt,index,data) => {
-    data.action = {'label':evnt.value,'value':evnt.value};
-    potentialDupData[index]=data;
+  const handleActionSelectChange = (evnt, index, data) => {
+    data.action = { label: evnt.value, value: evnt.value };
+    potentialDupData[index] = data;
     setPotentialDupData([...potentialDupData]);
-
-}
-//Till here
+  };
+  //Till here
 
   const handleLinearSelectChange = (selectValue, evnt) => {
-    console.log("SS",selectValue,apiTestState);
+    console.log("SS", selectValue, apiTestState);
     if (formikInitializeState) {
       setFormikInitializeState(false);
     }
     const { name } = evnt;
     let val = selectValue;
-    if(evnt.action==='clear'){
+    if (evnt.action === "clear") {
       //printConsole('Inside selectvalue null before delete: ',rowsInput[index]);
       //delete rowsInput[index][name];
-      val = {label:'',value:''};
+      val = { label: "", value: "" };
       //printConsole('Inside selectvalue null after delete: ',rowsInput[index]);
     }
-    
+
     setApiTestState({ ...apiTestState, [name]: val });
   };
 
@@ -2844,65 +3083,86 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
     index,
     selectedValue,
     evnt,
-    triggeredFormName
+    triggeredFormName,
   ) => {
     // console.log("Inside select change index: ", index);
     console.log("Inside select change selectedValue: ", selectedValue);
     // console.log("Inside select change evnt: ", evnt);
     // console.log("Inside select change trigeredFormName: ", triggeredFormName);
-    let rowsInput = {...gridFieldTempState};
-    
+    let rowsInput = { ...gridFieldTempState };
+
     const { name } = evnt;
     let val = selectedValue;
-    if(evnt.action==='clear'){
+    if (evnt.action === "clear") {
       //printConsole('Inside selectvalue null before delete: ',rowsInput[index]);
       //delete rowsInput[index][name];
-      val = {label:'',value:''};
+      val = { label: "", value: "" };
       //printConsole('Inside selectvalue null after delete: ',rowsInput[index]);
+    } else {
+      val = {
+        label: selectedValue.label.toUpperCase(),
+        value: selectedValue.value.toUpperCase(),
+      };
     }
-    else{
-      val = {label:selectedValue.label.toUpperCase(),value:selectedValue.value.toUpperCase()}
-    }
-    
-    console.log("Inside handleSelectChange Val: ",val);
+
+    console.log("Inside handleSelectChange Val: ", val);
     rowsInput[name] = val;
 
     if (triggeredFormName === "SpecialityTable") {
       //Added Newly by Nidhi Gupta on 11/14/2023
-       //Making subSpeciality dropdown reset whenever speciality changing
-       if (evnt.name=='speciality')
-       {
-        rowsInput["subSpeciality"] = { label: '', value: '' };
-       }
+      //Making subSpeciality dropdown reset whenever speciality changing
+      if (evnt.name == "speciality") {
+        rowsInput["subSpeciality"] = { label: "", value: "" };
+      }
 
-     //  console.log('Inside select change specialtyOptions: ',selectValues.specialtyOptions);
-     //  console.log("Inside select change evnt.name: ",evnt.name);
-     if(evnt.name=='speciality' && selectValues.specialtyOptions && selectValues.specialtyOptions.length>0
-      && selectedValue){
-          //console.log("Inside select change heloooooo");
-          const foundOption = selectValues.specialtyOptions.find(option => option.speciality === selectedValue.value);
-          console.log('Inside select change foundOption: ',foundOption);
-          if((foundOption!==undefined) && ('hsdCodeValue' in foundOption) && (foundOption.hsdCodeValue!==null) && (foundOption.hsdCodeValue!==undefined)) {
-              console.log('Inside select change foundOption if: ',rowsInput['hsdCode']);
-              console.log('Inside select change foundOption.hsdCodeValue: ',foundOption.hsdCodeValue);
-              rowsInput['hsdCode'] = foundOption.hsdCodeValue;
-          }
-          else{
-              // alert("Corresponding HSD Code not found.");
-              // delete rowsInput[index]['hsdCode'] ;
-              rowsInput['hsdCode'] = '';
-          }
-          const subSpecialityValues = selectValues.specialtyOptions
-          .filter((el) =>el.speciality === selectedValue.value)
-          .map(elem =>{return {label: elem.subSpeciality,value: elem.subSpeciality};
-         });
-            console.log("Inside select change subSpecialityValues" , subSpecialityValues);
-            setSubSpecialityOptions(subSpecialityValues);
+      //  console.log('Inside select change specialtyOptions: ',selectValues.specialtyOptions);
+      //  console.log("Inside select change evnt.name: ",evnt.name);
+      if (
+        evnt.name == "speciality" &&
+        selectValues.specialtyOptions &&
+        selectValues.specialtyOptions.length > 0 &&
+        selectedValue
+      ) {
+        //console.log("Inside select change heloooooo");
+        const foundOption = selectValues.specialtyOptions.find(
+          (option) => option.speciality === selectedValue.value,
+        );
+        console.log("Inside select change foundOption: ", foundOption);
+        if (
+          foundOption !== undefined &&
+          "hsdCodeValue" in foundOption &&
+          foundOption.hsdCodeValue !== null &&
+          foundOption.hsdCodeValue !== undefined
+        ) {
+          console.log(
+            "Inside select change foundOption if: ",
+            rowsInput["hsdCode"],
+          );
+          console.log(
+            "Inside select change foundOption.hsdCodeValue: ",
+            foundOption.hsdCodeValue,
+          );
+          rowsInput["hsdCode"] = foundOption.hsdCodeValue;
+        } else {
+          // alert("Corresponding HSD Code not found.");
+          // delete rowsInput[index]['hsdCode'] ;
+          rowsInput["hsdCode"] = "";
+        }
+        const subSpecialityValues = selectValues.specialtyOptions
+          .filter((el) => el.speciality === selectedValue.value)
+          .map((elem) => {
+            return { label: elem.subSpeciality, value: elem.subSpeciality };
+          });
+        console.log(
+          "Inside select change subSpecialityValues",
+          subSpecialityValues,
+        );
+        setSubSpecialityOptions(subSpecialityValues);
       }
       //Till here
     }
     setGridFieldTempState(rowsInput);
-  }
+  };
 
   //Commented by Harshit
   // const handleGridSelectChange = (
@@ -2978,9 +3238,9 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
   //     //val = {label:selectedValue.value.toUpperCase(),value:selectedValue.value.toUpperCase()}
   //     val = {label:selectedValue.value,value:selectedValue.value}
   //   }
-    
+
   //   console.log("Inside handleSelectChange Val: ",val);
-    
+
   //   rowsInput[index][name] = val
 
   //   //console.log("rowsInput: ",rowsInput);
@@ -3089,23 +3349,23 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
     // });
     setGridFieldTempState(data);
   };
-  
+
   const handleGridDateChange = (
     index,
     selectedValue,
     fieldName,
-    triggeredFormName
+    triggeredFormName,
   ) => {
     // console.log("index: ",index);
     //console.log("Inside handleGridDateChange selectValue: ",selectedValue);
     // console.log("fieldName: ",fieldName);
     //const { name } = fieldName;
     //console.log("Inside handleGridDateChange name: ",fieldName);
-    let tempInput = {...gridFieldTempState};
+    let tempInput = { ...gridFieldTempState };
     tempInput[fieldName] = selectedValue;
     //console.log("Inside handleGridDateChange tempInput: ",tempInput);
     setGridFieldTempState(tempInput);
-  }
+  };
 
   //Commented by Harshit
   // const handleGridDateChange = (
@@ -3155,12 +3415,12 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
   //   }
   // };
 
-  const handleDateChange = (date, dateName,evnt) => {
+  const handleDateChange = (date, dateName, evnt) => {
     console.log("handleDateChange evnt: ", evnt);
     console.log("handleDateChange date: ", date);
     console.log("handleDateChange dateName: ", dateName);
-    if(date === null){
-      date = '';
+    if (date === null) {
+      date = "";
     }
     if (dateName === "dateOfBirth") {
       setApiTestState({
@@ -3192,31 +3452,26 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
     }
 
     //Added by Nidhi Gupta on 10/09/2023
-    if(dateName === 'conEffectiveDate'){
-
+    if (dateName === "conEffectiveDate") {
       setApiTestStateComp({
-          ...apiTestStateComp,
-          conEffectiveDate: date
-        });
-        console.log("handleDateChange conEffectiveDate: ",apiTestStateComp);
-       }
-       if(dateName === 'mocAttestationDate'){
-
-          setApiTestStateComp({
-              ...apiTestStateComp,
-              mocAttestationDate: date
-            });
-
-           }
-           if(dateName === 'mocRenewalAttDate'){
-
-              setApiTestStateComp({
-                  ...apiTestStateComp,
-                  mocRenewalAttDate: date
-                });
-
-               }
-     //Till Here
+        ...apiTestStateComp,
+        conEffectiveDate: date,
+      });
+      console.log("handleDateChange conEffectiveDate: ", apiTestStateComp);
+    }
+    if (dateName === "mocAttestationDate") {
+      setApiTestStateComp({
+        ...apiTestStateComp,
+        mocAttestationDate: date,
+      });
+    }
+    if (dateName === "mocRenewalAttDate") {
+      setApiTestStateComp({
+        ...apiTestStateComp,
+        mocRenewalAttDate: date,
+      });
+    }
+    //Till Here
   };
 
   // const handleDateChange = (date) => {
@@ -3264,66 +3519,72 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
 
         //values.gender = ((apiTestState.gender!==undefined)?apiTestState.gender.value:'');
 
-
         let apiJson = {};
         let requestBody = { ...values };
 
-        requestBody.gender =values.gender.value !== undefined ? values.gender.value : "";
-        requestBody.agesSeen =apiTestState.agesSeen !== undefined? apiTestState.agesSeen.value: "";
-      // values.states = ((apiTestState.states!==undefined)?apiTestState.states.map(el => el.value).toString():'');
-       console.log("Inside save form data: ",apiTestState.states);
-      // console.log("Inside save form data state type: ",Array.isArray(apiTestState.states));
+        requestBody.gender =
+          values.gender.value !== undefined ? values.gender.value : "";
+        requestBody.agesSeen =
+          apiTestState.agesSeen !== undefined
+            ? apiTestState.agesSeen.value
+            : "";
+        // values.states = ((apiTestState.states!==undefined)?apiTestState.states.map(el => el.value).toString():'');
+        console.log("Inside save form data: ", apiTestState.states);
+        // console.log("Inside save form data state type: ",Array.isArray(apiTestState.states));
         // requestBody.states =apiTestState.states !== undefined? typeof apiTestState.states !== "string"
         //     ? apiTestState.states.map((el) => el.value).toString()
         //     : apiTestState.states
         //   : "";8
-        requestBody.states =((apiTestState.states !== undefined)? ((Array.isArray(apiTestState.states))
-        ? apiTestState.states.map((el) => el.value.toString()).toString()
-        : '')
-        : '');
+        requestBody.states =
+          apiTestState.states !== undefined
+            ? Array.isArray(apiTestState.states)
+              ? apiTestState.states.map((el) => el.value.toString()).toString()
+              : ""
+            : "";
         //apiTestState.states.map((el) => {if(el.value !== ''){return el.value.toString()}})
-        console.log("Inside save form data11: ",requestBody.states);
+        console.log("Inside save form data11: ", requestBody.states);
         requestBody.newPatients =
-        apiTestState.newPatients !== undefined
-          ? apiTestState.newPatients.value
-          : "";
-          requestBody.placeInDirectory =
-        apiTestState.placeInDirectory !== undefined
-          ? apiTestState.placeInDirectory.value
-          : "Yes";
-          //requestBody.delegated =
+          apiTestState.newPatients !== undefined
+            ? apiTestState.newPatients.value
+            : "";
+        requestBody.placeInDirectory =
+          apiTestState.placeInDirectory !== undefined
+            ? apiTestState.placeInDirectory.value
+            : "Yes";
+        //requestBody.delegated =
         // apiTestState.delegated !== undefined
         //   ? apiTestState.delegated.value
         //   : "";
         requestBody.delegated =
-        ((values.delegated.value!==undefined)
-        ?values.delegated.value:null);
-          requestBody.contractId =
-          (apiTestState.contractId !== undefined && apiTestState.contractId !== null)
-          ? apiTestState.contractId.value
-          : "";
-          requestBody.ecfmgQues =
-        apiTestState.ecfmgQues !== undefined
-          ? apiTestState.ecfmgQues.value
-          : "";
-      //console.log("Updated apiTestState.attestationDate", apiTestState.attestationDate);
-      // requestBody.dateOfBirth = !!apiTestState.dateOfBirth
-      //   ? apiTestState.dateOfBirth.toLocaleDateString()
-      //   : null;
+          values.delegated.value !== undefined ? values.delegated.value : null;
+        requestBody.contractId =
+          apiTestState.contractId !== undefined &&
+          apiTestState.contractId !== null
+            ? apiTestState.contractId.value
+            : "";
+        requestBody.ecfmgQues =
+          apiTestState.ecfmgQues !== undefined
+            ? apiTestState.ecfmgQues.value
+            : "";
+        //console.log("Updated apiTestState.attestationDate", apiTestState.attestationDate);
+        // requestBody.dateOfBirth = !!apiTestState.dateOfBirth
+        //   ? apiTestState.dateOfBirth.toLocaleDateString()
+        //   : null;
         requestBody.dateOfBirth = apiTestState.dateOfBirth
-        ? apiTestState.dateOfBirth.toLocaleDateString()
-        : null;
+          ? apiTestState.dateOfBirth.toLocaleDateString()
+          : null;
         requestBody.ecfmgIssueDate = apiTestState.ecfmgIssueDate
-        ? apiTestState.ecfmgIssueDate.toLocaleDateString()
-        : null;
+          ? apiTestState.ecfmgIssueDate.toLocaleDateString()
+          : null;
         requestBody.ecfmgExpirationDate = apiTestState.ecfmgExpirationDate
-        ? apiTestState.ecfmgExpirationDate.toLocaleDateString()
-        : null;
+          ? apiTestState.ecfmgExpirationDate.toLocaleDateString()
+          : null;
         requestBody.attestationDate = apiTestState.attestationDate
-        ? apiTestState.attestationDate.toLocaleDateString()
-        : null;
+          ? apiTestState.attestationDate.toLocaleDateString()
+          : null;
         requestBody.Medicaid = apiTestState.Medicaid;
-        requestBody.Medicare = ((apiTestState.Medicare!==undefined)?apiTestState.Medicare:true);
+        requestBody.Medicare =
+          apiTestState.Medicare !== undefined ? apiTestState.Medicare : true;
 
         //requestBody.languages = languageRef.current.getSelectedItems().toString();
         //requestBody.gender = genderRef.current.getSelectedItems().toString();
@@ -3402,7 +3663,7 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
         mainWIObject.stageId = stageId;
         mainWIObject.OrganizationName = requestBody.organizationName;
         mainWIObject.delegated = requestBody.delegated;
-        mainWIObject.lockStatus = 'N';
+        mainWIObject.lockStatus = "N";
 
         mainWIObject = trimJsonValues(mainWIObject);
         console.log("Main Workitem data: ", mainWIObject);
@@ -3445,8 +3706,8 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
 
         apiJson = saveGridData(apiJson);
 
-          //Added by Nidhi Gupta on 11/10/2023
-          /*if(apiJson['SelfServ_Location_Grid']!==undefined){
+        //Added by Nidhi Gupta on 11/10/2023
+        /*if(apiJson['SelfServ_Location_Grid']!==undefined){
             apiJson['SelfServ_Location_Grid'].map((data) => {
             data.languages=data.languages !== undefined? typeof data.languages !== "string"
             ? data.languages.map((el) => el.value).toString()
@@ -3454,9 +3715,9 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
             : "";
             })
             }*/
-            //console.log("Wallet apiJson after: ", apiJson);
-  
-          //Till Here
+        //console.log("Wallet apiJson after: ", apiJson);
+
+        //Till Here
 
         //Added by Nidhi on 3/27/2023 insert
         console.log("quesAnsListJson: ", quesAnsListJson);
@@ -3496,7 +3757,7 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
           ) {
             // || ((apiJson["SelfServ_Prov_Details"].ecfmgExpirationDate === '') || (apiJson["SelfServ_Prov_Details"].ecfmgExpirationDate === undefined)))
             alert(
-              "ECFMG Number and ECFMG Issue Date are required if ECFMG is Yes"
+              "ECFMG Number and ECFMG Issue Date are required if ECFMG is Yes",
             );
             setButtonDisableFlag(false); //Added on 5/17/2023
             return;
@@ -3545,7 +3806,7 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
         //   return;
         // }
         //Till Here
-        console.log("Final api json before create: ",apiJson);
+        console.log("Final api json before create: ", apiJson);
         customAxios
           .post("/generic/create", apiJson, {
             headers: { Authorization: `Bearer ${token}` },
@@ -3581,25 +3842,25 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
               console.log("PocData State: ", procData);
               console.log(
                 "Inside Add Provider File UPLOAD DATA: ",
-                documentSectionDataRef.current
+                documentSectionDataRef.current,
               );
               if (documentSectionDataRef.current.length > 0) {
                 let documentArray = [...documentSectionDataRef.current];
                 documentArray = documentArray.filter(
-                  (x) => x.docStatus === "Uploaded"
+                  (x) => x.docStatus === "Uploaded",
                 );
                 documentArray.forEach((e) => {
                   const fileUploadData = new FormData();
                   fileUploadData.append("file", e.fileData);
-                  fileUploadData.append("source",'Manual');
+                  fileUploadData.append("source", "Manual");
                   fileUploadData.append(
                     "caseNumber",
-                    res.data["CreateCase_Output"]["CaseNo"]
+                    res.data["CreateCase_Output"]["CaseNo"],
                   );
                   fileUploadData.append("docType", e.documentType);
                   console.log(
                     "Inside Add Provider File Upload Data: ",
-                    fileUploadData
+                    fileUploadData,
                   );
                   fileUpDownAxios
                     .post("/uploadFile", fileUploadData)
@@ -3634,12 +3895,12 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
                     });
                 });
               }
-               //else {
-                alert(
-                  "Case created successfully: " +
-                    res.data["CreateCase_Output"]["CaseNo"]
-                );
-                //submitCase(procData, navigateHome);
+              //else {
+              alert(
+                "Case created successfully: " +
+                  res.data["CreateCase_Output"]["CaseNo"],
+              );
+              //submitCase(procData, navigateHome);
               //}
               submitCase(procData, navigateHome);
             }
@@ -3652,10 +3913,12 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
           });
       }
       //Added newly by Nidhi Gupta on 11/1/2023
-      else{
-        console.log("This is a duplicate NPI ID. Please provide unique NPI ID.");
+      else {
+        console.log(
+          "This is a duplicate NPI ID. Please provide unique NPI ID.",
+        );
         alert("This is a duplicate NPI ID. Please provide unique NPI ID.");
-    }
+      }
       //Till Here
       /*if(!handleSubmit()){
             const errorMsg = errors[Object.keys(errors)[0]];
@@ -3668,28 +3931,31 @@ const handleLinearSelectChangeComp = (selectValue, evnt) => {
     }
   };
 
-
-
-// Updated by SHivani for CAQH and NPI validation
-const saveData = (values) => {
-  if(!getNPIFromMaster(values.caqhNpiId))
-  {
-    if(tabRef.current === "HomeView"){
-      saveFormData(values);
-  }
-
-  if(tabRef.current === "DashboardView"){
-      printConsole("Inside dashboard view before if : ",formikInitializeState);
-      if(formikInitializeState){
-          printConsole("Inside dashboard view if : ",formikInitializeState);
-          setFormikInitializeState(false);
+  // Updated by SHivani for CAQH and NPI validation
+  const saveData = (values) => {
+    if (!getNPIFromMaster(values.caqhNpiId)) {
+      if (tabRef.current === "HomeView") {
+        saveFormData(values);
       }
-      setTimeout(() => {
-          printConsole("Inside dashboard view timeout : ",formikInitializeState);
+
+      if (tabRef.current === "DashboardView") {
+        printConsole(
+          "Inside dashboard view before if : ",
+          formikInitializeState,
+        );
+        if (formikInitializeState) {
+          printConsole("Inside dashboard view if : ", formikInitializeState);
+          setFormikInitializeState(false);
+        }
+        setTimeout(() => {
+          printConsole(
+            "Inside dashboard view timeout : ",
+            formikInitializeState,
+          );
           updateFormData(values);
-      }, 1000);
-  }
-    /* if(!!values.caqhId)
+        }, 1000);
+      }
+      /* if(!!values.caqhId)
      {
       const organizationId = process.env.REACT_APP_ORG_ID;
       customAxios.get(`caqh/validate?caqhId=${values.caqhId}&orgId=${organizationId}`,
@@ -3725,13 +3991,14 @@ const saveData = (values) => {
       }})
       .catch((err)=>{alert("CAQH ID is not correct");})
      }*/
-  }
-  else{
-     alert("NPI ID "+values.caqhNpiId+" is in exclusion list.Please contact your provider and enter correct NPI ID");
-  }
-}
-
-
+    } else {
+      alert(
+        "NPI ID " +
+          values.caqhNpiId +
+          " is in exclusion list.Please contact your provider and enter correct NPI ID",
+      );
+    }
+  };
 
   const updateFormData = (values) => {
     try {
@@ -3745,45 +4012,61 @@ const saveData = (values) => {
       //setApiTestState({...apiTestState,values});
       printConsole(
         "Inside updateFormData states values: ",
-        apiTestState.states
+        apiTestState.states,
       );
-      let requestBody = {...values};
+      let requestBody = { ...values };
       //values.gender = ((apiTestState.gender!==undefined)?apiTestState.gender.value:'');
       requestBody.gender =
         values.gender.value !== undefined ? values.gender.value : "";
-        requestBody.agesSeen =
+      requestBody.agesSeen =
         apiTestState.agesSeen !== undefined ? apiTestState.agesSeen.value : "";
       //values.states = ((apiTestState.states!==undefined || apiTestState.states!=='')?apiTestState.states.map(el => el.value).toString():apiTestState.states);
-        requestBody.states =((apiTestState.states !== undefined)? ((Array.isArray(apiTestState.states))
-        ? apiTestState.states.map((el) => el.value.toString()).toString()
-        : '')
-        : '');
-          requestBody.newPatients =
+      requestBody.states =
+        apiTestState.states !== undefined
+          ? Array.isArray(apiTestState.states)
+            ? apiTestState.states.map((el) => el.value.toString()).toString()
+            : ""
+          : "";
+      requestBody.newPatients =
         apiTestState.newPatients !== undefined
           ? apiTestState.newPatients.value
           : "";
-          requestBody.placeInDirectory =
+      requestBody.placeInDirectory =
         apiTestState.placeInDirectory !== undefined
           ? apiTestState.placeInDirectory.value
           : "Yes";
-          requestBody.delegated =
-          values.delegated.value !== undefined
-          ? values.delegated.value
-          : null;
-          requestBody.ecfmgQues =
+      requestBody.delegated =
+        values.delegated.value !== undefined ? values.delegated.value : null;
+      requestBody.ecfmgQues =
         apiTestState.ecfmgQues !== undefined
           ? apiTestState.ecfmgQues.value
           : "";
 
-          requestBody.contractId =
-          (apiTestState.contractId !== undefined && apiTestState.contractId !== null) ? apiTestState.contractId.value : "";
+      requestBody.contractId =
+        apiTestState.contractId !== undefined &&
+        apiTestState.contractId !== null
+          ? apiTestState.contractId.value
+          : "";
       //console.log("Updated apiTestState.attestationDate", apiTestState.dateOfBirth);
-      requestBody.dateOfBirth = (apiTestState?.dateOfBirth !== undefined)?apiTestState?.dateOfBirth.toLocaleDateString():apiTestState?.dateOfBirth;
-      requestBody.ecfmgIssueDate = (apiTestState?.ecfmgIssueDate !== undefined)?apiTestState?.ecfmgIssueDate.toLocaleDateString():apiTestState?.ecfmgIssueDate;
-      requestBody.ecfmgExpirationDate = (apiTestState?.ecfmgExpirationDate !== undefined)?apiTestState?.ecfmgExpirationDate.toLocaleDateString():apiTestState?.ecfmgExpirationDate;
-      requestBody.attestationDate = (apiTestState?.attestationDate !== undefined)?apiTestState?.attestationDate.toLocaleDateString():apiTestState?.attestationDate;
+      requestBody.dateOfBirth =
+        apiTestState?.dateOfBirth !== undefined
+          ? apiTestState?.dateOfBirth.toLocaleDateString()
+          : apiTestState?.dateOfBirth;
+      requestBody.ecfmgIssueDate =
+        apiTestState?.ecfmgIssueDate !== undefined
+          ? apiTestState?.ecfmgIssueDate.toLocaleDateString()
+          : apiTestState?.ecfmgIssueDate;
+      requestBody.ecfmgExpirationDate =
+        apiTestState?.ecfmgExpirationDate !== undefined
+          ? apiTestState?.ecfmgExpirationDate.toLocaleDateString()
+          : apiTestState?.ecfmgExpirationDate;
+      requestBody.attestationDate =
+        apiTestState?.attestationDate !== undefined
+          ? apiTestState?.attestationDate.toLocaleDateString()
+          : apiTestState?.attestationDate;
       requestBody.Medicaid = apiTestState.Medicaid;
-      requestBody.Medicare = ((apiTestState.Medicare!==undefined)?apiTestState.Medicare:true);
+      requestBody.Medicare =
+        apiTestState.Medicare !== undefined ? apiTestState.Medicare : true;
 
       gridDataRef.current.linearTable = trimJsonValues(requestBody);
 
@@ -3800,89 +4083,176 @@ const saveData = (values) => {
         gridDataRef.current.SelfServ_AdditionalQues_Grid = quesResponse;
         console.log(
           "gridDataRef.current.SelfServ_AdditionalQues_Grid: ",
-          gridDataRef.current.SelfServ_AdditionalQues_Grid
+          gridDataRef.current.SelfServ_AdditionalQues_Grid,
         );
         // console.log("quesResponse02: ", quesResponse02);
       }
 
       //Newly Added by Nidhi Gupta on 09/26/2023
-      let networkBody = {}
-      networkBody.pcpId = ((apiTestStateComp.pcpId!==undefined)?apiTestStateComp.pcpId:'');
-      networkBody.taxId = ((apiTestStateComp.taxId!==undefined)?apiTestStateComp.taxId:'');
-      networkBody.medicalLicense = ((apiTestStateComp.medicalLicense!==undefined)?apiTestStateComp.medicalLicense:'');
-      networkBody.groupRiskId = ((apiTestStateComp.groupRiskId!==undefined)?apiTestStateComp.groupRiskId:'');
-      networkBody.networkId = ((apiTestStateComp.networkId!==undefined)?apiTestStateComp.networkId:'');
-      networkBody.planValue = ((apiTestStateComp.planValue!==undefined)?apiTestStateComp.planValue:'');
-      networkBody.networkState = ((apiTestStateComp.networkState && apiTestStateComp.networkState.value)?apiTestStateComp.networkState.value:'');
-      networkBody.feeSchedule = ((apiTestStateComp.feeSchedule && apiTestStateComp.feeSchedule.value)?apiTestStateComp.feeSchedule.value:'');
-      networkBody.riskState = ((apiTestStateComp.riskState && apiTestStateComp.riskState.value)?apiTestStateComp.riskState.value:'');
-      networkBody.riskAssignment = ((apiTestStateComp.riskAssignment && apiTestStateComp.riskAssignment.value)?apiTestStateComp.riskAssignment.value:'');
+      let networkBody = {};
+      networkBody.pcpId =
+        apiTestStateComp.pcpId !== undefined ? apiTestStateComp.pcpId : "";
+      networkBody.taxId =
+        apiTestStateComp.taxId !== undefined ? apiTestStateComp.taxId : "";
+      networkBody.medicalLicense =
+        apiTestStateComp.medicalLicense !== undefined
+          ? apiTestStateComp.medicalLicense
+          : "";
+      networkBody.groupRiskId =
+        apiTestStateComp.groupRiskId !== undefined
+          ? apiTestStateComp.groupRiskId
+          : "";
+      networkBody.networkId =
+        apiTestStateComp.networkId !== undefined
+          ? apiTestStateComp.networkId
+          : "";
+      networkBody.planValue =
+        apiTestStateComp.planValue !== undefined
+          ? apiTestStateComp.planValue
+          : "";
+      networkBody.networkState =
+        apiTestStateComp.networkState && apiTestStateComp.networkState.value
+          ? apiTestStateComp.networkState.value
+          : "";
+      networkBody.feeSchedule =
+        apiTestStateComp.feeSchedule && apiTestStateComp.feeSchedule.value
+          ? apiTestStateComp.feeSchedule.value
+          : "";
+      networkBody.riskState =
+        apiTestStateComp.riskState && apiTestStateComp.riskState.value
+          ? apiTestStateComp.riskState.value
+          : "";
+      networkBody.riskAssignment =
+        apiTestStateComp.riskAssignment && apiTestStateComp.riskAssignment.value
+          ? apiTestStateComp.riskAssignment.value
+          : "";
       //Added by Nidhi Gupta on 10/06/2023
-      networkBody.terminationClause = ((apiTestStateComp.terminationClause!==undefined)?apiTestStateComp.terminationClause:'');
-      networkBody.annualEscl = ((apiTestStateComp.annualEscl!==undefined)?apiTestStateComp.annualEscl:'');
-      networkBody.starsIncentive = ((apiTestStateComp.starsIncentive!==undefined)?apiTestStateComp.starsIncentive:'');
-      networkBody.awvIncentive = ((apiTestStateComp.awvIncentive!==undefined)?apiTestStateComp.awvIncentive:'');
-      networkBody.medicalHome = ((apiTestStateComp.medicalHome!==undefined)?apiTestStateComp.medicalHome:'');
-      networkBody.pricingAWP = ((apiTestStateComp.pricingAWP!==undefined)?apiTestStateComp.pricingAWP:'');
-      networkBody.pricingASP = ((apiTestStateComp.pricingASP!==undefined)?apiTestStateComp.pricingASP:'');
-      networkBody.contractTypeComp = ((apiTestStateComp.contractTypeComp && apiTestStateComp.contractTypeComp.value)?apiTestStateComp.contractTypeComp.value:'');
-      networkBody.sequesApplies = ((apiTestStateComp.sequesApplies && apiTestStateComp.sequesApplies.value)?apiTestStateComp.sequesApplies.value:'');
-      networkBody.criticalAccess = ((apiTestStateComp.criticalAccess && apiTestStateComp.criticalAccess.value)?apiTestStateComp.criticalAccess.value:'');
-      networkBody.qualityFlagI = ((apiTestStateComp.qualityFlagI && apiTestStateComp.qualityFlagI.value)?apiTestStateComp.qualityFlagI.value:'');
-      networkBody.qualityFlagJ = ((apiTestStateComp.qualityFlagJ && apiTestStateComp.qualityFlagJ.value)?apiTestStateComp.qualityFlagJ.value:'');
-      networkBody.qualityFlagK = ((apiTestStateComp.qualityFlagK && apiTestStateComp.qualityFlagK.value)?apiTestStateComp.qualityFlagK.value:'');
-      networkBody.qualityFlagL = ((apiTestStateComp.qualityFlagL && apiTestStateComp.qualityFlagL.value)?apiTestStateComp.qualityFlagL.value:'');
-      networkBody.qualityFlagM = ((apiTestStateComp.qualityFlagM && apiTestStateComp.qualityFlagM.value)?apiTestStateComp.qualityFlagM.value:'');
-      networkBody.qualityFlagN = ((apiTestStateComp.qualityFlagN && apiTestStateComp.qualityFlagN.value)?apiTestStateComp.qualityFlagN.value:'');
-      networkBody.conEffectiveDate = apiTestStateComp.conEffectiveDate ? apiTestStateComp.conEffectiveDate.toLocaleDateString() : null;
-      networkBody.mocAttestationDate = apiTestStateComp.mocAttestationDate ? apiTestStateComp.mocAttestationDate.toLocaleDateString() : null;
-      networkBody.mocRenewalAttDate = apiTestStateComp.mocRenewalAttDate ? apiTestStateComp.mocRenewalAttDate.toLocaleDateString() : null;
+      networkBody.terminationClause =
+        apiTestStateComp.terminationClause !== undefined
+          ? apiTestStateComp.terminationClause
+          : "";
+      networkBody.annualEscl =
+        apiTestStateComp.annualEscl !== undefined
+          ? apiTestStateComp.annualEscl
+          : "";
+      networkBody.starsIncentive =
+        apiTestStateComp.starsIncentive !== undefined
+          ? apiTestStateComp.starsIncentive
+          : "";
+      networkBody.awvIncentive =
+        apiTestStateComp.awvIncentive !== undefined
+          ? apiTestStateComp.awvIncentive
+          : "";
+      networkBody.medicalHome =
+        apiTestStateComp.medicalHome !== undefined
+          ? apiTestStateComp.medicalHome
+          : "";
+      networkBody.pricingAWP =
+        apiTestStateComp.pricingAWP !== undefined
+          ? apiTestStateComp.pricingAWP
+          : "";
+      networkBody.pricingASP =
+        apiTestStateComp.pricingASP !== undefined
+          ? apiTestStateComp.pricingASP
+          : "";
+      networkBody.contractTypeComp =
+        apiTestStateComp.contractTypeComp &&
+        apiTestStateComp.contractTypeComp.value
+          ? apiTestStateComp.contractTypeComp.value
+          : "";
+      networkBody.sequesApplies =
+        apiTestStateComp.sequesApplies && apiTestStateComp.sequesApplies.value
+          ? apiTestStateComp.sequesApplies.value
+          : "";
+      networkBody.criticalAccess =
+        apiTestStateComp.criticalAccess && apiTestStateComp.criticalAccess.value
+          ? apiTestStateComp.criticalAccess.value
+          : "";
+      networkBody.qualityFlagI =
+        apiTestStateComp.qualityFlagI && apiTestStateComp.qualityFlagI.value
+          ? apiTestStateComp.qualityFlagI.value
+          : "";
+      networkBody.qualityFlagJ =
+        apiTestStateComp.qualityFlagJ && apiTestStateComp.qualityFlagJ.value
+          ? apiTestStateComp.qualityFlagJ.value
+          : "";
+      networkBody.qualityFlagK =
+        apiTestStateComp.qualityFlagK && apiTestStateComp.qualityFlagK.value
+          ? apiTestStateComp.qualityFlagK.value
+          : "";
+      networkBody.qualityFlagL =
+        apiTestStateComp.qualityFlagL && apiTestStateComp.qualityFlagL.value
+          ? apiTestStateComp.qualityFlagL.value
+          : "";
+      networkBody.qualityFlagM =
+        apiTestStateComp.qualityFlagM && apiTestStateComp.qualityFlagM.value
+          ? apiTestStateComp.qualityFlagM.value
+          : "";
+      networkBody.qualityFlagN =
+        apiTestStateComp.qualityFlagN && apiTestStateComp.qualityFlagN.value
+          ? apiTestStateComp.qualityFlagN.value
+          : "";
+      networkBody.conEffectiveDate = apiTestStateComp.conEffectiveDate
+        ? apiTestStateComp.conEffectiveDate.toLocaleDateString()
+        : null;
+      networkBody.mocAttestationDate = apiTestStateComp.mocAttestationDate
+        ? apiTestStateComp.mocAttestationDate.toLocaleDateString()
+        : null;
+      networkBody.mocRenewalAttDate = apiTestStateComp.mocRenewalAttDate
+        ? apiTestStateComp.mocRenewalAttDate.toLocaleDateString()
+        : null;
       //Till Here
-      console.log("networkBody Update: ",networkBody);
-      gridDataRef.current.SelfServ_Network_Details = trimJsonValues(networkBody);
+      console.log("networkBody Update: ", networkBody);
+      gridDataRef.current.SelfServ_Network_Details =
+        trimJsonValues(networkBody);
       //console.log("gridDataRef.current.compensationTable: ", gridDataRef.current.compensationTable);
       //console.log("gridDataRef.current.firlTable: ", gridDataRef.current.firlTable);
       //gridDataRef.current.SelfServ_ProviderComp_Grid= gridDataRef.current.compensationTable;
       //gridDataRef.current.SelfServ_HospitalComp_Grid= gridDataRef.current.firlTable;
       //Till Here
 
-           //Added by Nidhi Gupta on 08/22/2023
-           if (potentialDupData.length > 0) {
-            let updateArray = [];
-            potentialDupData.map(data =>{
-
-                if(data['action']!==undefined && data['action'].value!==undefined)
-                {
-                updateArray.push({caseNumber:data['caseNumber'],
-                action:data['action'].value,
-                dupCaseId:data['dupCaseId'],
-                rowNumber:data['dupCaseId'] })
-                }
-
+      //Added by Nidhi Gupta on 08/22/2023
+      if (potentialDupData.length > 0) {
+        let updateArray = [];
+        potentialDupData.map((data) => {
+          if (
+            data["action"] !== undefined &&
+            data["action"].value !== undefined
+          ) {
+            updateArray.push({
+              caseNumber: data["caseNumber"],
+              action: data["action"].value,
+              dupCaseId: data["dupCaseId"],
+              rowNumber: data["dupCaseId"],
             });
-             gridDataRef.current.SelfServ_PotentialDuplicate  = updateArray;
-             console.log("gridDataRef.current.SelfServ_PotentialDuplicate: ",gridDataRef.current.SelfServ_PotentialDuplicate);
-        }
-          //Till Here
+          }
+        });
+        gridDataRef.current.SelfServ_PotentialDuplicate = updateArray;
+        console.log(
+          "gridDataRef.current.SelfServ_PotentialDuplicate: ",
+          gridDataRef.current.SelfServ_PotentialDuplicate,
+        );
+      }
+      //Till Here
 
       console.log(" Update gridDataRef.current.linearTable: ", values);
       // const gridKeys = getTableDetails()["providerLinear"].concat(
       //   getTableDetails()["gridTables"]
       // );
-     // console.log("gridKeys: ", gridKeys);
-    //  console.log("Inside updateFormData gridDataRef.current before==== ",gridDataRef.current);
-    //   gridKeys.forEach((k) => {
-    //     const newKey = k.split("~")[0];
-    //     const oldKey = k.split("~")[1];
-    //     gridDataRef.current = renameKey(gridDataRef.current, oldKey, newKey);
-    //   });
+      // console.log("gridKeys: ", gridKeys);
+      //  console.log("Inside updateFormData gridDataRef.current before==== ",gridDataRef.current);
+      //   gridKeys.forEach((k) => {
+      //     const newKey = k.split("~")[0];
+      //     const oldKey = k.split("~")[1];
+      //     gridDataRef.current = renameKey(gridDataRef.current, oldKey, newKey);
+      //   });
 
-    //   console.log("Inside updateFormData gridDataRef.current after==== ",gridDataRef.current);
+      //   console.log("Inside updateFormData gridDataRef.current after==== ",gridDataRef.current);
 
       gridDataRef.current.caseNumber = prop.state.caseNumber;
 
       //Added by Nidhi Gupta on 11/10/2023
-/*if(gridDataRef.currentSelfServ_Location_Grid!==undefined){
+      /*if(gridDataRef.currentSelfServ_Location_Grid!==undefined){
   //console.log("Wallet gridDataRef.current.SelfServ_Location_Grid: ",gridDataRef.current.SelfServ_Location_Grid);
 
   gridDataRef.current.SelfServ_Location_Grid.map((data) => {
@@ -3892,7 +4262,7 @@ const saveData = (values) => {
     : "";
     })
   }*/
-  //Till here
+      //Till here
 
       let validated = true;
       // if (
@@ -3911,142 +4281,142 @@ const saveData = (values) => {
 
       if (validated || callProcRef.current !== "callProc") {
         //if(validated){
-          let saveType = ((callProcRef.current === 'callProc'))?'SS':'SE';
-          let isDecisionDiscard = true;
-          const dec = (prop.state.decision !== undefined)?prop.state.decision.toUpperCase().trim():'';
+        let saveType = callProcRef.current === "callProc" ? "SS" : "SE";
+        let isDecisionDiscard = true;
+        const dec =
+          prop.state.decision !== undefined
+            ? prop.state.decision.toUpperCase().trim()
+            : "";
 
+        if (callProcRef.current === "callProc" && dec === "") {
+          alert("Please select Decision.");
+          setButtonDisableFlag(false); //Added on 5/17/2023
+          return;
+        } else {
+          isDecisionDiscard = checkDecision(dec, callProcRef.current);
+        }
+
+        if (!isDecisionDiscard) {
           if (
             callProcRef.current === "callProc" &&
-            (dec === '')
+            requestBody.ecfmgQues === "Yes"
           ) {
+            if (
+              requestBody.ecfmgNumber === "" ||
+              requestBody.ecfmgNumber === undefined ||
+              requestBody.ecfmgIssueDate === "" ||
+              requestBody.ecfmgIssueDate === undefined
+            ) {
+              // || ((gridDataRef.current.SelfServ_Prov_Details.ecfmgExpirationDate === '') || (gridDataRef.current.SelfServ_Prov_Details.ecfmgExpirationDate === undefined)))
+              alert(
+                "ECFMG Number and ECFMG Issue Date are required if ECFMG is Yes",
+              );
+              setButtonDisableFlag(false); //Added on 5/17/2023
+              return;
+            }
+          }
+          // if (
+          //   callProcRef.current === "callProc" &&
+          //   (gridDataRef.current.SelfServ_Prov_Details.delegated === undefined ||
+          //     gridDataRef.current.SelfServ_Prov_Details.delegated === "")
+          // ) {
+          //   alert("Please select Delegated");
+          //   setButtonDisableFlag(false);
+          //   return;
+          // }
+          //Newly Added by Nidhi Gupta on 8/7/2023
+          console.log("contractId xx: ", requestBody.contractId);
+          if (
+            callProcRef.current === "callProc" &&
+            prop.state.stageName === "Config" &&
+            (requestBody.contractId === undefined ||
+              requestBody.contractId === "")
+          ) {
+            alert("Contract Id is mandatory.");
+            setButtonDisableFlag(false);
+            return;
+          }
+
+          //Till Here
+
+          //Added by Nidhi Gupta on 08/22/2023
+          // Commented for testing
+          //  if(((callProcRef.current === 'callProc' && !(validatePotentialDup(potentialDupData))))){
+          //     setButtonDisableFlag(false);
+          //              alert("Please select Action dropdown for all cases.");
+          //              setButtonDisableFlag(false);
+          //              return;
+          // }
+
+          //Till Here
+          if (callProcRef.current === "callProc" && dec === "") {
             alert("Please select Decision.");
             setButtonDisableFlag(false); //Added on 5/17/2023
             return;
           }
-          else{
 
-            isDecisionDiscard = checkDecision(dec,callProcRef.current);
-          }
+          //08/22/2023
+          if (callProcRef.current === "callProc" && dec !== "") {
+            //const dec = (prop.state.decision !== undefined)?prop.state.decision.toUpperCase().trim():'';
 
-        if(!isDecisionDiscard){
-        if (
-          callProcRef.current === "callProc" &&
-          requestBody.ecfmgQues === "Yes"
-        ) {
-          if (
-            requestBody.ecfmgNumber === "" ||
-            requestBody.ecfmgNumber ===
-              undefined ||
-              requestBody.ecfmgIssueDate === "" ||
-              requestBody.ecfmgIssueDate ===
-              undefined
-          ) {
-            // || ((gridDataRef.current.SelfServ_Prov_Details.ecfmgExpirationDate === '') || (gridDataRef.current.SelfServ_Prov_Details.ecfmgExpirationDate === undefined)))
-            alert(
-              "ECFMG Number and ECFMG Issue Date are required if ECFMG is Yes"
-            );
-            setButtonDisableFlag(false); //Added on 5/17/2023
-            return;
-          }
-        }
-        // if (
-        //   callProcRef.current === "callProc" &&
-        //   (gridDataRef.current.SelfServ_Prov_Details.delegated === undefined ||
-        //     gridDataRef.current.SelfServ_Prov_Details.delegated === "")
-        // ) {
-        //   alert("Please select Delegated");
-        //   setButtonDisableFlag(false);
-        //   return;
-        // }
-        //Newly Added by Nidhi Gupta on 8/7/2023
-        console.log(
-          "contractId xx: ",
-          requestBody.contractId
-        );
-        if (
-          callProcRef.current === "callProc" &&
-          prop.state.stageName === "Config" &&
-          (requestBody.contractId ===
-            undefined ||
-            requestBody.contractId === "")
-        ) {
-          alert("Contract Id is mandatory.");
-          setButtonDisableFlag(false);
-          return;
-        }
-
-        //Till Here
-
-        //Added by Nidhi Gupta on 08/22/2023
-       // Commented for testing
-      //  if(((callProcRef.current === 'callProc' && !(validatePotentialDup(potentialDupData))))){
-      //     setButtonDisableFlag(false);
-      //              alert("Please select Action dropdown for all cases.");
-      //              setButtonDisableFlag(false);
-      //              return;
-      // }
-
-
-        //Till Here
-        if (
-          callProcRef.current === "callProc" &&
-          (dec === '')
-        ) {
-          alert("Please select Decision.");
-          setButtonDisableFlag(false); //Added on 5/17/2023
-          return;
-        }
-
-
-        //08/22/2023
-        if(((callProcRef.current === 'callProc') && (dec !== ''))){
-          //const dec = (prop.state.decision !== undefined)?prop.state.decision.toUpperCase().trim():'';
-          
-          if(dec !== 'DISCARD'){
+            if (dec !== "DISCARD") {
               validateDec = validatePotentialDupDec(potentialDupData);
-              if(!validateDec)
-              {
-                  setButtonDisableFlag(false);
-                  alert("Please choose Decision Discard as it is a Potential Duplicate Case.");
-                  return;
+              if (!validateDec) {
+                setButtonDisableFlag(false);
+                alert(
+                  "Please choose Decision Discard as it is a Potential Duplicate Case.",
+                );
+                return;
               }
+            }
           }
 
-         }
+          //let dec = '';
 
-         //let dec = '';
-
-         if (
-          callProcRef.current === "callProc" &&
-          dec !== ""
-        ) {
-          //saveType = 'SS';
-          console.log("Inside validate credchecklist grid decision value ====== ",dec);
-          if ((dec !== "DISCARD") && (dec !== "EXIT")) {
-            
-            validated = validateGridData(credentialTableRowsData);
-            console.log("Inside validate credchecklist grid validated ====== ",validated);
-            if(validated){
-              gridDataRef.current.SelfServ_Credential_Grid = credentialTableRowsData;
+          if (callProcRef.current === "callProc" && dec !== "") {
+            //saveType = 'SS';
+            console.log(
+              "Inside validate credchecklist grid decision value ====== ",
+              dec,
+            );
+            if (dec !== "DISCARD" && dec !== "EXIT") {
+              validated = validateGridData(credentialTableRowsData);
+              console.log(
+                "Inside validate credchecklist grid validated ====== ",
+                validated,
+              );
+              if (validated) {
+                gridDataRef.current.SelfServ_Credential_Grid =
+                  credentialTableRowsData;
+              }
             }
           }
         }
-      }
 
-      //till here
-      if(validated) {
-        console.log("Inside updateFormData gridDataRef.current before==== ",gridDataRef.current);
-        const gridKeys = getTableDetails()["providerLinear"].concat(
-          getTableDetails()["gridTables"]
-        );
-      gridKeys.forEach((k) => {
-        const newKey = k.split("~")[0];
-        const oldKey = k.split("~")[1];
-        gridDataRef.current = renameKey(gridDataRef.current, oldKey, newKey);
-      });
-      console.log("Inside updateFormData gridDataRef.current after==== ",gridDataRef.current);
+        //till here
+        if (validated) {
+          console.log(
+            "Inside updateFormData gridDataRef.current before==== ",
+            gridDataRef.current,
+          );
+          const gridKeys = getTableDetails()["providerLinear"].concat(
+            getTableDetails()["gridTables"],
+          );
+          gridKeys.forEach((k) => {
+            const newKey = k.split("~")[0];
+            const oldKey = k.split("~")[1];
+            gridDataRef.current = renameKey(
+              gridDataRef.current,
+              oldKey,
+              newKey,
+            );
+          });
+          console.log(
+            "Inside updateFormData gridDataRef.current after==== ",
+            gridDataRef.current,
+          );
 
-        console.log("Gaurav gridDataRef.current: ",gridDataRef.current);
+          console.log("Gaurav gridDataRef.current: ", gridDataRef.current);
           customAxios
             .post("/generic/update", gridDataRef.current, {
               headers: { Authorization: `Bearer ${token}` },
@@ -4061,7 +4431,7 @@ const saveData = (values) => {
 
               if (apiStat === 0) {
                 alert("Case data updated successfully");
-                updateDecision(prop,saveType,AddProvider.displayName);
+                updateDecision(prop, saveType, AddProvider.displayName);
 
                 //Commented by Harshit as the belo api call is moved to updateDecision.
                 /*let procInput = {};
@@ -4107,12 +4477,11 @@ const saveData = (values) => {
               alert("Error occured in generic update api call.");
               setButtonDisableFlag(false);
             });
-        }
-        else {
+        } else {
           alert("Please enter details in Credential Checklist Grid.");
           setButtonDisableFlag(false);
           return;
-      }
+        }
       }
     } catch (error) {
       alert("Error occured in updating data");
@@ -4122,10 +4491,13 @@ const saveData = (values) => {
   };
 
   const renameKey = (obj, oldKey, newKey) => {
-    console.log("Inside rename key old key = ",oldKey,' new key = ',newKey);
-    console.log("Inside rename key hasOwnProperty = ",obj.hasOwnProperty(oldKey));
-    console.log("Inside rename key obj[oldKey] = ",obj[oldKey]);
-    console.log("Inside rename key obj[olnewKeydKey] = ",obj[newKey]);
+    console.log("Inside rename key old key = ", oldKey, " new key = ", newKey);
+    console.log(
+      "Inside rename key hasOwnProperty = ",
+      obj.hasOwnProperty(oldKey),
+    );
+    console.log("Inside rename key obj[oldKey] = ", obj[oldKey]);
+    console.log("Inside rename key obj[olnewKeydKey] = ", obj[newKey]);
     if (obj.hasOwnProperty(oldKey)) {
       obj[newKey] = obj[oldKey];
       delete obj[oldKey];
@@ -4309,13 +4681,13 @@ const saveData = (values) => {
       const dataKeys = Object.keys(data);
       dataKeys.forEach((dataValue) => {
         const dataKeyType = typeof data[dataValue];
-        console.log("data key : ",dataValue, " type: ", dataKeyType);
+        console.log("data key : ", dataValue, " type: ", dataKeyType);
         if (dataKeys.includes("license") && dataValue === "expirationDate") {
           //console.log('----------------------dataKeyType----------------------', dataKeyType, dataValue, data[dataValue], data[dataValue].value);
         }
 
         if (dataKeyType === "object") {
-         console.log("Inside Data Object if: ", dataObject);
+          console.log("Inside Data Object if: ", dataObject);
           if (data[dataValue]) {
             if (data[dataValue].value) {
               if (data[dataValue].value instanceof Date) {
@@ -4365,23 +4737,22 @@ const saveData = (values) => {
   };
 
   // Added by Shivani to integrate CountyName
-  const getCountyFromMaster =(DataState,Zip) => {
+  const getCountyFromMaster = (DataState, Zip) => {
     console.log("County data table", mastersSelector.masterCounty);
-    let responseCounty = '';
-    if(mastersSelector.masterCounty[0] !== undefined && mastersSelector.masterCounty[0] !== null)
-    {
-        mastersSelector.masterCounty[0].forEach((elem) =>{
-
-                if(elem.StateId === DataState && elem.ZipCodes.includes(Zip)){
-                    responseCounty = elem.CountyName;
-                    return;
-                }
-    })
+    let responseCounty = "";
+    if (
+      mastersSelector.masterCounty[0] !== undefined &&
+      mastersSelector.masterCounty[0] !== null
+    ) {
+      mastersSelector.masterCounty[0].forEach((elem) => {
+        if (elem.StateId === DataState && elem.ZipCodes.includes(Zip)) {
+          responseCounty = elem.CountyName;
+          return;
+        }
+      });
     }
     return responseCounty.trim();
-}
-
-
+  };
 
   const getData = (e, caqhId, ssn, orgName, contractNo) => {
     try {
@@ -4404,7 +4775,7 @@ const saveData = (values) => {
             ...initState,
             caqhId: caqhId,
             organizationName: orgName,
-            contractId: contractNo
+            contractId: contractNo,
           };
         });
         setLocationTableRowsData([]);
@@ -4450,7 +4821,7 @@ const saveData = (values) => {
                   customAxios
                     .get(
                       `caqh/credentialing?caqhProviderId=${caqhId}&organizationId=${organizationId}&attestationDate=${res.data.providerStatusDate}`,
-                      { headers: { Authorization: `Bearer ${token}` } }
+                      { headers: { Authorization: `Bearer ${token}` } },
                     )
                     // Promise.resolve({
                     //     status: 200,
@@ -4465,7 +4836,7 @@ const saveData = (values) => {
                       ) {
                         console.log(
                           "CAQH Res --------------------->",
-                          caqhRes.data
+                          caqhRes.data,
                         );
                         const apiResponse = caqhRes.data.Provider;
                         const respssn = checkDataAvailable(apiResponse.SSN);
@@ -4498,15 +4869,17 @@ const saveData = (values) => {
                             //...prevState,
                             //organizationName:apiResponse.organizationName,
                             // firstName:apiResponse.FirstName,
-                           // organizationName: "",
-                            organizationName: (orgName!==undefined && orgName.length>0)?
-                            orgName:"",
+                            // organizationName: "",
+                            organizationName:
+                              orgName !== undefined && orgName.length > 0
+                                ? orgName
+                                : "",
                             firstName: checkDataAvailable(
-                              apiResponse.FirstName
+                              apiResponse.FirstName,
                             ),
                             // middleName: checkDataAvailable(apiResponse.MiddleName),
                             middleName: checkDataAvailable(
-                              apiResponse.MiddleName
+                              apiResponse.MiddleName,
                             )
                               ? checkDataAvailable(apiResponse.MiddleName)
                               : "", //Changed by Nidhi Gupta on 5/17/2023
@@ -4514,7 +4887,7 @@ const saveData = (values) => {
                             gender:
                               !!checkDataAvailable(apiResponse.Gender) &&
                               !!checkDataAvailable(
-                                apiResponse.Gender.GenderDescription
+                                apiResponse.Gender.GenderDescription,
                               )
                                 ? {
                                     label: apiResponse.Gender.GenderDescription,
@@ -4530,24 +4903,24 @@ const saveData = (values) => {
 
                             //Added by Nidhi Gupta on 08/20/2023
                             delegated:
-                            !!checkDataAvailable(apiResponse.DelegatedFlag) &&
-                            apiResponse.DelegatedFlag == 1
-                              ? { label: "Yes", value: "Yes" }
-                              : { label: "No", value: "No" },
-                              //Till Here
+                              !!checkDataAvailable(apiResponse.DelegatedFlag) &&
+                              apiResponse.DelegatedFlag == 1
+                                ? { label: "Yes", value: "Yes" }
+                                : { label: "No", value: "No" },
+                            //Till Here
                             ecfmgQues:
                               !!checkDataAvailable(apiResponse.ECFMGFlag) &&
                               apiResponse.ECFMGFlag == 1
                                 ? { label: "Yes", value: "Yes" }
                                 : { label: "No", value: "No" },
                             dateOfBirth: checkDataAvailable(
-                              apiResponse.BirthDate
+                              apiResponse.BirthDate,
                             )
                               ? new Date(apiResponse.BirthDate)
                               : null,
                             //dateOfBirth: !!checkDataAvailable(apiResponse.BirthDate) ? new Date(transformDate(apiResponse.BirthDate)) : null,
                             emailId: checkDataAvailable(
-                              apiResponse.EmailAddress
+                              apiResponse.EmailAddress,
                             ),
                             // caqhNpiId:apiResponse.caqhNpiId,
                             // ssn:apiResponse.ssn,
@@ -4565,29 +4938,29 @@ const saveData = (values) => {
                             //commercial:apiResponse.commercial,
                             // ecfmgNumber: checkDataAvailable(apiResponse.ECFMGNumber),
                             ecfmgNumber: checkDataAvailable(
-                              apiResponse.ECFMGNumber
+                              apiResponse.ECFMGNumber,
                             )
                               ? checkDataAvailable(apiResponse.ECFMGNumber)
                               : "", //Changed by Nidhi Gupta on 5/17/2023
                             ecfmgIssueDate: checkDataAvailable(
-                              apiResponse.ECFMGIssueDate
+                              apiResponse.ECFMGIssueDate,
                             )
                               ? new Date(apiResponse.ECFMGIssueDate)
                               : null,
                             ecfmgExpirationDate: checkDataAvailable(
-                              apiResponse.ECFMGExpirationDate
+                              apiResponse.ECFMGExpirationDate,
                             )
                               ? new Date(apiResponse.ECFMGExpirationDate)
                               : null,
                             attestationId: checkDataAvailable(
-                              apiResponse.ProviderAttestID
+                              apiResponse.ProviderAttestID,
                             ),
                             attestationDate: apiResponse.AttestDate
                               ? new Date(apiResponse.AttestDate)
                               : "",
                             medicaidId:
                               !!checkDataAvailable(
-                                apiResponse.MedicaidProviderFlag
+                                apiResponse.MedicaidProviderFlag,
                               ) && apiResponse.MedicaidProviderFlag == 1
                                 ? Array.isArray(apiResponse.ProviderMedicaid)
                                   ? apiResponse.ProviderMedicaid[0]
@@ -4596,14 +4969,17 @@ const saveData = (values) => {
                                 : "",
                             medicareId:
                               !!checkDataAvailable(
-                                apiResponse.MedicareProviderFlag
+                                apiResponse.MedicareProviderFlag,
                               ) && apiResponse.MedicareProviderFlag == 1
                                 ? Array.isArray(apiResponse.ProviderMedicare)
                                   ? apiResponse.ProviderMedicare[0]
                                       .MedicareNumber
                                   : apiResponse.ProviderMedicare.MedicareNumber
                                 : "",
-                            contractId: (contractNo!==undefined && contractNo.length>0)?contractNo:"",
+                            contractId:
+                              contractNo !== undefined && contractNo.length > 0
+                                ? contractNo
+                                : "",
                           };
                         });
                         setFormikInitializeState(true);
@@ -4619,50 +4995,50 @@ const saveData = (values) => {
                                   operation: "I",
                                   rowNumber: row++,
                                   license: checkDataAvailable(
-                                    data.LicenseNumber
+                                    data.LicenseNumber,
                                   ),
                                   stateAbbreviation: checkDataAvailable(
-                                    data.State
+                                    data.State,
                                   ),
                                   type: "",
                                   licenseType: checkDataAvailable(
-                                    data.LicenseType
+                                    data.LicenseType,
                                   ),
                                   stateAbbreviation: checkDataAvailable(
-                                    data.State
+                                    data.State,
                                   ),
                                   expirationDate: checkDataAvailable(
-                                    data.ExpirationDate
+                                    data.ExpirationDate,
                                   )
                                     ? new Date(data.ExpirationDate)
                                     : "",
                                 };
 
                                 return getTransformed(dataObj);
-                              }
+                              },
                             );
                           } else {
                             const dataObj = {
                               operation: "I",
                               rowNumber: licenseArray.length + 1,
                               license: checkDataAvailable(
-                                apiResponse.ProviderLicense.LicenseNumber
+                                apiResponse.ProviderLicense.LicenseNumber,
                               ),
                               stateAbbreviation: checkDataAvailable(
-                                apiResponse.ProviderLicense.State
+                                apiResponse.ProviderLicense.State,
                               ),
                               type: "",
                               licenseType: checkDataAvailable(
-                                apiResponse.ProviderLicense.LicenseType
+                                apiResponse.ProviderLicense.LicenseType,
                               ),
                               stateAbbreviation: checkDataAvailable(
-                                apiResponse.ProviderLicense.State
+                                apiResponse.ProviderLicense.State,
                               ),
                               expirationDate: checkDataAvailable(
-                                apiResponse.ProviderLicense.ExpirationDate
+                                apiResponse.ProviderLicense.ExpirationDate,
                               )
                                 ? new Date(
-                                    apiResponse.ProviderLicense.ExpirationDate
+                                    apiResponse.ProviderLicense.ExpirationDate,
                                   )
                                 : "",
                             };
@@ -4676,19 +5052,21 @@ const saveData = (values) => {
                             operation: "I",
                             rowNumber: licenseArray.length + 1,
                             license: checkDataAvailable(
-                              apiResponse.ProviderDEA.DEANumber
+                              apiResponse.ProviderDEA.DEANumber,
                             ),
                             stateAbbreviation: checkDataAvailable(
-                              apiResponse.ProviderDEA.State
+                              apiResponse.ProviderDEA.State,
                             ),
                             type: "DEA Number",
                             expirationDate: checkDataAvailable(
-                                apiResponse.ProviderDEA.ExpirationDate) ? new Date(apiResponse.ProviderDEA.ExpirationDate):'',
+                              apiResponse.ProviderDEA.ExpirationDate,
+                            )
+                              ? new Date(apiResponse.ProviderDEA.ExpirationDate)
+                              : "",
                           };
                           licenseArray.push(getTransformed(DataObject1));
                         }
                         setLicenseTableRowsData(licenseArray);
-
 
                         let specialityArray = [];
                         if (apiResponse.Specialty) {
@@ -4700,43 +5078,41 @@ const saveData = (values) => {
                                   operation: "I",
                                   rowNumber: row++,
                                   taxonomyCode: checkDataAvailable(
-                                    data.NUCCTaxonomyCode
+                                    data.NUCCTaxonomyCode,
                                   ),
                                   //   taxonomyDesc: "",
 
                                   taxonomyDesc: checkDataAvailable(
-                                    data.NUCCTaxonomyCode
+                                    data.NUCCTaxonomyCode,
                                   )
                                     ? checktaxdec(data.NUCCTaxonomyCode)
                                     : "",
                                   boardCerti:
                                     !!checkDataAvailable(data.Specialty) &&
                                     !!checkDataAvailable(
-                                      data.Specialty.BoardCertifiedFlag
+                                      data.Specialty.BoardCertifiedFlag,
                                     ) &&
                                     data.Specialty.BoardCertifiedFlag == "1"
                                       ? { label: "Yes", value: "Y" }
                                       : { label: "No", value: "N" },
                                   // boardCerti: {label: data.SpecialtyBoardName,value: data.SpecialtyBoardName},
                                   // taxonomyGrp: '',
-                                  speciality: checkDataAvailable(
-                                    data.Specialty
-                                  )
+                                  speciality: checkDataAvailable(data.Specialty)
                                     ? checkDataAvailable(
-                                        data.Specialty.SpecialtyName
+                                        data.Specialty.SpecialtyName,
                                       )
                                     : null,
                                   specPrimary:
                                     !!checkDataAvailable(data.SpecialtyType) &&
                                     checkDataAvailable(
                                       data.SpecialtyType
-                                        .SpecialtyTypeDescription
+                                        .SpecialtyTypeDescription,
                                     ) == "Primary"
                                       ? { label: "Yes", value: "Y" }
                                       : { label: "No", value: "N" },
                                 };
                                 return getTransformed(dataObj);
-                              }
+                              },
                             );
                           } else {
                             //alert('ashish1'+ apiResponse.Specialty.SpecialtyType.SpecialtyTypeDescription);
@@ -4745,40 +5121,40 @@ const saveData = (values) => {
                               operation: "I",
                               rowNumber: specialityArray.length + 1,
                               taxonomyCode: checkDataAvailable(
-                                apiResponse.Specialty.NUCCTaxonomyCode
+                                apiResponse.Specialty.NUCCTaxonomyCode,
                               ),
                               //  taxonomyDesc: "",
                               taxonomyDesc: checkDataAvailable(
-                                apiResponse.Specialty.NUCCTaxonomyCode
+                                apiResponse.Specialty.NUCCTaxonomyCode,
                               )
                                 ? checktaxdec(
-                                    apiResponse.Specialty.NUCCTaxonomyCode
+                                    apiResponse.Specialty.NUCCTaxonomyCode,
                                   )
                                 : "",
                               boardCerti:
                                 !!checkDataAvailable(apiResponse.Specialty) &&
                                 !!checkDataAvailable(
-                                  apiResponse.Specialty.BoardCertifiedFlag
+                                  apiResponse.Specialty.BoardCertifiedFlag,
                                 ) &&
                                 apiResponse.Specialty.BoardCertifiedFlag == "1"
                                   ? { label: "Yes", value: "Y" }
                                   : { label: "No", value: "N" },
                               taxonomyGrp: "",
                               speciality: checkDataAvailable(
-                                apiResponse.Specialty.Specialty
+                                apiResponse.Specialty.Specialty,
                               )
                                 ? checkDataAvailable(
                                     apiResponse.Specialty.Specialty
-                                      .SpecialtyName
+                                      .SpecialtyName,
                                   )
                                 : null,
                               specPrimary:
                                 !!checkDataAvailable(
-                                  apiResponse.Specialty.SpecialtyType
+                                  apiResponse.Specialty.SpecialtyType,
                                 ) &&
                                 checkDataAvailable(
                                   apiResponse.Specialty.SpecialtyType
-                                    .SpecialtyTypeDescription
+                                    .SpecialtyTypeDescription,
                                 ) == "Primary"
                                   ? { label: "Yes", value: "Y" }
                                   : { label: "No", value: "N" },
@@ -4793,26 +5169,37 @@ const saveData = (values) => {
                           if (Array.isArray(apiResponse.Practice)) {
                             let row = 1;
                             apiResponse.Practice.map((data) => {
-                              if(data.hasOwnProperty("CurrentlyPracticingFlag")){
-                                if(data.CurrentlyPracticingFlag === 1){
+                              if (
+                                data.hasOwnProperty("CurrentlyPracticingFlag")
+                              ) {
+                                if (data.CurrentlyPracticingFlag === 1) {
                                   const dataObj = {
                                     operation: "I",
                                     rowNumber: row++,
                                     locationName: checkDataAvailable(
-                                      data.PracticeName
+                                      data.PracticeName,
                                     ),
                                     address1: checkDataAvailable(data.Address),
-                                    address2: (checkDataAvailable(data.Address2) !== null)?checkDataAvailable(data.Address2):'',
+                                    address2:
+                                      checkDataAvailable(data.Address2) !== null
+                                        ? checkDataAvailable(data.Address2)
+                                        : "",
                                     city: checkDataAvailable(data.City),
                                     stateValue: checkDataAvailable(data.State),
                                     zipCode: checkDataAvailable(data.Zip),
-                                    county: checkDataAvailable(data.County) === null ? getCountyFromMaster(data.State,data.Zip) :checkDataAvailable(data.County),
+                                    county:
+                                      checkDataAvailable(data.County) === null
+                                        ? getCountyFromMaster(
+                                            data.State,
+                                            data.Zip,
+                                          )
+                                        : checkDataAvailable(data.County),
                                     //county: checkDataAvailable(data.County),
                                     officePhoneNumber: checkDataAvailable(
-                                      data.PatientAppointmentPhoneNumber
+                                      data.PatientAppointmentPhoneNumber,
                                     ),
                                     officeFaxNumber: checkDataAvailable(
-                                      data.FaxNumber
+                                      data.FaxNumber,
                                     ),
                                     npi: checkDataAvailable(data.NPI),
                                     /*tddPhone1:(    (data.Accessibility.map(data1 =>
@@ -4829,25 +5216,25 @@ const saveData = (values) => {
                                     // : {label: 'No',value: 'N'},
                                     tddPhone: populateAccessibility(
                                       data,
-                                      "TDD Service"
+                                      "TDD Service",
                                     ),
                                     publicTransportation: populateAccessibility(
                                       data,
-                                      "Public Transportation"
+                                      "Public Transportation",
                                     ),
                                     // publicTransportation:!!data.Accessibility?(   (data.Accessibility.map(data1 =>
                                     //     (((data1.Accessibility.AccessibilityDescription=='Public Transportation') && (data1.AccessibilityFlag=='1'))?   'Yes':'No'
                                     //     )))).indexOf("Yes")>-1?{label:'Yes',value: 'Y'}:{label: 'No',value: 'N'}:{label: 'No',value: 'N'},
                                     handicapAccess: populateAccessibility(
                                       data,
-                                      "Handicapped Access"
+                                      "Handicapped Access",
                                     ),
                                     // handicapAccess:!!data.Accessibility?(   (data.Accessibility.map(data1 =>
                                     //     (((data1.Accessibility.AccessibilityDescription=='Handicapped Access') && (data1.AccessibilityFlag=='1'))?  'Yes':'No'
                                     //     )))).indexOf("Yes")>-1?{label:'Yes',value: 'Y'}:{label: 'No',value: 'N'}:{label: 'No',value: 'N'},
                                     tddHearing: populateAccessibility(
                                       data,
-                                      "TDD Service"
+                                      "TDD Service",
                                     ),
                                     // tddHearing:!!data.Accessibility?(   (data.Accessibility.map(data1 =>
                                     //     (((data1.Accessibility.AccessibilityDescription=='TDD Service') && (data1.AccessibilityFlag=='1'))?  'Yes':'No'
@@ -4859,60 +5246,77 @@ const saveData = (values) => {
                               }
                             });
                           } else {
-                            if(data.hasOwnProperty("CurrentlyPracticingFlag")){
-                              if(data.CurrentlyPracticingFlag === 1){
+                            if (
+                              data.hasOwnProperty("CurrentlyPracticingFlag")
+                            ) {
+                              if (data.CurrentlyPracticingFlag === 1) {
                                 const dataObj = {
                                   operation: "I",
                                   rowNumber: locationArray.length + 1,
                                   locationName: checkDataAvailable(
-                                    apiResponse.Practice.PracticeName
+                                    apiResponse.Practice.PracticeName,
                                   ),
                                   address1: checkDataAvailable(
-                                    apiResponse.Practice.Address
+                                    apiResponse.Practice.Address,
                                   ),
-                                  address2: (checkDataAvailable(apiResponse.Practice.Address2) !== null)?checkDataAvailable(apiResponse.Practice.Address2):'',
+                                  address2:
+                                    checkDataAvailable(
+                                      apiResponse.Practice.Address2,
+                                    ) !== null
+                                      ? checkDataAvailable(
+                                          apiResponse.Practice.Address2,
+                                        )
+                                      : "",
                                   city: checkDataAvailable(
-                                    apiResponse.Practice.City
+                                    apiResponse.Practice.City,
                                   ),
                                   stateValue: checkDataAvailable(
-                                    apiResponse.Practice.State
+                                    apiResponse.Practice.State,
                                   ),
                                   zipCode: checkDataAvailable(
-                                    apiResponse.Practice.Zip
+                                    apiResponse.Practice.Zip,
                                   ),
-                                  county: checkDataAvailable(data.County) === null ? getCountyFromMaster(data.State,data.Zip) :checkDataAvailable(data.County),
+                                  county:
+                                    checkDataAvailable(data.County) === null
+                                      ? getCountyFromMaster(
+                                          data.State,
+                                          data.Zip,
+                                        )
+                                      : checkDataAvailable(data.County),
                                   officePhoneNumber: checkDataAvailable(
                                     apiResponse.Practice
-                                      .PatientAppointmentPhoneNumber
+                                      .PatientAppointmentPhoneNumber,
                                   ),
                                   officeFaxNumber: checkDataAvailable(
-                                    apiResponse.Practice.FaxNumber
+                                    apiResponse.Practice.FaxNumber,
                                   ),
-                                  npi: checkDataAvailable(apiResponse.Practice.NPI),
+                                  npi: checkDataAvailable(
+                                    apiResponse.Practice.NPI,
+                                  ),
                                   tddPhone: populateAccessibility(
                                     apiResponse.Practice,
-                                    "TDD Service"
+                                    "TDD Service",
                                   ),
                                   // tddPhone:!!apiResponse.Practice.Accessibility?(   (apiResponse.Practice.Accessibility.map(data1 =>
                                   //     (((data1.Accessibility.AccessibilityDescription=='TDD Service') && (data1.AccessibilityFlag=='1'))?  'Yes':'No'
                                   //     )))).indexOf("Yes")>-1?{label:'Yes',value: 'Y'}:{label: 'No',value: 'N'}:{label: 'No',value: 'N'},
                                   publicTransportation: populateAccessibility(
                                     apiResponse.Practice,
-                                    "Public Transportation"
+                                    "Public Transportation",
                                   ),
                                   // publicTransportation:!!apiResponse.Practice.Accessibility?(   (apiResponse.Practice.Accessibility.map(data1 =>
                                   //     (((data1.Accessibility.AccessibilityDescription=='Public Transportation') && (data1.AccessibilityFlag=='1'))? 'Yes':'No'
                                   //     )))).indexOf("Yes")>-1?{label:'Yes',value: 'Y'}:{label: 'No',value: 'N'}:{label: 'No',value: 'N'},
                                   handicapAccess: populateAccessibility(
                                     apiResponse.Practice,
-                                    "Handicapped Access"
+                                    "Handicapped Access",
                                   ),
                                   // handicapAccess:!!apiResponse.Practice.Accessibility?(   (apiResponse.Practice.Accessibility.map(data1 =>
                                   //     (((data1.Accessibility.AccessibilityDescription=='Handicapped Access') && (data1.AccessibilityFlag=='1'))? 'Yes':'No'
                                   //     )))).indexOf("Yes")>-1?{label:'Yes',value: 'Y'}:{label: 'No',value: 'N'}:{label: 'No',value: 'N'},
                                   tddHearing: populateAccessibility(
                                     apiResponse.Practice,
-                                    "TDD Service"
+                                    "TDD Service",
                                   ),
                                   // tddHearing:!!apiResponse.Practice.Accessibility?(   (apiResponse.Practice.Accessibility.map(data1 =>
                                   //     (((data1.Accessibility.AccessibilityDescription=='TDD Service') && (data1.AccessibilityFlag=='1'))?  'Yes':'No'
@@ -4975,12 +5379,15 @@ const saveData = (values) => {
                                     ? data.Tax.TaxID
                                     : null,
                                 locationName: checkDataAvailable(
-                                  data.W9PracticeName
+                                  data.W9PracticeName,
                                 ),
                                 address1: checkDataAvailable(data.Address),
                                 address2: checkDataAvailable(data.Address2),
                                 city: checkDataAvailable(data.City),
-                                county: checkDataAvailable(data.County) === null ? getCountyFromMaster(data.State,data.Zip) :checkDataAvailable(data.County),
+                                county:
+                                  checkDataAvailable(data.County) === null
+                                    ? getCountyFromMaster(data.State, data.Zip)
+                                    : checkDataAvailable(data.County),
                                 stateValue: checkDataAvailable(data.State),
                                 zipCode: checkDataAvailable(data.Zip),
                                 payToNpi:
@@ -4997,38 +5404,41 @@ const saveData = (values) => {
                               rowNumber: paytoArray.length + 1,
                               taxId:
                                 !!checkDataAvailable(
-                                  apiResponse.Practice.Tax
+                                  apiResponse.Practice.Tax,
                                 ) &&
                                 !!checkDataAvailable(
-                                  apiResponse.Practice.Tax.TaxID
+                                  apiResponse.Practice.Tax.TaxID,
                                 )
                                   ? apiResponse.Practice.Tax.TaxID
                                   : null,
                               locationName: checkDataAvailable(
-                                apiResponse.Practice.W9PracticeName
+                                apiResponse.Practice.W9PracticeName,
                               ),
                               address1: checkDataAvailable(
-                                apiResponse.Practice.Address
+                                apiResponse.Practice.Address,
                               ),
                               address2: checkDataAvailable(
-                                apiResponse.Practice.Address2
+                                apiResponse.Practice.Address2,
                               ),
                               city: checkDataAvailable(
-                                apiResponse.Practice.City
+                                apiResponse.Practice.City,
                               ),
-                              county: checkDataAvailable(data.County) === null ? getCountyFromMaster(data.State,data.Zip) :checkDataAvailable(data.County),
+                              county:
+                                checkDataAvailable(data.County) === null
+                                  ? getCountyFromMaster(data.State, data.Zip)
+                                  : checkDataAvailable(data.County),
                               stateValue: checkDataAvailable(
-                                apiResponse.Practice.State
+                                apiResponse.Practice.State,
                               ),
                               zipCode: checkDataAvailable(
-                                apiResponse.Practice.Zip
+                                apiResponse.Practice.Zip,
                               ),
                               payToNpi:
                                 !!checkDataAvailable(
-                                  apiResponse.Practice.Tax
+                                  apiResponse.Practice.Tax,
                                 ) &&
                                 !!checkDataAvailable(
-                                  apiResponse.Practice.Tax.GroupNumber
+                                  apiResponse.Practice.Tax.GroupNumber,
                                 )
                                   ? apiResponse.Practice.Tax.GroupNumber
                                   : null,
@@ -5049,47 +5459,45 @@ const saveData = (values) => {
                                   rowNumber: row++,
                                   //gradeute type and degree label interchanged thats why it mapped it here in this way
                                   professionalSchool: checkDataAvailable(
-                                    data.InstitutionName
+                                    data.InstitutionName,
                                   ),
-                                  graduateType: checkDataAvailable(
-                                    data.Degree
-                                  )
+                                  graduateType: checkDataAvailable(data.Degree)
                                     ? checkDataAvailable(
-                                        data.Degree.DegreeAbbreviation
+                                        data.Degree.DegreeAbbreviation,
                                       )
                                     : null,
                                   degree: checkDataAvailable(
-                                    data.EducationTypeName
+                                    data.EducationTypeName,
                                   ),
                                   graduationDate: checkDataAvailable(
-                                    data.EndDate
+                                    data.EndDate,
                                   )
                                     ? new Date(data.EndDate)
                                     : null,
                                 };
                                 return getTransformed(dataObj);
-                              }
+                              },
                             );
                           } else {
                             const dataObj = {
                               operation: "I",
                               rowNumber: educationDetails.length + 1,
                               professionalSchool: checkDataAvailable(
-                                apiResponse.Education.InstitutionName
+                                apiResponse.Education.InstitutionName,
                               ),
                               graduateType: checkDataAvailable(
-                                apiResponse.Education.Degree
+                                apiResponse.Education.Degree,
                               )
                                 ? checkDataAvailable(
                                     apiResponse.Education.Degree
-                                      .DegreeAbbreviation
+                                      .DegreeAbbreviation,
                                   )
                                 : null,
                               degree: checkDataAvailable(
-                                apiResponse.Education.EducationTypeName
+                                apiResponse.Education.EducationTypeName,
                               ),
                               graduationDate: checkDataAvailable(
-                                apiResponse.Education.EndDate
+                                apiResponse.Education.EndDate,
                               )
                                 ? new Date(apiResponse.Education.EndDate)
                                 : null,
@@ -5109,11 +5517,9 @@ const saveData = (values) => {
                                   operation: "I",
                                   rowNumber: row++,
                                   empName: checkDataAvailable(
-                                    data.EmployerName
+                                    data.EmployerName,
                                   ),
-                                  startDate: checkDataAvailable(
-                                    data.StartDate
-                                  )
+                                  startDate: checkDataAvailable(data.StartDate)
                                     ? new Date(data.StartDate)
                                     : null,
                                   endDate: checkDataAvailable(data.EndDate)
@@ -5121,42 +5527,42 @@ const saveData = (values) => {
                                     : "",
                                   currentEmp:
                                     checkDataAvailable(
-                                      data.CurrentEmployerFlag
+                                      data.CurrentEmployerFlag,
                                     ) == "1"
                                       ? { label: "Yes", value: "Y" }
                                       : { label: "No", value: "N" },
                                   depReason: checkDataAvailable(
-                                    data.ExitExplanation
+                                    data.ExitExplanation,
                                   ),
                                 };
                                 return getTransformed(dataObj);
-                              }
+                              },
                             );
                           } else {
                             const dataObj = {
                               operation: "I",
                               rowNumber: workTableDataArray.length + 1,
                               empName: checkDataAvailable(
-                                apiResponse.WorkHistory.EmployerName
+                                apiResponse.WorkHistory.EmployerName,
                               ),
                               startDate: checkDataAvailable(
-                                apiResponse.WorkHistory.StartDate
+                                apiResponse.WorkHistory.StartDate,
                               )
                                 ? new Date(apiResponse.WorkHistory.StartDate)
                                 : null,
                               endDate: checkDataAvailable(
-                                apiResponse.WorkHistory.EndDate
+                                apiResponse.WorkHistory.EndDate,
                               )
                                 ? new Date(!!apiResponse.WorkHistory.EndDate)
                                 : null,
                               currentEmp:
                                 checkDataAvailable(
-                                  apiResponse.WorkHistory.CurrentEmployerFlag
+                                  apiResponse.WorkHistory.CurrentEmployerFlag,
                                 ) == "1"
                                   ? { label: "Yes", value: "Y" }
                                   : { label: "No", value: "N" },
                               depReason: checkDataAvailable(
-                                apiResponse.WorkHistory.ExitExplanation
+                                apiResponse.WorkHistory.ExitExplanation,
                               ),
                             };
                             workTableDataArray.push(getTransformed(dataObj));
@@ -5174,60 +5580,60 @@ const saveData = (values) => {
                                   operation: "I",
                                   rowNumber: row++,
                                   policyNo: checkDataAvailable(
-                                    data.PolicyNumber
+                                    data.PolicyNumber,
                                   ),
                                   insuredName: checkDataAvailable(
-                                    data.InsuranceCarrierName
+                                    data.InsuranceCarrierName,
                                   ),
                                   covAmount: checkDataAvailable(
-                                    data.CoverageAmountOccurrence
+                                    data.CoverageAmountOccurrence,
                                   ),
                                   covAmountAgg: checkDataAvailable(
-                                    data.CoverageAmountAggregate
+                                    data.CoverageAmountAggregate,
                                   ),
                                   effectiveDate: checkDataAvailable(
-                                    data.StartDate
+                                    data.StartDate,
                                   )
                                     ? new Date(data.StartDate)
                                     : null,
                                   expirationDate: checkDataAvailable(
-                                    data.EndDate
+                                    data.EndDate,
                                   )
                                     ? new Date(data.EndDate)
                                     : null,
                                 };
                                 return getTransformed(dataObj);
-                              }
+                              },
                             );
                           } else {
                             const dataObj = {
                               operation: "I",
                               rowNumber: insuranceTableDataArray.length + 1,
                               policyNo: checkDataAvailable(
-                                apiResponse.Insurance.PolicyNumber
+                                apiResponse.Insurance.PolicyNumber,
                               ),
                               insuredName: checkDataAvailable(
-                                apiResponse.Insurance.InsuranceCarrierName
+                                apiResponse.Insurance.InsuranceCarrierName,
                               ),
                               covAmount: checkDataAvailable(
-                                apiResponse.Insurance.CoverageAmountOccurrence
+                                apiResponse.Insurance.CoverageAmountOccurrence,
                               ),
                               covAmountAgg: checkDataAvailable(
-                                apiResponse.Insurance.CoverageAmountAggregate
+                                apiResponse.Insurance.CoverageAmountAggregate,
                               ),
                               effectiveDate: checkDataAvailable(
-                                apiResponse.Insurance.StartDate
+                                apiResponse.Insurance.StartDate,
                               )
                                 ? new Date(apiResponse.Insurance.StartDate)
                                 : null,
                               expirationDate: checkDataAvailable(
-                                apiResponse.Insurance.EndDate
+                                apiResponse.Insurance.EndDate,
                               )
                                 ? new Date(apiResponse.Insurance.EndDate)
                                 : null,
                             };
                             insuranceTableDataArray.push(
-                              getTransformed(dataObj)
+                              getTransformed(dataObj),
                             );
                           }
                         }
@@ -5404,15 +5810,14 @@ const saveData = (values) => {
       }, 50);
     }
   };
-  console.log("lockStatussssssss prop.state.stageName: ",prop.state.stageName)
+  console.log("lockStatussssssss prop.state.stageName: ", prop.state.stageName);
   /*if(prop.state.StageName!==undefined && (
     prop.state.stageName === "Exit" ||
     prop.state.stageName === "Discard"))
       {
         prop.state.lockStatus==='V'};*/
 
-
-      const getGridData = (jsonObj) => {
+  const getGridData = (jsonObj) => {
     let gridObj = {};
     //console.log("GetGridData: ",jsonObj);
     Object.keys(jsonObj).map((key) => {
@@ -5436,47 +5841,58 @@ const saveData = (values) => {
               {populateForm()}
             </Tab>
 
-  {/* Added by Nidhi to show CompensationTab on Cred Specialist, QA, Exit and Discard stage */}
-  {((prop.state.formView === "DashboardView" &&
-                      (prop.state.stageName === "Cred Specialist" ||
-                        prop.state.stageName === "QA" ||
-                        prop.state.stageName === "Exit" ||
-                        prop.state.stageName === "Discard")) ||
-                      prop.state.formView === "DashboardHomeView") && (
-                        <Tab eventKey="Compensation" title="Network">
-                        <CompensationTab
-                                            apiTestStateComp={apiTestStateComp}
-                                            firlTableRowsData={firlTableRowsData}
-                                            compensationTableRowsData={compensationTableRowsData}
-                                            addTableRows={addTableRows}
-                                            deleteTableRows={deleteTableRows}
-                                            handleGridSelectChange={handleGridSelectChange}
-                                            /*handleGridDateChange={handleGridDateChange}*/
-                                            handleGridFieldChange={handleGridFieldChange}
-                                            gridRowsFinalSubmit={gridRowsFinalSubmit}
-                                            handleLinearSelectChange={handleLinearSelectChangeComp}
-                                            handleLinearFieldChange={handleLinearFieldChange}
-                                            handleMedicalGrpNoShow={handleMedicalGrpNoShow}
-                                            handleNetworkIdShow={handleNetworkIdShow}
-                                            gridFieldTempState={gridFieldTempState}
-                                            editTableRows={editTableRows}
-                                            handlePcpIdShow={handlePcpIdShow}
-                                            handleDateChange={handleDateChange}
-                                            transactionType={AddProvider.displayName}
-                                            //stageName={prop.state.StageName}
-                                            /*selectJson={selectValues}*/
-                                            //type={'Editable'}
-                                            //lockStatus={(prop.state!==null && prop.state.lockStatus!==undefined)?prop.state.lockStatus:'N'}
-                                            type={(prop.state!==null && prop.state.stageName!==undefined && (prop.state.stageName=='Exit' || prop.state.stageName=='Discard'))?'NonEditable':'Editable'}
-                                            lockStatus={(prop.state!==null && prop.state.stageName!==undefined && (prop.state.stageName=='Exit' || prop.state.stageName=='Discard'))?'V':'N'}
-                                          >
+            {/* Added by Nidhi to show CompensationTab on Cred Specialist, QA, Exit and Discard stage */}
+            {((prop.state.formView === "DashboardView" &&
+              (prop.state.stageName === "Cred Specialist" ||
+                prop.state.stageName === "QA" ||
+                prop.state.stageName === "Exit" ||
+                prop.state.stageName === "Discard")) ||
+              prop.state.formView === "DashboardHomeView") && (
+              <Tab eventKey="Compensation" title="Network">
+                <CompensationTab
+                  apiTestStateComp={apiTestStateComp}
+                  firlTableRowsData={firlTableRowsData}
+                  compensationTableRowsData={compensationTableRowsData}
+                  addTableRows={addTableRows}
+                  deleteTableRows={deleteTableRows}
+                  handleGridSelectChange={handleGridSelectChange}
+                  /*handleGridDateChange={handleGridDateChange}*/
+                  handleGridFieldChange={handleGridFieldChange}
+                  gridRowsFinalSubmit={gridRowsFinalSubmit}
+                  handleLinearSelectChange={handleLinearSelectChangeComp}
+                  handleLinearFieldChange={handleLinearFieldChange}
+                  handleMedicalGrpNoShow={handleMedicalGrpNoShow}
+                  handleNetworkIdShow={handleNetworkIdShow}
+                  gridFieldTempState={gridFieldTempState}
+                  editTableRows={editTableRows}
+                  handlePcpIdShow={handlePcpIdShow}
+                  handleDateChange={handleDateChange}
+                  transactionType={AddProvider.displayName}
+                  //stageName={prop.state.StageName}
+                  /*selectJson={selectValues}*/
+                  //type={'Editable'}
+                  //lockStatus={(prop.state!==null && prop.state.lockStatus!==undefined)?prop.state.lockStatus:'N'}
+                  type={
+                    prop.state !== null &&
+                    prop.state.stageName !== undefined &&
+                    (prop.state.stageName == "Exit" ||
+                      prop.state.stageName == "Discard")
+                      ? "NonEditable"
+                      : "Editable"
+                  }
+                  lockStatus={
+                    prop.state !== null &&
+                    prop.state.stageName !== undefined &&
+                    (prop.state.stageName == "Exit" ||
+                      prop.state.stageName == "Discard")
+                      ? "V"
+                      : "N"
+                  }
+                ></CompensationTab>
+              </Tab>
+            )}
 
-
-                    </CompensationTab>
-                        </Tab>
-                    )}
-
-{/*Till Here */}
+            {/*Till Here */}
             <Tab eventKey="Decision" title="Decision">
               <DecisionTab
                 lockStatus={
@@ -5486,7 +5902,6 @@ const saveData = (values) => {
                 }
                 potentialDupData={potentialDupData}
                 handleActionSelectChange={handleActionSelectChange}
-
               ></DecisionTab>
               {/* <DecisionTab selectJson={selectValues}></DecisionTab> */}
             </Tab>
@@ -5504,7 +5919,7 @@ const saveData = (values) => {
     //populateForm();
   };
   const RenderDatePicker = (props) => (
-    <div className="form-floating" >
+    <div className="form-floating">
       <input {...props} placeholder="Date of Birth" />
       <label htmlFor="datePicker">Date Of Birth</label>
     </div>
@@ -5533,16 +5948,14 @@ const saveData = (values) => {
   const handleSelectChange = (evnt, index, data) => {
     console.log("quesAns Dropdown selectedValue: ", evnt);
 
-    if(!evnt){
-      data.response = {label:'',value:''};
-    }
-    else{
+    if (!evnt) {
+      data.response = { label: "", value: "" };
+    } else {
       data.response = { label: evnt.value, value: evnt.value };
     }
 
     quesAnsListJson[index] = data;
     setQuesAnsListJson([...quesAnsListJson]);
-   
   };
   // const handleLinearSelectChange = (selectValue, evnt) => {
   //     console.log("Select value: ",selectValue);
@@ -5717,7 +6130,6 @@ const saveData = (values) => {
   //                   setSelectValues(selectJson);
   //                   setApiTestState(apiTestStateReplica);
 
-
   //               }
   //               }).catch((err) => {
   //                   printConsole('',err.message);
@@ -5729,10 +6141,13 @@ const saveData = (values) => {
 
   let checkStageName = JSON.parse(process.env.REACT_APP_STAGENAME);
 
-  const fieldsOnBlur = (e,values) => {
+  const fieldsOnBlur = (e, values) => {
     e.preventDefault();
     //alert('Inside organization Name handle Blur: ',e);
-    if (prop.state.formView === "DashboardHomeView" || prop.state.formView === 'DashboardView') {
+    if (
+      prop.state.formView === "DashboardHomeView" ||
+      prop.state.formView === "DashboardView"
+    ) {
       if (e.target.name === "organizationName") {
         const orgValue = e.target.value;
         printConsole("Inside add provider fields on blur: ", orgValue);
@@ -5742,20 +6157,31 @@ const saveData = (values) => {
         //   delete apiTestState["organizationName"];
         // }
         //let formState = Object.assign(apiTestState,values);
-        let formState = {...apiTestState};
+        let formState = { ...apiTestState };
         // if(values !== undefined){
         //   formState = {...values};
         // }
-        printConsole("Inside fieldsOnBlur formState: ",formState);
-        populateContractIdDropdown(e.target.name,e.target.value,formState,selectValues);
-       // setApiTestState(returnState);
+        printConsole("Inside fieldsOnBlur formState: ", formState);
+        populateContractIdDropdown(
+          e.target.name,
+          e.target.value,
+          formState,
+          selectValues,
+        );
+        // setApiTestState(returnState);
+      }
     }
-  }
   };
 
-  const populateContractIdDropdown =(name,value,inputState,selectJson)=>{
-    console.log('Inside populateContractIdDropdown inputSTate : ',prop.state.stageName);
-    if ((prop.state.formView === "DashboardHomeView") || (!checkStageName.includes(prop.state.stageName))) {
+  const populateContractIdDropdown = (name, value, inputState, selectJson) => {
+    console.log(
+      "Inside populateContractIdDropdown inputSTate : ",
+      prop.state.stageName,
+    );
+    if (
+      prop.state.formView === "DashboardHomeView" ||
+      !checkStageName.includes(prop.state.stageName)
+    ) {
       let apiTestStateReplica = {};
       if (name === "organizationName") {
         const orgValue = value;
@@ -5766,23 +6192,23 @@ const saveData = (values) => {
           token,
           "HealthPlan",
           masterUserName,
-          orgValue.trim()
+          orgValue.trim(),
         );
         printConsole(
           "Inside getDashboardData provContLinkData Data before promise resolve: ",
-          apiOut
+          apiOut,
         );
         apiOut.then(function (provContLinkData) {
           printConsole(
             "Inside getDashboardData provContLinkData Data after promise resolve: ",
-            provContLinkData
+            provContLinkData,
           );
 
           if (provContLinkData.length > 0) {
             const contractIdData = provContLinkData[0];
             printConsole(
               "Inside getDashboardData contractIdData Data: ",
-              contractIdData
+              contractIdData,
             );
             if (
               contractIdData !== undefined &&
@@ -5808,9 +6234,8 @@ const saveData = (values) => {
 
                   if (
                     elem.LegalEntityName !== null &&
-                      elem.LegalEntityName !== undefined
-                      ) {
-
+                    elem.LegalEntityName !== undefined
+                  ) {
                     if (
                       elem.LegalEntityName.localeCompare(orgValue, undefined, {
                         sensitivity: "accent",
@@ -5842,7 +6267,7 @@ const saveData = (values) => {
 
                 printConsole(
                   "Inside fieldsOnBlur useeffect arr2 after: ",
-                  arr2
+                  arr2,
                 );
 
                 //arr2 = arr2.filter(elem => elem.name === orgValue)
@@ -5852,59 +6277,54 @@ const saveData = (values) => {
             }
           }
 
-           //printConsole("Nidhi arr1: ", arr1);
+          //printConsole("Nidhi arr1: ", arr1);
           //printConsole("Nidhi arr1: ", arr2);
           const contractArray = setContractIdDropDown(arr1, arr2);
           //let selectJson = { ...selectValues };
 
-          apiTestStateReplica = { ...inputState};
-          const apiDemo = {...inputState};
-          console.log("Contrct Array",contractArray,apiDemo);
+          apiTestStateReplica = { ...inputState };
+          const apiDemo = { ...inputState };
+          console.log("Contrct Array", contractArray, apiDemo);
           if (contractArray.length > 0) {
-            console.log("insidecontract Array.length1",selectValues);
-
+            console.log("insidecontract Array.length1", selectValues);
 
             selectJson.contractIdOptions = contractArray;
-
 
             // if (apiTestStateReplica.hasOwnProperty("contractId")) {
             //   apiTestStateReplica["contractId"] = '';
             // }
 
             if (contractArray.length === 1) {
-              console.log("insidecontract Array.length2",contractArray[0]);
+              console.log("insidecontract Array.length2", contractArray[0]);
               apiTestStateReplica.contractId = contractArray[0];
-             setApiTestState(apiTestStateReplica);
-            }
-            else{
+              setApiTestState(apiTestStateReplica);
+            } else {
               if (apiTestStateReplica.hasOwnProperty("contractId")) {
-                  apiTestStateReplica["contractId"] = {label:'',value:''};
-                }
+                apiTestStateReplica["contractId"] = { label: "", value: "" };
+              }
             }
-
           } else {
             if (selectJson.hasOwnProperty("contractIdOptions")) {
               delete selectJson["contractIdOptions"];
             }
             if (apiTestStateReplica.hasOwnProperty("contractId")) {
               //delete apiTestStateReplica["contractId"];
-              apiTestStateReplica["contractId"] = {label:'',value:''};
+              apiTestStateReplica["contractId"] = { label: "", value: "" };
             }
           }
-           console.log("APITest",apiTestStateReplica,selectValues,selectJson);
-           
-           apiTestStateReplica[name] = value;
-          setSelectValues(selectJson);
-         setApiTestState(apiTestStateReplica);
-        // setFormikInitializeState(true);
-        //  setTimeout(() => {
-        //   setSelectValues(selectJson);
-        //       }, 1000);
+          console.log("APITest", apiTestStateReplica, selectValues, selectJson);
 
+          apiTestStateReplica[name] = value;
+          setSelectValues(selectJson);
+          setApiTestState(apiTestStateReplica);
+          // setFormikInitializeState(true);
+          //  setTimeout(() => {
+          //   setSelectValues(selectJson);
+          //       }, 1000);
         });
       }
     }
-  }
+  };
 
   const questionData = () => {
     console.log("questionData() quesAnsListJson", quesAnsListJson);
@@ -5960,7 +6380,7 @@ const saveData = (values) => {
           {props.selectProps.placeholder}
         </Placeholder>
         {React.Children.map(children, (child) =>
-          child && child.type !== Placeholder ? child : null
+          child && child.type !== Placeholder ? child : null,
         )}
       </ValueContainer>
     );
@@ -5996,10 +6416,11 @@ const saveData = (values) => {
             //     }, 400);
             // }}
             onSubmit={async (values) => {
-              await new Promise((resolve) => setTimeout(resolve, 500))
-              .catch((err) => {
-                console.error(err);
-              });
+              await new Promise((resolve) => setTimeout(resolve, 500)).catch(
+                (err) => {
+                  console.error(err);
+                },
+              );
               //alert(JSON.stringify(values, null, 2));
               saveData(values);
             }}
@@ -6116,8 +6537,10 @@ const saveData = (values) => {
                                       event,
                                       values.caqhId.trim(),
                                       values.ssn,
-                                      values.organizationName!==undefined?values.organizationName.trim():'',
-                                      apiTestState.contractId
+                                      values.organizationName !== undefined
+                                        ? values.organizationName.trim()
+                                        : "",
+                                      apiTestState.contractId,
                                     )
                                   }
                                 >
@@ -6154,19 +6577,19 @@ const saveData = (values) => {
                                         meta.touched && meta.error
                                           ? " is-invalid"
                                           : field.value
-                                          ? "is-valid"
-                                          : ""
+                                            ? "is-valid"
+                                            : ""
                                       }`}
                                       placeholder="John"
                                       {...field}
                                       onBlur={(event) => {
-                                        fieldsOnBlur(event,values);
+                                        fieldsOnBlur(event, values);
                                       }}
                                       onChange={(e) =>
                                         formikFieldsOnChange(
                                           e,
                                           setFieldValue,
-                                          field
+                                          field,
                                         )
                                       }
                                     />
@@ -6207,8 +6630,8 @@ const saveData = (values) => {
                                         meta.touched && meta.error
                                           ? " is-invalid"
                                           : field.value
-                                          ? "is-valid"
-                                          : ""
+                                            ? "is-valid"
+                                            : ""
                                       }`}
                                       placeholder="John"
                                       {...field}
@@ -6216,7 +6639,7 @@ const saveData = (values) => {
                                         formikFieldsOnChange(
                                           e,
                                           setFieldValue,
-                                          field
+                                          field,
                                         )
                                       }
                                     />
@@ -6256,8 +6679,8 @@ const saveData = (values) => {
                                         meta.touched && meta.error
                                           ? " is-invalid"
                                           : field.value || field.value === null
-                                          ? "is-valid"
-                                          : ""
+                                            ? "is-valid"
+                                            : ""
                                       }`}
                                       placeholder="John"
                                       {...field}
@@ -6265,7 +6688,7 @@ const saveData = (values) => {
                                         formikFieldsOnChange(
                                           e,
                                           setFieldValue,
-                                          field
+                                          field,
                                         )
                                       }
                                     />
@@ -6306,8 +6729,8 @@ const saveData = (values) => {
                                         meta.touched && meta.error
                                           ? " is-invalid"
                                           : field.value
-                                          ? "is-valid"
-                                          : ""
+                                            ? "is-valid"
+                                            : ""
                                       }`}
                                       placeholder="John"
                                       {...field}
@@ -6315,7 +6738,7 @@ const saveData = (values) => {
                                         formikFieldsOnChange(
                                           e,
                                           setFieldValue,
-                                          field
+                                          field,
                                         )
                                       }
                                     />
@@ -6355,8 +6778,8 @@ const saveData = (values) => {
                                         meta.touched && meta.error
                                           ? " is-invalid"
                                           : field.value
-                                          ? "is-valid"
-                                          : ""
+                                            ? "is-valid"
+                                            : ""
                                       }`}
                                       placeholder="John"
                                       {...field}
@@ -6364,7 +6787,7 @@ const saveData = (values) => {
                                         formikFieldsOnChange(
                                           e,
                                           setFieldValue,
-                                          field
+                                          field,
                                         )
                                       }
                                     />
@@ -6412,8 +6835,10 @@ const saveData = (values) => {
                                           ...provided,
                                           maxHeight: 200,
                                         }),
-                                        menu: provided => ({ ...provided, zIndex: 9999 }),
-                                      
+                                        menu: (provided) => ({
+                                          ...provided,
+                                          zIndex: 9999,
+                                        }),
 
                                         container: (provided, state) => ({
                                           ...provided,
@@ -6462,10 +6887,13 @@ const saveData = (values) => {
                                       onChange={(selectValue, event) => {
                                         console.log(
                                           "Gender selected value: ",
-                                          selectValue
+                                          selectValue,
                                         );
-                                        if(event.action === 'clear'){
-                                          selectValue = {label:'',value:''}
+                                        if (event.action === "clear") {
+                                          selectValue = {
+                                            label: "",
+                                            value: "",
+                                          };
                                         }
                                         setFieldValue(field.name, selectValue);
                                       }}
@@ -6574,8 +7002,8 @@ const saveData = (values) => {
                                         meta.touched && meta.error
                                           ? " is-invalid"
                                           : field.value
-                                          ? "is-valid"
-                                          : ""
+                                            ? "is-valid"
+                                            : ""
                                       }`}
                                       placeholder="John"
                                       {...field}
@@ -6617,19 +7045,18 @@ const saveData = (values) => {
                                         meta.touched && meta.error
                                           ? " is-invalid"
                                           : field.value
-                                          ? "is-valid"
-                                          : ""
+                                            ? "is-valid"
+                                            : ""
                                       }`}
                                       placeholder="John"
                                       //oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
                                       {...field}
 
-
-                                          //Added newly by Nidhi Gupta on 11/1/2023
-                                          // onBlur={(event) => {
-                                          //   npiOnBlur(event, values);
-                                          // }}
-                                          //Till Here
+                                      //Added newly by Nidhi Gupta on 11/1/2023
+                                      // onBlur={(event) => {
+                                      //   npiOnBlur(event, values);
+                                      // }}
+                                      //Till Here
                                       // onBlur={e => {field.onBlur(e)
 
                                       //     console.log("evnt.target.value: ", e.target.value);
@@ -6679,8 +7106,8 @@ const saveData = (values) => {
                                   className="form-control example-custom-input-provider"
                                   selected={apiTestState.dateOfBirth}
                                   name="dateOfBirth"
-                                  onChange={(date,event) =>
-                                    handleDateChange(date, "dateOfBirth",event)
+                                  onChange={(date, event) =>
+                                    handleDateChange(date, "dateOfBirth", event)
                                   }
                                   dateFormat="MM/dd/yyyy"
                                   peekNextMonth
@@ -6700,7 +7127,7 @@ const saveData = (values) => {
                                   }
                                   style={{
                                     position: "relative",
-                                    zIndex:  "999",
+                                    zIndex: "999",
                                   }}
                                   //placeholder="Date Of Birth"
                                   customInput={<RenderDatePicker />}
@@ -6751,8 +7178,8 @@ const saveData = (values) => {
                                         meta.touched && meta.error
                                           ? " is-invalid"
                                           : field.value
-                                          ? "is-valid"
-                                          : ""
+                                            ? "is-valid"
+                                            : ""
                                       }`}
                                       placeholder="John"
                                       {...field}
@@ -6789,7 +7216,6 @@ const saveData = (values) => {
                                       ...provided,
                                       maxHeight: 200,
                                     }),
-                                  
 
                                     container: (provided, state) => ({
                                       ...provided,
@@ -6882,8 +7308,8 @@ const saveData = (values) => {
                                         meta.touched && meta.error
                                           ? " is-invalid"
                                           : field.value
-                                          ? "is-valid"
-                                          : ""
+                                            ? "is-valid"
+                                            : ""
                                       }`}
                                       placeholder="John"
                                       {...field}
@@ -6950,8 +7376,8 @@ const saveData = (values) => {
                                         meta.touched && meta.error
                                           ? " is-invalid"
                                           : field.value
-                                          ? "is-valid"
-                                          : ""
+                                            ? "is-valid"
+                                            : ""
                                       }`}
                                       placeholder="John"
                                       {...field}
@@ -7194,8 +7620,8 @@ const saveData = (values) => {
                                         meta.touched && meta.error
                                           ? " is-invalid"
                                           : field.value
-                                          ? "is-valid"
-                                          : ""
+                                            ? "is-valid"
+                                            : ""
                                       }`}
                                       placeholder="John"
                                       {...field}
@@ -7221,72 +7647,99 @@ const saveData = (values) => {
                               />
                             </div>
                             <div className="col-xs-6 col-md-4">
-                                            <Field name="delegated">
-													{({
-														field, // { name, value, onChange, onBlur }
-														form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
-														meta,
-													}) => (
-                                            <div className="form-floating">
-                                            <Select
-                                                styles={{
-                                                    control: (provided) => ({
-                                                        ...provided,
-                                                        height: '58px'
-                                                    }),
-                                                    menuList: (provided) => ({
-                                                        ...provided,
-                                                        maxHeight: 200,
-                                                    }),
+                              <Field name="delegated">
+                                {({
+                                  field, // { name, value, onChange, onBlur }
+                                  form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+                                  meta,
+                                }) => (
+                                  <div className="form-floating">
+                                    <Select
+                                      styles={{
+                                        control: (provided) => ({
+                                          ...provided,
+                                          height: "58px",
+                                        }),
+                                        menuList: (provided) => ({
+                                          ...provided,
+                                          maxHeight: 200,
+                                        }),
 
-                                                    container: (provided, state) => ({
-                                                        ...provided,
-                                                        marginTop: 0
-                                                      }),
-                                                      valueContainer: (provided, state) => ({
-                                                        ...provided,
-                                                        overflow: "visible"
-                                                      }),
-                                                      placeholder: (provided, state) => ({
-                                                        ...provided,
-                                                        position: "absolute",
-                                                        top: state.hasValue || state.selectProps.inputValue ? -15 : "50%",
-                                                        transition: "top 0.1s, font-size 0.1s",
-                                                        fontSize: (state.hasValue || state.selectProps.inputValue) && 13
-                                                      })
-
-                                                }}
-                                                components={{
-                                                    ValueContainer: CustomValueContainer
-                                                  }}
-                                                //name="delegated"
-                                                name = {field.name}
-                                                isClearable
-                                                  isDisabled={(tabRef.current==='DashboardView'&&(prop.state.lockStatus!==undefined && prop.state.lockStatus==='Y')?true:false)}
-                                                  className="basic-multi-select"
-                                                  options={[{label:'Yes', value:'Yes'}, {label:'No', value:'No'}]}
-                                                  id="delegatedDropdown"
-                                                  isMulti={false}
-                                                  //onChange={(selectValue,event)=>(handleLinearSelectChange(selectValue, event))}
-                                                  onChange={(selectValue,event)=>(setFieldValue(field.name, selectValue))}
-                                                  //value={apiTestState.delegated}
-                                                  value={field.value}
-                                                  placeholder ="Delegated"
-                                                  isSearchable = {document.documentElement.clientHeight>document.documentElement.clientWidth?false:true}
-                                            />
-                                             {meta.touched && meta.error && (
-                                                    <div className="invalid-feedback" style={{display:'block'}}>{meta.error}</div>
-                                                )}
-                                            </div>
-                                            )}
-                                             </Field>
-                                             <ErrorMessage
-                                                        component="div"
-                                                        name="delegated"
-                                                        className="invalid-feedback"
-                                                />
-                                            </div>
-
+                                        container: (provided, state) => ({
+                                          ...provided,
+                                          marginTop: 0,
+                                        }),
+                                        valueContainer: (provided, state) => ({
+                                          ...provided,
+                                          overflow: "visible",
+                                        }),
+                                        placeholder: (provided, state) => ({
+                                          ...provided,
+                                          position: "absolute",
+                                          top:
+                                            state.hasValue ||
+                                            state.selectProps.inputValue
+                                              ? -15
+                                              : "50%",
+                                          transition:
+                                            "top 0.1s, font-size 0.1s",
+                                          fontSize:
+                                            (state.hasValue ||
+                                              state.selectProps.inputValue) &&
+                                            13,
+                                        }),
+                                      }}
+                                      components={{
+                                        ValueContainer: CustomValueContainer,
+                                      }}
+                                      //name="delegated"
+                                      name={field.name}
+                                      isClearable
+                                      isDisabled={
+                                        tabRef.current === "DashboardView" &&
+                                        prop.state.lockStatus !== undefined &&
+                                        prop.state.lockStatus === "Y"
+                                          ? true
+                                          : false
+                                      }
+                                      className="basic-multi-select"
+                                      options={[
+                                        { label: "Yes", value: "Yes" },
+                                        { label: "No", value: "No" },
+                                      ]}
+                                      id="delegatedDropdown"
+                                      isMulti={false}
+                                      //onChange={(selectValue,event)=>(handleLinearSelectChange(selectValue, event))}
+                                      onChange={(selectValue, event) =>
+                                        setFieldValue(field.name, selectValue)
+                                      }
+                                      //value={apiTestState.delegated}
+                                      value={field.value}
+                                      placeholder="Delegated"
+                                      isSearchable={
+                                        document.documentElement.clientHeight >
+                                        document.documentElement.clientWidth
+                                          ? false
+                                          : true
+                                      }
+                                    />
+                                    {meta.touched && meta.error && (
+                                      <div
+                                        className="invalid-feedback"
+                                        style={{ display: "block" }}
+                                      >
+                                        {meta.error}
+                                      </div>
+                                    )}
+                                  </div>
+                                )}
+                              </Field>
+                              <ErrorMessage
+                                component="div"
+                                name="delegated"
+                                className="invalid-feedback"
+                              />
+                            </div>
 
                             <div className="col-xs-6 col-md-4">
                               <div className="form-floating">
@@ -7345,7 +7798,11 @@ const saveData = (values) => {
                                   value={apiTestState.contractId}
                                   //   defaultValue={{ label: 'Yes', value: 'Yes' }}
                                   placeholder="Contract Id"
-                                  isClearable ={prop.state.stageName === 'Config' ? false : true}
+                                  isClearable={
+                                    prop.state.stageName === "Config"
+                                      ? false
+                                      : true
+                                  }
                                   isSearchable={
                                     document.documentElement.clientHeight >
                                     document.documentElement.clientWidth
@@ -7485,7 +7942,7 @@ const saveData = (values) => {
                                     control: (provided) => ({
                                       ...provided,
                                       height: "58px",
-                                      overflowY: "scroll"
+                                      overflowY: "scroll",
                                     }),
                                     menuList: (provided) => ({
                                       ...provided,
@@ -7625,7 +8082,10 @@ const saveData = (values) => {
                                         ...provided,
                                         overflow: "visible",
                                       }),
-                                      menu: provided => ({ ...provided, zIndex: 9999 }),
+                                      menu: (provided) => ({
+                                        ...provided,
+                                        zIndex: 9999,
+                                      }),
                                       placeholder: (provided, state) => ({
                                         ...provided,
                                         position: "absolute",
@@ -7662,7 +8122,7 @@ const saveData = (values) => {
                                     onChange={(selectValue, event) =>
                                       handleLinearSelectChange(
                                         selectValue,
-                                        event
+                                        event,
                                       )
                                     }
                                     value={apiTestState.ecfmgQues}
@@ -7707,9 +8167,9 @@ const saveData = (values) => {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value ||
-                                              field.value === null
-                                            ? "is-valid"
-                                            : ""
+                                                field.value === null
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="123"
                                         {...field}
@@ -7731,7 +8191,7 @@ const saveData = (values) => {
                               </div>
 
                               <div className="col-xs-6 col-md-4">
-                                <div >
+                                <div>
                                   <ReactDatePicker
                                     id="datePicker"
                                     className="form-control example-custom-input-provider"
@@ -7770,7 +8230,7 @@ const saveData = (values) => {
                                     onChange={(event) =>
                                       handleDateChange(
                                         event,
-                                        "ecfmgExpirationDate"
+                                        "ecfmgExpirationDate",
                                       )
                                     }
                                     onKeyDown={(e) => {
@@ -7839,8 +8299,8 @@ const saveData = (values) => {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="123"
                                         {...field}
@@ -8071,56 +8531,64 @@ const saveData = (values) => {
                       </div>
                     </div>
 
-                  {/* Added by Shivani to show Education on Cred Specialist and QA stage */}
-                    {((prop.state.formView === 'DashboardView' && (prop.state.stageName === 'Cred Specialist' || prop.state.stageName === 'QA')) || (prop.state.formView === 'HomeView') || (prop.state.formView === 'DashboardHomeView')) &&
-                    <div className="accordion-item">
-                      <h2
-                        className="accordion-header"
-                        id="panelsStayOpen-Education"
-                      >
-                        <button
-                          className="accordion-button accordionButtonStyle"
-                          type="button"
-                          data-bs-toggle="collapse"
-                          data-bs-target="#panelsStayOpen-collapseEducation"
-                          aria-expanded="true"
-                          aria-controls="panelsStayOpen-collapseEducation"
+                    {/* Added by Shivani to show Education on Cred Specialist and QA stage */}
+                    {((prop.state.formView === "DashboardView" &&
+                      (prop.state.stageName === "Cred Specialist" ||
+                        prop.state.stageName === "QA")) ||
+                      prop.state.formView === "HomeView" ||
+                      prop.state.formView === "DashboardHomeView") && (
+                      <div className="accordion-item">
+                        <h2
+                          className="accordion-header"
+                          id="panelsStayOpen-Education"
                         >
-                          Education & Training Details
-                        </button>
-                      </h2>
-                      <div
-                        id="panelsStayOpen-collapseEducation"
-                        className="accordion-collapse collapse show"
-                        aria-labelledby="panelsStayOpen-Education"
-                      >
-                        <div className="accordion-body">
-                          <div className="row">
-                            <div className="col-xs-6 col-md-12">
-                              <EducationTable
-                                educationTableRowsData={educationTableRowsData}
-                                addTableRows={addTableRows}
-                                deleteTableRows={deleteTableRows}
-                                handleGridSelectChange={handleGridSelectChange}
-                                handleGridDateChange={handleGridDateChange}
-                                handleGridFieldChange={handleGridFieldChange}
-                                gridFieldTempState={gridFieldTempState}
-                                editTableRows={editTableRows}
-                                gridRowsFinalSubmit={gridRowsFinalSubmit}
-                                selectJson={selectValues}
-                                lockStatus={
-                                  prop.state !== null &&
-                                  prop.state.lockStatus !== undefined
-                                    ? prop.state.lockStatus
-                                    : "N"
-                                }
-                              ></EducationTable>
+                          <button
+                            className="accordion-button accordionButtonStyle"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#panelsStayOpen-collapseEducation"
+                            aria-expanded="true"
+                            aria-controls="panelsStayOpen-collapseEducation"
+                          >
+                            Education & Training Details
+                          </button>
+                        </h2>
+                        <div
+                          id="panelsStayOpen-collapseEducation"
+                          className="accordion-collapse collapse show"
+                          aria-labelledby="panelsStayOpen-Education"
+                        >
+                          <div className="accordion-body">
+                            <div className="row">
+                              <div className="col-xs-6 col-md-12">
+                                <EducationTable
+                                  educationTableRowsData={
+                                    educationTableRowsData
+                                  }
+                                  addTableRows={addTableRows}
+                                  deleteTableRows={deleteTableRows}
+                                  handleGridSelectChange={
+                                    handleGridSelectChange
+                                  }
+                                  handleGridDateChange={handleGridDateChange}
+                                  handleGridFieldChange={handleGridFieldChange}
+                                  gridFieldTempState={gridFieldTempState}
+                                  editTableRows={editTableRows}
+                                  gridRowsFinalSubmit={gridRowsFinalSubmit}
+                                  selectJson={selectValues}
+                                  lockStatus={
+                                    prop.state !== null &&
+                                    prop.state.lockStatus !== undefined
+                                      ? prop.state.lockStatus
+                                      : "N"
+                                  }
+                                ></EducationTable>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    }
+                    )}
 
                     {/* <div className="accordion-item">
                                 <h2 className="accordion-header" id="panelsStayOpen-Training">

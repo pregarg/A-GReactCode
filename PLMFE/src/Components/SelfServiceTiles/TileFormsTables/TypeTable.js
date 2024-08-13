@@ -78,7 +78,7 @@ export default function TypeTable({
       alert(
         "NPI ID " +
           npiId +
-          " is in exclusion list.Please contact your provider and enter correct NPI ID"
+          " is in exclusion list.Please contact your provider and enter correct NPI ID",
       );
     }
   };
@@ -115,14 +115,14 @@ export default function TypeTable({
       specialtyOptions.push({
         value: element["speciality"],
         label: element["speciality"],
-      })
+      }),
     );
     //till here
     providerTypeArray[0]?.map((element) =>
       providerTypeOptions.push({
         value: element["displayName"],
         label: element["displayName"],
-      })
+      }),
     );
     //console.log("providerTypeOptions: ",providerTypeOptions);
 
@@ -156,7 +156,7 @@ export default function TypeTable({
                     index,
                     selectValue,
                     event,
-                    TypeTable.displayName
+                    TypeTable.displayName,
                   )
                 }
                 options={providerTypeOptions}
@@ -201,7 +201,7 @@ export default function TypeTable({
                     index,
                     selectValue,
                     event,
-                    TypeTable.displayName
+                    TypeTable.displayName,
                   )
                 }
                 options={specialtyOptions}
@@ -287,7 +287,7 @@ export default function TypeTable({
                       deleteTableRows(
                         index,
                         TypeTable.displayName,
-                        "Force Delete"
+                        "Force Delete",
                       );
                       handleOperationValue("Force Delete");
                       decreaseDataIndex();

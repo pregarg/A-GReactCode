@@ -13,7 +13,7 @@ import {
   getMasterAdditionalQues,
   getMasterContractType,
   //getMasterDecision,
- // getMasterDecisionReason,
+  // getMasterDecisionReason,
   getMasterTaxonomyCode,
   getMasterProviderType,
   getMasterDocumentName,
@@ -51,7 +51,7 @@ import {
   getMasterAngStUpExpedited,
   getMasterAngDocument,
   getMasterAngRelationship,
-  getMasterAngAORType
+  getMasterAngAORType,
 } from "../actions";
 import headerLogo from "../Images/LoginPageLogo.png";
 import loginPageLogo from "../Images/LoginPageFormImage.png";
@@ -158,16 +158,16 @@ export default function LoginPage() {
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterLanguages(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       //dispatch(getMasterSalutation(loginToken, false, onMasterLoadFail, onMasterLoadSuccess));
       dispatch(
@@ -175,8 +175,8 @@ export default function LoginPage() {
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       //dispatch(getMasterEthnicity(loginToken, false, onMasterLoadFail, onMasterLoadSuccess));
       dispatch(
@@ -184,16 +184,16 @@ export default function LoginPage() {
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAddressType(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       //dispatch(getMasterContractType(loginToken, false, onMasterLoadFail, onMasterLoadSuccess));
       dispatch(
@@ -201,40 +201,40 @@ export default function LoginPage() {
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterSpeciality(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterGraduateType(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterDocumentList(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAdditionalQues(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       // dispatch(
       //   getMasterDecision(
@@ -257,8 +257,8 @@ export default function LoginPage() {
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       //Added Newly by Nidhi Gupta on 05/19/2023
       dispatch(
@@ -266,8 +266,8 @@ export default function LoginPage() {
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       //Added Newly by Nidhi Gupta on 05/31/2023
       dispatch(
@@ -275,8 +275,8 @@ export default function LoginPage() {
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getProvContLinkData(
@@ -285,574 +285,574 @@ export default function LoginPage() {
           false,
           onMasterLoadFail,
           onMasterLoadSuccess,
-          "Portal"
-        )
+          "Portal",
+        ),
       );
       dispatch(
-        getCounty(loginToken, false, onMasterLoadFail, onMasterLoadSuccess)
+        getCounty(loginToken, false, onMasterLoadFail, onMasterLoadSuccess),
       );
       dispatch(
-        getNPI(loginToken, false, onMasterLoadFail, onMasterLoadSuccess)
+        getNPI(loginToken, false, onMasterLoadFail, onMasterLoadSuccess),
       );
       dispatch(
         getTerminationReason(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngCaseFilingMethod(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngLOBMapping(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngAppellantDesc(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngAppellantType(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngAppealType(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngAuthServiceType(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngCaseLevelPriority(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngIssueLevel(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngReviewType(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngClaimType(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngDecision(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngProcessingStatus(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngFiledTimely(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngGrantGoodCause(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngProviderRole(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngProviderType(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngParProvider(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngPortalEnrolled(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngGender(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngDeceased(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngDualPlan(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngMailToAddress(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngPreferredLanguage(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngCommPref(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngExpeditedRequested(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngExpeditedDenied(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngStUpExpedited(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngDocument(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngRelationship(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngAORType(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       navigate("/Home", { replace: true });
     } else if (tokenUserName == USER) {
       dispatch(
-        getCounty(loginToken, false, onMasterLoadFail, onMasterLoadSuccess)
+        getCounty(loginToken, false, onMasterLoadFail, onMasterLoadSuccess),
       );
       dispatch(
         getMasterContractType(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterSpeciality(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterStateSymbol(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterProviderType(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAddressType(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterLanguages(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterHeaderFooter(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterDocumentName(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngCaseFilingMethod(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngLOBMapping(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngAppellantDesc(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngAppellantType(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngAppealType(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngAuthServiceType(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngCaseLevelPriority(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngIssueLevel(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngReviewType(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngClaimType(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngDecision(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngProcessingStatus(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngFiledTimely(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngGrantGoodCause(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngProviderRole(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngProviderType(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngParProvider(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngPortalEnrolled(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngGender(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngDeceased(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngDualPlan(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngMailToAddress(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngPreferredLanguage(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngCommPref(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngExpeditedRequested(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngExpeditedDenied(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngStUpExpedited(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngDocument(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngRelationship(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
         getMasterAngAORType(
           loginToken,
           false,
           onMasterLoadFail,
-          onMasterLoadSuccess
-        )
+          onMasterLoadSuccess,
+        ),
       );
       dispatch(
-        getNPI(loginToken, false, onMasterLoadFail, onMasterLoadSuccess)
+        getNPI(loginToken, false, onMasterLoadFail, onMasterLoadSuccess),
       );
       navigate("/ContractingHome", { replace: true });
     }
@@ -867,8 +867,8 @@ export default function LoginPage() {
         false,
         onLoginFail,
         onLoginSuccess,
-        "PortalLogin"
-      )
+        "PortalLogin",
+      ),
     );
   };
 
@@ -878,7 +878,7 @@ export default function LoginPage() {
     //Commented above by Nidhi Gupta
     console.log("USER: ", USER);
     dispatch(
-      signIn(USER, PASSWORD, false, onLoginFail, onLoginSuccess, "PortalLogin")
+      signIn(USER, PASSWORD, false, onLoginFail, onLoginSuccess, "PortalLogin"),
     );
 
     // navigate('/ContractingHome', { replace: true });

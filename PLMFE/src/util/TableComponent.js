@@ -107,7 +107,7 @@ function Table({
       // Default Filter UI
       Filter: DefaultColumnFilter,
     }),
-    []
+    [],
   );
 
   const {
@@ -139,11 +139,11 @@ function Table({
     useFilters,
     useGlobalFilter,
     useSortBy,
-    usePagination
+    usePagination,
   );
 
   const savedDataHistory = useSelector(
-    (store) => store.dashboardNavigationState
+    (store) => store.dashboardNavigationState,
   );
 
   useEffect(() => {

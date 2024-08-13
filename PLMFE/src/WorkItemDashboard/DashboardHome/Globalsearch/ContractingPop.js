@@ -49,7 +49,7 @@ export default function ContractingPop(prop) {
       .max(5, "Zip Code max length exceeded")
       .matches(
         /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
-        "Only numbers are accepted"
+        "Only numbers are accepted",
       ),
     provState: Yup.object().nullable().required("Please select State"),
     entityName: Yup.string()
@@ -59,7 +59,7 @@ export default function ContractingPop(prop) {
       .max(10, "Fax Number max length exceeded")
       .matches(
         /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
-        "Only numbers are accepted"
+        "Only numbers are accepted",
       ),
     mgrFirstName: Yup.string()
       .required("Please enter First Name")
@@ -90,7 +90,7 @@ export default function ContractingPop(prop) {
       .max(10, " Credentialing Fax# max length exceeded")
       .matches(
         /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
-        "Only numbers are accepted"
+        "Only numbers are accepted",
       ),
     contractType: Yup.object()
       .nullable()
@@ -122,7 +122,7 @@ export default function ContractingPop(prop) {
   //Newly Added by Nidhi Gupta on 08/04/2023
   let documentSectionDataRef = useRef([]);
   let contractingConfigData = JSON.parse(
-    process.env.REACT_APP_CONTRACTING_DETAILS
+    process.env.REACT_APP_CONTRACTING_DETAILS,
   );
   const { fileUpDownAxios } = useAxios();
   //Till Here
@@ -202,7 +202,7 @@ export default function ContractingPop(prop) {
 
   const [firlTableRowsData, setFirlTableRowsData] = useState([]);
   const [compensationTableRowsData, setCompensationTableRowsData] = useState(
-    []
+    [],
   );
   const [gridFieldTempState, setGridFieldTempState] = useState({});
 
@@ -381,33 +381,33 @@ export default function ContractingPop(prop) {
         res["ELECTRONICHEALTHRECORD"] === "Y"
           ? "YES"
           : res["ELECTRONICHEALTHRECORD"] === "N"
-          ? "NO"
-          : "",
+            ? "NO"
+            : "",
       publicTransportation:
         res["PUBLICTRANSPORTATION"] === "Y"
           ? "YES"
           : res["PUBLICTRANSPORTATION"] === "N"
-          ? "NO"
-          : "",
+            ? "NO"
+            : "",
       handicapAccess:
         res["HANDICAPACCESS"] === "Y"
           ? "YES"
           : res["HANDICAPACCESS"] === "N"
-          ? "NO"
-          : "",
+            ? "NO"
+            : "",
       tddHearing:
         res["TDDHEARING"] === "Y"
           ? "YES"
           : res["TDDHEARING"] === "N"
-          ? "NO"
-          : "",
+            ? "NO"
+            : "",
       placeInDirectory: res["PLACEINDIRECTORY"],
       telemedicine:
         res["TELEMEDICINE"] === "Y"
           ? "YES"
           : res["TELEMEDICINE"] === "N"
-          ? "NO"
-          : "",
+            ? "NO"
+            : "",
       address1: res["ADDRESS1"],
       address2: res["ADDRESS2"],
       city: res["CITY"],
@@ -835,66 +835,68 @@ export default function ContractingPop(prop) {
     }
     selectJson["contracts"]
       .filter(
-        (data) => data.transactionType.toLowerCase() == transType.toLowerCase()
+        (data) => data.transactionType.toLowerCase() == transType.toLowerCase(),
       )
       .map((val) =>
-        contractOptions.push({ value: val.displayName, label: val.displayName })
+        contractOptions.push({
+          value: val.displayName,
+          label: val.displayName,
+        }),
       );
 
-      if (mastersSelector.hasOwnProperty("masterAddressType")) {
-        let addressTypeOptions =
-          mastersSelector["masterAddressType"].length === 0
-            ? []
-            : mastersSelector["masterAddressType"][0];
+    if (mastersSelector.hasOwnProperty("masterAddressType")) {
+      let addressTypeOptions =
+        mastersSelector["masterAddressType"].length === 0
+          ? []
+          : mastersSelector["masterAddressType"][0];
 
-            for (const item of addressTypeOptions) {
-              newArr.push(convertToCase(item.addressType));
-            }
-
-            selectJson.addressTypeOptions = newArr;
-            newArr = [];
+      for (const item of addressTypeOptions) {
+        newArr.push(convertToCase(item.addressType));
       }
 
-      if (mastersSelector.hasOwnProperty("masterLanguages")) {
-        //selectJson.languageArray = mastersSelector['masterLanguages'][0].data;
-        let languageArray =
-          mastersSelector["masterLanguages"].length === 0
-            ? []
-            : mastersSelector["masterLanguages"][0];
+      selectJson.addressTypeOptions = newArr;
+      newArr = [];
+    }
 
-            for (const item of languageArray) {
-              newArr.push(convertToCase(item.displayName));
-            }
-          selectJson.languageArray = newArr;
-          newArr = [];
+    if (mastersSelector.hasOwnProperty("masterLanguages")) {
+      //selectJson.languageArray = mastersSelector['masterLanguages'][0].data;
+      let languageArray =
+        mastersSelector["masterLanguages"].length === 0
+          ? []
+          : mastersSelector["masterLanguages"][0];
+
+      for (const item of languageArray) {
+        newArr.push(convertToCase(item.displayName));
       }
+      selectJson.languageArray = newArr;
+      newArr = [];
+    }
 
     if (mastersSelector.hasOwnProperty("masterStateSymbol")) {
-        let newstateOptions = [];
-        let orgstateOptions =
-          mastersSelector["masterStateSymbol"].length === 0
-            ? []
-            : mastersSelector["masterStateSymbol"][0];
-        // for (let i = 0; i < orgstateOptions.length; i++) {
-        //   newstateOptions.push({
-        //     label: convertToCase(orgstateOptions[i].stateSymbol),
-        //     value: convertToCase(orgstateOptions[i].stateSymbol),
-        //   });
+      let newstateOptions = [];
+      let orgstateOptions =
+        mastersSelector["masterStateSymbol"].length === 0
+          ? []
+          : mastersSelector["masterStateSymbol"][0];
+      // for (let i = 0; i < orgstateOptions.length; i++) {
+      //   newstateOptions.push({
+      //     label: convertToCase(orgstateOptions[i].stateSymbol),
+      //     value: convertToCase(orgstateOptions[i].stateSymbol),
+      //   });
 
-        // }
+      // }
 
-
-        for (const item of orgstateOptions) {
-          newstateOptions.push({
-            label: convertToCase(item.stateSymbol),
-            value: convertToCase(item.stateSymbol),
-          });
-          newArr.push(convertToCase(item.stateSymbol));
-        }
-        selectJson.stateOptionsLinear = newstateOptions;
-        selectJson.stateOptions = newArr;
-        newArr = [];
+      for (const item of orgstateOptions) {
+        newstateOptions.push({
+          label: convertToCase(item.stateSymbol),
+          value: convertToCase(item.stateSymbol),
+        });
+        newArr.push(convertToCase(item.stateSymbol));
       }
+      selectJson.stateOptionsLinear = newstateOptions;
+      selectJson.stateOptions = newArr;
+      newArr = [];
+    }
 
     setTimeout(() => setMasterValues(contractOptions), 1000);
     setTimeout(() => setSelectValues(selectJson), 1000);
@@ -976,7 +978,7 @@ export default function ContractingPop(prop) {
               customAxios
                 .get(
                   `/fetchPotentialDuplicate?legalEntityName=${prop.legalEntityName}&strRouteTo=${prop.stageName}&caseNumber=${prop.caseNumber}&transactionType=${ContractingPop.displayName}`,
-                  { headers: { Authorization: `Bearer ${token}` } }
+                  { headers: { Authorization: `Bearer ${token}` } },
                 )
                 .then((res) => {
                   resJson = { ...res };
@@ -1097,7 +1099,7 @@ export default function ContractingPop(prop) {
         if (clonedJson.hasOwnProperty("phoneNo")) {
           clonedJson["phoneNo"].value = clonedJson["phoneNo"].value.replaceAll(
             /\D+/g,
-            ""
+            "",
           );
         }
 
@@ -1321,17 +1323,17 @@ export default function ContractingPop(prop) {
             ? selectValue.value
             : "--"
           : apiTestStateComp.riskState && apiTestStateComp.riskState.value
-          ? apiTestStateComp.riskState.value
-          : "--";
+            ? apiTestStateComp.riskState.value
+            : "--";
       riskValue =
         name === "riskAssignment"
           ? selectValue && selectValue.value
             ? selectValue.value.substring(0, 2)
             : "--"
           : apiTestStateComp.riskAssignment &&
-            apiTestStateComp.riskAssignment.value
-          ? apiTestStateComp.riskAssignment.value.substring(0, 2)
-          : "--";
+              apiTestStateComp.riskAssignment.value
+            ? apiTestStateComp.riskAssignment.value.substring(0, 2)
+            : "--";
       taxValue =
         apiTestStateComp.taxId !== undefined && apiTestStateComp.taxId !== ""
           ? apiTestStateComp.taxId.substring(apiTestStateComp.taxId.length - 5)
@@ -1350,8 +1352,8 @@ export default function ContractingPop(prop) {
             ? selectValue.value
             : "--"
           : apiTestStateComp.networkState && apiTestStateComp.networkState.value
-          ? apiTestStateComp.networkState.value
-          : "--";
+            ? apiTestStateComp.networkState.value
+            : "--";
       planValue =
         apiTestStateComp.planValue !== undefined &&
         apiTestStateComp.planValue !== ""
@@ -1440,7 +1442,7 @@ export default function ContractingPop(prop) {
     index,
     selectedValue,
     evnt,
-    triggeredFormName
+    triggeredFormName,
   ) => {
     let rowsInput = { ...gridFieldTempState };
 
@@ -1505,7 +1507,7 @@ export default function ContractingPop(prop) {
         setButtonDisableFlag(true);
 
         let contractingConfigData = JSON.parse(
-          process.env.REACT_APP_CONTRACTING_DETAILS
+          process.env.REACT_APP_CONTRACTING_DETAILS,
         );
         const flowId = contractingConfigData["FlowId"];
         const stageId = contractingConfigData["StageId"];
@@ -1572,7 +1574,7 @@ export default function ContractingPop(prop) {
         apiJson["Cont_Type_Grid"] = getGridDataValues(typeTableRowsData);
         apiJson["Cont_Payment_Grid"] = getGridDataValues(paymentTableRowsData);
         apiJson["Cont_Location_Grid"] = getGridDataValues(
-          locationTableRowsData
+          locationTableRowsData,
         );
 
         //Added by Nidhi Gupta on 11/10/2023
@@ -1597,7 +1599,7 @@ export default function ContractingPop(prop) {
           apiJson["Cont_Location_Grid"].length > 5
         ) {
           alert(
-            "Maximum 5 addresses can be added under Provider Address Grid."
+            "Maximum 5 addresses can be added under Provider Address Grid.",
           );
           setButtonDisableFlag(false);
           return;
@@ -1670,7 +1672,7 @@ export default function ContractingPop(prop) {
                       res.data["CreateCase_Output"]["CaseNo"];
                     procDataState.decision = "Submit";
                     procDataState.userName = mastersSelector.hasOwnProperty(
-                      "auth"
+                      "auth",
                     )
                       ? mastersSelector.auth.hasOwnProperty("userName")
                         ? mastersSelector.auth.userName
@@ -1688,7 +1690,7 @@ export default function ContractingPop(prop) {
                     ) {
                       let documentArray = [...documentSectionDataRef.current];
                       documentArray = documentArray.filter(
-                        (x) => x.docStatus === "Uploaded"
+                        (x) => x.docStatus === "Uploaded",
                       );
                       documentArray.forEach((e) => {
                         const fileUploadData = new FormData();
@@ -1696,7 +1698,7 @@ export default function ContractingPop(prop) {
                         fileUploadData.append("source", "Manual");
                         fileUploadData.append(
                           "caseNumber",
-                          res.data["CreateCase_Output"]["CaseNo"]
+                          res.data["CreateCase_Output"]["CaseNo"],
                         );
                         fileUploadData.append("docType", e.documentType);
 
@@ -1715,7 +1717,7 @@ export default function ContractingPop(prop) {
                       "Case created with case number: " +
                         res.data["CreateCase_Output"]["CaseNo"] +
                         " and Contract Id: " +
-                        values.contractId
+                        values.contractId,
                     );
                     submitCase(procData, navigateContractingHome);
                   }
@@ -1725,7 +1727,7 @@ export default function ContractingPop(prop) {
                 .catch((err) => {
                   console.log(
                     "Caught in generic create api call: ",
-                    err.message
+                    err.message,
                   );
                   alert("Error occured in generic create api call.");
                   setButtonDisableFlag(false);
@@ -1974,13 +1976,13 @@ export default function ContractingPop(prop) {
           requestBody.mocRenewalAttDate = !!apiTestStateComp.mocRenewalAttDate ? apiTestStateComp.mocRenewalAttDate.toLocaleDateString() : null;*/
 
       requestBody.conEffectiveDate = extractDate(
-        apiTestStateComp.conEffectiveDate
+        apiTestStateComp.conEffectiveDate,
       );
       requestBody.mocAttestationDate = extractDate(
-        apiTestStateComp.mocAttestationDate
+        apiTestStateComp.mocAttestationDate,
       );
       requestBody.mocRenewalAttDate = extractDate(
-        apiTestStateComp.mocRenewalAttDate
+        apiTestStateComp.mocRenewalAttDate,
       );
 
       //till here
@@ -2013,7 +2015,7 @@ export default function ContractingPop(prop) {
         apiCallOnce &&
         Object.keys(apiTestStateComp).length > 0 &&
         Object.values(apiTestStateComp).some(
-          (value) => value !== "" && value !== null
+          (value) => value !== "" && value !== null,
         )
       ) {
         apiJson["Cont_Compensation_Details"] = requestBody;
@@ -2066,7 +2068,7 @@ export default function ContractingPop(prop) {
           locationTableRowsData.length > 5
         ) {
           alert(
-            "Maximum 5 addresses can be added under Provider Address Grid."
+            "Maximum 5 addresses can be added under Provider Address Grid.",
           );
           setButtonDisableFlag(false);
           return;
@@ -2108,7 +2110,7 @@ export default function ContractingPop(prop) {
             if (!validateDec) {
               setButtonDisableFlag(false);
               alert(
-                "Please choose Decision Discard as it is a Potential Duplicate Case"
+                "Please choose Decision Discard as it is a Potential Duplicate Case",
               );
               return;
             }
@@ -2168,7 +2170,7 @@ export default function ContractingPop(prop) {
     const paymentResponse = getGridDataValues(paymentTableRowsData, caseNumber);
     const locationResponse = getGridDataValues(
       locationTableRowsData,
-      caseNumber
+      caseNumber,
     );
 
     if (typeResponse !== undefined && typeResponse.length > 0) {
@@ -2205,8 +2207,8 @@ export default function ContractingPop(prop) {
           apiUrlArray.map((endpoint) =>
             customAxios.post(endpoint["apiKey"], endpoint["apiValue"], {
               headers: { Authorization: `Bearer ${token}` },
-            })
-          )
+            }),
+          ),
         )
         .then((res) => {
           for (let i = 0; i < apiUrlArray.length; i++) {
@@ -2280,7 +2282,7 @@ export default function ContractingPop(prop) {
           {props.selectProps.placeholder}
         </Placeholder>
         {React.Children.map(children, (child) =>
-          child && child.type !== Placeholder ? child : null
+          child && child.type !== Placeholder ? child : null,
         )}
       </ValueContainer>
     );
@@ -2335,10 +2337,10 @@ export default function ContractingPop(prop) {
             <Tab eventKey="Document" title="Document">
               <DocumentTab
                 contractId={prop.contractId}
-                providerId={''}
+                providerId={""}
                 caseNumber={prop.caseNumber}
                 selectedType={prop.selectedType}
-                searchType={'Contracting'}
+                searchType={"Contracting"}
               />
             </Tab>
           </Tabs>
@@ -2365,7 +2367,7 @@ export default function ContractingPop(prop) {
                 await new Promise((resolve) => setTimeout(resolve, 500)).catch(
                   (err) => {
                     console.error(err);
-                  }
+                  },
                 );
                 //alert(JSON.stringify(values, null, 2));
                 saveData(values);
@@ -2495,7 +2497,7 @@ export default function ContractingPop(prop) {
                                           }),
                                           valueContainer: (
                                             provided,
-                                            state
+                                            state,
                                           ) => ({
                                             ...provided,
                                             overflow: "visible",
@@ -2580,8 +2582,8 @@ export default function ContractingPop(prop) {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -2590,7 +2592,7 @@ export default function ContractingPop(prop) {
                                           formikFieldsOnChange(
                                             e,
                                             setFieldValue,
-                                            field
+                                            field,
                                           )
                                         }
                                       />
@@ -2624,8 +2626,8 @@ export default function ContractingPop(prop) {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -2634,7 +2636,7 @@ export default function ContractingPop(prop) {
                                           formikFieldsOnChange(
                                             e,
                                             setFieldValue,
-                                            field
+                                            field,
                                           )
                                         }
                                       />
@@ -2671,8 +2673,8 @@ export default function ContractingPop(prop) {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -2681,7 +2683,7 @@ export default function ContractingPop(prop) {
                                           formikFieldsOnChange(
                                             e,
                                             setFieldValue,
-                                            field
+                                            field,
                                           )
                                         }
                                       />
@@ -2715,8 +2717,8 @@ export default function ContractingPop(prop) {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -2752,8 +2754,8 @@ export default function ContractingPop(prop) {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -2791,8 +2793,8 @@ export default function ContractingPop(prop) {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -2801,7 +2803,7 @@ export default function ContractingPop(prop) {
                                           formikFieldsOnChange(
                                             e,
                                             setFieldValue,
-                                            field
+                                            field,
                                           )
                                         }
                                       />
@@ -2835,8 +2837,8 @@ export default function ContractingPop(prop) {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -2845,7 +2847,7 @@ export default function ContractingPop(prop) {
                                           formikFieldsOnChange(
                                             e,
                                             setFieldValue,
-                                            field
+                                            field,
                                           )
                                         }
                                       />
@@ -2879,8 +2881,8 @@ export default function ContractingPop(prop) {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -2889,7 +2891,7 @@ export default function ContractingPop(prop) {
                                           formikFieldsOnChange(
                                             e,
                                             setFieldValue,
-                                            field
+                                            field,
                                           )
                                         }
                                       />
@@ -2926,8 +2928,8 @@ export default function ContractingPop(prop) {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -2963,8 +2965,8 @@ export default function ContractingPop(prop) {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -3002,8 +3004,8 @@ export default function ContractingPop(prop) {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -3067,8 +3069,8 @@ export default function ContractingPop(prop) {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -3077,7 +3079,7 @@ export default function ContractingPop(prop) {
                                           formikFieldsOnChange(
                                             e,
                                             setFieldValue,
-                                            field
+                                            field,
                                           )
                                         }
                                       />
@@ -3111,8 +3113,8 @@ export default function ContractingPop(prop) {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -3121,7 +3123,7 @@ export default function ContractingPop(prop) {
                                           formikFieldsOnChange(
                                             e,
                                             setFieldValue,
-                                            field
+                                            field,
                                           )
                                         }
                                       />
@@ -3156,8 +3158,8 @@ export default function ContractingPop(prop) {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -3166,7 +3168,7 @@ export default function ContractingPop(prop) {
                                           formikFieldsOnChange(
                                             e,
                                             setFieldValue,
-                                            field
+                                            field,
                                           )
                                         }
                                       />
@@ -3221,7 +3223,7 @@ export default function ContractingPop(prop) {
                                           }),
                                           valueContainer: (
                                             provided,
-                                            state
+                                            state,
                                           ) => ({
                                             ...provided,
                                             overflow: "visible",
@@ -3311,8 +3313,8 @@ export default function ContractingPop(prop) {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}

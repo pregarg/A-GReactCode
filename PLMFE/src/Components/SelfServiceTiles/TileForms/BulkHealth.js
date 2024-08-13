@@ -63,7 +63,7 @@ export default function BulkHealth() {
   const [helperText, setHelperText] = useState("");
   const [openStepper, setOpenStepper] = React.useState(false);
 
-  const [extractedDocuName,setextractedDocuName] = useState({});
+  const [extractedDocuName, setextractedDocuName] = useState({});
 
   const isRosterUploaded = useRef(false);
 
@@ -71,43 +71,43 @@ export default function BulkHealth() {
 
   useEffect(() => {}, []);
 
-  const handleModalShowHide = (flagValue, index,requestedForm) => {
+  const handleModalShowHide = (flagValue, index, requestedForm) => {
     setModalShow(flagValue);
     //setIndex(index);
-    docClickedIndex.current = index; 
-    let indexToDelete = fileState.findIndex(item => item.fileIndex === index);
-    console.log("cicked index",index,requestedForm);
-    if(requestedForm === 'close'){
-      
-        if (indexToDelete !== -1) {
-          fileState.splice(indexToDelete, 1);
-      } 
-     // }
+    docClickedIndex.current = index;
+    let indexToDelete = fileState.findIndex((item) => item.fileIndex === index);
+    console.log("cicked index", index, requestedForm);
+    if (requestedForm === "close") {
+      if (indexToDelete !== -1) {
+        fileState.splice(indexToDelete, 1);
+      }
+      // }
       //setFileState([...fileState, { selectedFile: null, fileIndex: index, documentType: documentName }]);
     }
-    if(requestedForm === 'upload'){
-
-      console.log("uploaded file state",fileState);
+    if (requestedForm === "upload") {
+      console.log("uploaded file state", fileState);
       let updatedExtractedDocuName = { ...extractedDocuName };
-      if(indexToDelete !== -1){
+      if (indexToDelete !== -1) {
         let fileAtIndex = fileState[indexToDelete];
         let documentName = gridDocumentList[index].documentName.trim();
         updatedExtractedDocuName[documentName] = fileAtIndex.selectedFile.name;
         setextractedDocuName(updatedExtractedDocuName);
       }
       setTimeout(() => {
-        console.log("extracted document name",extractedDocuName);
+        console.log("extracted document name", extractedDocuName);
       }, 200);
-      
     }
-    
   };
 
   const handleFileUpload = (evnt, index) => {
     console.log("Inside handleFileUpload Index: ", index);
-     let fileStateCopy = [...fileState];
+    let fileStateCopy = [...fileState];
     if (evnt.target.files[0] === undefined) {
-      fileStateCopy.push({ selectedFile: null, fileIndex: index, documentType: null })
+      fileStateCopy.push({
+        selectedFile: null,
+        fileIndex: index,
+        documentType: null,
+      });
       // setFileState([
       //   ...fileState,
       //   { selectedFile: null, fileIndex: index, documentType: null },
@@ -115,12 +115,13 @@ export default function BulkHealth() {
     }
 
     if (evnt.target.files[0] !== undefined) {
-      let indexofFile = fileStateCopy.findIndex(item => item.fileIndex === index); 
+      let indexofFile = fileStateCopy.findIndex(
+        (item) => item.fileIndex === index,
+      );
       const documentName = gridDocumentList[index].documentName.trim();
 
       if (documentName === "Roster") {
         const fileExt = evnt.target.files[0].name.split(".").pop();
-
 
         if (fileExt !== "xls" && fileExt !== "xlsx") {
           alert("File type not supported");
@@ -128,14 +129,14 @@ export default function BulkHealth() {
           return;
         }
         setOpenStepper(true);
-console.log("ReadFile",evnt.target.files[0]);
+        console.log("ReadFile", evnt.target.files[0]);
         readFile(
           evnt.target.files[0],
           rosterTypeState,
           (error, isValidFile, currentStep) => {
             indexRef.current.index = currentStep;
             indexRef.current.errorString = error;
-            console.log("error",error);
+            console.log("error", error);
             if (error) {
               setFileState([]);
               handleModalShowHide(false, index);
@@ -143,20 +144,19 @@ console.log("ReadFile",evnt.target.files[0]);
             }
 
             if (isValidFile) {
-              if(indexofFile !== -1){
+              if (indexofFile !== -1) {
                 fileStateCopy[indexofFile] = {
                   selectedFile: evnt.target.files[0],
                   fileIndex: index,
                   documentType: documentName,
-                }
+                };
                 setFileState(fileStateCopy);
-              }
-              else{
+              } else {
                 fileStateCopy.push({
                   selectedFile: evnt.target.files[0],
                   fileIndex: index,
                   documentType: documentName,
-                })
+                });
                 setFileState(fileStateCopy);
               }
               // setFileState([
@@ -168,27 +168,24 @@ console.log("ReadFile",evnt.target.files[0]);
               //   },
               // ]);
             }
-            
-          }
+          },
         );
       } else {
-
-        if(indexofFile !== -1){
+        if (indexofFile !== -1) {
           fileStateCopy[indexofFile] = {
             selectedFile: evnt.target.files[0],
             fileIndex: index,
             documentType: documentName,
-          }
+          };
           setFileState(fileStateCopy);
-        }
-        else{
+        } else {
           fileStateCopy.push({
             selectedFile: evnt.target.files[0],
             fileIndex: index,
             documentType: documentName,
-          })
+          });
           setFileState(fileStateCopy);
-        }  
+        }
       }
       //setFileState(fileStateCopy);
     }
@@ -237,80 +234,77 @@ console.log("ReadFile",evnt.target.files[0]);
     }*/
   //Implementation changed by Harshit Sharma wrt "Upload all documents together on click of button"
   const uploadFile = async () => {
-    console.log("Inside Upload File: ",randomNumber);
-    console.log("file state",fileState);
-    let docuName = fileState.map((elem)=>{
+    console.log("Inside Upload File: ", randomNumber);
+    console.log("file state", fileState);
+    let docuName = fileState.map((elem) => {
       return elem.documentType;
-    })
-    console.log("docuname",docuName,docuName.documentType);
-    if(docuName.includes('Roster')){
-    if(rosterTypeState.trim() !== ''){
+    });
+    console.log("docuname", docuName, docuName.documentType);
+    if (docuName.includes("Roster")) {
+      if (rosterTypeState.trim() !== "") {
         let fileArray = [...fileState];
         let selectedFile = null;
 
-        await Promise.all(fileState.map(async (el,index) => {
+        await Promise.all(
+          fileState.map(async (el, index) => {
             console.log(index);
             selectedFile = el.selectedFile;
-            if(selectedFile !== null){
-                const documentType = el.documentType;
-                const fileData = new FormData() 
-                fileData.append('file', selectedFile);
-                fileData.append('caseNumber', randomNumber);
-                fileData.append('dirName', documentType);
-                fileData.append('userName', masterUserName);
-                fileData.append('rosterType',rosterTypeState);
-                console.log("File Upload Data: ",fileData)
-                //console.log("File Upload Data array: ",fileArray)
-                try{
-                    await rosterAxios.post("/uploadFile",fileData,{headers:{'Authorization':`Bearer ${token}`}}).then((res) => {
-                        console.log("api response: ",res);
-                        if(res.status === 200){
-                            
-                            fileArray.splice(0,1);
-                            
-                        }
-                        
-                    }).catch(exception=>{
-                        
-                      console.log("Inside catch exception: ",exception);
-                        alert(exception.response.data.status);
-                        
-                    });
-                }catch(error){
-                    console.log("Exception occured while uploading files ",error);
-                }
+            if (selectedFile !== null) {
+              const documentType = el.documentType;
+              const fileData = new FormData();
+              fileData.append("file", selectedFile);
+              fileData.append("caseNumber", randomNumber);
+              fileData.append("dirName", documentType);
+              fileData.append("userName", masterUserName);
+              fileData.append("rosterType", rosterTypeState);
+              console.log("File Upload Data: ", fileData);
+              //console.log("File Upload Data array: ",fileArray)
+              try {
+                await rosterAxios
+                  .post("/uploadFile", fileData, {
+                    headers: { Authorization: `Bearer ${token}` },
+                  })
+                  .then((res) => {
+                    console.log("api response: ", res);
+                    if (res.status === 200) {
+                      fileArray.splice(0, 1);
+                    }
+                  })
+                  .catch((exception) => {
+                    console.log("Inside catch exception: ", exception);
+                    alert(exception.response.data.status);
+                  });
+              } catch (error) {
+                console.log("Exception occured while uploading files ", error);
+              }
             }
-        }));  
+          }),
+        );
 
-        console.log("Final Array after splice and for each: ",fileArray);
+        console.log("Final Array after splice and for each: ", fileArray);
 
         //setTimeout(() => {
-        if(fileArray.length === 0){
-            alert("All Documents uploaded successfully");
-            setFileState([]);
-            navigateHome();
+        if (fileArray.length === 0) {
+          alert("All Documents uploaded successfully");
+          setFileState([]);
+          navigateHome();
+        } else {
+          let alertStr = "Error in Uploading documents:\n";
+          let i = 1;
+          fileArray.forEach((elem) => {
+            alertStr += i + ". " + elem.documentType + "\n";
+            i++;
+          });
+          alert(alertStr);
         }
-
-        else{
-            let alertStr = "Error in Uploading documents:\n";
-            let i = 1;
-            fileArray.forEach((elem) => {
-                alertStr += i + ". "+elem.documentType+"\n";
-                i++;
-            })
-            alert(alertStr);
-        }
-       // },2000)
+        // },2000)
+      } else {
+        setHelperText("Please Choose Roster Type");
+      }
+    } else {
+      alert("Please upload roster first.");
     }
-    else{
-        setHelperText("Please Choose Roster Type")
-    }
-  }
-  else{
-    alert("Please upload roster first.");
-  }
-    
-}
+  };
 
   const tdData = () => {
     if (gridDocumentList.length > 0) {
@@ -351,9 +345,7 @@ console.log("ReadFile",evnt.target.files[0]);
                 style={{ height: "30px", background: "inherit" }}
               ></img>
             </td>
-            <td>
-             { extractedDocuName[data.documentName]}
-            </td>
+            <td>{extractedDocuName[data.documentName]}</td>
           </tr>
         );
       });

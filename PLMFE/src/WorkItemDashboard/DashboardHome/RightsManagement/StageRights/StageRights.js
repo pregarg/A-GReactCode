@@ -32,7 +32,7 @@ export default function StageRights(props) {
       (right) =>
         (right.STAGEID === module?.id && right?.USERID === row?.userId) ||
         (right["whereClause"]?.STAGEID === module?.id &&
-          right["whereClause"]?.STAGEID === row?.userId)
+          right["whereClause"]?.STAGEID === row?.userId),
     );
 
     if (checked) {
@@ -110,7 +110,7 @@ export default function StageRights(props) {
               <Checkbox
                 checked={
                   params.row?.rights?.find(
-                    (right) => right.name === module.name
+                    (right) => right.name === module.name,
                   )?.hasRight
                 }
                 size="small"
@@ -154,7 +154,7 @@ export default function StageRights(props) {
         setResetPaginationToggle(0);
       }
     },
-    [setFlow, setDataRows, setColumns, getTableData, setResetPaginationToggle]
+    [setFlow, setDataRows, setColumns, getTableData, setResetPaginationToggle],
   );
 
   const updateData = async () => {

@@ -13,14 +13,19 @@ export default function MemberSearch(modalProps) {
   const handleCriteriaChangeValue = (evnt) => {
     const { name, value } = evnt.target;
     console.log("event---->", name, value);
-    modalProps.setSelectSearchValues({ ...modalProps.selectSearchValues, [name]: value });
+    modalProps.setSelectSearchValues({
+      ...modalProps.selectSearchValues,
+      [name]: value,
+    });
   };
 
   const handleDateChange = (date, name) => {
     console.log("service_start_date-->", date, name);
-    modalProps.setSelectSearchValues({ ...modalProps.selectSearchValues, [name]: date });
+    modalProps.setSelectSearchValues({
+      ...modalProps.selectSearchValues,
+      [name]: date,
+    });
   };
-  
 
   const RenderDatePickerdateOfBirth = (props) => (
     <div className="form-floating">
@@ -38,14 +43,14 @@ export default function MemberSearch(modalProps) {
         }}
         backdrop="static"
         keyboard={false}
-         dialogClassName="modal-dialog custom-modal"
+        dialogClassName="modal-dialog custom-modal"
         size="xl"
         style={{ width: "100%", margin: "auto" }}
         aria-labelledby="example-custom-modal-styling-title"
         centered
       >
         <Modal.Header closeButton className="justify-content-center">
-        <Modal.Title className="text-center w-100">Member Search</Modal.Title>
+          <Modal.Title className="text-center w-100">Member Search</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className="row my-2">
@@ -59,28 +64,25 @@ export default function MemberSearch(modalProps) {
                   value="memberID"
                   checked={modalProps.selectedCriteria === "memberID"}
                   onChange={(event) => handleCriteriaChange(event)}
-                  
                 />
-               
-                 <div className="row my-2">
+
+                <div className="row my-2">
                   <div className="col-xs-12 col-md-3">
-                 
-                <div className="form-floating mb-2">
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="memberIDVal"
-                    placeholder="Member ID"
-                    name="memberID"
-                    value={modalProps.selectSearchValues?.memberID || ""}
-                    onChange={(event) => handleCriteriaChangeValue(event)}
-                    disabled={modalProps.selectedCriteria !== "memberID"}
-                    
-                  />
-                  <label htmlFor="memberIDVal">Member ID</label>
-                </div>
-              </div>
+                    <div className="form-floating mb-2">
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="memberIDVal"
+                        placeholder="Member ID"
+                        name="memberID"
+                        value={modalProps.selectSearchValues?.memberID || ""}
+                        onChange={(event) => handleCriteriaChangeValue(event)}
+                        disabled={modalProps.selectedCriteria !== "memberID"}
+                      />
+                      <label htmlFor="memberIDVal">Member ID</label>
+                    </div>
                   </div>
+                </div>
               </div>
 
               <div className="form-check">
@@ -92,28 +94,25 @@ export default function MemberSearch(modalProps) {
                   value="medicareID"
                   checked={modalProps.selectedCriteria === "medicareID"}
                   onChange={(event) => handleCriteriaChange(event)}
-                  
                 />
-               
-                 <div className="row my-2">
+
+                <div className="row my-2">
                   <div className="col-xs-12 col-md-3">
-                 
-                <div className="form-floating mb-2">
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="medicareIDVal"
-                    placeholder="Claim Number"
-                    name="medicareID"
-                    value={modalProps.selectSearchValues?.medicareID || ""}
-                    onChange={(event) => handleCriteriaChangeValue(event)}
-                    disabled={modalProps.selectedCriteria !== "medicareID"}
-                    
-                  />
-                  <label htmlFor="medicareIDVal">Medicare ID</label>
-                </div>
-              </div>
+                    <div className="form-floating mb-2">
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="medicareIDVal"
+                        placeholder="Claim Number"
+                        name="medicareID"
+                        value={modalProps.selectSearchValues?.medicareID || ""}
+                        onChange={(event) => handleCriteriaChangeValue(event)}
+                        disabled={modalProps.selectedCriteria !== "medicareID"}
+                      />
+                      <label htmlFor="medicareIDVal">Medicare ID</label>
+                    </div>
                   </div>
+                </div>
               </div>
 
               <div className="form-check">
@@ -125,28 +124,25 @@ export default function MemberSearch(modalProps) {
                   value="medicaidID"
                   checked={modalProps.selectedCriteria === "medicaidID"}
                   onChange={(event) => handleCriteriaChange(event)}
-                  
                 />
-               
-                 <div className="row my-2">
+
+                <div className="row my-2">
                   <div className="col-xs-12 col-md-3">
-                 
-                <div className="form-floating mb-2">
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="medicaidIDVal"
-                    placeholder="Medicaid ID"
-                    name="medicaidID"
-                    value={modalProps.selectSearchValues?.medicaidID || ""}
-                    onChange={(event) => handleCriteriaChangeValue(event)}
-                    disabled={modalProps.selectedCriteria !== "medicaidID"}
-                    
-                  />
-                  <label htmlFor="medicaidIDVal">Medicaid ID</label>
-                </div>
-              </div>
+                    <div className="form-floating mb-2">
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="medicaidIDVal"
+                        placeholder="Medicaid ID"
+                        name="medicaidID"
+                        value={modalProps.selectSearchValues?.medicaidID || ""}
+                        onChange={(event) => handleCriteriaChangeValue(event)}
+                        disabled={modalProps.selectedCriteria !== "medicaidID"}
+                      />
+                      <label htmlFor="medicaidIDVal">Medicaid ID</label>
+                    </div>
                   </div>
+                </div>
               </div>
 
               <div className="form-check">
@@ -159,7 +155,7 @@ export default function MemberSearch(modalProps) {
                   checked={modalProps.selectedCriteria === "memberFirstName"}
                   onChange={(event) => handleCriteriaChange(event)}
                 />
-              
+
                 <div className="row my-2">
                   <div className="col-xs-12 col-md-3">
                     <div className="form-floating mb-2">
@@ -169,11 +165,17 @@ export default function MemberSearch(modalProps) {
                         id="memberFirstNameId"
                         placeholder="Enter Member Fisrt Name"
                         name="memberFirstNameId"
-                        value={modalProps.selectSearchValues?.memberFirstNameId || ""}
+                        value={
+                          modalProps.selectSearchValues?.memberFirstNameId || ""
+                        }
                         onChange={(event) => handleCriteriaChangeValue(event)}
-                        disabled={modalProps.selectedCriteria !== "memberFirstName"}
+                        disabled={
+                          modalProps.selectedCriteria !== "memberFirstName"
+                        }
                       />
-                      <label htmlFor="memberFirstNameId">Member Fisrt Name</label>
+                      <label htmlFor="memberFirstNameId">
+                        Member Fisrt Name
+                      </label>
                     </div>
                   </div>
                   <div className="col-xs-12 col-md-3">
@@ -184,14 +186,20 @@ export default function MemberSearch(modalProps) {
                         id="memberLastNameId"
                         placeholder="Enter Member Last Name"
                         name="memberLastNameId"
-                        value={modalProps.selectSearchValues?.memberLastNameId || ""}
+                        value={
+                          modalProps.selectSearchValues?.memberLastNameId || ""
+                        }
                         onChange={(event) => handleCriteriaChangeValue(event)}
-                        disabled={modalProps.selectedCriteria !== "memberFirstName"}
+                        disabled={
+                          modalProps.selectedCriteria !== "memberFirstName"
+                        }
                       />
-                      <label htmlFor="memberLasttNameId">Member Last Name</label>
+                      <label htmlFor="memberLasttNameId">
+                        Member Last Name
+                      </label>
                     </div>
                   </div>
-                 
+
                   <div className="col-xs-12 col-md-3">
                     <div className="form-floating mb-2">
                       <ReactDatePicker
@@ -202,7 +210,9 @@ export default function MemberSearch(modalProps) {
                         onChange={(date) => {
                           handleDateChange(date, "Date_Of_Birth");
                         }}
-                        disabled={modalProps.selectedCriteria !== "memberFirstName"}
+                        disabled={
+                          modalProps.selectedCriteria !== "memberFirstName"
+                        }
                         dateFormat="MM/dd/yyyy"
                         peekNextMonth
                         showMonthDropdown
@@ -218,8 +228,6 @@ export default function MemberSearch(modalProps) {
                   </div>
                 </div>
               </div>
-
-              
             </div>
           </div>
         </Modal.Body>
@@ -246,16 +254,25 @@ export default function MemberSearch(modalProps) {
             Clear
           </Button>
         </Modal.Footer>
-        <div style={{overflowX:'auto',maxWidth:'100%'}}>{modalProps.responseData.length>0 &&
-                      modalProps.memberSearchTableComponent()
-                    }</div>
-          <br></br>
-        {modalProps.responseData.length>0 && (
+        <div style={{ overflowX: "auto", maxWidth: "100%" }}>
+          {modalProps.responseData.length > 0 &&
+            modalProps.memberSearchTableComponent()}
+        </div>
+        <br></br>
+        {modalProps.responseData.length > 0 && (
           <Button
-            className="btn btn-outline-primary btnStyle" id="selectedAddressCancel"
-            style={{ display: "flex", justifyContent: "center", width: "20%", margin: "auto" }}
-            onClick={() => { modalProps.handleSelectedMembers(false);
-            }}>
+            className="btn btn-outline-primary btnStyle"
+            id="selectedAddressCancel"
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              width: "20%",
+              margin: "auto",
+            }}
+            onClick={() => {
+              modalProps.handleSelectedMembers(false);
+            }}
+          >
             Populate Data
           </Button>
         )}

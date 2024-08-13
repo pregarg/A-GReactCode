@@ -76,7 +76,7 @@ export default function LicenseTable({
             : true,
         stateAbbreviation:
           data?.hasOwnProperty("stateAbbreviation") &&
-            data?.stateAbbreviation?.value !== ""
+          data?.stateAbbreviation?.value !== ""
             ? false
             : true,
         type:
@@ -143,13 +143,13 @@ export default function LicenseTable({
     //console.log("tdDataReplica index: ",index);
     //console.log("tdDataReplica data: ",data);
     selectJson["licenseTypeOptions"].map((val) =>
-      licenseTypeOptions.push({ value: val, label: val })
+      licenseTypeOptions.push({ value: val, label: val }),
     );
     selectJson["stateOptions"].map((val) =>
-      stateOptions.push({ value: val, label: val })
+      stateOptions.push({ value: val, label: val }),
     );
     selectJson["typeOptions"].map((val) =>
-      typeOptions.push({ value: val, label: val })
+      typeOptions.push({ value: val, label: val }),
     );
 
     // axios.all(endpoints.map((endpoint) => axios.get(endpoint))).then((res) => {
@@ -212,7 +212,7 @@ export default function LicenseTable({
                     index,
                     selectValue,
                     event,
-                    LicenseTable.displayName
+                    LicenseTable.displayName,
                   );
                   handleFieldBlur("stateAbbreviation", selectValue?.value);
                 }}
@@ -245,7 +245,7 @@ export default function LicenseTable({
                     index,
                     selectValue,
                     event,
-                    LicenseTable.displayName
+                    LicenseTable.displayName,
                   );
                   handleFieldBlur("type", selectValue?.value);
                 }}
@@ -278,7 +278,7 @@ export default function LicenseTable({
                     index,
                     selectValue,
                     event,
-                    LicenseTable.displayName
+                    LicenseTable.displayName,
                   );
                   handleFieldBlur("licenseType", selectValue?.value);
                 }}
@@ -305,7 +305,7 @@ export default function LicenseTable({
                   className="example-custom-input-modal"
                   selected={
                     "expirationDate" in data &&
-                      data.expirationDate.value !== undefined
+                    data.expirationDate.value !== undefined
                       ? data.expirationDate.value
                       : data.expirationDate
                   }
@@ -315,7 +315,7 @@ export default function LicenseTable({
                       index,
                       selectValue,
                       "expirationDate",
-                      LicenseTable.displayName
+                      LicenseTable.displayName,
                     )
                   }
                   peekNextMonth
@@ -379,7 +379,7 @@ export default function LicenseTable({
                         deleteTableRows(
                           index,
                           LicenseTable.displayName,
-                          "Force Delete"
+                          "Force Delete",
                         );
                         handleOperationValue("Force Delete");
                         decreaseDataIndex();
@@ -438,7 +438,7 @@ export default function LicenseTable({
             </td>
             <td className="tableData">
               {"stateAbbreviation" in data &&
-                data.stateAbbreviation.value !== undefined
+              data.stateAbbreviation.value !== undefined
                 ? convertToCase(data.stateAbbreviation.value)
                 : convertToCase(data.stateAbbreviation)}
             </td>
@@ -455,7 +455,7 @@ export default function LicenseTable({
             </td>
             <td className="tableData">
               {"expirationDate" in data &&
-                data.expirationDate.value !== undefined
+              data.expirationDate.value !== undefined
                 ? formatDate(data.expirationDate.value)
                 : formatDate(data.expirationDate)}
             </td>
@@ -475,7 +475,7 @@ export default function LicenseTable({
         console.log(
           "Inside formatDate typeof",
           Date.parse(dateObj),
-          localDate.getDate()
+          localDate.getDate(),
         );
         dateObj = localDate;
       } else if (typeof dateObj === "number") {

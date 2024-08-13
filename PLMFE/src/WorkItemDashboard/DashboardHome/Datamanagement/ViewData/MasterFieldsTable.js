@@ -35,7 +35,7 @@ export default function MasterFieldsTable({
   const onFieldUpdate = (fieldData, index, mode) => {
     if (mode != "Add") {
       const isPrimarySet = tableFields.find(
-        (f, i) => f.isPrimary && fieldData.isPrimary && i != index
+        (f, i) => f.isPrimary && fieldData.isPrimary && i != index,
       );
       if (isPrimarySet) {
         Swal.fire({
@@ -48,7 +48,7 @@ export default function MasterFieldsTable({
       }
 
       const isFieldNameExist = tableFields.find(
-        (f, i) => f.fieldName == fieldData.fieldName && i != index
+        (f, i) => f.fieldName == fieldData.fieldName && i != index,
       );
       if (isFieldNameExist) {
         Swal.fire({
@@ -66,7 +66,7 @@ export default function MasterFieldsTable({
       });
     } else {
       const isPrimarySet = tableFields.find(
-        (f) => f.isPrimary && fieldData.isPrimary
+        (f) => f.isPrimary && fieldData.isPrimary,
       );
       if (isPrimarySet) {
         Swal.fire({
@@ -78,7 +78,7 @@ export default function MasterFieldsTable({
         return;
       }
       const isAutoIdentity = tableFields.find(
-        (f) => f.isAutoIdentity && fieldData.isAutoIdentity
+        (f) => f.isAutoIdentity && fieldData.isAutoIdentity,
       );
 
       if (isAutoIdentity) {
@@ -92,7 +92,7 @@ export default function MasterFieldsTable({
       }
 
       const isFieldNameExist = tableFields.find(
-        (f) => f.fieldName == fieldData.fieldName
+        (f) => f.fieldName == fieldData.fieldName,
       );
       if (isFieldNameExist) {
         Swal.fire({

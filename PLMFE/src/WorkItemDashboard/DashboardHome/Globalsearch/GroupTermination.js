@@ -14,7 +14,6 @@ import useGetDBTables from "../../../Components/CustomHooks/useGetDBTables";
 import Select, { components } from "react-select";
 import "./GlobalSearch.css";
 import {
-
   Box,
   Breadcrumbs,
   Card,
@@ -22,7 +21,6 @@ import {
   Dialog,
   DialogContent,
   Grid,
-
   Stack,
   Typography,
 } from "@mui/material";
@@ -95,28 +93,25 @@ export default function GroupTermination({ openDrawer, setPage }) {
     },
   };
 
+  const [searchResults, setSearchResults] = useState([]);
+  const [legalNames, setlegalNames] = useState();
+  const [dropdownIsOpen, setDropdownIsOpen] = useState(false);
 
-    const [searchResults, setSearchResults] = useState([]);
-    const [legalNames,setlegalNames] = useState();
-    const [dropdownIsOpen, setDropdownIsOpen] = useState(false);
-
-    const mastersSelector = useSelector((masters) => masters);
-    console.log(mastersSelector);
+  const mastersSelector = useSelector((masters) => masters);
+  console.log(mastersSelector);
   const [selectedType, setSelectedType] = useState();
   const [selectedState, setSelectedState] = useState([]);
   const [formData, setFormData] = useState(initialState);
   const [isFormValid, setIsFormValid] = useState(true);
   const [providerTableData, setProviderTableData] = useState([]);
   const [facilityAncillaryTableData, setFacilityAncillaryTableData] = useState(
-    []
+    [],
   );
   const token = useSelector((state) => state.auth.token);
   const [visible, setVisible] = useState(false);
   const [isProvider, setIsProvider] = useState(false);
   const [isSearchClicked, setIsSearchClicked] = useState(false);
   const [caseUnlockState, setCaseUnlockState] = useState([]);
-
-
 
   const typeOptions = ["Provider", "Facility", "Ancillary"];
   const typeOptionsAut = [
@@ -205,7 +200,7 @@ export default function GroupTermination({ openDrawer, setPage }) {
           .catch((err) => {
             console.log(
               "Caught in generic get api for MultiPlan ViewData: ",
-              err.message
+              err.message,
             );
           });
       } else {
@@ -234,7 +229,7 @@ export default function GroupTermination({ openDrawer, setPage }) {
       });
       if (validateStateFlag < 2) {
         alert(
-          "Please select atleast one more field other than State to do Search."
+          "Please select atleast one more field other than State to do Search.",
         );
         return false;
       }
@@ -258,72 +253,65 @@ export default function GroupTermination({ openDrawer, setPage }) {
     return true;
   };
 
-    const handleOptionSelect =(option,field)=>{
-        console.log("handleoption",option);
-       // setInputValue(option);
-        updateFormData(option,field);
-       // setSelectedOption(option);
-       setDropdownIsOpen(false);
-        setSearchResults([]);
+  const handleOptionSelect = (option, field) => {
+    console.log("handleoption", option);
+    // setInputValue(option);
+    updateFormData(option, field);
+    // setSelectedOption(option);
+    setDropdownIsOpen(false);
+    setSearchResults([]);
+  };
+
+  const handleInputBlur = () => {
+    console.log("InputBlur");
+    setTimeout(() => {
+      setDropdownIsOpen(false);
+    }, 200);
+
+    // setSearchResults([]);
+  };
+
+  // const ArrayOfOptions =['Harshit','Shivani','Prerna','Mohit','Ankit','Sahil','Harsh'];
+  const searchFunction = (value) => {
+    console.log("searchfunction", value);
+    let ArrayOfOptions = [];
+    if (selectedType === "Provider") {
+      ArrayOfOptions = legalNames?.[0]?.Provider;
+    } else if (selectedType === "Facility" || selectedType === "Ancillary") {
+      ArrayOfOptions = legalNames?.[0]?.["Faci/Anci"];
     }
+    console.log("ArrayOfOptions", ArrayOfOptions);
+    let filteredResults = [];
+    if (ArrayOfOptions !== undefined) {
+      filteredResults = ArrayOfOptions.filter((elem) => {
+        // console.log("element",elem.Name);
+        return elem.Name.toLowerCase().includes(value.toLowerCase());
+      });
+    }
+    console.log("filteredResults", filteredResults);
+    return filteredResults;
+  };
 
-    const handleInputBlur = () => {
-        console.log("InputBlur");
-        setTimeout(() => {
-            setDropdownIsOpen(false);
-        }, 200);
-
-       // setSearchResults([]);
+  const updateFormData = (value, field) => {
+    console.log("field", field);
+    if (field === "legalEntityName" || field === "organizationName") {
+      setDropdownIsOpen(true);
+      const results = searchFunction(value);
+      console.log("result of LEN", results);
+      setSearchResults(results);
+    }
+    setFormData((prevState) => {
+      return {
+        ...prevState,
+        [field]: {
+          ...prevState[field],
+          value: value.toUpperCase(), //Changed by Nidhi Gupta on 10/16/2023,
+          isInvalid: false,
+        },
       };
-
-
-   // const ArrayOfOptions =['Harshit','Shivani','Prerna','Mohit','Ankit','Sahil','Harsh'];
-    const searchFunction = (value) => {
-        console.log("searchfunction",value);
-        let ArrayOfOptions =[];
-        if(selectedType === 'Provider'){
-          ArrayOfOptions = legalNames?.[0]?.Provider;
-        }
-        else if(selectedType === 'Facility' || selectedType === 'Ancillary'){
-            ArrayOfOptions = legalNames?.[0]?.['Faci/Anci'];
-        }
-        console.log("ArrayOfOptions",ArrayOfOptions);
-        let filteredResults = [];
-        if(ArrayOfOptions !== undefined){
-          filteredResults = ArrayOfOptions.filter((elem) =>
-          {
-           // console.log("element",elem.Name);
-            return elem.Name.toLowerCase().includes(value.toLowerCase());
-          }
-          );
-        }
-        console.log("filteredResults",filteredResults)
-        return filteredResults;
-      };
-
-      const updateFormData = (value, field) => {
-        console.log("field",field);
-        if(field === 'legalEntityName' || field === 'organizationName'){
-          setDropdownIsOpen(true);
-          const results = searchFunction(value);
-          console.log("result of LEN",results);
-           setSearchResults(results);
-        }
-          setFormData((prevState) => {
-              return {
-                  ...prevState,
-                  [field]: {
-                      ...prevState[field],
-                      value: value.toUpperCase(), //Changed by Nidhi Gupta on 10/16/2023,
-                      isInvalid: false
-                  }
-              }
-          })
-          validateForm();
-
-      }
-
-
+    });
+    validateForm();
+  };
 
   const validateForm = () => {
     let isAnyFieldEmpty = true;
@@ -339,19 +327,19 @@ export default function GroupTermination({ openDrawer, setPage }) {
     }
   };
 
-//   const updateFormData = (value, field) => {
-//     setFormData((prevState) => {
-//       return {
-//         ...prevState,
-//         [field]: {
-//           ...prevState[field],
-//           value: value.toUpperCase(), //Changed by Nidhi Gupta on 10/16/2023,
-//           isInvalid: false,
-//         },
-//       };
-//     });
-//     validateForm();
-//   };
+  //   const updateFormData = (value, field) => {
+  //     setFormData((prevState) => {
+  //       return {
+  //         ...prevState,
+  //         [field]: {
+  //           ...prevState[field],
+  //           value: value.toUpperCase(), //Changed by Nidhi Gupta on 10/16/2023,
+  //           isInvalid: false,
+  //         },
+  //       };
+  //     });
+  //     validateForm();
+  //   };
 
   const [typeFieldError, setTypeFieldError] = useState(false);
 
@@ -363,7 +351,7 @@ export default function GroupTermination({ openDrawer, setPage }) {
           {props.selectProps.placeholder}
         </Placeholder>
         {React.Children.map(children, (child) =>
-          child && child.type !== Placeholder ? child : null
+          child && child.type !== Placeholder ? child : null,
         )}
       </ValueContainer>
     );
@@ -413,7 +401,6 @@ export default function GroupTermination({ openDrawer, setPage }) {
           9: "PAYTONPI",
           10: "PDMSTATUS",
           11: "SOURCE",
-
         };
         let facilityAncillaryMapping = {
           0: "PROVIDERID",
@@ -425,7 +412,6 @@ export default function GroupTermination({ openDrawer, setPage }) {
           6: "PAYTONPI",
           7: "PDMSTATUS",
           8: "SOURCE",
-
         };
 
         axios
@@ -508,7 +494,7 @@ export default function GroupTermination({ openDrawer, setPage }) {
           .catch((err) => {
             console.log(
               "Error in calling callProcedure option GETPROVIDERSEARCHDATA: ",
-              err.message
+              err.message,
             );
           });
         setVisible(true);
@@ -536,12 +522,16 @@ export default function GroupTermination({ openDrawer, setPage }) {
   useEffect(() => {
     setVisible(false);
     let getApiJson = {};
-        getApiJson['option'] = 'GETLEGALENTITYNAMES';
-        getApiJson['Type']='SelfService';
-        axios.post(baseURL + '/generic/callProcedure', getApiJson, { headers: { 'Authorization': `Bearer ${token}` } }).then((res) => {
-            setlegalNames(res.data.CallProcedure_Output.data);
-            console.log("List of Legal Entity Names",legalNames);
-        })
+    getApiJson["option"] = "GETLEGALENTITYNAMES";
+    getApiJson["Type"] = "SelfService";
+    axios
+      .post(baseURL + "/generic/callProcedure", getApiJson, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        setlegalNames(res.data.CallProcedure_Output.data);
+        console.log("List of Legal Entity Names", legalNames);
+      });
   }, []);
 
   useEffect(() => {
@@ -747,22 +737,47 @@ export default function GroupTermination({ openDrawer, setPage }) {
                       updateFormData(e.target.value, "organizationName")
                     }
                   /> */}
-                  <input type="text" className={formData.organizationName.isInvalid ? 'form-control is-invalid' : 'form-control'} id="organizationName" placeholder="organizationName"
-                            value={convertToCase(formData.organizationName.value)} name="organizationName" maxLength="100"
-                            onBlur={(event)=> handleInputBlur(event)}
-                            onChange={(e) => updateFormData(e.target.value, 'organizationName')}
-                             />
-                                  {formData?.organizationName?.value && dropdownIsOpen && (
-                                     <><ul
-                                     className='uldropdownLen'
-                                     style={{listStyleType:'none'}}>
-                                        {searchResults.map((result, index) => (
-                                        <li className='dropdownListLen' key={index} onClick={(event) => handleOptionSelect(result.Name,'organizationName',event)}>
-                                            {result.Name}
-                                        </li>
-                                        ))}
-                                    </ul>
-                                    </>)}
+                  <input
+                    type="text"
+                    className={
+                      formData.organizationName.isInvalid
+                        ? "form-control is-invalid"
+                        : "form-control"
+                    }
+                    id="organizationName"
+                    placeholder="organizationName"
+                    value={convertToCase(formData.organizationName.value)}
+                    name="organizationName"
+                    maxLength="100"
+                    onBlur={(event) => handleInputBlur(event)}
+                    onChange={(e) =>
+                      updateFormData(e.target.value, "organizationName")
+                    }
+                  />
+                  {formData?.organizationName?.value && dropdownIsOpen && (
+                    <>
+                      <ul
+                        className="uldropdownLen"
+                        style={{ listStyleType: "none" }}
+                      >
+                        {searchResults.map((result, index) => (
+                          <li
+                            className="dropdownListLen"
+                            key={index}
+                            onClick={(event) =>
+                              handleOptionSelect(
+                                result.Name,
+                                "organizationName",
+                                event,
+                              )
+                            }
+                          >
+                            {result.Name}
+                          </li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
 
                   <label htmlFor="floatingInputGrid">Legal Entity Name</label>
                   {formData.organizationName.isInvalid && (
@@ -812,22 +827,47 @@ export default function GroupTermination({ openDrawer, setPage }) {
                       updateFormData(e.target.value, "legalEntityName")
                     }
                   ></input> */}
-                <input type="text" className={formData.legalEntityName.isInvalid ? 'form-control is-invalid' : 'form-control'} id="legalEntityName" placeholder="legalEntityName"
-                            value={convertToCase(formData.legalEntityName.value)} name="legalEntityName" maxLength="100"
-                            onBlur={(event)=> handleInputBlur(event)}
-                            onChange={(e) => updateFormData(e.target.value, 'legalEntityName')}
-                             />
-                                  {formData?.legalEntityName?.value && dropdownIsOpen && (
-                                     <><ul
-                                     className='uldropdownLen'
-                                     style={{listStyleType:'none'}}>
-                                        {searchResults.map((result, index) => (
-                                        <li className='dropdownListLen' key={index} onClick={(event) => handleOptionSelect(result.Name,'legalEntityName',event)}>
-                                            {result.Name}
-                                        </li>
-                                        ))}
-                                    </ul>
-                                    </>)}
+                  <input
+                    type="text"
+                    className={
+                      formData.legalEntityName.isInvalid
+                        ? "form-control is-invalid"
+                        : "form-control"
+                    }
+                    id="legalEntityName"
+                    placeholder="legalEntityName"
+                    value={convertToCase(formData.legalEntityName.value)}
+                    name="legalEntityName"
+                    maxLength="100"
+                    onBlur={(event) => handleInputBlur(event)}
+                    onChange={(e) =>
+                      updateFormData(e.target.value, "legalEntityName")
+                    }
+                  />
+                  {formData?.legalEntityName?.value && dropdownIsOpen && (
+                    <>
+                      <ul
+                        className="uldropdownLen"
+                        style={{ listStyleType: "none" }}
+                      >
+                        {searchResults.map((result, index) => (
+                          <li
+                            className="dropdownListLen"
+                            key={index}
+                            onClick={(event) =>
+                              handleOptionSelect(
+                                result.Name,
+                                "legalEntityName",
+                                event,
+                              )
+                            }
+                          >
+                            {result.Name}
+                          </li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
 
                   <label htmlFor="floatingInputGrid">Legal Entity Name</label>
                   {formData.legalEntityName.isInvalid && (
@@ -1104,11 +1144,9 @@ export default function GroupTermination({ openDrawer, setPage }) {
                 </CardHeader>
                 <CardContent display="flex" justifyContent="center">
                   <Grid item md={12} sx={{ mt: 1 }}>
-
                     <div className="form-floating">
                       {renderForm(selectedType)}
                     </div>
-
                   </Grid>
                 </CardContent>
               </Card>

@@ -38,7 +38,7 @@ export default function OfflineReports(props) {
   const authData = useSelector((state) => state.auth);
 
   const filteredData = viewReportsData?.filter(
-    (item) => item?.ReportType?.toLowerCase() !== "online"
+    (item) => item?.ReportType?.toLowerCase() !== "online",
   );
   function convertDateFormat(inputDateStr) {
     const date = new Date(inputDateStr);
@@ -72,7 +72,7 @@ export default function OfflineReports(props) {
       //REPORTSTATUS: showReport.rowData.ReportType,
 
       //Changed By Harshit as we have to send the Report Status as Pending every time for new request
-      REPORTSTATUS: 'Pending',
+      REPORTSTATUS: "Pending",
       REPORTNAME: showReport.rowData.ReportName,
       REPORTPROCNAME: showReport.rowData.ReportProcName,
       REQUESTEDDATETIME: new Date(),
@@ -134,7 +134,7 @@ export default function OfflineReports(props) {
               var dateA = new Date(a["uploadedDateTime#date"]).getTime();
               var dateB = new Date(b["uploadedDateTime#date"]).getTime();
               return dateA < dateB ? 1 : -1;
-            }
+            },
           );
           setGeneratedReportsData(sortedResults);
         }
@@ -165,7 +165,7 @@ export default function OfflineReports(props) {
           onClick={() => {
             downloadFile(
               generatedReportsData?.indexOf(params?.row),
-              generatedReportsData
+              generatedReportsData,
             );
           }}
         />
@@ -207,7 +207,7 @@ export default function OfflineReports(props) {
       width: "100%",
       valueGetter: (params) =>
         `${params?.row?.docUploadPath?.substring(
-          params?.row?.docUploadPath?.lastIndexOf("/") + 1
+          params?.row?.docUploadPath?.lastIndexOf("/") + 1,
         )}`,
     },
   ];
@@ -245,7 +245,7 @@ export default function OfflineReports(props) {
         <MaterialUiGrid
           data={filteredData}
           density="compact"
-          uniqueCol='id'
+          uniqueCol="id"
           ExportName="Offline Reports"
           columns={[
             {

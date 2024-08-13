@@ -39,7 +39,7 @@ export default function Dashboard() {
   const getDashboardData = () => {
     printConsole(
       "Inside getDashboardData masterProvContLinkData: ",
-      mastersSelector["masterProvContLinkData"]
+      mastersSelector["masterProvContLinkData"],
     );
     const contractIdData = mastersSelector["masterProvContLinkData"][0];
     printConsole("Inside getDashboardData contractIdData: ", contractIdData);
@@ -47,7 +47,7 @@ export default function Dashboard() {
       const tableJson = contractIdData[0];
       printConsole(
         "Inside getDashboardData Main Table Data: ",
-        tableJson.MainTable
+        tableJson.MainTable,
       );
       setTableData(tableJson.MainTable);
       initialTableData.current = tableJson.MainTable;
@@ -85,7 +85,7 @@ export default function Dashboard() {
       //const tmpTableData = [...gridData];
       //printConsole("Inside if filterTable tmpTableData: ",initialTableArr);
       let filteredArray = initialTableArr.filter(
-        (data) => data.CaseStatus === caseStat
+        (data) => data.CaseStatus === caseStat,
       );
       //printConsole("Inside filterTable not allCases after: ",filteredArray);
       setTableData(filteredArray);
@@ -165,8 +165,8 @@ export default function Dashboard() {
         "FirstName" in params?.row
           ? params?.row.FirstName
           : "LegalEntityName" in params?.row
-          ? params?.row?.LegalEntityName
-          : "",
+            ? params?.row?.LegalEntityName
+            : "",
     },
     {
       field: "StageName",

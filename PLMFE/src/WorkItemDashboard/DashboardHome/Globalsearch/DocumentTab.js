@@ -74,7 +74,7 @@ export default function DocumentTab(props) {
     index,
     selectedValue,
     documentName,
-    rowsInput
+    rowsInput,
   ) => {
     modifyDocumentValues(selectedValue.value, "remove");
     const { name } = documentName;
@@ -93,7 +93,7 @@ export default function DocumentTab(props) {
       if (operValue === "add") {
         console.log(
           "Inside modifyDocumentValues is docName exists: ",
-          checkIfDocNameExists(docValue)
+          checkIfDocNameExists(docValue),
         );
         newDocValue = [...documentNameValues];
         const newJson = {};
@@ -107,7 +107,7 @@ export default function DocumentTab(props) {
 
       if (operValue === "remove") {
         newDocValue = documentNameValues.filter(
-          (elem) => elem.value !== docValue
+          (elem) => elem.value !== docValue,
         );
         setDocumentNameValues(newDocValue);
       }
@@ -141,7 +141,10 @@ export default function DocumentTab(props) {
       documentJson["documentNameOptions"]
         .filter((data) => data.FlowId == 2)
         .map((val) =>
-          documentNames.push({ value: val.DocumentName, label: val.DocumentName })
+          documentNames.push({
+            value: val.DocumentName,
+            label: val.DocumentName,
+          }),
         );
 
       //Here we are setting state documentNameValues
@@ -215,7 +218,7 @@ export default function DocumentTab(props) {
       .then((response) => {
         const docName = documentName;
         const filename = `${documentType}_${caseId}${docName.substring(
-          docName.lastIndexOf(".")
+          docName.lastIndexOf("."),
         )}`;
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const lastIndex = docName.lastIndexOf(".");
@@ -348,7 +351,7 @@ export default function DocumentTab(props) {
                           index,
                           selectValue,
                           event,
-                          unique
+                          unique,
                         )
                       }
                       name="documentType"
@@ -433,8 +436,8 @@ export default function DocumentTab(props) {
       a.uploadedDateTime < b.uploadedDateTime
         ? 1
         : b.uploadedDateTime < a.uploadedDateTime
-        ? -1
-        : 0
+          ? -1
+          : 0,
     );
 
     const unique = newArray.filter((obj, index) => {
@@ -449,7 +452,7 @@ export default function DocumentTab(props) {
           newArray.findIndex(
             (o) =>
               obj.documentType === o.documentType &&
-              obj.caseNumber === o.caseNumber
+              obj.caseNumber === o.caseNumber,
           )
         );
       }
@@ -544,71 +547,71 @@ export default function DocumentTab(props) {
   return (
     <div className="container">
       <div className="accordion">
-        {props?.searchType.toLowerCase() === 'selfservice' && 
-        <div className="accordion-item">
-          <h2 className="accordion-header">
-            <button
-              className="accordion-button accordionButtonStyle disableElements"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#upload"
-              aria-expanded="true"
-              aria-controls="upload"
-            >
-              Upload
-            </button>
-          </h2>
-          <div
-            id="upload"
-            className="accordion-collapse collapse show"
-            aria-labelledby="upload"
-          >
-            <div className="accordion-body">
-              <table
-                className="table table-bordered tableLayout"
-                style={{ textAlign: "center" }}
+        {props?.searchType.toLowerCase() === "selfservice" && (
+          <div className="accordion-item">
+            <h2 className="accordion-header">
+              <button
+                className="accordion-button accordionButtonStyle disableElements"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#upload"
+                aria-expanded="true"
+                aria-controls="upload"
               >
-                <thead>
-                  <tr className="tableRowStyle tableHeaderColor">
-                    <th style={{ width: "6%" }}>
-                      <button
-                        className="addBtn"
-                        onClick={() => {
-                          addTableRows();
-                        }}
-                      >
-                        <i className="fa fa-plus"></i>
-                      </button>
-                    </th>
-                    <th style={{ width: "20%" }} scope="col">
-                      Document Name
-                    </th>
-                    <th scope="col">Uploaded FileName</th>
-                    <th style={{ width: "10%" }} scope="col">
-                      Source
-                    </th>
+                Upload
+              </button>
+            </h2>
+            <div
+              id="upload"
+              className="accordion-collapse collapse show"
+              aria-labelledby="upload"
+            >
+              <div className="accordion-body">
+                <table
+                  className="table table-bordered tableLayout"
+                  style={{ textAlign: "center" }}
+                >
+                  <thead>
+                    <tr className="tableRowStyle tableHeaderColor">
+                      <th style={{ width: "6%" }}>
+                        <button
+                          className="addBtn"
+                          onClick={() => {
+                            addTableRows();
+                          }}
+                        >
+                          <i className="fa fa-plus"></i>
+                        </button>
+                      </th>
+                      <th style={{ width: "20%" }} scope="col">
+                        Document Name
+                      </th>
+                      <th scope="col">Uploaded FileName</th>
+                      <th style={{ width: "10%" }} scope="col">
+                        Source
+                      </th>
 
-                    <th style={{ width: "10%" }} scope="col">
-                      Upload
-                    </th>
-                    <th style={{ width: "10%" }} scope="col">
-                      Download
-                    </th>
-                    <th>Status</th>
-                    <th style={{ width: "10%" }} scope="col">
-                      Version
-                    </th>
-                    <th style={{ width: "10%" }} scope="col">
-                      View
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>{documentUploadData()}</tbody>
-              </table>
+                      <th style={{ width: "10%" }} scope="col">
+                        Upload
+                      </th>
+                      <th style={{ width: "10%" }} scope="col">
+                        Download
+                      </th>
+                      <th>Status</th>
+                      <th style={{ width: "10%" }} scope="col">
+                        Version
+                      </th>
+                      <th style={{ width: "10%" }} scope="col">
+                        View
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>{documentUploadData()}</tbody>
+                </table>
+              </div>
             </div>
           </div>
-        </div>
-         }
+        )}
         <div className="accordion-item">
           <h2 className="accordion-header">
             <button

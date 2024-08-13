@@ -74,7 +74,7 @@ export default function CompensationTab({
           {props.selectProps.placeholder}
         </Placeholder>
         {React.Children.map(children, (child) =>
-          child && child.type !== Placeholder ? child : null
+          child && child.type !== Placeholder ? child : null,
         )}
       </ValueContainer>
     );
@@ -100,7 +100,7 @@ export default function CompensationTab({
       ? compMaster["feeSchedule"]
       : [];
     criticalAccessHospitalSelect = compMaster?.hasOwnProperty(
-      "criticalAccessHospital"
+      "criticalAccessHospital",
     )
       ? compMaster["criticalAccessHospital"]
       : [];
@@ -173,7 +173,7 @@ export default function CompensationTab({
                                   fontWeight: "lighter",
                                   backgroundColor: changeColorOfSelect(
                                     prop,
-                                    "PDM"
+                                    "PDM",
                                   )
                                     ? "#F0F0F0"
                                     : "",
@@ -261,7 +261,7 @@ export default function CompensationTab({
                                   fontWeight: "lighter",
                                   backgroundColor: changeColorOfSelect(
                                     prop,
-                                    "PDM"
+                                    "PDM",
                                   )
                                     ? "#F0F0F0"
                                     : "",
@@ -351,7 +351,7 @@ export default function CompensationTab({
                               name="groupRiskId"
                               placeholder="John"
                               value={convertToCase(
-                                apiTestStateComp.groupRiskId
+                                apiTestStateComp.groupRiskId,
                               )}
                               onChange={(event) =>
                                 handleLinearFieldChange(event)
@@ -400,7 +400,7 @@ export default function CompensationTab({
                               name="medicalLicense"
                               placeholder="John"
                               value={convertToCase(
-                                apiTestStateComp.medicalLicense
+                                apiTestStateComp.medicalLicense,
                               )}
                               onChange={(event) =>
                                 handleLinearFieldChange(event)
@@ -468,7 +468,7 @@ export default function CompensationTab({
                                   fontWeight: "lighter",
                                   backgroundColor: changeColorOfSelect(
                                     prop,
-                                    "PDM"
+                                    "PDM",
                                   )
                                     ? "#F0F0F0"
                                     : "",
@@ -585,7 +585,7 @@ export default function CompensationTab({
                                   fontWeight: "lighter",
                                   backgroundColor: changeColorOfSelect(
                                     prop,
-                                    "PDM"
+                                    "PDM",
                                   )
                                     ? "#F0F0F0"
                                     : "",
@@ -739,7 +739,7 @@ export default function CompensationTab({
                                         fontWeight: "lighter",
                                         backgroundColor: changeColorOfSelect(
                                           prop,
-                                          "PDM"
+                                          "PDM",
                                         )
                                           ? "#F0F0F0"
                                           : "",
@@ -756,7 +756,7 @@ export default function CompensationTab({
                                     onChange={(selectValue, event) =>
                                       handleLinearSelectChange(
                                         selectValue,
-                                        event
+                                        event,
                                       )
                                     }
                                     value={apiTestStateComp.qualityFlagI}
@@ -778,7 +778,7 @@ export default function CompensationTab({
                                         fontWeight: "lighter",
                                         backgroundColor: changeColorOfSelect(
                                           prop,
-                                          "PDM"
+                                          "PDM",
                                         )
                                           ? "#F0F0F0"
                                           : "",
@@ -796,7 +796,7 @@ export default function CompensationTab({
                                     onChange={(selectValue, event) =>
                                       handleLinearSelectChange(
                                         selectValue,
-                                        event
+                                        event,
                                       )
                                     }
                                     value={apiTestStateComp.qualityFlagJ}
@@ -818,7 +818,7 @@ export default function CompensationTab({
                                         fontWeight: "lighter",
                                         backgroundColor: changeColorOfSelect(
                                           prop,
-                                          "PDM"
+                                          "PDM",
                                         )
                                           ? "#F0F0F0"
                                           : "",
@@ -836,7 +836,7 @@ export default function CompensationTab({
                                     onChange={(selectValue, event) =>
                                       handleLinearSelectChange(
                                         selectValue,
-                                        event
+                                        event,
                                       )
                                     }
                                     value={apiTestStateComp.qualityFlagK}
@@ -857,7 +857,7 @@ export default function CompensationTab({
                                         fontWeight: "lighter",
                                         backgroundColor: changeColorOfSelect(
                                           prop,
-                                          "PDM"
+                                          "PDM",
                                         )
                                           ? "#F0F0F0"
                                           : "",
@@ -875,7 +875,7 @@ export default function CompensationTab({
                                     onChange={(selectValue, event) =>
                                       handleLinearSelectChange(
                                         selectValue,
-                                        event
+                                        event,
                                       )
                                     }
                                     value={apiTestStateComp.qualityFlagM}
@@ -897,7 +897,7 @@ export default function CompensationTab({
                                         fontWeight: "lighter",
                                         backgroundColor: changeColorOfSelect(
                                           prop,
-                                          "PDM"
+                                          "PDM",
                                         )
                                           ? "#F0F0F0"
                                           : "",
@@ -915,7 +915,7 @@ export default function CompensationTab({
                                     onChange={(selectValue, event) =>
                                       handleLinearSelectChange(
                                         selectValue,
-                                        event
+                                        event,
                                       )
                                     }
                                     value={apiTestStateComp.qualityFlagL}
@@ -937,7 +937,7 @@ export default function CompensationTab({
                                         fontWeight: "lighter",
                                         backgroundColor: changeColorOfSelect(
                                           prop,
-                                          "PDM"
+                                          "PDM",
                                         )
                                           ? "#F0F0F0"
                                           : "",
@@ -955,7 +955,7 @@ export default function CompensationTab({
                                     onChange={(selectValue, event) =>
                                       handleLinearSelectChange(
                                         selectValue,
-                                        event
+                                        event,
                                       )
                                     }
                                     value={apiTestStateComp.qualityFlagN}
@@ -1016,7 +1016,7 @@ export default function CompensationTab({
                               name="starsIncentive"
                               placeholder="John"
                               value={convertToCase(
-                                apiTestStateComp.starsIncentive
+                                apiTestStateComp.starsIncentive,
                               )}
                               onChange={(event) =>
                                 handleLinearFieldChange(event)
@@ -1038,7 +1038,7 @@ export default function CompensationTab({
                               name="awvIncentive"
                               placeholder="John"
                               value={convertToCase(
-                                apiTestStateComp.awvIncentive
+                                apiTestStateComp.awvIncentive,
                               )}
                               onChange={(event) =>
                                 handleLinearFieldChange(event)
@@ -1060,7 +1060,7 @@ export default function CompensationTab({
                               name="medicalHome"
                               placeholder="John"
                               value={convertToCase(
-                                apiTestStateComp.medicalHome
+                                apiTestStateComp.medicalHome,
                               )}
                               onChange={(event) =>
                                 handleLinearFieldChange(event)
@@ -1107,7 +1107,7 @@ export default function CompensationTab({
                                   fontWeight: "lighter",
                                   backgroundColor: changeColorOfSelect(
                                     prop,
-                                    "PDM"
+                                    "PDM",
                                   )
                                     ? "#F0F0F0"
                                     : "",
@@ -1227,10 +1227,10 @@ export default function CompensationTab({
                               type == "NonEditable"
                                 ? "Y"
                                 : type !== undefined &&
-                                  type !== null &&
-                                  type == "ShowEye"
-                                ? "V"
-                                : "N"
+                                    type !== null &&
+                                    type == "ShowEye"
+                                  ? "V"
+                                  : "N"
                             }
                           ></FIRLTable>
                         </div>
@@ -1283,10 +1283,10 @@ export default function CompensationTab({
                               type == "NonEditable"
                                 ? "Y"
                                 : type !== undefined &&
-                                  type !== null &&
-                                  type == "ShowEye"
-                                ? "V"
-                                : "N"
+                                    type !== null &&
+                                    type == "ShowEye"
+                                  ? "V"
+                                  : "N"
                             }
                           ></CompensationTable>
                         </div>
@@ -1373,7 +1373,7 @@ export default function CompensationTab({
                                   fontWeight: "lighter",
                                   backgroundColor: changeColorOfSelect(
                                     prop,
-                                    "PDM"
+                                    "PDM",
                                   )
                                     ? "#F0F0F0"
                                     : "",
@@ -1441,7 +1441,7 @@ export default function CompensationTab({
                               name="terminationClause"
                               placeholder="John"
                               value={convertToCase(
-                                apiTestStateComp.terminationClause
+                                apiTestStateComp.terminationClause,
                               )}
                               onChange={(event) =>
                                 handleLinearFieldChange(event)
@@ -1468,7 +1468,7 @@ export default function CompensationTab({
                                   fontWeight: "lighter",
                                   backgroundColor: changeColorOfSelect(
                                     prop,
-                                    "PDM"
+                                    "PDM",
                                   )
                                     ? "#F0F0F0"
                                     : "",

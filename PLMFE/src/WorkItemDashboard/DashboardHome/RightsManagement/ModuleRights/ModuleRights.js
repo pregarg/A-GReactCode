@@ -29,7 +29,7 @@ export default function ModuleRights(props) {
       (right) =>
         (right.STAGEID === module?.id && right?.USERID === row?.userId) ||
         (right["whereClause"]?.MODULEID === module?.id &&
-          right["whereClause"]?.MODULEID === row?.userId)
+          right["whereClause"]?.MODULEID === row?.userId),
     );
 
     if (checked) {
@@ -107,7 +107,7 @@ export default function ModuleRights(props) {
               <Checkbox
                 checked={
                   params.row?.rights?.find(
-                    (right) => right.name === module.name
+                    (right) => right.name === module.name,
                   )?.hasRight
                 }
                 size="small"
@@ -131,7 +131,7 @@ export default function ModuleRights(props) {
       const data = await axios.get(baseURL + `/rights/modules`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      console.log("data==== ",data);
+      console.log("data==== ", data);
       const { modules, userRights } = data.data;
       setDataRows(userRights);
       getColumns(userRights[0].rights);

@@ -1,13 +1,55 @@
 import * as XLSX from "xlsx";
 
 const expectedHeaders = [
-  "PROVIDER TYPE", "FIRST NAME", "MIDDLE", "LAST", "GENDER", "SUFFIX","DELEGATED", "DIRECTORY", "CAQHID", "NPI", "DOB", "MEDICAREID",
-  "ACCEPTING NEW", "EMAILID", "LEGAL ENTITY NAME", "CONTRACT ID","DBA NAME", "LICENSE_NUMBER", "LICENSE_STATE", "LICENSE TYPE","LICENSE EXPIRATION DATE", "SPECIALITY", "TAXONOMY", "PCP",
-  "MEDICAL GROUP NAME", "LANGUAGE SPOKEN", "LOCATION_ADDRESS_1","LOCATION_ADDRESS_2", "LOCATION_CITY", "LOCATION_COUNTY","LOCATION_STATE", "LOCATION_ZIP CODE", "OFFICE PHONE", "OFFICE FAX",
-  "PUBLIC TRANSPORTATION", "HANDICAP ACCESS", "TTY HEARING", "TTY PHONE","TELE MEDICINE", "TAXID", "PAYTONAME", "PAYTO_ADDRESS_1",
-  "PAYTO_ADDRESS_2", "PAYTO_CITY", "PAYTO_COUNTY", "PAYTO_STATE","PAYTO_ZIP CODE", "PAYTONPI",
+  "PROVIDER TYPE",
+  "FIRST NAME",
+  "MIDDLE",
+  "LAST",
+  "GENDER",
+  "SUFFIX",
+  "DELEGATED",
+  "DIRECTORY",
+  "CAQHID",
+  "NPI",
+  "DOB",
+  "MEDICAREID",
+  "ACCEPTING NEW",
+  "EMAILID",
+  "LEGAL ENTITY NAME",
+  "CONTRACT ID",
+  "DBA NAME",
+  "LICENSE_NUMBER",
+  "LICENSE_STATE",
+  "LICENSE TYPE",
+  "LICENSE EXPIRATION DATE",
+  "SPECIALITY",
+  "TAXONOMY",
+  "PCP",
+  "MEDICAL GROUP NAME",
+  "LANGUAGE SPOKEN",
+  "LOCATION_ADDRESS_1",
+  "LOCATION_ADDRESS_2",
+  "LOCATION_CITY",
+  "LOCATION_COUNTY",
+  "LOCATION_STATE",
+  "LOCATION_ZIP CODE",
+  "OFFICE PHONE",
+  "OFFICE FAX",
+  "PUBLIC TRANSPORTATION",
+  "HANDICAP ACCESS",
+  "TTY HEARING",
+  "TTY PHONE",
+  "TELE MEDICINE",
+  "TAXID",
+  "PAYTONAME",
+  "PAYTO_ADDRESS_1",
+  "PAYTO_ADDRESS_2",
+  "PAYTO_CITY",
+  "PAYTO_COUNTY",
+  "PAYTO_STATE",
+  "PAYTO_ZIP CODE",
+  "PAYTONPI",
 ];
-
 
 const delegateColumns = ["PROVIDER TYPE", "DELEGATED", "NPI", "CONTRACT ID"];
 const nonDelegateColumns = ["PROVIDER TYPE", "DELEGATED", "NPI", "CAQHID"];
@@ -45,13 +87,13 @@ const readFile = (file, rosterType, callback) => {
 
       const actualHeaders = rows[0].map((header) => header.toUpperCase());
       const columnMismatch = expectedHeaders.some(
-        (header, index) => header !== actualHeaders[index]
+        (header, index) => header !== actualHeaders[index],
       );
       if (columnMismatch) {
         currentStep = 2;
         handleStep(
           `Column names in the Excel file do not match the expected column names.`,
-          false
+          false,
         );
         return;
       }
@@ -62,11 +104,11 @@ const readFile = (file, rosterType, callback) => {
         rosterType === "delegated" ? delegateColumns : nonDelegateColumns;
 
       const columnIndices = expectedColumns.map((col) =>
-        actualHeaders.indexOf(col.toUpperCase())
+        actualHeaders.indexOf(col.toUpperCase()),
       );
 
       const extractedValues = rowData.map((row) =>
-        columnIndices.map((index) => row[index])
+        columnIndices.map((index) => row[index]),
       );
 
       let hasEmptyValue = false;
@@ -87,30 +129,30 @@ const readFile = (file, rosterType, callback) => {
           }
         });
       });
-      console.log("extracted value",extractedValues );
+      console.log("extracted value", extractedValues);
       if (hasInvalidDelegation) {
         currentStep = 3;
-        const message = rosterType === "delegated" 
+        const message =
+          rosterType === "delegated"
             ? "Some fields are not delegated."
             : "Some fields are delegated.";
-        handleStep(message, false,[]);
-
+        handleStep(message, false, []);
       } else if (hasEmptyValue) {
         currentStep = 3;
         const message = `Some of the Required Fields are blank in the uploaded file.
         \n\n Columns with missing fields: ${[...missingFields].join(", ")}`;
-         handleStep(message, false, currentStep, [...missingFields]);
+        handleStep(message, false, currentStep, [...missingFields]);
       } else {
         currentStep = 4;
-        handleStep(null, true,[]);
+        handleStep(null, true, []);
       }
     } catch (error) {
-      handleStep("Error reading the file.", null,[]);
+      handleStep("Error reading the file.", null, []);
     }
   };
 
   reader.onerror = () => {
-    handleStep("Error reading the file.", null,[]);
+    handleStep("Error reading the file.", null, []);
   };
 
   reader.readAsArrayBuffer(file);

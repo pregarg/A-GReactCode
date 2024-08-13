@@ -1,11 +1,19 @@
 import React from "react";
 import Select from "react-select";
 
-export const SimpleSelectField = ({name, label, options, data, disabled, onChange}) => {
-  return <>
-    <label>Auth Type Description</label>
-    <br/>
-    <Select
+export const SimpleSelectField = ({
+  name,
+  label,
+  options,
+  data,
+  disabled,
+  onChange,
+}) => {
+  return (
+    <>
+      <label>Auth Type Description</label>
+      <br />
+      <Select
         styles={{
           control: (provided) => ({
             ...provided,
@@ -19,6 +27,7 @@ export const SimpleSelectField = ({name, label, options, data, disabled, onChang
         id={name}
         isDisabled={disabled}
         isClearable
-    />
-  </>
-}
+      />
+    </>
+  );
+};

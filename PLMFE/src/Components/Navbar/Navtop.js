@@ -1,64 +1,67 @@
-import React, { useState, useEffect } from 'react'
-import './Navbar.css'
-import Tiles from '../SelfServiceTiles/Tiles'
-import Dashboard from '../Home/Dashboard/Dashboard'
-import Document from '../Home/Document/Document'
-import { Link } from 'react-router-dom';
-import dashboardHeaderLogo from '../../Images/DashboardHeaderLogo.png';
-import { useDispatch, useSelector } from 'react-redux'
-import { CLEAR_SIGN_IN } from '../../actions/types'
-import loginUserLogo from '../../Images/loginUser.png';
-import ChangePasModal from '../../WorkItemDashboard/DashboardHome/ChangePassword/ChangePasModal';
-import { Modal } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
-import FooterComponent from './../FooterComponent';
-import { Typography } from '@mui/material'
+import React, { useState, useEffect } from "react";
+import "./Navbar.css";
+import Tiles from "../SelfServiceTiles/Tiles";
+import Dashboard from "../Home/Dashboard/Dashboard";
+import Document from "../Home/Document/Document";
+import { Link } from "react-router-dom";
+import dashboardHeaderLogo from "../../Images/DashboardHeaderLogo.png";
+import { useDispatch, useSelector } from "react-redux";
+import { CLEAR_SIGN_IN } from "../../actions/types";
+import loginUserLogo from "../../Images/loginUser.png";
+import ChangePasModal from "../../WorkItemDashboard/DashboardHome/ChangePassword/ChangePasModal";
+import { Modal } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import FooterComponent from "./../FooterComponent";
+import { Typography } from "@mui/material";
 
 let timer;
 
 export default function Navtop() {
-    let navContent = {};
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const [changePasswordModal, setChangePasswordModal] = useState({show: false, id: null});
-    const userName = useSelector((store) => store.auth.userName);
-    const [contentName,setContentName] = useState({name:'Dashboard'});
-  
-    const showHideComponent = (event,component) => {
-        switch(component){
-            case "SelfService":
-                navContent = {name:'SelfService'};
-            break;
+  let navContent = {};
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [changePasswordModal, setChangePasswordModal] = useState({
+    show: false,
+    id: null,
+  });
+  const userName = useSelector((store) => store.auth.userName);
+  const [contentName, setContentName] = useState({ name: "Dashboard" });
 
-            case "Dashboard":
-                navContent = {name:'Dashboard'};
-            break;
+  const showHideComponent = (event, component) => {
+    switch (component) {
+      case "SelfService":
+        navContent = { name: "SelfService" };
+        break;
 
-            case "Document":
-                navContent = {name:'Document'};
-            break;
+      case "Dashboard":
+        navContent = { name: "Dashboard" };
+        break;
 
-            default:
-                navContent = {name:'Dashboard'};
-                break;
-         }
-         setContentName(contentName => ({
-            ...contentName,
-            ...navContent
-         }));
-    };
+      case "Document":
+        navContent = { name: "Document" };
+        break;
 
-    const signout = ()=>{
-      dispatch({type: CLEAR_SIGN_IN, payload: null});
+      default:
+        navContent = { name: "Dashboard" };
+        break;
     }
+    setContentName((contentName) => ({
+      ...contentName,
+      ...navContent,
+    }));
+  };
 
-    const cancelDeleteHandler = ()=>{
-      setChangePasswordModal({show: false, id: null});
-    }
+  const signout = () => {
+    dispatch({ type: CLEAR_SIGN_IN, payload: null });
+  };
 
-    const changePasswordHandler = () =>{
-      setChangePasswordModal({show: true});
-    }
+  const cancelDeleteHandler = () => {
+    setChangePasswordModal({ show: false, id: null });
+  };
+
+  const changePasswordHandler = () => {
+    setChangePasswordModal({ show: true });
+  };
 
   return (
     <>
@@ -165,5 +168,5 @@ export default function Navtop() {
         onCancel={cancelDeleteHandler}
       />
     </>
-  )
+  );
 }

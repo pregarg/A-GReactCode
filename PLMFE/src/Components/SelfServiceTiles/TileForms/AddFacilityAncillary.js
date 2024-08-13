@@ -90,7 +90,7 @@ export default function AddFacilityAncillary() {
   const [formikInitializeState, setFormikInitializeState] = useState(false);
 
   let credentialingConfigData = JSON.parse(
-    process.env.REACT_APP_CREDENTIALING_DETAILS
+    process.env.REACT_APP_CREDENTIALING_DETAILS,
   );
 
   const { customAxios, fileUpDownAxios } = useAxios();
@@ -119,7 +119,7 @@ export default function AddFacilityAncillary() {
       .max(10, "NPI ID max length exceeded")
       .matches(
         /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
-        "Only numbers are accepted"
+        "Only numbers are accepted",
       ),
     medicareId: Yup.string()
       //        .typeError('Medicare ID must be a number')
@@ -139,7 +139,7 @@ export default function AddFacilityAncillary() {
       .nullable()
       .required("Please select Delegated")
       .test("prohibitedValuesTest", "Please Select Delegated", (value) =>
-        testYupFieldValue(value)
+        testYupFieldValue(value),
       ),
 
     // Medicare: Yup.boolean().when('delegated',{
@@ -161,7 +161,7 @@ export default function AddFacilityAncillary() {
             .test(
               "prohibitedValuesTest",
               "Please Select Contract Id",
-              (value) => testYupFieldValue(value)
+              (value) => testYupFieldValue(value),
             ),
         otherwise: (schema) => schema.notRequired(),
       })
@@ -243,7 +243,7 @@ export default function AddFacilityAncillary() {
   /////
   const [firlTableRowsData, setFirlTableRowsData] = useState([]);
   const [compensationTableRowsData, setCompensationTableRowsData] = useState(
-    []
+    [],
   );
   /////
 
@@ -358,17 +358,17 @@ export default function AddFacilityAncillary() {
             ? selectValue.value
             : "--"
           : apiTestStateComp.riskState && apiTestStateComp.riskState.value
-          ? apiTestStateComp.riskState.value
-          : "--";
+            ? apiTestStateComp.riskState.value
+            : "--";
       riskValue =
         name === "riskAssignment"
           ? selectValue && selectValue.value
             ? selectValue.value.substring(0, 2)
             : "--"
           : apiTestStateComp.riskAssignment &&
-            apiTestStateComp.riskAssignment.value
-          ? apiTestStateComp.riskAssignment.value.substring(0, 2)
-          : "--";
+              apiTestStateComp.riskAssignment.value
+            ? apiTestStateComp.riskAssignment.value.substring(0, 2)
+            : "--";
       taxValue =
         apiTestStateComp.taxId !== undefined && apiTestStateComp.taxId !== ""
           ? apiTestStateComp.taxId.substring(apiTestStateComp.taxId.length - 5)
@@ -391,8 +391,8 @@ export default function AddFacilityAncillary() {
             ? selectValue.value
             : "--"
           : apiTestStateComp.networkState && apiTestStateComp.networkState.value
-          ? apiTestStateComp.networkState.value
-          : "--";
+            ? apiTestStateComp.networkState.value
+            : "--";
       planValue =
         apiTestStateComp.planValue !== undefined &&
         apiTestStateComp.planValue !== ""
@@ -419,7 +419,7 @@ export default function AddFacilityAncillary() {
 
     console.log(
       "handleLinearSelectChange apiTestStateComp: ",
-      apiTestStateComp
+      apiTestStateComp,
     );
   };
 
@@ -452,7 +452,7 @@ export default function AddFacilityAncillary() {
     setButtonDisableFlag(false);
     console.log(
       "Inside AddFacilityAncillary navigateHome: ",
-      prop.state.formView
+      prop.state.formView,
     );
     if (prop.state.formView === "DashboardView") {
       const promise = new Promise((resolve, reject) => {
@@ -538,7 +538,6 @@ export default function AddFacilityAncillary() {
     }
   };
 
-
   //Added By NG on 11/20/2023
 
   const npiOnSave = async (values) => {
@@ -583,7 +582,7 @@ export default function AddFacilityAncillary() {
     } catch (error) {
       console.error(
         "Caught in catch of FindDuplicateNpiId proc calling: ",
-        error.message
+        error.message,
       );
       setButtonDisableFlag(false); // Re-enable the button in case of error
       // Handle the error (perhaps set an error state, display a message, etc.)
@@ -601,7 +600,7 @@ export default function AddFacilityAncillary() {
         setApiCallOnce(true);
         let getApiJson = {};
         getApiJson["tableNames"] = getTableDetails()["networkLinear"].concat(
-          getTableDetails()["networkGridTables"]
+          getTableDetails()["networkGridTables"],
         );
         getApiJson["whereClause"] = { caseNumber: prop.state.caseNumber };
 
@@ -628,19 +627,25 @@ export default function AddFacilityAncillary() {
                     //Added by Nidhi Gupta on 10/06/23
                     if (apiResponse.hasOwnProperty("conEffectiveDate")) {
                       if (typeof apiResponse.conEffectiveDate === "string") {
-                        const cfd = new Date(getDatePartOnly(apiResponse.conEffectiveDate));
+                        const cfd = new Date(
+                          getDatePartOnly(apiResponse.conEffectiveDate),
+                        );
                         apiResponse.conEffectiveDate = cfd;
                       }
                     }
                     if (apiResponse.hasOwnProperty("mocAttestationDate")) {
                       if (typeof apiResponse.mocAttestationDate === "string") {
-                        const mad = new Date(getDatePartOnly(apiResponse.mocAttestationDate));
+                        const mad = new Date(
+                          getDatePartOnly(apiResponse.mocAttestationDate),
+                        );
                         apiResponse.mocAttestationDate = mad;
                       }
                     }
                     if (apiResponse.hasOwnProperty("mocRenewalAttDate")) {
                       if (typeof apiResponse.mocRenewalAttDate === "string") {
-                        const rad = new Date(getDatePartOnly(apiResponse.mocRenewalAttDate));
+                        const rad = new Date(
+                          getDatePartOnly(apiResponse.mocRenewalAttDate),
+                        );
                         apiResponse.mocRenewalAttDate = rad;
                       }
                     }
@@ -846,7 +851,7 @@ export default function AddFacilityAncillary() {
                     apiResponseArray.push(apiResponse);
                     console.log(
                       "Compensation Tab compensationGrid newJson: ",
-                      apiResponse
+                      apiResponse,
                     );
                   });
                   setCompensationTableRowsData(apiResponseArray);
@@ -920,7 +925,7 @@ export default function AddFacilityAncillary() {
       hideandShow.show = true;
       let getApiJson = {};
       getApiJson["tableNames"] = getTableDetails()["facAncLinear"].concat(
-        getTableDetails()["gridTables"]
+        getTableDetails()["gridTables"],
       );
       getApiJson["whereClause"] = { caseNumber: prop.state.caseNumber };
 
@@ -1019,7 +1024,7 @@ export default function AddFacilityAncillary() {
                         "legalEntityName",
                         apiResponse.legalEntityName,
                         apiResponse,
-                        selectJson
+                        selectJson,
                       );
                     }
                     //To load master and linear fields if above condition fails
@@ -1122,14 +1127,13 @@ export default function AddFacilityAncillary() {
 
                   //Added by Nidhi Gupta on 11/10/2023
                   if (apiResponse.hasOwnProperty("languages")) {
-                    if(apiResponse.languages !== ''){
-                    apiResponse.languages = apiResponse.languages
-                      .split(",")
-                      .map((ele) => {
-                        return { label: ele, value: ele };
-                      });
-                    }
-                    else{
+                    if (apiResponse.languages !== "") {
+                      apiResponse.languages = apiResponse.languages
+                        .split(",")
+                        .map((ele) => {
+                          return { label: ele, value: ele };
+                        });
+                    } else {
                       apiResponse.languages = [];
                     }
                   }
@@ -1137,7 +1141,7 @@ export default function AddFacilityAncillary() {
                   apiResponseArray.push(apiResponse);
                   console.log(
                     "locationTableRowsData apiResponse: ",
-                    apiResponse
+                    apiResponse,
                   );
                 });
                 setLocationTableRowsData(apiResponseArray);
@@ -1201,7 +1205,7 @@ export default function AddFacilityAncillary() {
                   apiResponseArray.push(apiResponse);
                   console.log(
                     "specialityTableRowsData apiResponse: ",
-                    apiResponse
+                    apiResponse,
                   );
                 });
                 setspecialityTableRowsData(apiResponseArray);
@@ -1213,7 +1217,7 @@ export default function AddFacilityAncillary() {
                   const newJson = convertToDateObj(js);
                   console.log(
                     "Add a facility insuranceTable newJson;",
-                    newJson
+                    newJson,
                   );
                   apiResponseArray.push(newJson);
                   // setInsuranceTableRowsData([...insuranceTableRowsData,newJson]);
@@ -1244,7 +1248,7 @@ export default function AddFacilityAncillary() {
                   apiResponseArray.push(apiResponse);
                   console.log(
                     "credentialTableRowsData apiResponse: ",
-                    apiResponse
+                    apiResponse,
                   );
                 });
                 setCredentialTableRowsData(apiResponseArray);
@@ -1254,7 +1258,10 @@ export default function AddFacilityAncillary() {
               if (k === "additionalQuesGrid") {
                 console.log("additionalQuesValues k: ", additionalQuesValues);
                 const masterMap = new Map(
-                  additionalQuesValues.map((obj) => [obj.questionId, obj.label])
+                  additionalQuesValues.map((obj) => [
+                    obj.questionId,
+                    obj.label,
+                  ]),
                 );
 
                 console.log("masterMap newJson:", masterMap);
@@ -1282,7 +1289,7 @@ export default function AddFacilityAncillary() {
                 });
 
                 const quesAnsMap = new Map(
-                  quesAnsList.map((obj) => [obj.questionId, obj])
+                  quesAnsList.map((obj) => [obj.questionId, obj]),
                 );
                 console.log("quesAnsMap: ", quesAnsMap);
 
@@ -1319,7 +1326,7 @@ export default function AddFacilityAncillary() {
               customAxios
                 .get(
                   `/fetchPotentialDuplicate?legalEntityName=${prop.state.dbaName}&strRouteTo=${prop.state.stageName}&caseNumber=${prop.state.caseNumber}&transactionType=${AddFacilityAncillary.displayName}`,
-                  { headers: { Authorization: `Bearer ${token}` } }
+                  { headers: { Authorization: `Bearer ${token}` } },
                 )
                 .then((res) => {
                   resJson = { ...res };
@@ -1329,7 +1336,7 @@ export default function AddFacilityAncillary() {
                     let getApiJson = {};
                     console.log(
                       "prop.state.caseNumber 571: ",
-                      prop.state.caseNumber
+                      prop.state.caseNumber,
                     );
                     getApiJson["tableNames"] =
                       getTableDetails()["provPotentialDuplicate"];
@@ -1345,7 +1352,7 @@ export default function AddFacilityAncillary() {
                       .then((res) => {
                         console.log(
                           "Generic get api response compensation Nidhi: ",
-                          res
+                          res,
                         );
                         const apiStat = res.data.Status;
                         if (apiStat === -1) {
@@ -1376,7 +1383,7 @@ export default function AddFacilityAncillary() {
                 .catch((err) => {
                   console.log(
                     "Caught in fetch potential duplicate api call: ",
-                    err.message
+                    err.message,
                   );
                   alert("Error occured in finding potenial duplicate.");
                   setButtonDisableFlag(false);
@@ -1410,11 +1417,11 @@ export default function AddFacilityAncillary() {
           ? []
           : mastersSelector["masterLanguages"][0];
 
-          for (const item of languageArray) {
-            newArr.push(convertToCase(item.displayName));
-          }
-        selectJson.languageArray = newArr;
-        newArr = [];
+      for (const item of languageArray) {
+        newArr.push(convertToCase(item.displayName));
+      }
+      selectJson.languageArray = newArr;
+      newArr = [];
     }
 
     if (mastersSelector.hasOwnProperty("masterStateSymbol")) {
@@ -1430,7 +1437,6 @@ export default function AddFacilityAncillary() {
       //   });
 
       // }
-
 
       for (const item of orgstateOptions) {
         newstateOptions.push({
@@ -1450,12 +1456,12 @@ export default function AddFacilityAncillary() {
           ? []
           : mastersSelector["masterGridLicenseType"][0];
 
-          for (const item of licenseTypeOptions) {
-            newArr.push(convertToCase(item.licenseType));
-          }
+      for (const item of licenseTypeOptions) {
+        newArr.push(convertToCase(item.licenseType));
+      }
 
-          selectJson.licenseTypeOptions = newArr;
-          newArr = [];
+      selectJson.licenseTypeOptions = newArr;
+      newArr = [];
     }
 
     if (mastersSelector.hasOwnProperty("masterAddressType")) {
@@ -1464,12 +1470,12 @@ export default function AddFacilityAncillary() {
           ? []
           : mastersSelector["masterAddressType"][0];
 
-          for (const item of addressTypeOptions) {
-            newArr.push(convertToCase(item.addressType));
-          }
+      for (const item of addressTypeOptions) {
+        newArr.push(convertToCase(item.addressType));
+      }
 
-          selectJson.addressTypeOptions = newArr;
-          newArr = [];
+      selectJson.addressTypeOptions = newArr;
+      newArr = [];
     }
 
     if (mastersSelector.hasOwnProperty("masterLicenseType")) {
@@ -1499,12 +1505,12 @@ export default function AddFacilityAncillary() {
           ? []
           : mastersSelector["masterDocumentList"][0];
 
-          for (const item of documentOptions) {
-            newArr.push(convertToCase(item.docList));
-          }
+      for (const item of documentOptions) {
+        newArr.push(convertToCase(item.docList));
+      }
 
-          selectJson.documentOptions = newArr;
-          newArr = [];
+      selectJson.documentOptions = newArr;
+      newArr = [];
     }
     if (mastersSelector.hasOwnProperty("masterAdditionalQues")) {
       selectJson.additionalQues =
@@ -1570,13 +1576,13 @@ export default function AddFacilityAncillary() {
       .filter(
         (data) =>
           data?.TransactionType?.toLowerCase() ==
-          formName?.current?.toLowerCase()
+          formName?.current?.toLowerCase(),
       )
       .map((val) =>
         additionalQuesValues.push({
           questionId: val.QuestionId,
           label: val.QuesDescription,
-        })
+        }),
       );
     printConsole("additionalQuesValues here: ", additionalQuesValues);
     //console.log("selectValues.additionalQues: ", selectValues.additionalQues)
@@ -1619,7 +1625,7 @@ export default function AddFacilityAncillary() {
 
     console.log(
       "Inside gridRowsFinalSubmit gridFieldTempState Value ====  ",
-      gridFieldTempState
+      gridFieldTempState,
     );
     let clonedJson = { ...gridFieldTempState };
     if (Object.keys(gridFieldTempState).length !== 0) {
@@ -1630,7 +1636,7 @@ export default function AddFacilityAncillary() {
         }
         console.log(
           "Inside gridRowsFinalSubmit clonedJson value: ",
-          clonedJson
+          clonedJson,
         );
         if (!checkGridJsonLength(clonedJson)) {
           licenseTableRowsData[index] = clonedJson;
@@ -1645,7 +1651,7 @@ export default function AddFacilityAncillary() {
         }
         console.log(
           "Inside gridRowsFinalSubmit clonedJson value: ",
-          clonedJson
+          clonedJson,
         );
         if (!checkGridJsonLength(clonedJson)) {
           specialityTableRowsData[index] = clonedJson;
@@ -1680,7 +1686,7 @@ export default function AddFacilityAncillary() {
 
         console.log(
           "Inside gridRowsFinalSubmit clonedJson value: ",
-          clonedJson
+          clonedJson,
         );
         if (!checkGridJsonLength(clonedJson)) {
           locationTableRowsData[index] = clonedJson;
@@ -1695,7 +1701,7 @@ export default function AddFacilityAncillary() {
         }
         console.log(
           "Inside gridRowsFinalSubmit clonedJson value: ",
-          clonedJson
+          clonedJson,
         );
         if (!checkGridJsonLength(clonedJson)) {
           payToTableRowsData[index] = clonedJson;
@@ -1710,7 +1716,7 @@ export default function AddFacilityAncillary() {
         }
         console.log(
           "Inside gridRowsFinalSubmit clonedJson value: ",
-          clonedJson
+          clonedJson,
         );
         if (!checkGridJsonLength(clonedJson)) {
           insuranceTableRowsData[index] = clonedJson;
@@ -1725,7 +1731,7 @@ export default function AddFacilityAncillary() {
         }
         console.log(
           "Inside gridRowsFinalSubmit clonedJson value: ",
-          clonedJson
+          clonedJson,
         );
         if (!checkGridJsonLength(clonedJson)) {
           credentialTableRowsData[index] = clonedJson;
@@ -1741,7 +1747,7 @@ export default function AddFacilityAncillary() {
         }
         console.log(
           "Inside gridRowsFinalSubmit clonedJson value: ",
-          clonedJson
+          clonedJson,
         );
         if (!checkGridJsonLength(clonedJson)) {
           firlTableRowsData[index] = clonedJson;
@@ -1756,7 +1762,7 @@ export default function AddFacilityAncillary() {
         }
         console.log(
           "Inside gridRowsFinalSubmit clonedJson value: ",
-          clonedJson
+          clonedJson,
         );
         if (!checkGridJsonLength(clonedJson)) {
           compensationTableRowsData[index] = clonedJson;
@@ -1880,7 +1886,7 @@ export default function AddFacilityAncillary() {
       if (triggeredFormName === "CredentialTable") {
         console.log(
           "Grid data ref current for credential===== ",
-          gridDataRef.current.credentialTable
+          gridDataRef.current.credentialTable,
         );
         gridRowArray = gridDataRef.current.hasOwnProperty("credentialTable")
           ? [...gridDataRef.current.credentialTable]
@@ -1898,14 +1904,14 @@ export default function AddFacilityAncillary() {
         }
         console.log(
           "gridDataRef.current for credential: ",
-          gridDataRef.current
+          gridDataRef.current,
         );
       }
 
       /////
       if (triggeredFormName === "FIRLTable") {
         gridRowArray = gridDataRef.current.hasOwnProperty(
-          "SelfServ_HospitalComp_Grid"
+          "SelfServ_HospitalComp_Grid",
         )
           ? [...gridDataRef.current.SelfServ_HospitalComp_Grid]
           : [];
@@ -1923,12 +1929,12 @@ export default function AddFacilityAncillary() {
         }
         console.log(
           "Inside gridRowsFinalSubmit gridDataRef.current FIRLTable: ",
-          gridDataRef.current
+          gridDataRef.current,
         );
       }
       if (triggeredFormName === "CompensationTable") {
         gridRowArray = gridDataRef.current.hasOwnProperty(
-          "SelfServ_ProviderComp_Grid"
+          "SelfServ_ProviderComp_Grid",
         )
           ? [...gridDataRef.current.SelfServ_ProviderComp_Grid]
           : [];
@@ -1946,7 +1952,7 @@ export default function AddFacilityAncillary() {
         }
         console.log(
           "Inside gridRowsFinalSubmit gridDataRef.current CompensationTable: ",
-          gridDataRef.current
+          gridDataRef.current,
         );
       }
     }
@@ -2240,20 +2246,18 @@ export default function AddFacilityAncillary() {
     let tempInput = { ...gridFieldTempState };
     let { name, value } = evnt.target;
     console.log("Inside handleGridFieldChange: ", value);
-    if(triggeredFormName === 'PayToTable')
-    {
-      if(name === 'payToNpi'|| name === 'zipCode'){
-       value = acceptNumbersOnly(value);
-       console.log("inside condition",value);
+    if (triggeredFormName === "PayToTable") {
+      if (name === "payToNpi" || name === "zipCode") {
+        value = acceptNumbersOnly(value);
+        console.log("inside condition", value);
       }
-     }
-     if(triggeredFormName === 'LocationTable')
-    {
-      if(name === 'npi'|| name === 'zipCode'){
-       value = acceptNumbersOnly(value);
-       console.log("inside condition",value);
+    }
+    if (triggeredFormName === "LocationTable") {
+      if (name === "npi" || name === "zipCode") {
+        value = acceptNumbersOnly(value);
+        console.log("inside condition", value);
       }
-     }
+    }
     tempInput[name] = value.toUpperCase();
     setGridFieldTempState(tempInput);
   };
@@ -2374,7 +2378,7 @@ export default function AddFacilityAncillary() {
         // );
         if (selectValues.taxonomyOptions.length > 0) {
           const foundOption = selectValues.taxonomyOptions.find(
-            (option) => option.TAXONOMYCODE === value
+            (option) => option.TAXONOMYCODE === value,
           );
           //console.log("Inside handleOnBlur foundOption: ", foundOption);
           if (
@@ -2412,7 +2416,7 @@ export default function AddFacilityAncillary() {
         }
       } else {
         alert(
-          "Please fill Taxonomy Code to populate Taxonomy Description and Taxonomy Group"
+          "Please fill Taxonomy Code to populate Taxonomy Description and Taxonomy Group",
         );
         rowsInput["taxonomyDesc"] = "";
         rowsInput["taxonomyGrp"] = "";
@@ -2467,7 +2471,7 @@ export default function AddFacilityAncillary() {
     index,
     selectedValue,
     evnt,
-    triggeredFormName
+    triggeredFormName,
   ) => {
     // console.log("Inside select change index: ", index);
     console.log("Inside select change selectedValue: ", selectedValue);
@@ -2518,7 +2522,7 @@ export default function AddFacilityAncillary() {
       ) {
         console.log("Inside select change heloooooo");
         const foundOption = selectValues.specialtyOptions.find(
-          (option) => option.speciality === selectedValue.value
+          (option) => option.speciality === selectedValue.value,
         );
         console.log("Inside select change foundOption: ", foundOption);
         if (
@@ -2529,11 +2533,11 @@ export default function AddFacilityAncillary() {
         ) {
           console.log(
             "Inside select change foundOption if: ",
-            rowsInput["hsdCode"]
+            rowsInput["hsdCode"],
           );
           console.log(
             "Inside select change foundOption.hsdCodeValue: ",
-            foundOption.hsdCodeValue
+            foundOption.hsdCodeValue,
           );
           rowsInput["hsdCode"] = foundOption.hsdCodeValue;
         } else {
@@ -2548,7 +2552,7 @@ export default function AddFacilityAncillary() {
           });
         console.log(
           "Inside select change subSpecialityValues",
-          subSpecialityValues
+          subSpecialityValues,
         );
         setSubSpecialityOptions(subSpecialityValues);
       }
@@ -2699,7 +2703,7 @@ export default function AddFacilityAncillary() {
     index,
     selectedValue,
     fieldName,
-    triggeredFormName
+    triggeredFormName,
   ) => {
     // console.log("index: ",index);
     console.log("Inside handleGridDateChange selectValue: ", selectedValue);
@@ -2884,7 +2888,7 @@ export default function AddFacilityAncillary() {
         let finalFormikJson = getJsonFromFormikState(initState, formikState);
         console.log(
           "Inside fields on blur finalFormikJson===== ",
-          finalFormikJson
+          finalFormikJson,
         );
         if (Object.keys(finalFormikJson).length > 0) {
           formState = Object.assign(formState, finalFormikJson);
@@ -2897,7 +2901,7 @@ export default function AddFacilityAncillary() {
           e.target.value,
           formState,
           selectValues,
-          setFieldValue
+          setFieldValue,
         );
       }
     }
@@ -2908,7 +2912,7 @@ export default function AddFacilityAncillary() {
     value,
     inputState,
     selectJson,
-    setFieldValue
+    setFieldValue,
   ) => {
     console.log("Inside organization Name handle Blur: ", name, value);
 
@@ -2926,16 +2930,16 @@ export default function AddFacilityAncillary() {
           token,
           "HealthPlan",
           masterUserName,
-          orgValue.trim()
+          orgValue.trim(),
         );
         printConsole(
           "Inside getDashboardData provContLinkData Data before promise resolve: ",
-          apiOut
+          apiOut,
         );
         apiOut.then(function (provContLinkData) {
           printConsole(
             "Inside getDashboardData provContLinkData Data after promise resolve: ",
-            provContLinkData
+            provContLinkData,
           );
 
           //printConsole("Inside getDashboardData provContLinkData Data: ",provContLinkData);
@@ -3243,11 +3247,11 @@ export default function AddFacilityAncillary() {
           if (
             !areAllLocationNameSame(
               apiJson["SelfServ_Location_Grid"],
-              apiJson["SelfServ_FaciAnci_Details"].dbaName
+              apiJson["SelfServ_FaciAnci_Details"].dbaName,
             )
           ) {
             alert(
-              "Medical Group Name under Address Grid should be same as DBA Name."
+              "Medical Group Name under Address Grid should be same as DBA Name.",
             );
             setButtonDisableFlag(false);
             return;
@@ -3305,7 +3309,7 @@ export default function AddFacilityAncillary() {
         }
 
         console.log(
-          "No duplicate NPI ID detected. Proceeding with saving form data."
+          "No duplicate NPI ID detected. Proceeding with saving form data.",
         );
         //Added by NG on 12/7/2023 for making amounts null if they are coming blank in Insert statement
         if (Array.isArray(apiJson.SelfServ_Insurance_Grid)) {
@@ -3367,12 +3371,12 @@ export default function AddFacilityAncillary() {
           console.log("PocData State: ", procData);
           console.log(
             "Inside Add Provider File UPLOAD DATA: ",
-            documentSectionDataRef.current
+            documentSectionDataRef.current,
           );
           if (documentSectionDataRef.current.length > 0) {
             let documentArray = [...documentSectionDataRef.current];
             documentArray = documentArray.filter(
-              (x) => x.docStatus === "Uploaded"
+              (x) => x.docStatus === "Uploaded",
             );
             documentArray.forEach((e) => {
               const fileUploadData = new FormData();
@@ -3380,18 +3384,18 @@ export default function AddFacilityAncillary() {
               fileUploadData.append("source", "Manual");
               fileUploadData.append(
                 "caseNumber",
-                response.data["CreateCase_Output"]["CaseNo"]
+                response.data["CreateCase_Output"]["CaseNo"],
               );
               fileUploadData.append("docType", e.documentType);
               console.log(
                 "Inside Add Provider File Upload Data: ",
-                fileUploadData
+                fileUploadData,
               );
               fileUpDownAxios
                 .post("/uploadFile", fileUploadData)
                 .then((response) => {
                   console.log("File Upload api response: ", response.data);
-                  if (response.status===200) {
+                  if (response.status === 200) {
                     // alert(
                     //   "Case created successfully: " +
                     //     res.data["CreateCase_Output"]["CaseNo"]
@@ -3403,7 +3407,7 @@ export default function AddFacilityAncillary() {
                     // }
                     // setAlertModalShow(json);
                   }
-                  if (response.status==="") {
+                  if (response.status === "") {
                     // let alertMessage = 'Case created successfully: '+res.data['CreateCase_Output']['CaseNo']+' but error in uploading document';
                     // let json = {show:true,
                     //     message:alertMessage,
@@ -3425,7 +3429,7 @@ export default function AddFacilityAncillary() {
           // }
           alert(
             "Case created successfully: " +
-              response.data["CreateCase_Output"]["CaseNo"]
+              response.data["CreateCase_Output"]["CaseNo"],
           );
           submitCase(procData, navigateHome);
         }
@@ -3452,7 +3456,9 @@ export default function AddFacilityAncillary() {
   // Added by Shivani
   const saveData = (values) => {
     //e.preventDefault();
-    if (!getNPIFromMaster(values.npiId,prop.state.decision,callProcRef.current)) {
+    if (
+      !getNPIFromMaster(values.npiId, prop.state.decision, callProcRef.current)
+    ) {
       console.log("saveData Values: ", values);
       if (tabRef.current === "HomeView") {
         saveFormData(values);
@@ -3464,7 +3470,7 @@ export default function AddFacilityAncillary() {
       alert(
         "NPI ID " +
           values.npiId +
-          " is in exclusion list.Please contact your provider and enter correct NPI ID"
+          " is in exclusion list.Please contact your provider and enter correct NPI ID",
       );
     }
   };
@@ -3506,7 +3512,7 @@ export default function AddFacilityAncillary() {
         if (apiStat === 0) {
           const caseIDToUpdate = res?.data?.data?.mainTable[0]?.CaseID;
           const indexToUpdate = caseData.data.findIndex(
-            (item) => item?.CaseID === caseIDToUpdate
+            (item) => item?.CaseID === caseIDToUpdate,
           );
 
           if (indexToUpdate !== -1) {
@@ -3528,7 +3534,7 @@ export default function AddFacilityAncillary() {
 
   function filterData() {
     return caseData.data.filter(
-      (item) => item?.CaseID !== Number(prop.state.caseNumber)
+      (item) => item?.CaseID !== Number(prop.state.caseNumber),
     );
   }
 
@@ -3556,7 +3562,7 @@ export default function AddFacilityAncillary() {
         callProcRef.current === "callProc" &&
         !checkDecision(
           prop?.state?.decision?.toUpperCase()?.trim(),
-          callProcRef.current
+          callProcRef.current,
         )
       ) {
         const result = checkLengths();
@@ -3743,11 +3749,17 @@ export default function AddFacilityAncillary() {
         apiTestStateComp.qualityFlagN && apiTestStateComp.qualityFlagN.value
           ? apiTestStateComp.qualityFlagN.value
           : "";
-      networkBody.conEffectiveDate = extractDate(apiTestStateComp.conEffectiveDate)
+      networkBody.conEffectiveDate = extractDate(
+        apiTestStateComp.conEffectiveDate,
+      );
 
-      networkBody.mocAttestationDate = extractDate(apiTestStateComp.mocAttestationDate)
+      networkBody.mocAttestationDate = extractDate(
+        apiTestStateComp.mocAttestationDate,
+      );
 
-      networkBody.mocRenewalAttDate = extractDate(apiTestStateComp.mocRenewalAttDate)
+      networkBody.mocRenewalAttDate = extractDate(
+        apiTestStateComp.mocRenewalAttDate,
+      );
 
       console.log("networkBody Update: ", networkBody);
       if (
@@ -3756,7 +3768,7 @@ export default function AddFacilityAncillary() {
         apiCallOnce &&
         Object.keys(apiTestStateComp).length > 0 &&
         Object.values(apiTestStateComp).some(
-          (value) => value !== "" && value !== null
+          (value) => value !== "" && value !== null,
         )
       ) {
         gridDataRef.current.SelfServ_Network_Details =
@@ -3783,7 +3795,7 @@ export default function AddFacilityAncillary() {
         gridDataRef.current.SelfServ_PotentialDuplicate = updateArray;
         console.log(
           "gridDataRef.current.SelfServ_PotentialDuplicate: ",
-          gridDataRef.current.SelfServ_PotentialDuplicate
+          gridDataRef.current.SelfServ_PotentialDuplicate,
         );
       }
       //Till Here
@@ -3886,7 +3898,7 @@ export default function AddFacilityAncillary() {
               if (!validateDec) {
                 setButtonDisableFlag(false);
                 alert(
-                  "Please choose Decision Discard as it is a Potential Duplicate Case."
+                  "Please choose Decision Discard as it is a Potential Duplicate Case.",
                 );
                 return;
               }
@@ -3916,7 +3928,7 @@ export default function AddFacilityAncillary() {
               !areAllLocationNameSame(locationTableRowsData, values.dbaName)
             ) {
               alert(
-                "Medical Group Name under Address Grid should be same as DBA Name."
+                "Medical Group Name under Address Grid should be same as DBA Name.",
               );
               setButtonDisableFlag(false);
               return;
@@ -3930,7 +3942,7 @@ export default function AddFacilityAncillary() {
 
           //till here
           const gridKeys = getTableDetails()["facAncLinear"].concat(
-            getTableDetails()["gridTables"]
+            getTableDetails()["gridTables"],
           );
           gridKeys.forEach((k) => {
             const newKey = k.split("~")[0];
@@ -3938,7 +3950,7 @@ export default function AddFacilityAncillary() {
             gridDataRef.current = renameKey(
               gridDataRef.current,
               oldKey,
-              newKey
+              newKey,
             );
           });
 
@@ -3983,7 +3995,7 @@ export default function AddFacilityAncillary() {
                 updateDecision(
                   prop,
                   saveType,
-                  AddFacilityAncillary.displayName
+                  AddFacilityAncillary.displayName,
                 );
 
                 //Commented by Harshit as the belo api call is moved to updateDecision.
@@ -4240,7 +4252,7 @@ export default function AddFacilityAncillary() {
                 action: "clear",
                 name: "states",
               },
-              statesProps.formikSetFieldValue
+              statesProps.formikSetFieldValue,
             )
           }
         />
@@ -4422,12 +4434,12 @@ export default function AddFacilityAncillary() {
                               value: convertToCase(data.response.value),
                             }
                           : data.response?.value?.toLowerCase() === "n" ||
-                            data.response?.value?.toLowerCase() === "no"
-                          ? {
-                              label: convertToCase("NO"),
-                              value: convertToCase(data.response.value),
-                            }
-                          : data.response
+                              data.response?.value?.toLowerCase() === "no"
+                            ? {
+                                label: convertToCase("NO"),
+                                value: convertToCase(data.response.value),
+                              }
+                            : data.response
                         : data.response
                     }
                   />
@@ -4451,7 +4463,7 @@ export default function AddFacilityAncillary() {
           {props.selectProps.placeholder}
         </Placeholder>
         {React.Children.map(children, (child) =>
-          child && child.type !== Placeholder ? child : null
+          child && child.type !== Placeholder ? child : null,
         )}
       </ValueContainer>
     );
@@ -4480,12 +4492,12 @@ export default function AddFacilityAncillary() {
       linearFieldsRemoveArray.forEach((e) => {
         printConsole(
           "Inside getNpiData linearFieldsRemoveArray forEach key: ",
-          e
+          e,
         );
         if (apiTestState.hasOwnProperty(e)) {
           printConsole(
             "Inside getNpiData linearFieldsRemoveArray forEach hasOwnProperty: ",
-            e
+            e,
           );
           delete apiTestState[e];
         }
@@ -4532,18 +4544,18 @@ export default function AddFacilityAncillary() {
                         value: "Y",
                       })
                     : res.data.taxonomy[i].specPrimary === "N"
-                    ? (res.data.taxonomy[i].specPrimary = {
-                        label: "NO",
-                        value: "N",
-                      })
-                    : (res.data.taxonomy[i].specPrimary = "");
+                      ? (res.data.taxonomy[i].specPrimary = {
+                          label: "NO",
+                          value: "N",
+                        })
+                      : (res.data.taxonomy[i].specPrimary = "");
                 }
                 if (res.data.taxonomy[i].pcp !== undefined) {
                   res.data.taxonomy[i].pcp === "Y"
                     ? (res.data.taxonomy[i].pcp = { label: "YES", value: "Y" })
                     : res.data.taxonomy[i].pcp === "N"
-                    ? (res.data.taxonomy[i].pcp = { label: "NO", value: "N" })
-                    : (res.data.taxonomy[i].pcp = "");
+                      ? (res.data.taxonomy[i].pcp = { label: "NO", value: "N" })
+                      : (res.data.taxonomy[i].pcp = "");
                 }
                 if (res.data.taxonomy[i].boardCerti !== undefined) {
                   res.data.taxonomy[i].boardCerti === "Y"
@@ -4552,11 +4564,11 @@ export default function AddFacilityAncillary() {
                         value: "Y",
                       })
                     : res.data.taxonomy[i].boardCerti === "N"
-                    ? (res.data.taxonomy[i].boardCerti = {
-                        label: "NO",
-                        value: "N",
-                      })
-                    : (res.data.taxonomy[i].boardCerti = "");
+                      ? (res.data.taxonomy[i].boardCerti = {
+                          label: "NO",
+                          value: "N",
+                        })
+                      : (res.data.taxonomy[i].boardCerti = "");
                 }
               }
               //Till here
@@ -4616,7 +4628,7 @@ export default function AddFacilityAncillary() {
               await new Promise((resolve) => setTimeout(resolve, 500)).catch(
                 (err) => {
                   console.error(err);
-                }
+                },
               );
               //alert(JSON.stringify(values, null, 2));
               saveData(values);
@@ -4758,8 +4770,8 @@ export default function AddFacilityAncillary() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         onInput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
@@ -4824,8 +4836,8 @@ export default function AddFacilityAncillary() {
                               ? "Facility"
                               : "Ancillary"
                             : prop.state.formNames === "AddFacility"
-                            ? "Facility"
-                            : "Ancillary"}{" "}
+                              ? "Facility"
+                              : "Ancillary"}{" "}
                           Information
                           {/* //  {prop.state.formNames === 'AddFacility' ? 'Facility' : 'Ancillary'} Information */}
                         </button>
@@ -4879,8 +4891,8 @@ export default function AddFacilityAncillary() {
                                         meta.touched && meta.error
                                           ? " is-invalid"
                                           : field.value
-                                          ? "is-valid"
-                                          : ""
+                                            ? "is-valid"
+                                            : ""
                                       }`}
                                       placeholder="John"
                                       //  {formName.current==="Ancillary/Facility Demographic Modification"?disabled:''}
@@ -4896,14 +4908,14 @@ export default function AddFacilityAncillary() {
                                         fieldsOnBlur(
                                           event,
                                           values,
-                                          setFieldValue
+                                          setFieldValue,
                                         );
                                       }}
                                       onChange={(e) =>
                                         formikFieldsOnChange(
                                           e,
                                           setFieldValue,
-                                          field
+                                          field,
                                         )
                                       }
                                     />
@@ -4943,8 +4955,8 @@ export default function AddFacilityAncillary() {
                                         meta.touched && meta.error
                                           ? " is-invalid"
                                           : field.value
-                                          ? "is-valid"
-                                          : ""
+                                            ? "is-valid"
+                                            : ""
                                       }`}
                                       placeholder="John"
                                       disabled={
@@ -4960,7 +4972,7 @@ export default function AddFacilityAncillary() {
                                         formikFieldsOnChange(
                                           e,
                                           setFieldValue,
-                                          field
+                                          field,
                                         );
                                       }}
                                       // onBlur={()=>{
@@ -4973,7 +4985,7 @@ export default function AddFacilityAncillary() {
                                           "dbaName",
                                           field.value !== undefined
                                             ? field.value
-                                            : ""
+                                            : "",
                                         );
                                       }}
                                     />
@@ -5013,8 +5025,8 @@ export default function AddFacilityAncillary() {
                                         meta.touched && meta.error
                                           ? " is-invalid"
                                           : field.value
-                                          ? "is-valid"
-                                          : ""
+                                            ? "is-valid"
+                                            : ""
                                       }`}
                                       placeholder="John"
                                       // oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
@@ -5065,8 +5077,8 @@ export default function AddFacilityAncillary() {
                                         meta.touched && meta.error
                                           ? " is-invalid"
                                           : field.value
-                                          ? "is-valid"
-                                          : ""
+                                            ? "is-valid"
+                                            : ""
                                       }`}
                                       placeholder="John"
                                       disabled={
@@ -5081,7 +5093,7 @@ export default function AddFacilityAncillary() {
                                         formikFieldsOnChange(
                                           e,
                                           setFieldValue,
-                                          field
+                                          field,
                                         )
                                       }
                                     />
@@ -5121,8 +5133,8 @@ export default function AddFacilityAncillary() {
                                         meta.touched && meta.error
                                           ? " is-invalid"
                                           : field.value
-                                          ? "is-valid"
-                                          : ""
+                                            ? "is-valid"
+                                            : ""
                                       }`}
                                       placeholder="John"
                                       disabled={
@@ -5138,7 +5150,7 @@ export default function AddFacilityAncillary() {
                                         formikFieldsOnChange(
                                           e,
                                           setFieldValue,
-                                          field
+                                          field,
                                         )
                                       }
                                       //Till Here
@@ -5250,8 +5262,8 @@ export default function AddFacilityAncillary() {
                                         meta.touched && meta.error
                                           ? " is-invalid"
                                           : field.value
-                                          ? "is-valid"
-                                          : ""
+                                            ? "is-valid"
+                                            : ""
                                       }`}
                                       placeholder="John"
                                       {...field}
@@ -5259,7 +5271,7 @@ export default function AddFacilityAncillary() {
                                         formikFieldsOnChange(
                                           e,
                                           setFieldValue,
-                                          field
+                                          field,
                                         )
                                       }
                                       value={convertToCase(field.value)}
@@ -5355,7 +5367,7 @@ export default function AddFacilityAncillary() {
                                         handleLinearSelectChange(
                                           selectValue,
                                           event,
-                                          setFieldValue
+                                          setFieldValue,
                                         )
                                       }
                                       /*onChange={(selectValue, event) => {
@@ -5459,7 +5471,7 @@ export default function AddFacilityAncillary() {
                                         handleLinearSelectChange(
                                           selectValue,
                                           event,
-                                          setFieldValue
+                                          setFieldValue,
                                         )
                                       }
                                       value={apiTestState.contractId}
@@ -5649,7 +5661,7 @@ export default function AddFacilityAncillary() {
                                           }),
                                           valueContainer: (
                                             provided,
-                                            state
+                                            state,
                                           ) => ({
                                             ...provided,
                                             overflow: "visible",
@@ -5691,7 +5703,7 @@ export default function AddFacilityAncillary() {
                                           handleLinearSelectChange(
                                             selectValue,
                                             event,
-                                            setFieldValue
+                                            setFieldValue,
                                           )
                                         }
                                         isClearable={false}
@@ -5924,8 +5936,8 @@ export default function AddFacilityAncillary() {
                             ? "Facility"
                             : "Ancillary"
                           : prop.state.formNames === "AddFacility"
-                          ? "Facility"
-                          : "Ancillary"}{" "}
+                            ? "Facility"
+                            : "Ancillary"}{" "}
                         Address
                       </button>
                     </h2>
@@ -6160,9 +6172,10 @@ export default function AddFacilityAncillary() {
                       type="button"
                       className="providerPageButton button"
                       onClick={(event) => {
-
-                        if (callProcRef.current === "notCallProc" || prop?.state?.decision?.toLowerCase() === 'discard') {
-
+                        if (
+                          callProcRef.current === "notCallProc" ||
+                          prop?.state?.decision?.toLowerCase() === "discard"
+                        ) {
                           saveData(values);
                         } else {
                           validateForm().then((errors) => {
@@ -6170,7 +6183,7 @@ export default function AddFacilityAncillary() {
                               errors,
                               setFieldTouched,
                               handleSubmit,
-                              event
+                              event,
                             );
                           });
                         }

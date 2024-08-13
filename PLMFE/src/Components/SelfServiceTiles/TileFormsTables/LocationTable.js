@@ -260,7 +260,7 @@ export default function LocationTable({
           if (res.status === 200) {
             if (res.data["address1"] === null || res.data["city"] === null) {
               alert(
-                "Address can not be validated. Please enter correct address details."
+                "Address can not be validated. Please enter correct address details.",
               );
             } else {
               validateAddressDetails.address1 = res.data["address1"];
@@ -281,7 +281,7 @@ export default function LocationTable({
               //locationState[index] = validateAddressDetails;
               console.log(
                 "newValidatedAddress locationState: ",
-                validateAddressDetails
+                validateAddressDetails,
               );
               validatedAdd.current = validateAddressDetails;
               setValidateAddressModalShow(flag);
@@ -315,7 +315,7 @@ export default function LocationTable({
     console.log("Inside validateAddressData oldAddress: ", oldAdd.current);
     console.log(
       "Inside validateAddressData newAddress: ",
-      validatedAdd.current
+      validatedAdd.current,
     );
     return (
       <>
@@ -412,13 +412,13 @@ export default function LocationTable({
     console.log("Location Data: ", data);
 
     selectJson["languageArray"].map((val) =>
-      languagesOptions.push({ value: val, label: val })
+      languagesOptions.push({ value: val, label: val }),
     );
     selectJson["stateOptions"].map((val) =>
-      stateOptions.push({ value: val, label: val })
+      stateOptions.push({ value: val, label: val }),
     );
     selectJson["addressTypeOptions"].map((val) =>
-      addressTypeOptions.push({ value: val, label: val })
+      addressTypeOptions.push({ value: val, label: val }),
     );
 
     return (
@@ -442,7 +442,7 @@ export default function LocationTable({
                     handleGridFieldChange(
                       index,
                       evnt,
-                      LocationTable.displayName
+                      LocationTable.displayName,
                     );
                     handleFieldBlur("locationName", evnt?.target?.value);
                   }}
@@ -506,7 +506,7 @@ export default function LocationTable({
                       index,
                       selectValue,
                       event,
-                      LocationTable.displayName
+                      LocationTable.displayName,
                     )
                   }
                   options={languagesOptions}
@@ -535,7 +535,7 @@ export default function LocationTable({
                     handleGridFieldChange(
                       index,
                       evnt,
-                      LocationTable.displayName
+                      LocationTable.displayName,
                     )
                   }
                   name="npi"
@@ -560,7 +560,7 @@ export default function LocationTable({
                       index,
                       selectValue,
                       event,
-                      LocationTable.displayName
+                      LocationTable.displayName,
                     )
                   }
                   options={addressTypeOptions}
@@ -588,7 +588,7 @@ export default function LocationTable({
                     handleGridFieldChange(
                       index,
                       evnt,
-                      LocationTable.displayName
+                      LocationTable.displayName,
                     );
                     handleFieldBlur("address1", evnt?.target?.value);
                   }}
@@ -617,7 +617,7 @@ export default function LocationTable({
                     handleGridFieldChange(
                       index,
                       evnt,
-                      LocationTable.displayName
+                      LocationTable.displayName,
                     )
                   }
                   name="address2"
@@ -643,7 +643,7 @@ export default function LocationTable({
                     handleGridFieldChange(
                       index,
                       evnt,
-                      LocationTable.displayName
+                      LocationTable.displayName,
                     );
                     handleFieldBlur("city", evnt?.target?.value);
                   }}
@@ -675,7 +675,7 @@ export default function LocationTable({
                     handleGridFieldChange(
                       index,
                       evnt,
-                      LocationTable.displayName
+                      LocationTable.displayName,
                     );
                     handleFieldBlur("county", evnt?.target?.value);
                   }}
@@ -706,7 +706,7 @@ export default function LocationTable({
                       index,
                       selectValue,
                       event,
-                      LocationTable.displayName
+                      LocationTable.displayName,
                     );
 
                     handleFieldBlur("stateValue", selectValue?.value);
@@ -739,12 +739,12 @@ export default function LocationTable({
                     handleGridFieldChange(
                       index,
                       evnt,
-                      LocationTable.displayName
+                      LocationTable.displayName,
                     );
 
                     handleFieldBlur(
                       "zipCode",
-                      acceptNumbersOnly(evnt?.target?.value)
+                      acceptNumbersOnly(evnt?.target?.value),
                     );
                   }}
                   name="zipCode"
@@ -778,11 +778,11 @@ export default function LocationTable({
                             value: data.electronicHealthRecord.value,
                           }
                         : data.electronicHealthRecord.value === "N"
-                        ? {
-                            label: "NO",
-                            value: data.electronicHealthRecord.value,
-                          }
-                        : data.electronicHealthRecord
+                          ? {
+                              label: "NO",
+                              value: data.electronicHealthRecord.value,
+                            }
+                          : data.electronicHealthRecord
                       : data.electronicHealthRecord
                   }
                   onChange={(selectValue, event) =>
@@ -790,7 +790,7 @@ export default function LocationTable({
                       index,
                       selectValue,
                       event,
-                      LocationTable.displayName
+                      LocationTable.displayName,
                     )
                   }
                   options={electronicHealthOptions}
@@ -808,21 +808,24 @@ export default function LocationTable({
                   autoComplete="off"
                   type="text"
                   onChange={(evnt) => {
-                    console.log("On change of Office phone number")
+                    console.log("On change of Office phone number");
                     handleGridFieldChange(
                       index,
                       evnt,
-                      LocationTable.displayName
+                      LocationTable.displayName,
                     );
                     handleFieldBlur(
                       "officePhoneNumber",
-                      acceptNumbersOnly(evnt?.target?.value)
+                      acceptNumbersOnly(evnt?.target?.value),
                     );
                   }}
                   onBlur={(evnt) => {
-                    handleGridFieldChange(index, evnt, LocationTable.displayName) 
+                    handleGridFieldChange(
+                      index,
+                      evnt,
+                      LocationTable.displayName,
+                    );
                   }}
-
                   value={
                     "officePhoneNumber" in data &&
                     data.officePhoneNumber.value !== undefined
@@ -864,18 +867,17 @@ export default function LocationTable({
                     handleGridFieldChange(
                       index,
                       evnt,
-                      LocationTable.displayName
+                      LocationTable.displayName,
                     )
                   }
                   onBlur={(evnt) =>
                     handleGridFieldChange(
                       index,
                       evnt,
-                      LocationTable.displayName
+                      LocationTable.displayName,
                     )
                   }
                   name="officeFaxNumber"
-                  
                   className="form-control"
                   disabled={lockStatus !== "N"}
                 />
@@ -899,11 +901,11 @@ export default function LocationTable({
                             value: data.publicTransportation.value,
                           }
                         : data.publicTransportation.value === "N"
-                        ? {
-                            label: "NO",
-                            value: data.publicTransportation.value,
-                          }
-                        : data.publicTransportation
+                          ? {
+                              label: "NO",
+                              value: data.publicTransportation.value,
+                            }
+                          : data.publicTransportation
                       : data.publicTransportation
                   }
                   onChange={(selectValue, event) =>
@@ -911,7 +913,7 @@ export default function LocationTable({
                       index,
                       selectValue,
                       event,
-                      LocationTable.displayName
+                      LocationTable.displayName,
                     )
                   }
                   options={publicTransportationOptions}
@@ -939,8 +941,8 @@ export default function LocationTable({
                       ? data.handicapAccess.value === "Y"
                         ? { label: "YES", value: data.handicapAccess.value }
                         : data.handicapAccess.value === "N"
-                        ? { label: "NO", value: data.handicapAccess.value }
-                        : data.handicapAccess
+                          ? { label: "NO", value: data.handicapAccess.value }
+                          : data.handicapAccess
                       : data.handicapAccess
                   }
                   onChange={(selectValue, event) =>
@@ -948,7 +950,7 @@ export default function LocationTable({
                       index,
                       selectValue,
                       event,
-                      LocationTable.displayName
+                      LocationTable.displayName,
                     )
                   }
                   options={handicapAccessOptions}
@@ -973,8 +975,8 @@ export default function LocationTable({
                       ? data.tddHearing.value === "Y"
                         ? { label: "YES", value: data.tddHearing.value }
                         : data.tddHearing.value === "N"
-                        ? { label: "NO", value: data.tddHearing.value }
-                        : data.tddHearing
+                          ? { label: "NO", value: data.tddHearing.value }
+                          : data.tddHearing
                       : data.tddHearing
                   }
                   onChange={(selectValue, event) => {
@@ -982,7 +984,7 @@ export default function LocationTable({
                       index,
                       selectValue,
                       event,
-                      LocationTable.displayName
+                      LocationTable.displayName,
                     );
                     setTdd(selectValue);
                     setTddPhone(data?.tddPhone?.value);
@@ -1015,11 +1017,12 @@ export default function LocationTable({
                     if (
                       !!data.tddHearing &&
                       data.tddHearing.value === "Y" &&
-                      (!data?.tddPhone?.value || acceptNumbersOnly(data?.tddPhone?.value) === "")
+                      (!data?.tddPhone?.value ||
+                        acceptNumbersOnly(data?.tddPhone?.value) === "")
                     ) {
                       setIsInvalid(true);
                       setIsTouched({ ...isTouched, tddPhone: true });
-                     // handleGridFieldChange(index, evnt, LocationTable.displayName)
+                      // handleGridFieldChange(index, evnt, LocationTable.displayName)
                     }
                     // else{
                     //   console.log("inside elese");
@@ -1031,7 +1034,7 @@ export default function LocationTable({
                     handleGridFieldChange(
                       index,
                       evnt,
-                      LocationTable.displayName
+                      LocationTable.displayName,
                     );
                     setTddPhone(evnt.target.value);
                   }}
@@ -1065,8 +1068,8 @@ export default function LocationTable({
                       ? data.telemedicine.value === "Y"
                         ? { label: "YES", value: data.telemedicine.value }
                         : data.telemedicine.value === "N"
-                        ? { label: "NO", value: data.telemedicine.value }
-                        : data.telemedicine
+                          ? { label: "NO", value: data.telemedicine.value }
+                          : data.telemedicine
                       : data.telemedicine
                   }
                   options={telemedicineOptions}
@@ -1075,7 +1078,7 @@ export default function LocationTable({
                       index,
                       selectValue,
                       event,
-                      LocationTable.displayName
+                      LocationTable.displayName,
                     );
                   }}
                   name="telemedicine"
@@ -1110,7 +1113,7 @@ export default function LocationTable({
                       index,
                       selectValue,
                       event,
-                      LocationTable.displayName
+                      LocationTable.displayName,
                     )
                   }
                   //   value={data.placeInDirectory}
@@ -1119,8 +1122,8 @@ export default function LocationTable({
                       ? data.placeInDirectory.value === "Y"
                         ? { label: "YES", value: data.placeInDirectory.value }
                         : data.placeInDirectory.value === "N"
-                        ? { label: "NO", value: data.placeInDirectory.value }
-                        : data.placeInDirectory
+                          ? { label: "NO", value: data.placeInDirectory.value }
+                          : data.placeInDirectory
                       : data.placeInDirectory
                   }
                   //   defaultValue={{ label: "YES", value: "YES" }}
@@ -1384,7 +1387,7 @@ export default function LocationTable({
                       deleteTableRows(
                         index,
                         LocationTable.displayName,
-                        "Force Delete"
+                        "Force Delete",
                       );
                       handleOperationValue("Force Delete");
                       decreaseDataIndex();

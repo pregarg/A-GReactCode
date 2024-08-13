@@ -92,7 +92,7 @@ export default function ContractingSearch({ openDrawer, setPage }) {
   const [isFormValid, setIsFormValid] = useState(true);
   const [providerTableData, setProviderTableData] = useState([]);
   const [facilityAncillaryTableData, setFacilityAncillaryTableData] = useState(
-    []
+    [],
   );
   const token = useSelector((state) => state.auth.token);
   const [visible, setVisible] = useState(false);
@@ -100,9 +100,9 @@ export default function ContractingSearch({ openDrawer, setPage }) {
   const [isSearchClicked, setIsSearchClicked] = useState(false);
   const [caseUnlockState, setCaseUnlockState] = useState([]);
 
-  const [searchResults, setSearchResults] = useState([]);  
-    const [legalNames,setlegalNames] = useState();
-    const [dropdownIsOpen, setDropdownIsOpen] = useState(false);
+  const [searchResults, setSearchResults] = useState([]);
+  const [legalNames, setlegalNames] = useState();
+  const [dropdownIsOpen, setDropdownIsOpen] = useState(false);
 
   const mastersSelector = useSelector((masters) => masters);
   console.log(mastersSelector);
@@ -214,7 +214,7 @@ export default function ContractingSearch({ openDrawer, setPage }) {
           .catch((err) => {
             console.log(
               "Caught in generic get api for MultiPlan ViewData: ",
-              err.message
+              err.message,
             );
           });
       } else {
@@ -243,7 +243,7 @@ export default function ContractingSearch({ openDrawer, setPage }) {
       });
       if (validateStateFlag < 2) {
         alert(
-          "Please select atleast one more field other than State to do Search."
+          "Please select atleast one more field other than State to do Search.",
         );
         return false;
       }
@@ -285,73 +285,68 @@ export default function ContractingSearch({ openDrawer, setPage }) {
     console.log(isFormValid);
   };
 
-  const handleOptionSelect =(option,field)=>{
-    console.log("handleoption",option);
-   // setInputValue(option);
-    updateFormData(option,field);
-   // setSelectedOption(option);
-   setDropdownIsOpen(false);
+  const handleOptionSelect = (option, field) => {
+    console.log("handleoption", option);
+    // setInputValue(option);
+    updateFormData(option, field);
+    // setSelectedOption(option);
+    setDropdownIsOpen(false);
     setSearchResults([]);
-}
+  };
 
-const handleInputBlur = () => {
+  const handleInputBlur = () => {
     console.log("InputBlur");
     setTimeout(() => {
-        setDropdownIsOpen(false);  
+      setDropdownIsOpen(false);
     }, 200);
-   
-   // setSearchResults([]);
-  }; 
 
+    // setSearchResults([]);
+  };
 
-// const ArrayOfOptions =['Harshit','Shivani','Prerna','Mohit','Ankit','Sahil','Harsh'];
-const searchFunction = (value) => {
-    console.log("searchfunction",value);
-    let ArrayOfOptions =[];
+  // const ArrayOfOptions =['Harshit','Shivani','Prerna','Mohit','Ankit','Sahil','Harsh'];
+  const searchFunction = (value) => {
+    console.log("searchfunction", value);
+    let ArrayOfOptions = [];
     // if(selectedType === 'Provider'){
     //   ArrayOfOptions = legalNames[0].Provider;
     // }
     // else if(selectedType === 'Facility' || selectedType === 'Ancillary'){
-    //     ArrayOfOptions = legalNames[0]['Faci/Anci']; 
+    //     ArrayOfOptions = legalNames[0]['Faci/Anci'];
     // }
     ArrayOfOptions = legalNames?.[0]?.Contract;
-    console.log("ArrayOfOptions",ArrayOfOptions);
+    console.log("ArrayOfOptions", ArrayOfOptions);
     let filteredResults = [];
-    if(ArrayOfOptions !== undefined){
-      filteredResults = ArrayOfOptions.filter((elem) =>
-      {
-       // console.log("element",elem.Name);
+    if (ArrayOfOptions !== undefined) {
+      filteredResults = ArrayOfOptions.filter((elem) => {
+        // console.log("element",elem.Name);
         return elem.Name.toLowerCase().includes(value.toLowerCase());
       });
     }
-    
-    console.log("filteredResults",filteredResults)
+
+    console.log("filteredResults", filteredResults);
     return filteredResults;
   };
-  
+
   const updateFormData = (value, field) => {
-    //  const value = e.target.value; 
-    if(field === 'legalEntityName'){
+    //  const value = e.target.value;
+    if (field === "legalEntityName") {
       setDropdownIsOpen(true);
       const results = searchFunction(value);
-      console.log("result of LEN",results);
-       setSearchResults(results); 
+      console.log("result of LEN", results);
+      setSearchResults(results);
     }
-      setFormData((prevState) => {
-          return {
-              ...prevState,
-              [field]: {
-                  ...prevState[field],
-                  value: value.toUpperCase(), //Changed by Nidhi Gupta on 10/16/2023,
-                  isInvalid: false
-              }
-          }
-      })
-      validateForm();
-      
-  }
-
-
+    setFormData((prevState) => {
+      return {
+        ...prevState,
+        [field]: {
+          ...prevState[field],
+          value: value.toUpperCase(), //Changed by Nidhi Gupta on 10/16/2023,
+          isInvalid: false,
+        },
+      };
+    });
+    validateForm();
+  };
 
   // const updateFormData = (value, field) => {
   //   setFormData((prevState) => {
@@ -379,7 +374,7 @@ const searchFunction = (value) => {
           {props.selectProps.placeholder}
         </Placeholder>
         {React.Children.map(children, (child) =>
-          child && child.type !== Placeholder ? child : null
+          child && child.type !== Placeholder ? child : null,
         )}
       </ValueContainer>
     );
@@ -522,7 +517,7 @@ const searchFunction = (value) => {
           .catch((err) => {
             console.log(
               "Error in calling callProcedure option GETCONTRACTINGSEARCHDATA :  ",
-              err.message
+              err.message,
             );
           });
         setVisible(true);
@@ -531,8 +526,7 @@ const searchFunction = (value) => {
       if (selectedType == "Provider") {
         setIsProvider(true);
       }
-    } 
-    catch (error) {
+    } catch (error) {
       alert("Error occured in searching data");
       console.log("Caught in newSearchHandler error: ", error);
     }
@@ -548,16 +542,20 @@ const searchFunction = (value) => {
     setIsFormValid(false);
   };
 
-    useEffect(() => {
-        setVisible(false);
-        let getApiJson = {};
-        getApiJson['option'] = 'GETLEGALENTITYNAMES';
-        getApiJson['Type']='Contracting';
-        axios.post(baseURL + '/generic/callProcedure', getApiJson, { headers: { 'Authorization': `Bearer ${token}` } }).then((res) => {
-            setlegalNames(res.data.CallProcedure_Output.data);
-            console.log("List of Legal Entity Names",legalNames);
-        })
-    }, [])
+  useEffect(() => {
+    setVisible(false);
+    let getApiJson = {};
+    getApiJson["option"] = "GETLEGALENTITYNAMES";
+    getApiJson["Type"] = "Contracting";
+    axios
+      .post(baseURL + "/generic/callProcedure", getApiJson, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        setlegalNames(res.data.CallProcedure_Output.data);
+        console.log("List of Legal Entity Names", legalNames);
+      });
+  }, []);
 
   useEffect(() => {
     setFormData(initialState);
@@ -711,22 +709,47 @@ const searchFunction = (value) => {
                     }
                   ></input> */}
 
-                    <input type="text" className={formData.legalEntityName.isInvalid ? 'form-control is-invalid' : 'form-control'} id="legalEntityName" placeholder="legalEntityName" 
-                            value={convertToCase(formData.legalEntityName.value)} name="legalEntityName" maxLength="100" 
-                            onBlur={(event)=> handleInputBlur(event)}
-                            onChange={(e) => updateFormData(e.target.value, 'legalEntityName')}
-                             />
-                                  {formData?.legalEntityName?.value && dropdownIsOpen && ( 
-                                     <><ul 
-                                     className='uldropdownLen'
-                                     style={{listStyleType:'none'}}>
-                                        {searchResults.map((result, index) => (
-                                        <li className='dropdownListLen' key={index} onClick={(event) => handleOptionSelect(result.Name,'legalEntityName',event)}>
-                                            {result.Name}
-                                        </li>
-                                        ))}
-                                    </ul> 
-                                    </>)}
+                  <input
+                    type="text"
+                    className={
+                      formData.legalEntityName.isInvalid
+                        ? "form-control is-invalid"
+                        : "form-control"
+                    }
+                    id="legalEntityName"
+                    placeholder="legalEntityName"
+                    value={convertToCase(formData.legalEntityName.value)}
+                    name="legalEntityName"
+                    maxLength="100"
+                    onBlur={(event) => handleInputBlur(event)}
+                    onChange={(e) =>
+                      updateFormData(e.target.value, "legalEntityName")
+                    }
+                  />
+                  {formData?.legalEntityName?.value && dropdownIsOpen && (
+                    <>
+                      <ul
+                        className="uldropdownLen"
+                        style={{ listStyleType: "none" }}
+                      >
+                        {searchResults.map((result, index) => (
+                          <li
+                            className="dropdownListLen"
+                            key={index}
+                            onClick={(event) =>
+                              handleOptionSelect(
+                                result.Name,
+                                "legalEntityName",
+                                event,
+                              )
+                            }
+                          >
+                            {result.Name}
+                          </li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
 
                   <label htmlFor="floatingInputGrid">Legal Entity Name</label>
                   {formData.legalEntityName.isInvalid && (

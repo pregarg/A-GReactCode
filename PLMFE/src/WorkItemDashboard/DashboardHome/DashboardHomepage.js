@@ -206,8 +206,8 @@ export default function DashboardHomepage() {
   //console.log("Inside Dashboard Home page mastersSelector: ",mastersSelector);
   const loggedInUserType =
     mastersSelector.hasOwnProperty("auth") &&
-      mastersSelector.auth.hasOwnProperty("userType") &&
-      mastersSelector.auth.userType === "A"
+    mastersSelector.auth.hasOwnProperty("userType") &&
+    mastersSelector.auth.userType === "A"
       ? "A"
       : "S";
   const [caseUnlockState, setCaseUnlockState] = useState([]);
@@ -247,7 +247,7 @@ export default function DashboardHomepage() {
     });
     console.log(
       "Inside DashboardLoginPage adminUpdateLockStatus apiArr: ",
-      apiArr
+      apiArr,
     );
     setCaseUnlockState([]);
     if (apiArr.length > 0) {
@@ -257,7 +257,7 @@ export default function DashboardHomepage() {
       gridData[tableName] = apiArr;
       console.log(
         "Inside DashboardLoginPage adminUpdateLockStatus input params: ",
-        gridData
+        gridData,
       );
       axios
         .post("/generic/update", gridData, {
@@ -266,7 +266,7 @@ export default function DashboardHomepage() {
         .then((res) => {
           console.log(
             "Inside DashboardLoginPage adminUpdateLockStatus Data Update result: ",
-            res
+            res,
           );
           const apiStat = res.data["UpdateCase_Output"]["Status"];
           if (apiStat === 0) {
@@ -288,7 +288,7 @@ export default function DashboardHomepage() {
   };
 
   useEffect(() => {
-    console.log("stdpra is here")
+    console.log("stdpra is here");
     if (!isSignedIn) {
       navigate("/DashboardLogin", { replace: true });
     }
@@ -303,7 +303,7 @@ export default function DashboardHomepage() {
 
     if (data?.data?.length > 0) {
       setisNavigated(true);
-      console.log("stdpra1", data.data)
+      console.log("stdpra1", data.data);
       setTableData(data.data);
 
       if (data.caseSubmitted) {
@@ -326,7 +326,7 @@ export default function DashboardHomepage() {
       : [];
     printConsole(
       "Inside setAsPerModuleRights get Table data moduleStageRights: ",
-      moduleRightsArr
+      moduleRightsArr,
     );
     if (moduleRightsArr.length > 0) {
       let moduleJson = { ...moduleRefs };
@@ -402,7 +402,7 @@ export default function DashboardHomepage() {
       });
       printConsole(
         "Inside setAsPerModuleRights module rights after for json: ",
-        moduleJson
+        moduleJson,
       );
       setModuleRefs(moduleJson);
     }
@@ -552,7 +552,7 @@ export default function DashboardHomepage() {
   // const token = useSelector((state) => state.auth.token);
   const getBarChartData = () => {
     printConsole(
-      "#############Inside getBarChartData() function##############"
+      "#############Inside getBarChartData() function##############",
     );
 
     let getApiJson = {};
@@ -587,7 +587,7 @@ export default function DashboardHomepage() {
       StageName: "=~" + stageName,
       FlowId: "=~" + flowId,
     };
-    console.log("dashboard api json ",getApiJson )
+    console.log("dashboard api json ", getApiJson);
     customAxios
       .post("/generic/get", getApiJson, {
         headers: { Authorization: `Bearer ${token}` },
@@ -597,7 +597,7 @@ export default function DashboardHomepage() {
         if (res.data.Status === 0) {
           const respData = [...res.data.data.mainTable];
           console.log("respData1: ", respData);
-          console.log("stdpra2", respData)
+          console.log("stdpra2", respData);
           setTableData(respData);
           //setTableData(filterHomePageTable(respData));
         }
@@ -633,11 +633,11 @@ export default function DashboardHomepage() {
         res = res.data.CallProcedure_Output;
         printConsole(
           "Inside DocumentTab docFunction after get api output: ",
-          res
+          res,
         );
         if (res.Status === 0) {
           const respData = [...res.data];
-          console.log("stdpra3", respData)
+          console.log("stdpra3", respData);
           setTableData(respData);
         }
       })
@@ -702,7 +702,7 @@ export default function DashboardHomepage() {
         if (res.data.Status === 0) {
           const respData = [...res.data.data.mainTable];
           printConsole("closedCasesFilter respData: ", respData);
-          console.log("stdpra4", filterHomePageTable(respData))
+          console.log("stdpra4", filterHomePageTable(respData));
           setTableData(filterHomePageTable(respData));
         }
       })
@@ -732,7 +732,6 @@ export default function DashboardHomepage() {
         formView: "DashboardHomeView",
         formOpenedFrom: "Dashboard",
         formNames: formName,
-
       },
     });
   };
@@ -740,7 +739,7 @@ export default function DashboardHomepage() {
   const navigateToForm = (index) => {
     printConsole("inside navigateToForm: ", tableData[index]);
     const obj = tableData[index];
-    console.log("pravtest1234", obj)
+    console.log("pravtest1234", obj);
     let navigateUrl = "";
     if (obj.CaseNumber !== undefined) {
       //Changed by NG on 12/8/2023
@@ -750,13 +749,15 @@ export default function DashboardHomepage() {
         "add a facility": "/DashboardLogin/AddFacility",
         "add an ancillary": "/DashboardLogin/AddAncillary",
         "provider modification": "/DashboardLogin/ProviderModification",
-        "ancillary/facility modification": "/DashboardLogin/AncillaryFacilityModification",
-        "appeals": "/DashboardLogin/Appeals",
+        "ancillary/facility modification":
+          "/DashboardLogin/AncillaryFacilityModification",
+        appeals: "/DashboardLogin/Appeals",
         "payto modification": "/DashboardLogin/GroupPayToModification",
         "address modification": "/DashboardLogin/GroupAddressModification",
         "provider contracting": "/ContractingHome/ProviderContracting",
-        "facility/ancillary/health systems contracting": "/DashboardLogin/FacAncHealthSystem",
-        "termination": "/DashboardLogin/Termination",
+        "facility/ancillary/health systems contracting":
+          "/DashboardLogin/FacAncHealthSystem",
+        termination: "/DashboardLogin/Termination",
       };
 
       if (obj.TransactionType !== undefined && obj.TransactionType !== "") {
@@ -775,8 +776,8 @@ export default function DashboardHomepage() {
         obj.LockStatus !== undefined ? obj.LockStatus : "N"
       ).trim();
       //console.log('Initial lockStat: ',lockStat);
-      console.log("pravstatus4", lockStat)
-      console.log("pravstatus3", mastersSelector)
+      console.log("pravstatus4", lockStat);
+      console.log("pravstatus3", mastersSelector);
       if (lockStat === undefined || lockStat === "N") {
         if (mastersSelector.hasOwnProperty("masterStageRights")) {
           let filteredStageRightsArr = [];
@@ -810,7 +811,7 @@ export default function DashboardHomepage() {
               });
               console.log(
                 "filteredStageRightsArr==== ",
-                filteredStageRightsArr
+                filteredStageRightsArr,
               );
               if (filteredStageRightsArr.length > 0) {
                 updateLockStatus("Y", obj.CaseNumber, userId, "");
@@ -843,7 +844,7 @@ export default function DashboardHomepage() {
           lockStatus: lockStat,
           Field1: obj.Field1,
           Field3: obj.Field3,
-          decisionReason: obj.DECISON_REASON
+          decisionReason: obj.DECISON_REASON,
         },
       });
       //<AddProvider caseNumber={obj.caseNumber}></AddProvider>
@@ -873,16 +874,16 @@ export default function DashboardHomepage() {
     //console.log('filteringTableData: ',tableArr);
     if (caseStat === "All Cases") {
       //console.log("Inside filterTable not allCases before: ",initialTableData);
-      console.log("stdpra5", tableArr)
+      console.log("stdpra5", tableArr);
       setTableData(tableArr);
     }
     if (caseStat !== "All Cases") {
       const tmpTableData = [...tableArr];
       let filteredArray = tmpTableData.filter(
-        (data) => data.StageName === caseStat
+        (data) => data.StageName === caseStat,
       );
       //console.log("Inside filterTable not allCases after: ",filteredArray);
-      console.log("stdpra6", filteredArray)
+      console.log("stdpra6", filteredArray);
       setTableData(filteredArray);
       //console.log("Inside filterTable state: ",tableData);
     }
@@ -979,9 +980,9 @@ export default function DashboardHomepage() {
     }
   };
 
-  const deleteTableRows = (index, operationValue) => { };
+  const deleteTableRows = (index, operationValue) => {};
 
-  const decreaseDataIndex = () => { };
+  const decreaseDataIndex = () => {};
 
   const tdUserData = () => {
     console.log(usersTableRowsData.length);
@@ -1023,7 +1024,7 @@ export default function DashboardHomepage() {
             </td>
             <td className="tableData">
               {"stateAbbreviation" in data &&
-                data.stateAbbreviation.value !== undefined
+              data.stateAbbreviation.value !== undefined
                 ? data.stateAbbreviation.value
                 : data.stateAbbreviation}
             </td>
@@ -1699,9 +1700,7 @@ export default function DashboardHomepage() {
             <ListItem
               disablePadding
               sx={{ display: !moduleRefs.mdmMgmnt ? "none" : "block" }}
-            >
-
-            </ListItem>
+            ></ListItem>
 
             <ListItem disablePadding sx={{ display: "block" }}>
               <ListItemButton
@@ -1739,8 +1738,6 @@ export default function DashboardHomepage() {
                     />
                   </ListItemIcon>
                 </Tooltip>
-
-
 
                 <ListItemText
                   secondary={
@@ -1897,7 +1894,6 @@ export default function DashboardHomepage() {
                 />
               )}
 
-  
               <Grid item md={6}>
                 <div
                   className="card"
@@ -1946,7 +1942,6 @@ export default function DashboardHomepage() {
                 setPage={setPage}
               />
             ) : null}
-
 
             {page === "contractingSearch" ? (
               <ContractingSearch openDrawer={openDrawer} setPage={setPage} />

@@ -68,17 +68,17 @@ const populateAccessibility = (node, staticValue) => {
             staticValue &&
           checkDataAvailable(data1.AccessibilityFlag) == "1"
             ? "Yes"
-            : "No"
+            : "No",
         ).indexOf("Yes") > -1
         ? { label: "Yes", value: "Y" }
         : { label: "No", value: "N" }
       : !!checkDataAvailable(node.Accessibility.Accessibility) &&
-        checkDataAvailable(
-          node.Accessibility.Accessibility.AccessibilityDescription
-        ) == staticValue &&
-        checkDataAvailable(node.Accessibility.AccessibilityFlag) == "1"
-      ? { label: "Yes", value: "Y" }
-      : { label: "No", value: "N" }
+          checkDataAvailable(
+            node.Accessibility.Accessibility.AccessibilityDescription,
+          ) == staticValue &&
+          checkDataAvailable(node.Accessibility.AccessibilityFlag) == "1"
+        ? { label: "Yes", value: "Y" }
+        : { label: "No", value: "N" }
     : { label: "No", value: "N" };
 };
 
@@ -146,7 +146,7 @@ export default function ProviderDemo() {
   let documentSectionDataRef = useRef([]);
 
   let credentialingConfigData = JSON.parse(
-    process.env.REACT_APP_CREDENTIALING_DETAILS
+    process.env.REACT_APP_CREDENTIALING_DETAILS,
   );
   const dispatch = useDispatch();
   const [loadForm, setLoadForm] = useState(true);
@@ -317,7 +317,7 @@ export default function ProviderDemo() {
       const contractIdData = provContLinkData[0][0];
       printConsole(
         "Inside getDashboardData contractIdData Data: ",
-        contractIdData
+        contractIdData,
       );
       if (contractIdData !== undefined) {
         // if(contractIdData.hasOwnProperty('MainTable')){
@@ -418,17 +418,17 @@ export default function ProviderDemo() {
     const isChecked = evnt.target.checked;
     console.log(
       "Inside handlecheckbox change with event: ",
-      evnt.target.checked
+      evnt.target.checked,
     );
     console.log(
       "Inside handlecheckbox change with index: ",
       ind,
       " and value: ",
-      isChecked
+      isChecked,
     );
     printConsole(
       "Inside handleCheckBox change caseUnlockState value: ",
-      caseUnlockState
+      caseUnlockState,
     );
     if (isChecked) {
       if (caseUnlockState !== -1) {
@@ -438,7 +438,7 @@ export default function ProviderDemo() {
         let updatedProvData = removeExtraChecked();
         printConsole(
           "Inside handleCheckBox change else with updated data: ",
-          updatedProvData
+          updatedProvData,
         );
         let jsn = updatedProvData[ind];
         jsn.isChecked = evnt.target.checked;
@@ -524,7 +524,7 @@ export default function ProviderDemo() {
     checkGridJsonLength,
     extractDate,
     acceptNumbersOnly,
-    getDatePartOnly
+    getDatePartOnly,
   } = useGetDBTables();
 
   //Added Newly by Nidhi Gupta on 09/05/2023
@@ -741,151 +741,145 @@ export default function ProviderDemo() {
     // console.log("master ages seen exists: ",mastersSelector['masterAgesSeen']);
     // console.log("master ages seen exists 22: ",mastersSelector['masterAgesSeen'].length);
     let newArr = [];
-      if (mastersSelector.hasOwnProperty("masterAgesSeen")) {
-        let newAgesSeenArray = [];
-        let orgAgesSeenArray =
-          mastersSelector["masterAgesSeen"].length === 0
-            ? []
-            : mastersSelector["masterAgesSeen"][0];
-        for (let i = 0; i < orgAgesSeenArray.length; i++) {
-          newAgesSeenArray.push({
-            label: convertToCase(orgAgesSeenArray[i].agesSeen),
-            value: convertToCase(orgAgesSeenArray[i].agesSeen),
-          });
-        }
-        selectJson.agesSeenArray = newAgesSeenArray;
+    if (mastersSelector.hasOwnProperty("masterAgesSeen")) {
+      let newAgesSeenArray = [];
+      let orgAgesSeenArray =
+        mastersSelector["masterAgesSeen"].length === 0
+          ? []
+          : mastersSelector["masterAgesSeen"][0];
+      for (let i = 0; i < orgAgesSeenArray.length; i++) {
+        newAgesSeenArray.push({
+          label: convertToCase(orgAgesSeenArray[i].agesSeen),
+          value: convertToCase(orgAgesSeenArray[i].agesSeen),
+        });
+      }
+      selectJson.agesSeenArray = newAgesSeenArray;
+    }
+
+    if (mastersSelector.hasOwnProperty("masterLanguages")) {
+      //selectJson.languageArray = mastersSelector['masterLanguages'][0].data;
+      let languageArray =
+        mastersSelector["masterLanguages"].length === 0
+          ? []
+          : mastersSelector["masterLanguages"][0];
+
+      for (const item of languageArray) {
+        newArr.push(convertToCase(item.displayName));
+      }
+      selectJson.languageArray = newArr;
+      newArr = [];
+    }
+
+    if (mastersSelector.hasOwnProperty("masterGridLicenseType")) {
+      let licenseTypeOptions =
+        mastersSelector["masterGridLicenseType"].length === 0
+          ? []
+          : mastersSelector["masterGridLicenseType"][0];
+
+      for (const item of licenseTypeOptions) {
+        newArr.push(convertToCase(item.licenseType));
       }
 
-      if (mastersSelector.hasOwnProperty("masterLanguages")) {
-        //selectJson.languageArray = mastersSelector['masterLanguages'][0].data;
-        let languageArray =
-          mastersSelector["masterLanguages"].length === 0
-            ? []
-            : mastersSelector["masterLanguages"][0];
+      selectJson.licenseTypeOptions = newArr;
+      newArr = [];
+    }
+    //  if(mastersSelector.hasOwnProperty('masterStateSymbol')){
+    //     selectJson.stateOptions = ((mastersSelector['masterStateSymbol'].length===0) ? [] : (mastersSelector['masterStateSymbol'][0].data));
+    //  }
 
-            for (const item of languageArray) {
-              newArr.push(convertToCase(item.displayName));
-            } 
-          selectJson.languageArray = newArr;
-          newArr = [];
+    if (mastersSelector.hasOwnProperty("masterStateSymbol")) {
+      let newstateOptions = [];
+      let orgstateOptions =
+        mastersSelector["masterStateSymbol"].length === 0
+          ? []
+          : mastersSelector["masterStateSymbol"][0];
+      // for (let i = 0; i < orgstateOptions.length; i++) {
+      //   newstateOptions.push({
+      //     label: convertToCase(orgstateOptions[i].stateSymbol),
+      //     value: convertToCase(orgstateOptions[i].stateSymbol),
+      //   });
+
+      // }
+
+      for (const item of orgstateOptions) {
+        newstateOptions.push({
+          label: convertToCase(item.stateSymbol),
+          value: convertToCase(item.stateSymbol),
+        });
+        newArr.push(convertToCase(item.stateSymbol));
+      }
+      selectJson.stateOptionsLinear = newstateOptions;
+      selectJson.stateOptions = newArr;
+      newArr = [];
+    }
+
+    if (mastersSelector.hasOwnProperty("masterAddressType")) {
+      let addressTypeOptions =
+        mastersSelector["masterAddressType"].length === 0
+          ? []
+          : mastersSelector["masterAddressType"][0];
+
+      for (const item of addressTypeOptions) {
+        newArr.push(convertToCase(item.addressType));
       }
 
-     
+      selectJson.addressTypeOptions = newArr;
+      newArr = [];
+    }
 
-      if (mastersSelector.hasOwnProperty("masterGridLicenseType")) {
-        let licenseTypeOptions =
-          mastersSelector["masterGridLicenseType"].length === 0
-            ? []
-            : mastersSelector["masterGridLicenseType"][0];
+    if (mastersSelector.hasOwnProperty("masterLicenseType")) {
+      selectJson.typeOptions =
+        mastersSelector["masterLicenseType"].length === 0
+          ? []
+          : mastersSelector["masterLicenseType"][0].data;
+    }
 
-            for (const item of licenseTypeOptions) {
-              newArr.push(convertToCase(item.licenseType));
-            } 
+    if (mastersSelector.hasOwnProperty("masterSpeciality")) {
+      selectJson.specialtyOptions =
+        mastersSelector["masterSpeciality"].length === 0
+          ? []
+          : mastersSelector["masterSpeciality"][0];
+    }
 
-            selectJson.licenseTypeOptions = newArr;
-            newArr = [];
-      }
-      //  if(mastersSelector.hasOwnProperty('masterStateSymbol')){
-      //     selectJson.stateOptions = ((mastersSelector['masterStateSymbol'].length===0) ? [] : (mastersSelector['masterStateSymbol'][0].data));
-      //  }
+    if (mastersSelector.hasOwnProperty("masterGraduateType")) {
+      let degreeOptions =
+        mastersSelector["masterGraduateType"].length === 0
+          ? []
+          : mastersSelector["masterGraduateType"][0];
 
-      if (mastersSelector.hasOwnProperty("masterStateSymbol")) {
-        let newstateOptions = [];
-        let orgstateOptions =
-          mastersSelector["masterStateSymbol"].length === 0
-            ? []
-            : mastersSelector["masterStateSymbol"][0];
-        // for (let i = 0; i < orgstateOptions.length; i++) {
-        //   newstateOptions.push({
-        //     label: convertToCase(orgstateOptions[i].stateSymbol),
-        //     value: convertToCase(orgstateOptions[i].stateSymbol),
-        //   });
-  
-        // }
-        
-  
-        for (const item of orgstateOptions) {
-          newstateOptions.push({
-            label: convertToCase(item.stateSymbol),
-            value: convertToCase(item.stateSymbol),
-          });
-          newArr.push(convertToCase(item.stateSymbol));
-        } 
-        selectJson.stateOptionsLinear = newstateOptions;
-        selectJson.stateOptions = newArr;
-        newArr = [];
+      for (const item of degreeOptions) {
+        newArr.push(convertToCase(item.graduateType));
       }
 
-      
-      if (mastersSelector.hasOwnProperty("masterAddressType")) {
-        let addressTypeOptions =
-          mastersSelector["masterAddressType"].length === 0
-            ? []
-            : mastersSelector["masterAddressType"][0];
+      selectJson.degreeOptions = newArr;
+      newArr = [];
+    }
 
-            for (const item of addressTypeOptions) {
-              newArr.push(convertToCase(item.addressType));
-            } 
+    if (mastersSelector.hasOwnProperty("masterDocumentList")) {
+      let documentOptions =
+        mastersSelector["masterDocumentList"].length === 0
+          ? []
+          : mastersSelector["masterDocumentList"][0];
 
-            selectJson.addressTypeOptions = newArr;
-            newArr = [];
-      }
-      
-
-      if (mastersSelector.hasOwnProperty("masterLicenseType")) {
-        selectJson.typeOptions =
-          mastersSelector["masterLicenseType"].length === 0
-            ? []
-            : mastersSelector["masterLicenseType"][0].data;
+      for (const item of documentOptions) {
+        newArr.push(convertToCase(item.docList));
       }
 
-      if (mastersSelector.hasOwnProperty("masterSpeciality")) {
-        selectJson.specialtyOptions =
-          mastersSelector["masterSpeciality"].length === 0
-            ? []
-            : mastersSelector["masterSpeciality"][0];
-      }
-
-      if (mastersSelector.hasOwnProperty("masterGraduateType")) {
-        let degreeOptions =
-          mastersSelector["masterGraduateType"].length === 0
-            ? []
-            : mastersSelector["masterGraduateType"][0];
-
-            for (const item of degreeOptions) {
-              newArr.push(convertToCase(item.graduateType));
-            } 
-
-            selectJson.degreeOptions = newArr;
-            newArr = [];
-      }
-
-      if (mastersSelector.hasOwnProperty("masterDocumentList")) {
-        let documentOptions =
-          mastersSelector["masterDocumentList"].length === 0
-            ? []
-            : mastersSelector["masterDocumentList"][0];
-
-            for (const item of documentOptions) {
-              newArr.push(convertToCase(item.docList));
-            } 
-
-            selectJson.documentOptions = newArr;
-            newArr = [];
-      }
-      if (mastersSelector.hasOwnProperty("masterAdditionalQues")) {
-        selectJson.additionalQues =
-          mastersSelector["masterAdditionalQues"].length === 0
-            ? []
-            : mastersSelector["masterAdditionalQues"][0];
-      }
-      if (mastersSelector.hasOwnProperty("masterTaxonomyCode")) {
-        selectJson.taxonomyOptions =
-          mastersSelector["masterTaxonomyCode"].length === 0
-            ? []
-            : mastersSelector["masterTaxonomyCode"][0];
-      }
-
+      selectJson.documentOptions = newArr;
+      newArr = [];
+    }
+    if (mastersSelector.hasOwnProperty("masterAdditionalQues")) {
+      selectJson.additionalQues =
+        mastersSelector["masterAdditionalQues"].length === 0
+          ? []
+          : mastersSelector["masterAdditionalQues"][0];
+    }
+    if (mastersSelector.hasOwnProperty("masterTaxonomyCode")) {
+      selectJson.taxonomyOptions =
+        mastersSelector["masterTaxonomyCode"].length === 0
+          ? []
+          : mastersSelector["masterTaxonomyCode"][0];
+    }
 
     if (prop.state.formView === "HomeView") {
       settingProviderData();
@@ -922,13 +916,13 @@ export default function ProviderDemo() {
       .filter(
         (data) =>
           data.TransactionType.toLowerCase() ==
-          ProviderDemo.displayName.toLowerCase()
+          ProviderDemo.displayName.toLowerCase(),
       )
       .map((val) =>
         additionalQuesValues.push({
           questionId: val.QuestionId,
           label: val.QuesDescription,
-        })
+        }),
       );
     console.log("additionalQuesValues here: ", additionalQuesValues);
     //console.log("selectValues.additionalQues: ", selectValues.additionalQues)
@@ -962,7 +956,7 @@ export default function ProviderDemo() {
 
       let getApiJson = {};
       getApiJson["tableNames"] = getTableDetails()["providerLinear"].concat(
-        getTableDetails()["gridTables"]
+        getTableDetails()["gridTables"],
       );
       getApiJson["whereClause"] = { caseNumber: prop.state.caseNumber };
 
@@ -998,25 +992,33 @@ export default function ProviderDemo() {
                   if (apiResponse.hasOwnProperty("dateOfBirth")) {
                     console.log("apiResponse xx Date: ");
                     if (typeof apiResponse.dateOfBirth === "string") {
-                      const dob = new Date(getDatePartOnly(apiResponse.dateOfBirth));
+                      const dob = new Date(
+                        getDatePartOnly(apiResponse.dateOfBirth),
+                      );
                       apiResponse.dateOfBirth = dob;
                     }
                   }
                   if (apiResponse.hasOwnProperty("ecfmgIssueDate")) {
                     if (typeof apiResponse.ecfmgIssueDate === "string") {
-                      const eid = new Date(getDatePartOnly(apiResponse.ecfmgIssueDate));
+                      const eid = new Date(
+                        getDatePartOnly(apiResponse.ecfmgIssueDate),
+                      );
                       apiResponse.ecfmgIssueDate = eid;
                     }
                   }
                   if (apiResponse.hasOwnProperty("ecfmgExpirationDate")) {
                     if (typeof apiResponse.ecfmgExpirationDate === "string") {
-                      const eed = new Date(getDatePartOnly(apiResponse.ecfmgExpirationDate));
+                      const eed = new Date(
+                        getDatePartOnly(apiResponse.ecfmgExpirationDate),
+                      );
                       apiResponse.ecfmgExpirationDate = eed;
                     }
                   }
                   if (apiResponse.hasOwnProperty("attestationDate")) {
                     if (typeof apiResponse.attestationDate === "string") {
-                      const atd = new Date(getDatePartOnly(apiResponse.attestationDate));
+                      const atd = new Date(
+                        getDatePartOnly(apiResponse.attestationDate),
+                      );
                       apiResponse.dateOfBirth = atd;
                     }
                   }
@@ -1162,14 +1164,13 @@ export default function ProviderDemo() {
 
                   //Added by Nidhi Gupta on 11/10/2023
                   if (apiResponse.hasOwnProperty("languages")) {
-                    if(apiResponse.languages !== ''){
-                    apiResponse.languages = apiResponse.languages
-                      .split(",")
-                      .map((ele) => {
-                        return { label: ele, value: ele };
-                      });
-                    }
-                    else{
+                    if (apiResponse.languages !== "") {
+                      apiResponse.languages = apiResponse.languages
+                        .split(",")
+                        .map((ele) => {
+                          return { label: ele, value: ele };
+                        });
+                    } else {
                       apiResponse.languages = [];
                     }
                   }
@@ -1178,7 +1179,7 @@ export default function ProviderDemo() {
                   apiResponseArray.push(apiResponse);
                   console.log(
                     "locationTableRowsData apiResponse: ",
-                    apiResponse
+                    apiResponse,
                   );
                 });
                 setLocationTableRowsData(apiResponseArray);
@@ -1190,7 +1191,7 @@ export default function ProviderDemo() {
                   const newJson = convertToDateObj(js);
                   console.log(
                     "Provider Modification payToTable newJson;",
-                    newJson
+                    newJson,
                   );
                   apiResponseArray.push(newJson);
                   // setPayToTableRowsData([...payToTableRowsData,newJson]);
@@ -1259,7 +1260,7 @@ export default function ProviderDemo() {
                     const taxDesc = checktaxdec(apiResponse.taxonomyCode);
                     printConsole(
                       "Inside useEffect speciality if taxDesc value ",
-                      taxDesc
+                      taxDesc,
                     );
                     apiResponse.taxonomyDesc = taxDesc;
                   }
@@ -1275,21 +1276,21 @@ export default function ProviderDemo() {
                     apiResponse = checkSubSpeciality(apiResponse);
                     printConsole(
                       "Speciality response after inserting subSpeciality============= ",
-                      apiResponse
+                      apiResponse,
                     );
                   }
 
                   //}
                   printConsole(
                     "Inside useEffect speciality if final specialty value ",
-                    apiResponse
+                    apiResponse,
                   );
                   //}
 
                   apiResponseArray.push(apiResponse);
                   console.log(
                     "specialityTableRowsData apiResponse useEffect: ",
-                    apiResponse
+                    apiResponse,
                   );
                 });
                 setspecialityTableRowsData(apiResponseArray);
@@ -1344,11 +1345,11 @@ export default function ProviderDemo() {
 
     console.log(
       "Inside gridRowsFinalSubmit gridFieldTempState Value ====  ",
-      gridFieldTempState
+      gridFieldTempState,
     );
     console.log(
       "Inside gridRowsFinalSubmit gridFieldTempState keys ====  ",
-      Object.keys(gridFieldTempState).length
+      Object.keys(gridFieldTempState).length,
     );
 
     let clonedJson = { ...gridFieldTempState };
@@ -1360,7 +1361,7 @@ export default function ProviderDemo() {
         }
         console.log(
           "Inside gridRowsFinalSubmit clonedJson value: ",
-          clonedJson
+          clonedJson,
         );
         if (!checkGridJsonLength(clonedJson)) {
           specialityTableRowsData[index] = clonedJson;
@@ -1375,7 +1376,7 @@ export default function ProviderDemo() {
         }
         console.log(
           "Inside gridRowsFinalSubmit clonedJson value: ",
-          clonedJson
+          clonedJson,
         );
         if (clonedJson.hasOwnProperty("officeFaxNumber")) {
           clonedJson["officeFaxNumber"].value = clonedJson[
@@ -1410,7 +1411,7 @@ export default function ProviderDemo() {
         }
         console.log(
           "Inside gridRowsFinalSubmit clonedJson value: ",
-          clonedJson
+          clonedJson,
         );
         if (!checkGridJsonLength(clonedJson)) {
           payToTableRowsData[index] = clonedJson;
@@ -1633,7 +1634,11 @@ export default function ProviderDemo() {
   };
 
   const handleGridFieldChange = (index, evnt, triggeredFormName) => {
-    console.log("Inside handleGridFieldChange: ", triggeredFormName,evnt.target.name);
+    console.log(
+      "Inside handleGridFieldChange: ",
+      triggeredFormName,
+      evnt.target.name,
+    );
     let evtName = evnt.target.name;
     // if(evtName === 'officePhoneNumber'){
     //   console.log("insideevt");
@@ -1644,20 +1649,18 @@ export default function ProviderDemo() {
     let { name, value } = evnt.target;
     console.log("Inside handleGridFieldChange: ", value, tempInput);
 
-    if(triggeredFormName === 'PayToTable')
-    {
-      if(name === 'payToNpi'|| name === 'zipCode'){
-       value = acceptNumbersOnly(value);
-       console.log("inside condition",value);
+    if (triggeredFormName === "PayToTable") {
+      if (name === "payToNpi" || name === "zipCode") {
+        value = acceptNumbersOnly(value);
+        console.log("inside condition", value);
       }
-     }
-     if(triggeredFormName === 'LocationTable')
-    {
-      if(name === 'npi'|| name === 'zipCode'){
-       value = acceptNumbersOnly(value);
-       console.log("inside condition",value);
+    }
+    if (triggeredFormName === "LocationTable") {
+      if (name === "npi" || name === "zipCode") {
+        value = acceptNumbersOnly(value);
+        console.log("inside condition", value);
       }
-     }
+    }
     tempInput[name] = value.toUpperCase();
     setGridFieldTempState(tempInput);
   };
@@ -1769,7 +1772,7 @@ export default function ProviderDemo() {
       if (value !== "" && value !== undefined) {
         if (selectValues.taxonomyOptions.length > 0) {
           const foundOption = selectValues.taxonomyOptions.find(
-            (option) => option.TAXONOMYCODE === value
+            (option) => option.TAXONOMYCODE === value,
           );
           //console.log("Inside handleOnBlur foundOption: ", foundOption);
           if (
@@ -1807,7 +1810,7 @@ export default function ProviderDemo() {
         }
       } else {
         alert(
-          "Please fill Taxonomy Code to populate Taxonomy Description and Taxonomy Group"
+          "Please fill Taxonomy Code to populate Taxonomy Description and Taxonomy Group",
         );
         rowsInput["taxonomyDesc"] = "";
         rowsInput["taxonomyGrp"] = "";
@@ -1821,17 +1824,17 @@ export default function ProviderDemo() {
     index,
     selectedValue,
     evnt,
-    triggeredFormName
+    triggeredFormName,
   ) => {
     console.log("Inside handleSelectSpecialityOnBlur index: ", index);
     console.log(
       "Inside handleSelectSpecialityOnBlur selectedValue: ",
-      selectedValue
+      selectedValue,
     );
     console.log("Inside handleSelectSpecialityOnBlur evnt: ", evnt);
     console.log(
       "Inside handleSelectSpecialityOnBlur trigeredFormName: ",
-      triggeredFormName
+      triggeredFormName,
     );
   };
   //Till Here
@@ -1919,23 +1922,23 @@ export default function ProviderDemo() {
       token,
       "HealthPlan",
       masterUserName,
-      orgValue !== undefined ? orgValue.trim() : ""
+      orgValue !== undefined ? orgValue.trim() : "",
     );
     printConsole(
       "Inside getDashboardData provContLinkData Data before promise resolve: ",
-      apiOut
+      apiOut,
     );
     apiOut.then(function (provContLinkData) {
       printConsole(
         "Inside getDashboardData provContLinkData Data after promise resolve: ",
-        provContLinkData
+        provContLinkData,
       );
 
       if (provContLinkData !== undefined && provContLinkData.length > 0) {
         const contractIdData = provContLinkData[0];
         printConsole(
           "Inside getDashboardData contractIdData Data: ",
-          contractIdData
+          contractIdData,
         );
         if (
           contractIdData !== undefined &&
@@ -1958,7 +1961,7 @@ export default function ProviderDemo() {
     index,
     selectedValue,
     evnt,
-    triggeredFormName
+    triggeredFormName,
   ) => {
     // console.log("Inside select change index: ", index);
     console.log("Inside select change selectedValue: ", selectedValue);
@@ -2011,7 +2014,7 @@ export default function ProviderDemo() {
         selectedValue
       ) {
         const foundOption = selectValues.specialtyOptions.find(
-          (option) => option.speciality === selectedValue.value
+          (option) => option.speciality === selectedValue.value,
         );
         console.log("Inside select change foundOption: ", foundOption);
         if (
@@ -2022,11 +2025,11 @@ export default function ProviderDemo() {
         ) {
           console.log(
             "Inside select change foundOption if: ",
-            rowsInput["hsdCode"]
+            rowsInput["hsdCode"],
           );
           console.log(
             "Inside select change foundOption.hsdCodeValue: ",
-            foundOption.hsdCodeValue
+            foundOption.hsdCodeValue,
           );
           rowsInput["hsdCode"] = foundOption.hsdCodeValue;
         } else {
@@ -2041,7 +2044,7 @@ export default function ProviderDemo() {
           });
         console.log(
           "Inside select change subSpecialityValues",
-          subSpecialityValues
+          subSpecialityValues,
         );
         setSubSpecialityOptions(subSpecialityValues);
       }
@@ -2239,7 +2242,7 @@ export default function ProviderDemo() {
     let retVal = false;
     printConsole(
       "Inside checkIfValueExistsInState apiTestState: ",
-      apiTestState
+      apiTestState,
     );
     if (
       apiTestState.hasOwnProperty("organizationName") &&
@@ -2320,7 +2323,7 @@ export default function ProviderDemo() {
 
         console.log(
           "Inside add provider create case master selector: ",
-          mastersSelector
+          mastersSelector,
         );
         console.log(
           "Inside add provider create case username: ",
@@ -2328,7 +2331,7 @@ export default function ProviderDemo() {
             ? mastersSelector.auth.hasOwnProperty("userName")
               ? mastersSelector.auth.userName
               : "system"
-            : "system"
+            : "system",
         );
         mainWIObject.createdByName = mastersSelector.hasOwnProperty("auth")
           ? mastersSelector.auth.hasOwnProperty("userName")
@@ -2372,7 +2375,7 @@ export default function ProviderDemo() {
             apiJson["SelfServ_Location_Grid"] === undefined
           ) {
             alert(
-              "Atleast one Address entry is needed in order to Submit case."
+              "Atleast one Address entry is needed in order to Submit case.",
             );
             setButtonDisableFlag(false);
             return;
@@ -2382,7 +2385,7 @@ export default function ProviderDemo() {
             apiJson["SelfServ_PayTo_Grid"] === undefined
           ) {
             alert(
-              "Atleast one Pay to entry is needed in order to Submit case."
+              "Atleast one Pay to entry is needed in order to Submit case.",
             );
             setButtonDisableFlag(false);
             return;
@@ -2392,7 +2395,7 @@ export default function ProviderDemo() {
             apiJson["SelfServ_Speciality_Grid"] === undefined
           ) {
             alert(
-              "Atleast one Speciality entry is needed in order to Submit case."
+              "Atleast one Speciality entry is needed in order to Submit case.",
             );
             setButtonDisableFlag(false);
             return;
@@ -2434,36 +2437,36 @@ export default function ProviderDemo() {
                 console.log("PocData State: ", procData);
                 console.log(
                   "Inside Add Provider File UPLOAD DATA: ",
-                  documentSectionDataRef.current
+                  documentSectionDataRef.current,
                 );
                 if (documentSectionDataRef.current.length > 0) {
                   let documentArray = [...documentSectionDataRef.current];
                   documentArray = documentArray.filter(
-                    (x) => x.docStatus === "Uploaded"
+                    (x) => x.docStatus === "Uploaded",
                   );
                   documentArray.forEach((e) => {
                     const fileUploadData = new FormData();
                     fileUploadData.append("file", e.fileData);
                     fileUploadData.append(
                       "caseNumber",
-                      res.data["CreateCase_Output"]["CaseNo"]
+                      res.data["CreateCase_Output"]["CaseNo"],
                     );
                     fileUploadData.append("docType", e.documentType);
                     console.log(
                       "Inside Add Provider File Upload Data: ",
-                      fileUploadData
+                      fileUploadData,
                     );
                     fileUpDownAxios
                       .post("/uploadFile", fileUploadData)
                       .then((response) => {
                         console.log(
                           "File Upload api response: ",
-                          response.data
+                          response.data,
                         );
-                        if (response.status===200) {
+                        if (response.status === 200) {
                           alert(
                             "Case created successfully: " +
-                              res.data["CreateCase_Output"]["CaseNo"]
+                              res.data["CreateCase_Output"]["CaseNo"],
                           );
                           // let alertMessage = 'Case created successfully: '+res.data['CreateCase_Output']['CaseNo'];
                           // let json = {show:true,
@@ -2472,7 +2475,7 @@ export default function ProviderDemo() {
                           // }
                           // setAlertModalShow(json);
                         }
-                        if (response.status==="") {
+                        if (response.status === "") {
                           // let alertMessage = 'Case created successfully: '+res.data['CreateCase_Output']['CaseNo']+' but error in uploading document';
                           // let json = {show:true,
                           //     message:alertMessage,
@@ -2482,7 +2485,7 @@ export default function ProviderDemo() {
                           alert(
                             "Case created successfully: " +
                               res.data["CreateCase_Output"]["CaseNo"] +
-                              " but error in uploading document"
+                              " but error in uploading document",
                           );
                         }
                         submitCase(procData, navigateHome);
@@ -2491,7 +2494,7 @@ export default function ProviderDemo() {
                 } else {
                   alert(
                     "Case created successfully: " +
-                      res.data["CreateCase_Output"]["CaseNo"]
+                      res.data["CreateCase_Output"]["CaseNo"],
                   );
                   submitCase(procData, navigateHome);
                 }
@@ -2506,14 +2509,14 @@ export default function ProviderDemo() {
             });
         } else {
           alert(
-            "Please select case and populate the data before submittig the case."
+            "Please select case and populate the data before submittig the case.",
           );
           setButtonDisableFlag(false);
           return;
         }
       } else {
         alert(
-          "Please select case and populate the data before submittig the case."
+          "Please select case and populate the data before submittig the case.",
         );
       }
     } catch (error) {
@@ -2576,7 +2579,7 @@ export default function ProviderDemo() {
         if (apiStat === 0) {
           const caseIDToUpdate = res?.data?.data?.mainTable[0]?.CaseID;
           const indexToUpdate = caseData.data.findIndex(
-            (item) => item?.CaseID === caseIDToUpdate
+            (item) => item?.CaseID === caseIDToUpdate,
           );
 
           if (indexToUpdate !== -1) {
@@ -2598,7 +2601,7 @@ export default function ProviderDemo() {
 
   function filterData() {
     return caseData.data.filter(
-      (item) => item?.CaseID !== Number(prop.state.caseNumber)
+      (item) => item?.CaseID !== Number(prop.state.caseNumber),
     );
   }
   function dispatchUpdateData(updatedData) {
@@ -2669,7 +2672,7 @@ export default function ProviderDemo() {
 
       console.log(" Update gridDataRef.current.linearTable: ", values);
       const gridKeys = getTableDetails()["providerLinear"].concat(
-        getTableDetails()["gridTables"]
+        getTableDetails()["gridTables"],
       );
       gridKeys.forEach((k) => {
         const newKey = k.split("~")[0];
@@ -2733,7 +2736,7 @@ export default function ProviderDemo() {
               locationTableRowsData.length === 0)
           ) {
             alert(
-              "Atleast one Address entry is needed in order to Submit case."
+              "Atleast one Address entry is needed in order to Submit case.",
             );
             setButtonDisableFlag(false);
             return;
@@ -2745,7 +2748,7 @@ export default function ProviderDemo() {
               payToTableRowsData.length === 0)
           ) {
             alert(
-              "Atleast one Pay to entry is needed in order to Submit case."
+              "Atleast one Pay to entry is needed in order to Submit case.",
             );
             setButtonDisableFlag(false);
             return;
@@ -2757,7 +2760,7 @@ export default function ProviderDemo() {
               specialityTableRowsData.length === 0)
           ) {
             alert(
-              "Atleast one Speciality entry is needed in order to Submit case."
+              "Atleast one Speciality entry is needed in order to Submit case.",
             );
             setButtonDisableFlag(false);
             return;
@@ -2827,7 +2830,8 @@ export default function ProviderDemo() {
               if (callProcRef.current !== "callProc") {
                 setTimeout(() => {
                   getCaseByCaseNumber();
-                }, 500);                navigateHome();
+                }, 500);
+                navigateHome();
               }
             }
           })
@@ -3086,7 +3090,7 @@ export default function ProviderDemo() {
         numberOfChecks.PROVIDERSTATUS.toLowerCase() == "terminated"
       ) {
         alert(
-          "Data can't be populated as Provider status is Terminated. Please choose Active cases."
+          "Data can't be populated as Provider status is Terminated. Please choose Active cases.",
         );
       } else {
         let getApiJson = {};
@@ -3174,13 +3178,13 @@ export default function ProviderDemo() {
                         if (
                           hasOwnPropertyCaseInsensitive(
                             apiResponse,
-                            linearFieldArray[field]
+                            linearFieldArray[field],
                           )
                         ) {
                           console.log(
                             "field xx03: ",
                             apiResponse,
-                            linearFieldArray[field]
+                            linearFieldArray[field],
                           );
                           apiResponseNew[linearFieldArray[field]] =
                             apiResponse[
@@ -3205,27 +3209,27 @@ export default function ProviderDemo() {
                         if (
                           hasOwnPropertyCaseInsensitive(
                             apiResponse,
-                            linearFieldSelectArray[field]
+                            linearFieldSelectArray[field],
                           )
                         ) {
                           console.log(
                             "field xx03: ",
                             apiResponse,
-                            linearFieldSelectArray[field]
+                            linearFieldSelectArray[field],
                           );
                           apiResponseNew[linearFieldSelectArray[field]] = {
                             label:
                               apiResponse[
                                 getKeyCase(
                                   apiResponse,
-                                  linearFieldSelectArray[field]
+                                  linearFieldSelectArray[field],
                                 )
                               ],
                             value:
                               apiResponse[
                                 getKeyCase(
                                   apiResponse,
-                                  linearFieldSelectArray[field]
+                                  linearFieldSelectArray[field],
                                 )
                               ],
                           };
@@ -3235,7 +3239,7 @@ export default function ProviderDemo() {
                       if (
                         hasOwnPropertyCaseInsensitive(
                           apiResponse,
-                          "DATE_OF_BIRTH#date"
+                          "DATE_OF_BIRTH#date",
                         )
                       ) {
                         if (
@@ -3246,7 +3250,7 @@ export default function ProviderDemo() {
                           const dob = new Date(
                             apiResponse[
                               getKeyCase(apiResponse, "DATE_OF_BIRTH#date")
-                            ]
+                            ],
                           );
                           apiResponseNew.dateOfBirth = dob;
                         }
@@ -3301,7 +3305,7 @@ export default function ProviderDemo() {
                         if (
                           hasOwnPropertyCaseInsensitive(
                             apiResponse,
-                            gridFieldArray[field]
+                            gridFieldArray[field],
                           )
                         ) {
                           apiResponseNew[gridFieldArray[field]] =
@@ -3330,14 +3334,14 @@ export default function ProviderDemo() {
                         if (
                           hasOwnPropertyCaseInsensitive(
                             apiResponse,
-                            gridFieldSelectArray[field]
+                            gridFieldSelectArray[field],
                           )
                         ) {
                           if (
                             apiResponse[
                               getKeyCase(
                                 apiResponse,
-                                gridFieldSelectArray[field]
+                                gridFieldSelectArray[field],
                               )
                             ] === "Y"
                           ) {
@@ -3347,7 +3351,7 @@ export default function ProviderDemo() {
                                 apiResponse[
                                   getKeyCase(
                                     apiResponse,
-                                    gridFieldSelectArray[field]
+                                    gridFieldSelectArray[field],
                                   )
                                 ],
                             };
@@ -3355,7 +3359,7 @@ export default function ProviderDemo() {
                             apiResponse[
                               getKeyCase(
                                 apiResponse,
-                                gridFieldSelectArray[field]
+                                gridFieldSelectArray[field],
                               )
                             ] === "N"
                           ) {
@@ -3364,9 +3368,9 @@ export default function ProviderDemo() {
                               apiResponse[
                                 getKeyCase(
                                   apiResponse,
-                                  gridFieldSelectArray[field]
+                                  gridFieldSelectArray[field],
                                 )
-                              ]
+                              ],
                             );
                             apiResponseNew[gridFieldSelectArray[field]] = {
                               label: "No",
@@ -3374,7 +3378,7 @@ export default function ProviderDemo() {
                                 apiResponse[
                                   getKeyCase(
                                     apiResponse,
-                                    gridFieldSelectArray[field]
+                                    gridFieldSelectArray[field],
                                   )
                                 ],
                             };
@@ -3385,7 +3389,7 @@ export default function ProviderDemo() {
                       apiResponseArray.push(apiResponseNew);
                       console.log(
                         "locationTableRowsData apiResponse: ",
-                        apiResponseNew
+                        apiResponseNew,
                       );
                     });
 
@@ -3415,7 +3419,7 @@ export default function ProviderDemo() {
                         if (
                           hasOwnPropertyCaseInsensitive(
                             apiResponse,
-                            gridFieldArray[field]
+                            gridFieldArray[field],
                           )
                         ) {
                           apiResponseNew[gridFieldArray[field]] =
@@ -3428,7 +3432,7 @@ export default function ProviderDemo() {
                       apiResponseArray.push(apiResponseNew);
                       console.log(
                         "payToTableRowsData apiResponse: ",
-                        apiResponseNew
+                        apiResponseNew,
                       );
                     });
 
@@ -3453,7 +3457,7 @@ export default function ProviderDemo() {
                         if (
                           hasOwnPropertyCaseInsensitive(
                             apiResponse,
-                            gridFieldArray[field]
+                            gridFieldArray[field],
                           )
                         ) {
                           apiResponseNew[gridFieldArray[field]] =
@@ -3467,7 +3471,7 @@ export default function ProviderDemo() {
                       if (
                         hasOwnPropertyCaseInsensitive(
                           apiResponse,
-                          "TAXONOMYDESCRIPTION"
+                          "TAXONOMYDESCRIPTION",
                         )
                       ) {
                         apiResponseNew.taxonomyDesc =
@@ -3478,7 +3482,7 @@ export default function ProviderDemo() {
                       if (
                         hasOwnPropertyCaseInsensitive(
                           apiResponse,
-                          "BOARDCERTIFICATE"
+                          "BOARDCERTIFICATE",
                         )
                       ) {
                         // apiResponseNew.boardCerti = apiResponse[getKeyCase(apiResponse,'BOARDCERTIFICATE')];
@@ -3511,7 +3515,7 @@ export default function ProviderDemo() {
                       if (
                         hasOwnPropertyCaseInsensitive(
                           apiResponse,
-                          "TAXONOMYGROUP"
+                          "TAXONOMYGROUP",
                         )
                       ) {
                         apiResponseNew.taxonomyGrp =
@@ -3520,7 +3524,7 @@ export default function ProviderDemo() {
                       if (
                         hasOwnPropertyCaseInsensitive(
                           apiResponse,
-                          "PRIMARYSPECIALITY"
+                          "PRIMARYSPECIALITY",
                         )
                       ) {
                         //apiResponseNew.specPrimary = apiResponse[getKeyCase(apiResponse,'PRIMARYSPECIALITY')];
@@ -3557,14 +3561,14 @@ export default function ProviderDemo() {
                         if (
                           hasOwnPropertyCaseInsensitive(
                             apiResponse,
-                            gridFieldSelectArray[field]
+                            gridFieldSelectArray[field],
                           )
                         ) {
                           if (
                             apiResponse[
                               getKeyCase(
                                 apiResponse,
-                                gridFieldSelectArray[field]
+                                gridFieldSelectArray[field],
                               )
                             ] === "Y"
                           ) {
@@ -3574,7 +3578,7 @@ export default function ProviderDemo() {
                                 apiResponse[
                                   getKeyCase(
                                     apiResponse,
-                                    gridFieldSelectArray[field]
+                                    gridFieldSelectArray[field],
                                   )
                                 ],
                             };
@@ -3582,7 +3586,7 @@ export default function ProviderDemo() {
                             apiResponse[
                               getKeyCase(
                                 apiResponse,
-                                gridFieldSelectArray[field]
+                                gridFieldSelectArray[field],
                               )
                             ] === "N"
                           ) {
@@ -3592,7 +3596,7 @@ export default function ProviderDemo() {
                                 apiResponse[
                                   getKeyCase(
                                     apiResponse,
-                                    gridFieldSelectArray[field]
+                                    gridFieldSelectArray[field],
                                   )
                                 ],
                             };
@@ -3603,7 +3607,7 @@ export default function ProviderDemo() {
                       apiResponseArray.push(apiResponseNew);
                       console.log(
                         "specialityTableRowsData apiResponse gridFieldSelectArray: ",
-                        apiResponseNew
+                        apiResponseNew,
                       );
                     });
 
@@ -3987,7 +3991,7 @@ export default function ProviderDemo() {
           {props.selectProps.placeholder}
         </Placeholder>
         {React.Children.map(children, (child) =>
-          child && child.type !== Placeholder ? child : null
+          child && child.type !== Placeholder ? child : null,
         )}
       </ValueContainer>
     );
@@ -4007,7 +4011,7 @@ export default function ProviderDemo() {
     console.log("selectValues.agesSeenArray:", selectValues.agesSeenArray);
     console.log(
       "selectValues.stateOptionsLinear:",
-      selectValues.stateOptionsLinear
+      selectValues.stateOptionsLinear,
     );
     return (
       <div className="col-xs-12">
@@ -4031,7 +4035,7 @@ export default function ProviderDemo() {
               await new Promise((resolve) => setTimeout(resolve, 500)).catch(
                 (err) => {
                   console.error(err);
-                }
+                },
               );
               //alert(JSON.stringify(values, null, 2));
               saveData(values);
@@ -4338,7 +4342,7 @@ export default function ProviderDemo() {
                                       onChange={(selectValue, event) =>
                                         handleLinearSelectChange(
                                           selectValue,
-                                          event
+                                          event,
                                         )
                                       }
                                       value={apiOrgState.pdmOrg}
@@ -4460,8 +4464,8 @@ export default function ProviderDemo() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -4470,7 +4474,7 @@ export default function ProviderDemo() {
                                           formikFieldsOnChange(
                                             e,
                                             setFieldValue,
-                                            field
+                                            field,
                                           )
                                         }
                                         value={convertToCase(field.value)}
@@ -4513,8 +4517,8 @@ export default function ProviderDemo() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -4522,7 +4526,7 @@ export default function ProviderDemo() {
                                           formikFieldsOnChange(
                                             e,
                                             setFieldValue,
-                                            field
+                                            field,
                                           )
                                         }
                                         value={convertToCase(field.value)}
@@ -4568,9 +4572,9 @@ export default function ProviderDemo() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value ||
-                                              field.value === null
-                                            ? "is-valid"
-                                            : ""
+                                                field.value === null
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -4578,7 +4582,7 @@ export default function ProviderDemo() {
                                           formikFieldsOnChange(
                                             e,
                                             setFieldValue,
-                                            field
+                                            field,
                                           )
                                         }
                                         value={convertToCase(field.value)}
@@ -4625,8 +4629,8 @@ export default function ProviderDemo() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -4634,7 +4638,7 @@ export default function ProviderDemo() {
                                           formikFieldsOnChange(
                                             e,
                                             setFieldValue,
-                                            field
+                                            field,
                                           )
                                         }
                                         value={convertToCase(field.value)}
@@ -4680,8 +4684,8 @@ export default function ProviderDemo() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -4745,7 +4749,7 @@ export default function ProviderDemo() {
                                           }),
                                           valueContainer: (
                                             provided,
-                                            state
+                                            state,
                                           ) => ({
                                             ...provided,
                                             overflow: "visible",
@@ -4789,7 +4793,7 @@ export default function ProviderDemo() {
                                         onChange={(selectValue, event) => {
                                           console.log(
                                             "Gender selected value: ",
-                                            selectValue
+                                            selectValue,
                                           );
                                           if (event.action === "clear") {
                                             selectValue = {
@@ -4799,7 +4803,7 @@ export default function ProviderDemo() {
                                           }
                                           setFieldValue(
                                             field.name,
-                                            selectValue
+                                            selectValue,
                                           );
                                         }}
                                         //value={field.value}
@@ -4812,20 +4816,21 @@ export default function ProviderDemo() {
                                               ? {
                                                   label: convertToCase("MALE"),
                                                   value: convertToCase(
-                                                    field?.value?.value
+                                                    field?.value?.value,
                                                   ),
                                                 }
                                               : field.value?.value?.toLowerCase() ===
-                                                  "female" ||
-                                                field.value?.value?.toLowerCase() ===
-                                                  "f"
-                                              ? {
-                                                  label: convertToCase("FEMALE"),
-                                                  value: convertToCase(
-                                                    field?.value?.value
-                                                  ),
-                                                }
-                                              : field?.value
+                                                    "female" ||
+                                                  field.value?.value?.toLowerCase() ===
+                                                    "f"
+                                                ? {
+                                                    label:
+                                                      convertToCase("FEMALE"),
+                                                    value: convertToCase(
+                                                      field?.value?.value,
+                                                    ),
+                                                  }
+                                                : field?.value
                                             : field?.value
                                         }
                                         placeholder="Gender"
@@ -4873,8 +4878,8 @@ export default function ProviderDemo() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -4917,8 +4922,8 @@ export default function ProviderDemo() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         //oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
@@ -5009,8 +5014,8 @@ export default function ProviderDemo() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -5113,8 +5118,8 @@ export default function ProviderDemo() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -5160,8 +5165,8 @@ export default function ProviderDemo() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -5338,8 +5343,8 @@ export default function ProviderDemo() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -5347,7 +5352,7 @@ export default function ProviderDemo() {
                                           formikFieldsOnChange(
                                             e,
                                             setFieldValue,
-                                            field
+                                            field,
                                           )
                                         }
                                         value={convertToCase(field.value)}
@@ -5509,71 +5514,66 @@ export default function ProviderDemo() {
                     ) : (
                       <div></div>
                     )}
-
-
                   </fieldset>
-                  
-                  {(apiTestState.AddModification == true &&
-                      isSearchClicked) ||
-                    (apiTestState.AddModification == true &&
-                      prop.state.formView === "DashboardView") ? (
-                      <div className="accordion-item">
-                        <h2
-                          className="accordion-header"
-                          id="panelsStayOpen-Address"
+
+                  {(apiTestState.AddModification == true && isSearchClicked) ||
+                  (apiTestState.AddModification == true &&
+                    prop.state.formView === "DashboardView") ? (
+                    <div className="accordion-item">
+                      <h2
+                        className="accordion-header"
+                        id="panelsStayOpen-Address"
+                      >
+                        <button
+                          className="accordion-button accordionButtonStyle"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#panelsStayOpen-collapseAddress"
+                          aria-expanded="true"
+                          aria-controls="panelsStayOpen-collapseOne"
                         >
-                          <button
-                            className="accordion-button accordionButtonStyle"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#panelsStayOpen-collapseAddress"
-                            aria-expanded="true"
-                            aria-controls="panelsStayOpen-collapseOne"
-                          >
-                            Provider Address
-                          </button>
-                        </h2>
-                        <div
-                          id="panelsStayOpen-collapseAddress"
-                          className="accordion-collapse collapse show"
-                          aria-labelledby="panelsStayOpen-Address"
-                        >
-                          <div className="accordion-body">
-                            <div className="row">
-                              <div className="col-xs-6 col-md-12">
-                                <LocationTable
-                                  locationTableRowsData={locationTableRowsData}
-                                  addTableRows={addTableRows}
-                                  deleteTableRows={deleteTableRows}
-                                  handleGridSelectChange={
-                                    handleGridSelectChange
-                                  }
-                                  handleGridFieldChange={handleGridFieldChange}
-                                  gridRowsFinalSubmit={gridRowsFinalSubmit}
-                                  gridFieldTempState={gridFieldTempState}
-                                  editTableRows={editTableRows}
-                                  selectJson={selectValues}
-                                  calledFormName={ProviderDemo.validate}
-                                  modifyValidatedAddressRow={
-                                    modifyValidatedAddressRow
-                                  }
-                                  lockStatus={
-                                    prop.state !== null &&
-                                    prop.state.lockStatus !== undefined &&
-                                    prop.state.lockStatus !== ""
-                                      ? prop.state.lockStatus
-                                      : "N"
-                                  }
-                                  fetchAutoPopulate={fetchAutoPopulate}
-                                ></LocationTable>
-                              </div>
+                          Provider Address
+                        </button>
+                      </h2>
+                      <div
+                        id="panelsStayOpen-collapseAddress"
+                        className="accordion-collapse collapse show"
+                        aria-labelledby="panelsStayOpen-Address"
+                      >
+                        <div className="accordion-body">
+                          <div className="row">
+                            <div className="col-xs-6 col-md-12">
+                              <LocationTable
+                                locationTableRowsData={locationTableRowsData}
+                                addTableRows={addTableRows}
+                                deleteTableRows={deleteTableRows}
+                                handleGridSelectChange={handleGridSelectChange}
+                                handleGridFieldChange={handleGridFieldChange}
+                                gridRowsFinalSubmit={gridRowsFinalSubmit}
+                                gridFieldTempState={gridFieldTempState}
+                                editTableRows={editTableRows}
+                                selectJson={selectValues}
+                                calledFormName={ProviderDemo.validate}
+                                modifyValidatedAddressRow={
+                                  modifyValidatedAddressRow
+                                }
+                                lockStatus={
+                                  prop.state !== null &&
+                                  prop.state.lockStatus !== undefined &&
+                                  prop.state.lockStatus !== ""
+                                    ? prop.state.lockStatus
+                                    : "N"
+                                }
+                                fetchAutoPopulate={fetchAutoPopulate}
+                              ></LocationTable>
                             </div>
                           </div>
                         </div>
                       </div>
-                    ) : (
-                      <div></div>
-                    )}
+                    </div>
+                  ) : (
+                    <div></div>
+                  )}
                   {/* //Newly Added by Nidhi Gupta on 08/29/2023 */}
                   {(apiTestState.PayToModification == true &&
                     isSearchClicked) ||

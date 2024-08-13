@@ -46,7 +46,7 @@ export default function GridModal(show) {
                 if (
                   Object.values(show.validationObject).keys() &&
                   Object.values(show.validationObject).some(
-                    (val) => val === true
+                    (val) => val === true,
                   )
                 ) {
                   console.log("Inside validation error");
@@ -59,7 +59,7 @@ export default function GridModal(show) {
                   show.gridRowsFinalSubmit(
                     show.gridName,
                     show.dataIndex,
-                    show.operationValue
+                    show.operationValue,
                   );
                 }
               }}
@@ -77,7 +77,7 @@ export default function GridModal(show) {
               show.deleteTableRows(
                 show.dataIndex,
                 show.gridName,
-                show.operationValue
+                show.operationValue,
               );
               show.decreaseDataIndex();
             }}

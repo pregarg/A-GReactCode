@@ -71,20 +71,20 @@ const populateAccessibility = (node, staticValue) => {
   return checkDataAvailable(node.Accessibility)
     ? Array.isArray(node.Accessibility)
       ? node.Accessibility.map((data1) =>
-        !!checkDataAvailable(data1.Accessibility) &&
+          !!checkDataAvailable(data1.Accessibility) &&
           checkDataAvailable(data1.Accessibility.AccessibilityDescription) ==
-          staticValue &&
+            staticValue &&
           checkDataAvailable(data1.AccessibilityFlag) == "1"
-          ? "Yes"
-          : "No"
-      ).indexOf("Yes") > -1
+            ? "Yes"
+            : "No",
+        ).indexOf("Yes") > -1
         ? { label: "Yes", value: "Y" }
         : { label: "No", value: "N" }
       : !!checkDataAvailable(node.Accessibility.Accessibility) &&
-        checkDataAvailable(
-          node.Accessibility.Accessibility.AccessibilityDescription
-        ) == staticValue &&
-        checkDataAvailable(node.Accessibility.AccessibilityFlag) == "1"
+          checkDataAvailable(
+            node.Accessibility.Accessibility.AccessibilityDescription,
+          ) == staticValue &&
+          checkDataAvailable(node.Accessibility.AccessibilityFlag) == "1"
         ? { label: "Yes", value: "Y" }
         : { label: "No", value: "N" }
     : { label: "No", value: "N" };
@@ -140,7 +140,7 @@ export default function AddProvider() {
   let documentSectionDataRef = useRef([]);
 
   let credentialingConfigData = JSON.parse(
-    process.env.REACT_APP_CREDENTIALING_DETAILS
+    process.env.REACT_APP_CREDENTIALING_DETAILS,
   );
   const dispatch = useDispatch();
   const [loadForm, setLoadForm] = useState(true);
@@ -192,7 +192,7 @@ export default function AddProvider() {
   /////
   const [firlTableRowsData, setFirlTableRowsData] = useState([]);
   const [compensationTableRowsData, setCompensationTableRowsData] = useState(
-    []
+    [],
   );
   /////
   const caseData = useSelector((store) => store.dashboardNavigationState);
@@ -244,7 +244,7 @@ export default function AddProvider() {
 
   console.log(
     apiTestStateComp,
-    "apiTestStateCompapiTestStateCompapiTestStateComp"
+    "apiTestStateCompapiTestStateCompapiTestStateComp",
   );
   const handleNetworkIdShow = (evt) => {
     console.log("handleNetworkIdShow evt: ", evt);
@@ -259,7 +259,7 @@ export default function AddProvider() {
         : "--";
     planValue =
       apiTestStateComp.planValue !== undefined &&
-        apiTestStateComp.planValue !== ""
+      apiTestStateComp.planValue !== ""
         ? apiTestStateComp.planValue
         : "";
 
@@ -283,7 +283,7 @@ export default function AddProvider() {
 
     medicalLicenseValue =
       apiTestStateComp.medicalLicense !== undefined &&
-        apiTestStateComp.medicalLicense !== ""
+      apiTestStateComp.medicalLicense !== ""
         ? apiTestStateComp.medicalLicense
         : "";
     pcpIdValue = constant + medicalLicenseValue;
@@ -298,7 +298,6 @@ export default function AddProvider() {
   const handleLinearSelectChangeComp = (selectValue, evnt) => {
     //console.log(" handleLinearSelectChangeComp evnt.name: ", evnt.name);
     //console.log(" handleLinearSelectChangeComp selectValue: ", selectValue);
-
 
     const { name } = evnt;
     let groupRiskIdValue = apiTestStateComp.groupRiskId;
@@ -326,7 +325,7 @@ export default function AddProvider() {
             ? selectValue.value.substring(0, 2)
             : "--"
           : apiTestStateComp.riskAssignment &&
-            apiTestStateComp.riskAssignment.value
+              apiTestStateComp.riskAssignment.value
             ? apiTestStateComp.riskAssignment.value.substring(0, 2)
             : "--";
 
@@ -357,7 +356,7 @@ export default function AddProvider() {
 
       planValue =
         apiTestStateComp.planValue !== undefined &&
-          apiTestStateComp.planValue !== ""
+        apiTestStateComp.planValue !== ""
           ? apiTestStateComp.planValue
           : "";
       networkIdValue = planValue + networkStateValue;
@@ -382,7 +381,7 @@ export default function AddProvider() {
 
     console.log(
       "handleLinearSelectChange apiTestStateComp: ",
-      apiTestStateComp
+      apiTestStateComp,
     );
   };
   //Till Here
@@ -411,7 +410,7 @@ export default function AddProvider() {
         .nullable()
         .required("Please select Delegated")
         .test("prohibitedValuesTest", "Please Select Delegated", (value) =>
-          testYupFieldValue(value)
+          testYupFieldValue(value),
         ),
 
       caqhId: Yup.string()
@@ -426,7 +425,7 @@ export default function AddProvider() {
         .max(10, "CAQH ID max length exceeded")
         .matches(
           /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
-          "Only numbers are accepted"
+          "Only numbers are accepted",
         ),
       caqhNpiId: Yup.string()
         //        .typeError('NPI ID must be a number')
@@ -434,7 +433,7 @@ export default function AddProvider() {
         .max(10, "NPI ID max length exceeded")
         .matches(
           /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
-          "Only numbers are accepted"
+          "Only numbers are accepted",
         ),
       ssn: Yup.string()
         .when("delegated", {
@@ -449,7 +448,7 @@ export default function AddProvider() {
         .max(9, "SSN max length exceeded")
         .matches(
           /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
-          "Only numbers are accepted"
+          "Only numbers are accepted",
         ),
       medicareId: Yup.string()
         //        .typeError('Medicare ID must be a number')
@@ -462,7 +461,7 @@ export default function AddProvider() {
         .max(15, "Medicaid ID max length exceeded")
         .matches(
           /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
-          "Only numbers are accepted"
+          "Only numbers are accepted",
         ),
       ecfmgNumber: Yup.string()
         //       .typeError('ECFMG Number must be a number')
@@ -470,7 +469,7 @@ export default function AddProvider() {
         .max(13, "ECFMG Number max length exceeded")
         .matches(
           /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
-          "Only numbers are accepted"
+          "Only numbers are accepted",
         ),
       attestationId: Yup.string()
         .when("delegated", {
@@ -483,7 +482,7 @@ export default function AddProvider() {
         .max(10, "Attestation ID max length exceeded")
         .matches(
           /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
-          "Only numbers are accepted"
+          "Only numbers are accepted",
         ),
       //New Nidhi
       emailId: Yup.string()
@@ -500,7 +499,7 @@ export default function AddProvider() {
             schema
               .required("Please select Gender")
               .test("prohibitedValuesTest", "Please Select Gender", (value) =>
-                testYupFieldValue(value)
+                testYupFieldValue(value),
               ),
           otherwise: (schema) => schema.notRequired(),
         })
@@ -515,8 +514,10 @@ export default function AddProvider() {
           then: (schema) =>
             schema
               .required("Please select Ages Seen")
-              .test("prohibitedValuesTest", "Please Select Ages Seen", (value) =>
-                testYupFieldValue(value)
+              .test(
+                "prohibitedValuesTest",
+                "Please Select Ages Seen",
+                (value) => testYupFieldValue(value),
               ),
           otherwise: (schema) => schema.notRequired(),
         })
@@ -534,7 +535,7 @@ export default function AddProvider() {
               .test(
                 "prohibitedValuesTest",
                 "Please Select Contract Id",
-                (value) => testYupFieldValue(value)
+                (value) => testYupFieldValue(value),
               ),
           otherwise: (schema) => schema.notRequired(),
         })
@@ -564,7 +565,7 @@ export default function AddProvider() {
       //   otherwise: (schema) => schema.notRequired(),
       // }),
     });
-  }
+  };
 
   const checktaxdec = (data) => {
     console.log("y------------------->" + data);
@@ -649,7 +650,6 @@ export default function AddProvider() {
   // const agesSeenArray=[];
   // const licenseTypeArray=[];
 
-
   //Nidhi
   let quesAnsList = [];
   //here 00
@@ -721,7 +721,7 @@ export default function AddProvider() {
   //here
   //const [selectLicenseGridValues, setSelectLicenseGridValues] = useState({});
 
-  const onSuccess = (response, typeOfRequest) => { };
+  const onSuccess = (response, typeOfRequest) => {};
   //     languageArray:[],
   //     agesSeenArray:[],
   //     salutationArray:[],
@@ -945,7 +945,7 @@ export default function AddProvider() {
     } catch (error) {
       console.error(
         "Caught in catch of FindDuplicateNpiId proc calling: ",
-        error.message
+        error.message,
       );
       setButtonDisableFlag(false); // Re-enable the button in case of error
       // Handle the error (perhaps set an error state, display a message, etc.)
@@ -964,7 +964,7 @@ export default function AddProvider() {
         setApiCallOnce(true);
         let getApiJson = {};
         getApiJson["tableNames"] = getTableDetails()["networkLinear"].concat(
-          getTableDetails()["networkGridTables"]
+          getTableDetails()["networkGridTables"],
         );
         getApiJson["whereClause"] = { caseNumber: prop.state.caseNumber };
 
@@ -992,19 +992,25 @@ export default function AddProvider() {
                     //Added by Nidhi Gupta on 10/06/23
                     if (apiResponse.hasOwnProperty("conEffectiveDate")) {
                       if (typeof apiResponse.conEffectiveDate === "string") {
-                        const cfd = new Date(getDatePartOnly(apiResponse.conEffectiveDate));
+                        const cfd = new Date(
+                          getDatePartOnly(apiResponse.conEffectiveDate),
+                        );
                         apiResponse.conEffectiveDate = cfd;
                       }
                     }
                     if (apiResponse.hasOwnProperty("mocAttestationDate")) {
                       if (typeof apiResponse.mocAttestationDate === "string") {
-                        const mad = new Date(getDatePartOnly(apiResponse.mocAttestationDate));
+                        const mad = new Date(
+                          getDatePartOnly(apiResponse.mocAttestationDate),
+                        );
                         apiResponse.mocAttestationDate = mad;
                       }
                     }
                     if (apiResponse.hasOwnProperty("mocRenewalAttDate")) {
                       if (typeof apiResponse.mocRenewalAttDate === "string") {
-                        const rad = new Date(getDatePartOnly(apiResponse.mocRenewalAttDate));
+                        const rad = new Date(
+                          getDatePartOnly(apiResponse.mocRenewalAttDate),
+                        );
                         apiResponse.mocRenewalAttDate = rad;
                       }
                     }
@@ -1211,7 +1217,7 @@ export default function AddProvider() {
                     apiResponseArray.push(apiResponse);
                     console.log(
                       "Compensation Tab compensationGrid newJson: ",
-                      apiResponse
+                      apiResponse,
                     );
                   });
                   setCompensationTableRowsData(apiResponseArray);
@@ -1336,8 +1342,6 @@ export default function AddProvider() {
         newArr = [];
       }
 
-
-
       if (mastersSelector.hasOwnProperty("masterGridLicenseType")) {
         let licenseTypeOptions =
           mastersSelector["masterGridLicenseType"].length === 0
@@ -1369,7 +1373,6 @@ export default function AddProvider() {
 
         // }
 
-
         for (const item of orgstateOptions) {
           newstateOptions.push({
             label: convertToCase(item.stateSymbol),
@@ -1381,7 +1384,6 @@ export default function AddProvider() {
         selectJson.stateOptions = newArr;
         newArr = [];
       }
-
 
       if (mastersSelector.hasOwnProperty("masterAddressType")) {
         let addressTypeOptions =
@@ -1396,7 +1398,6 @@ export default function AddProvider() {
         selectJson.addressTypeOptions = newArr;
         newArr = [];
       }
-
 
       if (mastersSelector.hasOwnProperty("masterLicenseType")) {
         selectJson.typeOptions =
@@ -1459,13 +1460,13 @@ export default function AddProvider() {
         const provContLinkData = mastersSelector["masterProvContLinkData"];
         printConsole(
           "Inside getDashboardData provContLinkData Data: ",
-          provContLinkData
+          provContLinkData,
         );
         if (provContLinkData.length > 0) {
           const contractIdData = provContLinkData[0][0];
           printConsole(
             "Inside getDashboardData contractIdData Data: ",
-            contractIdData
+            contractIdData,
           );
           if (contractIdData !== undefined) {
             if (contractIdData.hasOwnProperty("MainTable")) {
@@ -1507,13 +1508,13 @@ export default function AddProvider() {
         .filter(
           (data) =>
             data.TransactionType.toLowerCase() ==
-            AddProvider.displayName.toLowerCase()
+            AddProvider.displayName.toLowerCase(),
         )
         .map((val) =>
           additionalQuesValues.push({
             questionId: val.QuestionId,
             label: val.QuesDescription,
-          })
+          }),
         );
 
       console.log("additionalQuesValues here: ", additionalQuesValues);
@@ -1562,7 +1563,7 @@ export default function AddProvider() {
 
         let getApiJson = {};
         getApiJson["tableNames"] = getTableDetails()["providerLinear"].concat(
-          getTableDetails()["gridTables"]
+          getTableDetails()["gridTables"],
         );
         getApiJson["whereClause"] = { caseNumber: prop.state.caseNumber };
 
@@ -1606,7 +1607,7 @@ export default function AddProvider() {
                       console.log("apiResponse Nidhi Date: ");
                       if (typeof apiResponse.dateOfBirth === "string") {
                         const dob = new Date(
-                          getDatePartOnly(apiResponse.dateOfBirth)
+                          getDatePartOnly(apiResponse.dateOfBirth),
                         );
                         apiResponse.dateOfBirth = dob;
                       }
@@ -1614,7 +1615,7 @@ export default function AddProvider() {
                     if (apiResponse.hasOwnProperty("ecfmgIssueDate")) {
                       if (typeof apiResponse.ecfmgIssueDate === "string") {
                         const eid = new Date(
-                          getDatePartOnly(apiResponse.ecfmgIssueDate)
+                          getDatePartOnly(apiResponse.ecfmgIssueDate),
                         );
                         apiResponse.ecfmgIssueDate = eid;
                       }
@@ -1622,7 +1623,7 @@ export default function AddProvider() {
                     if (apiResponse.hasOwnProperty("ecfmgExpirationDate")) {
                       if (typeof apiResponse.ecfmgExpirationDate === "string") {
                         const eed = new Date(
-                          getDatePartOnly(apiResponse.ecfmgExpirationDate)
+                          getDatePartOnly(apiResponse.ecfmgExpirationDate),
                         );
                         apiResponse.ecfmgExpirationDate = eed;
                       }
@@ -1630,7 +1631,7 @@ export default function AddProvider() {
                     if (apiResponse.hasOwnProperty("attestationDate")) {
                       if (typeof apiResponse.attestationDate === "string") {
                         const atd = new Date(
-                          getDatePartOnly(apiResponse.attestationDate)
+                          getDatePartOnly(apiResponse.attestationDate),
                         );
                         apiResponse.dateOfBirth = atd;
                       }
@@ -1699,7 +1700,7 @@ export default function AddProvider() {
                           "organizationName",
                           apiResponse.organizationName,
                           apiResponse,
-                          selectJson
+                          selectJson,
                         );
                       }
                       //To load master and linear fields if above condition fails
@@ -1731,7 +1732,7 @@ export default function AddProvider() {
                     const newJson = convertToDateObj(js);
                     console.log(
                       "Add a provider licenseTable newJson: ",
-                      newJson
+                      newJson,
                     );
                     apiResponseArray.push(newJson);
                     //setLicenseTableRowsData([...licenseTableRowsData,newJson]);
@@ -1818,16 +1819,13 @@ export default function AddProvider() {
 
                     //Added by Nidhi Gupta on 11/10/2023
                     if (apiResponse.hasOwnProperty("languages")) {
-                      if (apiResponse.languages !== '') {
+                      if (apiResponse.languages !== "") {
                         apiResponse.languages = apiResponse.languages
                           .split(",")
                           .map((ele) => {
-
                             return { label: ele, value: ele };
-
                           });
-                      }
-                      else {
+                      } else {
                         apiResponse.languages = [];
                       }
                     }
@@ -1835,7 +1833,7 @@ export default function AddProvider() {
                     apiResponseArray.push(apiResponse);
                     console.log(
                       "locationTableRowsData apiResponse: ",
-                      apiResponse
+                      apiResponse,
                     );
                   });
                   setLocationTableRowsData(apiResponseArray);
@@ -1916,7 +1914,7 @@ export default function AddProvider() {
                       const taxDesc = checktaxdec(apiResponse.taxonomyCode);
                       printConsole(
                         "Inside useEffect speciality if taxDesc value ",
-                        taxDesc
+                        taxDesc,
                       );
                       apiResponse.taxonomyDesc = taxDesc;
                     }
@@ -1931,21 +1929,21 @@ export default function AddProvider() {
                       apiResponse = checkSubSpeciality(apiResponse);
                       printConsole(
                         "Speciality response after inserting subSpeciality============= ",
-                        apiResponse
+                        apiResponse,
                       );
                     }
 
                     //}
                     printConsole(
                       "Inside useEffect speciality if final specialty value ",
-                      apiResponse
+                      apiResponse,
                     );
                     //}
 
                     apiResponseArray.push(apiResponse);
                     console.log(
                       "specialityTableRowsData apiResponse: ",
-                      apiResponse
+                      apiResponse,
                     );
                   });
                   setspecialityTableRowsData(apiResponseArray);
@@ -1957,7 +1955,7 @@ export default function AddProvider() {
                     const newJson = convertToDateObj(js);
                     console.log(
                       "Add a provider insuranceTable newJson;",
-                      newJson
+                      newJson,
                     );
                     apiResponseArray.push(newJson);
                     // setEducationTableRowsData([...educationTableRowsData,newJson]);
@@ -1989,7 +1987,7 @@ export default function AddProvider() {
                     apiResponseArray.push(apiResponse);
                     console.log(
                       "trainingTableRowsData apiResponse: ",
-                      apiResponse
+                      apiResponse,
                     );
                   });
                   setTrainingTableRowsData(apiResponseArray);
@@ -2026,7 +2024,7 @@ export default function AddProvider() {
                     const newJson = convertToDateObj(js);
                     console.log(
                       "Add a provider insuranceTable newJson;",
-                      newJson
+                      newJson,
                     );
                     apiResponseArray.push(newJson);
                     // setInsuranceTableRowsData([...insuranceTableRowsData,newJson]);
@@ -2057,7 +2055,7 @@ export default function AddProvider() {
                     apiResponseArray.push(apiResponse);
                     console.log(
                       "credentialTableRowsData apiResponse: ",
-                      apiResponse
+                      apiResponse,
                     );
                   });
                   setCredentialTableRowsData(apiResponseArray);
@@ -2070,7 +2068,7 @@ export default function AddProvider() {
                     additionalQuesValues.map((obj) => [
                       obj.questionId,
                       obj.label,
-                    ])
+                    ]),
                   );
 
                   console.log("masterMap newJson:", masterMap);
@@ -2097,7 +2095,7 @@ export default function AddProvider() {
 
                   console.log("quesAnsList: ", quesAnsList);
                   const quesAnsMap = new Map(
-                    quesAnsList.map((obj) => [obj.questionId, obj])
+                    quesAnsList.map((obj) => [obj.questionId, obj]),
                   );
                   console.log("quesAnsMap: ", quesAnsMap);
 
@@ -2132,7 +2130,7 @@ export default function AddProvider() {
                   }
                   console.log(
                     "additionalQuesGrid quesAnsListJson :",
-                    quesAnsListJson
+                    quesAnsListJson,
                   );
                 }
 
@@ -2143,13 +2141,13 @@ export default function AddProvider() {
               if (prop.state.stageName == "Cred Specialist") {
                 console.log(
                   "prop.state.organizationName 1152: ",
-                  prop.state.organizationName
+                  prop.state.organizationName,
                 );
                 let resJson = {};
                 customAxios
                   .get(
                     `/fetchPotentialDuplicate?legalEntityName=${prop.state.organizationName}&strRouteTo=${prop.state.stageName}&caseNumber=${prop.state.caseNumber}&transactionType=${AddProvider.displayName}`,
-                    { headers: { Authorization: `Bearer ${token}` } }
+                    { headers: { Authorization: `Bearer ${token}` } },
                   )
                   .then((res) => {
                     resJson = { ...res };
@@ -2159,7 +2157,7 @@ export default function AddProvider() {
                       let getApiJson = {};
                       console.log(
                         "prop.state.caseNumber 1162: ",
-                        prop.state.caseNumber
+                        prop.state.caseNumber,
                       );
                       getApiJson["tableNames"] =
                         getTableDetails()["provPotentialDuplicate"];
@@ -2175,7 +2173,7 @@ export default function AddProvider() {
                         .then((res) => {
                           console.log(
                             "Generic get api response compensation Nidhi: ",
-                            res
+                            res,
                           );
                           const apiStat = res.data.Status;
                           if (apiStat === -1) {
@@ -2194,7 +2192,7 @@ export default function AddProvider() {
                               newArr.push(newJson);
                               console.log(
                                 "Potential Duplicate Json: ",
-                                newJson
+                                newJson,
                               );
                             });
                             console.log("Potential Duplicate Array: ", newArr);
@@ -2209,7 +2207,7 @@ export default function AddProvider() {
                   .catch((err) => {
                     console.log(
                       "Caught in fetch potential duplicate api call: ",
-                      err.message
+                      err.message,
                     );
                     alert("Error occured in finding potenial duplicate.");
                     setButtonDisableFlag(false);
@@ -2420,7 +2418,7 @@ export default function AddProvider() {
         if (!checkGridJsonLength(clonedJson)) {
           console.log(
             "Inside gridRowsFinalSubmit clonedJson if value: ",
-            clonedJson
+            clonedJson,
           );
           licenseTableRowsData[index] = clonedJson;
           setLicenseTableRowsData(licenseTableRowsData);
@@ -2434,7 +2432,7 @@ export default function AddProvider() {
         }
         console.log(
           "Inside gridRowsFinalSubmit clonedJson value: ",
-          clonedJson
+          clonedJson,
         );
         if (!checkGridJsonLength(clonedJson)) {
           specialityTableRowsData[index] = clonedJson;
@@ -2449,7 +2447,7 @@ export default function AddProvider() {
         }
         console.log(
           "Inside gridRowsFinalSubmit clonedJson value: ",
-          clonedJson
+          clonedJson,
         );
         if (clonedJson.hasOwnProperty("officeFaxNumber")) {
           clonedJson["officeFaxNumber"].value = clonedJson[
@@ -2476,7 +2474,7 @@ export default function AddProvider() {
         //   }
         console.log(
           "Inside gridRowsFinalSubmit clonedJson after value: ",
-          clonedJson
+          clonedJson,
         );
         if (!checkGridJsonLength(clonedJson)) {
           locationTableRowsData[index] = clonedJson;
@@ -2491,7 +2489,7 @@ export default function AddProvider() {
         }
         console.log(
           "Inside gridRowsFinalSubmit clonedJson value: ",
-          clonedJson
+          clonedJson,
         );
         if (!checkGridJsonLength(clonedJson)) {
           payToTableRowsData[index] = clonedJson;
@@ -2506,7 +2504,7 @@ export default function AddProvider() {
         }
         console.log(
           "Inside gridRowsFinalSubmit clonedJson value: ",
-          clonedJson
+          clonedJson,
         );
         if (!checkGridJsonLength(clonedJson)) {
           educationTableRowsData[index] = clonedJson;
@@ -2521,7 +2519,7 @@ export default function AddProvider() {
         }
         console.log(
           "Inside gridRowsFinalSubmit clonedJson value: ",
-          clonedJson
+          clonedJson,
         );
         if (!checkGridJsonLength(clonedJson)) {
           trainingTableRowsData[index] = clonedJson;
@@ -2536,7 +2534,7 @@ export default function AddProvider() {
         }
         console.log(
           "Inside gridRowsFinalSubmit clonedJson value: ",
-          clonedJson
+          clonedJson,
         );
         if (!checkGridJsonLength(clonedJson)) {
           workTableRowsData[index] = clonedJson;
@@ -2551,7 +2549,7 @@ export default function AddProvider() {
         }
         console.log(
           "Inside gridRowsFinalSubmit clonedJson value: ",
-          clonedJson
+          clonedJson,
         );
         if (!checkGridJsonLength(clonedJson)) {
           insuranceTableRowsData[index] = clonedJson;
@@ -2566,7 +2564,7 @@ export default function AddProvider() {
         }
         console.log(
           "Inside gridRowsFinalSubmit clonedJson value: ",
-          clonedJson
+          clonedJson,
         );
         if (!checkGridJsonLength(clonedJson)) {
           credentialTableRowsData[index] = clonedJson;
@@ -2582,7 +2580,7 @@ export default function AddProvider() {
         }
         console.log(
           "Inside gridRowsFinalSubmit clonedJson value: ",
-          clonedJson
+          clonedJson,
         );
         if (!checkGridJsonLength(clonedJson)) {
           firlTableRowsData[index] = clonedJson;
@@ -2597,7 +2595,7 @@ export default function AddProvider() {
         }
         console.log(
           "Inside gridRowsFinalSubmit clonedJson value: ",
-          clonedJson
+          clonedJson,
         );
         if (!checkGridJsonLength(clonedJson)) {
           compensationTableRowsData[index] = clonedJson;
@@ -2783,7 +2781,7 @@ export default function AddProvider() {
       if (triggeredFormName === "CredentialTable") {
         console.log(
           "Grid data ref current for credential===== ",
-          gridDataRef.current.credentialTable
+          gridDataRef.current.credentialTable,
         );
         gridRowArray = gridDataRef.current.hasOwnProperty("credentialTable")
           ? [...gridDataRef.current.credentialTable]
@@ -2802,14 +2800,14 @@ export default function AddProvider() {
 
         console.log(
           "gridDataRef.current for credential: ",
-          gridDataRef.current
+          gridDataRef.current,
         );
       }
 
       /////
       if (triggeredFormName === "FIRLTable") {
         gridRowArray = gridDataRef.current.hasOwnProperty(
-          "SelfServ_HospitalComp_Grid"
+          "SelfServ_HospitalComp_Grid",
         )
           ? [...gridDataRef.current.SelfServ_HospitalComp_Grid]
           : [];
@@ -2828,12 +2826,12 @@ export default function AddProvider() {
 
         console.log(
           "Inside gridRowsFinalSubmit gridDataRef.current FIRLTable: ",
-          gridDataRef.current
+          gridDataRef.current,
         );
       }
       if (triggeredFormName === "CompensationTable") {
         gridRowArray = gridDataRef.current.hasOwnProperty(
-          "SelfServ_ProviderComp_Grid"
+          "SelfServ_ProviderComp_Grid",
         )
           ? [...gridDataRef.current.SelfServ_ProviderComp_Grid]
           : [];
@@ -2852,7 +2850,7 @@ export default function AddProvider() {
 
         console.log(
           "Inside gridRowsFinalSubmit gridDataRef.current CompensationTable: ",
-          gridDataRef.current
+          gridDataRef.current,
         );
       }
     }
@@ -3185,7 +3183,7 @@ export default function AddProvider() {
       " & ",
       triggeredFormName,
       " & ",
-      operationValue
+      operationValue,
     );
     if (
       operationValue !== "Edit" &&
@@ -3269,14 +3267,14 @@ export default function AddProvider() {
     let { name, value } = evnt.target;
     console.log("Inside handleGridFieldChange: ", value, tempInput);
 
-    if (triggeredFormName === 'PayToTable') {
-      if (name === 'payToNpi' || name === 'zipCode') {
+    if (triggeredFormName === "PayToTable") {
+      if (name === "payToNpi" || name === "zipCode") {
         value = acceptNumbersOnly(value);
         console.log("inside condition", value);
       }
     }
-    if (triggeredFormName === 'LocationTable') {
-      if (name === 'npi' || name === 'zipCode') {
+    if (triggeredFormName === "LocationTable") {
+      if (name === "npi" || name === "zipCode") {
         value = acceptNumbersOnly(value);
         console.log("inside condition", value);
       }
@@ -3430,7 +3428,7 @@ export default function AddProvider() {
         // );
         if (selectValues.taxonomyOptions.length > 0) {
           const foundOption = selectValues.taxonomyOptions.find(
-            (option) => option.TAXONOMYCODE === value
+            (option) => option.TAXONOMYCODE === value,
           );
           //console.log("Inside handleOnBlur foundOption: ", foundOption);
           if (
@@ -3468,7 +3466,7 @@ export default function AddProvider() {
         }
       } else {
         alert(
-          "Please fill Taxonomy Code to populate Taxonomy Description and Taxonomy Group"
+          "Please fill Taxonomy Code to populate Taxonomy Description and Taxonomy Group",
         );
         rowsInput["taxonomyDesc"] = "";
         rowsInput["taxonomyGrp"] = "";
@@ -3483,17 +3481,17 @@ export default function AddProvider() {
     index,
     selectedValue,
     evnt,
-    triggeredFormName
+    triggeredFormName,
   ) => {
     console.log("Inside handleSelectSpecialityOnBlur index: ", index);
     console.log(
       "Inside handleSelectSpecialityOnBlur selectedValue: ",
-      selectedValue
+      selectedValue,
     );
     console.log("Inside handleSelectSpecialityOnBlur evnt: ", evnt);
     console.log(
       "Inside handleSelectSpecialityOnBlur trigeredFormName: ",
-      triggeredFormName
+      triggeredFormName,
     );
   };
   //till here
@@ -3537,21 +3535,20 @@ export default function AddProvider() {
 
     if (setFieldValue !== undefined) {
       setFieldValue(name, val);
-
     }
 
     setApiTestState({ ...apiTestState, [name]: val });
   };
   console.log(
     "SS handleLinearhandleLinearhandleLinearhandleLinear",
-    apiTestState
+    apiTestState,
   );
 
   const handleGridSelectChange = (
     index,
     selectedValue,
     evnt,
-    triggeredFormName
+    triggeredFormName,
   ) => {
     // console.log("Inside select change index: ", index);
     console.log("Inside select change selectedValue: ", evnt, selectedValue);
@@ -3564,8 +3561,7 @@ export default function AddProvider() {
     if (evnt.action === "clear") {
       if (name.toLowerCase() === "languages") {
         val = [];
-      }
-      else {
+      } else {
         val = { label: "", value: "" };
       }
     } else {
@@ -3609,7 +3605,7 @@ export default function AddProvider() {
       ) {
         //console.log("Inside select change heloooooo");
         const foundOption = selectValues.specialtyOptions.find(
-          (option) => option.speciality === selectedValue.value
+          (option) => option.speciality === selectedValue.value,
         );
         console.log("Inside select change foundOption: ", foundOption);
         if (
@@ -3620,11 +3616,11 @@ export default function AddProvider() {
         ) {
           console.log(
             "Inside select change foundOption if: ",
-            rowsInput["hsdCode"]
+            rowsInput["hsdCode"],
           );
           console.log(
             "Inside select change foundOption.hsdCodeValue: ",
-            foundOption.hsdCodeValue
+            foundOption.hsdCodeValue,
           );
           rowsInput["hsdCode"] = foundOption.hsdCodeValue;
         } else {
@@ -3639,7 +3635,7 @@ export default function AddProvider() {
           });
         console.log(
           "Inside select change subSpecialityValues",
-          subSpecialityValues
+          subSpecialityValues,
         );
         setSubSpecialityOptions(subSpecialityValues);
       }
@@ -3838,7 +3834,7 @@ export default function AddProvider() {
     index,
     selectedValue,
     fieldName,
-    triggeredFormName
+    triggeredFormName,
   ) => {
     // console.log("index: ",index);
     //console.log("Inside handleGridDateChange selectValue: ",selectedValue);
@@ -4072,7 +4068,7 @@ export default function AddProvider() {
         values.delegated.value !== undefined ? values.delegated.value : null;
       requestBody.contractId =
         apiTestState.contractId !== undefined &&
-          apiTestState.contractId !== null
+        apiTestState.contractId !== null
           ? apiTestState.contractId.value
           : "";
       requestBody.ecfmgQues =
@@ -4087,7 +4083,7 @@ export default function AddProvider() {
       requestBody.dateOfBirth = extractDate(apiTestState.dateOfBirth);
       requestBody.ecfmgIssueDate = extractDate(apiTestState.ecfmgIssueDate);
       requestBody.ecfmgExpirationDate = extractDate(
-        apiTestState.ecfmgExpirationDate
+        apiTestState.ecfmgExpirationDate,
       );
       requestBody.attestationDate = extractDate(apiTestState.attestationDate);
       /*requestBody.dateOfBirth = !!apiTestState.dateOfBirth
@@ -4281,7 +4277,7 @@ export default function AddProvider() {
         ) {
           // || ((apiJson["SelfServ_Prov_Details"].ecfmgExpirationDate === '') || (apiJson["SelfServ_Prov_Details"].ecfmgExpirationDate === undefined)))
           alert(
-            "ECFMG Number and ECFMG Issue Date are required if ECFMG is Yes"
+            "ECFMG Number and ECFMG Issue Date are required if ECFMG is Yes",
           );
           setButtonDisableFlag(false); //Added on 5/17/2023
           return;
@@ -4342,7 +4338,7 @@ export default function AddProvider() {
       }
 
       console.log(
-        "No duplicate NPI ID detected. Proceeding with saving form data."
+        "No duplicate NPI ID detected. Proceeding with saving form data.",
       );
 
       //Added by NG on 12/7/2023 for making amounts null if they are coming blank in Insert statement
@@ -4400,12 +4396,12 @@ export default function AddProvider() {
         console.log("PocData State: ", procData);
         console.log(
           "Inside Add Provider File UPLOAD DATA: ",
-          documentSectionDataRef.current
+          documentSectionDataRef.current,
         );
         if (documentSectionDataRef.current.length > 0) {
           let documentArray = [...documentSectionDataRef.current];
           documentArray = documentArray.filter(
-            (x) => x.docStatus === "Uploaded"
+            (x) => x.docStatus === "Uploaded",
           );
           documentArray.forEach((e) => {
             const fileUploadData = new FormData();
@@ -4413,12 +4409,12 @@ export default function AddProvider() {
             fileUploadData.append("source", "Manual");
             fileUploadData.append(
               "caseNumber",
-              response.data["CreateCase_Output"]["CaseNo"]
+              response.data["CreateCase_Output"]["CaseNo"],
             );
             fileUploadData.append("docType", e.documentType);
             console.log(
               "Inside Add Provider File Upload Data: ",
-              fileUploadData
+              fileUploadData,
             );
             fileUpDownAxios
               .post("/uploadFile", fileUploadData)
@@ -4456,7 +4452,7 @@ export default function AddProvider() {
         //else {
         alert(
           "Case created successfully: " +
-          response.data["CreateCase_Output"]["CaseNo"]
+            response.data["CreateCase_Output"]["CaseNo"],
         );
         //submitCase(procData, navigateHome);
         //}
@@ -4476,7 +4472,13 @@ export default function AddProvider() {
 
   // Updated by SHivani for CAQH and NPI validation
   const saveData = (values) => {
-    if (!getNPIFromMaster(values.caqhNpiId, prop.state.decision, callProcRef.current)) {
+    if (
+      !getNPIFromMaster(
+        values.caqhNpiId,
+        prop.state.decision,
+        callProcRef.current,
+      )
+    ) {
       if (tabRef.current === "HomeView") {
         saveFormData(values);
       }
@@ -4484,7 +4486,7 @@ export default function AddProvider() {
       if (tabRef.current === "DashboardView") {
         printConsole(
           "Inside dashboard view before if : ",
-          formikInitializeState
+          formikInitializeState,
         );
         if (formikInitializeState) {
           printConsole("Inside dashboard view if : ", formikInitializeState);
@@ -4493,7 +4495,7 @@ export default function AddProvider() {
         setTimeout(() => {
           printConsole(
             "Inside dashboard view timeout : ",
-            formikInitializeState
+            formikInitializeState,
           );
           updateFormData(values);
         }, 1000);
@@ -4537,8 +4539,8 @@ export default function AddProvider() {
     } else {
       alert(
         "NPI ID " +
-        values.caqhNpiId +
-        " is in exclusion list.Please contact your provider and enter correct NPI ID"
+          values.caqhNpiId +
+          " is in exclusion list.Please contact your provider and enter correct NPI ID",
       );
     }
   };
@@ -4563,7 +4565,7 @@ export default function AddProvider() {
   }
   function filterData() {
     return caseData.data.filter(
-      (item) => item?.CaseID !== Number(prop.state.caseNumber)
+      (item) => item?.CaseID !== Number(prop.state.caseNumber),
     );
   }
   function getCaseByCaseNumber() {
@@ -4585,7 +4587,7 @@ export default function AddProvider() {
         if (apiStat === 0) {
           const caseIDToUpdate = res?.data?.data?.mainTable[0]?.CaseID;
           const indexToUpdate = caseData.data.findIndex(
-            (item) => item?.CaseID === caseIDToUpdate
+            (item) => item?.CaseID === caseIDToUpdate,
           );
 
           if (indexToUpdate !== -1) {
@@ -4630,7 +4632,7 @@ export default function AddProvider() {
         callProcRef.current === "callProc" &&
         !checkDecision(
           prop?.state?.decision?.toUpperCase()?.trim(),
-          callProcRef.current
+          callProcRef.current,
         )
       ) {
         const result = checkLengths();
@@ -4651,7 +4653,7 @@ export default function AddProvider() {
       //setApiTestState({...apiTestState,values});
       printConsole(
         "Inside updateFormData states values: ",
-        apiTestState.states
+        apiTestState.states,
       );
       let requestBody = { ...values };
       //values.gender = ((apiTestState.gender!==undefined)?apiTestState.gender.value:'');
@@ -4683,7 +4685,7 @@ export default function AddProvider() {
 
       requestBody.contractId =
         apiTestState.contractId !== undefined &&
-          apiTestState.contractId !== null
+        apiTestState.contractId !== null
           ? apiTestState.contractId.value
           : "";
       //console.log("Updated apiTestState.attestationDate", apiTestState.dateOfBirth);
@@ -4692,7 +4694,7 @@ export default function AddProvider() {
       requestBody.dateOfBirth = extractDate(apiTestState.dateOfBirth);
       requestBody.ecfmgIssueDate = extractDate(apiTestState.ecfmgIssueDate);
       requestBody.ecfmgExpirationDate = extractDate(
-        apiTestState.ecfmgExpirationDate
+        apiTestState.ecfmgExpirationDate,
       );
       requestBody.attestationDate = extractDate(apiTestState.attestationDate);
       /*requestBody.dateOfBirth = getDatePart(apiTestState.dateOfBirth);
@@ -4803,7 +4805,7 @@ export default function AddProvider() {
           : "";
       networkBody.contractTypeComp =
         apiTestStateComp.contractTypeComp &&
-          apiTestStateComp.contractTypeComp.value
+        apiTestStateComp.contractTypeComp.value
           ? apiTestStateComp.contractTypeComp.value
           : "";
       networkBody.sequesApplies =
@@ -4841,11 +4843,17 @@ export default function AddProvider() {
       // networkBody.conEffectiveDate = !!apiTestStateComp.conEffectiveDate
       //   ? apiTestStateComp.conEffectiveDate.toLocaleDateString()
       //   : null;
-      networkBody.conEffectiveDate = extractDate(apiTestStateComp.conEffectiveDate)
+      networkBody.conEffectiveDate = extractDate(
+        apiTestStateComp.conEffectiveDate,
+      );
 
-      networkBody.mocAttestationDate = extractDate(apiTestStateComp.mocAttestationDate)
+      networkBody.mocAttestationDate = extractDate(
+        apiTestStateComp.mocAttestationDate,
+      );
 
-      networkBody.mocRenewalAttDate = extractDate(apiTestStateComp.mocRenewalAttDate)
+      networkBody.mocRenewalAttDate = extractDate(
+        apiTestStateComp.mocRenewalAttDate,
+      );
 
       //Till Here
       console.log("networkBody Update: ", requestBody);
@@ -4856,7 +4864,7 @@ export default function AddProvider() {
         apiCallOnce &&
         Object.keys(apiTestStateComp).length > 0 &&
         Object.values(apiTestStateComp).some(
-          (value) => value !== "" && value !== null
+          (value) => value !== "" && value !== null,
         )
       ) {
         //const isAnyValueNotEmpty = Object.values(apiTestStateComp).some(value => value !== '' && value !== null);
@@ -4891,7 +4899,7 @@ export default function AddProvider() {
         gridDataRef.current.SelfServ_PotentialDuplicate = updateArray;
         console.log(
           "gridDataRef.current.SelfServ_PotentialDuplicate: ",
-          gridDataRef.current.SelfServ_PotentialDuplicate
+          gridDataRef.current.SelfServ_PotentialDuplicate,
         );
       }
       //Till Here
@@ -4959,7 +4967,7 @@ export default function AddProvider() {
             ) {
               // || ((gridDataRef.current.SelfServ_Prov_Details.ecfmgExpirationDate === '') || (gridDataRef.current.SelfServ_Prov_Details.ecfmgExpirationDate === undefined)))
               alert(
-                "ECFMG Number and ECFMG Issue Date are required if ECFMG is Yes"
+                "ECFMG Number and ECFMG Issue Date are required if ECFMG is Yes",
               );
               setButtonDisableFlag(false); //Added on 5/17/2023
               return;
@@ -5014,7 +5022,7 @@ export default function AddProvider() {
               if (!validateDec) {
                 setButtonDisableFlag(false);
                 alert(
-                  "Please choose Decision Discard as it is a Potential Duplicate Case."
+                  "Please choose Decision Discard as it is a Potential Duplicate Case.",
                 );
                 return;
               }
@@ -5027,7 +5035,7 @@ export default function AddProvider() {
             //saveType = 'SS';
             console.log(
               "Inside validate credchecklist grid decision value ====== ",
-              dec
+              dec,
             );
             if (
               dec !== "DISCARD" &&
@@ -5038,7 +5046,7 @@ export default function AddProvider() {
               validated = validateGridData(credentialTableRowsData);
               console.log(
                 "Inside validate credchecklist grid validated ====== ",
-                validated
+                validated,
               );
               if (validated) {
                 gridDataRef.current.SelfServ_Credential_Grid =
@@ -5052,10 +5060,10 @@ export default function AddProvider() {
         if (validated) {
           console.log(
             "Inside updateFormData gridDataRef.current before==== ",
-            gridDataRef.current
+            gridDataRef.current,
           );
           const gridKeys = getTableDetails()["providerLinear"].concat(
-            getTableDetails()["gridTables"]
+            getTableDetails()["gridTables"],
           );
           gridKeys.forEach((k) => {
             const newKey = k.split("~")[0];
@@ -5063,7 +5071,7 @@ export default function AddProvider() {
             gridDataRef.current = renameKey(
               gridDataRef.current,
               oldKey,
-              newKey
+              newKey,
             );
           });
 
@@ -5173,11 +5181,11 @@ export default function AddProvider() {
         "Inside rename key old key = ",
         oldKey,
         " new key = ",
-        newKey
+        newKey,
       );
       console.log(
         "Inside rename key hasOwnProperty = ",
-        obj.hasOwnProperty(oldKey)
+        obj.hasOwnProperty(oldKey),
       );
       console.log("Inside rename key obj[oldKey] = ", obj[oldKey]);
       console.log("Inside rename key obj[newKey] = ", obj[newKey]);
@@ -5529,7 +5537,7 @@ export default function AddProvider() {
                   customAxios
                     .get(
                       `caqh/credentialing?caqhProviderId=${caqhId}&organizationId=${organizationId}&attestationDate=${res.data.providerStatusDate}`,
-                      { headers: { Authorization: `Bearer ${token}` } }
+                      { headers: { Authorization: `Bearer ${token}` } },
                     )
                     // Promise.resolve({
                     //     status: 200,
@@ -5544,15 +5552,15 @@ export default function AddProvider() {
                       ) {
                         console.log(
                           "CAQH Res --------------------->",
-                          caqhRes.data
+                          caqhRes.data,
                         );
                         const apiResponse = caqhRes.data.Provider;
                         const respssn = String(
-                          checkDataAvailable(apiResponse.SSN)
+                          checkDataAvailable(apiResponse.SSN),
                         );
                         const respSubStr = respssn.substring(
                           respssn.length,
-                          respssn.length - 4
+                          respssn.length - 4,
                         );
                         if (
                           !!respSubStr &&
@@ -5590,28 +5598,28 @@ export default function AddProvider() {
                                 ? orgName
                                 : "",
                             firstName: checkDataAvailable(
-                              apiResponse.FirstName
+                              apiResponse.FirstName,
                             ),
                             // middleName: checkDataAvailable(apiResponse.MiddleName),
                             middleName: checkDataAvailable(
-                              apiResponse.MiddleName
+                              apiResponse.MiddleName,
                             )
                               ? checkDataAvailable(apiResponse.MiddleName)
                               : "", //Changed by Nidhi Gupta on 5/17/2023
                             lastName: checkDataAvailable(apiResponse.LastName),
                             gender:
                               !!checkDataAvailable(apiResponse.Gender) &&
-                                !!checkDataAvailable(
-                                  apiResponse.Gender.GenderDescription
-                                )
+                              !!checkDataAvailable(
+                                apiResponse.Gender.GenderDescription,
+                              )
                                 ? {
-                                  label: convertToCase(
-                                    apiResponse.Gender.GenderDescription
-                                  ),
-                                  value: convertToCase(
-                                    apiResponse.Gender.GenderDescription
-                                  ),
-                                }
+                                    label: convertToCase(
+                                      apiResponse.Gender.GenderDescription,
+                                    ),
+                                    value: convertToCase(
+                                      apiResponse.Gender.GenderDescription,
+                                    ),
+                                  }
                                 : null,
                             suffix: checkDataAvailable(apiResponse.suffix)
                               ? checkDataAvailable(apiResponse.suffix)
@@ -5623,17 +5631,17 @@ export default function AddProvider() {
                             //Added by Nidhi Gupta on 08/20/2023
                             delegated:
                               !!checkDataAvailable(apiResponse.DelegatedFlag) &&
-                                apiResponse.DelegatedFlag == 1
+                              apiResponse.DelegatedFlag == 1
                                 ? { label: "Yes", value: "Yes" }
                                 : { label: "No", value: "No" },
                             //Till Here
                             ecfmgQues:
                               !!checkDataAvailable(apiResponse.ECFMGFlag) &&
-                                apiResponse.ECFMGFlag == 1
+                              apiResponse.ECFMGFlag == 1
                                 ? { label: "Yes", value: "Yes" }
                                 : { label: "No", value: "No" },
                             dateOfBirth: checkDataAvailable(
-                              apiResponse.BirthDate
+                              apiResponse.BirthDate,
                             )
                               ? new Date(apiResponse.BirthDate)
                               : null,
@@ -5643,7 +5651,7 @@ export default function AddProvider() {
                             //   apiResponse.EmailAddress
                             // ),
                             emailId: checkDataAvailable(
-                              getEmailfromAssociate(apiResponse.Associate)
+                              getEmailfromAssociate(apiResponse.Associate),
                             ),
 
                             // caqhNpiId:apiResponse.caqhNpiId,
@@ -5662,42 +5670,42 @@ export default function AddProvider() {
                             //commercial:apiResponse.commercial,
                             // ecfmgNumber: checkDataAvailable(apiResponse.ECFMGNumber),
                             ecfmgNumber: checkDataAvailable(
-                              apiResponse.ECFMGNumber
+                              apiResponse.ECFMGNumber,
                             )
                               ? checkDataAvailable(apiResponse.ECFMGNumber)
                               : "", //Changed by Nidhi Gupta on 5/17/2023
                             ecfmgIssueDate: checkDataAvailable(
-                              apiResponse.ECFMGIssueDate
+                              apiResponse.ECFMGIssueDate,
                             )
                               ? new Date(apiResponse.ECFMGIssueDate)
                               : null,
                             ecfmgExpirationDate: checkDataAvailable(
-                              apiResponse.ECFMGExpirationDate
+                              apiResponse.ECFMGExpirationDate,
                             )
                               ? new Date(apiResponse.ECFMGExpirationDate)
                               : null,
                             attestationId: checkDataAvailable(
-                              apiResponse.ProviderAttestID
+                              apiResponse.ProviderAttestID,
                             ),
                             attestationDate: apiResponse.AttestDate
                               ? new Date(apiResponse.AttestDate)
                               : "",
                             medicaidId:
                               !!checkDataAvailable(
-                                apiResponse.MedicaidProviderFlag
+                                apiResponse.MedicaidProviderFlag,
                               ) && apiResponse.MedicaidProviderFlag == 1
                                 ? Array.isArray(apiResponse.ProviderMedicaid)
                                   ? apiResponse.ProviderMedicaid[0]
-                                    .MedicaidNumber
+                                      .MedicaidNumber
                                   : apiResponse.ProviderMedicaid.MedicaidNumber
                                 : "",
                             medicareId:
                               !!checkDataAvailable(
-                                apiResponse.MedicareProviderFlag
+                                apiResponse.MedicareProviderFlag,
                               ) && apiResponse.MedicareProviderFlag == 1
                                 ? Array.isArray(apiResponse.ProviderMedicare)
                                   ? apiResponse.ProviderMedicare[0]
-                                    .MedicareNumber
+                                      .MedicareNumber
                                   : apiResponse.ProviderMedicare.MedicareNumber
                                 : "",
                             contractId:
@@ -5719,51 +5727,51 @@ export default function AddProvider() {
                                   operation: "I",
                                   rowNumber: row++,
                                   license: checkDataAvailable(
-                                    data.LicenseNumber
+                                    data.LicenseNumber,
                                   ),
                                   stateAbbreviation: checkDataAvailable(
-                                    data.State
+                                    data.State,
                                   ),
                                   type: "",
                                   licenseType: checkDataAvailable(
-                                    data.LicenseType
+                                    data.LicenseType,
                                   ),
                                   // stateAbbreviation: checkDataAvailable(
                                   //   data.State
                                   // ),
                                   expirationDate: checkDataAvailable(
-                                    data.ExpirationDate
+                                    data.ExpirationDate,
                                   )
                                     ? new Date(data.ExpirationDate)
                                     : "",
                                 };
 
                                 return getTransformed(dataObj);
-                              }
+                              },
                             );
                           } else {
                             const dataObj = {
                               operation: "I",
                               rowNumber: licenseArray.length + 1,
                               license: checkDataAvailable(
-                                apiResponse.ProviderLicense.LicenseNumber
+                                apiResponse.ProviderLicense.LicenseNumber,
                               ),
                               stateAbbreviation: checkDataAvailable(
-                                apiResponse.ProviderLicense.State
+                                apiResponse.ProviderLicense.State,
                               ),
                               type: "",
                               licenseType: checkDataAvailable(
-                                apiResponse.ProviderLicense.LicenseType
+                                apiResponse.ProviderLicense.LicenseType,
                               ),
                               stateAbbreviation: checkDataAvailable(
-                                apiResponse.ProviderLicense.State
+                                apiResponse.ProviderLicense.State,
                               ),
                               expirationDate: checkDataAvailable(
-                                apiResponse.ProviderLicense.ExpirationDate
+                                apiResponse.ProviderLicense.ExpirationDate,
                               )
                                 ? new Date(
-                                  apiResponse.ProviderLicense.ExpirationDate
-                                )
+                                    apiResponse.ProviderLicense.ExpirationDate,
+                                  )
                                 : "",
                             };
                             licenseArray.push(getTransformed(dataObj));
@@ -5776,14 +5784,14 @@ export default function AddProvider() {
                             operation: "I",
                             rowNumber: licenseArray.length + 1,
                             license: checkDataAvailable(
-                              apiResponse.ProviderDEA.DEANumber
+                              apiResponse.ProviderDEA.DEANumber,
                             ),
                             stateAbbreviation: checkDataAvailable(
-                              apiResponse.ProviderDEA.State
+                              apiResponse.ProviderDEA.State,
                             ),
                             type: "DEA Number",
                             expirationDate: checkDataAvailable(
-                              apiResponse.ProviderDEA.ExpirationDate
+                              apiResponse.ProviderDEA.ExpirationDate,
                             )
                               ? new Date(apiResponse.ProviderDEA.ExpirationDate)
                               : "",
@@ -5802,43 +5810,41 @@ export default function AddProvider() {
                                   operation: "I",
                                   rowNumber: row++,
                                   taxonomyCode: checkDataAvailable(
-                                    data.NUCCTaxonomyCode
+                                    data.NUCCTaxonomyCode,
                                   ),
                                   //   taxonomyDesc: "",
 
                                   taxonomyDesc: checkDataAvailable(
-                                    data.NUCCTaxonomyCode
+                                    data.NUCCTaxonomyCode,
                                   )
                                     ? checktaxdec(data.NUCCTaxonomyCode)
                                     : "",
                                   boardCerti:
                                     !!checkDataAvailable(data.Specialty) &&
-                                      !!checkDataAvailable(
-                                        data.Specialty.BoardCertifiedFlag
-                                      ) &&
-                                      data.Specialty.BoardCertifiedFlag == "1"
+                                    !!checkDataAvailable(
+                                      data.Specialty.BoardCertifiedFlag,
+                                    ) &&
+                                    data.Specialty.BoardCertifiedFlag == "1"
                                       ? { label: "Yes", value: "Y" }
                                       : { label: "No", value: "N" },
                                   // boardCerti: {label: data.SpecialtyBoardName,value: data.SpecialtyBoardName},
                                   // taxonomyGrp: '',
-                                  speciality: checkDataAvailable(
-                                    data.Specialty
-                                  )
+                                  speciality: checkDataAvailable(data.Specialty)
                                     ? checkDataAvailable(
-                                      data.Specialty.SpecialtyName
-                                    )
+                                        data.Specialty.SpecialtyName,
+                                      )
                                     : null,
                                   specPrimary:
                                     !!checkDataAvailable(data.SpecialtyType) &&
-                                      checkDataAvailable(
-                                        data.SpecialtyType
-                                          .SpecialtyTypeDescription
-                                      ) == "Primary"
+                                    checkDataAvailable(
+                                      data.SpecialtyType
+                                        .SpecialtyTypeDescription,
+                                    ) == "Primary"
                                       ? { label: "Yes", value: "Y" }
                                       : { label: "No", value: "N" },
                                 };
                                 return getTransformed(dataObj);
-                              }
+                              },
                             );
                           } else {
                             //alert('ashish1'+ apiResponse.Specialty.SpecialtyType.SpecialtyTypeDescription);
@@ -5847,41 +5853,41 @@ export default function AddProvider() {
                               operation: "I",
                               rowNumber: specialityArray.length + 1,
                               taxonomyCode: checkDataAvailable(
-                                apiResponse.Specialty.NUCCTaxonomyCode
+                                apiResponse.Specialty.NUCCTaxonomyCode,
                               ),
                               //  taxonomyDesc: "",
                               taxonomyDesc: checkDataAvailable(
-                                apiResponse.Specialty.NUCCTaxonomyCode
+                                apiResponse.Specialty.NUCCTaxonomyCode,
                               )
                                 ? checktaxdec(
-                                  apiResponse.Specialty.NUCCTaxonomyCode
-                                )
+                                    apiResponse.Specialty.NUCCTaxonomyCode,
+                                  )
                                 : "",
                               boardCerti:
                                 !!checkDataAvailable(apiResponse.Specialty) &&
-                                  !!checkDataAvailable(
-                                    apiResponse.Specialty.BoardCertifiedFlag
-                                  ) &&
-                                  apiResponse.Specialty.BoardCertifiedFlag == "1"
+                                !!checkDataAvailable(
+                                  apiResponse.Specialty.BoardCertifiedFlag,
+                                ) &&
+                                apiResponse.Specialty.BoardCertifiedFlag == "1"
                                   ? { label: "Yes", value: "Y" }
                                   : { label: "No", value: "N" },
                               taxonomyGrp: "",
                               speciality: checkDataAvailable(
-                                apiResponse.Specialty.Specialty
+                                apiResponse.Specialty.Specialty,
                               )
                                 ? checkDataAvailable(
-                                  apiResponse.Specialty.Specialty
-                                    .SpecialtyName
-                                )
+                                    apiResponse.Specialty.Specialty
+                                      .SpecialtyName,
+                                  )
                                 : null,
                               specPrimary:
                                 !!checkDataAvailable(
-                                  apiResponse.Specialty.SpecialtyType
+                                  apiResponse.Specialty.SpecialtyType,
                                 ) &&
-                                  checkDataAvailable(
-                                    apiResponse.Specialty.SpecialtyType
-                                      .SpecialtyTypeDescription
-                                  ) == "Primary"
+                                checkDataAvailable(
+                                  apiResponse.Specialty.SpecialtyType
+                                    .SpecialtyTypeDescription,
+                                ) == "Primary"
                                   ? { label: "Yes", value: "Y" }
                                   : { label: "No", value: "N" },
                             };
@@ -5903,7 +5909,7 @@ export default function AddProvider() {
                                     operation: "I",
                                     rowNumber: row++,
                                     locationName: checkDataAvailable(
-                                      data.PracticeName
+                                      data.PracticeName,
                                     ),
                                     address1: checkDataAvailable(data.Address),
                                     address2:
@@ -5916,16 +5922,16 @@ export default function AddProvider() {
                                     county:
                                       checkDataAvailable(data.County) === null
                                         ? getCountyFromMaster(
-                                          data.State,
-                                          data.Zip
-                                        )
+                                            data.State,
+                                            data.Zip,
+                                          )
                                         : checkDataAvailable(data.County),
                                     //county: checkDataAvailable(data.County),
                                     officePhoneNumber: checkDataAvailable(
-                                      data.PatientAppointmentPhoneNumber
+                                      data.PatientAppointmentPhoneNumber,
                                     ),
                                     officeFaxNumber: checkDataAvailable(
-                                      data.FaxNumber
+                                      data.FaxNumber,
                                     ),
                                     npi: checkDataAvailable(data.NPI),
                                     /*tddPhone1:(    (data.Accessibility.map(data1 =>
@@ -5949,21 +5955,21 @@ export default function AddProvider() {
                                     //Till Here
                                     publicTransportation: populateAccessibility(
                                       data,
-                                      "Public Transportation"
+                                      "Public Transportation",
                                     ),
                                     // publicTransportation:!!data.Accessibility?(   (data.Accessibility.map(data1 =>
                                     //     (((data1.Accessibility.AccessibilityDescription=='Public Transportation') && (data1.AccessibilityFlag=='1'))?   'Yes':'No'
                                     //     )))).indexOf("Yes")>-1?{label:'Yes',value: 'Y'}:{label: 'No',value: 'N'}:{label: 'No',value: 'N'},
                                     handicapAccess: populateAccessibility(
                                       data,
-                                      "Handicapped Access"
+                                      "Handicapped Access",
                                     ),
                                     // handicapAccess:!!data.Accessibility?(   (data.Accessibility.map(data1 =>
                                     //     (((data1.Accessibility.AccessibilityDescription=='Handicapped Access') && (data1.AccessibilityFlag=='1'))?  'Yes':'No'
                                     //     )))).indexOf("Yes")>-1?{label:'Yes',value: 'Y'}:{label: 'No',value: 'N'}:{label: 'No',value: 'N'},
                                     tddHearing: populateAccessibility(
                                       data,
-                                      "TDD Service"
+                                      "TDD Service",
                                     ),
                                     // tddHearing:!!data.Accessibility?(   (data.Accessibility.map(data1 =>
                                     //     (((data1.Accessibility.AccessibilityDescription=='TDD Service') && (data1.AccessibilityFlag=='1'))?  'Yes':'No'
@@ -5983,44 +5989,44 @@ export default function AddProvider() {
                                   operation: "I",
                                   rowNumber: locationArray.length + 1,
                                   locationName: checkDataAvailable(
-                                    apiResponse.Practice.PracticeName
+                                    apiResponse.Practice.PracticeName,
                                   ),
                                   address1: checkDataAvailable(
-                                    apiResponse.Practice.Address
+                                    apiResponse.Practice.Address,
                                   ),
                                   address2:
                                     checkDataAvailable(
-                                      apiResponse.Practice.Address2
+                                      apiResponse.Practice.Address2,
                                     ) !== null
                                       ? checkDataAvailable(
-                                        apiResponse.Practice.Address2
-                                      )
+                                          apiResponse.Practice.Address2,
+                                        )
                                       : "",
                                   city: checkDataAvailable(
-                                    apiResponse.Practice.City
+                                    apiResponse.Practice.City,
                                   ),
                                   stateValue: checkDataAvailable(
-                                    apiResponse.Practice.State
+                                    apiResponse.Practice.State,
                                   ),
                                   zipCode: checkDataAvailable(
-                                    apiResponse.Practice.Zip
+                                    apiResponse.Practice.Zip,
                                   ),
                                   county:
                                     checkDataAvailable(data.County) === null
                                       ? getCountyFromMaster(
-                                        data.State,
-                                        data.Zip
-                                      )
+                                          data.State,
+                                          data.Zip,
+                                        )
                                       : checkDataAvailable(data.County),
                                   officePhoneNumber: checkDataAvailable(
                                     apiResponse.Practice
-                                      .PatientAppointmentPhoneNumber
+                                      .PatientAppointmentPhoneNumber,
                                   ),
                                   officeFaxNumber: checkDataAvailable(
-                                    apiResponse.Practice.FaxNumber
+                                    apiResponse.Practice.FaxNumber,
                                   ),
                                   npi: checkDataAvailable(
-                                    apiResponse.Practice.NPI
+                                    apiResponse.Practice.NPI,
                                   ),
 
                                   //Comment by NG on 1/19/2024
@@ -6036,21 +6042,21 @@ export default function AddProvider() {
                                   //     )))).indexOf("Yes")>-1?{label:'Yes',value: 'Y'}:{label: 'No',value: 'N'}:{label: 'No',value: 'N'},
                                   publicTransportation: populateAccessibility(
                                     apiResponse.Practice,
-                                    "Public Transportation"
+                                    "Public Transportation",
                                   ),
                                   // publicTransportation:!!apiResponse.Practice.Accessibility?(   (apiResponse.Practice.Accessibility.map(data1 =>
                                   //     (((data1.Accessibility.AccessibilityDescription=='Public Transportation') && (data1.AccessibilityFlag=='1'))? 'Yes':'No'
                                   //     )))).indexOf("Yes")>-1?{label:'Yes',value: 'Y'}:{label: 'No',value: 'N'}:{label: 'No',value: 'N'},
                                   handicapAccess: populateAccessibility(
                                     apiResponse.Practice,
-                                    "Handicapped Access"
+                                    "Handicapped Access",
                                   ),
                                   // handicapAccess:!!apiResponse.Practice.Accessibility?(   (apiResponse.Practice.Accessibility.map(data1 =>
                                   //     (((data1.Accessibility.AccessibilityDescription=='Handicapped Access') && (data1.AccessibilityFlag=='1'))? 'Yes':'No'
                                   //     )))).indexOf("Yes")>-1?{label:'Yes',value: 'Y'}:{label: 'No',value: 'N'}:{label: 'No',value: 'N'},
                                   tddHearing: populateAccessibility(
                                     apiResponse.Practice,
-                                    "TDD Service"
+                                    "TDD Service",
                                   ),
                                   // tddHearing:!!apiResponse.Practice.Accessibility?(   (apiResponse.Practice.Accessibility.map(data1 =>
                                   //     (((data1.Accessibility.AccessibilityDescription=='TDD Service') && (data1.AccessibilityFlag=='1'))?  'Yes':'No'
@@ -6109,11 +6115,11 @@ export default function AddProvider() {
                                 rowNumber: row++,
                                 taxId:
                                   !!checkDataAvailable(data.Tax) &&
-                                    !!checkDataAvailable(data.Tax.GroupNumber)
+                                  !!checkDataAvailable(data.Tax.GroupNumber)
                                     ? data.Tax.TaxID
                                     : null,
                                 locationName: checkDataAvailable(
-                                  data.W9PracticeName
+                                  data.W9PracticeName,
                                 ),
                                 address1: checkDataAvailable(data.Address),
                                 address2: checkDataAvailable(data.Address2),
@@ -6126,7 +6132,7 @@ export default function AddProvider() {
                                 zipCode: checkDataAvailable(data.Zip),
                                 payToNpi:
                                   !!checkDataAvailable(data.Tax) &&
-                                    !!checkDataAvailable(data.Tax.GroupNumber)
+                                  !!checkDataAvailable(data.Tax.GroupNumber)
                                     ? data.Tax.GroupNumber
                                     : null,
                               };
@@ -6138,42 +6144,42 @@ export default function AddProvider() {
                               rowNumber: paytoArray.length + 1,
                               taxId:
                                 !!checkDataAvailable(
-                                  apiResponse.Practice.Tax
+                                  apiResponse.Practice.Tax,
                                 ) &&
-                                  !!checkDataAvailable(
-                                    apiResponse.Practice.Tax.TaxID
-                                  )
+                                !!checkDataAvailable(
+                                  apiResponse.Practice.Tax.TaxID,
+                                )
                                   ? apiResponse.Practice.Tax.TaxID
                                   : null,
                               locationName: checkDataAvailable(
-                                apiResponse.Practice.W9PracticeName
+                                apiResponse.Practice.W9PracticeName,
                               ),
                               address1: checkDataAvailable(
-                                apiResponse.Practice.Address
+                                apiResponse.Practice.Address,
                               ),
                               address2: checkDataAvailable(
-                                apiResponse.Practice.Address2
+                                apiResponse.Practice.Address2,
                               ),
                               city: checkDataAvailable(
-                                apiResponse.Practice.City
+                                apiResponse.Practice.City,
                               ),
                               county:
                                 checkDataAvailable(data.County) === null
                                   ? getCountyFromMaster(data.State, data.Zip)
                                   : checkDataAvailable(data.County),
                               stateValue: checkDataAvailable(
-                                apiResponse.Practice.State
+                                apiResponse.Practice.State,
                               ),
                               zipCode: checkDataAvailable(
-                                apiResponse.Practice.Zip
+                                apiResponse.Practice.Zip,
                               ),
                               payToNpi:
                                 !!checkDataAvailable(
-                                  apiResponse.Practice.Tax
+                                  apiResponse.Practice.Tax,
                                 ) &&
-                                  !!checkDataAvailable(
-                                    apiResponse.Practice.Tax.GroupNumber
-                                  )
+                                !!checkDataAvailable(
+                                  apiResponse.Practice.Tax.GroupNumber,
+                                )
                                   ? apiResponse.Practice.Tax.GroupNumber
                                   : null,
                             };
@@ -6193,47 +6199,45 @@ export default function AddProvider() {
                                   rowNumber: row++,
                                   //gradeute type and degree label interchanged thats why it mapped it here in this way
                                   professionalSchool: checkDataAvailable(
-                                    data.InstitutionName
+                                    data.InstitutionName,
                                   ),
-                                  graduateType: checkDataAvailable(
-                                    data.Degree
-                                  )
+                                  graduateType: checkDataAvailable(data.Degree)
                                     ? checkDataAvailable(
-                                      data.Degree.DegreeAbbreviation
-                                    )
+                                        data.Degree.DegreeAbbreviation,
+                                      )
                                     : null,
                                   degree: checkDataAvailable(
-                                    data.EducationTypeName
+                                    data.EducationTypeName,
                                   ),
                                   graduationDate: checkDataAvailable(
-                                    data.EndDate
+                                    data.EndDate,
                                   )
                                     ? new Date(data.EndDate)
                                     : null,
                                 };
                                 return getTransformed(dataObj);
-                              }
+                              },
                             );
                           } else {
                             const dataObj = {
                               operation: "I",
                               rowNumber: educationDetails.length + 1,
                               professionalSchool: checkDataAvailable(
-                                apiResponse.Education.InstitutionName
+                                apiResponse.Education.InstitutionName,
                               ),
                               graduateType: checkDataAvailable(
-                                apiResponse.Education.Degree
+                                apiResponse.Education.Degree,
                               )
                                 ? checkDataAvailable(
-                                  apiResponse.Education.Degree
-                                    .DegreeAbbreviation
-                                )
+                                    apiResponse.Education.Degree
+                                      .DegreeAbbreviation,
+                                  )
                                 : null,
                               degree: checkDataAvailable(
-                                apiResponse.Education.EducationTypeName
+                                apiResponse.Education.EducationTypeName,
                               ),
                               graduationDate: checkDataAvailable(
-                                apiResponse.Education.EndDate
+                                apiResponse.Education.EndDate,
                               )
                                 ? new Date(apiResponse.Education.EndDate)
                                 : null,
@@ -6253,11 +6257,9 @@ export default function AddProvider() {
                                   operation: "I",
                                   rowNumber: row++,
                                   empName: checkDataAvailable(
-                                    data.EmployerName
+                                    data.EmployerName,
                                   ),
-                                  startDate: checkDataAvailable(
-                                    data.StartDate
-                                  )
+                                  startDate: checkDataAvailable(data.StartDate)
                                     ? new Date(data.StartDate)
                                     : null,
                                   endDate: checkDataAvailable(data.EndDate)
@@ -6265,42 +6267,42 @@ export default function AddProvider() {
                                     : "",
                                   currentEmp:
                                     checkDataAvailable(
-                                      data.CurrentEmployerFlag
+                                      data.CurrentEmployerFlag,
                                     ) == "1"
                                       ? { label: "Yes", value: "Y" }
                                       : { label: "No", value: "N" },
                                   depReason: checkDataAvailable(
-                                    data.ExitExplanation
+                                    data.ExitExplanation,
                                   ),
                                 };
                                 return getTransformed(dataObj);
-                              }
+                              },
                             );
                           } else {
                             const dataObj = {
                               operation: "I",
                               rowNumber: workTableDataArray.length + 1,
                               empName: checkDataAvailable(
-                                apiResponse.WorkHistory.EmployerName
+                                apiResponse.WorkHistory.EmployerName,
                               ),
                               startDate: checkDataAvailable(
-                                apiResponse.WorkHistory.StartDate
+                                apiResponse.WorkHistory.StartDate,
                               )
                                 ? new Date(apiResponse.WorkHistory.StartDate)
                                 : null,
                               endDate: checkDataAvailable(
-                                apiResponse.WorkHistory.EndDate
+                                apiResponse.WorkHistory.EndDate,
                               )
                                 ? new Date(!!apiResponse.WorkHistory.EndDate)
                                 : null,
                               currentEmp:
                                 checkDataAvailable(
-                                  apiResponse.WorkHistory.CurrentEmployerFlag
+                                  apiResponse.WorkHistory.CurrentEmployerFlag,
                                 ) == "1"
                                   ? { label: "Yes", value: "Y" }
                                   : { label: "No", value: "N" },
                               depReason: checkDataAvailable(
-                                apiResponse.WorkHistory.ExitExplanation
+                                apiResponse.WorkHistory.ExitExplanation,
                               ),
                             };
                             workTableDataArray.push(getTransformed(dataObj));
@@ -6318,60 +6320,60 @@ export default function AddProvider() {
                                   operation: "I",
                                   rowNumber: row++,
                                   policyNo: checkDataAvailable(
-                                    data.PolicyNumber
+                                    data.PolicyNumber,
                                   ),
                                   insuredName: checkDataAvailable(
-                                    data.InsuranceCarrierName
+                                    data.InsuranceCarrierName,
                                   ),
                                   covAmount: checkDataAvailable(
-                                    data.CoverageAmountOccurrence
+                                    data.CoverageAmountOccurrence,
                                   ),
                                   covAmountAgg: checkDataAvailable(
-                                    data.CoverageAmountAggregate
+                                    data.CoverageAmountAggregate,
                                   ),
                                   effectiveDate: checkDataAvailable(
-                                    data.StartDate
+                                    data.StartDate,
                                   )
                                     ? new Date(data.StartDate)
                                     : null,
                                   expirationDate: checkDataAvailable(
-                                    data.EndDate
+                                    data.EndDate,
                                   )
                                     ? new Date(data.EndDate)
                                     : null,
                                 };
                                 return getTransformed(dataObj);
-                              }
+                              },
                             );
                           } else {
                             const dataObj = {
                               operation: "I",
                               rowNumber: insuranceTableDataArray.length + 1,
                               policyNo: checkDataAvailable(
-                                apiResponse.Insurance.PolicyNumber
+                                apiResponse.Insurance.PolicyNumber,
                               ),
                               insuredName: checkDataAvailable(
-                                apiResponse.Insurance.InsuranceCarrierName
+                                apiResponse.Insurance.InsuranceCarrierName,
                               ),
                               covAmount: checkDataAvailable(
-                                apiResponse.Insurance.CoverageAmountOccurrence
+                                apiResponse.Insurance.CoverageAmountOccurrence,
                               ),
                               covAmountAgg: checkDataAvailable(
-                                apiResponse.Insurance.CoverageAmountAggregate
+                                apiResponse.Insurance.CoverageAmountAggregate,
                               ),
                               effectiveDate: checkDataAvailable(
-                                apiResponse.Insurance.StartDate
+                                apiResponse.Insurance.StartDate,
                               )
                                 ? new Date(apiResponse.Insurance.StartDate)
                                 : null,
                               expirationDate: checkDataAvailable(
-                                apiResponse.Insurance.EndDate
+                                apiResponse.Insurance.EndDate,
                               )
                                 ? new Date(apiResponse.Insurance.EndDate)
                                 : null,
                             };
                             insuranceTableDataArray.push(
-                              getTransformed(dataObj)
+                              getTransformed(dataObj),
                             );
                           }
                         }
@@ -6587,56 +6589,56 @@ export default function AddProvider() {
                 prop.state.stageName === "Exit" ||
                 prop.state.stageName === "Discard")) ||
               prop.state.formView === "DashboardHomeView") && (
-                <Tab eventKey="Compensation" title="Network">
-                  <CompensationTab
-                    apiTestStateComp={apiTestStateComp}
-                    firlTableRowsData={firlTableRowsData}
-                    compensationTableRowsData={compensationTableRowsData}
-                    addTableRows={addTableRows}
-                    deleteTableRows={deleteTableRows}
-                    handleGridSelectChange={handleGridSelectChange}
-                    /*handleGridDateChange={handleGridDateChange}*/
-                    handleGridFieldChange={handleGridFieldChange}
-                    gridRowsFinalSubmit={gridRowsFinalSubmit}
-                    handleLinearSelectChange={handleLinearSelectChangeComp}
-                    handleLinearFieldChange={handleLinearFieldChange}
-                    handleMedicalGrpNoShow={handleMedicalGrpNoShow}
-                    handleNetworkIdShow={handleNetworkIdShow}
-                    gridFieldTempState={gridFieldTempState}
-                    editTableRows={editTableRows}
-                    handlePcpIdShow={handlePcpIdShow}
-                    handleDateChange={handleDateChange}
-                    transactionType={AddProvider.displayName}
-                    //stageName={prop.state.StageName}
-                    /*selectJson={selectValues}*/
-                    //type={'Editable'}
-                    //lockStatus={(prop.state!==null && prop.state.lockStatus!==undefined)?prop.state.lockStatus:'N'}
-                    type={
-                      prop.state !== null &&
-                        prop.state.stageName !== undefined &&
-                        (prop.state.stageName == "Exit" ||
-                          prop.state.stageName == "Discard")
-                        ? "NonEditable"
-                        : "Editable"
-                    }
-                    lockStatus={
-                      prop.state !== null &&
-                        prop.state.stageName !== undefined &&
-                        (prop.state.stageName == "Exit" ||
-                          prop.state.stageName == "Discard")
-                        ? "V"
-                        : "N"
-                    }
-                  ></CompensationTab>
-                </Tab>
-              )}
+              <Tab eventKey="Compensation" title="Network">
+                <CompensationTab
+                  apiTestStateComp={apiTestStateComp}
+                  firlTableRowsData={firlTableRowsData}
+                  compensationTableRowsData={compensationTableRowsData}
+                  addTableRows={addTableRows}
+                  deleteTableRows={deleteTableRows}
+                  handleGridSelectChange={handleGridSelectChange}
+                  /*handleGridDateChange={handleGridDateChange}*/
+                  handleGridFieldChange={handleGridFieldChange}
+                  gridRowsFinalSubmit={gridRowsFinalSubmit}
+                  handleLinearSelectChange={handleLinearSelectChangeComp}
+                  handleLinearFieldChange={handleLinearFieldChange}
+                  handleMedicalGrpNoShow={handleMedicalGrpNoShow}
+                  handleNetworkIdShow={handleNetworkIdShow}
+                  gridFieldTempState={gridFieldTempState}
+                  editTableRows={editTableRows}
+                  handlePcpIdShow={handlePcpIdShow}
+                  handleDateChange={handleDateChange}
+                  transactionType={AddProvider.displayName}
+                  //stageName={prop.state.StageName}
+                  /*selectJson={selectValues}*/
+                  //type={'Editable'}
+                  //lockStatus={(prop.state!==null && prop.state.lockStatus!==undefined)?prop.state.lockStatus:'N'}
+                  type={
+                    prop.state !== null &&
+                    prop.state.stageName !== undefined &&
+                    (prop.state.stageName == "Exit" ||
+                      prop.state.stageName == "Discard")
+                      ? "NonEditable"
+                      : "Editable"
+                  }
+                  lockStatus={
+                    prop.state !== null &&
+                    prop.state.stageName !== undefined &&
+                    (prop.state.stageName == "Exit" ||
+                      prop.state.stageName == "Discard")
+                      ? "V"
+                      : "N"
+                  }
+                ></CompensationTab>
+              </Tab>
+            )}
 
             {/*Till Here */}
             <Tab eventKey="Decision" title="Decision">
               <DecisionTab
                 lockStatus={
                   prop.state.lockStatus === undefined ||
-                    prop.state.lockStatus === ""
+                  prop.state.lockStatus === ""
                     ? "N"
                     : prop.state.lockStatus
                 }
@@ -6909,7 +6911,7 @@ export default function AddProvider() {
         let finalFormikJson = getJsonFromFormikState(initState, formikState);
         console.log(
           "Inside fields on blur finalFormikJson===== ",
-          finalFormikJson
+          finalFormikJson,
         );
         if (Object.keys(finalFormikJson).length > 0) {
           formState = Object.assign(formState, finalFormikJson);
@@ -6923,7 +6925,7 @@ export default function AddProvider() {
           e.target.value,
           formState,
           selectValues,
-          setFieldValue
+          setFieldValue,
         );
         // setApiTestState(returnState);
       }
@@ -6935,12 +6937,12 @@ export default function AddProvider() {
     value,
     inputState,
     selectJson,
-    setFieldValue
+    setFieldValue,
   ) => {
     // alert('Inside populateContractIdDropdown inputSTate : ');
     console.log(
       "Inside populateContractIdDropdown inputSTate : ",
-      prop.state.stageName
+      prop.state.stageName,
     );
     if (
       prop.state.formView === "DashboardHomeView" ||
@@ -6956,23 +6958,23 @@ export default function AddProvider() {
           token,
           "HealthPlan",
           masterUserName,
-          orgValue.trim()
+          orgValue.trim(),
         );
         printConsole(
           "Inside getDashboardData provContLinkData Data before promise resolve: ",
-          apiOut
+          apiOut,
         );
         apiOut.then(function (provContLinkData) {
           printConsole(
             "Inside getDashboardData provContLinkData Data after promise resolve: ",
-            provContLinkData
+            provContLinkData,
           );
 
           if (provContLinkData.length > 0) {
             const contractIdData = provContLinkData[0];
             printConsole(
               "Inside getDashboardData contractIdData Data: ",
-              contractIdData
+              contractIdData,
             );
             if (
               contractIdData !== undefined &&
@@ -7031,7 +7033,7 @@ export default function AddProvider() {
 
                 printConsole(
                   "Inside fieldsOnBlur useeffect arr2 after: ",
-                  arr2
+                  arr2,
                 );
 
                 //arr2 = arr2.filter(elem => elem.name === orgValue)
@@ -7138,22 +7140,22 @@ export default function AddProvider() {
                         ? data.response?.value?.toLowerCase() === "y" ||
                           data.response?.value?.toLowerCase() === "yes"
                           ? {
-                            label: convertToCase("YES"),
-                            value: convertToCase(data.response.value),
-                          }
-                          : data.response?.value?.toLowerCase() === "n" ||
-                            data.response?.value?.toLowerCase() === "no"
-                            ? {
-                              label: convertToCase("NO"),
+                              label: convertToCase("YES"),
                               value: convertToCase(data.response.value),
                             }
+                          : data.response?.value?.toLowerCase() === "n" ||
+                              data.response?.value?.toLowerCase() === "no"
+                            ? {
+                                label: convertToCase("NO"),
+                                value: convertToCase(data.response.value),
+                              }
                             : data.response
                         : data.response
                     }
 
-                  // value={}
-                  // name = "quesans"
-                  //id={data.questionId}
+                    // value={}
+                    // name = "quesans"
+                    //id={data.questionId}
                   />
                 </div>
               </td>
@@ -7174,7 +7176,7 @@ export default function AddProvider() {
           {props.selectProps.placeholder}
         </Placeholder>
         {React.Children.map(children, (child) =>
-          child && child.type !== Placeholder ? child : null
+          child && child.type !== Placeholder ? child : null,
         )}
       </ValueContainer>
     );
@@ -7203,7 +7205,7 @@ export default function AddProvider() {
                 action: "clear",
                 name: "states",
               },
-              statesProps.formikSetFieldValue
+              statesProps.formikSetFieldValue,
             )
           }
         />
@@ -7245,7 +7247,7 @@ export default function AddProvider() {
               await new Promise((resolve) => setTimeout(resolve, 500)).catch(
                 (err) => {
                   console.error(err);
-                }
+                },
               );
               //alert(JSON.stringify(values, null, 2));
               saveData(values);
@@ -7275,8 +7277,8 @@ export default function AddProvider() {
                   <fieldset
                     disabled={
                       tabRef.current === "DashboardView" &&
-                        prop.state.lockStatus !== undefined &&
-                        prop.state.lockStatus === "Y"
+                      prop.state.lockStatus !== undefined &&
+                      prop.state.lockStatus === "Y"
                         ? true
                         : false
                     }
@@ -7369,7 +7371,7 @@ export default function AddProvider() {
                                       values.organizationName !== undefined
                                         ? values.organizationName.trim()
                                         : "",
-                                      apiTestState.contractId
+                                      apiTestState.contractId,
                                     )
                                   }
                                 >
@@ -7403,12 +7405,13 @@ export default function AddProvider() {
                                       maxLength="100"
                                       type="text"
                                       id="providerLegalEntityName"
-                                      className={`form-control ${meta.touched && meta.error
-                                        ? " is-invalid"
-                                        : field.value
-                                          ? "is-valid"
-                                          : ""
-                                        }`}
+                                      className={`form-control ${
+                                        meta.touched && meta.error
+                                          ? " is-invalid"
+                                          : field.value
+                                            ? "is-valid"
+                                            : ""
+                                      }`}
                                       placeholder="John"
                                       {...field}
                                       value={convertToCase(field.value)}
@@ -7416,16 +7419,16 @@ export default function AddProvider() {
                                         fieldsOnBlur(
                                           event,
                                           values,
-                                          setFieldValue
+                                          setFieldValue,
                                         );
                                       }}
-                                    // onChange={(e) =>
-                                    //   formikFieldsOnChange(
-                                    //     e,
-                                    //     setFieldValue,
-                                    //     field
-                                    //   )
-                                    // }
+                                      // onChange={(e) =>
+                                      //   formikFieldsOnChange(
+                                      //     e,
+                                      //     setFieldValue,
+                                      //     field
+                                      //   )
+                                      // }
                                     />
                                     <label htmlFor="floatingInputGrid">
                                       Legal Entity Name
@@ -7460,12 +7463,13 @@ export default function AddProvider() {
                                       id="firstName"
                                       maxLength="100"
                                       type="text"
-                                      className={`form-control ${meta.touched && meta.error
-                                        ? " is-invalid"
-                                        : field.value
-                                          ? "is-valid"
-                                          : ""
-                                        }`}
+                                      className={`form-control ${
+                                        meta.touched && meta.error
+                                          ? " is-invalid"
+                                          : field.value
+                                            ? "is-valid"
+                                            : ""
+                                      }`}
                                       placeholder="John"
                                       {...field}
                                       value={convertToCase(field.value)}
@@ -7473,7 +7477,7 @@ export default function AddProvider() {
                                         formikFieldsOnChange(
                                           e,
                                           setFieldValue,
-                                          field
+                                          field,
                                         )
                                       }
                                     />
@@ -7509,12 +7513,13 @@ export default function AddProvider() {
                                     <input
                                       maxLength="100"
                                       type="text"
-                                      className={`form-control ${meta.touched && meta.error
-                                        ? " is-invalid"
-                                        : field.value || field.value === null
-                                          ? "is-valid"
-                                          : ""
-                                        }`}
+                                      className={`form-control ${
+                                        meta.touched && meta.error
+                                          ? " is-invalid"
+                                          : field.value || field.value === null
+                                            ? "is-valid"
+                                            : ""
+                                      }`}
                                       placeholder="John"
                                       {...field}
                                       value={convertToCase(field.value)}
@@ -7522,7 +7527,7 @@ export default function AddProvider() {
                                         formikFieldsOnChange(
                                           e,
                                           setFieldValue,
-                                          field
+                                          field,
                                         )
                                       }
                                     />
@@ -7559,12 +7564,13 @@ export default function AddProvider() {
                                     <input
                                       maxLength="100"
                                       type="text"
-                                      className={`form-control ${meta.touched && meta.error
-                                        ? " is-invalid"
-                                        : field.value
-                                          ? "is-valid"
-                                          : ""
-                                        }`}
+                                      className={`form-control ${
+                                        meta.touched && meta.error
+                                          ? " is-invalid"
+                                          : field.value
+                                            ? "is-valid"
+                                            : ""
+                                      }`}
                                       placeholder="John"
                                       {...field}
                                       value={convertToCase(field.value)}
@@ -7572,7 +7578,7 @@ export default function AddProvider() {
                                         formikFieldsOnChange(
                                           e,
                                           setFieldValue,
-                                          field
+                                          field,
                                         )
                                       }
                                     />
@@ -7608,12 +7614,13 @@ export default function AddProvider() {
                                     <input
                                       maxLength="10"
                                       type="text"
-                                      className={`form-control ${meta.touched && meta.error
-                                        ? " is-invalid"
-                                        : field.value
-                                          ? "is-valid"
-                                          : ""
-                                        }`}
+                                      className={`form-control ${
+                                        meta.touched && meta.error
+                                          ? " is-invalid"
+                                          : field.value
+                                            ? "is-valid"
+                                            : ""
+                                      }`}
                                       placeholder="John"
                                       {...field}
                                       value={convertToCase(field.value)}
@@ -7621,7 +7628,7 @@ export default function AddProvider() {
                                         formikFieldsOnChange(
                                           e,
                                           setFieldValue,
-                                          field
+                                          field,
                                         )
                                       }
                                     />
@@ -7688,7 +7695,7 @@ export default function AddProvider() {
                                           position: "absolute",
                                           top:
                                             state.hasValue ||
-                                              state.selectProps.inputValue
+                                            state.selectProps.inputValue
                                               ? -15
                                               : "50%",
                                           transition:
@@ -7706,8 +7713,8 @@ export default function AddProvider() {
                                       name={field.name}
                                       isDisabled={
                                         tabRef.current === "DashboardView" &&
-                                          prop.state.lockStatus !== undefined &&
-                                          prop.state.lockStatus === "Y"
+                                        prop.state.lockStatus !== undefined &&
+                                        prop.state.lockStatus === "Y"
                                           ? true
                                           : false
                                       }
@@ -7722,7 +7729,7 @@ export default function AddProvider() {
                                         handleLinearSelectChange(
                                           selectValue,
                                           event,
-                                          setFieldValue
+                                          setFieldValue,
                                         )
                                       }
                                       /*onChange={(selectValue, event) => {
@@ -7743,25 +7750,26 @@ export default function AddProvider() {
                                       value={
                                         field.value.value !== undefined
                                           ? field.value.value?.toLowerCase() ===
-                                            "male" ||
+                                              "male" ||
                                             field.value.value?.toLowerCase() ===
-                                            "m"
+                                              "m"
                                             ? {
-                                              label: convertToCase("MALE"),
-                                              value: convertToCase(
-                                                field.value.value
-                                              ),
-                                            }
-                                            : field.value.value?.toLowerCase() ===
-                                              "female" ||
-                                              field.value.value?.toLowerCase() ===
-                                              "f"
-                                              ? {
-                                                label: convertToCase("FEMALE"),
+                                                label: convertToCase("MALE"),
                                                 value: convertToCase(
-                                                  field.value.value
+                                                  field.value.value,
                                                 ),
                                               }
+                                            : field.value.value?.toLowerCase() ===
+                                                  "female" ||
+                                                field.value.value?.toLowerCase() ===
+                                                  "f"
+                                              ? {
+                                                  label:
+                                                    convertToCase("FEMALE"),
+                                                  value: convertToCase(
+                                                    field.value.value,
+                                                  ),
+                                                }
                                               : field.value
                                           : field.value
                                       }
@@ -7769,7 +7777,7 @@ export default function AddProvider() {
                                       //styles={{...customStyles}}
                                       isSearchable={
                                         document.documentElement.clientHeight >
-                                          document.documentElement.clientWidth
+                                        document.documentElement.clientWidth
                                           ? false
                                           : true
                                       }
@@ -7864,15 +7872,16 @@ export default function AddProvider() {
                                     <input
                                       maxLength="10"
                                       type="text"
-                                      className={`form-control ${meta.touched && meta.error
-                                        ? " is-invalid"
-                                        : field.value
-                                          ? "is-valid"
-                                          : ""
-                                        }`}
+                                      className={`form-control ${
+                                        meta.touched && meta.error
+                                          ? " is-invalid"
+                                          : field.value
+                                            ? "is-valid"
+                                            : ""
+                                      }`}
                                       placeholder="John"
                                       {...field}
-                                    //oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                      //oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
                                     />
                                     <label htmlFor="floatingInputGrid">
                                       CAQH ID
@@ -7906,28 +7915,29 @@ export default function AddProvider() {
                                     <input
                                       maxLength="10"
                                       type="text"
-                                      className={`form-control ${meta.touched && meta.error
-                                        ? " is-invalid"
-                                        : field.value
-                                          ? "is-valid"
-                                          : ""
-                                        }`}
+                                      className={`form-control ${
+                                        meta.touched && meta.error
+                                          ? " is-invalid"
+                                          : field.value
+                                            ? "is-valid"
+                                            : ""
+                                      }`}
                                       placeholder="John"
                                       //oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
                                       {...field}
 
-                                    //Added newly by Nidhi Gupta on 11/1/2023
-                                    // onBlur={(event) => {
-                                    //   npiOnBlur(event, values);
-                                    // }}
-                                    //Till Here
-                                    // onBlur={e => {field.onBlur(e)
+                                      //Added newly by Nidhi Gupta on 11/1/2023
+                                      // onBlur={(event) => {
+                                      //   npiOnBlur(event, values);
+                                      // }}
+                                      //Till Here
+                                      // onBlur={e => {field.onBlur(e)
 
-                                    //     console.log("evnt.target.value: ", e.target.value);
-                                    //     checkLuhn(e.target.value);
+                                      //     console.log("evnt.target.value: ", e.target.value);
+                                      //     checkLuhn(e.target.value);
 
-                                    // }}
-                                    //ref = {caqhNpiIdRef}
+                                      // }}
+                                      //ref = {caqhNpiIdRef}
                                     />
                                     <label htmlFor="floatingInputGrid">
                                       NPI ID
@@ -7964,7 +7974,7 @@ export default function AddProvider() {
                                       date,
                                       "dateOfBirth",
                                       event,
-                                      values
+                                      values,
                                     )
                                   }
                                   dateFormat="MM/dd/yyyy"
@@ -7981,8 +7991,8 @@ export default function AddProvider() {
                                   dropdownMode="select"
                                   readOnly={
                                     tabRef.current === "DashboardView" &&
-                                      prop.state.lockStatus !== undefined &&
-                                      prop.state.lockStatus === "Y"
+                                    prop.state.lockStatus !== undefined &&
+                                    prop.state.lockStatus === "Y"
                                       ? true
                                       : false
                                   }
@@ -7994,7 +8004,6 @@ export default function AddProvider() {
                                   customInput={<RenderDatePicker />}
                                 />
                               </div>
-
                             </div>
                           </div>
 
@@ -8036,12 +8045,13 @@ export default function AddProvider() {
                                     <input
                                       maxLength="9"
                                       type="text"
-                                      className={`form-control ${meta.touched && meta.error
-                                        ? " is-invalid"
-                                        : field.value
-                                          ? "is-valid"
-                                          : ""
-                                        }`}
+                                      className={`form-control ${
+                                        meta.touched && meta.error
+                                          ? " is-invalid"
+                                          : field.value
+                                            ? "is-valid"
+                                            : ""
+                                      }`}
                                       placeholder="John"
                                       {...field}
                                     />
@@ -8098,7 +8108,7 @@ export default function AddProvider() {
                                           position: "absolute",
                                           top:
                                             state.hasValue ||
-                                              state.selectProps.inputValue
+                                            state.selectProps.inputValue
                                               ? -15
                                               : "50%",
                                           transition:
@@ -8115,8 +8125,8 @@ export default function AddProvider() {
                                       name={field.name}
                                       isDisabled={
                                         tabRef.current === "DashboardView" &&
-                                          prop.state.lockStatus !== undefined &&
-                                          prop.state.lockStatus === "Y"
+                                        prop.state.lockStatus !== undefined &&
+                                        prop.state.lockStatus === "Y"
                                           ? true
                                           : false
                                       }
@@ -8130,7 +8140,7 @@ export default function AddProvider() {
                                         handleLinearSelectChange(
                                           selectValue,
                                           event,
-                                          setFieldValue
+                                          setFieldValue,
                                         )
                                       }
                                       value={apiTestState.agesSeen}
@@ -8138,7 +8148,7 @@ export default function AddProvider() {
                                       isClearable
                                       isSearchable={
                                         document.documentElement.clientHeight >
-                                          document.documentElement.clientWidth
+                                        document.documentElement.clientWidth
                                           ? false
                                           : true
                                       }
@@ -8173,12 +8183,13 @@ export default function AddProvider() {
                                     <input
                                       maxLength="10"
                                       type="text"
-                                      className={`form-control ${meta.touched && meta.error
-                                        ? " is-invalid"
-                                        : field.value
-                                          ? "is-valid"
-                                          : ""
-                                        }`}
+                                      className={`form-control ${
+                                        meta.touched && meta.error
+                                          ? " is-invalid"
+                                          : field.value
+                                            ? "is-valid"
+                                            : ""
+                                      }`}
                                       placeholder="John"
                                       {...field}
                                       value={convertToCase(field.value)}
@@ -8186,7 +8197,7 @@ export default function AddProvider() {
                                         formikFieldsOnChange(
                                           e,
                                           setFieldValue,
-                                          field
+                                          field,
                                         )
                                       }
                                     />
@@ -8248,12 +8259,13 @@ export default function AddProvider() {
                                     <input
                                       maxLength="15"
                                       type="text"
-                                      className={`form-control ${meta.touched && meta.error
-                                        ? " is-invalid"
-                                        : field.value
-                                          ? "is-valid"
-                                          : ""
-                                        }`}
+                                      className={`form-control ${
+                                        meta.touched && meta.error
+                                          ? " is-invalid"
+                                          : field.value
+                                            ? "is-valid"
+                                            : ""
+                                      }`}
                                       placeholder="John"
                                       {...field}
                                     />
@@ -8305,7 +8317,7 @@ export default function AddProvider() {
                                       position: "absolute",
                                       top:
                                         state.hasValue ||
-                                          state.selectProps.inputValue
+                                        state.selectProps.inputValue
                                           ? -15
                                           : "50%",
                                       transition: "top 0.1s, font-size 0.1s",
@@ -8321,8 +8333,8 @@ export default function AddProvider() {
                                   name="newPatients"
                                   isDisabled={
                                     tabRef.current === "DashboardView" &&
-                                      prop.state.lockStatus !== undefined &&
-                                      prop.state.lockStatus === "Y"
+                                    prop.state.lockStatus !== undefined &&
+                                    prop.state.lockStatus === "Y"
                                       ? true
                                       : false
                                   }
@@ -8340,25 +8352,25 @@ export default function AddProvider() {
                                   value={
                                     apiTestState.newPatients !== undefined
                                       ? apiTestState.newPatients.value?.toLowerCase() ===
-                                        "y" ||
+                                          "y" ||
                                         apiTestState.newPatients.value?.toLowerCase() ===
-                                        "yes"
-                                        ? {
-                                          label: convertToCase("YES"),
-                                          value: convertToCase(
-                                            apiTestState.newPatients.value
-                                          ),
-                                        }
-                                        : apiTestState.newPatients.value?.toLowerCase() ===
-                                          "n" ||
-                                          apiTestState.newPatients.value?.toLowerCase() ===
                                           "yes"
-                                          ? {
-                                            label: convertToCase("NO"),
+                                        ? {
+                                            label: convertToCase("YES"),
                                             value: convertToCase(
-                                              apiTestState.newPatients.value
+                                              apiTestState.newPatients.value,
                                             ),
                                           }
+                                        : apiTestState.newPatients.value?.toLowerCase() ===
+                                              "n" ||
+                                            apiTestState.newPatients.value?.toLowerCase() ===
+                                              "yes"
+                                          ? {
+                                              label: convertToCase("NO"),
+                                              value: convertToCase(
+                                                apiTestState.newPatients.value,
+                                              ),
+                                            }
                                           : apiTestState.newPatients
                                       : apiTestState.newPatients
                                   }
@@ -8366,7 +8378,7 @@ export default function AddProvider() {
                                   isClearable
                                   isSearchable={
                                     document.documentElement.clientHeight >
-                                      document.documentElement.clientWidth
+                                    document.documentElement.clientWidth
                                       ? false
                                       : true
                                   }
@@ -8515,12 +8527,13 @@ export default function AddProvider() {
                                     <input
                                       maxLength="50"
                                       type="text"
-                                      className={`form-control ${meta.touched && meta.error
-                                        ? " is-invalid"
-                                        : field.value
-                                          ? "is-valid"
-                                          : ""
-                                        }`}
+                                      className={`form-control ${
+                                        meta.touched && meta.error
+                                          ? " is-invalid"
+                                          : field.value
+                                            ? "is-valid"
+                                            : ""
+                                      }`}
                                       placeholder="John"
                                       {...field}
                                       value={convertToCase(field.value)}
@@ -8528,7 +8541,7 @@ export default function AddProvider() {
                                         formikFieldsOnChange(
                                           e,
                                           setFieldValue,
-                                          field
+                                          field,
                                         )
                                       }
                                     />
@@ -8630,7 +8643,7 @@ export default function AddProvider() {
                                           position: "absolute",
                                           top:
                                             state.hasValue ||
-                                              state.selectProps.inputValue
+                                            state.selectProps.inputValue
                                               ? -15
                                               : "50%",
                                           transition:
@@ -8649,8 +8662,8 @@ export default function AddProvider() {
                                       isClearable
                                       isDisabled={
                                         tabRef.current === "DashboardView" &&
-                                          prop.state.lockStatus !== undefined &&
-                                          prop.state.lockStatus === "Y"
+                                        prop.state.lockStatus !== undefined &&
+                                        prop.state.lockStatus === "Y"
                                           ? true
                                           : false
                                       }
@@ -8665,7 +8678,7 @@ export default function AddProvider() {
                                         handleLinearSelectChange(
                                           selectValue,
                                           event,
-                                          setFieldValue
+                                          setFieldValue,
                                         )
                                       }
                                       /*onChange={(selectValue, event) => {
@@ -8680,7 +8693,7 @@ export default function AddProvider() {
                                       placeholder="Delegated"
                                       isSearchable={
                                         document.documentElement.clientHeight >
-                                          document.documentElement.clientWidth
+                                        document.documentElement.clientWidth
                                           ? false
                                           : true
                                       }
@@ -8736,7 +8749,7 @@ export default function AddProvider() {
                                           position: "absolute",
                                           top:
                                             state.hasValue ||
-                                              state.selectProps.inputValue
+                                            state.selectProps.inputValue
                                               ? -15
                                               : "50%",
                                           transition:
@@ -8753,8 +8766,8 @@ export default function AddProvider() {
                                       name={field.name}
                                       isDisabled={
                                         tabRef.current === "DashboardView" &&
-                                          prop.state.lockStatus !== undefined &&
-                                          prop.state.lockStatus === "Y"
+                                        prop.state.lockStatus !== undefined &&
+                                        prop.state.lockStatus === "Y"
                                           ? true
                                           : false
                                       }
@@ -8766,7 +8779,7 @@ export default function AddProvider() {
                                         handleLinearSelectChange(
                                           selectValue,
                                           event,
-                                          setFieldValue
+                                          setFieldValue,
                                         )
                                       }
                                       value={apiTestState.contractId}
@@ -8780,7 +8793,7 @@ export default function AddProvider() {
                                       }
                                       isSearchable={
                                         document.documentElement.clientHeight >
-                                          document.documentElement.clientWidth
+                                        document.documentElement.clientWidth
                                           ? false
                                           : true
                                       }
@@ -8979,7 +8992,7 @@ export default function AddProvider() {
                                           position: "absolute",
                                           top:
                                             state.hasValue ||
-                                              state.selectProps.inputValue
+                                            state.selectProps.inputValue
                                               ? -15
                                               : "50%",
                                           transition:
@@ -8996,8 +9009,8 @@ export default function AddProvider() {
                                       name={field.name}
                                       isDisabled={
                                         tabRef.current === "DashboardView" &&
-                                          prop.state.lockStatus !== undefined &&
-                                          prop.state.lockStatus === "Y"
+                                        prop.state.lockStatus !== undefined &&
+                                        prop.state.lockStatus === "Y"
                                           ? true
                                           : false
                                       }
@@ -9009,7 +9022,7 @@ export default function AddProvider() {
                                         handleLinearSelectChange(
                                           selectValue,
                                           event,
-                                          setFieldValue
+                                          setFieldValue,
                                         )
                                       }
                                       value={apiTestState.states}
@@ -9017,7 +9030,7 @@ export default function AddProvider() {
                                       isClearable={false}
                                       isSearchable={
                                         document.documentElement.clientHeight >
-                                          document.documentElement.clientWidth
+                                        document.documentElement.clientWidth
                                           ? false
                                           : true
                                       }
@@ -9055,158 +9068,159 @@ export default function AddProvider() {
                         prop.state.stageName === "QA")) ||
                       prop.state.formView === "HomeView" ||
                       prop.state.formView === "DashboardHomeView") && (
-                        <div className="accordion-item">
-                          <h2
-                            className="accordion-header"
-                            id="panelsStayOpen-Credential"
+                      <div className="accordion-item">
+                        <h2
+                          className="accordion-header"
+                          id="panelsStayOpen-Credential"
+                        >
+                          <button
+                            className="accordion-button accordionButtonStyle"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#panelsStayOpen-collapseCredential"
+                            aria-expanded="true"
+                            aria-controls="panelsStayOpen-collapseOne"
                           >
-                            <button
-                              className="accordion-button accordionButtonStyle"
-                              type="button"
-                              data-bs-toggle="collapse"
-                              data-bs-target="#panelsStayOpen-collapseCredential"
-                              aria-expanded="true"
-                              aria-controls="panelsStayOpen-collapseOne"
-                            >
-                              Credential Information
-                            </button>
-                          </h2>
-                          <div
-                            id="panelsStayOpen-collapseCredential"
-                            className="accordion-collapse collapse show"
-                            aria-labelledby="panelsStayOpen-Credential"
-                          >
-                            <div className="accordion-body">
-                              <div className="row">
-                                <div className="col-xs-6 col-md-12">
-                                  <table
-                                    className="table table-bordered tableLayout"
-                                    id="QuestionTable"
-                                  >
-                                    <thead>
-                                      <tr className="tableRowStyle tableHeaderColor">
-                                        <th style={{ width: "9%" }} scope="col">
-                                          Question#
-                                        </th>
-                                        <th style={{ width: "76%" }} scope="col">
-                                          Questions
-                                        </th>
-                                        <th
-                                          style={{ textAlign: "center" }}
-                                          scope="col"
-                                        >
-                                          Please select
-                                        </th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>{questionData()}</tbody>
-                                  </table>
-                                </div>
+                            Credential Information
+                          </button>
+                        </h2>
+                        <div
+                          id="panelsStayOpen-collapseCredential"
+                          className="accordion-collapse collapse show"
+                          aria-labelledby="panelsStayOpen-Credential"
+                        >
+                          <div className="accordion-body">
+                            <div className="row">
+                              <div className="col-xs-6 col-md-12">
+                                <table
+                                  className="table table-bordered tableLayout"
+                                  id="QuestionTable"
+                                >
+                                  <thead>
+                                    <tr className="tableRowStyle tableHeaderColor">
+                                      <th style={{ width: "9%" }} scope="col">
+                                        Question#
+                                      </th>
+                                      <th style={{ width: "76%" }} scope="col">
+                                        Questions
+                                      </th>
+                                      <th
+                                        style={{ textAlign: "center" }}
+                                        scope="col"
+                                      >
+                                        Please select
+                                      </th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>{questionData()}</tbody>
+                                </table>
                               </div>
-                              <div className="row">
-                                <div className="col-xs-6 col-md-8">
-                                  <div className="form-floating">
-                                    <Select
-                                      styles={{
-                                        control: (provided) => ({
-                                          ...provided,
-                                          height: "58px",
-                                          fontWeight: "lighter",
-                                        }),
-                                        menuList: (provided) => ({
-                                          ...provided,
-                                          maxHeight: 200,
-                                        }),
+                            </div>
+                            <div className="row">
+                              <div className="col-xs-6 col-md-8">
+                                <div className="form-floating">
+                                  <Select
+                                    styles={{
+                                      control: (provided) => ({
+                                        ...provided,
+                                        height: "58px",
+                                        fontWeight: "lighter",
+                                      }),
+                                      menuList: (provided) => ({
+                                        ...provided,
+                                        maxHeight: 200,
+                                      }),
 
-                                        container: (provided, state) => ({
-                                          ...provided,
-                                          marginTop: 0,
-                                        }),
-                                        valueContainer: (provided, state) => ({
-                                          ...provided,
-                                          overflow: "visible",
-                                        }),
-                                        menu: (provided) => ({
-                                          ...provided,
-                                          zIndex: 9999,
-                                        }),
-                                        placeholder: (provided, state) => ({
-                                          ...provided,
-                                          position: "absolute",
-                                          top:
-                                            state.hasValue ||
-                                              state.selectProps.inputValue
-                                              ? -15
-                                              : "50%",
-                                          transition: "top 0.1s, font-size 0.1s",
-                                          fontSize:
-                                            (state.hasValue ||
-                                              state.selectProps.inputValue) &&
-                                            13,
-                                        }),
-                                      }}
-                                      components={{
-                                        ValueContainer: CustomValueContainer,
-                                      }}
-                                      name="ecfmgQues"
-                                      isDisabled={
-                                        tabRef.current === "DashboardView" &&
-                                          prop.state.lockStatus !== undefined &&
-                                          prop.state.lockStatus === "Y"
-                                          ? true
-                                          : false
-                                      }
-                                      className="basic-multi-select"
-                                      options={[
-                                        { label: "YES", value: "Y" },
-                                        { label: "NO", value: "N" },
-                                      ]}
-                                      id="ecfmgQuesDropdown"
-                                      isMulti={false}
-                                      onChange={(selectValue, event) =>
-                                        handleLinearSelectChange(
-                                          selectValue,
-                                          event
-                                        )
-                                      }
-                                      //value={apiTestState.ecfmgQues}
-                                      value={
-                                        apiTestState.ecfmgQues !== undefined
-                                          ? apiTestState.ecfmgQues?.value?.toLowerCase() ===
+                                      container: (provided, state) => ({
+                                        ...provided,
+                                        marginTop: 0,
+                                      }),
+                                      valueContainer: (provided, state) => ({
+                                        ...provided,
+                                        overflow: "visible",
+                                      }),
+                                      menu: (provided) => ({
+                                        ...provided,
+                                        zIndex: 9999,
+                                      }),
+                                      placeholder: (provided, state) => ({
+                                        ...provided,
+                                        position: "absolute",
+                                        top:
+                                          state.hasValue ||
+                                          state.selectProps.inputValue
+                                            ? -15
+                                            : "50%",
+                                        transition: "top 0.1s, font-size 0.1s",
+                                        fontSize:
+                                          (state.hasValue ||
+                                            state.selectProps.inputValue) &&
+                                          13,
+                                      }),
+                                    }}
+                                    components={{
+                                      ValueContainer: CustomValueContainer,
+                                    }}
+                                    name="ecfmgQues"
+                                    isDisabled={
+                                      tabRef.current === "DashboardView" &&
+                                      prop.state.lockStatus !== undefined &&
+                                      prop.state.lockStatus === "Y"
+                                        ? true
+                                        : false
+                                    }
+                                    className="basic-multi-select"
+                                    options={[
+                                      { label: "YES", value: "Y" },
+                                      { label: "NO", value: "N" },
+                                    ]}
+                                    id="ecfmgQuesDropdown"
+                                    isMulti={false}
+                                    onChange={(selectValue, event) =>
+                                      handleLinearSelectChange(
+                                        selectValue,
+                                        event,
+                                      )
+                                    }
+                                    //value={apiTestState.ecfmgQues}
+                                    value={
+                                      apiTestState.ecfmgQues !== undefined
+                                        ? apiTestState.ecfmgQues?.value?.toLowerCase() ===
                                             "y" ||
-                                            apiTestState.ecfmgQues?.value?.toLowerCase() ===
+                                          apiTestState.ecfmgQues?.value?.toLowerCase() ===
                                             "yes"
-                                            ? {
+                                          ? {
                                               label: convertToCase("YES"),
                                               value: convertToCase(
-                                                apiTestState.ecfmgQues.value
+                                                apiTestState.ecfmgQues.value,
                                               ),
                                             }
-                                            : apiTestState.ecfmgQues?.value?.toLowerCase() ===
-                                              "n" ||
+                                          : apiTestState.ecfmgQues?.value?.toLowerCase() ===
+                                                "n" ||
                                               apiTestState.ecfmgQues?.value?.toLowerCase() ===
-                                              "no"
-                                              ? {
+                                                "no"
+                                            ? {
                                                 label: convertToCase("NO"),
                                                 value: convertToCase(
-                                                  apiTestState?.ecfmgQues?.value
+                                                  apiTestState?.ecfmgQues
+                                                    ?.value,
                                                 ),
                                               }
-                                              : apiTestState.ecfmgQues
-                                          : apiTestState.ecfmgQues
-                                      }
-                                      isClearable
-                                      placeholder="Do you have a Educational Commission for Foreign Medical Graduates (ECFMG) Number?"
-                                      isSearchable={
-                                        document.documentElement.clientHeight >
-                                          document.documentElement.clientWidth
-                                          ? false
-                                          : true
-                                      }
-                                    />
-                                  </div>
+                                            : apiTestState.ecfmgQues
+                                        : apiTestState.ecfmgQues
+                                    }
+                                    isClearable
+                                    placeholder="Do you have a Educational Commission for Foreign Medical Graduates (ECFMG) Number?"
+                                    isSearchable={
+                                      document.documentElement.clientHeight >
+                                      document.documentElement.clientWidth
+                                        ? false
+                                        : true
+                                    }
+                                  />
                                 </div>
-                                {/* <Multiselect
+                              </div>
+                              {/* <Multiselect
                                                    isObject={false}
                                                    options={['Yes','No']}
                                                    id="ecfmgQuesDropdown"
@@ -9217,190 +9231,192 @@ export default function AddProvider() {
                                                    placeholder=''
                                                /> */}
 
-                                {/* <label htmlFor="ecfmgQues">Do you have a Educational Commission for Foreign Medical Graduates (ECFMG) Number?</label> */}
-                              </div>
+                              {/* <label htmlFor="ecfmgQues">Do you have a Educational Commission for Foreign Medical Graduates (ECFMG) Number?</label> */}
+                            </div>
 
-                              <div className="row my-2">
-                                <div className="col-xs-6 col-md-4">
-                                  <Field name="ecfmgNumber">
-                                    {({
-                                      field, // { name, value, onChange, onBlur }
-                                      form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
-                                      meta,
-                                    }) => (
-                                      <div className="form-floating">
-                                        <input
-                                          maxLength="10"
-                                          type="text"
-                                          className={`form-control ${meta.touched && meta.error
+                            <div className="row my-2">
+                              <div className="col-xs-6 col-md-4">
+                                <Field name="ecfmgNumber">
+                                  {({
+                                    field, // { name, value, onChange, onBlur }
+                                    form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+                                    meta,
+                                  }) => (
+                                    <div className="form-floating">
+                                      <input
+                                        maxLength="10"
+                                        type="text"
+                                        className={`form-control ${
+                                          meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value ||
-                                              field.value === null
+                                                field.value === null
                                               ? "is-valid"
                                               : ""
-                                            }`}
-                                          placeholder="123"
-                                          {...field}
-                                        />
-                                        <label htmlFor="floatingInputGrid">
-                                          ECFMG Number
-                                        </label>
-                                        {meta.touched && meta.error && (
-                                          <div
-                                            className="invalid-feedback"
-                                            style={{ display: "block" }}
-                                          >
-                                            {meta.error}
-                                          </div>
-                                        )}
-                                      </div>
-                                    )}
-                                  </Field>
-                                </div>
+                                        }`}
+                                        placeholder="123"
+                                        {...field}
+                                      />
+                                      <label htmlFor="floatingInputGrid">
+                                        ECFMG Number
+                                      </label>
+                                      {meta.touched && meta.error && (
+                                        <div
+                                          className="invalid-feedback"
+                                          style={{ display: "block" }}
+                                        >
+                                          {meta.error}
+                                        </div>
+                                      )}
+                                    </div>
+                                  )}
+                                </Field>
+                              </div>
 
-                                <div className="col-xs-6 col-md-4">
-                                  {/* <MuiDatePicker name="ecfmgIssueDate" label="ECFMG Issue Date" dateState={apiTestState} setdateState={setApiTestState}
+                              <div className="col-xs-6 col-md-4">
+                                {/* <MuiDatePicker name="ecfmgIssueDate" label="ECFMG Issue Date" dateState={apiTestState} setdateState={setApiTestState}
                               formikInitializeState={formikInitializeState} setFormikInitializeState={setFormikInitializeState}/> */}
-                                  <div>
-                                    <ReactDatePicker
-                                      id="datePicker"
-                                      className="form-control example-custom-input-provider"
-                                      selected={apiTestState.ecfmgIssueDate}
-                                      name="ecfmgIssueDate"
-                                      onChange={(event) =>
-                                        handleDateChange(event, "ecfmgIssueDate")
-                                      }
-                                      dateFormat="MM/dd/yyyy"
-                                      readOnly={
-                                        tabRef.current === "DashboardView" &&
-                                          prop.state.lockStatus !== undefined &&
-                                          prop.state.lockStatus === "Y"
-                                          ? true
-                                          : false
-                                      }
-                                      onKeyDown={(e) => {
-                                        e.preventDefault();
-                                      }}
-                                      isClearable
-                                      peekNextMonth
-                                      showMonthDropdown
-                                      showYearDropdown
-                                      dropdownMode="select"
-                                      customInput={<RenderDatePicker02 />}
-                                    />
-                                  </div>
-                                </div>
-
-                                <div className="col-xs-6 col-md-4">
-                                  {/* <MuiDatePicker name="ecfmgExpirationDate" label="ECFMG Expiration Date" dateState={apiTestState} setdateState={setApiTestState}
-                              formikInitializeState={formikInitializeState} setFormikInitializeState={setFormikInitializeState}/> */}
-                                  <div>
-                                    <ReactDatePicker
-                                      id="datePicker"
-                                      className="form-control example-custom-input-provider"
-                                      selected={apiTestState.ecfmgExpirationDate}
-                                      name="ecfmgExpirationDate"
-                                      onChange={(event) =>
-                                        handleDateChange(
-                                          event,
-                                          "ecfmgExpirationDate"
-                                        )
-                                      }
-                                      onKeyDown={(e) => {
-                                        e.preventDefault();
-                                      }}
-                                      dateFormat="MM/dd/yyyy"
-                                      readOnly={
-                                        tabRef.current === "DashboardView" &&
-                                          prop.state.lockStatus !== undefined &&
-                                          prop.state.lockStatus === "Y"
-                                          ? true
-                                          : false
-                                      }
-                                      isClearable
-                                      peekNextMonth
-                                      showMonthDropdown
-                                      showYearDropdown
-                                      dropdownMode="select"
-                                      customInput={<RenderDatePicker03 />}
-                                    />
-                                  </div>
+                                <div>
+                                  <ReactDatePicker
+                                    id="datePicker"
+                                    className="form-control example-custom-input-provider"
+                                    selected={apiTestState.ecfmgIssueDate}
+                                    name="ecfmgIssueDate"
+                                    onChange={(event) =>
+                                      handleDateChange(event, "ecfmgIssueDate")
+                                    }
+                                    dateFormat="MM/dd/yyyy"
+                                    readOnly={
+                                      tabRef.current === "DashboardView" &&
+                                      prop.state.lockStatus !== undefined &&
+                                      prop.state.lockStatus === "Y"
+                                        ? true
+                                        : false
+                                    }
+                                    onKeyDown={(e) => {
+                                      e.preventDefault();
+                                    }}
+                                    isClearable
+                                    peekNextMonth
+                                    showMonthDropdown
+                                    showYearDropdown
+                                    dropdownMode="select"
+                                    customInput={<RenderDatePicker02 />}
+                                  />
                                 </div>
                               </div>
 
-                              <div className="row my-2">
-                                <div className="col-xs-6 col-md-4">
-                                  {/* <MuiDatePicker name="attestationDate" label="Attestation Date" dateState={apiTestState} setdateState={setApiTestState}
+                              <div className="col-xs-6 col-md-4">
+                                {/* <MuiDatePicker name="ecfmgExpirationDate" label="ECFMG Expiration Date" dateState={apiTestState} setdateState={setApiTestState}
                               formikInitializeState={formikInitializeState} setFormikInitializeState={setFormikInitializeState}/> */}
-                                  <div>
-                                    <ReactDatePicker
-                                      id="datePicker"
-                                      className="form-control example-custom-input-provider"
-                                      selected={apiTestState.attestationDate}
-                                      name="attestationDate"
-                                      onChange={(event) =>
-                                        handleDateChange(event, "attestationDate")
-                                      }
-                                      onKeyDown={(e) => {
-                                        e.preventDefault();
-                                      }}
-                                      isClearable
-                                      dateFormat="MM/dd/yyyy"
-                                      readOnly={
-                                        tabRef.current === "DashboardView" &&
-                                          prop.state.lockStatus !== undefined &&
-                                          prop.state.lockStatus === "Y"
-                                          ? true
-                                          : false
-                                      }
-                                      peekNextMonth
-                                      showMonthDropdown
-                                      showYearDropdown
-                                      dropdownMode="select"
-                                      customInput={<RenderDatePicker04 />}
-                                    />
-                                  </div>
+                                <div>
+                                  <ReactDatePicker
+                                    id="datePicker"
+                                    className="form-control example-custom-input-provider"
+                                    selected={apiTestState.ecfmgExpirationDate}
+                                    name="ecfmgExpirationDate"
+                                    onChange={(event) =>
+                                      handleDateChange(
+                                        event,
+                                        "ecfmgExpirationDate",
+                                      )
+                                    }
+                                    onKeyDown={(e) => {
+                                      e.preventDefault();
+                                    }}
+                                    dateFormat="MM/dd/yyyy"
+                                    readOnly={
+                                      tabRef.current === "DashboardView" &&
+                                      prop.state.lockStatus !== undefined &&
+                                      prop.state.lockStatus === "Y"
+                                        ? true
+                                        : false
+                                    }
+                                    isClearable
+                                    peekNextMonth
+                                    showMonthDropdown
+                                    showYearDropdown
+                                    dropdownMode="select"
+                                    customInput={<RenderDatePicker03 />}
+                                  />
                                 </div>
-                                <div className="col-xs-6 col-md-4">
-                                  <Field name="attestationId">
-                                    {({
-                                      field, // { name, value, onChange, onBlur }
-                                      form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
-                                      meta,
-                                    }) => (
-                                      <div className="form-floating">
-                                        <input
-                                          maxLength="10"
-                                          type="text"
-                                          className={`form-control ${meta.touched && meta.error
+                              </div>
+                            </div>
+
+                            <div className="row my-2">
+                              <div className="col-xs-6 col-md-4">
+                                {/* <MuiDatePicker name="attestationDate" label="Attestation Date" dateState={apiTestState} setdateState={setApiTestState}
+                              formikInitializeState={formikInitializeState} setFormikInitializeState={setFormikInitializeState}/> */}
+                                <div>
+                                  <ReactDatePicker
+                                    id="datePicker"
+                                    className="form-control example-custom-input-provider"
+                                    selected={apiTestState.attestationDate}
+                                    name="attestationDate"
+                                    onChange={(event) =>
+                                      handleDateChange(event, "attestationDate")
+                                    }
+                                    onKeyDown={(e) => {
+                                      e.preventDefault();
+                                    }}
+                                    isClearable
+                                    dateFormat="MM/dd/yyyy"
+                                    readOnly={
+                                      tabRef.current === "DashboardView" &&
+                                      prop.state.lockStatus !== undefined &&
+                                      prop.state.lockStatus === "Y"
+                                        ? true
+                                        : false
+                                    }
+                                    peekNextMonth
+                                    showMonthDropdown
+                                    showYearDropdown
+                                    dropdownMode="select"
+                                    customInput={<RenderDatePicker04 />}
+                                  />
+                                </div>
+                              </div>
+                              <div className="col-xs-6 col-md-4">
+                                <Field name="attestationId">
+                                  {({
+                                    field, // { name, value, onChange, onBlur }
+                                    form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+                                    meta,
+                                  }) => (
+                                    <div className="form-floating">
+                                      <input
+                                        maxLength="10"
+                                        type="text"
+                                        className={`form-control ${
+                                          meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
                                               ? "is-valid"
                                               : ""
-                                            }`}
-                                          placeholder="123"
-                                          {...field}
-                                        />
-                                        <label htmlFor="floatingInputGrid">
-                                          Attestation Id
-                                        </label>
-                                        {meta.touched && meta.error && (
-                                          <div
-                                            className="invalid-feedback"
-                                            style={{ display: "block" }}
-                                          >
-                                            {meta.error}
-                                          </div>
-                                        )}
-                                      </div>
-                                    )}
-                                  </Field>
-                                </div>
+                                        }`}
+                                        placeholder="123"
+                                        {...field}
+                                      />
+                                      <label htmlFor="floatingInputGrid">
+                                        Attestation Id
+                                      </label>
+                                      {meta.touched && meta.error && (
+                                        <div
+                                          className="invalid-feedback"
+                                          style={{ display: "block" }}
+                                        >
+                                          {meta.error}
+                                        </div>
+                                      )}
+                                    </div>
+                                  )}
+                                </Field>
                               </div>
                             </div>
                           </div>
                         </div>
-                      )}
+                      </div>
+                    )}
                   </fieldset>
                   <div className="accordion-item">
                     <h2
@@ -9439,8 +9455,8 @@ export default function AddProvider() {
                               selectJson={selectValues}
                               lockStatus={
                                 prop.state !== null &&
-                                  prop.state.lockStatus !== undefined &&
-                                  prop.state.lockStatus !== ""
+                                prop.state.lockStatus !== undefined &&
+                                prop.state.lockStatus !== ""
                                   ? prop.state.lockStatus
                                   : "N"
                               }
@@ -9490,8 +9506,8 @@ export default function AddProvider() {
                               selectJson={selectValues}
                               lockStatus={
                                 prop.state !== null &&
-                                  prop.state.lockStatus !== undefined &&
-                                  prop.state.lockStatus !== ""
+                                prop.state.lockStatus !== undefined &&
+                                prop.state.lockStatus !== ""
                                   ? prop.state.lockStatus
                                   : "N"
                               }
@@ -9550,8 +9566,8 @@ export default function AddProvider() {
                               }
                               lockStatus={
                                 prop.state !== null &&
-                                  prop.state.lockStatus !== undefined &&
-                                  prop.state.lockStatus !== ""
+                                prop.state.lockStatus !== undefined &&
+                                prop.state.lockStatus !== ""
                                   ? prop.state.lockStatus
                                   : "N"
                               }
@@ -9602,8 +9618,8 @@ export default function AddProvider() {
                               }
                               lockStatus={
                                 prop.state !== null &&
-                                  prop.state.lockStatus !== undefined &&
-                                  prop.state.lockStatus !== ""
+                                prop.state.lockStatus !== undefined &&
+                                prop.state.lockStatus !== ""
                                   ? prop.state.lockStatus
                                   : "N"
                               }
@@ -9623,55 +9639,55 @@ export default function AddProvider() {
                       prop.state.stageName === "QA")) ||
                     prop.state.formView === "HomeView" ||
                     prop.state.formView === "DashboardHomeView") && (
-                      <div className="accordion-item">
-                        <h2
-                          className="accordion-header"
-                          id="panelsStayOpen-Education"
+                    <div className="accordion-item">
+                      <h2
+                        className="accordion-header"
+                        id="panelsStayOpen-Education"
+                      >
+                        <button
+                          className="accordion-button accordionButtonStyle"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#panelsStayOpen-collapseEducation"
+                          aria-expanded="true"
+                          aria-controls="panelsStayOpen-collapseEducation"
                         >
-                          <button
-                            className="accordion-button accordionButtonStyle"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#panelsStayOpen-collapseEducation"
-                            aria-expanded="true"
-                            aria-controls="panelsStayOpen-collapseEducation"
-                          >
-                            Education & Training Details
-                          </button>
-                        </h2>
-                        <div
-                          id="panelsStayOpen-collapseEducation"
-                          className="accordion-collapse collapse show"
-                          aria-labelledby="panelsStayOpen-Education"
-                        >
-                          <div className="accordion-body">
-                            <div className="row">
-                              <div className="col-xs-6 col-md-12">
-                                <EducationTable
-                                  educationTableRowsData={educationTableRowsData}
-                                  addTableRows={addTableRows}
-                                  deleteTableRows={deleteTableRows}
-                                  handleGridSelectChange={handleGridSelectChange}
-                                  handleGridDateChange={handleGridDateChange}
-                                  handleGridFieldChange={handleGridFieldChange}
-                                  gridFieldTempState={gridFieldTempState}
-                                  editTableRows={editTableRows}
-                                  gridRowsFinalSubmit={gridRowsFinalSubmit}
-                                  selectJson={selectValues}
-                                  lockStatus={
-                                    prop.state !== null &&
-                                      prop.state.lockStatus !== undefined &&
-                                      prop.state.lockStatus !== ""
-                                      ? prop.state.lockStatus
-                                      : "N"
-                                  }
-                                ></EducationTable>
-                              </div>
+                          Education & Training Details
+                        </button>
+                      </h2>
+                      <div
+                        id="panelsStayOpen-collapseEducation"
+                        className="accordion-collapse collapse show"
+                        aria-labelledby="panelsStayOpen-Education"
+                      >
+                        <div className="accordion-body">
+                          <div className="row">
+                            <div className="col-xs-6 col-md-12">
+                              <EducationTable
+                                educationTableRowsData={educationTableRowsData}
+                                addTableRows={addTableRows}
+                                deleteTableRows={deleteTableRows}
+                                handleGridSelectChange={handleGridSelectChange}
+                                handleGridDateChange={handleGridDateChange}
+                                handleGridFieldChange={handleGridFieldChange}
+                                gridFieldTempState={gridFieldTempState}
+                                editTableRows={editTableRows}
+                                gridRowsFinalSubmit={gridRowsFinalSubmit}
+                                selectJson={selectValues}
+                                lockStatus={
+                                  prop.state !== null &&
+                                  prop.state.lockStatus !== undefined &&
+                                  prop.state.lockStatus !== ""
+                                    ? prop.state.lockStatus
+                                    : "N"
+                                }
+                              ></EducationTable>
                             </div>
                           </div>
                         </div>
                       </div>
-                    )}
+                    </div>
+                  )}
 
                   {/* <div className="accordion-item">
                                 <h2 className="accordion-header" id="panelsStayOpen-Training">
@@ -9699,51 +9715,51 @@ export default function AddProvider() {
                       prop.state.stageName === "QA")) ||
                     prop.state.formView === "HomeView" ||
                     prop.state.formView === "DashboardHomeView") && (
-                      <div className="accordion-item">
-                        <h2 className="accordion-header" id="panelsStayOpen-Work">
-                          <button
-                            className="accordion-button accordionButtonStyle"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#panelsStayOpen-collapseWork"
-                            aria-expanded="true"
-                            aria-controls="panelsStayOpen-collapseWork"
-                          >
-                            Work History Details
-                          </button>
-                        </h2>
-                        <div
-                          id="panelsStayOpen-collapseWork"
-                          className="accordion-collapse collapse show"
-                          aria-labelledby="panelsStayOpen-Work"
+                    <div className="accordion-item">
+                      <h2 className="accordion-header" id="panelsStayOpen-Work">
+                        <button
+                          className="accordion-button accordionButtonStyle"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#panelsStayOpen-collapseWork"
+                          aria-expanded="true"
+                          aria-controls="panelsStayOpen-collapseWork"
                         >
-                          <div className="accordion-body">
-                            <div className="row">
-                              <div className="col-xs-6 col-md-12">
-                                <WorkTable
-                                  workTableRowsData={workTableRowsData}
-                                  addTableRows={addTableRows}
-                                  deleteTableRows={deleteTableRows}
-                                  handleGridSelectChange={handleGridSelectChange}
-                                  handleGridDateChange={handleGridDateChange}
-                                  handleGridFieldChange={handleGridFieldChange}
-                                  gridRowsFinalSubmit={gridRowsFinalSubmit}
-                                  gridFieldTempState={gridFieldTempState}
-                                  editTableRows={editTableRows}
-                                  lockStatus={
-                                    prop.state !== null &&
-                                      prop.state.lockStatus !== undefined &&
-                                      prop.state.lockStatus !== ""
-                                      ? prop.state.lockStatus
-                                      : "N"
-                                  }
-                                ></WorkTable>
-                              </div>
+                          Work History Details
+                        </button>
+                      </h2>
+                      <div
+                        id="panelsStayOpen-collapseWork"
+                        className="accordion-collapse collapse show"
+                        aria-labelledby="panelsStayOpen-Work"
+                      >
+                        <div className="accordion-body">
+                          <div className="row">
+                            <div className="col-xs-6 col-md-12">
+                              <WorkTable
+                                workTableRowsData={workTableRowsData}
+                                addTableRows={addTableRows}
+                                deleteTableRows={deleteTableRows}
+                                handleGridSelectChange={handleGridSelectChange}
+                                handleGridDateChange={handleGridDateChange}
+                                handleGridFieldChange={handleGridFieldChange}
+                                gridRowsFinalSubmit={gridRowsFinalSubmit}
+                                gridFieldTempState={gridFieldTempState}
+                                editTableRows={editTableRows}
+                                lockStatus={
+                                  prop.state !== null &&
+                                  prop.state.lockStatus !== undefined &&
+                                  prop.state.lockStatus !== ""
+                                    ? prop.state.lockStatus
+                                    : "N"
+                                }
+                              ></WorkTable>
                             </div>
                           </div>
                         </div>
                       </div>
-                    )}
+                    </div>
+                  )}
 
                   {/* Added by Shivani to show Insurance Details on Cred Specialist and QA stage */}
                   {((prop.state.formView === "DashboardView" &&
@@ -9751,54 +9767,54 @@ export default function AddProvider() {
                       prop.state.stageName === "QA")) ||
                     prop.state.formView === "HomeView" ||
                     prop.state.formView === "DashboardHomeView") && (
-                      <div className="accordion-item">
-                        <h2
-                          className="accordion-header"
-                          id="panelsStayOpen-Insurance"
+                    <div className="accordion-item">
+                      <h2
+                        className="accordion-header"
+                        id="panelsStayOpen-Insurance"
+                      >
+                        <button
+                          className="accordion-button accordionButtonStyle"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#panelsStayOpen-collapseInsurance"
+                          aria-expanded="true"
+                          aria-controls="panelsStayOpen-collapseInsurance"
                         >
-                          <button
-                            className="accordion-button accordionButtonStyle"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#panelsStayOpen-collapseInsurance"
-                            aria-expanded="true"
-                            aria-controls="panelsStayOpen-collapseInsurance"
-                          >
-                            Insurance Details
-                          </button>
-                        </h2>
-                        <div
-                          id="panelsStayOpen-collapseInsurance"
-                          className="accordion-collapse collapse show"
-                          aria-labelledby="panelsStayOpen-Insurance"
-                        >
-                          <div className="accordion-body">
-                            <div className="row">
-                              <div className="col-xs-6 col-md-12">
-                                <InsuranceTable
-                                  insuranceTableRowsData={insuranceTableRowsData}
-                                  addTableRows={addTableRows}
-                                  deleteTableRows={deleteTableRows}
-                                  handleGridSelectChange={handleGridSelectChange}
-                                  handleGridDateChange={handleGridDateChange}
-                                  handleGridFieldChange={handleGridFieldChange}
-                                  gridRowsFinalSubmit={gridRowsFinalSubmit}
-                                  gridFieldTempState={gridFieldTempState}
-                                  editTableRows={editTableRows}
-                                  lockStatus={
-                                    prop.state !== null &&
-                                      prop.state.lockStatus !== undefined &&
-                                      prop.state.lockStatus !== ""
-                                      ? prop.state.lockStatus
-                                      : "N"
-                                  }
-                                ></InsuranceTable>
-                              </div>
+                          Insurance Details
+                        </button>
+                      </h2>
+                      <div
+                        id="panelsStayOpen-collapseInsurance"
+                        className="accordion-collapse collapse show"
+                        aria-labelledby="panelsStayOpen-Insurance"
+                      >
+                        <div className="accordion-body">
+                          <div className="row">
+                            <div className="col-xs-6 col-md-12">
+                              <InsuranceTable
+                                insuranceTableRowsData={insuranceTableRowsData}
+                                addTableRows={addTableRows}
+                                deleteTableRows={deleteTableRows}
+                                handleGridSelectChange={handleGridSelectChange}
+                                handleGridDateChange={handleGridDateChange}
+                                handleGridFieldChange={handleGridFieldChange}
+                                gridRowsFinalSubmit={gridRowsFinalSubmit}
+                                gridFieldTempState={gridFieldTempState}
+                                editTableRows={editTableRows}
+                                lockStatus={
+                                  prop.state !== null &&
+                                  prop.state.lockStatus !== undefined &&
+                                  prop.state.lockStatus !== ""
+                                    ? prop.state.lockStatus
+                                    : "N"
+                                }
+                              ></InsuranceTable>
                             </div>
                           </div>
                         </div>
                       </div>
-                    )}
+                    </div>
+                  )}
 
                   {tabRef.current === "HomeView" && (
                     <DocumentSection
@@ -9811,10 +9827,10 @@ export default function AddProvider() {
                   {/* Added by Shivani to show Credential Checklist on Cred Specialist and QA stage */}
                   {/* Modified by NG to not show CC for delegated Yes cases. */}
                   {hideandShow.show == true &&
-                    apiTestState.delegated?.value &&
-                    apiTestState.delegated.value.toLowerCase() === "no" &&
-                    (prop.state.stageName === "Cred Specialist" ||
-                      prop.state.stageName === "QA") ? (
+                  apiTestState.delegated?.value &&
+                  apiTestState.delegated.value.toLowerCase() === "no" &&
+                  (prop.state.stageName === "Cred Specialist" ||
+                    prop.state.stageName === "QA") ? (
                     <div className="accordion-item">
                       <h2
                         className="accordion-header"
@@ -9855,8 +9871,8 @@ export default function AddProvider() {
                                 selectJson={selectValues}
                                 lockStatus={
                                   prop.state !== null &&
-                                    prop.state.lockStatus !== undefined &&
-                                    prop.state.lockStatus !== ""
+                                  prop.state.lockStatus !== undefined &&
+                                  prop.state.lockStatus !== ""
                                     ? prop.state.lockStatus
                                     : "N"
                                 }
@@ -9884,9 +9900,10 @@ export default function AddProvider() {
                       type="button"
                       className="providerPageButton button"
                       onClick={(event) => {
-
-                        if (callProcRef.current === "notCallProc" || prop?.state?.decision?.toLowerCase() === 'discard') {
-
+                        if (
+                          callProcRef.current === "notCallProc" ||
+                          prop?.state?.decision?.toLowerCase() === "discard"
+                        ) {
                           saveData(values);
                         } else {
                           // submitForm().then(() => {
@@ -9897,7 +9914,7 @@ export default function AddProvider() {
                               errors,
                               setFieldTouched,
                               handleSubmit,
-                              event
+                              event,
                             );
                           });
                           //handleSubmit(event);
@@ -10017,8 +10034,8 @@ export default function AddProvider() {
                     disabled={
                       buttonDisableFlag ||
                       (tabRef.current === "DashboardView" &&
-                        prop.state.lockStatus !== undefined &&
-                        prop.state.lockStatus === "Y"
+                      prop.state.lockStatus !== undefined &&
+                      prop.state.lockStatus === "Y"
                         ? true
                         : false)
                     }
@@ -10037,8 +10054,8 @@ export default function AddProvider() {
                   disabled={
                     buttonDisableFlag ||
                     (tabRef.current === "DashboardView" &&
-                      prop.state.lockStatus !== undefined &&
-                      prop.state.lockStatus === "Y"
+                    prop.state.lockStatus !== undefined &&
+                    prop.state.lockStatus === "Y"
                       ? true
                       : false)
                   }

@@ -28,7 +28,7 @@ const FieldForm = ({
     isAutoIdentity: false,
   };
   const [primaryNoDisabled, setPrimaryNoDisabled] = React.useState(
-    selectedData?.data.isAutoIdentity ? true : false
+    selectedData?.data.isAutoIdentity ? true : false,
   );
   const initialValues = mode === "Add" ? AddFieldValues : selectedData?.data;
 
@@ -153,7 +153,7 @@ const FieldForm = ({
                 onInput={(e) => {
                   e.target.value = Math.min(
                     4000,
-                    Math.max(0, parseInt(e.target.value))
+                    Math.max(0, parseInt(e.target.value)),
                   )
                     .toString()
                     .slice(0, 4);

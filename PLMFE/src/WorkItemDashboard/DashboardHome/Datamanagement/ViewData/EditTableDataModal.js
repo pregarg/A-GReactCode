@@ -75,7 +75,7 @@ export default function EditTableModal(show) {
         item.constraint === "NotNull" &&
         (selectedData[columnName] === null ||
           selectedData[columnName] === undefined ||
-          selectedData[columnName] === "")
+          selectedData[columnName] === ""),
     );
   };
   function isInt(dataType) {

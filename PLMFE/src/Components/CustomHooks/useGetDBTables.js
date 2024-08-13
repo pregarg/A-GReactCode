@@ -90,7 +90,7 @@ export default function useGetDBTables() {
         "ANG_Representative_Information_Grid~angRepresentativeInformationGrid",
         "ANG_Authorization_Information~angAuthorizationInformation",
         "ANG_Authorization_Information_Grid~angAuthorizationInformationGrid",
-        "ANG_Expedited_Request~angExpeditedRequest"
+        "ANG_Expedited_Request~angExpeditedRequest",
       ],
       angCaseStatusTable: ["ANG_MASTER_CASE_STATUS~angCaseStatus"],
     };
@@ -98,33 +98,34 @@ export default function useGetDBTables() {
   };
 
   const getGridJson = (jsonObj) => {
+    if (jsonObj && typeof jsonObj === "object") {
+      const jsonKeys = Object.keys(jsonObj);
+      jsonKeys.forEach((elem) => {
+        const dataKeyType = typeof jsonObj[elem];
 
-    if (jsonObj && typeof jsonObj === 'object') {
-        const jsonKeys = Object.keys(jsonObj);
-        jsonKeys.forEach((elem) => {
-            const dataKeyType = typeof jsonObj[elem];
-
-            if (
-                (dataKeyType === "object" &&
-                    !jsonObj[elem]?.hasOwnProperty("label") &&
-                    !jsonObj[elem]?.hasOwnProperty("value")) ||
-                dataKeyType !== "object"
-            ) {
-                jsonObj[elem] = { label: jsonObj[elem], value: jsonObj[elem] };
-            } else if (
-                dataKeyType === "object" &&
-                jsonObj[elem].hasOwnProperty("label") &&
-                typeof jsonObj[elem]["label"] === "object"
-            ) {
-                jsonObj[elem] = jsonObj[elem]["label"];
-            }
-        });
-        return jsonObj;
+        if (
+          (dataKeyType === "object" &&
+            !jsonObj[elem]?.hasOwnProperty("label") &&
+            !jsonObj[elem]?.hasOwnProperty("value")) ||
+          dataKeyType !== "object"
+        ) {
+          jsonObj[elem] = { label: jsonObj[elem], value: jsonObj[elem] };
+        } else if (
+          dataKeyType === "object" &&
+          jsonObj[elem].hasOwnProperty("label") &&
+          typeof jsonObj[elem]["label"] === "object"
+        ) {
+          jsonObj[elem] = jsonObj[elem]["label"];
+        }
+      });
+      return jsonObj;
     } else {
-        console.error("Invalid input in getGridJson: jsonObj is null or not an object");
-        return {};
+      console.error(
+        "Invalid input in getGridJson: jsonObj is null or not an object",
+      );
+      return {};
     }
-};
+  };
 
   const convertToDateObj = (jsonObj) => {
     const jsonKeys = Object.keys(jsonObj);
@@ -149,7 +150,6 @@ export default function useGetDBTables() {
   };
 
   const formatDate = (dateObj) => {
-
     if (dateObj) {
       if (typeof dateObj === "string") {
         const localDate = new Date(Date.parse(dateObj));

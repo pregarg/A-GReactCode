@@ -55,7 +55,7 @@ export default function ViewReport(props) {
     });
   };
   const filteredData = viewReportsData?.filter(
-    (item) => item?.ReportType?.toLowerCase() !== "offline"
+    (item) => item?.ReportType?.toLowerCase() !== "offline",
   );
 
   function caseDetailsHandler(formOutPut, reportName, reportFields) {
@@ -104,7 +104,7 @@ export default function ViewReport(props) {
           let data = respData
             .slice(1)
             .map((arr) =>
-              Object.fromEntries(keyArray.map((key, i) => [key, arr[i]]))
+              Object.fromEntries(keyArray.map((key, i) => [key, arr[i]])),
             );
 
           setTableData(data);
