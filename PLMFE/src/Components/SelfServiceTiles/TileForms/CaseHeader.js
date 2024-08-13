@@ -21,6 +21,14 @@ const CaseHeader = () => {
   CaseHeader.displayName = "Appeals";
   const caseHeaderConfigData = JSON.parse(
       process.env.REACT_APP_CASEHEADER_DETAILS);
+    // const [expeditedDate, setExpeditedDate] = useState(null);
+
+    const handleExpeditedPriorityChange = (date) => {
+      setExpeditedRequest((prevState) => ({
+        ...prevState,
+        Expedited_Upgrade_Date_Time: date
+      }));
+    };
 
   const {
     caseTimelines,
@@ -101,6 +109,7 @@ const CaseHeader = () => {
                     caseInformationValidationSchema={caseInformationValidationSchema}
                     caseInformationErrors={caseInformationErrors}
                     shouldShowSubmitError={shouldShowSubmitError}
+                    onExpeditedPriorityChange={handleExpeditedPriorityChange}
                 />
                 <CaseClaimInformation
                     claimInformationData={claimInformation}
@@ -134,6 +143,7 @@ const CaseHeader = () => {
                     expeditedRequestData={expeditedRequest}
                     setExpeditedRequestData={setExpeditedRequest}
                     expeditedRequestValidationSchema={expeditedRequestValidationSchema}
+                   // expeditedDate={expeditedDate}
                 />
                 {location.state.formView === "DashboardHomeView" && (
                     <DocumentSection

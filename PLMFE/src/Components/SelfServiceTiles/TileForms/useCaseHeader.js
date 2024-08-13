@@ -8,6 +8,7 @@ import useUpdateDecision from "../../CustomHooks/useUpdateDecision";
 import _ from "lodash";
 
 export const useCaseHeader = () => {
+  var currentDate = new Date();
   const location = useLocation();
   const [hasSubmitError, setHasSubmitError] = useState(true);
   const [shouldShowSubmitError, setShowSubmitError] = useState(false);
@@ -28,6 +29,8 @@ export const useCaseHeader = () => {
     White_Glove_Indicator: "",
     caseNumber: ""
   });
+
+ 
   const [caseTimelines, setCaseTimelines] = useState({
     caseNumber: "",
     Acknowledgment_Timely: "",
@@ -35,7 +38,7 @@ export const useCaseHeader = () => {
     Case_Aging: "",
     Case_Filing_Method: "",
     Case_in_Compliance: "No",
-    Case_Received_Date: undefined,
+    Case_Received_Date: currentDate,
     Compliance_Time_Left_to_Finish: "",
     Out_of_Compliance_Reason: "Case still within compliance timeframe.",
     Timeframe_Extended: "",
@@ -202,6 +205,8 @@ export const useCaseHeader = () => {
   const [memberInformationErrors, setMemberInformationErrors] = useState([]);
   const [expeditedRequestErrors, setExpeditedRequestErrors] = useState([]);
 
+  
+
   const validateSync = (schema, data, setErrors) => {
     try {
       schema.validateSync(data, {abortEarly: false});
@@ -272,7 +277,7 @@ export const useCaseHeader = () => {
   //   setDisableSaveAndExit(!decisionTab?.Decision_Case_Notes?.trim())
   // }, [decisionTab]);
 
-  const currentDate = new Date();
+  
   const submitData = async () => {
 
     if (hasSubmitError) {
@@ -616,7 +621,7 @@ export const useCaseHeader = () => {
             appellant_Type
           );
 
-          const currentDate = new Date();
+         // const currentDate = new Date();
 
           const caseDueDateString = extractDate(dueDate);
           const internalDueDateString = extractDate(internalDate);
