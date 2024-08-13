@@ -22,6 +22,7 @@ export default function ClaimInformationTable({
     lockStatus,
     editTableRows,
     gridFieldTempState,
+    calculateDaysDifference
 
 }) {
 
@@ -45,7 +46,7 @@ export default function ClaimInformationTable({
 
 
     let prop = useLocation();
-    console.log("prernaaa@@@", prop.state.stageName)
+   
     const excludedStages = ["Start", "Intake", "Acknowledge", "Redirect Review", "Documents Needed"];
     const shouldHideFields = !excludedStages.includes(prop.state.stageName||claimStageName);
     let lineNumberOptions = [];
@@ -549,6 +550,8 @@ export default function ClaimInformationTable({
                                 />
                             </div>
                         </div>
+      
+
                         <div className="col-xs-6 col-md-3">
                             <label htmlFor="datePicker">Service Start Date</label>
                             <br />
@@ -556,18 +559,18 @@ export default function ClaimInformationTable({
                                 <ReactDatePicker
                                     className="form-control example-custom-input-modal"
                                     selected={
-                                        // data?.Service_Start_Date?.value !== undefined
-                                        //     ? new Date(data.Service_Start_Date.value)
-                                        //     : data?.Service_Start_Date !== undefined
-                                        //         ? new Date(data.Service_Start_Date)
-                                        //         : null
-                                         data?.Service_Start_Date?.value === null
-                ? null
-                : data?.Service_Start_Date?.value !== undefined
-                    ? new Date(data.Service_Start_Date.value)
-                    : data?.Service_Start_Date !== undefined
-                        ? new Date(data.Service_Start_Date)
-                        : null
+                                        data?.Service_Start_Date?.value !== undefined
+                                            ? new Date(data.Service_Start_Date.value)
+                                            : data?.Service_Start_Date !== undefined
+                                                ? new Date(data.Service_Start_Date)
+                                                : null
+                //                          data?.Service_Start_Date?.value === null
+                // ? null
+                // : data?.Service_Start_Date?.value !== undefined
+                //     ? new Date(data.Service_Start_Date.value)
+                //     : data?.Service_Start_Date !== undefined
+                //         ? new Date(data.Service_Start_Date)
+                //         : null
                                                 
                                     }
                                     name="Service_Start_Date"
@@ -580,7 +583,7 @@ export default function ClaimInformationTable({
                                         )
                                     }
                                     peekNextMonth
-                                    isClearable={true}
+                                   // isClearable={true}
                                     showMonthDropdown
                                     onKeyDown={(e) => {
                                         e.preventDefault();

@@ -72,6 +72,12 @@ const CaseInformationAccordion = (props) => {
   const handleCaseInformationData = (name, value, persist) => {
     const newData = {...caseInformationData, [name]: typeof value === 'string' ? convertToCase(value) : value};
     setCaseInformationData(newData);
+
+    if (name === 'Case_Level_Priority' && value === 'EXPEDITED') {
+     // console.log("Case_Level_Priority")
+      props.onExpeditedPriorityChange(new Date());
+  }
+
     if (persist) {
       props.setCaseInformationData(newData);
     }
@@ -79,6 +85,7 @@ const CaseInformationAccordion = (props) => {
   const persistCaseInformationData = () => {
     props.setCaseInformationData(caseInformationData);
   }
+  
 
   const renderInputField = (name, placeholder, maxLength) => (
       <div className="col-xs-6 col-md-4">
