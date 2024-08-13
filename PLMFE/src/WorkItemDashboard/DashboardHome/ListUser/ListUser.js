@@ -34,7 +34,7 @@ export default function ListUsers({ page, setPage }) {
     index,
     selectedValue,
     evnt,
-    triggeredFormName
+    triggeredFormName,
   ) => {
     console.log("Inside select change trigeredFormName: ", triggeredFormName);
     let rowsInput = "";

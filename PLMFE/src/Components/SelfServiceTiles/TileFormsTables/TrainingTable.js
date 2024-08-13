@@ -63,7 +63,7 @@ export default function TrainingTable({
                     index,
                     selectValue,
                     event,
-                    TrainingTable.displayName
+                    TrainingTable.displayName,
                   )
                 }
                 options={programAttenededOptions}
@@ -134,7 +134,7 @@ export default function TrainingTable({
                       index,
                       selectValue,
                       "completionDate",
-                      TrainingTable.displayName
+                      TrainingTable.displayName,
                     )
                   }
                   peekNextMonth
@@ -163,7 +163,7 @@ export default function TrainingTable({
     ) {
       return trainingTableRowsData.map((data, index) => {
         return (
-          <tr key={index} >
+          <tr key={index}>
             {lockStatus !== "Y" && (
               <td>
                 <span
@@ -178,7 +178,7 @@ export default function TrainingTable({
                       deleteTableRows(
                         index,
                         TrainingTable.displayName,
-                        "Force Delete"
+                        "Force Delete",
                       );
                       handleOperationValue("Force Delete");
                       decreaseDataIndex();

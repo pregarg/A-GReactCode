@@ -35,7 +35,7 @@ export default function InsuranceTable({
       setIsTouched({ ...isTouched, covAmount: false });
     } else {
       alert(
-        "Enter up to 13 digits before and up to 2 digits after the decimal point."
+        "Enter up to 13 digits before and up to 2 digits after the decimal point.",
       );
       setIsTouched({ ...isTouched, covAmount: true });
     }
@@ -48,7 +48,7 @@ export default function InsuranceTable({
       setIsTouched({ ...isTouched, covAmountAgg: false });
     } else {
       alert(
-        "Enter up to 13 digits before and up to 2 digits after the decimal point."
+        "Enter up to 13 digits before and up to 2 digits after the decimal point.",
       );
       setIsTouched({ ...isTouched, covAmountAgg: true });
     }
@@ -119,7 +119,7 @@ export default function InsuranceTable({
                     handleGridFieldChange(
                       index,
                       evnt,
-                      InsuranceTable.displayName
+                      InsuranceTable.displayName,
                     );
                   }
                 }}
@@ -172,7 +172,7 @@ export default function InsuranceTable({
                     handleGridFieldChange(
                       index,
                       evnt,
-                      InsuranceTable.displayName
+                      InsuranceTable.displayName,
                     );
                   }
                 }}
@@ -227,7 +227,7 @@ export default function InsuranceTable({
                       index,
                       selectValue,
                       "effectiveDate",
-                      InsuranceTable.displayName
+                      InsuranceTable.displayName,
                     )
                   }
                   peekNextMonth
@@ -263,7 +263,7 @@ export default function InsuranceTable({
                       index,
                       selectValue,
                       "expirationDate",
-                      InsuranceTable.displayName
+                      InsuranceTable.displayName,
                     )
                   }
                   peekNextMonth
@@ -314,7 +314,7 @@ export default function InsuranceTable({
                       deleteTableRows(
                         index,
                         InsuranceTable.displayName,
-                        "Force Delete"
+                        "Force Delete",
                       );
                       handleOperationValue("Force Delete");
                       decreaseDataIndex();
@@ -405,7 +405,7 @@ export default function InsuranceTable({
         console.log(
           "Inside formatDate typeof",
           Date.parse(dateObj),
-          localDate.getDate()
+          localDate.getDate(),
         );
         dateObj = localDate;
       } else if (typeof dateObj === "number") {

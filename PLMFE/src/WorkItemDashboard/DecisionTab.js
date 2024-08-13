@@ -80,10 +80,10 @@ export default function DecisionTab(props) {
   //const {handleSelectChange,handleLinearFieldChange} = useUpdateDecision();
 
   let prop = useLocation();
-  console.log("logger prop ", prop.state)
+  console.log("logger prop ", prop.state);
   const formName = prop.state.formNames;
   const stageName = prop.state.stageName && prop.state.stageName.trim();
- 
+
   const [selectValues, setSelectValues] = useState([]);
   const [selectReasonValues, setReasonSelectValues] = useState([]);
   const [decisionReasonArray, setDecisionReasonArray] = useState([]);
@@ -99,7 +99,7 @@ export default function DecisionTab(props) {
   // const persistDecisionTabData = () => {
   //   props.updateDecisionTabData(decisionTabData);
   // }
-  
+
   const decisonRef = React.createRef();
   const decisonReasonRef = useRef();
   const handleSelectChange = (selectedValue, evnt) => {
@@ -113,7 +113,6 @@ export default function DecisionTab(props) {
     const { name } = evnt;
     if (name === "decisionReason") {
       prop.state.decisionReason = selectedValue?.value;
-      
     }
   };
 
@@ -127,7 +126,7 @@ export default function DecisionTab(props) {
       [evt.target.name]: evt.target.value,
     });
   };
- // let restrictedFileTypes = ["xls", "eps", "sql", "xlsx", "docx"];
+  // let restrictedFileTypes = ["xls", "eps", "sql", "xlsx", "docx"];
   const downloadedfileBlob = (index, documentData) => {
     const { caseNumber, documentType, documentName, docUploadPath } =
       documentData[index] || {};
@@ -154,7 +153,7 @@ export default function DecisionTab(props) {
       .then((response) => {
         const docName = documentName;
         const filename = `${documentType}_${caseId}${docName.substring(
-          docName.lastIndexOf(".")
+          docName.lastIndexOf("."),
         )}`;
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const lastIndex = docName.lastIndexOf(".");
@@ -186,7 +185,7 @@ export default function DecisionTab(props) {
     console.log("inside handlemodalshow 1----", stageName);
 
     if (requestedFrom === "Close") {
-        setFileState([...fileState, { selectedFile: null, fileIndex: index }]);
+      setFileState([...fileState, { selectedFile: null, fileIndex: index }]);
     }
 
     let newArray = [...documentData];
@@ -194,25 +193,25 @@ export default function DecisionTab(props) {
     let documentName = "";
 
     if (Array.isArray(newArray) && newArray[index]) {
-        let documentType = newArray[index].documentType;
-        console.log("DocumentType at index:", documentType);
-        if (documentType) {
-            documentName = documentType;
-        }
+      let documentType = newArray[index].documentType;
+      console.log("DocumentType at index:", documentType);
+      if (documentType) {
+        documentName = documentType;
+      }
     }
 
     if (documentName === "") {
-        alert("Please select Document Name first");
-        selectRef.current.focus();
-        return;
+      alert("Please select Document Name first");
+      selectRef.current.focus();
+      return;
     }
 
     if (stageName === "Case Completed") {
-        let existingDocument = newArray[index]?.docUploadPath;
-        if (existingDocument) {
-            alert("Documents can't be modified");
-            return;
-        }
+      let existingDocument = newArray[index]?.docUploadPath;
+      if (existingDocument) {
+        alert("Documents can't be modified");
+        return;
+      }
     }
 
     let docIndexJson = { ...docClickedIndex.current };
@@ -220,9 +219,7 @@ export default function DecisionTab(props) {
     docClickedIndex.current = docIndexJson;
 
     setModalShow({ ...modalShow, FileUpload: flagValue });
-};
-;
-  
+  };
   const handleFileUpload = (evnt, index) => {
     if (evnt.target.files[0] === undefined) {
       setFileState([...fileState, { selectedFile: null, fileIndex: index }]);
@@ -260,8 +257,7 @@ export default function DecisionTab(props) {
 
       if (selectedFile !== null) {
         const fileData = new FormData();
-        const caseId
-          = Number(prop.state.caseNumber);
+        const caseId = Number(prop.state.caseNumber);
         const documentType = paramData[index].documentType;
         fileData.append("file", selectedFile);
         fileData.append("caseNumber", caseId);
@@ -283,12 +279,18 @@ export default function DecisionTab(props) {
       }
     } catch (exception) {
       console.error("Error during file upload: ", exception);
-      alert("An error occurred while uploading the file. Please try again later.");
+      alert(
+        "An error occurred while uploading the file. Please try again later.",
+      );
     }
   };
 
-  const masterAngDecisionSelector = useSelector((state) => state?.masterAngDecision);
-  const masterAngDocumentSelector = useSelector((state) => state?.masterAngDocument);
+  const masterAngDecisionSelector = useSelector(
+    (state) => state?.masterAngDecision,
+  );
+  const masterAngDocumentSelector = useSelector(
+    (state) => state?.masterAngDocument,
+  );
 
   const [documentData, setDocumentData] = useState([]);
 
@@ -339,7 +341,7 @@ export default function DecisionTab(props) {
     index,
     selectedValue,
     documentName,
-    docArr
+    docArr,
   ) => {
     let rowsInput = "";
     const { name } = documentName;
@@ -407,20 +409,32 @@ export default function DecisionTab(props) {
   }, []);
 
   useEffect(() => {
-
     const angSel = masterAngDecisionSelector?.[0] || [];
     if (angSel && angSel.length) {
-      setSelectValues([
-          ...new Set(angSel.filter(e => e.WORKSTEP.toLowerCase() === stageName.toLowerCase())
-            .map(e => convertToCase(e.DECISION)))
-      ].map(e => ({label: e, value: e})));
-      setReasonSelectValues([
-        ...new Set(angSel.filter(e => e.WORKSTEP.toLowerCase() === stageName.toLowerCase())
-            .map(e => convertToCase(e.DECISION_REASON)))
-      ].map(e => ({label: e, value: e})));
+      setSelectValues(
+        [
+          ...new Set(
+            angSel
+              .filter(
+                (e) => e.WORKSTEP.toLowerCase() === stageName.toLowerCase(),
+              )
+              .map((e) => convertToCase(e.DECISION)),
+          ),
+        ].map((e) => ({ label: e, value: e })),
+      );
+      setReasonSelectValues(
+        [
+          ...new Set(
+            angSel
+              .filter(
+                (e) => e.WORKSTEP.toLowerCase() === stageName.toLowerCase(),
+              )
+              .map((e) => convertToCase(e.DECISION_REASON)),
+          ),
+        ].map((e) => ({ label: e, value: e })),
+      );
     }
-}, [masterAngDecisionSelector, props]);
-
+  }, [masterAngDecisionSelector, props]);
 
   const openDecisionModal = (index) => {
     let docIndexJson = { ...docClickedIndex.current };
@@ -537,7 +551,7 @@ export default function DecisionTab(props) {
   const contractData = () => {
     return (
       <>
-        <table class="table table-bordered tableLayout">
+        <table className="table table-bordered tableLayout">
           <thead>
             <tr className="tableRowStyle tableHeaderColor">
               <th scope="col">Operation</th>
@@ -583,7 +597,7 @@ export default function DecisionTab(props) {
   const decsHistoryData = () => {
     return (
       <>
-        <table class="table table-bordered tableLayout">
+        <table className="table table-bordered tableLayout">
           <thead>
             <tr className="tableRowStyle tableHeaderColor">
               <th scope="col">User Name</th>
@@ -672,7 +686,7 @@ export default function DecisionTab(props) {
                 ) : (
                   <td>
                     {"organizationName" in data &&
-                      data.organizationName.value !== undefined
+                    data.organizationName.value !== undefined
                       ? data.organizationName.value
                       : data.organizationName}
                   </td>
@@ -680,7 +694,7 @@ export default function DecisionTab(props) {
 
                 <td>
                   {"createdDateTime" in data &&
-                    data.createdDateTime.value !== undefined
+                  data.createdDateTime.value !== undefined
                     ? formatDecHistDate(data.createdDateTime.value)
                     : formatDecHistDate(data.createdDateTime)}
                 </td>
@@ -722,7 +736,7 @@ export default function DecisionTab(props) {
         ? 1
         : b.uploadedDateTime < a.uploadedDateTime
           ? -1
-          : 0
+          : 0,
     );
     //filtering results by documentType and fetching result of each documentType
 
@@ -770,20 +784,18 @@ export default function DecisionTab(props) {
     // }
 
     selectJson.docOptions =
-        masterAngDocumentSelector.length === 0
+      masterAngDocumentSelector.length === 0
         ? []
         : masterAngDocumentSelector[0];
 
     selectJson["docOptions"]
-      .filter(
-        (data) => data.WORKSTEP_NAME.trim() == stageName.trim()
-      ).map((val) => {
+      .filter((data) => data.WORKSTEP_NAME.trim() == stageName.trim())
+      .map((val) => {
         documentNames.push({
           value: val.DOCUMENT_NAME,
-          label: val.DOCUMENT_NAME
+          label: val.DOCUMENT_NAME,
         });
-      }
-      );
+      });
 
     return documentNames;
   };
@@ -830,7 +842,10 @@ export default function DecisionTab(props) {
                         ...provided,
                         fontWeight: "lighter",
                       }),
-                      singleValue: (styles) => ({ ...styles, textAlign: 'left' }),
+                      singleValue: (styles) => ({
+                        ...styles,
+                        textAlign: "left",
+                      }),
                     }}
                     // value={(('documentType' in data) && (data.documentType.value !== undefined)) ? (convertToCase(data.documentType.value)) : (convertToCase(data.documentType))}
                     //value={data.documentType}
@@ -852,8 +867,8 @@ export default function DecisionTab(props) {
               <td>{data.sno === undefined ? "Manual" : data.source}</td>
               <td>
                 {data.documentType !== undefined &&
-                  data.documentType === "Other Documents" &&
-                  data.documentName !== undefined ? (
+                data.documentType === "Other Documents" &&
+                data.documentName !== undefined ? (
                   ""
                 ) : (
                   <img
@@ -863,7 +878,6 @@ export default function DecisionTab(props) {
                     alt="..."
                     style={{ height: "30px", background: "inherit" }}
                     onClick={() => handleModalShowHide(index, true)}
-                   
                   ></img>
                 )}
               </td>
@@ -927,7 +941,7 @@ export default function DecisionTab(props) {
     <>
       <Modal
         show={showLoader}
-        onHide={() => { }}
+        onHide={() => {}}
         backdrop="static"
         keyboard={false}
         size="sm"
@@ -945,8 +959,8 @@ export default function DecisionTab(props) {
             {
               // (flowId == 1 &&
               prop.state.stageName !== undefined &&
-                (prop.state.stageName == "Network" ||
-                  prop.state.stageName == "Cred Specialist") ? (
+              (prop.state.stageName == "Network" ||
+                prop.state.stageName == "Cred Specialist") ? (
                 <div className="accordion-item disableElements">
                   <h2
                     className="accordion-header"
@@ -970,7 +984,7 @@ export default function DecisionTab(props) {
                   >
                     <div className="accordion-body">
                       <table
-                        class="table table-bordered tableLayout"
+                        className="table table-bordered tableLayout"
                         style={{ textAlign: "center" }}
                       >
                         <thead>
@@ -988,7 +1002,7 @@ export default function DecisionTab(props) {
 
                             {prop.state.formNames.toLowerCase() ===
                               "add a provider" ||
-                              prop.state.formNames.toLowerCase() ===
+                            prop.state.formNames.toLowerCase() ===
                               "add a provider" ? (
                               <th style={{ width: "19%" }} scope="col">
                                 Legal Entity Name
@@ -998,7 +1012,7 @@ export default function DecisionTab(props) {
                             )}
                             {prop.state.formNames.toLowerCase() ===
                               "provider contracting" ||
-                              prop.state.formNames.toLowerCase() ===
+                            prop.state.formNames.toLowerCase() ===
                               "facility/ancillary/health systems contracting" ? (
                               <th style={{ width: "19%" }} scope="col">
                                 Legal Entity Name
@@ -1008,7 +1022,7 @@ export default function DecisionTab(props) {
                             )}
                             {prop.state.formNames.toLowerCase() ===
                               "add a facility" ||
-                              prop.state.formNames.toLowerCase() ===
+                            prop.state.formNames.toLowerCase() ===
                               "add an ancillary" ? (
                               <th style={{ width: "19%" }} scope="col">
                                 DBA Name
@@ -1016,10 +1030,8 @@ export default function DecisionTab(props) {
                             ) : (
                               ""
                             )}
-                            {prop.state.formNames.toLowerCase() ===
-                              "appeals" ||
-                              prop.state.formNames.toLowerCase() ===
-                              "appeals" ? (
+                            {prop.state.formNames.toLowerCase() === "appeals" ||
+                            prop.state.formNames.toLowerCase() === "appeals" ? (
                               <th style={{ width: "19%" }} scope="col">
                                 DBA Name
                               </th>
@@ -1105,8 +1117,8 @@ export default function DecisionTab(props) {
             }
 
             {flowId == 1 &&
-              prop.state.stageName !== undefined &&
-              prop.state.stageName !== "Pending Provider" ? (
+            prop.state.stageName !== undefined &&
+            prop.state.stageName !== "Pending Provider" ? (
               <div className="accordion-item disableElements">
                 <h2
                   className="accordion-header"
@@ -1130,8 +1142,8 @@ export default function DecisionTab(props) {
                 >
                   <div className="accordion-body">
                     {flowId == 1 &&
-                      prop.state.stageName !== undefined &&
-                      prop.state.stageName === "Network" ? (
+                    prop.state.stageName !== undefined &&
+                    prop.state.stageName === "Network" ? (
                       <div className="row my-2">
                         <div className="col-sm mx-1">
                           <button
@@ -1162,8 +1174,8 @@ export default function DecisionTab(props) {
                       <div />
                     )}
                     {flowId == 1 &&
-                      prop.state.stageName !== undefined &&
-                      prop.state.stageName !== "Network" ? (
+                    prop.state.stageName !== undefined &&
+                    prop.state.stageName !== "Network" ? (
                       <div>
                         <div className="row my-2">
                           {/* <div className="col-sm mx-1">
@@ -1304,7 +1316,7 @@ export default function DecisionTab(props) {
                       />
                     </div>
                   </div> */}
-                  
+
                   {/* <div className="row my-2">
                     <div className="col-xs-12">
                       <label>Case Notes *:</label>
@@ -1318,9 +1330,7 @@ export default function DecisionTab(props) {
                     </div>
                   </div> */}
 
-
-
-<div className="row">
+                  <div className="row">
                     <div className="col-xs-12 col-md-4">
                       <label>Decision</label>
                       <Select
@@ -1346,8 +1356,8 @@ export default function DecisionTab(props) {
                     </div>
 
                     {/* descision reason */}
-                    {
-                      prop.state.formNames == "Appeals" && <div className="col-xs-12 col-md-4">
+                    {prop.state.formNames == "Appeals" && (
+                      <div className="col-xs-12 col-md-4">
                         <label>Decision Reason</label>
                         <Select
                           styles={{
@@ -1364,15 +1374,13 @@ export default function DecisionTab(props) {
                             handleSelectChangeReason(selectValue, event)
                           }
                           options={selectReasonValues}
-
                           // isDisabled={(tabInput.lockStatus==='Y')?true:false}
                           name="decisionReason"
                           ref={decisonReasonRef}
                           id="decisionReasonDropdown"
                         />
                       </div>
-                    }
-
+                    )}
 
                     <div className="col-xs-12 col-md-4">
                       <label>Decision Date</label>
@@ -1386,7 +1394,7 @@ export default function DecisionTab(props) {
                       />
                     </div>
                   </div>
-                    <div className="row my-2">
+                  <div className="row my-2">
                     <div className="col-xs-12">
                       <label>Case Notes:</label>
                       <textarea
@@ -1399,7 +1407,6 @@ export default function DecisionTab(props) {
                         }
                         style={{ width: "100%" }}
                         name="decisionNotes"
-                       
                       />
                     </div>
                   </div>
@@ -1430,7 +1437,7 @@ export default function DecisionTab(props) {
               >
                 <div className="accordion-body">
                   <table
-                    class="table table-bordered tableLayout"
+                    className="table table-bordered tableLayout"
                     style={{ textAlign: "center" }}
                   >
                     <thead>
@@ -1456,7 +1463,6 @@ export default function DecisionTab(props) {
                           Source
                         </th>
                         <th style={{ width: "10%" }} scope="col">
-                        
                           Upload
                         </th>
                         <th style={{ width: "10%" }} scope="col">
@@ -1519,7 +1525,6 @@ export default function DecisionTab(props) {
             uploadFile={uploadFile}
             currIndex={docClickedIndex.current.FileUpload}
             documentData={documentData}
-            
           />
         )}
 

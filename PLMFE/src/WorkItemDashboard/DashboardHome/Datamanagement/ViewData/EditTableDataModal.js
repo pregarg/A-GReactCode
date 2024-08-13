@@ -75,7 +75,7 @@ export default function EditTableModal(show) {
         item.constraint === "NotNull" &&
         (selectedData[columnName] === null ||
           selectedData[columnName] === undefined ||
-          selectedData[columnName] === "")
+          selectedData[columnName] === ""),
     );
   };
   function isInt(dataType) {
@@ -93,7 +93,7 @@ export default function EditTableModal(show) {
     }
   };
   const tdDataReplica = () => {
-    if (!!selectedData) {
+    if (selectedData) {
       return (
         <>
           <div className="container AddProviderLabel AddModalLabel">

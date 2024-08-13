@@ -5,22 +5,18 @@ import Select, { StylesConfig } from "react-select";
 import { useSelector } from "react-redux";
 import FileUpload from "../../WorkItemDashboard/DashboardFileUpload/FileUpload";
 import useUpdateDecision from "../CustomHooks/useUpdateDecision";
-import useSwalWrapper from "../../Components/SweetAlearts/hooks"
+import useSwalWrapper from "../../Components/SweetAlearts/hooks";
 import { useAxios } from "../../api/axios.hook";
 import DocumentViewer from "../../Components/CommonComponents/DocumentViewer";
 
-
-
 export default function DocumentSection(prop) {
-
-  
   const docClickedIndex = useRef();
 
   const selectRef = useRef(null);
   const Swal = useSwalWrapper();
   const { fileUpDownAxios } = useAxios();
   const { printConsole, getRowNumberForGrid } = useUpdateDecision();
-  
+
   const [docViewDialog, setDocViewDialog] = useState({
     open: false,
     url: "",
@@ -29,7 +25,6 @@ export default function DocumentSection(prop) {
   });
 
   let restrictedFileTypes = ["xls", "eps", "sql", "xlsx", "docx"];
-
 
   // const customStyles: StylesConfig = {
   //   control: (provided: Record<string, unknown>, state: any) => ({
@@ -68,8 +63,10 @@ export default function DocumentSection(prop) {
   // const mastersSelector = useSelector((masters) => masters);
   // console.log("Document Masters Selector: ", mastersSelector);
 
-  const masterAngDocumentSelector = useSelector(state => state?.masterAngDocument);
-   console.log("Document Masters Selector: ", masterAngDocumentSelector);
+  const masterAngDocumentSelector = useSelector(
+    (state) => state?.masterAngDocument,
+  );
+  console.log("Document Masters Selector: ", masterAngDocumentSelector);
 
   const [modalShow, setModalShow] = useState(false);
 
@@ -86,25 +83,23 @@ export default function DocumentSection(prop) {
     //       ? []
     //       : mastersSelector["masterAngDocument"][0];
 
-    
     if (masterAngDocumentSelector) {
       let documentOptions =
-      masterAngDocumentSelector.length === 0
+        masterAngDocumentSelector.length === 0
           ? []
           : masterAngDocumentSelector[0];
-
 
       console.log("Document Section documentOptions: ", documentOptions);
       console.log("Document Section stagename: ", stageName);
       if (documentOptions.length > 0) {
         documentOptions = documentOptions.filter(
-          (elem) => 
-         // elem.WORKSTEP_NAME.trim().toLowerCase() == stageName.trim().toLowerCase()
-          elem.WORKSTEP_NAME.toLowerCase()  == stageName.toLowerCase() 
+          (elem) =>
+            // elem.WORKSTEP_NAME.trim().toLowerCase() == stageName.trim().toLowerCase()
+            elem.WORKSTEP_NAME.toLowerCase() == stageName.toLowerCase(),
         );
         console.log(
           "Document Section documentOptions after filter: ",
-          documentOptions
+          documentOptions,
         );
         let newDocumentValues = [];
         documentOptions.forEach((element) => {
@@ -127,8 +122,6 @@ export default function DocumentSection(prop) {
       }
     }
   }, []);
-  
-  
 
   const handleGridSelectChange = (index, selectedValue, documentName) => {
     //console.log("Inside handleGridSelectChange");
@@ -145,7 +138,7 @@ export default function DocumentSection(prop) {
     //   rowsInput[index][name]
     // );
     setDocumentData(rowsInput);
-    
+
     console.log("documentData handleGridSelectChange", documentData);
   };
 
@@ -156,13 +149,13 @@ export default function DocumentSection(prop) {
     //console.log("Document data file name: ",fileState.selectedFile.name);
     let fileJson = {};
     let selectedFile = null;
-    fileState.forEach(el => {
-      if(el.fileIndex === index){
+    fileState.forEach((el) => {
+      if (el.fileIndex === index) {
         selectedFile = el.selectedFile;
       }
-    })
-    printConsole('Selected file on index: ',selectedFile);
-    if(selectedFile !== null){
+    });
+    printConsole("Selected file on index: ", selectedFile);
+    if (selectedFile !== null) {
       fileJson.fileData = selectedFile;
       fileJson.documentType = paramData[index].documentType.value;
       fileJson.docStatus = "Uploaded";
@@ -171,16 +164,15 @@ export default function DocumentSection(prop) {
         ? (prop.fileDataRef[index] = fileJson)
         : prop.fileDataRef.push(fileJson);
       //prop.fileDataRef.push(fileJson);
-      modifyDocumentValues(fileJson.documentType,'remove');
+      modifyDocumentValues(fileJson.documentType, "remove");
       let docJson = documentData[index];
       docJson.docStatus = "Uploaded";
       docJson.documentName = selectedFile.name;
       documentData[index] = docJson;
       setDocumentData(documentData);
       console.log("fileDataRef Updated: ", prop.fileDataRef);
-      handleModalShowHide(index,false);
-    }
-    else{
+      handleModalShowHide(index, false);
+    } else {
       alert("Please first select document to upload.");
     }
 
@@ -209,67 +201,67 @@ export default function DocumentSection(prop) {
 
   const checkIfDocNameExists = (docName) => {
     let retFlag = false;
-    if(documentNameValues.length > 0){
+    if (documentNameValues.length > 0) {
       documentNameValues.forEach((el) => {
-        if(el.value === docName){
+        if (el.value === docName) {
           retFlag = true;
           return;
         }
-      })
+      });
       return retFlag;
-    }
-    else{
+    } else {
       return false;
     }
-    
-  }
+  };
 
   const modifyDocumentValues = (docValue, operValue) => {
-    console.log("Inside modifyDocumentValues operValue: ",operValue, docValue);
-    if(docValue !== '' && docValue !== 'Other Documents'){
-    let newDocValue = [];
-    if(operValue === 'add'){
-      if(!checkIfDocNameExists(docValue)){
-        newDocValue = [...documentNameValues];
-        const newJson = {};
-        newJson.label = docValue;
-        //console.log('Inside modifyDocumentValues after label push json: ',newJson);
-        newJson.value = docValue;
-        //console.log('Inside modifyDocumentValues before push json: ',newJson);
-        //console.log('Inside modifyDocumentValues before push: ',newDocValue);
-        newDocValue.push(newJson);
-        //console.log('Inside modifyDocumentValues after push: ',newDocValue);
+    console.log("Inside modifyDocumentValues operValue: ", operValue, docValue);
+    if (docValue !== "" && docValue !== "Other Documents") {
+      let newDocValue = [];
+      if (operValue === "add") {
+        if (!checkIfDocNameExists(docValue)) {
+          newDocValue = [...documentNameValues];
+          const newJson = {};
+          newJson.label = docValue;
+          //console.log('Inside modifyDocumentValues after label push json: ',newJson);
+          newJson.value = docValue;
+          //console.log('Inside modifyDocumentValues before push json: ',newJson);
+          //console.log('Inside modifyDocumentValues before push: ',newDocValue);
+          newDocValue.push(newJson);
+          //console.log('Inside modifyDocumentValues after push: ',newDocValue);
+          setDocumentNameValues(newDocValue);
+        }
+      }
+
+      if (operValue === "remove") {
+        newDocValue = documentNameValues.filter(
+          (elem) => elem.value !== docValue,
+        );
         setDocumentNameValues(newDocValue);
       }
-      
     }
-
-    if(operValue === 'remove'){
-      
-      newDocValue = documentNameValues.filter((elem) => elem.value !== docValue);
-      setDocumentNameValues(newDocValue);
-    }
-  }
-  }
-  const handleModalShowHide = (index, flagValue,requestedFrom) => {
+  };
+  const handleModalShowHide = (index, flagValue, requestedFrom) => {
     console.log("Index Value= ", index);
-    if(requestedFrom === 'Close'){
-      setFileState([...fileState,{ selectedFile: null, fileIndex : index }]);
+    if (requestedFrom === "Close") {
+      setFileState([...fileState, { selectedFile: null, fileIndex: index }]);
     }
     let documentName =
       documentData[index]["documentType"] === undefined
         ? ""
         : documentData[index]["documentType"].value;
-    
+
     console.log(
       "Inside Document Section handleModalShowHide documentName: ",
-      documentName
+      documentName,
     );
-    console.log("Inside Document Section handleModalShowHide documentName is Focused: ",selectRef.current)
+    console.log(
+      "Inside Document Section handleModalShowHide documentName is Focused: ",
+      selectRef.current,
+    );
     if (documentName === "") {
       alert("Please select Document Name first");
       selectRef.current.focus();
-      
     } else {
       docClickedIndex.current = index;
       console.log("docClickedIndex.current: ", docClickedIndex.current);
@@ -277,7 +269,6 @@ export default function DocumentSection(prop) {
     }
   };
 
- 
   //   if (evnt.target.files[0] === undefined) {
   //     setFileState([...fileState, { selectedFile: null, fileIndex: index }]);
   //   }
@@ -305,7 +296,7 @@ export default function DocumentSection(prop) {
     if (evnt.target.files[0] === undefined) {
       setFileState([...fileState, { selectedFile: null, fileIndex: index }]);
     }
-  
+
     if (evnt.target.files[0] !== undefined) {
       if (
         documentData[index].documentType === "Draft Contract" ||
@@ -318,15 +309,11 @@ export default function DocumentSection(prop) {
           return;
         }
       }
-  
+
       const file = evnt.target.files[0];
       const objectUrl = URL.createObjectURL(file);
-      console.log("object url--->", objectUrl)
-      setFileState([
-        ...fileState,
-        { selectedFile: file, fileIndex: index },
-      ]);
-  
+      console.log("object url--->", objectUrl);
+      setFileState([...fileState, { selectedFile: file, fileIndex: index }]);
 
       const newDocumentData = [...documentData];
       newDocumentData[index] = {
@@ -337,27 +324,27 @@ export default function DocumentSection(prop) {
       setDocumentData(newDocumentData);
     }
   };
-  
 
   const addTableRows = () => {
     const rowsInput = {};
-   // rowsInput.rowNumber = documentData.length + 1;
-   rowsInput.rowNumber = getRowNumberForGrid(documentData);
+    // rowsInput.rowNumber = documentData.length + 1;
+    rowsInput.rowNumber = getRowNumberForGrid(documentData);
     rowsInput.docStatus = "Pending";
     setDocumentData([...documentData, rowsInput]);
     console.log("Last added row: ", documentData[documentData.length - 1]);
   };
 
-
-
   const deleteTableRows = (index) => {
     setFileState([]);
     const tempRows = [...documentData];
-    console.log("Inside delete table rows: ",tempRows[index]["documentType"]);
-    const documentName = (tempRows[index]["documentType"]!==undefined)?tempRows[index]["documentType"].value:'';
-    modifyDocumentValues(documentName,'add');
+    console.log("Inside delete table rows: ", tempRows[index]["documentType"]);
+    const documentName =
+      tempRows[index]["documentType"] !== undefined
+        ? tempRows[index]["documentType"].value
+        : "";
+    modifyDocumentValues(documentName, "add");
     tempRows.splice(index, 1);
-    prop.fileDataRef.splice(index,1);
+    prop.fileDataRef.splice(index, 1);
     setDocumentData(tempRows);
   };
   const handleSelectItemPos = () => {
@@ -368,7 +355,7 @@ export default function DocumentSection(prop) {
   };
   const documentsData = () => {
     console.log("documentData: ", documentData);
-  
+
     if (documentData.length > 0) {
       return documentData.map((data, index) => (
         <tr key={index}>
@@ -388,7 +375,7 @@ export default function DocumentSection(prop) {
             )}
           </td>
           <td className="tableData">
-            {data.docStatus !== 'Uploaded' ? (
+            {data.docStatus !== "Uploaded" ? (
               <Select
                 value={data.documentType}
                 styles={customStyles}
@@ -433,7 +420,7 @@ export default function DocumentSection(prop) {
                     open: true,
                     url: data.fileUrl,
                     fileName: data.documentName,
-                    fileType: data.documentName.split('.').pop(),
+                    fileType: data.documentName.split(".").pop(),
                   });
                 }}
               ></i>
@@ -443,8 +430,7 @@ export default function DocumentSection(prop) {
       ));
     }
   };
-  
- 
+
   return (
     <>
       <div className="DocumentSection">
@@ -473,19 +459,16 @@ export default function DocumentSection(prop) {
               >
                 <thead>
                   <tr>
-                    
-                      <th style={{ width: "6%" }}>
-                        <button
-                          className="addBtn"
-                          
-                          onClick={() => {
-                            addTableRows();
-                          }}
-                        >
-                          <i className="fa fa-plus"></i>
-                        </button>
-                      </th>
-                    
+                    <th style={{ width: "6%" }}>
+                      <button
+                        className="addBtn"
+                        onClick={() => {
+                          addTableRows();
+                        }}
+                      >
+                        <i className="fa fa-plus"></i>
+                      </button>
+                    </th>
 
                     <th style={{ width: "20%" }} scope="col">
                       Document Name
@@ -498,8 +481,8 @@ export default function DocumentSection(prop) {
                       Status
                     </th>
                     <th style={{ width: "10%" }} scope="col">
-                          View
-                        </th>
+                      View
+                    </th>
                   </tr>
                 </thead>
                 <tbody>{documentsData()}</tbody>

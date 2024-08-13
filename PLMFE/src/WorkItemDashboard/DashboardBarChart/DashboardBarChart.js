@@ -30,7 +30,7 @@ export default function DashboardBarChart(prop) {
           dataPointSelection: function (chart, w, e) {
             const clickedIndex = e.dataPointIndex;
             console.log("Clicked on chart datapointindex: ", clickedIndex);
-            console.log("pravgriddata",prop)
+            console.log("pravgriddata", prop);
             if (clickedIndex !== -1) {
               const stageName = prop.gridData[clickedIndex]["STAGENAME"];
               const flowId = prop.gridData[clickedIndex]["FLOWID"];

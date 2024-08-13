@@ -43,7 +43,8 @@ export default function DocumentVersion(docProps) {
         //printTable(docArr);
         // const columnNames =
         //   "Document Type~documentType,Document Name~documentName,Version~version";
-          const columnNames = 'Document Name~documentType,Uploaded FileName~documentName,Version~version';
+        const columnNames =
+          "Document Name~documentType,Uploaded FileName~documentName,Version~version";
         if (docArr.length > 0) {
           return (
             <>
@@ -63,7 +64,7 @@ export default function DocumentVersion(docProps) {
   const sortArray = (arr) => {
     const sortedAsc = arr.sort(
       (objA, objB) =>
-        Number(objA.uploadedDateTime) - Number(objB.uploadedDateTime)
+        Number(objA.uploadedDateTime) - Number(objB.uploadedDateTime),
     );
     return sortedAsc;
   };

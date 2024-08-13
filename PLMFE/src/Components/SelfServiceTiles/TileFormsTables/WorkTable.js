@@ -85,7 +85,7 @@ export default function WorkTable({
                       index,
                       selectValue,
                       "startDate",
-                      WorkTable.displayName
+                      WorkTable.displayName,
                     )
                   }
                   peekNextMonth
@@ -118,7 +118,7 @@ export default function WorkTable({
                       index,
                       selectValue,
                       "endDate",
-                      WorkTable.displayName
+                      WorkTable.displayName,
                     )
                   }
                   peekNextMonth
@@ -151,7 +151,7 @@ export default function WorkTable({
                     index,
                     selectValue,
                     event,
-                    WorkTable.displayName
+                    WorkTable.displayName,
                   )
                 }
                 options={currentEmpOptions}
@@ -216,7 +216,7 @@ export default function WorkTable({
                       deleteTableRows(
                         index,
                         WorkTable.displayName,
-                        "Force Delete"
+                        "Force Delete",
                       );
                       handleOperationValue("Force Delete");
                       decreaseDataIndex();
@@ -300,7 +300,7 @@ export default function WorkTable({
         console.log(
           "Inside formatDate typeof",
           Date.parse(dateObj),
-          localDate.getDate()
+          localDate.getDate(),
         );
         dateObj = localDate;
       } else if (typeof dateObj === "number") {

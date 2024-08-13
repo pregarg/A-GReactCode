@@ -3,7 +3,7 @@ export const selectStyle = {
     ...provided,
     height: "58px",
     fontWeight: 300,
-    color: 'hsl(0, 0%, 50%)'
+    color: "hsl(0, 0%, 50%)",
   }),
   menuList: (provided) => ({
     ...provided,
@@ -18,23 +18,31 @@ export const selectStyle = {
     marginTop: 0,
   }),
   valueContainer: (provided, state) => {
-    if (state.getValue()?.length && state.getValue()[0].label && state.getValue()[0].value) {
+    if (
+      state.getValue()?.length &&
+      state.getValue()[0].label &&
+      state.getValue()[0].value
+    ) {
       return {
         ...provided,
         position: "relative",
         top: 8,
         overflow: "visible",
         fontWeight: 300,
-        color: "hsl(0deg 0% 57.65%)"
-      }
+        color: "hsl(0deg 0% 57.65%)",
+      };
     }
     return {
       ...provided,
       overflow: "visible",
-    }
+    };
   },
   placeholder: (provided, state) => {
-    if (state.getValue()?.length && state.getValue()[0].label && state.getValue()[0].value) {
+    if (
+      state.getValue()?.length &&
+      state.getValue()[0].label &&
+      state.getValue()[0].value
+    ) {
       return {
         ...provided,
         position: "absolute",
@@ -42,16 +50,16 @@ export const selectStyle = {
         fontSize: 12,
         color: "hsl(0deg 0% 57.65%)",
         fontWeight: 300,
-        fontFamily: 'Open Sans, sans-serif'
-    };
+        fontFamily: "Open Sans, sans-serif",
+      };
     }
     return {
       ...provided,
       position: "absolute",
-      left: 0
+      left: 0,
     };
   },
-  singleValue: (styles) => ({ ...styles, textAlign: 'left' }),
+  singleValue: (styles) => ({ ...styles, textAlign: "left" }),
   option: (provided, state) => ({
     ...provided,
     textAlign: "left",

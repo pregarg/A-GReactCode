@@ -135,7 +135,7 @@ export default function SpecialityTable({
   const tdDataReplica = (index) => {
     console.log(
       "Inside specialityTableRowsData tdDataReplica: ",
-      specialityTableRowsData
+      specialityTableRowsData,
     );
     //if (specialityTableRowsData!==undefined && specialityTableRowsData.length > 0) {
     const data = getGridJson(gridFieldTempState);
@@ -146,7 +146,7 @@ export default function SpecialityTable({
       specialtyOptions.push({
         value: val["speciality"],
         label: val["speciality"],
-      })
+      }),
     );
     //selectJson['taxonomyOptions'].map(val => taxonomyDescOptions.push({value : val.taxonomycode, label: val.taxonomydesc}))
     // axios.all(endpoints.map((endpoint) => axios.get(endpoint))).then((res) => {
@@ -178,7 +178,7 @@ export default function SpecialityTable({
                     index,
                     selectValue,
                     event,
-                    SpecialityTable.displayName
+                    SpecialityTable.displayName,
                   );
                   handleFieldBlur("speciality", selectValue?.value);
                 }}
@@ -211,7 +211,7 @@ export default function SpecialityTable({
                     index,
                     selectValue,
                     event,
-                    SpecialityTable.displayName
+                    SpecialityTable.displayName,
                   )
                 }
                 options={
@@ -242,7 +242,7 @@ export default function SpecialityTable({
                     index,
                     selectValue,
                     event,
-                    SpecialityTable.displayName
+                    SpecialityTable.displayName,
                   );
                   handleFieldBlur("specPrimary", selectValue?.value);
                 }}
@@ -275,7 +275,7 @@ export default function SpecialityTable({
                     index,
                     selectValue,
                     event,
-                    SpecialityTable.displayName
+                    SpecialityTable.displayName,
                   );
                   handleFieldBlur("pcp", selectValue?.value);
                 }}
@@ -310,7 +310,7 @@ export default function SpecialityTable({
                   handleGridFieldChange(
                     index,
                     evnt,
-                    SpecialityTable.displayName
+                    SpecialityTable.displayName,
                   )
                 }
                 name="hsdCode"
@@ -336,7 +336,7 @@ export default function SpecialityTable({
                   handleGridFieldChange(
                     index,
                     evnt,
-                    SpecialityTable.displayName
+                    SpecialityTable.displayName,
                   );
                   handleFieldBlur("taxonomyCode", evnt?.target?.value);
                 }}
@@ -381,7 +381,7 @@ export default function SpecialityTable({
                   handleGridFieldChange(
                     index,
                     evnt,
-                    SpecialityTable.displayName
+                    SpecialityTable.displayName,
                   )
                 }
                 name="taxonomyDesc"
@@ -414,7 +414,7 @@ export default function SpecialityTable({
                   handleGridFieldChange(
                     index,
                     evnt,
-                    SpecialityTable.displayName
+                    SpecialityTable.displayName,
                   )
                 }
                 name="taxonomyGrp"
@@ -441,7 +441,7 @@ export default function SpecialityTable({
                     index,
                     selectValue,
                     event,
-                    SpecialityTable.displayName
+                    SpecialityTable.displayName,
                   )
                 }
                 options={boardCertiOptions}
@@ -485,7 +485,7 @@ export default function SpecialityTable({
                       deleteTableRows(
                         index,
                         SpecialityTable.displayName,
-                        "Force Delete"
+                        "Force Delete",
                       );
                       handleOperationValue("Force Delete");
                       decreaseDataIndex();

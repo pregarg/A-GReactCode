@@ -221,8 +221,8 @@ export default function UserManagementTable({
         params.row.userType === "A"
           ? "Admin User"
           : params.row.userType === "P"
-          ? "Portal User"
-          : "Normal User",
+            ? "Portal User"
+            : "Normal User",
     },
     {
       field: "mailId",

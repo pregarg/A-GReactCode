@@ -1,8 +1,8 @@
-import {useEffect, useRef, useState} from "react";
+import { useEffect, useRef, useState } from "react";
 import * as Yup from "yup";
-import {useLocation, useNavigate} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
-import {useAxios} from "../../../api/axios.hook";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useAxios } from "../../../api/axios.hook";
 import useGetDBTables from "../../CustomHooks/useGetDBTables";
 import useUpdateDecision from "../../CustomHooks/useUpdateDecision";
 import _ from "lodash";
@@ -12,7 +12,7 @@ export const useCaseHeader = () => {
   const location = useLocation();
   const [hasSubmitError, setHasSubmitError] = useState(true);
   const [shouldShowSubmitError, setShowSubmitError] = useState(false);
-  const {fileUpDownAxios} = useAxios();
+  const { fileUpDownAxios } = useAxios();
   let documentSectionDataRef = useRef([]);
   const authSelector = useSelector((state) => state.auth);
 
@@ -27,10 +27,9 @@ export const useCaseHeader = () => {
     Internal_Due_Date: "",
     Subcase_ID: "",
     White_Glove_Indicator: "",
-    caseNumber: ""
+    caseNumber: "",
   });
 
- 
   const [caseTimelines, setCaseTimelines] = useState({
     caseNumber: "",
     Acknowledgment_Timely: "",
@@ -63,7 +62,7 @@ export const useCaseHeader = () => {
     Product_Type: "",
     RedirectCaseS: "",
     Research_Type: "",
-    Review_Type: ""
+    Review_Type: "",
   });
   const [claimInformation, setClaimInformation] = useState({
     caseNumber: "",
@@ -131,37 +130,64 @@ export const useCaseHeader = () => {
     Expedited_Denied: "",
     Expedited_Upgrade_Date_Time: undefined,
     Expedited_Denied_Date: undefined,
-    Decision_Letter_Date: undefined
+    Decision_Letter_Date: undefined,
   });
   const [providerInformationGrid, setProviderInformationGrid] = useState([]);
-  const [authorizationInformationGrid, setAuthorizationInformationGrid] = useState([]);
+  const [authorizationInformationGrid, setAuthorizationInformationGrid] =
+    useState([]);
 
   const conditionalActivateOnStage = (stages, errorMessage) =>
-      stages.includes(location.state?.stageName?.toLowerCase())
-          ? Yup.string().notRequired()
-          : Yup.string().required(errorMessage)
-  const conditionalString = (dependsOn, valueEquals, validationMsg) => (
-      Yup.string().when(dependsOn, {
-        is: value => value === valueEquals,
-        then: schema => schema.required(validationMsg),
-        otherwise: schema => schema.notRequired()
-      })
-  )
+    stages.includes(location.state?.stageName?.toLowerCase())
+      ? Yup.string().notRequired()
+      : Yup.string().required(errorMessage);
+  const conditionalString = (dependsOn, valueEquals, validationMsg) =>
+    Yup.string().when(dependsOn, {
+      is: (value) => value === valueEquals,
+      then: (schema) => schema.required(validationMsg),
+      otherwise: (schema) => schema.notRequired(),
+    });
 
-  const pair1 = ["intake", "acknowledge", "re-direct review", "documents needed"];
-  const pair2 = ["intake", "acknowledge", "re-direct review", "documents needed", "research"];
+  const pair1 = [
+    "intake",
+    "acknowledge",
+    "re-direct review",
+    "documents needed",
+  ];
+  const pair2 = [
+    "intake",
+    "acknowledge",
+    "re-direct review",
+    "documents needed",
+    "research",
+  ];
 
   const caseTimelinesValidationSchema = Yup.object().shape({
-    Case_Filing_Method: Yup.string().required("Case Filing Method is mandatory"),
-    Acknowledgment_Timely: Yup.string().required("Case Acknowledgment Timely is mandatory"),
-    Case_in_Compliance: Yup.string().required("Case in Compliance is mandatory"),
-    Out_of_Compliance_Reason: Yup.string().required("Out of Compliance Reason is mandatory"),
-    Case_Received_Date: Yup.date().required("Case Received Date is mandatory").max(new Date(), "Case Received  Date cannot be in future"),
-    AOR_Received_Date: Yup.date().required("AOR Received Date is mandatory").max(new Date(), "AOR Received Date cannot be in future"),
-    WOL_Received_Date: Yup.date().required("WOL Received Date is mandatory").max(new Date(), "WOL Received Date cannot be in future")
+    Case_Filing_Method: Yup.string().required(
+      "Case Filing Method is mandatory",
+    ),
+    Acknowledgment_Timely: Yup.string().required(
+      "Case Acknowledgment Timely is mandatory",
+    ),
+    Case_in_Compliance: Yup.string().required(
+      "Case in Compliance is mandatory",
+    ),
+    Out_of_Compliance_Reason: Yup.string().required(
+      "Out of Compliance Reason is mandatory",
+    ),
+    Case_Received_Date: Yup.date()
+      .required("Case Received Date is mandatory")
+      .max(new Date(), "Case Received  Date cannot be in future"),
+    AOR_Received_Date: Yup.date()
+      .required("AOR Received Date is mandatory")
+      .max(new Date(), "AOR Received Date cannot be in future"),
+    WOL_Received_Date: Yup.date()
+      .required("WOL Received Date is mandatory")
+      .max(new Date(), "WOL Received Date cannot be in future"),
   });
   const caseInformationValidationSchema = Yup.object().shape({
-    Line_of_Business_LOB: Yup.string().required("Line of Business is mandatory"),
+    Line_of_Business_LOB: Yup.string().required(
+      "Line of Business is mandatory",
+    ),
     LOB_Description: Yup.string().required("LOB Description is mandatory"),
     Product_State: Yup.string().required("Product State is mandatory"),
     Product: Yup.string().required("Product is mandatory"),
@@ -171,19 +197,54 @@ export const useCaseHeader = () => {
     Review_Type: Yup.string().required("Review Type is mandatory"),
   });
   const claimInformationValidationSchema = Yup.object().shape({
-    Payment_Method: conditionalActivateOnStage(pair1,"Payment Method is mandatory"),
-    Claim_Decision: conditionalActivateOnStage(pair1, "Claim Decision is mandatory"),
-    Service_Type: conditionalActivateOnStage(pair2, "Service Type is mandatory"),
-    Reason_Text: conditionalString('Processing_Status', 'NOT ADJUSTED', "Reason Text is mandatory"),
-    Decision_Reason: conditionalActivateOnStage(pair1, "Decision Reason is mandatory"),
-    Payment_Number: conditionalActivateOnStage(pair1, "Payment Number is mandatory"),
-    Effectuation_Notes: conditionalActivateOnStage(pair1, "Effectuation Notes is mandatory"),
-    Claim_Adjusted_Date: conditionalActivateOnStage(pair1, "Claim Adjusted Date is mandatory"),
-    Payment_Mail_Date_Postmark: Yup.date().required("Payment Mail Date Postmark is mandatory"),
+    Payment_Method: conditionalActivateOnStage(
+      pair1,
+      "Payment Method is mandatory",
+    ),
+    Claim_Decision: conditionalActivateOnStage(
+      pair1,
+      "Claim Decision is mandatory",
+    ),
+    Service_Type: conditionalActivateOnStage(
+      pair2,
+      "Service Type is mandatory",
+    ),
+    Reason_Text: conditionalString(
+      "Processing_Status",
+      "NOT ADJUSTED",
+      "Reason Text is mandatory",
+    ),
+    Decision_Reason: conditionalActivateOnStage(
+      pair1,
+      "Decision Reason is mandatory",
+    ),
+    Payment_Number: conditionalActivateOnStage(
+      pair1,
+      "Payment Number is mandatory",
+    ),
+    Effectuation_Notes: conditionalActivateOnStage(
+      pair1,
+      "Effectuation Notes is mandatory",
+    ),
+    Claim_Adjusted_Date: conditionalActivateOnStage(
+      pair1,
+      "Claim Adjusted Date is mandatory",
+    ),
+    Payment_Mail_Date_Postmark: Yup.date().required(
+      "Payment Mail Date Postmark is mandatory",
+    ),
   });
   const memberInformationValidationSchema = Yup.object().shape({
-    Email_ID: conditionalString('Communication_Preference', 'EMAIL', "Email ID is mandatory"),
-    Fax_Number: conditionalString('Communication_Preference', 'FAX', "Fax Number is mandatory"),
+    Email_ID: conditionalString(
+      "Communication_Preference",
+      "EMAIL",
+      "Email ID is mandatory",
+    ),
+    Fax_Number: conditionalString(
+      "Communication_Preference",
+      "FAX",
+      "Fax Number is mandatory",
+    ),
   });
   const expeditedRequestValidationSchema = Yup.object().shape({});
   const providerInformationValidationSchema = Yup.object().shape({
@@ -205,67 +266,77 @@ export const useCaseHeader = () => {
   const [memberInformationErrors, setMemberInformationErrors] = useState([]);
   const [expeditedRequestErrors, setExpeditedRequestErrors] = useState([]);
 
-  
-
   const validateSync = (schema, data, setErrors) => {
     try {
-      schema.validateSync(data, {abortEarly: false});
+      setErrors([]);
+      schema.validateSync(data, { abortEarly: false });
     } catch (errors) {
-      setErrors(errors.inner.reduce((acc, error) => {
+      const validationErrors = errors.inner.reduce((acc, error) => {
         acc[error.path] = error.message;
         return acc;
-      }, {}));
+      }, {});
+      setErrors(validationErrors);
+      console.log('errors were encountered while processing schema', validationErrors);
     }
-  }
+  };
 
   useEffect(() => {
-    /*Promise.all([
-      caseTimelinesValidationSchema.validate(caseTimelines, {abortEarly: false}),
-      caseInformationValidationSchema.validate(caseInformation),
-      claimInformationValidationSchema.validate(claimInformation),
-      memberInformationValidationSchema.validate(memberInformation),
-      expeditedRequestValidationSchema.validate(expeditedRequest),
-      new Promise((resolve, reject) => {
-        if (providerInformationGrid.length > 0) resolve(true);
-        else reject(true);
-      }),
-      ...providerInformationGrid.map(e => providerInformationValidationSchema.validate(e)),
-      new Promise((resolve, reject) => {
-        if (authorizationInformationGrid.length > 0) resolve(true);
-        else reject(true);
-      }),
-      ...authorizationInformationGrid.map(e => authorizationInformationValidationSchema.validate(e))
-    ]).then(() => setHasSubmitError(false)).catch((err) => setHasSubmitError(true));*/
-
-    validateSync(caseTimelinesValidationSchema, caseTimelines, setCaseTimelinesErrors);
-    validateSync(caseInformationValidationSchema, caseInformation, setCaseInformationErrors);
-    validateSync(claimInformationValidationSchema, claimInformation, setClaimInformationErrors);
-    validateSync(memberInformationValidationSchema, memberInformation, setMemberInformationErrors);
-    validateSync(expeditedRequestValidationSchema, expeditedRequest, setExpeditedRequestErrors);
-
-  }, [caseTimelines, caseInformation, claimInformation, memberInformation,
-    expeditedRequest, providerInformationGrid, authorizationInformationGrid]);
+    validateSync(
+      caseTimelinesValidationSchema,
+      caseTimelines,
+      setCaseTimelinesErrors,
+    );
+    validateSync(
+      caseInformationValidationSchema,
+      caseInformation,
+      setCaseInformationErrors,
+    );
+    validateSync(
+      claimInformationValidationSchema,
+      claimInformation,
+      setClaimInformationErrors,
+    );
+    validateSync(
+      memberInformationValidationSchema,
+      memberInformation,
+      setMemberInformationErrors,
+    );
+    validateSync(
+      expeditedRequestValidationSchema,
+      expeditedRequest,
+      setExpeditedRequestErrors,
+    );
+  }, [
+    caseTimelines,
+    caseInformation,
+    claimInformation,
+    memberInformation,
+    expeditedRequest,
+    providerInformationGrid,
+    authorizationInformationGrid,
+  ]);
 
   useEffect(() => {
     setHasSubmitError(
-        Object.keys({
-          ...caseTimelinesErrors,
-          ...caseInformationErrors,
-          ...claimInformationErrors,
-          ...memberInformationErrors,
-          ...expeditedRequestErrors
-        }).length > 0);
+      Object.keys({
+        ...caseTimelinesErrors,
+        ...caseInformationErrors,
+        ...claimInformationErrors,
+        ...memberInformationErrors,
+        ...expeditedRequestErrors,
+      }).length > 0,
+    );
   }, [
     caseTimelinesErrors,
     caseInformationErrors,
     claimInformationErrors,
     memberInformationErrors,
-    expeditedRequestErrors
+    expeditedRequestErrors,
   ]);
   const [disableSaveAndExit, setDisableSaveAndExit] = useState(true);
   const [authorizationInformation, setAuthorizationInformation] = useState({
     Authorization_Decision: "",
-    Authorization_Decision_Reason: ""
+    Authorization_Decision_Reason: "",
   });
   // const [decisionTab, setDecisionTab] = useState({
   //   Decision: "",
@@ -277,9 +348,7 @@ export const useCaseHeader = () => {
   //   setDisableSaveAndExit(!decisionTab?.Decision_Case_Notes?.trim())
   // }, [decisionTab]);
 
-  
   const submitData = async () => {
-
     if (hasSubmitError) {
       setShowSubmitError(true);
       return;
@@ -290,22 +359,30 @@ export const useCaseHeader = () => {
       ...caseHeader,
       Case_Owner: currentUser,
       Case_Received_Date: receivedDate,
-      Case_Validation: "Valid"
+      Case_Validation: "Valid",
     };
     let apiJson = {};
 
     const angClaimInformationGrid = getGridDataValues(claimInformationGrid);
-    const angProviderInformationGrid = getGridDataValues(providerInformationGrid);
-    const angRepresentativeInformationGrid = getGridDataValues(representativeInformationGrid);
-    const angAuthorizationInformationGrid = getGridDataValues(authorizationInformationGrid);
+    const angProviderInformationGrid = getGridDataValues(
+      providerInformationGrid,
+    );
+    const angRepresentativeInformationGrid = getGridDataValues(
+      representativeInformationGrid,
+    );
+    const angAuthorizationInformationGrid = getGridDataValues(
+      authorizationInformationGrid,
+    );
 
-    const angCaseHeader = trimJsonValues({...updatedCaseHeader});
-    const angCaseTimelines = trimJsonValues({...caseTimelines});
-    const angCaseInformation = trimJsonValues({...caseInformation});
-    const angClaimInformation = trimJsonValues({...claimInformation});
-    const angMemberInformation = trimJsonValues({...memberInformation});
-    const angAuthorizationInformation = trimJsonValues({...authorizationInformation});
-    const angExpeditedRequest = trimJsonValues({...expeditedRequest});
+    const angCaseHeader = trimJsonValues({ ...updatedCaseHeader });
+    const angCaseTimelines = trimJsonValues({ ...caseTimelines });
+    const angCaseInformation = trimJsonValues({ ...caseInformation });
+    const angClaimInformation = trimJsonValues({ ...claimInformation });
+    const angMemberInformation = trimJsonValues({ ...memberInformation });
+    const angAuthorizationInformation = trimJsonValues({
+      ...authorizationInformation,
+    });
+    const angExpeditedRequest = trimJsonValues({ ...expeditedRequest });
 
     apiJson["ANG_Case_Header"] = angCaseHeader;
     apiJson["ANG_Case_Timelines"] = angCaseTimelines;
@@ -314,16 +391,18 @@ export const useCaseHeader = () => {
     apiJson["ANG_Claim_Information_Grid"] = angClaimInformationGrid;
     apiJson["ANG_Provider_Information_Grid"] = angProviderInformationGrid;
     apiJson["ANG_Member_Information"] = angMemberInformation;
-    apiJson["ANG_Representative_Information_Grid"] = angRepresentativeInformationGrid;
+    apiJson["ANG_Representative_Information_Grid"] =
+      angRepresentativeInformationGrid;
     apiJson["ANG_Authorization_Information"] = angAuthorizationInformation;
-    apiJson["ANG_Authorization_Information_Grid"] = angAuthorizationInformationGrid;
+    apiJson["ANG_Authorization_Information_Grid"] =
+      angAuthorizationInformationGrid;
     apiJson["ANG_Expedited_Request"] = angExpeditedRequest;
 
     let mainCaseReqBody = {
       ...mainCaseDetails,
       caseStatus: "Open",
       lockStatus: "N",
-    }
+    };
 
     const flowId = caseHeaderConfigData["FlowId"];
     const stageName = caseHeaderConfigData["StageName"];
@@ -331,7 +410,7 @@ export const useCaseHeader = () => {
     apiJson["MainCaseTable"] = mainCaseReqBody;
 
     const response = await customAxios.post("/generic/create", apiJson, {
-      headers: {Authorization: `Bearer ${token}`},
+      headers: { Authorization: `Bearer ${token}` },
     });
 
     // Handle the response from the create endpoint.
@@ -349,54 +428,56 @@ export const useCaseHeader = () => {
       procDataState.caseNumber = response.data["CreateCase_Output"]["CaseNo"];
       procDataState.decision = "Submit";
       procDataState.userName = authSelector.userName || "system";
-      procDataState.formNames = 'Appeals';
+      procDataState.formNames = "Appeals";
       procData.state = procDataState;
       if (documentSectionDataRef.current.length > 0) {
         const documentArray = [...documentSectionDataRef.current].filter(
-            (x) => x.docStatus === "Uploaded"
+          (x) => x.docStatus === "Uploaded",
         );
         documentArray.forEach((e) => {
           const fileUploadData = new FormData();
           fileUploadData.append("file", e.fileData);
           fileUploadData.append("source", "Manual");
-          fileUploadData.append("caseNumber", response.data["CreateCase_Output"]["CaseNo"]);
+          fileUploadData.append(
+            "caseNumber",
+            response.data["CreateCase_Output"]["CaseNo"],
+          );
           fileUploadData.append("docType", e.documentType);
-          fileUpDownAxios
-              .post("/uploadFile", fileUploadData)
-              .then(() => {
-              });
+          fileUpDownAxios.post("/uploadFile", fileUploadData).then(() => {});
         });
       }
       alert(
-          "Case created successfully: " +
-          response.data["CreateCase_Output"]["CaseNo"]
+        "Case created successfully: " +
+          response.data["CreateCase_Output"]["CaseNo"],
       );
       submitCase(procData, navigateHome);
     }
-  }
+  };
 
   const navigate = useNavigate();
   const navigateHome = async () => {
-    navigate("/DashboardLogin/Home", {replace: true});
+    navigate("/DashboardLogin/Home", { replace: true });
     if (location.state.formView === "DashboardView") {
       const promise = new Promise((resolve, reject) => {
         resolve(updateLockStatus("N", location.state.caseNumber, 0, ""));
       });
 
       await promise
-          .then(() => {
-            setTimeout(() => {
-              navigate("/DashboardLogin/Home", {replace: true});
-            }, 1000);
-          })
-          .catch((err) => {
-            console.error(err);
-          });
+        .then(() => {
+          setTimeout(() => {
+            navigate("/DashboardLogin/Home", { replace: true });
+          }, 1000);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     }
   };
 
   const caseData = useSelector((store) => store.dashboardNavigationState);
-  const caseHeaderConfigData = JSON.parse(process.env.REACT_APP_CASEHEADER_DETAILS || "{}");
+  const caseHeaderConfigData = JSON.parse(
+    process.env.REACT_APP_CASEHEADER_DETAILS || "{}",
+  );
   const [potentialDupData] = useState([]);
   const [apiTestState] = useState({
     delegated: "",
@@ -404,24 +485,24 @@ export const useCaseHeader = () => {
 
   const [formData, setFormData] = useState({});
 
-
   const [claimInformationGrid, setClaimInformationGrid] = useState([]);
 
-  const [representativeInformationGrid, setRepresentativeInformationGrid] = useState([]);
+  const [representativeInformationGrid, setRepresentativeInformationGrid] =
+    useState([]);
 
   const [mainCaseDetails, setMainCaseDetails] = useState({
     flowId: 0,
     stageName: "",
     stageId: 0,
     transactionType: "",
-    caseStatus: ""
-  })
+    caseStatus: "",
+  });
 
   const callProcRef = useRef(null);
 
   useEffect(() => {
     let caseheaderConfigData = JSON.parse(
-        process.env.REACT_APP_CASEHEADER_DETAILS
+      process.env.REACT_APP_CASEHEADER_DETAILS,
     );
     const stageDetails = {
       ...mainCaseDetails,
@@ -430,41 +511,32 @@ export const useCaseHeader = () => {
       stageName: caseheaderConfigData["StageName"],
       transactionType: "Appeals",
       caseStatus: "Open",
-
     };
     setMainCaseDetails(stageDetails);
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (
-        location.state.formView !== undefined &&
-        location.state.formView === "DashboardView"
+      location.state.formView !== undefined &&
+      location.state.formView === "DashboardView"
     ) {
       getCaseByCaseNumber();
     }
   }, []);
 
   const dispatch = useDispatch();
-  const {customAxios} = useAxios();
-  const {
-    trimJsonValues,
-    extractDate,
-    getTableDetails
-  } = useGetDBTables();
-  const {
-    submitCase,
-    updateLockStatus,
-    updateDecision,
-    CompareJSON
-  } = useUpdateDecision();
+  const { customAxios } = useAxios();
+  const { trimJsonValues, extractDate, getTableDetails } = useGetDBTables();
+  const { submitCase, updateLockStatus, updateDecision, CompareJSON } =
+    useUpdateDecision();
 
   const token = authSelector.token || "";
 
   const handleCaseHeaderChange = (value, name) => {
-    setCaseHeader({...caseHeader, [name]: value});
+    setCaseHeader({ ...caseHeader, [name]: value });
   };
   const handleAuthorizationInformationChange = (value, name) => {
-    setAuthorizationInformation({...authorizationInformation, [name]: value});
+    setAuthorizationInformation({ ...authorizationInformation, [name]: value });
   };
 
   const getGridDataValues = (tableData) => {
@@ -476,8 +548,8 @@ export const useCaseHeader = () => {
       dataKeys.forEach((dataValue) => {
         const dataKeyType = typeof data[dataValue];
         if (dataKeyType === "object") {
-          if (!!data[dataValue]) {
-            if (!!data[dataValue].value) {
+          if (data[dataValue]) {
+            if (data[dataValue].value) {
               if (data[dataValue].value instanceof Date) {
                 dataObject[dataValue] = extractDate(data[dataValue].value);
               } else {
@@ -506,15 +578,14 @@ export const useCaseHeader = () => {
     return returnArray;
   };
 
-
   const getCaseStatus = async (stageName) => {
     let getApiJson = {};
     getApiJson["tableNames"] = getTableDetails()["angCaseStatusTable"];
-    getApiJson["whereClause"] = {WORKSTEP: stageName};
+    getApiJson["whereClause"] = { WORKSTEP: stageName };
 
     try {
       const res = await customAxios.post("/generic/get", getApiJson, {
-        headers: {Authorization: `Bearer ${token}`},
+        headers: { Authorization: `Bearer ${token}` },
       });
 
       const apiStat = res.data.Status;
@@ -528,12 +599,10 @@ export const useCaseHeader = () => {
         const caseStatusData = res.data.data.angCaseStatus;
         if (caseStatusData && caseStatusData.length > 0) {
           return caseStatusData[0].CASE_STATUS;
-
         } else {
           return null;
         }
       }
-
     } catch (error) {
       console.error("API request error:", error);
       alert("An error occurred while fetching case status.");
@@ -542,15 +611,20 @@ export const useCaseHeader = () => {
   };
 
   function hasAnyNonEmptyValue(obj, keys) {
-    return keys.some(key => obj[key]?.trim() !== "");
+    return keys.some((key) => obj[key]?.trim() !== "");
   }
 
-  function calculateCaseDueDate(caseReceivedDate, caseLevelPriority, appealType, appellant_Type) {
+  function calculateCaseDueDate(
+    caseReceivedDate,
+    caseLevelPriority,
+    appealType,
+    appellant_Type,
+  ) {
     if (appellant_Type !== "MEMBER" && appellant_Type !== "PROVIDER") {
-      return {dueDate: "", internalDate: ""};
+      return { dueDate: "", internalDate: "" };
     }
 
-    if (!caseReceivedDate) return {dueDate: null, internalDate: null};
+    if (!caseReceivedDate) return { dueDate: null, internalDate: null };
 
     const caseReceivedDateObj = new Date(caseReceivedDate);
     let dueDate;
@@ -562,11 +636,17 @@ export const useCaseHeader = () => {
         internalDate = dueDate;
         break;
       case "STANDARD":
-        dueDate = new Date(caseReceivedDateObj.getTime() + 30 * 24 * 60 * 60 * 1000);
+        dueDate = new Date(
+          caseReceivedDateObj.getTime() + 30 * 24 * 60 * 60 * 1000,
+        );
         if (appealType === "PRE-SERVICE") {
-          internalDate = new Date(caseReceivedDateObj.getTime() + 25 * 24 * 60 * 60 * 1000);
+          internalDate = new Date(
+            caseReceivedDateObj.getTime() + 25 * 24 * 60 * 60 * 1000,
+          );
         } else if (appealType === "RETRO") {
-          internalDate = new Date(caseReceivedDateObj.getTime() + 30 * 24 * 60 * 60 * 1000);
+          internalDate = new Date(
+            caseReceivedDateObj.getTime() + 30 * 24 * 60 * 60 * 1000,
+          );
         }
         break;
       default:
@@ -575,14 +655,14 @@ export const useCaseHeader = () => {
         break;
     }
 
-    return {dueDate, internalDate};
+    return { dueDate, internalDate };
   }
 
   const getCaseByCaseNumber = async () => {
     let daysLeft, hoursLeft, minutesLeft, secondsLeft;
     let getApiJson = {};
     getApiJson["tableNames"] = getTableDetails()["angTables"];
-    getApiJson["whereClause"] = {caseNumber: location.state.caseNumber};
+    getApiJson["whereClause"] = { caseNumber: location.state.caseNumber };
     try {
       // Make API request
       const res = await customAxios.post("/generic/get", getApiJson, {
@@ -603,11 +683,15 @@ export const useCaseHeader = () => {
         const stageName = location.state.stageName;
         const caseStatus = await getCaseStatus(stageName);
         const caseReceivedDate = new Date(
-          data.angCaseHeader[0]["Case_Received_Date#date"]
+          data.angCaseHeader[0]["Case_Received_Date#date"],
         );
 
         const caseInfo = data?.["angCaseInformation"]?.[0];
-        const keysToCheck = ["Product", "Product_State", "Line_of_Business_LOB"];
+        const keysToCheck = [
+          "Product",
+          "Product_State",
+          "Line_of_Business_LOB",
+        ];
         const hasAnyValue = hasAnyNonEmptyValue(caseInfo, keysToCheck);
 
         if (caseInfo && hasAnyValue) {
@@ -618,22 +702,31 @@ export const useCaseHeader = () => {
             caseReceivedDate,
             caseLevelPriority,
             appealType,
-            appellant_Type
+            appellant_Type,
           );
 
-         // const currentDate = new Date();
+          // const currentDate = new Date();
 
           const caseDueDateString = extractDate(dueDate);
           const internalDueDateString = extractDate(internalDate);
           const finalcaseReceivedDate = extractDate(caseReceivedDate);
 
           // Calculate the time left until the case due date
-          const timeLeft = dueDate - currentDate
-          
+          const timeLeft = dueDate - currentDate;
+
           daysLeft = Math.max(Math.floor(timeLeft / (1000 * 60 * 60 * 24)), 0);
-          hoursLeft = Math.max(Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)), 0);
-          minutesLeft = Math.max(Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60)), 0);
-          secondsLeft = Math.max(Math.floor((timeLeft % (1000 * 60)) / 1000), 0);
+          hoursLeft = Math.max(
+            Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+            0,
+          );
+          minutesLeft = Math.max(
+            Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60)),
+            0,
+          );
+          secondsLeft = Math.max(
+            Math.floor((timeLeft % (1000 * 60)) / 1000),
+            0,
+          );
 
           setCaseHeader((prevState) => ({
             ...prevState,
@@ -654,7 +747,7 @@ export const useCaseHeader = () => {
         // Calculate case aging
         const timeDifference = currentDate - caseReceivedDate;
         const caseAgingInDays = Math.floor(
-          timeDifference / (1000 * 60 * 60 * 24)
+          timeDifference / (1000 * 60 * 60 * 24),
         );
         const complianceTime = `${daysLeft}d ${hoursLeft}h ${minutesLeft}m ${secondsLeft}s`;
         // Now you can use `daysLeft` in `setCaseTimelines`
@@ -662,7 +755,7 @@ export const useCaseHeader = () => {
           ...prevState,
           ...(data?.["angCaseTimelines"]?.[0] || {}),
           Case_Aging: caseAgingInDays + " days",
-         Compliance_Time_Left_to_Finish: complianceTime + " remaining",
+          Compliance_Time_Left_to_Finish: complianceTime + " remaining",
         }));
 
         // Update other state values
@@ -672,11 +765,13 @@ export const useCaseHeader = () => {
         setProviderInformationGrid(data?.["angProviderInformationGrid"] || []);
         setMemberInformation(data?.["angMemberInformation"]?.[0] || {});
         setRepresentativeInformationGrid(
-          data?.["angRepresentativeInformationGrid"] || []
+          data?.["angRepresentativeInformationGrid"] || [],
         );
-        setAuthorizationInformation(data?.["angAuthorizationInformation"]?.[0] || {});
+        setAuthorizationInformation(
+          data?.["angAuthorizationInformation"]?.[0] || {},
+        );
         setAuthorizationInformationGrid(
-          data?.["angAuthorizationInformationGrid"] || []
+          data?.["angAuthorizationInformationGrid"] || [],
         );
         setExpeditedRequest(data?.["angExpeditedRequest"]?.[0] || {});
         setFormData(_.cloneDeep(data));
@@ -684,7 +779,7 @@ export const useCaseHeader = () => {
         // Update case data in caseData array
         const caseIDToUpdate = data?.mainTable?.[0]?.CaseID;
         const indexToUpdate = caseData.data.findIndex(
-          (item) => item?.CaseID === caseIDToUpdate
+          (item) => item?.CaseID === caseIDToUpdate,
         );
 
         if (indexToUpdate !== -1) {
@@ -710,7 +805,6 @@ export const useCaseHeader = () => {
 
   //save and exit button
   const saveAndExit = async () => {
-
     callProcRef.current = "callProc";
 
     //const saveType = event.target.name === "saveAndSubmit" ? "SS" : "SE";
@@ -718,37 +812,80 @@ export const useCaseHeader = () => {
 
     let apiJson = {};
 
-    const angCaseHeader = trimJsonValues({...caseHeader});
-    const angCaseTimelines = trimJsonValues({...caseTimelines});
-    const angCaseInformation = trimJsonValues({...caseInformation});
-    const angClaimInformation = trimJsonValues({...claimInformation});
-    const angMemberInformation = trimJsonValues({...memberInformation});
-    const angAuthorizationInformation = trimJsonValues({...authorizationInformation});
-    const angExpeditedRequest = trimJsonValues({...expeditedRequest});
+    const angCaseHeader = trimJsonValues({ ...caseHeader });
+    const angCaseTimelines = trimJsonValues({ ...caseTimelines });
+    const angCaseInformation = trimJsonValues({ ...caseInformation });
+    const angClaimInformation = trimJsonValues({ ...claimInformation });
+    const angMemberInformation = trimJsonValues({ ...memberInformation });
+    const angAuthorizationInformation = trimJsonValues({
+      ...authorizationInformation,
+    });
+    const angExpeditedRequest = trimJsonValues({ ...expeditedRequest });
 
     const angClaimInformationGrid = getGridDataValues(claimInformationGrid);
-    const originalClaimInformationGrid = getGridDataValues(formData["angClaimInformationGrid"]);
+    const originalClaimInformationGrid = getGridDataValues(
+      formData["angClaimInformationGrid"],
+    );
 
-    const angProviderInformtionGrid = getGridDataValues(providerInformationGrid);
-    const originalProviderInformationGrid = getGridDataValues(formData["angProviderInformationGrid"]);
+    const angProviderInformtionGrid = getGridDataValues(
+      providerInformationGrid,
+    );
+    const originalProviderInformationGrid = getGridDataValues(
+      formData["angProviderInformationGrid"],
+    );
 
-    const angRepresentativeInformationGrid = getGridDataValues(representativeInformationGrid);
-    const originalRepresentativeInformationGrid = getGridDataValues(formData["angRepresentativeInformationGrid"]);
+    const angRepresentativeInformationGrid = getGridDataValues(
+      representativeInformationGrid,
+    );
+    const originalRepresentativeInformationGrid = getGridDataValues(
+      formData["angRepresentativeInformationGrid"],
+    );
 
-    const angAuthorizationInformtionGrid = getGridDataValues(authorizationInformationGrid);
-    const originalAuthorizationInformationGrid = getGridDataValues(formData["angAuthorizationInformationGrid"]);
+    const angAuthorizationInformtionGrid = getGridDataValues(
+      authorizationInformationGrid,
+    );
+    const originalAuthorizationInformationGrid = getGridDataValues(
+      formData["angAuthorizationInformationGrid"],
+    );
 
-    apiJson["ANG_Case_Header"] = CompareJSON(angCaseHeader, formData["angCaseHeader"][0]);
-    apiJson["ANG_Case_Timelines"] = CompareJSON(angCaseTimelines, formData["angCaseTimelines"][0]);
-    apiJson["ANG_Case_Information"] = CompareJSON(angCaseInformation, formData["angCaseInformation"][0]);
-    apiJson["ANG_Claim_Information"] = CompareJSON(angClaimInformation, formData["angClaimInformation"][0]);
-    apiJson["ANG_Member_Information"] = CompareJSON(angMemberInformation, formData["angMemberInformation"][0]);
-    apiJson["ANG_Authorization_Information"] = CompareJSON(angAuthorizationInformation, formData["angAuthorizationInformation"][0]);
-    apiJson["ANG_Expedited_Request"] = CompareJSON(angExpeditedRequest, formData["angExpeditedRequest"][0]);
+    apiJson["ANG_Case_Header"] = CompareJSON(
+      angCaseHeader,
+      formData["angCaseHeader"][0],
+    );
+    apiJson["ANG_Case_Timelines"] = CompareJSON(
+      angCaseTimelines,
+      formData["angCaseTimelines"][0],
+    );
+    apiJson["ANG_Case_Information"] = CompareJSON(
+      angCaseInformation,
+      formData["angCaseInformation"][0],
+    );
+    apiJson["ANG_Claim_Information"] = CompareJSON(
+      angClaimInformation,
+      formData["angClaimInformation"][0],
+    );
+    apiJson["ANG_Member_Information"] = CompareJSON(
+      angMemberInformation,
+      formData["angMemberInformation"][0],
+    );
+    apiJson["ANG_Authorization_Information"] = CompareJSON(
+      angAuthorizationInformation,
+      formData["angAuthorizationInformation"][0],
+    );
+    apiJson["ANG_Expedited_Request"] = CompareJSON(
+      angExpeditedRequest,
+      formData["angExpeditedRequest"][0],
+    );
 
     let updateClaimArray = [];
-    if (angClaimInformationGrid.length > 0 || originalClaimInformationGrid.length > 0) {
-      const maxLength = Math.min(angClaimInformationGrid.length, originalClaimInformationGrid.length);
+    if (
+      angClaimInformationGrid.length > 0 ||
+      originalClaimInformationGrid.length > 0
+    ) {
+      const maxLength = Math.min(
+        angClaimInformationGrid.length,
+        originalClaimInformationGrid.length,
+      );
 
       // // Update existing rows
       for (let i = 0; i < maxLength; i++) {
@@ -760,7 +897,7 @@ export const useCaseHeader = () => {
             updateClaimArray.push({
               caseNumber: element["caseNumber"],
               rowNumber: element["rowNumber"],
-              ...CompareJSON(element, originalElement)
+              ...CompareJSON(element, originalElement),
             });
             break;
           }
@@ -770,16 +907,18 @@ export const useCaseHeader = () => {
       // Add rows
       for (let i = 0; i < angClaimInformationGrid.length; i++) {
         const angelement = angClaimInformationGrid[i];
-        const index = originalClaimInformationGrid.findIndex(element => angelement.rowNumber === element.rowNumber);
+        const index = originalClaimInformationGrid.findIndex(
+          (element) => angelement.rowNumber === element.rowNumber,
+        );
 
         if (index === -1) {
-          if (!angelement.hasOwnProperty('caseNumber')) {
+          if (!angelement.hasOwnProperty("caseNumber")) {
             angelement.caseNumber = location.state.caseNumber;
           }
           updateClaimArray.push({
             operation: "I",
             rowNumber: angelement["rowNumber"],
-            ...angelement
+            ...angelement,
           });
         }
       }
@@ -787,20 +926,28 @@ export const useCaseHeader = () => {
       // Delete rows
       for (let i = 0; i < originalClaimInformationGrid.length; i++) {
         const originalElement = originalClaimInformationGrid[i];
-        const index = angClaimInformationGrid.findIndex(element => originalElement.rowNumber === element.rowNumber);
+        const index = angClaimInformationGrid.findIndex(
+          (element) => originalElement.rowNumber === element.rowNumber,
+        );
         if (index === -1) {
           updateClaimArray.push({
             operation: "D",
             caseNumber: location.state.caseNumber,
-            rowNumber: originalElement["rowNumber"]
+            rowNumber: originalElement["rowNumber"],
           });
         }
       }
     }
 
     let updateProviderArray = [];
-    if (angProviderInformtionGrid.length > 0 || originalProviderInformationGrid.length > 0) {
-      const maxLength = Math.min(angProviderInformtionGrid.length, originalProviderInformationGrid.length);
+    if (
+      angProviderInformtionGrid.length > 0 ||
+      originalProviderInformationGrid.length > 0
+    ) {
+      const maxLength = Math.min(
+        angProviderInformtionGrid.length,
+        originalProviderInformationGrid.length,
+      );
 
       // // Update existing rows
       for (let i = 0; i < maxLength; i++) {
@@ -812,7 +959,7 @@ export const useCaseHeader = () => {
             updateProviderArray.push({
               caseNumber: element["caseNumber"],
               rowNumber: element["rowNumber"],
-              ...CompareJSON(element, originalElement)
+              ...CompareJSON(element, originalElement),
             });
             break;
           }
@@ -822,16 +969,18 @@ export const useCaseHeader = () => {
       // Add rows
       for (let i = 0; i < angProviderInformtionGrid.length; i++) {
         const angelement = angProviderInformtionGrid[i];
-        const index = originalProviderInformationGrid.findIndex(element => angelement.rowNumber === element.rowNumber);
+        const index = originalProviderInformationGrid.findIndex(
+          (element) => angelement.rowNumber === element.rowNumber,
+        );
 
         if (index === -1) {
-          if (!angelement.hasOwnProperty('caseNumber')) {
+          if (!angelement.hasOwnProperty("caseNumber")) {
             angelement.caseNumber = location.state.caseNumber;
           }
           updateProviderArray.push({
             operation: "I",
             rowNumber: angelement["rowNumber"],
-            ...angelement
+            ...angelement,
           });
         }
       }
@@ -839,20 +988,28 @@ export const useCaseHeader = () => {
       // Delete rows
       for (let i = 0; i < originalProviderInformationGrid.length; i++) {
         const originalElement = originalProviderInformationGrid[i];
-        const index = angProviderInformtionGrid.findIndex(element => originalElement.rowNumber === element.rowNumber);
+        const index = angProviderInformtionGrid.findIndex(
+          (element) => originalElement.rowNumber === element.rowNumber,
+        );
         if (index === -1) {
           updateProviderArray.push({
             operation: "D",
             caseNumber: location.state.caseNumber,
-            rowNumber: originalElement["rowNumber"]
+            rowNumber: originalElement["rowNumber"],
           });
         }
       }
     }
 
     let updateRepresentativeArray = [];
-    if (angRepresentativeInformationGrid.length > 0 || originalRepresentativeInformationGrid.length > 0) {
-      const maxLength = Math.min(angRepresentativeInformationGrid.length, originalRepresentativeInformationGrid.length);
+    if (
+      angRepresentativeInformationGrid.length > 0 ||
+      originalRepresentativeInformationGrid.length > 0
+    ) {
+      const maxLength = Math.min(
+        angRepresentativeInformationGrid.length,
+        originalRepresentativeInformationGrid.length,
+      );
 
       // // Update existing rows
       for (let i = 0; i < maxLength; i++) {
@@ -864,7 +1021,7 @@ export const useCaseHeader = () => {
             updateRepresentativeArray.push({
               caseNumber: element["caseNumber"],
               rowNumber: element["rowNumber"],
-              ...CompareJSON(element, originalElement)
+              ...CompareJSON(element, originalElement),
             });
             break;
           }
@@ -874,16 +1031,18 @@ export const useCaseHeader = () => {
       // Add rows
       for (let i = 0; i < angRepresentativeInformationGrid.length; i++) {
         const angelement = angRepresentativeInformationGrid[i];
-        const index = originalRepresentativeInformationGrid.findIndex(element => angelement.rowNumber === element.rowNumber);
+        const index = originalRepresentativeInformationGrid.findIndex(
+          (element) => angelement.rowNumber === element.rowNumber,
+        );
 
         if (index === -1) {
-          if (!angelement.hasOwnProperty('caseNumber')) {
+          if (!angelement.hasOwnProperty("caseNumber")) {
             angelement.caseNumber = location.state.caseNumber;
           }
           updateRepresentativeArray.push({
             operation: "I",
             rowNumber: angelement["rowNumber"],
-            ...angelement
+            ...angelement,
           });
         }
       }
@@ -891,20 +1050,28 @@ export const useCaseHeader = () => {
       // Delete rows
       for (let i = 0; i < originalRepresentativeInformationGrid.length; i++) {
         const originalElement = originalRepresentativeInformationGrid[i];
-        const index = angRepresentativeInformationGrid.findIndex(element => originalElement.rowNumber === element.rowNumber);
+        const index = angRepresentativeInformationGrid.findIndex(
+          (element) => originalElement.rowNumber === element.rowNumber,
+        );
         if (index === -1) {
           updateRepresentativeArray.push({
             operation: "D",
             caseNumber: location.state.caseNumber,
-            rowNumber: originalElement["rowNumber"]
+            rowNumber: originalElement["rowNumber"],
           });
         }
       }
     }
 
     let updateAuthorizationArray = [];
-    if (angAuthorizationInformtionGrid.length > 0 || originalAuthorizationInformationGrid.length > 0) {
-      const maxLength = Math.min(angAuthorizationInformtionGrid.length, originalAuthorizationInformationGrid.length);
+    if (
+      angAuthorizationInformtionGrid.length > 0 ||
+      originalAuthorizationInformationGrid.length > 0
+    ) {
+      const maxLength = Math.min(
+        angAuthorizationInformtionGrid.length,
+        originalAuthorizationInformationGrid.length,
+      );
 
       // // Update existing rows
       for (let i = 0; i < maxLength; i++) {
@@ -916,7 +1083,7 @@ export const useCaseHeader = () => {
             updateAuthorizationArray.push({
               caseNumber: element["caseNumber"],
               rowNumber: element["rowNumber"],
-              ...CompareJSON(element, originalElement)
+              ...CompareJSON(element, originalElement),
             });
             break;
           }
@@ -926,16 +1093,18 @@ export const useCaseHeader = () => {
       // Add rows
       for (let i = 0; i < angAuthorizationInformtionGrid.length; i++) {
         const angelement = angAuthorizationInformtionGrid[i];
-        const index = originalAuthorizationInformationGrid.findIndex(element => angelement.rowNumber === element.rowNumber);
+        const index = originalAuthorizationInformationGrid.findIndex(
+          (element) => angelement.rowNumber === element.rowNumber,
+        );
 
         if (index === -1) {
-          if (!angelement.hasOwnProperty('caseNumber')) {
+          if (!angelement.hasOwnProperty("caseNumber")) {
             angelement.caseNumber = location.state.caseNumber;
           }
           updateAuthorizationArray.push({
             operation: "I",
             rowNumber: angelement["rowNumber"],
-            ...angelement
+            ...angelement,
           });
         }
       }
@@ -943,12 +1112,14 @@ export const useCaseHeader = () => {
       // Delete rows
       for (let i = 0; i < originalAuthorizationInformationGrid.length; i++) {
         const originalElement = originalAuthorizationInformationGrid[i];
-        const index = angAuthorizationInformtionGrid.findIndex(element => originalElement.rowNumber === element.rowNumber);
+        const index = angAuthorizationInformtionGrid.findIndex(
+          (element) => originalElement.rowNumber === element.rowNumber,
+        );
         if (index === -1) {
           updateAuthorizationArray.push({
             operation: "D",
             caseNumber: location.state.caseNumber,
-            rowNumber: originalElement["rowNumber"]
+            rowNumber: originalElement["rowNumber"],
           });
         }
       }
@@ -961,44 +1132,41 @@ export const useCaseHeader = () => {
 
     apiJson["caseNumber"] = location.state.caseNumber;
 
-    customAxios.post("/generic/update", apiJson, {
-      headers: {Authorization: `Bearer ${token}`},
-    }).then((res) => {
+    customAxios
+      .post("/generic/update", apiJson, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        const apiStat = res.data.UpdateCase_Output.Status;
 
-      const apiStat = res.data.UpdateCase_Output.Status;
+        if (apiStat === -1) {
+          alert("Error in updating data");
+        }
 
-      if (apiStat === -1) {
-        alert("Error in updating data");
-      }
+        if (apiStat === 0) {
+          updateDecision(location, saveType, "Appeals");
 
-      if (apiStat === 0) {
-        updateDecision(location, saveType, "Appeals");
+          let procData = {};
+          let procDataState = {};
+          procDataState.stageName = location.state.stageName;
+          procDataState.flowId = location.state.flowId;
+          // procDataState.decisionNotes = decisionTab.Authorization_Case_Notes;
+          procDataState.decisionNotes = location.state.decisionNotes;
+          procDataState.caseNumber = location.state.caseNumber;
+          // procDataState.decision = decisionTab.Authorization_Decision;
+          // procDataState.decisionReason = decisionTab.Authorization_Decision_Reason;
+          procDataState.decision = location.state.decision;
+          procDataState.decisionReason = location.state.decisionReason;
+          procDataState.userName = authSelector.userName || "system";
+          procDataState.formNames = "Appeals";
+          procData.state = procDataState;
 
-
-        let procData = {};
-        let procDataState = {};
-        procDataState.stageName = location.state.stageName;
-        procDataState.flowId = location.state.flowId;
-        // procDataState.decisionNotes = decisionTab.Authorization_Case_Notes;
-        procDataState.decisionNotes = location.state.decisionNotes
-        procDataState.caseNumber = location.state.caseNumber;
-        // procDataState.decision = decisionTab.Authorization_Decision;
-        // procDataState.decisionReason = decisionTab.Authorization_Decision_Reason;
-        procDataState.decision = location.state.decision
-        procDataState.decisionReason = location.state.decisionReason
-        procDataState.userName = authSelector.userName || "system";
-        procDataState.formNames = 'Appeals';
-        procData.state = procDataState;
-
-        alert(
-            "Case updated successfully: " +
-            location.state.caseNumber
-        );
-        submitCase(procData, navigateHome);
-        navigateHome();
-      }
-    });
-  }
+          alert("Case updated successfully: " + location.state.caseNumber);
+          submitCase(procData, navigateHome);
+          navigateHome();
+        }
+      });
+  };
 
   return {
     caseTimelines,
@@ -1044,5 +1212,5 @@ export const useCaseHeader = () => {
     claimInformationErrors,
     memberInformationErrors,
     shouldShowSubmitError,
-  }
-}
+  };
+};

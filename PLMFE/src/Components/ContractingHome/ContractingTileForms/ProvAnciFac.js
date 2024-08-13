@@ -62,7 +62,7 @@ export default function ProvAnciFac() {
       .max(5, "Zip Code max length exceeded")
       .matches(
         /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
-        "Only numbers are accepted"
+        "Only numbers are accepted",
       ),
     provState: Yup.object().nullable().required("Please select State"),
     entityName: Yup.string()
@@ -73,7 +73,7 @@ export default function ProvAnciFac() {
       .max(10, "Fax Number max length exceeded")
       .matches(
         /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
-        "Only numbers are accepted"
+        "Only numbers are accepted",
       ),
     mgrFirstName: Yup.string()
       .required("Please enter First Name")
@@ -108,7 +108,7 @@ export default function ProvAnciFac() {
       .max(10, " Credentialing Fax# max length exceeded")
       .matches(
         /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/,
-        "Only numbers are accepted"
+        "Only numbers are accepted",
       ),
     contractType: Yup.object()
       .nullable()
@@ -122,7 +122,7 @@ export default function ProvAnciFac() {
     checkGridJsonLength,
     extractDate,
     getDatePartOnly,
-    acceptNumbersOnly
+    acceptNumbersOnly,
   } = useGetDBTables();
   const [selectData, setSelectData] = useState({});
   const { printConsole, checkDecision, handlePhoneNumber, CompareJSON } =
@@ -144,7 +144,7 @@ export default function ProvAnciFac() {
   //Newly Added by Nidhi Gupta on 08/04/2023
   let documentSectionDataRef = useRef([]);
   let contractingConfigData = JSON.parse(
-    process.env.REACT_APP_CONTRACTING_DETAILS
+    process.env.REACT_APP_CONTRACTING_DETAILS,
   );
   const { fileUpDownAxios } = useAxios();
   //Till Here
@@ -237,7 +237,7 @@ export default function ProvAnciFac() {
 
   const [firlTableRowsData, setFirlTableRowsData] = useState([]);
   const [compensationTableRowsData, setCompensationTableRowsData] = useState(
-    []
+    [],
   );
   const [gridFieldTempState, setGridFieldTempState] = useState({});
 
@@ -264,11 +264,11 @@ export default function ProvAnciFac() {
     return jsonObj;
   };
 
-  const handleFormikBlur=(event,setFieldValue,fieldName)=>{
+  const handleFormikBlur = (event, setFieldValue, fieldName) => {
     let value = event.target.value || "";
     printConsole("Inside organization Name onChange: ", value);
     setFieldValue(fieldName, value);
-  }
+  };
 
   const handleMedicalGrpNoShow = (evt) => {
     console.log("handleMedicalGrpNoShow evt: ", evt);
@@ -477,23 +477,29 @@ export default function ProvAnciFac() {
                     apiResponse = respData[k][0];
                     console.log(
                       "Hello apiResponse compensation Nidhi: ",
-                      apiResponse
+                      apiResponse,
                     );
                     if (apiResponse.hasOwnProperty("conEffectiveDate")) {
                       if (typeof apiResponse.conEffectiveDate === "string") {
-                        const cfd = new Date(getDatePartOnly(apiResponse.conEffectiveDate));
+                        const cfd = new Date(
+                          getDatePartOnly(apiResponse.conEffectiveDate),
+                        );
                         apiResponse.conEffectiveDate = cfd;
                       }
                     }
                     if (apiResponse.hasOwnProperty("mocAttestationDate")) {
                       if (typeof apiResponse.mocAttestationDate === "string") {
-                        const mad = new Date(getDatePartOnly(apiResponse.mocAttestationDate));
+                        const mad = new Date(
+                          getDatePartOnly(apiResponse.mocAttestationDate),
+                        );
                         apiResponse.mocAttestationDate = mad;
                       }
                     }
                     if (apiResponse.hasOwnProperty("mocRenewalAttDate")) {
                       if (typeof apiResponse.mocRenewalAttDate === "string") {
-                        const rad = new Date(getDatePartOnly(apiResponse.mocRenewalAttDate));
+                        const rad = new Date(
+                          getDatePartOnly(apiResponse.mocRenewalAttDate),
+                        );
                         apiResponse.mocRenewalAttDate = rad;
                       }
                     }
@@ -660,7 +666,7 @@ export default function ProvAnciFac() {
                     }
                     console.log(
                       "locationTableRowsData apiResponse: ",
-                      apiResponse
+                      apiResponse,
                     );
                     apiResponse = convertToDateObj(apiResponse);
                     setApiTestStateComp(apiResponse);
@@ -698,7 +704,7 @@ export default function ProvAnciFac() {
                     apiResponseArray.push(apiResponse);
                     console.log(
                       "Compensation Tab compensationGrid newJson: ",
-                      apiResponse
+                      apiResponse,
                     );
                   });
                   setCompensationTableRowsData(apiResponseArray);
@@ -781,66 +787,68 @@ export default function ProvAnciFac() {
     }
     selectJson["contracts"]
       .filter(
-        (data) => data.transactionType.toLowerCase() == transType.toLowerCase()
+        (data) => data.transactionType.toLowerCase() == transType.toLowerCase(),
       )
       .map((val) =>
-        contractOptions.push({ value: val.displayName, label: val.displayName })
+        contractOptions.push({
+          value: val.displayName,
+          label: val.displayName,
+        }),
       );
 
-      if (mastersSelector.hasOwnProperty("masterAddressType")) {
-        let addressTypeOptions =
-          mastersSelector["masterAddressType"].length === 0
-            ? []
-            : mastersSelector["masterAddressType"][0];
+    if (mastersSelector.hasOwnProperty("masterAddressType")) {
+      let addressTypeOptions =
+        mastersSelector["masterAddressType"].length === 0
+          ? []
+          : mastersSelector["masterAddressType"][0];
 
-            for (const item of addressTypeOptions) {
-              newArr.push(convertToCase(item.addressType));
-            }
-
-            selectJson.addressTypeOptions = newArr;
-            newArr = [];
+      for (const item of addressTypeOptions) {
+        newArr.push(convertToCase(item.addressType));
       }
 
-      if (mastersSelector.hasOwnProperty("masterLanguages")) {
-        //selectJson.languageArray = mastersSelector['masterLanguages'][0].data;
-        let languageArray =
-          mastersSelector["masterLanguages"].length === 0
-            ? []
-            : mastersSelector["masterLanguages"][0];
+      selectJson.addressTypeOptions = newArr;
+      newArr = [];
+    }
 
-            for (const item of languageArray) {
-              newArr.push(convertToCase(item.displayName));
-            }
-          selectJson.languageArray = newArr;
-          newArr = [];
+    if (mastersSelector.hasOwnProperty("masterLanguages")) {
+      //selectJson.languageArray = mastersSelector['masterLanguages'][0].data;
+      let languageArray =
+        mastersSelector["masterLanguages"].length === 0
+          ? []
+          : mastersSelector["masterLanguages"][0];
+
+      for (const item of languageArray) {
+        newArr.push(convertToCase(item.displayName));
       }
+      selectJson.languageArray = newArr;
+      newArr = [];
+    }
 
     if (mastersSelector.hasOwnProperty("masterStateSymbol")) {
-        let newstateOptions = [];
-        let orgstateOptions =
-          mastersSelector["masterStateSymbol"].length === 0
-            ? []
-            : mastersSelector["masterStateSymbol"][0];
-        // for (let i = 0; i < orgstateOptions.length; i++) {
-        //   newstateOptions.push({
-        //     label: convertToCase(orgstateOptions[i].stateSymbol),
-        //     value: convertToCase(orgstateOptions[i].stateSymbol),
-        //   });
+      let newstateOptions = [];
+      let orgstateOptions =
+        mastersSelector["masterStateSymbol"].length === 0
+          ? []
+          : mastersSelector["masterStateSymbol"][0];
+      // for (let i = 0; i < orgstateOptions.length; i++) {
+      //   newstateOptions.push({
+      //     label: convertToCase(orgstateOptions[i].stateSymbol),
+      //     value: convertToCase(orgstateOptions[i].stateSymbol),
+      //   });
 
-        // }
+      // }
 
-
-        for (const item of orgstateOptions) {
-          newstateOptions.push({
-            label: convertToCase(item.stateSymbol),
-            value: convertToCase(item.stateSymbol),
-          });
-          newArr.push(convertToCase(item.stateSymbol));
-        }
-        selectJson.stateOptionsLinear = newstateOptions;
-        selectJson.stateOptions = newArr;
-        newArr = [];
+      for (const item of orgstateOptions) {
+        newstateOptions.push({
+          label: convertToCase(item.stateSymbol),
+          value: convertToCase(item.stateSymbol),
+        });
+        newArr.push(convertToCase(item.stateSymbol));
       }
+      selectJson.stateOptionsLinear = newstateOptions;
+      selectJson.stateOptions = newArr;
+      newArr = [];
+    }
 
     setTimeout(() => setMasterValues(contractOptions), 1000);
     setTimeout(() => setSelectValues(selectJson), 1000);
@@ -894,7 +902,7 @@ export default function ProvAnciFac() {
             prop.state.legalEntityName = apiResponse.entityName;
             console.log(
               "prop.state.legalEntityName 454: ",
-              prop.state.legalEntityName
+              prop.state.legalEntityName,
             );
 
             //till here
@@ -926,7 +934,7 @@ export default function ProvAnciFac() {
             //setFormikInitializeState(true);
             setLoadForm(true);
             console.log(
-              "------" + JSON.stringify(res.data.data.contTypeGrid[0])
+              "------" + JSON.stringify(res.data.data.contTypeGrid[0]),
             );
             gridApiArray = [];
             res.data.data.contTypeGrid.map((apiKey) => {
@@ -943,7 +951,7 @@ export default function ProvAnciFac() {
             if (res.data.data.contLocationGrid !== undefined) {
               console.log(
                 "apiJson Location get:",
-                res.data.data.contLocationGrid
+                res.data.data.contLocationGrid,
               );
             }
 
@@ -959,13 +967,13 @@ export default function ProvAnciFac() {
             if (prop.state.stageName == "Network") {
               console.log(
                 "prop.state.legalEntityName 487: ",
-                prop.state.legalEntityName
+                prop.state.legalEntityName,
               );
               let resJson = {};
               customAxios
                 .get(
                   `/fetchPotentialDuplicate?legalEntityName=${prop.state.legalEntityName}&strRouteTo=${prop.state.stageName}&caseNumber=${prop.state.caseNumber}&transactionType=${ProvAnciFac.displayName}`,
-                  { headers: { Authorization: `Bearer ${token}` } }
+                  { headers: { Authorization: `Bearer ${token}` } },
                 )
                 .then((res) => {
                   resJson = { ...res };
@@ -975,7 +983,7 @@ export default function ProvAnciFac() {
                     let getApiJson = {};
                     console.log(
                       "prop.state.caseNumber 501: ",
-                      prop.state.caseNumber
+                      prop.state.caseNumber,
                     );
                     getApiJson["tableNames"] =
                       getTableDetails()["contPotentialDuplicate"];
@@ -991,7 +999,7 @@ export default function ProvAnciFac() {
                       .then((res) => {
                         console.log(
                           "Generic get api response compensation Nidhi: ",
-                          res
+                          res,
                         );
                         const apiStat = res.data.Status;
                         if (apiStat === -1) {
@@ -1097,11 +1105,11 @@ export default function ProvAnciFac() {
 
     console.log(
       "Inside gridRowsFinalSubmit gridFieldTempState Value ====  ",
-      gridFieldTempState
+      gridFieldTempState,
     );
     console.log(
       "Inside gridRowsFinalSubmit gridFieldTempState keys ====  ",
-      Object.keys(gridFieldTempState).length
+      Object.keys(gridFieldTempState).length,
     );
 
     let clonedJson = { ...gridFieldTempState };
@@ -1113,7 +1121,7 @@ export default function ProvAnciFac() {
         }
         console.log(
           "Inside gridRowsFinalSubmit clonedJson value: ",
-          clonedJson
+          clonedJson,
         );
 
         if (!checkGridJsonLength(clonedJson)) {
@@ -1139,7 +1147,7 @@ export default function ProvAnciFac() {
 
           console.log(
             "Inside gridRowsFinalSubmit clonedJson after value: ",
-            clonedJson
+            clonedJson,
           );
           locationTableRowsData[index] = clonedJson;
           setLocationTableRowsData(locationTableRowsData);
@@ -1152,7 +1160,7 @@ export default function ProvAnciFac() {
         }
         console.log(
           "Inside gridRowsFinalSubmit clonedJson value: ",
-          clonedJson
+          clonedJson,
         );
         if (!checkGridJsonLength(clonedJson)) {
           typeTableRowsData[index] = clonedJson;
@@ -1168,12 +1176,12 @@ export default function ProvAnciFac() {
         if (clonedJson.hasOwnProperty("phoneNo")) {
           clonedJson["phoneNo"].value = clonedJson["phoneNo"].value.replaceAll(
             /\D+/g,
-            ""
+            "",
           );
         }
         console.log(
           "Inside gridRowsFinalSubmit clonedJson value: ",
-          clonedJson
+          clonedJson,
         );
         if (!checkGridJsonLength(clonedJson)) {
           paymentTableRowsData[index] = clonedJson;
@@ -1189,7 +1197,7 @@ export default function ProvAnciFac() {
         }
         console.log(
           "Inside gridRowsFinalSubmit clonedJson value: ",
-          clonedJson
+          clonedJson,
         );
         if (!checkGridJsonLength(clonedJson)) {
           firlTableRowsData[index] = clonedJson;
@@ -1204,7 +1212,7 @@ export default function ProvAnciFac() {
         }
         console.log(
           "Inside gridRowsFinalSubmit clonedJson value: ",
-          clonedJson
+          clonedJson,
         );
         if (!checkGridJsonLength(clonedJson)) {
           compensationTableRowsData[index] = clonedJson;
@@ -1492,13 +1500,15 @@ export default function ProvAnciFac() {
     let tempInput = { ...gridFieldTempState };
     let { name, value } = evnt.target;
     console.log("Inside handleGridFieldChange: ", value, tempInput);
-     if(triggeredFormName === 'LocationTable' || triggeredFormName === 'PaymentTable')
-    {
-      if(name === 'npi'|| name === 'zipCode'){
-       value = acceptNumbersOnly(value);
-       console.log("inside condition",value);
+    if (
+      triggeredFormName === "LocationTable" ||
+      triggeredFormName === "PaymentTable"
+    ) {
+      if (name === "npi" || name === "zipCode") {
+        value = acceptNumbersOnly(value);
+        console.log("inside condition", value);
       }
-     }
+    }
     tempInput[name] = value.toUpperCase();
     setGridFieldTempState(tempInput);
   };
@@ -1582,17 +1592,17 @@ export default function ProvAnciFac() {
             ? selectValue.value
             : "--"
           : apiTestStateComp.riskState && apiTestStateComp.riskState.value
-          ? apiTestStateComp.riskState.value
-          : "--";
+            ? apiTestStateComp.riskState.value
+            : "--";
       riskValue =
         name === "riskAssignment"
           ? selectValue && selectValue.value
             ? selectValue.value.substring(0, 2)
             : "--"
           : apiTestStateComp.riskAssignment &&
-            apiTestStateComp.riskAssignment.value
-          ? apiTestStateComp.riskAssignment.value.substring(0, 2)
-          : "--";
+              apiTestStateComp.riskAssignment.value
+            ? apiTestStateComp.riskAssignment.value.substring(0, 2)
+            : "--";
       taxValue =
         apiTestStateComp.taxId !== undefined && apiTestStateComp.taxId !== ""
           ? apiTestStateComp.taxId.substring(apiTestStateComp.taxId.length - 5)
@@ -1615,8 +1625,8 @@ export default function ProvAnciFac() {
             ? selectValue.value
             : "--"
           : apiTestStateComp.networkState && apiTestStateComp.networkState.value
-          ? apiTestStateComp.networkState.value
-          : "--";
+            ? apiTestStateComp.networkState.value
+            : "--";
       planValue =
         apiTestStateComp.planValue !== undefined &&
         apiTestStateComp.planValue !== ""
@@ -1644,7 +1654,7 @@ export default function ProvAnciFac() {
 
     console.log(
       "handleLinearSelectChange apiTestStateComp: ",
-      apiTestStateComp
+      apiTestStateComp,
     );
   };
 
@@ -1736,7 +1746,7 @@ export default function ProvAnciFac() {
     index,
     selectedValue,
     evnt,
-    triggeredFormName
+    triggeredFormName,
   ) => {
     // console.log("Inside select change index: ", index);
     console.log("Inside select change selectedValue: ", selectedValue);
@@ -1873,17 +1883,15 @@ export default function ProvAnciFac() {
     console.log("GetGridData jsonObj: ", jsonObj);
 
     Object.keys(jsonObj).map((key) => {
-      console.log("GetGridData key : ", key,jsonObj[key]);
+      console.log("GetGridData key : ", key, jsonObj[key]);
       if (key === "languages") {
-     if(jsonObj[key]  !== '')
-     {
-        gridObj[key] = jsonObj[key].split(",").map((ele) => {
-          return { label: ele, value: ele };
-        });
-      }
-      else{
-        gridObj[key]  = [];
-      }
+        if (jsonObj[key] !== "") {
+          gridObj[key] = jsonObj[key].split(",").map((ele) => {
+            return { label: ele, value: ele };
+          });
+        } else {
+          gridObj[key] = [];
+        }
       } else {
         gridObj[key] = { value: jsonObj[key], label: jsonObj[key] };
       }
@@ -1926,7 +1934,7 @@ export default function ProvAnciFac() {
         //delete requestBody.stateDefault;
         //delete requestBody.prodStatesDefault;
         let contractingConfigData = JSON.parse(
-          process.env.REACT_APP_CONTRACTING_DETAILS
+          process.env.REACT_APP_CONTRACTING_DETAILS,
         );
         const flowId = contractingConfigData["FlowId"];
         const stageId = contractingConfigData["StageId"];
@@ -2019,7 +2027,7 @@ export default function ProvAnciFac() {
         // apiJson['Cont_Type_Grid'] = getGridDataValues(typeTableRowsData);
         apiJson["Cont_Payment_Grid"] = getGridDataValues(paymentTableRowsData);
         apiJson["Cont_Location_Grid"] = getGridDataValues(
-          locationTableRowsData
+          locationTableRowsData,
         );
 
         //Added by Nidhi Gupta on 11/10/2023
@@ -2040,7 +2048,7 @@ export default function ProvAnciFac() {
         if (apiJson["Cont_Location_Grid"] !== undefined) {
           console.log(
             "apiJson Location length: ",
-            apiJson["Cont_Location_Grid"].length
+            apiJson["Cont_Location_Grid"].length,
           );
           console.log("apiJson Location: ", apiJson["Cont_Location_Grid"]);
         }
@@ -2050,7 +2058,7 @@ export default function ProvAnciFac() {
           apiJson["Cont_Location_Grid"].length > 5
         ) {
           alert(
-            "Maximum 5 addresses can be added under Provider Address Grid."
+            "Maximum 5 addresses can be added under Provider Address Grid.",
           );
           setButtonDisableFlag(false);
           return;
@@ -2129,7 +2137,7 @@ export default function ProvAnciFac() {
                       res.data["CreateCase_Output"]["CaseNo"];
                     procDataState.decision = "Submit";
                     procDataState.userName = mastersSelector.hasOwnProperty(
-                      "auth"
+                      "auth",
                     )
                       ? mastersSelector.auth.hasOwnProperty("userName")
                         ? mastersSelector.auth.userName
@@ -2149,7 +2157,7 @@ export default function ProvAnciFac() {
                     ) {
                       let documentArray = [...documentSectionDataRef.current];
                       documentArray = documentArray.filter(
-                        (x) => x.docStatus === "Uploaded"
+                        (x) => x.docStatus === "Uploaded",
                       );
                       documentArray.forEach((e) => {
                         const fileUploadData = new FormData();
@@ -2157,21 +2165,21 @@ export default function ProvAnciFac() {
                         fileUploadData.append("source", "Manual");
                         fileUploadData.append(
                           "caseNumber",
-                          res.data["CreateCase_Output"]["CaseNo"]
+                          res.data["CreateCase_Output"]["CaseNo"],
                         );
                         fileUploadData.append("docType", e.documentType);
                         console.log(
                           "Inside Add Provider File Upload Data: ",
-                          fileUploadData
+                          fileUploadData,
                         );
                         fileUpDownAxios
                           .post("/uploadFile", fileUploadData)
                           .then((response) => {
                             console.log(
                               "File Upload api response: ",
-                              response.data
+                              response.data,
                             );
-                            if (response.status===200) {
+                            if (response.status === 200) {
                               //alert("Case created with case number: "+res.data['CreateCase_Output']['CaseNo']+" and Contract Id: "+values.contractId);
                               //alert('Case created successfully: '+res.data['CreateCase_Output']['CaseNo']);
                               // let alertMessage = 'Case created successfully: '+res.data['CreateCase_Output']['CaseNo'];
@@ -2181,7 +2189,7 @@ export default function ProvAnciFac() {
                               // }
                               // setAlertModalShow(json);
                             }
-                            if (response.status==="") {
+                            if (response.status === "") {
                               // let alertMessage = 'Case created successfully: '+res.data['CreateCase_Output']['CaseNo']+' but error in uploading document';
                               // let json = {show:true,
                               //     message:alertMessage,
@@ -2200,7 +2208,7 @@ export default function ProvAnciFac() {
                       "Case created with case number: " +
                         res.data["CreateCase_Output"]["CaseNo"] +
                         " and Contract Id: " +
-                        values.contractId
+                        values.contractId,
                     );
                     //alert('Case created successfully: '+res.data['CreateCase_Output']['CaseNo']);
                     submitCase(procData, navigateContractingHome);
@@ -2216,7 +2224,7 @@ export default function ProvAnciFac() {
                 .catch((err) => {
                   console.log(
                     "Caught in generic create api call: ",
-                    err.message
+                    err.message,
                   );
                   alert("Error occured in generic create api call.");
                   setButtonDisableFlag(false);
@@ -2369,7 +2377,7 @@ export default function ProvAnciFac() {
         if (apiStat === 0) {
           const caseIDToUpdate = res?.data?.data?.mainTable[0]?.CaseID;
           const indexToUpdate = caseData.data.findIndex(
-            (item) => item?.CaseID === caseIDToUpdate
+            (item) => item?.CaseID === caseIDToUpdate,
           );
 
           if (indexToUpdate !== -1) {
@@ -2390,7 +2398,7 @@ export default function ProvAnciFac() {
   }
   function filterData() {
     return caseData.data.filter(
-      (item) => item?.CaseID !== Number(prop.state.caseNumber)
+      (item) => item?.CaseID !== Number(prop.state.caseNumber),
     );
   }
   function getCaseByCaseNumber() {
@@ -2412,7 +2420,7 @@ export default function ProvAnciFac() {
         if (apiStat === 0) {
           const caseIDToUpdate = res?.data?.data?.mainTable[0]?.CaseID;
           const indexToUpdate = caseData.data.findIndex(
-            (item) => item?.CaseID === caseIDToUpdate
+            (item) => item?.CaseID === caseIDToUpdate,
           );
 
           if (indexToUpdate !== -1) {
@@ -2431,7 +2439,6 @@ export default function ProvAnciFac() {
         console.log(err.message);
       });
   }
-
 
   function dispatchUpdateData(updatedData) {
     dispatch({
@@ -2649,13 +2656,13 @@ export default function ProvAnciFac() {
           requestBody.mocRenewalAttDate = !!apiTestStateComp.mocRenewalAttDate ? apiTestStateComp.mocRenewalAttDate.toLocaleDateString() : null;*/
 
       requestBody.conEffectiveDate = extractDate(
-        apiTestStateComp.conEffectiveDate
+        apiTestStateComp.conEffectiveDate,
       );
       requestBody.mocAttestationDate = extractDate(
-        apiTestStateComp.mocAttestationDate
+        apiTestStateComp.mocAttestationDate,
       );
       requestBody.mocRenewalAttDate = extractDate(
-        apiTestStateComp.mocRenewalAttDate
+        apiTestStateComp.mocRenewalAttDate,
       );
       //requestBody.contractNo = ((apiTestStateComp.contractNo!==undefined)?apiTestStateComp.contractNo:'');
       //requestBody.medicareNo = ((apiTestStateComp.medicareNo!==undefined)?apiTestStateComp.medicareNo:'');
@@ -2690,7 +2697,7 @@ export default function ProvAnciFac() {
         gridDataRef.current.potentialDuplicateTable = updateArray;
         console.log(
           "gridDataRef.current.potentialDuplicateTable: ",
-          gridDataRef.current.potentialDuplicateTable
+          gridDataRef.current.potentialDuplicateTable,
         );
       }
 
@@ -2711,7 +2718,7 @@ export default function ProvAnciFac() {
         apiCallOnce &&
         Object.keys(apiTestStateComp).length > 0 &&
         Object.values(apiTestStateComp).some(
-          (value) => value !== "" && value !== null
+          (value) => value !== "" && value !== null,
         )
       ) {
         apiJson["Cont_Compensation_Details"] = requestBody;
@@ -2769,7 +2776,7 @@ export default function ProvAnciFac() {
         if (locationTableRowsData !== undefined) {
           console.log(
             "apiJson Location locationTableRowsData length: ",
-            locationTableRowsData.length
+            locationTableRowsData.length,
           );
         }
         if (
@@ -2778,7 +2785,7 @@ export default function ProvAnciFac() {
           locationTableRowsData.length > 5
         ) {
           alert(
-            "Maximum 5 addresses can be added under Provider Address Grid."
+            "Maximum 5 addresses can be added under Provider Address Grid.",
           );
           setButtonDisableFlag(false);
           return;
@@ -2820,7 +2827,7 @@ export default function ProvAnciFac() {
             if (!validateDec) {
               setButtonDisableFlag(false);
               alert(
-                "Please choose Decision Discard as it is a Potential Duplicate Case"
+                "Please choose Decision Discard as it is a Potential Duplicate Case",
               );
               return;
             }
@@ -2845,7 +2852,7 @@ export default function ProvAnciFac() {
 
       console.log(
         "helooooooo Just before update API to check input apiJson:",
-        apiJson
+        apiJson,
       );
 
       customAxios
@@ -2927,7 +2934,7 @@ export default function ProvAnciFac() {
     const paymentResponse = getGridDataValues(paymentTableRowsData, caseNumber);
     const locationResponse = getGridDataValues(
       locationTableRowsData,
-      caseNumber
+      caseNumber,
     );
 
     if (typeResponse !== undefined && typeResponse.length > 0) {
@@ -2965,8 +2972,8 @@ export default function ProvAnciFac() {
           apiUrlArray.map((endpoint) =>
             customAxios.post(endpoint["apiKey"], endpoint["apiValue"], {
               headers: { Authorization: `Bearer ${token}` },
-            })
-          )
+            }),
+          ),
         )
         .then((res) => {
           for (let i = 0; i < apiUrlArray.length; i++) {
@@ -2997,8 +3004,8 @@ export default function ProvAnciFac() {
         console.log("getGridDataValues dataKeyType :", dataKeyType);
         if (dataKeyType === "object") {
           console.log("Inside Data Object if: ", dataObject);
-          if (!!data[dataValue]) {
-            if (!!data[dataValue].value) {
+          if (data[dataValue]) {
+            if (data[dataValue].value) {
               if (data[dataValue].value instanceof Date) {
                 // dataObject[dataValue] =
                 //   data[dataValue].value.toLocaleDateString();
@@ -3047,7 +3054,7 @@ export default function ProvAnciFac() {
           {props.selectProps.placeholder}
         </Placeholder>
         {React.Children.map(children, (child) =>
-          child && child.type !== Placeholder ? child : null
+          child && child.type !== Placeholder ? child : null,
         )}
       </ValueContainer>
     );
@@ -3162,7 +3169,7 @@ export default function ProvAnciFac() {
                 await new Promise((resolve) => setTimeout(resolve, 500)).catch(
                   (err) => {
                     console.error(err);
-                  }
+                  },
                 );
                 //alert(JSON.stringify(values, null, 2));
                 saveData(values);
@@ -3293,7 +3300,7 @@ export default function ProvAnciFac() {
                                           }),
                                           valueContainer: (
                                             provided,
-                                            state
+                                            state,
                                           ) => ({
                                             ...provided,
                                             overflow: "visible",
@@ -3466,8 +3473,8 @@ export default function ProvAnciFac() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -3476,7 +3483,7 @@ export default function ProvAnciFac() {
                                           formikFieldsOnChange(
                                             e,
                                             setFieldValue,
-                                            field
+                                            field,
                                           )
                                         }
                                       />
@@ -3510,8 +3517,8 @@ export default function ProvAnciFac() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -3520,7 +3527,7 @@ export default function ProvAnciFac() {
                                           formikFieldsOnChange(
                                             e,
                                             setFieldValue,
-                                            field
+                                            field,
                                           )
                                         }
                                       />
@@ -3557,8 +3564,8 @@ export default function ProvAnciFac() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -3567,7 +3574,7 @@ export default function ProvAnciFac() {
                                           formikFieldsOnChange(
                                             e,
                                             setFieldValue,
-                                            field
+                                            field,
                                           )
                                         }
                                       />
@@ -3602,13 +3609,19 @@ export default function ProvAnciFac() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
                                         value={handlePhoneNumber(field.value)}
-                                        onBlur={(evnt) => (handleFormikBlur(evnt,setFieldValue,field.name))}
+                                        onBlur={(evnt) =>
+                                          handleFormikBlur(
+                                            evnt,
+                                            setFieldValue,
+                                            field.name,
+                                          )
+                                        }
                                       />
                                       <label htmlFor="floatingInputGrid">
                                         Contact Phone#
@@ -3640,8 +3653,8 @@ export default function ProvAnciFac() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -3679,8 +3692,8 @@ export default function ProvAnciFac() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -3689,7 +3702,7 @@ export default function ProvAnciFac() {
                                           formikFieldsOnChange(
                                             e,
                                             setFieldValue,
-                                            field
+                                            field,
                                           )
                                         }
                                       />
@@ -3724,8 +3737,8 @@ export default function ProvAnciFac() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -3734,7 +3747,7 @@ export default function ProvAnciFac() {
                                           formikFieldsOnChange(
                                             e,
                                             setFieldValue,
-                                            field
+                                            field,
                                           )
                                         }
                                       />
@@ -3768,8 +3781,8 @@ export default function ProvAnciFac() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -3778,7 +3791,7 @@ export default function ProvAnciFac() {
                                           formikFieldsOnChange(
                                             e,
                                             setFieldValue,
-                                            field
+                                            field,
                                           )
                                         }
                                       />
@@ -3816,13 +3829,19 @@ export default function ProvAnciFac() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
                                         value={handlePhoneNumber(field.value)}
-                                        onBlur={(evnt) => (handleFormikBlur(evnt,setFieldValue,field.name))}
+                                        onBlur={(evnt) =>
+                                          handleFormikBlur(
+                                            evnt,
+                                            setFieldValue,
+                                            field.name,
+                                          )
+                                        }
                                       />
                                       <label htmlFor="floatingInputGrid">
                                         Credentialing Phone#
@@ -3854,8 +3873,8 @@ export default function ProvAnciFac() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -3893,8 +3912,8 @@ export default function ProvAnciFac() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -3970,8 +3989,8 @@ export default function ProvAnciFac() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -3980,7 +3999,7 @@ export default function ProvAnciFac() {
                                           formikFieldsOnChange(
                                             e,
                                             setFieldValue,
-                                            field
+                                            field,
                                           )
                                         }
                                       />
@@ -4014,8 +4033,8 @@ export default function ProvAnciFac() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -4024,7 +4043,7 @@ export default function ProvAnciFac() {
                                           formikFieldsOnChange(
                                             e,
                                             setFieldValue,
-                                            field
+                                            field,
                                           )
                                         }
                                       />
@@ -4059,8 +4078,8 @@ export default function ProvAnciFac() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -4069,7 +4088,7 @@ export default function ProvAnciFac() {
                                           formikFieldsOnChange(
                                             e,
                                             setFieldValue,
-                                            field
+                                            field,
                                           )
                                         }
                                       />
@@ -4137,7 +4156,7 @@ export default function ProvAnciFac() {
                                           }),
                                           valueContainer: (
                                             provided,
-                                            state
+                                            state,
                                           ) => ({
                                             ...provided,
                                             overflow: "visible",
@@ -4250,8 +4269,8 @@ export default function ProvAnciFac() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -4695,15 +4714,14 @@ export default function ProvAnciFac() {
                         style={{ display: "none" }}
                         className="providerPageButton button"
                         onClick={(event) => {
-
-                          if (callProcRef.current === "notCallProc" || prop?.state?.decision?.toLowerCase() === 'discard') {
-
+                          if (
+                            callProcRef.current === "notCallProc" ||
+                            prop?.state?.decision?.toLowerCase() === "discard"
+                          ) {
                             saveData(values);
-                          }
-                          else{
+                          } else {
                             handleSubmit(event);
                           }
-
                         }}
                       >
                         {isSubmitting ? "Saving" : "Save"}
@@ -4732,7 +4750,7 @@ export default function ProvAnciFac() {
     document.getElementById("mainFormSubmit").click();
     console.log(
       "Inside callFormSubmit callProcRef.current",
-      callProcRef.current
+      callProcRef.current,
     );
   };
   return (
