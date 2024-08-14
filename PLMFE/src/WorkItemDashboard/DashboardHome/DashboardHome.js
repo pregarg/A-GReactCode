@@ -4,23 +4,21 @@ import { SIGN_OUT } from "../../actions/types";
 import { useDispatch } from "react-redux";
 import SessionTimeoutModal from "../../Components/Navbar/SessionTimeoutModal";
 
+export default function DashboardHome() {
+  const dispatch = useDispatch();
 
-export default function DashboardHome (){
+  const signout = () => {
+    dispatch({ type: SIGN_OUT, payload: null });
+  };
 
-    const dispatch = useDispatch();
-    
-    const signout = () => {
-        dispatch({type: SIGN_OUT, payload: null});
-    }
+  useBeforeunload(() => {
+    signout();
+  });
 
-    useBeforeunload(()=>{
-        signout();
-    });
-
-    return(
-        <>
-        <Outlet/>
-        <SessionTimeoutModal navTo={'/DashboardLogin'}></SessionTimeoutModal>
-        </>
-    ) 
+  return (
+    <>
+      <Outlet />
+      <SessionTimeoutModal navTo={"/DashboardLogin"}></SessionTimeoutModal>
+    </>
+  );
 }

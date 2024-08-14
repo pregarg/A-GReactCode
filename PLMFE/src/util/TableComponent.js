@@ -36,7 +36,7 @@ function GlobalFilter({
   return (
     <>
       <span style={{ float: "left" }}>
-        <div class="inputContainer">
+        <div className="inputContainer">
           <label style={{ fontWeight: "bold" }}>Search:</label>
           <div>
             <input
@@ -107,7 +107,7 @@ function Table({
       // Default Filter UI
       Filter: DefaultColumnFilter,
     }),
-    []
+    [],
   );
 
   const {
@@ -139,11 +139,11 @@ function Table({
     useFilters,
     useGlobalFilter,
     useSortBy,
-    usePagination
+    usePagination,
   );
 
   const savedDataHistory = useSelector(
-    (store) => store.dashboardNavigationState
+    (store) => store.dashboardNavigationState,
   );
 
   useEffect(() => {
@@ -239,7 +239,7 @@ function Table({
                                   radioFlag === true ? (
                                     <div className="form-check">
                                       <input
-                                        class="form-check-input"
+                                        className="form-check-input"
                                         type="radio"
                                         onChange={(event) =>
                                           handleRadioChange(event, row.id)
@@ -254,9 +254,9 @@ function Table({
                                       ></input>
                                     </div>
                                   ) : (
-                                    <div class="form-check">
+                                    <div className="form-check">
                                       <input
-                                        class="form-check-input"
+                                        className="form-check-input"
                                         type="checkbox"
                                         onChange={(event) =>
                                           handleCheckBoxChange(event, row.id)
@@ -329,7 +329,7 @@ function Table({
                           {radioFlag !== undefined && radioFlag === true ? (
                             <div className="form-check">
                               <input
-                                class="form-check-input"
+                                className="form-check-input"
                                 type="radio"
                                 onChange={(event) =>
                                   handleRadioChange(event, row.id)
@@ -344,9 +344,9 @@ function Table({
                               ></input>
                             </div>
                           ) : (
-                            <div class="form-check">
+                            <div className="form-check">
                               <input
-                                class="form-check-input"
+                                className="form-check-input"
                                 type="checkbox"
                                 onChange={(event) =>
                                   handleCheckBoxChange(event, row.id)

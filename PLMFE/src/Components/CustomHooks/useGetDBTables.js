@@ -90,7 +90,7 @@ export default function useGetDBTables() {
         "ANG_Representative_Information_Grid~angRepresentativeInformationGrid",
         "ANG_Authorization_Information~angAuthorizationInformation",
         "ANG_Authorization_Information_Grid~angAuthorizationInformationGrid",
-        "ANG_Expedited_Request~angExpeditedRequest"
+        "ANG_Expedited_Request~angExpeditedRequest",
       ],
       angCaseStatusTable: ["ANG_MASTER_CASE_STATUS~angCaseStatus"],
     };
@@ -98,86 +98,34 @@ export default function useGetDBTables() {
   };
 
   const getGridJson = (jsonObj) => {
-    console.log("Inside getGridJson jsonObj: ", jsonObj);
+    if (jsonObj && typeof jsonObj === "object") {
+      const jsonKeys = Object.keys(jsonObj);
+      jsonKeys.forEach((elem) => {
+        const dataKeyType = typeof jsonObj[elem];
 
-    if (jsonObj && typeof jsonObj === 'object') {
-        const jsonKeys = Object.keys(jsonObj);
-        jsonKeys.forEach((elem) => {
-            const dataKeyType = typeof jsonObj[elem];
-
-            if (
-                (dataKeyType === "object" &&
-                    !jsonObj[elem]?.hasOwnProperty("label") &&
-                    !jsonObj[elem]?.hasOwnProperty("value")) ||
-                dataKeyType !== "object"
-            ) {
-                jsonObj[elem] = { label: jsonObj[elem], value: jsonObj[elem] };
-            } else if (
-                dataKeyType === "object" &&
-                jsonObj[elem].hasOwnProperty("label") &&
-                typeof jsonObj[elem]["label"] === "object"
-            ) {
-                jsonObj[elem] = jsonObj[elem]["label"];
-            }
-        });
-        return jsonObj;
+        if (
+          (dataKeyType === "object" &&
+            !jsonObj[elem]?.hasOwnProperty("label") &&
+            !jsonObj[elem]?.hasOwnProperty("value")) ||
+          dataKeyType !== "object"
+        ) {
+          jsonObj[elem] = { label: jsonObj[elem], value: jsonObj[elem] };
+        } else if (
+          dataKeyType === "object" &&
+          jsonObj[elem].hasOwnProperty("label") &&
+          typeof jsonObj[elem]["label"] === "object"
+        ) {
+          jsonObj[elem] = jsonObj[elem]["label"];
+        }
+      });
+      return jsonObj;
     } else {
-        console.error("Invalid input in getGridJson: jsonObj is null or not an object");
-        return {};
+      console.error(
+        "Invalid input in getGridJson: jsonObj is null or not an object",
+      );
+      return {};
     }
-};
-
-
-  // const getGridJson = (jsonObj) => {
-  //   //Added by Nidhi Gupta on 10/27/2023
-  //   //Commented by NG as handling will be done while calling this function
-  //   /* if (jsonObj === null || typeof jsonObj !== 'object') {
-  //           console.error('Invalid input in getGridJson: jsonObj is null or not an object');
-  //           return;
-  //       }*/
-
-  //   //Till Here
-  //   console.log("Inside getGridJson jsonObj: ", jsonObj);
-  //   if (jsonObj !== null || jsonObj !== undefined) {
-  //     const jsonKeys = Object.keys(jsonObj);
-  //     console.log("Inside getGridJson jsonObj1: ", jsonObj);
-  //     jsonKeys.forEach((elem) => {
-  //       const dataKeyType = typeof jsonObj[elem];
-  //       //if(dataKeyType === 'object'){
-  //       //console.log("Inside getGridJson dataKeyType: ", dataKeyType , jsonObj[elem]  , elem);
-  //       if (
-  //         (dataKeyType === "object" &&
-  //           !jsonObj[elem]?.hasOwnProperty("label") &&
-  //           !jsonObj[elem]?.hasOwnProperty("value")) ||
-  //         dataKeyType !== "object"
-  //       ) {
-  //         jsonObj[elem] = { label: jsonObj[elem], value: jsonObj[elem] };
-  //       }
-  //       //}
-  //       // if(dataKeyType !== 'object'){
-  //       //     jsonObj[elem] = {'label':jsonObj[elem], 'value':jsonObj[elem]};
-  //       // }
-
-  //       // Added by Nidhi Gupta on 11/10/2023 form making languages multi select
-  //       else if (
-  //         dataKeyType === "object" &&
-  //         jsonObj[elem].hasOwnProperty("label") &&
-  //         typeof jsonObj[elem]["label"] === "object"
-  //       ) {
-  //         //console.log("came inside here   " ,elem ,   typeof (jsonObj[elem]['label'] ))
-  //         jsonObj[elem] = jsonObj[elem]["label"];
-  //       }
-  //       //till here
-  //     });
-  //     //console.log("Inside getGridJson processedData: ", jsonObj);
-  //     return jsonObj;
-  //   } else {
-  //     console.error(
-  //       "Invalid input in getGridJson: jsonObj is null or not an object"
-  //     );
-  //     return;
-  //   }
-  // };
+  };
 
   const convertToDateObj = (jsonObj) => {
     const jsonKeys = Object.keys(jsonObj);
@@ -190,7 +138,6 @@ export default function useGetDBTables() {
         jsonObj[newKey] = date;
       }
     });
-    //console.log("Converted JSON: ",jsonObj);
     return jsonObj;
   };
 
@@ -203,18 +150,13 @@ export default function useGetDBTables() {
   };
 
   const formatDate = (dateObj) => {
-    //console.log("Inside formatDate ", typeof dateObj);
-
     if (dateObj) {
       if (typeof dateObj === "string") {
         const localDate = new Date(Date.parse(dateObj));
 
-        // console.log("Inside formatDate typeof", Date.parse(dateObj) , localDate.getDate());
         dateObj = localDate;
       } else if (typeof dateObj === "number") {
         const localDate2 = new Date(dateObj);
-
-        // console.log("Inside formatDate typeof: ", localDate2.getDate());
         dateObj = localDate2;
       }
       let dd = dateObj.getDate();
@@ -228,7 +170,6 @@ export default function useGetDBTables() {
         mm = "0" + mm;
       }
       let formattedDate = mm + "/" + dd + "/" + yyyy;
-      //console.log("formattedDate: ", formattedDate);
       return formattedDate;
     }
     return null;
@@ -236,16 +177,11 @@ export default function useGetDBTables() {
 
   const trimJsonValues = (inJson) => {
     const dataKeys = Object.keys(inJson);
-    //console.log("Inside trimJsonValues01: ", inJson)
     dataKeys.forEach((value) => {
       if (inJson[value] !== undefined && typeof inJson[value] === "string") {
         inJson[value] = inJson[value].trim();
       }
-      // if (inJson[value] instanceof Date) {
-      //     inJson[value] = inJson[value].toLocaleDateString();
-      // }
     });
-    //console.log("Inside trimJsonValues02: ", inJson)
     return inJson;
   };
 
@@ -263,44 +199,19 @@ export default function useGetDBTables() {
   };
 
   const checkGridJsonLength = (json) => {
-    console.log("Inside checkGridJsonLength final json 1: ", json);
     let flag = false;
     if (Object.keys(json).length === 1) {
       if (json.hasOwnProperty("rowNumber")) {
         flag = true;
       }
     }
-
-    /*else{
-            if(json.hasOwnProperty("rowNumber")){
-                delete json["rowNumber"];
-            }
-
-            let cnt = 0;
-            Object.keys(json).forEach((el) => {
-                console.log("json.value",json[el].value);
-                const val = json[el].value.trim();
-                if(val === ''){
-                    cnt++;
-                }
-            })
-            console.log("Inside checkGridJsonLength final json: ",Object.keys(json).length);
-            console.log("Inside checkGridJsonLength final json count: ",cnt);
-
-            if(cnt === Object.keys(json).length){
-                flag = true;
-            }
-        }
-        console.log("Inside checkGridJsonLength final json flag: ",flag);*/
     return flag;
   };
 
   const acceptNumbersOnly = (e) => {
-    console.log("EE", e);
     if (e !== undefined && e !== null) {
       let Value = e.toString();
       var newValue = Value.replace(new RegExp(/[^\d]/, "ig"), "");
-      console.log("new value", newValue);
       return newValue;
     }
   };
@@ -315,25 +226,17 @@ export default function useGetDBTables() {
       const year = dateVal.getFullYear();
 
       retDate = `${year}-${month}-${day}`;
-      console.log("Inside getDatePart extracted date: ", retDate);
     }
     return retDate;
   };
 
   const getJsonFromFormikState = (initState, formikState) => {
-    console.log("Inside getJsonFromFormikState initState ===== ", initState);
-    console.log(
-      "Inside getJsonFromFormikState formikState ===== ",
-      formikState
-    );
     let retJson = {};
     Object.keys(initState).forEach((elem) => {
       if (formikState.hasOwnProperty(elem)) {
         retJson[elem] = formikState[elem];
       }
     });
-
-    console.log("Final JSON Created from getJsonFromFormikState: ", retJson);
     return retJson;
   };
 

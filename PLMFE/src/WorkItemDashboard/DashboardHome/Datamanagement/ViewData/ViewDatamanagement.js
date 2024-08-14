@@ -140,7 +140,7 @@ export default function ViewDatamanagement(props) {
     setSelectedData(row);
     setDeleteModal({ show: true, id: null });
   };
- 
+
   let actionColumn = {
     field: "Actions",
     headerName: "Actions",
@@ -399,7 +399,6 @@ export default function ViewDatamanagement(props) {
           </CardContent>
         </Card>
       </Grid>
-      
 
       <EditTableDataModal
         modalShow={modalShow}

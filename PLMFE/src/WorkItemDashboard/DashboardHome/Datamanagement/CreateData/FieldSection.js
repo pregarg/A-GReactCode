@@ -24,9 +24,9 @@ export default function FieldSection() {
     console.log(fieldData, index, mode, "fieldData, index, mode");
     if (mode != "Add") {
       const isPrimarySet = tableFields.find(
-        (f, i) => f.isPrimary && fieldData.isPrimary && i != index
+        (f, i) => f.isPrimary && fieldData.isPrimary && i != index,
       );
-      if (!!isPrimarySet) {
+      if (isPrimarySet) {
         setShowError({
           show: true,
           msg: "Primary key already exists for another field.",
@@ -35,9 +35,9 @@ export default function FieldSection() {
       }
 
       const isFieldNameExist = tableFields.find(
-        (f, i) => f.fieldName == fieldData.fieldName && i != index
+        (f, i) => f.fieldName == fieldData.fieldName && i != index,
       );
-      if (!!isFieldNameExist) {
+      if (isFieldNameExist) {
         setShowError({ show: true, msg: "Field name already exist" });
         return;
       }
@@ -48,9 +48,9 @@ export default function FieldSection() {
       });
     } else {
       const isPrimarySet = tableFields.find(
-        (f) => f.isPrimary && fieldData.isPrimary
+        (f) => f.isPrimary && fieldData.isPrimary,
       );
-      if (!!isPrimarySet) {
+      if (isPrimarySet) {
         setShowError({
           show: true,
           msg: "Primary key already exists for another field.",
@@ -59,9 +59,9 @@ export default function FieldSection() {
       }
 
       const isFieldNameExist = tableFields.find(
-        (f) => f.fieldName == fieldData.fieldName
+        (f) => f.fieldName == fieldData.fieldName,
       );
-      if (!!isFieldNameExist) {
+      if (isFieldNameExist) {
         setShowError({ show: true, msg: "Field name already exist" });
         return;
       }
@@ -163,9 +163,8 @@ export default function FieldSection() {
           </div>
         )}
       </div>
-      
+
       <div className="row mb-2">
-       
         <div className="col-6">
           <form>
             <div className="row mb-2">

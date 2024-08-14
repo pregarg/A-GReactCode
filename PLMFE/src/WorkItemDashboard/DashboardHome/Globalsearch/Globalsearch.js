@@ -71,7 +71,7 @@ export default function Globalsearch(props) {
 
   const [firlTableRowsData, setFirlTableRowsData] = useState([]);
   const [compensationTableRowsData, setCompensationTableRowsData] = useState(
-    []
+    [],
   );
   const [gridFieldTempState, setGridFieldTempState] = useState({});
   const [apiCallOnce, setApiCallOnce] = useState(false);
@@ -137,7 +137,7 @@ export default function Globalsearch(props) {
         setApiCallOnce(true);
         let getApiJson = {};
         getApiJson["tableNames"] = getTableDetails()["pdmNetworkLinear"].concat(
-          getTableDetails()["pdmNetworkGridTables"]
+          getTableDetails()["pdmNetworkGridTables"],
         );
         getApiJson["whereClause"] = {
           PROVIDERID: props.providerId,
@@ -375,7 +375,6 @@ export default function Globalsearch(props) {
                       };
                     }
                     apiResponseArray.push(apiResponse);
-
                   });
                   setCompensationTableRowsData(apiResponseArray);
                 }
@@ -403,150 +402,145 @@ export default function Globalsearch(props) {
     let additionalQuesValues = [];
 
     let newArr = [];
-      if (mastersSelector.hasOwnProperty("masterAgesSeen")) {
-        let newAgesSeenArray = [];
-        let orgAgesSeenArray =
-          mastersSelector["masterAgesSeen"].length === 0
-            ? []
-            : mastersSelector["masterAgesSeen"][0];
-        for (let i = 0; i < orgAgesSeenArray.length; i++) {
-          newAgesSeenArray.push({
-            label: convertToCase(orgAgesSeenArray[i].agesSeen),
-            value: convertToCase(orgAgesSeenArray[i].agesSeen),
-          });
-        }
-        selectJson.agesSeenArray = newAgesSeenArray;
+    if (mastersSelector.hasOwnProperty("masterAgesSeen")) {
+      let newAgesSeenArray = [];
+      let orgAgesSeenArray =
+        mastersSelector["masterAgesSeen"].length === 0
+          ? []
+          : mastersSelector["masterAgesSeen"][0];
+      for (let i = 0; i < orgAgesSeenArray.length; i++) {
+        newAgesSeenArray.push({
+          label: convertToCase(orgAgesSeenArray[i].agesSeen),
+          value: convertToCase(orgAgesSeenArray[i].agesSeen),
+        });
+      }
+      selectJson.agesSeenArray = newAgesSeenArray;
+    }
+
+    if (mastersSelector.hasOwnProperty("masterLanguages")) {
+      //selectJson.languageArray = mastersSelector['masterLanguages'][0].data;
+      let languageArray =
+        mastersSelector["masterLanguages"].length === 0
+          ? []
+          : mastersSelector["masterLanguages"][0];
+
+      for (const item of languageArray) {
+        newArr.push(convertToCase(item.displayName));
+      }
+      selectJson.languageArray = newArr;
+      newArr = [];
+    }
+
+    if (mastersSelector.hasOwnProperty("masterGridLicenseType")) {
+      let licenseTypeOptions =
+        mastersSelector["masterGridLicenseType"].length === 0
+          ? []
+          : mastersSelector["masterGridLicenseType"][0];
+
+      for (const item of licenseTypeOptions) {
+        newArr.push(convertToCase(item.licenseType));
       }
 
-      if (mastersSelector.hasOwnProperty("masterLanguages")) {
-        //selectJson.languageArray = mastersSelector['masterLanguages'][0].data;
-        let languageArray =
-          mastersSelector["masterLanguages"].length === 0
-            ? []
-            : mastersSelector["masterLanguages"][0];
+      selectJson.licenseTypeOptions = newArr;
+      newArr = [];
+    }
+    //  if(mastersSelector.hasOwnProperty('masterStateSymbol')){
+    //     selectJson.stateOptions = ((mastersSelector['masterStateSymbol'].length===0) ? [] : (mastersSelector['masterStateSymbol'][0].data));
+    //  }
 
-            for (const item of languageArray) {
-              newArr.push(convertToCase(item.displayName));
-            }
-          selectJson.languageArray = newArr;
-          newArr = [];
+    if (mastersSelector.hasOwnProperty("masterStateSymbol")) {
+      let newstateOptions = [];
+      let orgstateOptions =
+        mastersSelector["masterStateSymbol"].length === 0
+          ? []
+          : mastersSelector["masterStateSymbol"][0];
+      // for (let i = 0; i < orgstateOptions.length; i++) {
+      //   newstateOptions.push({
+      //     label: convertToCase(orgstateOptions[i].stateSymbol),
+      //     value: convertToCase(orgstateOptions[i].stateSymbol),
+      //   });
+
+      // }
+
+      for (const item of orgstateOptions) {
+        newstateOptions.push({
+          label: convertToCase(item.stateSymbol),
+          value: convertToCase(item.stateSymbol),
+        });
+        newArr.push(convertToCase(item.stateSymbol));
+      }
+      selectJson.stateOptionsLinear = newstateOptions;
+      selectJson.stateOptions = newArr;
+      newArr = [];
+    }
+
+    if (mastersSelector.hasOwnProperty("masterAddressType")) {
+      let addressTypeOptions =
+        mastersSelector["masterAddressType"].length === 0
+          ? []
+          : mastersSelector["masterAddressType"][0];
+
+      for (const item of addressTypeOptions) {
+        newArr.push(convertToCase(item.addressType));
       }
 
+      selectJson.addressTypeOptions = newArr;
+      newArr = [];
+    }
 
+    if (mastersSelector.hasOwnProperty("masterLicenseType")) {
+      selectJson.typeOptions =
+        mastersSelector["masterLicenseType"].length === 0
+          ? []
+          : mastersSelector["masterLicenseType"][0].data;
+    }
 
-      if (mastersSelector.hasOwnProperty("masterGridLicenseType")) {
-        let licenseTypeOptions =
-          mastersSelector["masterGridLicenseType"].length === 0
-            ? []
-            : mastersSelector["masterGridLicenseType"][0];
+    if (mastersSelector.hasOwnProperty("masterSpeciality")) {
+      selectJson.specialtyOptions =
+        mastersSelector["masterSpeciality"].length === 0
+          ? []
+          : mastersSelector["masterSpeciality"][0];
+    }
 
-            for (const item of licenseTypeOptions) {
-              newArr.push(convertToCase(item.licenseType));
-            }
+    if (mastersSelector.hasOwnProperty("masterGraduateType")) {
+      let degreeOptions =
+        mastersSelector["masterGraduateType"].length === 0
+          ? []
+          : mastersSelector["masterGraduateType"][0];
 
-            selectJson.licenseTypeOptions = newArr;
-            newArr = [];
-      }
-      //  if(mastersSelector.hasOwnProperty('masterStateSymbol')){
-      //     selectJson.stateOptions = ((mastersSelector['masterStateSymbol'].length===0) ? [] : (mastersSelector['masterStateSymbol'][0].data));
-      //  }
-
-      if (mastersSelector.hasOwnProperty("masterStateSymbol")) {
-        let newstateOptions = [];
-        let orgstateOptions =
-          mastersSelector["masterStateSymbol"].length === 0
-            ? []
-            : mastersSelector["masterStateSymbol"][0];
-        // for (let i = 0; i < orgstateOptions.length; i++) {
-        //   newstateOptions.push({
-        //     label: convertToCase(orgstateOptions[i].stateSymbol),
-        //     value: convertToCase(orgstateOptions[i].stateSymbol),
-        //   });
-
-        // }
-
-
-        for (const item of orgstateOptions) {
-          newstateOptions.push({
-            label: convertToCase(item.stateSymbol),
-            value: convertToCase(item.stateSymbol),
-          });
-          newArr.push(convertToCase(item.stateSymbol));
-        }
-        selectJson.stateOptionsLinear = newstateOptions;
-        selectJson.stateOptions = newArr;
-        newArr = [];
+      for (const item of degreeOptions) {
+        newArr.push(convertToCase(item.graduateType));
       }
 
+      selectJson.degreeOptions = newArr;
+      newArr = [];
+    }
 
-      if (mastersSelector.hasOwnProperty("masterAddressType")) {
-        let addressTypeOptions =
-          mastersSelector["masterAddressType"].length === 0
-            ? []
-            : mastersSelector["masterAddressType"][0];
+    if (mastersSelector.hasOwnProperty("masterDocumentList")) {
+      let documentOptions =
+        mastersSelector["masterDocumentList"].length === 0
+          ? []
+          : mastersSelector["masterDocumentList"][0];
 
-            for (const item of addressTypeOptions) {
-              newArr.push(convertToCase(item.addressType));
-            }
-
-            selectJson.addressTypeOptions = newArr;
-            newArr = [];
+      for (const item of documentOptions) {
+        newArr.push(convertToCase(item.docList));
       }
 
-
-      if (mastersSelector.hasOwnProperty("masterLicenseType")) {
-        selectJson.typeOptions =
-          mastersSelector["masterLicenseType"].length === 0
-            ? []
-            : mastersSelector["masterLicenseType"][0].data;
-      }
-
-      if (mastersSelector.hasOwnProperty("masterSpeciality")) {
-        selectJson.specialtyOptions =
-          mastersSelector["masterSpeciality"].length === 0
-            ? []
-            : mastersSelector["masterSpeciality"][0];
-      }
-
-      if (mastersSelector.hasOwnProperty("masterGraduateType")) {
-        let degreeOptions =
-          mastersSelector["masterGraduateType"].length === 0
-            ? []
-            : mastersSelector["masterGraduateType"][0];
-
-            for (const item of degreeOptions) {
-              newArr.push(convertToCase(item.graduateType));
-            }
-
-            selectJson.degreeOptions = newArr;
-            newArr = [];
-      }
-
-      if (mastersSelector.hasOwnProperty("masterDocumentList")) {
-        let documentOptions =
-          mastersSelector["masterDocumentList"].length === 0
-            ? []
-            : mastersSelector["masterDocumentList"][0];
-
-            for (const item of documentOptions) {
-              newArr.push(convertToCase(item.docList));
-            }
-
-            selectJson.documentOptions = newArr;
-            newArr = [];
-      }
-      if (mastersSelector.hasOwnProperty("masterAdditionalQues")) {
-        selectJson.additionalQues =
-          mastersSelector["masterAdditionalQues"].length === 0
-            ? []
-            : mastersSelector["masterAdditionalQues"][0];
-      }
-      if (mastersSelector.hasOwnProperty("masterTaxonomyCode")) {
-        selectJson.taxonomyOptions =
-          mastersSelector["masterTaxonomyCode"].length === 0
-            ? []
-            : mastersSelector["masterTaxonomyCode"][0];
-      }
+      selectJson.documentOptions = newArr;
+      newArr = [];
+    }
+    if (mastersSelector.hasOwnProperty("masterAdditionalQues")) {
+      selectJson.additionalQues =
+        mastersSelector["masterAdditionalQues"].length === 0
+          ? []
+          : mastersSelector["masterAdditionalQues"][0];
+    }
+    if (mastersSelector.hasOwnProperty("masterTaxonomyCode")) {
+      selectJson.taxonomyOptions =
+        mastersSelector["masterTaxonomyCode"].length === 0
+          ? []
+          : mastersSelector["masterTaxonomyCode"][0];
+    }
 
     setTimeout(() => setSelectValues(selectJson), 1000);
 
@@ -554,13 +548,13 @@ export default function Globalsearch(props) {
       .filter(
         (data) =>
           data.TransactionType.toLowerCase() ==
-          Globalsearch.displayName.toLowerCase()
+          Globalsearch.displayName.toLowerCase(),
       )
       .map((val) =>
         additionalQuesValues.push({
           questionId: val.QuestionId,
           label: val.QuesDescription,
-        })
+        }),
       );
 
     setTimeout(() => {
@@ -574,7 +568,7 @@ export default function Globalsearch(props) {
     let getApiJson = {};
     if (props.formName == "Provider") {
       getApiJson["tableNames"] = getTableDetails()["pdmProviderLinear"].concat(
-        getTableDetails()["pdmGridTables"]
+        getTableDetails()["pdmGridTables"],
       );
       getApiJson["whereClause"] = {
         PROVIDERID: props.providerId,
@@ -582,7 +576,7 @@ export default function Globalsearch(props) {
       };
     } else {
       getApiJson["tableNames"] = getTableDetails()["pdmFacAncLinear"].concat(
-        getTableDetails()["pdmGridTables"]
+        getTableDetails()["pdmGridTables"],
       );
       getApiJson["whereClause"] = {
         PROVIDERID: props.providerId,
@@ -614,7 +608,7 @@ export default function Globalsearch(props) {
                 if (apiResponse.hasOwnProperty("dateOfBirth")) {
                   if (typeof apiResponse.dateOfBirth === "string") {
                     const dob = new Date(
-                      getDatePartOnly(apiResponse.dateOfBirth)
+                      getDatePartOnly(apiResponse.dateOfBirth),
                     );
                     apiResponse.dateOfBirth = dob;
                   }
@@ -622,7 +616,7 @@ export default function Globalsearch(props) {
                 if (apiResponse.hasOwnProperty("ecfmgIssueDate")) {
                   if (typeof apiResponse.ecfmgIssueDate === "string") {
                     const eid = new Date(
-                      getDatePartOnly(apiResponse.ecfmgIssueDate)
+                      getDatePartOnly(apiResponse.ecfmgIssueDate),
                     );
                     apiResponse.ecfmgIssueDate = eid;
                   }
@@ -630,7 +624,7 @@ export default function Globalsearch(props) {
                 if (apiResponse.hasOwnProperty("ecfmgExpirationDate")) {
                   if (typeof apiResponse.ecfmgExpirationDate === "string") {
                     const eed = new Date(
-                      getDatePartOnly(apiResponse.ecfmgExpirationDate)
+                      getDatePartOnly(apiResponse.ecfmgExpirationDate),
                     );
                     apiResponse.ecfmgExpirationDate = eed;
                   }
@@ -638,7 +632,7 @@ export default function Globalsearch(props) {
                 if (apiResponse.hasOwnProperty("attestationDate")) {
                   if (typeof apiResponse.attestationDate === "string") {
                     const atd = new Date(
-                      getDatePartOnly(apiResponse.attestationDate)
+                      getDatePartOnly(apiResponse.attestationDate),
                     );
                     apiResponse.dateOfBirth = atd;
                   }
@@ -802,14 +796,13 @@ export default function Globalsearch(props) {
                   }
                 }
                 apiResponseArray.push(apiResponse);
-
               });
               setCredentialTableRowsData(apiResponseArray);
             }
 
             if (k === "additionalQuesGrid") {
               const masterMap = new Map(
-                additionalQuesValues.map((obj) => [obj.questionId, obj.label])
+                additionalQuesValues.map((obj) => [obj.questionId, obj.label]),
               );
 
               let caseID = 0;
@@ -826,7 +819,7 @@ export default function Globalsearch(props) {
               });
 
               const quesAnsMap = new Map(
-                quesAnsList.map((obj) => [obj.questionId, obj])
+                quesAnsList.map((obj) => [obj.questionId, obj]),
               );
 
               for (const [key, value] of masterMap) {
@@ -843,12 +836,9 @@ export default function Globalsearch(props) {
                 }
               }
 
-
-
               if (quesAnsList !== undefined && quesAnsList.length > 0) {
                 setQuesAnsListJson(quesAnsList);
               }
-
             }
 
             //till here 02
@@ -858,8 +848,6 @@ export default function Globalsearch(props) {
       .catch((err) => {
         console.log(err.message);
       });
-
-
 
     return () => {
       let NodeColor = document.getElementsByTagName("Input");
@@ -872,7 +860,6 @@ export default function Globalsearch(props) {
   //Added by Nidhi Gupta on 10/9/2023
   const mapLinearNetworkTab = (res) => {
     const transformed = {
-
       riskState: res["RISKSTATE"],
       riskAssignment: res["RISKASSIGNMENT"],
       taxId: res["TAXID"],
@@ -1096,31 +1083,31 @@ export default function Globalsearch(props) {
 
   const mapSpecialityTable = (res) => {
     const transformed = {
-      speciality: !!res["SPECIALITY"] ? res["SPECIALITY"] : undefined,
-      subSpeciality: !!res["SUBSPECIALITY"] ? res["SUBSPECIALITY"] : undefined,
+      speciality: res["SPECIALITY"] ? res["SPECIALITY"] : undefined,
+      subSpeciality: res["SUBSPECIALITY"] ? res["SUBSPECIALITY"] : undefined,
 
       //Added by Nidhi Gupta on 07/26/2023
-      specPrimary: !!res["PRIMARYSPECIALITY"]
+      specPrimary: res["PRIMARYSPECIALITY"]
         ? res["PRIMARYSPECIALITY"] === "Y"
           ? "Yes"
           : res["PRIMARYSPECIALITY"] === "N"
-          ? "No"
-          : ""
+            ? "No"
+            : ""
         : undefined,
       //Till Here
-      pcp: !!res["PCP"] ? (res["PCP"] == "Y" ? "Yes" : "No") : undefined,
-      hsdCode: !!res["HSDCODE"] ? res["HSDCODE"] : undefined,
-      taxonomyCode: !!res["TAXONOMYCODE"] ? res["TAXONOMYCODE"] : undefined,
-      taxonomyDesc: !!res["TAXONOMYDESCRIPTION"]
+      pcp: res["PCP"] ? (res["PCP"] == "Y" ? "Yes" : "No") : undefined,
+      hsdCode: res["HSDCODE"] ? res["HSDCODE"] : undefined,
+      taxonomyCode: res["TAXONOMYCODE"] ? res["TAXONOMYCODE"] : undefined,
+      taxonomyDesc: res["TAXONOMYDESCRIPTION"]
         ? res["TAXONOMYDESCRIPTION"]
         : undefined,
-      taxonomyGrp: !!res["TAXONOMYGROUP"] ? res["TAXONOMYGROUP"] : undefined,
-      boardCerti: !!res["BOARDCERTIFICATE"]
+      taxonomyGrp: res["TAXONOMYGROUP"] ? res["TAXONOMYGROUP"] : undefined,
+      boardCerti: res["BOARDCERTIFICATE"]
         ? res["BOARDCERTIFICATE"] === "Y"
           ? "Yes"
           : res["BOARDCERTIFICATE"] === "N"
-          ? "No"
-          : ""
+            ? "No"
+            : ""
         : undefined,
     };
 
@@ -1140,26 +1127,26 @@ export default function Globalsearch(props) {
         res["ELECTRONICHEALTHRECORD"] === "Y"
           ? "YES"
           : res["ELECTRONICHEALTHRECORD"] === "N"
-          ? "NO"
-          : "",
+            ? "NO"
+            : "",
       publicTransportation:
         res["PUBLICTRANSPORTATION"] === "Y"
           ? "YES"
           : res["PUBLICTRANSPORTATION"] === "N"
-          ? "NO"
-          : "",
+            ? "NO"
+            : "",
       handicapAccess:
         res["HANDICAPACCESS"] === "Y"
           ? "YES"
           : res["HANDICAPACCESS"] === "N"
-          ? "NO"
-          : "",
+            ? "NO"
+            : "",
       tddHearing:
         res["TDDHEARING"] === "Y"
           ? "YES"
           : res["TDDHEARING"] === "N"
-          ? "NO"
-          : "",
+            ? "NO"
+            : "",
       // placeInDirectory:((res["PLACEINDIRECTORY"] === 'Y') ? 'YES' : res["PLACEINDIRECTORY"] === 'N' ?'NO' : ''),
       placeInDirectory: res["PLACEINDIRECTORY"],
       telemedicine: res["TELEMEDICINE"],
@@ -1178,17 +1165,17 @@ export default function Globalsearch(props) {
   const mapPayToTable = (res) => {
     const transformed = {
       //Added by Nidhi Gupta on 07/26/2023
-      taxId: !!res["TAXID"] ? res["TAXID"] : undefined,
-      locationName: !!res["LOCATIONNAME"] ? res["LOCATIONNAME"] : undefined,
-      county: !!res["COUNTY"] ? res["COUNTY"] : undefined,
-      payToNpi: !!res["PAYTONPI"] ? res["PAYTONPI"] : undefined,
-      address1: !!res["ADDRESS1"] ? res["ADDRESS1"] : undefined,
+      taxId: res["TAXID"] ? res["TAXID"] : undefined,
+      locationName: res["LOCATIONNAME"] ? res["LOCATIONNAME"] : undefined,
+      county: res["COUNTY"] ? res["COUNTY"] : undefined,
+      payToNpi: res["PAYTONPI"] ? res["PAYTONPI"] : undefined,
+      address1: res["ADDRESS1"] ? res["ADDRESS1"] : undefined,
       //Till Here
 
-      address2: !!res["ADDRESS2"] ? res["ADDRESS2"] : undefined,
-      city: !!res["CITY"] ? res["CITY"] : undefined,
-      stateValue: !!res["STATEVALUE"] ? res["STATEVALUE"] : undefined,
-      zipCode: !!res["ZIPCODE"] ? res["ZIPCODE"] : undefined,
+      address2: res["ADDRESS2"] ? res["ADDRESS2"] : undefined,
+      city: res["CITY"] ? res["CITY"] : undefined,
+      stateValue: res["STATEVALUE"] ? res["STATEVALUE"] : undefined,
+      zipCode: res["ZIPCODE"] ? res["ZIPCODE"] : undefined,
     };
 
     return truncateUndefined(transformed);
@@ -1238,7 +1225,7 @@ export default function Globalsearch(props) {
     let result = {};
     Object.keys(transformed).forEach((key) => {
       //console.log("truncateUndefined transformed location;", !!transformed[key]);
-      if (!!transformed[key]) {
+      if (transformed[key]) {
         result = {
           ...result,
           [key]: transformed[key],
@@ -1343,7 +1330,7 @@ export default function Globalsearch(props) {
     index,
     selectedValue,
     evnt,
-    triggeredFormName
+    triggeredFormName,
   ) => {
     let rowsInput = "";
     const { name } = evnt;
@@ -1390,7 +1377,7 @@ export default function Globalsearch(props) {
       ) {
         console.log("Inside select change heloooooo");
         const foundOption = selectValues.specialtyOptions.find(
-          (option) => option.speciality === selectedValue.value
+          (option) => option.speciality === selectedValue.value,
         );
         console.log("Inside select change foundOption: ", foundOption);
         if (
@@ -1399,7 +1386,6 @@ export default function Globalsearch(props) {
           foundOption.hsdCodeValue !== null &&
           foundOption.hsdCodeValue !== undefined
         ) {
-
           rowsInput[index]["hsdCode"] = foundOption.hsdCodeValue;
         } else {
           rowsInput[index]["hsdCode"] = "";
@@ -1481,7 +1467,7 @@ export default function Globalsearch(props) {
           {props.selectProps.placeholder}
         </Placeholder>
         {React.Children.map(children, (child) =>
-          child && child.type !== Placeholder ? child : null
+          child && child.type !== Placeholder ? child : null,
         )}
       </ValueContainer>
     );
@@ -1581,8 +1567,8 @@ export default function Globalsearch(props) {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -1626,8 +1612,8 @@ export default function Globalsearch(props) {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -1671,9 +1657,9 @@ export default function Globalsearch(props) {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value ||
-                                              field.value === null
-                                            ? "is-valid"
-                                            : ""
+                                                field.value === null
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -1717,8 +1703,8 @@ export default function Globalsearch(props) {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -1761,8 +1747,8 @@ export default function Globalsearch(props) {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -1841,7 +1827,7 @@ export default function Globalsearch(props) {
                                     onChange={(selectValue, event) =>
                                       handleLinearSelectChange(
                                         selectValue,
-                                        event
+                                        event,
                                       )
                                     }
                                     value={apiTestState.gender}
@@ -1874,8 +1860,8 @@ export default function Globalsearch(props) {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -1918,8 +1904,8 @@ export default function Globalsearch(props) {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         //oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
@@ -1989,8 +1975,8 @@ export default function Globalsearch(props) {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -2067,7 +2053,7 @@ export default function Globalsearch(props) {
                                     onChange={(selectValue, event) =>
                                       handleLinearSelectChange(
                                         selectValue,
-                                        event
+                                        event,
                                       )
                                     }
                                     value={apiTestState.agesSeen}
@@ -2097,8 +2083,8 @@ export default function Globalsearch(props) {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -2144,8 +2130,8 @@ export default function Globalsearch(props) {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -2224,7 +2210,7 @@ export default function Globalsearch(props) {
                                     onChange={(selectValue, event) =>
                                       handleLinearSelectChange(
                                         selectValue,
-                                        event
+                                        event,
                                       )
                                     }
                                     value={apiTestState.newPatients}
@@ -2254,8 +2240,8 @@ export default function Globalsearch(props) {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -2338,7 +2324,7 @@ export default function Globalsearch(props) {
                                     onChange={(selectValue, event) =>
                                       handleLinearSelectChange(
                                         selectValue,
-                                        event
+                                        event,
                                       )
                                     }
                                     value={apiTestState.delegated}
@@ -2368,8 +2354,8 @@ export default function Globalsearch(props) {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -2506,7 +2492,7 @@ export default function Globalsearch(props) {
                                     onChange={(selectValue, event) =>
                                       handleLinearSelectChange(
                                         selectValue,
-                                        event
+                                        event,
                                       )
                                     }
                                     value={apiTestState.states}
@@ -2537,8 +2523,8 @@ export default function Globalsearch(props) {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -2611,8 +2597,8 @@ export default function Globalsearch(props) {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -2657,8 +2643,8 @@ export default function Globalsearch(props) {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -2701,8 +2687,8 @@ export default function Globalsearch(props) {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         // oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
@@ -2748,8 +2734,8 @@ export default function Globalsearch(props) {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -2791,8 +2777,8 @@ export default function Globalsearch(props) {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -2834,8 +2820,8 @@ export default function Globalsearch(props) {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -2918,7 +2904,7 @@ export default function Globalsearch(props) {
                                       handleLinearSelectChange(
                                         selectValue,
                                         event,
-                                        values
+                                        values,
                                       )
                                     }
                                     value={apiTestState.delegated}
@@ -2950,8 +2936,8 @@ export default function Globalsearch(props) {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -3089,7 +3075,7 @@ export default function Globalsearch(props) {
                                     onChange={(selectValue, event) =>
                                       handleLinearSelectChange(
                                         selectValue,
-                                        event
+                                        event,
                                       )
                                     }
                                     value={apiTestState.states}
@@ -3119,8 +3105,8 @@ export default function Globalsearch(props) {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -3399,15 +3385,19 @@ export default function Globalsearch(props) {
             ></CompensationTab>
           </Tab>
 
-                    <Tab eventKey="Document" title="Document">
-                        <DocumentTab providerId = {props.providerId} contractId = {props.contractId}
-                        caseNumber = {props.caseNumber} selectedType={props.selectedType} searchType={'SelfService'}/>
-                    </Tab>
-                </Tabs>
-            </>
-        )
-
-    }
+          <Tab eventKey="Document" title="Document">
+            <DocumentTab
+              providerId={props.providerId}
+              contractId={props.contractId}
+              caseNumber={props.caseNumber}
+              selectedType={props.selectedType}
+              searchType={"SelfService"}
+            />
+          </Tab>
+        </Tabs>
+      </>
+    );
+  };
 
   return (
     <>

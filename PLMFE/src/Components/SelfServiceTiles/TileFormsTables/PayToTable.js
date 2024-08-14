@@ -152,12 +152,12 @@ export default function PayToTable({
     console.log("Inside validateAddressData oldAddress: ", oldAdd.current);
     console.log(
       "Inside validateAddressData newAddress: ",
-      validatedAdd.current
+      validatedAdd.current,
     );
     return (
       <>
         <label className="validatAddressLabel">Form Address:</label>
-        <table class="table table-striped table-bordered dashboardTableBorder ">
+        <table className="table table-striped table-bordered dashboardTableBorder ">
           <thead>
             <tr className="dashboardTableHeader">
               <th></th>
@@ -205,7 +205,7 @@ export default function PayToTable({
         <br />
 
         <label className="validatAddressLabel">USPS Address:</label>
-        <table class="table table-striped table-bordered dashboardTableBorder ">
+        <table className="table table-striped table-bordered dashboardTableBorder ">
           <thead>
             <tr className="dashboardTableHeader">
               <th></th>
@@ -285,7 +285,7 @@ export default function PayToTable({
         if (res.status === 200) {
           if (res.data["address1"] === null || res.data["city"] === null) {
             alert(
-              "Address can not be validated. Please enter correct address details."
+              "Address can not be validated. Please enter correct address details.",
             );
           } else {
             validateAddressDetails.address1 = res.data["address1"];
@@ -305,7 +305,7 @@ export default function PayToTable({
             //locationState[index] = validateAddressDetails;
             console.log(
               "newValidatedAddress locationState: ",
-              validateAddressDetails
+              validateAddressDetails,
             );
             validatedAdd.current = validateAddressDetails;
             setValidateAddressModalShow(flag);
@@ -320,7 +320,7 @@ export default function PayToTable({
     const data = getGridJson(gridFieldTempState);
 
     selectJson["stateOptions"].map((val) =>
-      stateOptions.push({ value: val, label: val })
+      stateOptions.push({ value: val, label: val }),
     );
 
     return (
@@ -503,7 +503,7 @@ export default function PayToTable({
                     index,
                     selectValue,
                     event,
-                    PayToTable.displayName
+                    PayToTable.displayName,
                   );
                   handleFieldBlur("stateValue", selectValue?.value);
                 }}
@@ -538,7 +538,7 @@ export default function PayToTable({
 
                   handleFieldBlur(
                     "zipCode",
-                    acceptNumbersOnly(evnt?.target?.value)
+                    acceptNumbersOnly(evnt?.target?.value),
                   );
                 }}
                 name="zipCode"
@@ -570,7 +570,7 @@ export default function PayToTable({
 
                   handleFieldBlur(
                     "payToNpi",
-                    acceptNumbersOnly(evnt?.target?.value)
+                    acceptNumbersOnly(evnt?.target?.value),
                   );
                 }}
                 name="payToNpi"
@@ -630,7 +630,7 @@ export default function PayToTable({
                       deleteTableRows(
                         index,
                         PayToTable.displayName,
-                        "Force Delete"
+                        "Force Delete",
                       );
                       handleOperationValue("Force Delete");
                       decreaseDataIndex();

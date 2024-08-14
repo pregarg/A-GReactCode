@@ -657,11 +657,11 @@ const storeTableStateReducer = (
     stageName: "",
     caseSubmitted: false,
   },
-  action
+  action,
 ) => {
   switch (action.type) {
     case STORE_DATA:
-      console.log("pravsc1", action.payload.data)
+      console.log("pravsc1", action.payload.data);
       return {
         data: [...action.payload.data],
         pageNumber: action.payload.pageNumber,
@@ -669,32 +669,32 @@ const storeTableStateReducer = (
         caseSubmitted: action.payload.caseSubmitted,
       };
     case CLEAR_DATA:
-      console.log("pravsc2")
+      console.log("pravsc2");
       return {
         data: [],
         pageNumber: 0,
         searchString: "",
       };
     case UPDATE_PAGE_NUMBER:
-      console.log("pravsc3")
+      console.log("pravsc3");
       return {
         ...state,
         pageNumber: action.payload.pageNumber,
       };
     case UPDATE_SEARCH_STRING:
-      console.log("pravsc4")
+      console.log("pravsc4");
       return {
         ...state,
         searchString: action.payload.searchString,
       };
     case UPDATE_DATA:
-      console.log("pravsc5", action.payload.data)
+      console.log("pravsc5", action.payload.data);
       return {
         ...state,
         data: [...action.payload.data],
       };
     case UPDATE_CASE_STATUS:
-      console.log("pravsc6")
+      console.log("pravsc6");
       return {
         ...state,
         caseSubmitted: action.payload.caseSubmitted,

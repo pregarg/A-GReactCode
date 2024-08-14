@@ -38,7 +38,7 @@ export default function EducationTable({
     const data = getGridJson(gridFieldTempState);
 
     selectJson["degreeOptions"].map((val) =>
-      graduateTypeOptions.push({ value: val, label: val })
+      graduateTypeOptions.push({ value: val, label: val }),
     );
 
     return (
@@ -61,7 +61,7 @@ export default function EducationTable({
                     index,
                     selectValue,
                     event,
-                    EducationTable.displayName
+                    EducationTable.displayName,
                   )
                 }
                 options={graduateTypeOptions}
@@ -90,7 +90,7 @@ export default function EducationTable({
                       index,
                       selectValue,
                       "graduationDate",
-                      EducationTable.displayName
+                      EducationTable.displayName,
                     )
                   }
                   peekNextMonth
@@ -184,7 +184,7 @@ export default function EducationTable({
                         deleteTableRows(
                           index,
                           EducationTable.displayName,
-                          "Force Delete"
+                          "Force Delete",
                         );
                         handleOperationValue("Force Delete");
                         decreaseDataIndex();
@@ -267,7 +267,7 @@ export default function EducationTable({
         console.log(
           "Inside formatDate typeof",
           Date.parse(dateObj),
-          localDate.getDate()
+          localDate.getDate(),
         );
         dateObj = localDate;
       } else if (typeof dateObj === "number") {

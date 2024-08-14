@@ -16,14 +16,20 @@ export default function AuthSearch(modalProps) {
   const handleCriteriaChangeValue = (evnt) => {
     const { name, value } = evnt.target;
     console.log("event---->", name, value);
-    modalProps.setSelectSearchValues({ ...modalProps.selectSearchValues, [name]: value });
+    modalProps.setSelectSearchValues({
+      ...modalProps.selectSearchValues,
+      [name]: value,
+    });
   };
 
   const handleDateChange = (date, name) => {
     console.log("service_start_date-->", date, name);
-    modalProps.setSelectSearchValues({ ...modalProps.selectSearchValues, [name]: date });
+    modalProps.setSelectSearchValues({
+      ...modalProps.selectSearchValues,
+      [name]: date,
+    });
   };
-  
+
   const RenderDatePickerfromDate = (props) => (
     <div className="form-floating">
       <input {...props} placeholder="From Date" />
@@ -61,52 +67,58 @@ export default function AuthSearch(modalProps) {
         }}
         backdrop="static"
         keyboard={false}
-         dialogClassName="modal-dialog custom-modal"
+        dialogClassName="modal-dialog custom-modal"
         size="xl"
         style={{ width: "100%", margin: "auto" }}
         aria-labelledby="example-custom-modal-styling-title"
         centered
       >
         <Modal.Header closeButton className="justify-content-center">
-        <Modal.Title className="text-center w-100">Auth Search</Modal.Title>
+          <Modal.Title className="text-center w-100">Auth Search</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className="row my-2">
             <div className="col-12">
-            <div className="form-check">
+              <div className="form-check">
                 <input
                   className="form-check-input"
                   type="radio"
                   name="searchCriteria"
                   id="authorizationNumberCriteria"
                   value="authorizationNumber"
-                  checked={modalProps.selectedCriteria === "authorizationNumber"}
+                  checked={
+                    modalProps.selectedCriteria === "authorizationNumber"
+                  }
                   onChange={(event) => handleCriteriaChange(event)}
-                  
                 />
-                 <div className="row my-2">
+                <div className="row my-2">
                   <div className="col-xs-12 col-md-3">
-                 
-                <div className="form-floating mb-2">
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="authorizationNumberVal"
-                    placeholder="Authorization Number"
-                    name="authorizationNumber"
-                    value={modalProps.selectSearchValues?.authorizationNumber || ""}
-                    onChange={(event) => handleCriteriaChangeValue(event)}
-                    disabled={modalProps.selectedCriteria !== "authorizationNumber"}
-                    
-                  />
-                  <label htmlFor="authorizationNumberVal">Authorization Number</label>
+                    <div className="form-floating mb-2">
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="authorizationNumberVal"
+                        placeholder="Authorization Number"
+                        name="authorizationNumber"
+                        value={
+                          modalProps.selectSearchValues?.authorizationNumber ||
+                          ""
+                        }
+                        onChange={(event) => handleCriteriaChangeValue(event)}
+                        disabled={
+                          modalProps.selectedCriteria !== "authorizationNumber"
+                        }
+                      />
+                      <label htmlFor="authorizationNumberVal">
+                        Authorization Number
+                      </label>
+                    </div>
+                  </div>
                 </div>
               </div>
-                  </div>
-                  </div>
 
-                  <div className="form-check">
-                            <input
+              <div className="form-check">
+                <input
                   className="form-check-input"
                   type="radio"
                   name="searchCriteria"
@@ -115,7 +127,7 @@ export default function AuthSearch(modalProps) {
                   checked={modalProps.selectedCriteria === "provider"}
                   onChange={(event) => handleCriteriaChange(event)}
                 />
-              
+
                 <div className="row my-2">
                   <div className="col-xs-12 col-md-3">
                     <div className="form-floating mb-2">
@@ -183,8 +195,7 @@ export default function AuthSearch(modalProps) {
                 </div>
               </div>
 
-
-                  <div className="form-check">
+              <div className="form-check">
                 <input
                   className="form-check-input"
                   type="radio"
@@ -194,7 +205,7 @@ export default function AuthSearch(modalProps) {
                   checked={modalProps.selectedCriteria === "provider2"}
                   onChange={(event) => handleCriteriaChange(event)}
                 />
-              
+
                 <div className="row my-2">
                   <div className="col-xs-12 col-md-3">
                     <div className="form-floating mb-2">
@@ -216,7 +227,9 @@ export default function AuthSearch(modalProps) {
                       <ReactDatePicker
                         id="admitPrimaryFromDate"
                         className="form-control example-custom-input-provider"
-                        selected={modalProps.selectSearchValues?.admitPrimaryFromDate}
+                        selected={
+                          modalProps.selectSearchValues?.admitPrimaryFromDate
+                        }
                         name="admitPrimaryFromDate"
                         onChange={(date) => {
                           handleDateChange(date, "admitPrimaryFromDate");
@@ -240,7 +253,9 @@ export default function AuthSearch(modalProps) {
                       <ReactDatePicker
                         id="admitPrimaryToDate"
                         className="form-control example-custom-input-provider"
-                        selected={modalProps.selectSearchValues?.admitPrimaryToDate}
+                        selected={
+                          modalProps.selectSearchValues?.admitPrimaryToDate
+                        }
                         name="admitPrimaryToDate"
                         onChange={(date) => {
                           handleDateChange(date, "admitPrimaryToDate");
@@ -262,7 +277,7 @@ export default function AuthSearch(modalProps) {
                 </div>
               </div>
 
-                  <div className="form-check">
+              <div className="form-check">
                 <input
                   className="form-check-input"
                   type="radio"
@@ -284,9 +299,13 @@ export default function AuthSearch(modalProps) {
                         id="sequentialIDId"
                         placeholder="Enter Sequential ID"
                         name="sequentialIDId"
-                        value={modalProps.selectSearchValues?.sequentialIDId || ""}
+                        value={
+                          modalProps.selectSearchValues?.sequentialIDId || ""
+                        }
                         onChange={(event) => handleCriteriaChangeValue(event)}
-                        disabled={modalProps.selectedCriteria !== "sequentialID"}
+                        disabled={
+                          modalProps.selectedCriteria !== "sequentialID"
+                        }
                       />
                       <label htmlFor="sequentialIDId">Sequential ID</label>
                     </div>
@@ -301,7 +320,9 @@ export default function AuthSearch(modalProps) {
                         onChange={(date) => {
                           handleDateChange(date, "fromDate2");
                         }}
-                        disabled={modalProps.selectedCriteria !== "sequentialID"}
+                        disabled={
+                          modalProps.selectedCriteria !== "sequentialID"
+                        }
                         dateFormat="MM/dd/yyyy"
                         peekNextMonth
                         showMonthDropdown
@@ -325,7 +346,9 @@ export default function AuthSearch(modalProps) {
                         onChange={(date) => {
                           handleDateChange(date, "toDate2");
                         }}
-                        disabled={modalProps.selectedCriteria !== "sequentialID"}
+                        disabled={
+                          modalProps.selectedCriteria !== "sequentialID"
+                        }
                         dateFormat="MM/dd/yyyy"
                         peekNextMonth
                         showMonthDropdown
@@ -364,7 +387,9 @@ export default function AuthSearch(modalProps) {
                         id="sequentialIDId2"
                         placeholder="Enter Sequential ID"
                         name="sequentialID2"
-                        value={modalProps.selectSearchValues?.sequentialID2 || ""}
+                        value={
+                          modalProps.selectSearchValues?.sequentialID2 || ""
+                        }
                         onChange={(event) => handleCriteriaChangeValue(event)}
                         disabled={modalProps.selectedCriteria !== "sequential2"}
                       />
@@ -376,7 +401,9 @@ export default function AuthSearch(modalProps) {
                       <ReactDatePicker
                         id="admitPrimaryFromDate2"
                         className="form-control example-custom-input-provider"
-                        selected={modalProps.selectSearchValues?.admitPrimaryFromDate2}
+                        selected={
+                          modalProps.selectSearchValues?.admitPrimaryFromDate2
+                        }
                         name="admitPrimaryFromDate2"
                         onChange={(date) => {
                           handleDateChange(date, "admitPrimaryFromDate2");
@@ -400,7 +427,9 @@ export default function AuthSearch(modalProps) {
                       <ReactDatePicker
                         id="admitPrimaryToDate2"
                         className="form-control example-custom-input-provider"
-                        selected={modalProps.selectSearchValues?.admitPrimaryToDate2}
+                        selected={
+                          modalProps.selectSearchValues?.admitPrimaryToDate2
+                        }
                         name="admitPrimaryToDate2"
                         onChange={(date) => {
                           handleDateChange(date, "admitPrimaryToDate2");
@@ -447,16 +476,25 @@ export default function AuthSearch(modalProps) {
             Clear
           </Button>
         </Modal.Footer>
-        <div style={{overflowX:'auto',maxWidth:'100%'}}>{modalProps.responseData.length>0 &&
-                      modalProps.authSearchTableComponent()
-                    }</div>
-          <br></br>
-        {modalProps.responseData.length>0 && (
+        <div style={{ overflowX: "auto", maxWidth: "100%" }}>
+          {modalProps.responseData.length > 0 &&
+            modalProps.authSearchTableComponent()}
+        </div>
+        <br></br>
+        {modalProps.responseData.length > 0 && (
           <Button
-            className="btn btn-outline-primary btnStyle" id="selectedAddressCancel"
-            style={{ display: "flex", justifyContent: "center", width: "20%", margin: "auto" }}
-            onClick={() => { modalProps.handleSelectedAuth(false);
-            }}>
+            className="btn btn-outline-primary btnStyle"
+            id="selectedAddressCancel"
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              width: "20%",
+              margin: "auto",
+            }}
+            onClick={() => {
+              modalProps.handleSelectedAuth(false);
+            }}
+          >
             Populate Data
           </Button>
         )}

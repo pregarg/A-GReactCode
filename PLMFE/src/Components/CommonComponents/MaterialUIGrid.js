@@ -35,7 +35,7 @@ export default function MaterialUiGrid({
       uniqueCol
         ? row[uniqueCol]
         : Math.floor(Math.random() * Math.floor(Math.random() * Date.now())),
-    []
+    [],
   );
   const getJson = useCallback((apiRef) => {
     const filteredSortedRowIds = gridFilteredSortedRowIdsSelector(apiRef);

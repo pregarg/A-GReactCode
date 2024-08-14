@@ -35,9 +35,9 @@ export default function MasterFieldsTable({
   const onFieldUpdate = (fieldData, index, mode) => {
     if (mode != "Add") {
       const isPrimarySet = tableFields.find(
-        (f, i) => f.isPrimary && fieldData.isPrimary && i != index
+        (f, i) => f.isPrimary && fieldData.isPrimary && i != index,
       );
-      if (!!isPrimarySet) {
+      if (isPrimarySet) {
         Swal.fire({
           icon: "error",
           title: "Primary key already exists for another field.",
@@ -48,9 +48,9 @@ export default function MasterFieldsTable({
       }
 
       const isFieldNameExist = tableFields.find(
-        (f, i) => f.fieldName == fieldData.fieldName && i != index
+        (f, i) => f.fieldName == fieldData.fieldName && i != index,
       );
-      if (!!isFieldNameExist) {
+      if (isFieldNameExist) {
         Swal.fire({
           icon: "error",
           title: "Field name already exist",
@@ -66,9 +66,9 @@ export default function MasterFieldsTable({
       });
     } else {
       const isPrimarySet = tableFields.find(
-        (f) => f.isPrimary && fieldData.isPrimary
+        (f) => f.isPrimary && fieldData.isPrimary,
       );
-      if (!!isPrimarySet) {
+      if (isPrimarySet) {
         Swal.fire({
           icon: "error",
           title: "Primary key already exists for another field.",
@@ -78,10 +78,10 @@ export default function MasterFieldsTable({
         return;
       }
       const isAutoIdentity = tableFields.find(
-        (f) => f.isAutoIdentity && fieldData.isAutoIdentity
+        (f) => f.isAutoIdentity && fieldData.isAutoIdentity,
       );
 
-      if (!!isAutoIdentity) {
+      if (isAutoIdentity) {
         Swal.fire({
           icon: "error",
           title: "Identity Column already exists for another field.",
@@ -92,9 +92,9 @@ export default function MasterFieldsTable({
       }
 
       const isFieldNameExist = tableFields.find(
-        (f) => f.fieldName == fieldData.fieldName
+        (f) => f.fieldName == fieldData.fieldName,
       );
-      if (!!isFieldNameExist) {
+      if (isFieldNameExist) {
         Swal.fire({
           icon: "error",
           title: "Field name already exist",

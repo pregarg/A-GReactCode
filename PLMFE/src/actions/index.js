@@ -49,7 +49,7 @@ export const signOut = (token, onSuccess, onError) => {
       .post(
         "/auth/logout",
         {},
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` } },
       )
       .then((res) => {
         console.log(res);
@@ -68,7 +68,7 @@ export const signIn = (
   clearFlag = false,
   onError,
   onSuccess,
-  Page
+  Page,
 ) => {
   return async (dispatch) => {
     if (!clearFlag) {
@@ -101,7 +101,7 @@ export const getMasterStateSymbol = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
@@ -137,12 +137,15 @@ export const getMasterAngCaseFilingMethod = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
       const apiData = new FormData();
-      apiData.append("tableName", "ANG_MASTER_CASE_FILING_METHOD~masterAngCaseFilingMethod");
+      apiData.append(
+        "tableName",
+        "ANG_MASTER_CASE_FILING_METHOD~masterAngCaseFilingMethod",
+      );
       axios
         .post("/generic/get/masterTableData", apiData, {
           headers: { Authorization: `Bearer ${token}` },
@@ -173,7 +176,7 @@ export const getMasterAngLOBMapping = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
@@ -209,12 +212,15 @@ export const getMasterAngAppellantDesc = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
       const apiData = new FormData();
-      apiData.append("tableName", "ANG_MASTER_APPELLANT_DESC~masterAngAppellantDesc");
+      apiData.append(
+        "tableName",
+        "ANG_MASTER_APPELLANT_DESC~masterAngAppellantDesc",
+      );
       axios
         .post("/generic/get/masterTableData", apiData, {
           headers: { Authorization: `Bearer ${token}` },
@@ -245,12 +251,15 @@ export const getMasterAngAppellantType = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
       const apiData = new FormData();
-      apiData.append("tableName", "ANG_MASTER_APPELLANT_TYPE~masterAngAppellantType");
+      apiData.append(
+        "tableName",
+        "ANG_MASTER_APPELLANT_TYPE~masterAngAppellantType",
+      );
       axios
         .post("/generic/get/masterTableData", apiData, {
           headers: { Authorization: `Bearer ${token}` },
@@ -281,7 +290,7 @@ export const getMasterAngAppealType = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
@@ -317,12 +326,15 @@ export const getMasterAngCaseLevelPriority = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
       const apiData = new FormData();
-      apiData.append("tableName", "ANG_MASTER_CASE_LEVEL_PRIORITY~masterAngCaseLevelPriority");
+      apiData.append(
+        "tableName",
+        "ANG_MASTER_CASE_LEVEL_PRIORITY~masterAngCaseLevelPriority",
+      );
       axios
         .post("/generic/get/masterTableData", apiData, {
           headers: { Authorization: `Bearer ${token}` },
@@ -353,7 +365,7 @@ export const getMasterAngIssueLevel = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
@@ -389,7 +401,7 @@ export const getMasterAngReviewType = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
@@ -425,7 +437,7 @@ export const getMasterAngClaimType = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
@@ -461,7 +473,7 @@ export const getMasterAngDecision = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
@@ -497,12 +509,15 @@ export const getMasterAngAuthServiceType = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
       const apiData = new FormData();
-      apiData.append("tableName", "ANG_MASTER_AUTH_SERVICE_TYPE~masterAngAuthServiceType");
+      apiData.append(
+        "tableName",
+        "ANG_MASTER_AUTH_SERVICE_TYPE~masterAngAuthServiceType",
+      );
       axios
         .post("/generic/get/masterTableData", apiData, {
           headers: { Authorization: `Bearer ${token}` },
@@ -533,12 +548,15 @@ export const getMasterAngProcessingStatus = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
       const apiData = new FormData();
-      apiData.append("tableName", "ANG_MASTER_PROCESSING_STATUS~masterAngProcessingStatus");
+      apiData.append(
+        "tableName",
+        "ANG_MASTER_PROCESSING_STATUS~masterAngProcessingStatus",
+      );
       axios
         .post("/generic/get/masterTableData", apiData, {
           headers: { Authorization: `Bearer ${token}` },
@@ -569,12 +587,15 @@ export const getMasterAngFiledTimely = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
       const apiData = new FormData();
-      apiData.append("tableName", "ANG_MASTER_FILED_TIMELY~masterAngFiledTimely");
+      apiData.append(
+        "tableName",
+        "ANG_MASTER_FILED_TIMELY~masterAngFiledTimely",
+      );
       axios
         .post("/generic/get/masterTableData", apiData, {
           headers: { Authorization: `Bearer ${token}` },
@@ -605,12 +626,15 @@ export const getMasterAngGrantGoodCause = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
       const apiData = new FormData();
-      apiData.append("tableName", "ANG_MASTER_GRANT_GOOD_CAUSE~masterAngGrantGoodCause");
+      apiData.append(
+        "tableName",
+        "ANG_MASTER_GRANT_GOOD_CAUSE~masterAngGrantGoodCause",
+      );
       axios
         .post("/generic/get/masterTableData", apiData, {
           headers: { Authorization: `Bearer ${token}` },
@@ -641,12 +665,15 @@ export const getMasterAngProviderRole = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
       const apiData = new FormData();
-      apiData.append("tableName", "ANG_MASTER_PROVIDER_ROLE~masterAngProviderRole");
+      apiData.append(
+        "tableName",
+        "ANG_MASTER_PROVIDER_ROLE~masterAngProviderRole",
+      );
       axios
         .post("/generic/get/masterTableData", apiData, {
           headers: { Authorization: `Bearer ${token}` },
@@ -677,12 +704,15 @@ export const getMasterAngProviderType = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
       const apiData = new FormData();
-      apiData.append("tableName", "ANG_MASTER_PROVIDER_TYPE~masterAngProviderType");
+      apiData.append(
+        "tableName",
+        "ANG_MASTER_PROVIDER_TYPE~masterAngProviderType",
+      );
       axios
         .post("/generic/get/masterTableData", apiData, {
           headers: { Authorization: `Bearer ${token}` },
@@ -713,12 +743,15 @@ export const getMasterAngParProvider = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
       const apiData = new FormData();
-      apiData.append("tableName", "ANG_MASTER_PAR_PROVIDER~masterAngParProvider");
+      apiData.append(
+        "tableName",
+        "ANG_MASTER_PAR_PROVIDER~masterAngParProvider",
+      );
       axios
         .post("/generic/get/masterTableData", apiData, {
           headers: { Authorization: `Bearer ${token}` },
@@ -749,12 +782,15 @@ export const getMasterAngPortalEnrolled = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
       const apiData = new FormData();
-      apiData.append("tableName", "ANG_MASTER_PORTAL_ENROLLED~masterAngPortalEnrolled");
+      apiData.append(
+        "tableName",
+        "ANG_MASTER_PORTAL_ENROLLED~masterAngPortalEnrolled",
+      );
       axios
         .post("/generic/get/masterTableData", apiData, {
           headers: { Authorization: `Bearer ${token}` },
@@ -785,7 +821,7 @@ export const getMasterAngDeceased = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
@@ -821,7 +857,7 @@ export const getMasterAngGender = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
@@ -857,7 +893,7 @@ export const getMasterAngDualPlan = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
@@ -893,12 +929,15 @@ export const getMasterAngPreferredLanguage = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
       const apiData = new FormData();
-      apiData.append("tableName", "ANG_MASTER_PREFERRED_LANGUAGE~masterAngPreferredLanguage");
+      apiData.append(
+        "tableName",
+        "ANG_MASTER_PREFERRED_LANGUAGE~masterAngPreferredLanguage",
+      );
       axios
         .post("/generic/get/masterTableData", apiData, {
           headers: { Authorization: `Bearer ${token}` },
@@ -929,12 +968,15 @@ export const getMasterAngMailToAddress = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
       const apiData = new FormData();
-      apiData.append("tableName", "ANG_MASTER_MAIL_TO_ADDRESS~masterAngMailToAdress");
+      apiData.append(
+        "tableName",
+        "ANG_MASTER_MAIL_TO_ADDRESS~masterAngMailToAdress",
+      );
       axios
         .post("/generic/get/masterTableData", apiData, {
           headers: { Authorization: `Bearer ${token}` },
@@ -965,7 +1007,7 @@ export const getMasterAngCommPref = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
@@ -1001,12 +1043,15 @@ export const getMasterAngExpeditedRequested = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
       const apiData = new FormData();
-      apiData.append("tableName", "ANG_MASTER_EXPEDITED_REQUESTED~masterAngExpeditedRequested");
+      apiData.append(
+        "tableName",
+        "ANG_MASTER_EXPEDITED_REQUESTED~masterAngExpeditedRequested",
+      );
       axios
         .post("/generic/get/masterTableData", apiData, {
           headers: { Authorization: `Bearer ${token}` },
@@ -1037,12 +1082,15 @@ export const getMasterAngExpeditedDenied = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
       const apiData = new FormData();
-      apiData.append("tableName", "ANG_MASTER_EXPEDITED_DENIED~masterAngExpeditedDenied");
+      apiData.append(
+        "tableName",
+        "ANG_MASTER_EXPEDITED_DENIED~masterAngExpeditedDenied",
+      );
       axios
         .post("/generic/get/masterTableData", apiData, {
           headers: { Authorization: `Bearer ${token}` },
@@ -1073,12 +1121,15 @@ export const getMasterAngStUpExpedited = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
       const apiData = new FormData();
-      apiData.append("tableName", "ANG_MASTER_ST_UP_EXPEDITED~masterAngStUpExpedited");
+      apiData.append(
+        "tableName",
+        "ANG_MASTER_ST_UP_EXPEDITED~masterAngStUpExpedited",
+      );
       axios
         .post("/generic/get/masterTableData", apiData, {
           headers: { Authorization: `Bearer ${token}` },
@@ -1109,7 +1160,7 @@ export const getMasterAngDocument = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
@@ -1145,12 +1196,15 @@ export const getMasterAngRelationship = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
       const apiData = new FormData();
-      apiData.append("tableName", "ANG_MASTER_RELATIONSHIP~masterAngRelationship");
+      apiData.append(
+        "tableName",
+        "ANG_MASTER_RELATIONSHIP~masterAngRelationship",
+      );
       axios
         .post("/generic/get/masterTableData", apiData, {
           headers: { Authorization: `Bearer ${token}` },
@@ -1181,7 +1235,7 @@ export const getMasterAngAORType = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
@@ -1217,7 +1271,7 @@ export const getMasterAddressType = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
@@ -1253,7 +1307,7 @@ export const getMasterAgesSeen = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
@@ -1290,7 +1344,7 @@ export const getMasterLanguages = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
@@ -1326,7 +1380,7 @@ export const getMasterSalutation = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
@@ -1362,7 +1416,7 @@ export const getMasterLicenseType = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
@@ -1393,7 +1447,7 @@ export const getMasterEthnicity = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
@@ -1429,7 +1483,7 @@ export const getMasterSpeciality = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
@@ -1465,7 +1519,7 @@ export const getMasterGridLicenseType = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
@@ -1501,7 +1555,7 @@ export const getMasterGridHours = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
@@ -1532,7 +1586,7 @@ export const getMasterGraduateType = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
@@ -1568,7 +1622,7 @@ export const getMasterDocumentList = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   // alert("docli"+token) //Commented by Nidhi
   return (dispatch) => {
@@ -1669,7 +1723,7 @@ export const getMasterDocumentName = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
@@ -1705,13 +1759,13 @@ export const getMasterAdditionalQues = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
       const apiData = new FormData();
       apiData.append("tableName", "AdditionalQuesTable~addQuesTable");
-      console.log("")
+      console.log("");
       axios
         .post("/generic/get/masterTableData", apiData, {
           headers: { Authorization: `Bearer ${token}` },
@@ -1725,7 +1779,6 @@ export const getMasterAdditionalQues = (
               onSuccess(res);
             }
           }
-
         })
         .catch((error) => {
           console.log(error);
@@ -1743,7 +1796,7 @@ export const getStageRights = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
@@ -1779,7 +1832,7 @@ export const getMasterContractType = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
@@ -1799,7 +1852,6 @@ export const getMasterContractType = (
               onSuccess(res);
             }
           }
-
         })
         .catch((error) => {
           console.log(error);
@@ -1817,11 +1869,10 @@ export const getMasterTaxonomyCode = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
-
       const apiData = new FormData();
       apiData.append("tableName", "Master_TaxonomyCode~taxonomyCode");
       axios
@@ -1837,7 +1888,6 @@ export const getMasterTaxonomyCode = (
               onSuccess(res);
             }
           }
-
         })
         .catch((error) => {
           console.log(error);
@@ -1855,7 +1905,7 @@ export const getMasterProviderType = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
@@ -1891,7 +1941,7 @@ export const getCompositionMaster = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
@@ -1937,7 +1987,7 @@ export const getMasterReference = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
@@ -1975,7 +2025,7 @@ export const getMasterHeaderFooter = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
@@ -2014,7 +2064,7 @@ export const getProvContLinkData = (
   clearFlag = false,
   onError,
   onSuccess,
-  type
+  type,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
@@ -2036,7 +2086,7 @@ export const getProvContLinkData = (
             //respData = JSON.parse(respData)
             console.log(
               "Get data Response for getProvContLinkData 2: ",
-              respData[0]
+              respData[0],
             );
             dispatch({ type: "GET_PROVCONTLINKDATA", payload: respData });
             if (onSuccess) {
@@ -2058,7 +2108,7 @@ export const getModuleRights = (
   clearFlag = false,
   onError,
   onSuccess,
-  userId
+  userId,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
@@ -2163,7 +2213,7 @@ export const getDistinctValues = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
@@ -2183,7 +2233,7 @@ export const getDistinctValues = (
             //respData = JSON.parse(respData)
             console.log(
               "Get data Response for getDistinctValues 2: ",
-              respData[0]
+              respData[0],
             );
             dispatch({ type: "GET_DISTINCTVALUES", payload: respData });
             if (onSuccess) {
@@ -2205,7 +2255,7 @@ export const getTerminationReason = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
@@ -2244,7 +2294,7 @@ export const getMasterCommon = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {
@@ -2311,7 +2361,7 @@ export const getViewReportsData = (
   token,
   clearFlag = false,
   onError,
-  onSuccess
+  onSuccess,
 ) => {
   return (dispatch) => {
     if (!clearFlag) {

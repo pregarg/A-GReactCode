@@ -51,7 +51,7 @@ const checkDataAvailable = (data) => {
 const getTransformed = (dataObj) => {
   const transformedObj = {};
   Object.keys(dataObj).forEach((key) => {
-    if (!!dataObj[key]) {
+    if (dataObj[key]) {
       transformedObj[key] = dataObj[key];
     }
   });
@@ -59,7 +59,7 @@ const getTransformed = (dataObj) => {
 };
 
 const populateAccessibility = (node, staticValue) => {
-  return !!checkDataAvailable(node.Accessibility)
+  return checkDataAvailable(node.Accessibility)
     ? Array.isArray(node.Accessibility)
       ? node.Accessibility.map((data1) =>
           !!checkDataAvailable(data1.Accessibility) &&
@@ -67,17 +67,17 @@ const populateAccessibility = (node, staticValue) => {
             staticValue &&
           checkDataAvailable(data1.AccessibilityFlag) == "1"
             ? "Yes"
-            : "No"
+            : "No",
         ).indexOf("Yes") > -1
         ? { label: "Yes", value: "Y" }
         : { label: "No", value: "N" }
       : !!checkDataAvailable(node.Accessibility.Accessibility) &&
-        checkDataAvailable(
-          node.Accessibility.Accessibility.AccessibilityDescription
-        ) == staticValue &&
-        checkDataAvailable(node.Accessibility.AccessibilityFlag) == "1"
-      ? { label: "Yes", value: "Y" }
-      : { label: "No", value: "N" }
+          checkDataAvailable(
+            node.Accessibility.Accessibility.AccessibilityDescription,
+          ) == staticValue &&
+          checkDataAvailable(node.Accessibility.AccessibilityFlag) == "1"
+        ? { label: "Yes", value: "Y" }
+        : { label: "No", value: "N" }
     : { label: "No", value: "N" };
 };
 
@@ -127,7 +127,7 @@ export default function AncFacDemo() {
   let documentSectionDataRef = useRef([]);
 
   let credentialingConfigData = JSON.parse(
-    process.env.REACT_APP_CREDENTIALING_DETAILS
+    process.env.REACT_APP_CREDENTIALING_DETAILS,
   );
   const dispatch = useDispatch();
   const [loadForm, setLoadForm] = useState(true);
@@ -227,7 +227,7 @@ export default function AncFacDemo() {
       const contractIdData = provContLinkData[0][0];
       printConsole(
         "Inside getDashboardData contractIdData Data: ",
-        contractIdData
+        contractIdData,
       );
       if (contractIdData !== undefined) {
         if (contractIdData.hasOwnProperty("FacAncModification")) {
@@ -308,17 +308,17 @@ export default function AncFacDemo() {
     const isChecked = evnt.target.checked;
     console.log(
       "Inside handlecheckbox change with event: ",
-      evnt.target.checked
+      evnt.target.checked,
     );
     console.log(
       "Inside handlecheckbox change with index: ",
       ind,
       " and value: ",
-      isChecked
+      isChecked,
     );
     printConsole(
       "Inside handleCheckBox change caseUnlockState value: ",
-      caseUnlockState
+      caseUnlockState,
     );
     if (isChecked) {
       if (caseUnlockState !== -1) {
@@ -328,7 +328,7 @@ export default function AncFacDemo() {
         let updatedProvData = removeExtraChecked();
         printConsole(
           "Inside handleCheckBox change else with updated data: ",
-          updatedProvData
+          updatedProvData,
         );
         let jsn = updatedProvData[ind];
         jsn.isChecked = evnt.target.checked;
@@ -413,7 +413,7 @@ export default function AncFacDemo() {
     convertToCase,
     checkGridJsonLength,
     extractDate,
-    acceptNumbersOnly
+    acceptNumbersOnly,
   } = useGetDBTables();
   //Added Newly by Nidhi Gupta on 09/05/2023
   const { getLinkingData } = useCallApi();
@@ -650,11 +650,11 @@ export default function AncFacDemo() {
           ? []
           : mastersSelector["masterLanguages"][0];
 
-          for (const item of languageArray) {
-            newArr.push(convertToCase(item.displayName));
-          } 
-        selectJson.languageArray = newArr;
-        newArr = [];
+      for (const item of languageArray) {
+        newArr.push(convertToCase(item.displayName));
+      }
+      selectJson.languageArray = newArr;
+      newArr = [];
     }
 
     if (mastersSelector.hasOwnProperty("masterStateSymbol")) {
@@ -670,7 +670,6 @@ export default function AncFacDemo() {
       //   });
 
       // }
-      
 
       for (const item of orgstateOptions) {
         newstateOptions.push({
@@ -678,7 +677,7 @@ export default function AncFacDemo() {
           value: convertToCase(item.stateSymbol),
         });
         newArr.push(convertToCase(item.stateSymbol));
-      } 
+      }
       selectJson.stateOptionsLinear = newstateOptions;
       selectJson.stateOptions = newArr;
       newArr = [];
@@ -690,12 +689,12 @@ export default function AncFacDemo() {
           ? []
           : mastersSelector["masterGridLicenseType"][0];
 
-          for (const item of licenseTypeOptions) {
-            newArr.push(convertToCase(item.licenseType));
-          } 
+      for (const item of licenseTypeOptions) {
+        newArr.push(convertToCase(item.licenseType));
+      }
 
-          selectJson.licenseTypeOptions = newArr;
-          newArr = [];
+      selectJson.licenseTypeOptions = newArr;
+      newArr = [];
     }
 
     if (mastersSelector.hasOwnProperty("masterAddressType")) {
@@ -704,12 +703,12 @@ export default function AncFacDemo() {
           ? []
           : mastersSelector["masterAddressType"][0];
 
-          for (const item of addressTypeOptions) {
-            newArr.push(convertToCase(item.addressType));
-          } 
+      for (const item of addressTypeOptions) {
+        newArr.push(convertToCase(item.addressType));
+      }
 
-          selectJson.addressTypeOptions = newArr;
-          newArr = [];
+      selectJson.addressTypeOptions = newArr;
+      newArr = [];
     }
 
     if (mastersSelector.hasOwnProperty("masterLicenseType")) {
@@ -739,12 +738,12 @@ export default function AncFacDemo() {
           ? []
           : mastersSelector["masterDocumentList"][0];
 
-          for (const item of documentOptions) {
-            newArr.push(convertToCase(item.docList));
-          } 
+      for (const item of documentOptions) {
+        newArr.push(convertToCase(item.docList));
+      }
 
-          selectJson.documentOptions = newArr;
-          newArr = [];
+      selectJson.documentOptions = newArr;
+      newArr = [];
     }
     if (mastersSelector.hasOwnProperty("masterAdditionalQues")) {
       selectJson.additionalQues =
@@ -790,13 +789,13 @@ export default function AncFacDemo() {
       .filter(
         (data) =>
           data.TransactionType.toLowerCase() ==
-          AncFacDemo.displayName.toLowerCase()
+          AncFacDemo.displayName.toLowerCase(),
       )
       .map((val) =>
         additionalQuesValues.push({
           questionId: val.QuestionId,
           label: val.QuesDescription,
-        })
+        }),
       );
     console.log("additionalQuesValues here: ", additionalQuesValues);
     //console.log("selectValues.additionalQues: ", selectValues.additionalQues)
@@ -830,7 +829,7 @@ export default function AncFacDemo() {
 
       let getApiJson = {};
       getApiJson["tableNames"] = getTableDetails()["facAncLinear"].concat(
-        getTableDetails()["gridTables"]
+        getTableDetails()["gridTables"],
       );
       getApiJson["whereClause"] = { caseNumber: prop.state.caseNumber };
 
@@ -970,14 +969,13 @@ export default function AncFacDemo() {
 
                   //Added by Nidhi Gupta on 11/10/2023
                   if (apiResponse.hasOwnProperty("languages")) {
-                    if(apiResponse.languages !== ''){
-                    apiResponse.languages = apiResponse.languages
-                      .split(",")
-                      .map((ele) => {
-                        return { label: ele, value: ele };
-                      });
-                    }
-                    else{
+                    if (apiResponse.languages !== "") {
+                      apiResponse.languages = apiResponse.languages
+                        .split(",")
+                        .map((ele) => {
+                          return { label: ele, value: ele };
+                        });
+                    } else {
                       apiResponse.languages = [];
                     }
                   }
@@ -985,7 +983,7 @@ export default function AncFacDemo() {
                   apiResponseArray.push(apiResponse);
                   console.log(
                     "locationTableRowsData apiResponse: ",
-                    apiResponse
+                    apiResponse,
                   );
                 });
                 setLocationTableRowsData(apiResponseArray);
@@ -997,7 +995,7 @@ export default function AncFacDemo() {
                   const newJson = convertToDateObj(js);
                   console.log(
                     "Ancillary/Facility Modification payToTable newJson;",
-                    newJson
+                    newJson,
                   );
                   apiResponseArray.push(newJson);
                   // setPayToTableRowsData([...payToTableRowsData,newJson]);
@@ -1066,7 +1064,7 @@ export default function AncFacDemo() {
                     const taxDesc = checktaxdec(apiResponse.taxonomyCode);
                     printConsole(
                       "Inside useEffect speciality if taxDesc value ",
-                      taxDesc
+                      taxDesc,
                     );
                     apiResponse.taxonomyDesc = taxDesc;
                   }
@@ -1082,21 +1080,21 @@ export default function AncFacDemo() {
                     apiResponse = checkSubSpeciality(apiResponse);
                     printConsole(
                       "Speciality response after inserting subSpeciality============= ",
-                      apiResponse
+                      apiResponse,
                     );
                   }
 
                   //}
                   printConsole(
                     "Inside useEffect speciality if final specialty value ",
-                    apiResponse
+                    apiResponse,
                   );
                   //}
 
                   apiResponseArray.push(apiResponse);
                   console.log(
                     "specialityTableRowsData apiResponse useEffect: ",
-                    apiResponse
+                    apiResponse,
                   );
                 });
                 setspecialityTableRowsData(apiResponseArray);
@@ -1151,11 +1149,11 @@ export default function AncFacDemo() {
 
     console.log(
       "Inside gridRowsFinalSubmit gridFieldTempState Value ====  ",
-      gridFieldTempState
+      gridFieldTempState,
     );
     console.log(
       "Inside gridRowsFinalSubmit gridFieldTempState keys ====  ",
-      Object.keys(gridFieldTempState).length
+      Object.keys(gridFieldTempState).length,
     );
 
     let clonedJson = { ...gridFieldTempState };
@@ -1167,7 +1165,7 @@ export default function AncFacDemo() {
         }
         console.log(
           "Inside gridRowsFinalSubmit clonedJson value: ",
-          clonedJson
+          clonedJson,
         );
         if (!checkGridJsonLength(clonedJson)) {
           specialityTableRowsData[index] = clonedJson;
@@ -1201,7 +1199,7 @@ export default function AncFacDemo() {
         }
         console.log(
           "Inside gridRowsFinalSubmit clonedJson value: ",
-          clonedJson
+          clonedJson,
         );
 
         if (!checkGridJsonLength(clonedJson)) {
@@ -1217,7 +1215,7 @@ export default function AncFacDemo() {
         }
         console.log(
           "Inside gridRowsFinalSubmit clonedJson value: ",
-          clonedJson
+          clonedJson,
         );
         if (!checkGridJsonLength(clonedJson)) {
           payToTableRowsData[index] = clonedJson;
@@ -1442,20 +1440,18 @@ export default function AncFacDemo() {
     let tempInput = { ...gridFieldTempState };
     let { name, value } = evnt.target;
     console.log("Inside handleGridFieldChange: ", value, tempInput);
-    if(triggeredFormName === 'PayToTable')
-    {
-      if(name === 'payToNpi'|| name === 'zipCode'){
-       value = acceptNumbersOnly(value);
-       console.log("inside condition",value);
+    if (triggeredFormName === "PayToTable") {
+      if (name === "payToNpi" || name === "zipCode") {
+        value = acceptNumbersOnly(value);
+        console.log("inside condition", value);
       }
-     }
-     if(triggeredFormName === 'LocationTable')
-    {
-      if(name === 'npi'|| name === 'zipCode'){
-       value = acceptNumbersOnly(value);
-       console.log("inside condition",value);
+    }
+    if (triggeredFormName === "LocationTable") {
+      if (name === "npi" || name === "zipCode") {
+        value = acceptNumbersOnly(value);
+        console.log("inside condition", value);
       }
-     }
+    }
     tempInput[name] = value.toUpperCase();
     setGridFieldTempState(tempInput);
   };
@@ -1566,7 +1562,7 @@ export default function AncFacDemo() {
         // );
         if (selectValues.taxonomyOptions.length > 0) {
           const foundOption = selectValues.taxonomyOptions.find(
-            (option) => option.TAXONOMYCODE === value
+            (option) => option.TAXONOMYCODE === value,
           );
           //console.log("Inside handleOnBlur foundOption: ", foundOption);
           if (
@@ -1604,7 +1600,7 @@ export default function AncFacDemo() {
         }
       } else {
         alert(
-          "Please fill Taxonomy Code to populate Taxonomy Description and Taxonomy Group"
+          "Please fill Taxonomy Code to populate Taxonomy Description and Taxonomy Group",
         );
         rowsInput["taxonomyDesc"] = "";
         rowsInput["taxonomyGrp"] = "";
@@ -1618,17 +1614,17 @@ export default function AncFacDemo() {
     index,
     selectedValue,
     evnt,
-    triggeredFormName
+    triggeredFormName,
   ) => {
     console.log("Inside handleSelectSpecialityOnBlur index: ", index);
     console.log(
       "Inside handleSelectSpecialityOnBlur selectedValue: ",
-      selectedValue
+      selectedValue,
     );
     console.log("Inside handleSelectSpecialityOnBlur evnt: ", evnt);
     console.log(
       "Inside handleSelectSpecialityOnBlur trigeredFormName: ",
-      triggeredFormName
+      triggeredFormName,
     );
   };
   //Till Here
@@ -1673,23 +1669,23 @@ export default function AncFacDemo() {
       token,
       "HealthPlan",
       masterUserName,
-      orgValue.trim()
+      orgValue.trim(),
     );
     printConsole(
       "Inside getDashboardData provContLinkData Data before promise resolve: ",
-      apiOut
+      apiOut,
     );
     apiOut.then(function (provContLinkData) {
       printConsole(
         "Inside getDashboardData provContLinkData Data after promise resolve: ",
-        provContLinkData
+        provContLinkData,
       );
 
       if (provContLinkData !== undefined && provContLinkData.length > 0) {
         const tableCompData = provContLinkData[0];
         printConsole(
           "Inside getDashboardData tableCompData Data: ",
-          tableCompData
+          tableCompData,
         );
         if (
           tableCompData !== undefined &&
@@ -1713,7 +1709,7 @@ export default function AncFacDemo() {
     index,
     selectedValue,
     evnt,
-    triggeredFormName
+    triggeredFormName,
   ) => {
     // console.log("Inside select change index: ", index);
     console.log("Inside select change selectedValue: ", selectedValue);
@@ -1766,7 +1762,7 @@ export default function AncFacDemo() {
         selectedValue
       ) {
         const foundOption = selectValues.specialtyOptions.find(
-          (option) => option.speciality === selectedValue.value
+          (option) => option.speciality === selectedValue.value,
         );
         console.log("Inside select change foundOption: ", foundOption);
         if (
@@ -1777,11 +1773,11 @@ export default function AncFacDemo() {
         ) {
           console.log(
             "Inside select change foundOption if: ",
-            rowsInput["hsdCode"]
+            rowsInput["hsdCode"],
           );
           console.log(
             "Inside select change foundOption.hsdCodeValue: ",
-            foundOption.hsdCodeValue
+            foundOption.hsdCodeValue,
           );
           rowsInput["hsdCode"] = foundOption.hsdCodeValue;
         } else {
@@ -1796,7 +1792,7 @@ export default function AncFacDemo() {
           });
         console.log(
           "Inside select change subSpecialityValues",
-          subSpecialityValues
+          subSpecialityValues,
         );
         setSubSpecialityOptions(subSpecialityValues);
       }
@@ -1995,7 +1991,7 @@ export default function AncFacDemo() {
     let retVal = false;
     printConsole(
       "Inside checkIfValueExistsInState apiTestState: ",
-      apiTestState
+      apiTestState,
     );
     if (
       apiTestState.hasOwnProperty("legalEntityName") &&
@@ -2058,7 +2054,7 @@ export default function AncFacDemo() {
 
         console.log(
           "Inside add provider create case master selector: ",
-          mastersSelector
+          mastersSelector,
         );
         console.log(
           "Inside add provider create case username: ",
@@ -2066,7 +2062,7 @@ export default function AncFacDemo() {
             ? mastersSelector.auth.hasOwnProperty("userName")
               ? mastersSelector.auth.userName
               : "system"
-            : "system"
+            : "system",
         );
         mainWIObject.createdByName = mastersSelector.hasOwnProperty("auth")
           ? mastersSelector.auth.hasOwnProperty("userName")
@@ -2112,7 +2108,7 @@ export default function AncFacDemo() {
             apiJson["SelfServ_Location_Grid"] === undefined
           ) {
             alert(
-              "Atleast one Address entry is needed in order to Submit case."
+              "Atleast one Address entry is needed in order to Submit case.",
             );
             setButtonDisableFlag(false);
             return;
@@ -2129,11 +2125,11 @@ export default function AncFacDemo() {
             if (
               !areAllLocationNameSame(
                 apiJson["SelfServ_Location_Grid"],
-                apiJson["SelfServ_FaciAnci_Details"].dbaName
+                apiJson["SelfServ_FaciAnci_Details"].dbaName,
               )
             ) {
               alert(
-                "Medical Group Name under Address Grid should be same as DBA Name."
+                "Medical Group Name under Address Grid should be same as DBA Name.",
               );
               setButtonDisableFlag(false);
               return;
@@ -2146,7 +2142,7 @@ export default function AncFacDemo() {
             apiJson["SelfServ_PayTo_Grid"] === undefined
           ) {
             alert(
-              "Atleast one Pay to entry is needed in order to Submit case."
+              "Atleast one Pay to entry is needed in order to Submit case.",
             );
             setButtonDisableFlag(false);
             return;
@@ -2156,7 +2152,7 @@ export default function AncFacDemo() {
             apiJson["SelfServ_Speciality_Grid"] === undefined
           ) {
             alert(
-              "Atleast one Speciality entry is needed in order to Submit case."
+              "Atleast one Speciality entry is needed in order to Submit case.",
             );
             setButtonDisableFlag(false);
             return;
@@ -2198,36 +2194,36 @@ export default function AncFacDemo() {
                 console.log("PocData State: ", procData);
                 console.log(
                   "Inside Add Provider File UPLOAD DATA: ",
-                  documentSectionDataRef.current
+                  documentSectionDataRef.current,
                 );
                 if (documentSectionDataRef.current.length > 0) {
                   let documentArray = [...documentSectionDataRef.current];
                   documentArray = documentArray.filter(
-                    (x) => x.docStatus === "Uploaded"
+                    (x) => x.docStatus === "Uploaded",
                   );
                   documentArray.forEach((e) => {
                     const fileUploadData = new FormData();
                     fileUploadData.append("file", e.fileData);
                     fileUploadData.append(
                       "caseNumber",
-                      res.data["CreateCase_Output"]["CaseNo"]
+                      res.data["CreateCase_Output"]["CaseNo"],
                     );
                     fileUploadData.append("docType", e.documentType);
                     console.log(
                       "Inside Add Provider File Upload Data: ",
-                      fileUploadData
+                      fileUploadData,
                     );
                     fileUpDownAxios
                       .post("/uploadFile", fileUploadData)
                       .then((response) => {
                         console.log(
                           "File Upload api response: ",
-                          response.data
+                          response.data,
                         );
-                        if (response.status===200) {
+                        if (response.status === 200) {
                           alert(
                             "Case created successfully: " +
-                              res.data["CreateCase_Output"]["CaseNo"]
+                              res.data["CreateCase_Output"]["CaseNo"],
                           );
                           // let alertMessage = 'Case created successfully: '+res.data['CreateCase_Output']['CaseNo'];
                           // let json = {show:true,
@@ -2236,7 +2232,7 @@ export default function AncFacDemo() {
                           // }
                           // setAlertModalShow(json);
                         }
-                        if (response.status==="") {
+                        if (response.status === "") {
                           // let alertMessage = 'Case created successfully: '+res.data['CreateCase_Output']['CaseNo']+' but error in uploading document';
                           // let json = {show:true,
                           //     message:alertMessage,
@@ -2246,7 +2242,7 @@ export default function AncFacDemo() {
                           alert(
                             "Case created successfully: " +
                               res.data["CreateCase_Output"]["CaseNo"] +
-                              " but error in uploading document"
+                              " but error in uploading document",
                           );
                         }
                         submitCase(procData, navigateHome);
@@ -2255,7 +2251,7 @@ export default function AncFacDemo() {
                 } else {
                   alert(
                     "Case created successfully: " +
-                      res.data["CreateCase_Output"]["CaseNo"]
+                      res.data["CreateCase_Output"]["CaseNo"],
                   );
                   submitCase(procData, navigateHome);
                 }
@@ -2269,14 +2265,14 @@ export default function AncFacDemo() {
             });
         } else {
           alert(
-            "Please select case and populate the data before submittig the case."
+            "Please select case and populate the data before submittig the case.",
           );
           setButtonDisableFlag(false);
           return;
         }
       } else {
         alert(
-          "Please select case and populate the data before submittig the case."
+          "Please select case and populate the data before submittig the case.",
         );
       }
     } catch (error) {
@@ -2321,7 +2317,9 @@ export default function AncFacDemo() {
     return null;
   }*/
   function filterData() {
-    return caseData.data.filter((item) => item?.CaseID !== Number(prop.state.caseNumber));
+    return caseData.data.filter(
+      (item) => item?.CaseID !== Number(prop.state.caseNumber),
+    );
   }
   function dispatchUpdateData(updatedData) {
     dispatch({
@@ -2369,7 +2367,7 @@ export default function AncFacDemo() {
 
       console.log(" Update gridDataRef.current.linearTable02: ", values);
       const gridKeys = getTableDetails()["facAncLinear"].concat(
-        getTableDetails()["gridTables"]
+        getTableDetails()["gridTables"],
       );
       gridKeys.forEach((k) => {
         const newKey = k.split("~")[0];
@@ -2404,10 +2402,11 @@ export default function AncFacDemo() {
           if (
             gridDataRef.current.SelfServ_FaciAnci_Details.AddModification ===
               true &&
-            (locationTableRowsData === undefined || locationTableRowsData.length ===0)
+            (locationTableRowsData === undefined ||
+              locationTableRowsData.length === 0)
           ) {
             alert(
-              "Atleast one Address entry is needed in order to Submit case."
+              "Atleast one Address entry is needed in order to Submit case.",
             );
             setButtonDisableFlag(false);
             return;
@@ -2415,10 +2414,11 @@ export default function AncFacDemo() {
           if (
             gridDataRef.current.SelfServ_FaciAnci_Details.PayToModification ===
               true &&
-            (payToTableRowsData === undefined || payToTableRowsData.length ===0)
+            (payToTableRowsData === undefined ||
+              payToTableRowsData.length === 0)
           ) {
             alert(
-              "Atleast one Pay to entry is needed in order to Submit case."
+              "Atleast one Pay to entry is needed in order to Submit case.",
             );
             setButtonDisableFlag(false);
             return;
@@ -2426,10 +2426,11 @@ export default function AncFacDemo() {
           if (
             gridDataRef.current.SelfServ_FaciAnci_Details.SpecModification ===
               true &&
-            (specialityTableRowsData === undefined || specialityTableRowsData.length ===0)
+            (specialityTableRowsData === undefined ||
+              specialityTableRowsData.length === 0)
           ) {
             alert(
-              "Atleast one Speciality entry is needed in order to Submit case."
+              "Atleast one Speciality entry is needed in order to Submit case.",
             );
             setButtonDisableFlag(false);
             return;
@@ -2449,7 +2450,7 @@ export default function AncFacDemo() {
               !areAllLocationNameSame(locationTableRowsData, values.dbaName)
             ) {
               alert(
-                "Medical Group Name under Address Grid should be same as DBA Name."
+                "Medical Group Name under Address Grid should be same as DBA Name.",
               );
               setButtonDisableFlag(false);
               return;
@@ -2592,8 +2593,8 @@ export default function AncFacDemo() {
 
         if (dataKeyType === "object") {
           console.log("Inside Data Object if: ", dataObject);
-          if (!!data[dataValue]) {
-            if (!!data[dataValue].value) {
+          if (data[dataValue]) {
+            if (data[dataValue].value) {
               if (data[dataValue].value instanceof Date) {
                 //dataObject[dataValue] = data[dataValue].value.toLocaleDateString()
                 dataObject[dataValue] = extractDate(data[dataValue].value);
@@ -2764,7 +2765,7 @@ export default function AncFacDemo() {
         numberOfChecks.FACIANCISTATUS.toLowerCase() == "terminated"
       ) {
         alert(
-          "Data can't be populated as Ancillary/Facility Status is Terminated. Please choose Active cases."
+          "Data can't be populated as Ancillary/Facility Status is Terminated. Please choose Active cases.",
         );
       } else {
         //console.log("apiTestState.contractId: ",apiTestState.contractId.value);
@@ -2850,13 +2851,13 @@ export default function AncFacDemo() {
                         if (
                           hasOwnPropertyCaseInsensitive(
                             apiResponse,
-                            linearFieldArray[field]
+                            linearFieldArray[field],
                           )
                         ) {
                           console.log(
                             "field xx03: ",
                             apiResponse,
-                            linearFieldArray[field]
+                            linearFieldArray[field],
                           );
                           apiResponseNew[linearFieldArray[field]] =
                             apiResponse[
@@ -2878,27 +2879,27 @@ export default function AncFacDemo() {
                         if (
                           hasOwnPropertyCaseInsensitive(
                             apiResponse,
-                            linearFieldSelectArray[field]
+                            linearFieldSelectArray[field],
                           )
                         ) {
                           console.log(
                             "field xx03: ",
                             apiResponse,
-                            linearFieldSelectArray[field]
+                            linearFieldSelectArray[field],
                           );
                           apiResponseNew[linearFieldSelectArray[field]] = {
                             label:
                               apiResponse[
                                 getKeyCase(
                                   apiResponse,
-                                  linearFieldSelectArray[field]
+                                  linearFieldSelectArray[field],
                                 )
                               ],
                             value:
                               apiResponse[
                                 getKeyCase(
                                   apiResponse,
-                                  linearFieldSelectArray[field]
+                                  linearFieldSelectArray[field],
                                 )
                               ],
                           };
@@ -2954,7 +2955,7 @@ export default function AncFacDemo() {
                         if (
                           hasOwnPropertyCaseInsensitive(
                             apiResponse,
-                            gridFieldArray[field]
+                            gridFieldArray[field],
                           )
                         ) {
                           apiResponseNew[gridFieldArray[field]] =
@@ -2977,14 +2978,14 @@ export default function AncFacDemo() {
                         if (
                           hasOwnPropertyCaseInsensitive(
                             apiResponse,
-                            gridFieldSelectArray[field]
+                            gridFieldSelectArray[field],
                           )
                         ) {
                           if (
                             apiResponse[
                               getKeyCase(
                                 apiResponse,
-                                gridFieldSelectArray[field]
+                                gridFieldSelectArray[field],
                               )
                             ] === "Y"
                           ) {
@@ -2994,7 +2995,7 @@ export default function AncFacDemo() {
                                 apiResponse[
                                   getKeyCase(
                                     apiResponse,
-                                    gridFieldSelectArray[field]
+                                    gridFieldSelectArray[field],
                                   )
                                 ],
                             };
@@ -3002,7 +3003,7 @@ export default function AncFacDemo() {
                             apiResponse[
                               getKeyCase(
                                 apiResponse,
-                                gridFieldSelectArray[field]
+                                gridFieldSelectArray[field],
                               )
                             ] === "N"
                           ) {
@@ -3012,7 +3013,7 @@ export default function AncFacDemo() {
                                 apiResponse[
                                   getKeyCase(
                                     apiResponse,
-                                    gridFieldSelectArray[field]
+                                    gridFieldSelectArray[field],
                                   )
                                 ],
                             };
@@ -3023,7 +3024,7 @@ export default function AncFacDemo() {
                       apiResponseArray.push(apiResponseNew);
                       console.log(
                         "locationTableRowsData apiResponse: ",
-                        apiResponseNew
+                        apiResponseNew,
                       );
                     });
 
@@ -3053,7 +3054,7 @@ export default function AncFacDemo() {
                         if (
                           hasOwnPropertyCaseInsensitive(
                             apiResponse,
-                            gridFieldArray[field]
+                            gridFieldArray[field],
                           )
                         ) {
                           apiResponseNew[gridFieldArray[field]] =
@@ -3066,7 +3067,7 @@ export default function AncFacDemo() {
                       apiResponseArray.push(apiResponseNew);
                       console.log(
                         "payToTableRowsData apiResponse: ",
-                        apiResponseNew
+                        apiResponseNew,
                       );
                     });
 
@@ -3091,7 +3092,7 @@ export default function AncFacDemo() {
                         if (
                           hasOwnPropertyCaseInsensitive(
                             apiResponse,
-                            gridFieldArray[field]
+                            gridFieldArray[field],
                           )
                         ) {
                           apiResponseNew[gridFieldArray[field]] =
@@ -3105,7 +3106,7 @@ export default function AncFacDemo() {
                       if (
                         hasOwnPropertyCaseInsensitive(
                           apiResponse,
-                          "TAXONOMYDESCRIPTION"
+                          "TAXONOMYDESCRIPTION",
                         )
                       ) {
                         apiResponseNew.taxonomyDesc =
@@ -3116,7 +3117,7 @@ export default function AncFacDemo() {
                       if (
                         hasOwnPropertyCaseInsensitive(
                           apiResponse,
-                          "BOARDCERTIFICATE"
+                          "BOARDCERTIFICATE",
                         )
                       ) {
                         // apiResponseNew.boardCerti = apiResponse[getKeyCase(apiResponse,'BOARDCERTIFICATE')];
@@ -3149,7 +3150,7 @@ export default function AncFacDemo() {
                       if (
                         hasOwnPropertyCaseInsensitive(
                           apiResponse,
-                          "TAXONOMYGROUP"
+                          "TAXONOMYGROUP",
                         )
                       ) {
                         apiResponseNew.taxonomyGrp =
@@ -3158,7 +3159,7 @@ export default function AncFacDemo() {
                       if (
                         hasOwnPropertyCaseInsensitive(
                           apiResponse,
-                          "PRIMARYSPECIALITY"
+                          "PRIMARYSPECIALITY",
                         )
                       ) {
                         //apiResponseNew.specPrimary = apiResponse[getKeyCase(apiResponse,'PRIMARYSPECIALITY')];
@@ -3195,14 +3196,14 @@ export default function AncFacDemo() {
                         if (
                           hasOwnPropertyCaseInsensitive(
                             apiResponse,
-                            gridFieldSelectArray[field]
+                            gridFieldSelectArray[field],
                           )
                         ) {
                           if (
                             apiResponse[
                               getKeyCase(
                                 apiResponse,
-                                gridFieldSelectArray[field]
+                                gridFieldSelectArray[field],
                               )
                             ] === "Y"
                           ) {
@@ -3212,7 +3213,7 @@ export default function AncFacDemo() {
                                 apiResponse[
                                   getKeyCase(
                                     apiResponse,
-                                    gridFieldSelectArray[field]
+                                    gridFieldSelectArray[field],
                                   )
                                 ],
                             };
@@ -3220,7 +3221,7 @@ export default function AncFacDemo() {
                             apiResponse[
                               getKeyCase(
                                 apiResponse,
-                                gridFieldSelectArray[field]
+                                gridFieldSelectArray[field],
                               )
                             ] === "N"
                           ) {
@@ -3230,7 +3231,7 @@ export default function AncFacDemo() {
                                 apiResponse[
                                   getKeyCase(
                                     apiResponse,
-                                    gridFieldSelectArray[field]
+                                    gridFieldSelectArray[field],
                                   )
                                 ],
                             };
@@ -3241,7 +3242,7 @@ export default function AncFacDemo() {
                       apiResponseArray.push(apiResponseNew);
                       console.log(
                         "specialityTableRowsData apiResponse gridFieldSelectArray: ",
-                        apiResponseNew
+                        apiResponseNew,
                       );
                     });
 
@@ -3473,7 +3474,7 @@ export default function AncFacDemo() {
           {props.selectProps.placeholder}
         </Placeholder>
         {React.Children.map(children, (child) =>
-          child && child.type !== Placeholder ? child : null
+          child && child.type !== Placeholder ? child : null,
         )}
       </ValueContainer>
     );
@@ -3493,7 +3494,7 @@ export default function AncFacDemo() {
     console.log("selectValues.agesSeenArray:", selectValues.agesSeenArray);
     console.log(
       "selectValues.stateOptionsLinear:",
-      selectValues.stateOptionsLinear
+      selectValues.stateOptionsLinear,
     );
     return (
       <div className="col-xs-12">
@@ -3517,7 +3518,7 @@ export default function AncFacDemo() {
               await new Promise((resolve) => setTimeout(resolve, 500)).catch(
                 (err) => {
                   console.error(err);
-                }
+                },
               );
               //alert(JSON.stringify(values, null, 2));
               saveData(values);
@@ -3814,7 +3815,7 @@ export default function AncFacDemo() {
                                       onChange={(selectValue, event) =>
                                         handleLinearSelectChange(
                                           selectValue,
-                                          event
+                                          event,
                                         )
                                       }
                                       value={apiLegalENState.pdmLegalEN}
@@ -3937,8 +3938,8 @@ export default function AncFacDemo() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         disabled={true}
@@ -3948,7 +3949,7 @@ export default function AncFacDemo() {
                                           formikFieldsOnChange(
                                             e,
                                             setFieldValue,
-                                            field
+                                            field,
                                           )
                                         }
                                         value={convertToCase(field.value)}
@@ -3989,8 +3990,8 @@ export default function AncFacDemo() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         disabled={
@@ -4003,7 +4004,7 @@ export default function AncFacDemo() {
                                           formikFieldsOnChange(
                                             e,
                                             setFieldValue,
-                                            field
+                                            field,
                                           )
                                         }
                                         // onBlur={()=>{
@@ -4016,7 +4017,7 @@ export default function AncFacDemo() {
                                             "dbaName",
                                             field.value !== undefined
                                               ? field.value
-                                              : ""
+                                              : "",
                                           );
                                         }}
                                         value={convertToCase(field.value)}
@@ -4057,8 +4058,8 @@ export default function AncFacDemo() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         // oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
@@ -4104,8 +4105,8 @@ export default function AncFacDemo() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         disabled={true}
@@ -4147,8 +4148,8 @@ export default function AncFacDemo() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         disabled={true}
@@ -4254,8 +4255,8 @@ export default function AncFacDemo() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         disabled={true}
                                         placeholder="John"
@@ -4788,7 +4789,7 @@ export default function AncFacDemo() {
             <Modal.Footer>
               <button
                 type="button"
-                class="btn btn-success"
+                className="btn btn-success"
                 // onClick={()=>{
                 //     addRoster(caqhModal.id);
                 //     setCaqhModal({id:null, header:null, body:null, show:false});
@@ -4798,7 +4799,7 @@ export default function AncFacDemo() {
               </button>
               <button
                 type="button"
-                class="btn"
+                className="btn"
                 onClick={() => {
                   setCaqhModal({
                     id: null,
@@ -4843,7 +4844,7 @@ export default function AncFacDemo() {
             <Modal.Footer>
               <button
                 type="button"
-                class="btn btn-success"
+                className="btn btn-success"
                 onClick={() => {
                   setCaqhGenericModal({
                     body: null,

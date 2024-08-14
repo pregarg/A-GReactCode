@@ -33,18 +33,18 @@ function ViewReportForm(prop) {
         let [masterName, masterKeyValue] = (item?.MasterName ?? "").split("~");
         item.DropDownValues = ExtractGenricVals(
           mastersSelector[masterName],
-          masterKeyValue
+          masterKeyValue,
         )?.toString();
       } else if (item.Name === "STAGENAME" && item?.MasterName?.length > 0) {
         let [masterName, masterKeyValue] = (item?.MasterName ?? "").split("~");
 
         item.DropDownValues = ExtractGenricVals(
           mastersSelector[masterName][0],
-          masterKeyValue
+          masterKeyValue,
         )?.toString();
       }
       return item;
-    }
+    },
   );
 
   const handleChange = (event, index, name) => {
@@ -154,7 +154,7 @@ function ViewReportForm(prop) {
                     handleChange(
                       { target: { value: dateVal } },
                       index,
-                      row.Name
+                      row.Name,
                     );
                   } else {
                     handleChange({ target: { value: null } }, index, row.Name);
@@ -198,7 +198,7 @@ function ViewReportForm(prop) {
             prop.submitForm(
               dropdownVals,
               prop.title,
-              prop?.ReportDef?.Report?.ReportInputFields["Field"]
+              prop?.ReportDef?.Report?.ReportInputFields["Field"],
             );
           }}
         >

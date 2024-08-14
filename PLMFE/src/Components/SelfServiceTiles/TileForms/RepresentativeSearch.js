@@ -16,14 +16,20 @@ export default function RepresentativeSearch(modalProps) {
   const handleCriteriaChangeValue = (evnt) => {
     const { name, value } = evnt.target;
     console.log("event---->", name, value);
-    modalProps.setSelectSearchValues({ ...modalProps.selectSearchValues, [name]: value });
+    modalProps.setSelectSearchValues({
+      ...modalProps.selectSearchValues,
+      [name]: value,
+    });
   };
 
   const handleDateChange = (date, name) => {
     console.log("service_start_date-->", date, name);
-    modalProps.setSelectSearchValues({ ...modalProps.selectSearchValues, [name]: date });
+    modalProps.setSelectSearchValues({
+      ...modalProps.selectSearchValues,
+      [name]: date,
+    });
   };
-  
+
   const RenderDatePickerforDate = (props) => (
     <div className="form-floating">
       <input {...props} placeholder="For Date" />
@@ -31,7 +37,6 @@ export default function RepresentativeSearch(modalProps) {
     </div>
   );
 
- 
   return (
     <>
       <Modal
@@ -41,19 +46,21 @@ export default function RepresentativeSearch(modalProps) {
         }}
         backdrop="static"
         keyboard={false}
-         dialogClassName="modal-dialog custom-modal"
+        dialogClassName="modal-dialog custom-modal"
         size="xl"
         style={{ width: "100%", margin: "auto" }}
         aria-labelledby="example-custom-modal-styling-title"
         centered
       >
         <Modal.Header closeButton className="justify-content-center">
-        <Modal.Title className="text-center w-100">Representative Search</Modal.Title>
+          <Modal.Title className="text-center w-100">
+            Representative Search
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className="row my-2">
             <div className="col-12">
-            <div className="form-check">
+              <div className="form-check">
                 <input
                   className="form-check-input"
                   type="radio"
@@ -62,30 +69,34 @@ export default function RepresentativeSearch(modalProps) {
                   value="SequentialMember"
                   checked={modalProps.selectedCriteria === "SequentialMember"}
                   onChange={(event) => handleCriteriaChange(event)}
-                  
                 />
-                 <div className="row my-2">
+                <div className="row my-2">
                   <div className="col-xs-12 col-md-3">
-                 
-                <div className="form-floating mb-2">
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="SequentialMemberIDVal"
-                    placeholder="Authorization Number"
-                    name="SequentialMemberID"
-                    value={modalProps.selectSearchValues?.SequentialMemberID || ""}
-                    onChange={(event) => handleCriteriaChangeValue(event)}
-                    disabled={modalProps.selectedCriteria !== "SequentialMember"}
-                    
-                  />
-                  <label htmlFor="SequentialMemberIDVal">Sequential Member ID</label>
+                    <div className="form-floating mb-2">
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="SequentialMemberIDVal"
+                        placeholder="Authorization Number"
+                        name="SequentialMemberID"
+                        value={
+                          modalProps.selectSearchValues?.SequentialMemberID ||
+                          ""
+                        }
+                        onChange={(event) => handleCriteriaChangeValue(event)}
+                        disabled={
+                          modalProps.selectedCriteria !== "SequentialMember"
+                        }
+                      />
+                      <label htmlFor="SequentialMemberIDVal">
+                        Sequential Member ID
+                      </label>
+                    </div>
+                  </div>
                 </div>
               </div>
-                  </div>
-                  </div>
 
-                  <div className="form-check">
+              <div className="form-check">
                 <input
                   className="form-check-input"
                   type="radio"
@@ -94,29 +105,28 @@ export default function RepresentativeSearch(modalProps) {
                   value="searchType"
                   checked={modalProps.selectedCriteria === "searchType"}
                   onChange={(event) => handleCriteriaChange(event)}
-                  
                 />
-                 <div className="row my-2">
+                <div className="row my-2">
                   <div className="col-xs-12 col-md-3">
-                 
-                <div className="form-floating mb-2">
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="searchTypeIDVal"
-                    placeholder="Search Type"
-                    name="searchTypeID"
-                    value={modalProps.selectSearchValues?.searchTypeID || ""}
-                    onChange={(event) => handleCriteriaChangeValue(event)}
-                    disabled={modalProps.selectedCriteria !== "searchType"}
-                    
-                  />
-                  <label htmlFor="searchTypeIDVal">Search Type</label>
+                    <div className="form-floating mb-2">
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="searchTypeIDVal"
+                        placeholder="Search Type"
+                        name="searchTypeID"
+                        value={
+                          modalProps.selectSearchValues?.searchTypeID || ""
+                        }
+                        onChange={(event) => handleCriteriaChangeValue(event)}
+                        disabled={modalProps.selectedCriteria !== "searchType"}
+                      />
+                      <label htmlFor="searchTypeIDVal">Search Type</label>
+                    </div>
+                  </div>
                 </div>
               </div>
-                  </div>
-                  </div>
-                  <div className="form-check">
+              <div className="form-check">
                 <input
                   className="form-check-input"
                   type="radio"
@@ -125,11 +135,10 @@ export default function RepresentativeSearch(modalProps) {
                   value="fordate"
                   checked={modalProps.selectedCriteria === "fordate"}
                   onChange={(event) => handleCriteriaChange(event)}
-                  
                 />
-                 <div className="row my-2">
+                <div className="row my-2">
                   <div className="col-xs-12 col-md-3">
-                  <div className="form-floating mb-2">
+                    <div className="form-floating mb-2">
                       <ReactDatePicker
                         id="fordateID"
                         className="form-control example-custom-input-provider"
@@ -151,11 +160,11 @@ export default function RepresentativeSearch(modalProps) {
                         customInput={<RenderDatePickerforDate />}
                       />
                     </div>
+                  </div>
+                </div>
               </div>
-                  </div>
-                  </div>
 
-                  <div className="form-check">
+              <div className="form-check">
                 <input
                   className="form-check-input"
                   type="radio"
@@ -164,32 +173,27 @@ export default function RepresentativeSearch(modalProps) {
                   value="AddressType"
                   checked={modalProps.selectedCriteria === "AddressType"}
                   onChange={(event) => handleCriteriaChange(event)}
-                  
                 />
-                 <div className="row my-2">
+                <div className="row my-2">
                   <div className="col-xs-12 col-md-3">
-                 
-                <div className="form-floating mb-2">
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="AddressTypeIDVal"
-                    placeholder="Address Type"
-                    name="AddressTypeID"
-                    value={modalProps.selectSearchValues?.AddressTypeID || ""}
-                    onChange={(event) => handleCriteriaChangeValue(event)}
-                    disabled={modalProps.selectedCriteria !== "AddressType"}
-                    
-                  />
-                  <label htmlFor="AddressTypeIDVal">Address Type</label>
+                    <div className="form-floating mb-2">
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="AddressTypeIDVal"
+                        placeholder="Address Type"
+                        name="AddressTypeID"
+                        value={
+                          modalProps.selectSearchValues?.AddressTypeID || ""
+                        }
+                        onChange={(event) => handleCriteriaChangeValue(event)}
+                        disabled={modalProps.selectedCriteria !== "AddressType"}
+                      />
+                      <label htmlFor="AddressTypeIDVal">Address Type</label>
+                    </div>
+                  </div>
                 </div>
               </div>
-                  </div>
-                  </div>
-
-
-
-
             </div>
           </div>
         </Modal.Body>
@@ -216,16 +220,25 @@ export default function RepresentativeSearch(modalProps) {
             Clear
           </Button>
         </Modal.Footer>
-        <div style={{overflowX:'auto',maxWidth:'100%'}}>{modalProps.responseData.length>0 &&
-                      modalProps.representativeSearchTableComponent()
-                    }</div>
-          <br></br>
-        {modalProps.responseData.length>0 && (
+        <div style={{ overflowX: "auto", maxWidth: "100%" }}>
+          {modalProps.responseData.length > 0 &&
+            modalProps.representativeSearchTableComponent()}
+        </div>
+        <br></br>
+        {modalProps.responseData.length > 0 && (
           <Button
-            className="btn btn-outline-primary btnStyle" id="selectedAddressCancel"
-            style={{ display: "flex", justifyContent: "center", width: "20%", margin: "auto" }}
-            onClick={() => { modalProps.handleSelectedRepresentatives(false);
-            }}>
+            className="btn btn-outline-primary btnStyle"
+            id="selectedAddressCancel"
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              width: "20%",
+              margin: "auto",
+            }}
+            onClick={() => {
+              modalProps.handleSelectedRepresentatives(false);
+            }}
+          >
             Populate Data
           </Button>
         )}

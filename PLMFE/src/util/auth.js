@@ -1,4 +1,4 @@
-import { redirect } from 'react-router-dom';
+import { redirect } from "react-router-dom";
 
 // export function getTokenDuration() {
 //   const storedExpirationDate = localStorage.getItem('expiration');
@@ -9,7 +9,7 @@ import { redirect } from 'react-router-dom';
 // }
 
 export function getAuthToken() {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
 
   if (!token) {
     return null;
@@ -17,9 +17,9 @@ export function getAuthToken() {
 
   //const tokenDuration = getTokenDuration();
 
-//   if (tokenDuration < 0) {
-//     return 'EXPIRED';
-//   }
+  //   if (tokenDuration < 0) {
+  //     return 'EXPIRED';
+  //   }
 
   return token;
 }
@@ -33,6 +33,6 @@ export function checkAuthLoader() {
   const token = getAuthToken();
 
   if (!token) {
-    return redirect('/auth');
+    return redirect("/auth");
   }
 }

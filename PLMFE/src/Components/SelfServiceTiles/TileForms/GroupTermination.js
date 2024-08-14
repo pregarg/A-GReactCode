@@ -123,7 +123,7 @@ export default function GroupTermination() {
   const [isFormValid, setIsFormValid] = useState(false);
   const [providerTableData, setProviderTableData] = useState([]);
   const [facilityAncillaryTableData, setFacilityAncillaryTableData] = useState(
-    []
+    [],
   );
   const token = useSelector((state) => state.auth.token);
   const [visible, setVisible] = useState(false);
@@ -182,7 +182,7 @@ export default function GroupTermination() {
       return retJsn;
     } else {
       let retJsn = facilityAncillaryTableData.filter(
-        (el) => delete el.isChecked
+        (el) => delete el.isChecked,
       );
       return retJsn;
     }
@@ -192,17 +192,17 @@ export default function GroupTermination() {
     const isChecked = evnt.target.checked;
     console.log(
       "Inside handlecheckbox change with event: ",
-      evnt.target.checked
+      evnt.target.checked,
     );
     console.log(
       "Inside handlecheckbox change with index: ",
       ind,
       " and value: ",
-      isChecked
+      isChecked,
     );
     printConsole(
       "Inside handleCheckBox change caseUnlockState value: ",
-      caseUnlockState
+      caseUnlockState,
     );
     if (isChecked) {
       if (caseUnlockState !== -1) {
@@ -211,7 +211,7 @@ export default function GroupTermination() {
         let updatedProvData = removeExtraChecked();
         printConsole(
           "Inside handleCheckBox change else with updated data: ",
-          updatedProvData
+          updatedProvData,
         );
         let jsn = updatedProvData[ind];
         printConsole("jsn", jsn);
@@ -266,7 +266,7 @@ export default function GroupTermination() {
     }
   };
   let credentialingConfigData = JSON.parse(
-    process.env.REACT_APP_CREDENTIALING_DETAILS
+    process.env.REACT_APP_CREDENTIALING_DETAILS,
   );
 
   const checkIfValueExistsInState = () => {
@@ -274,15 +274,15 @@ export default function GroupTermination() {
     printConsole("Inside checkIfValueExistsInState: ", apiTestState);
     printConsole(
       "Inside checkIfValueExistsInState organizationName: ",
-      apiTestState.hasOwnProperty("organizationName")
+      apiTestState.hasOwnProperty("organizationName"),
     );
     printConsole(
       "Inside checkIfValueExistsInState legalEntityName: ",
-      apiTestState.hasOwnProperty("legalEntityName")
+      apiTestState.hasOwnProperty("legalEntityName"),
     );
     printConsole(
       "Inside checkIfValueExistsInState apiTestState: ",
-      apiTestState
+      apiTestState,
     );
     if (
       (apiTestState.hasOwnProperty("organizationName") &&
@@ -300,11 +300,11 @@ export default function GroupTermination() {
     let retValue = false;
     console.log(
       "Inside checkValueOfTermination terminationReason: ",
-      selectedReason.hasOwnProperty("terminationReason")
+      selectedReason.hasOwnProperty("terminationReason"),
     );
     console.log(
       "Inside checkValueOfTermination terminationDate: ",
-      selectedReason.hasOwnProperty("terminationDate")
+      selectedReason.hasOwnProperty("terminationDate"),
     );
     if (
       selectedReason.hasOwnProperty("terminationReason") &&
@@ -400,7 +400,7 @@ export default function GroupTermination() {
 
           console.log(
             "Inside add provider create case master selector: ",
-            mastersSelector
+            mastersSelector,
           );
           console.log(
             "Inside add provider create case username: ",
@@ -408,7 +408,7 @@ export default function GroupTermination() {
               ? mastersSelector.auth.hasOwnProperty("userName")
                 ? mastersSelector.auth.userName
                 : "system"
-              : "system"
+              : "system",
           );
           mainWIObject.createdByName = mastersSelector.hasOwnProperty("auth")
             ? mastersSelector.auth.hasOwnProperty("userName")
@@ -434,7 +434,7 @@ export default function GroupTermination() {
           // TermiData.terminationDate = selectedReason?.terminationDate?.toISOString();
           // TermiData.terminationDate = selectedReason?.terminationDate?.toLocaleDateString();
           TermiData.terminationDate = extractDate(
-            selectedReason?.terminationDate
+            selectedReason?.terminationDate,
           );
 
           apiJsonData["MainCaseTable"] = mainWIObject;
@@ -464,7 +464,7 @@ export default function GroupTermination() {
                     res.data["CreateCase_Output"]["CaseNo"];
                   procDataState.decision = "Submit";
                   procDataState.userName = mastersSelector.hasOwnProperty(
-                    "auth"
+                    "auth",
                   )
                     ? mastersSelector.auth.hasOwnProperty("userName")
                       ? mastersSelector.auth.userName
@@ -477,7 +477,7 @@ export default function GroupTermination() {
                   console.log("PocData State: ", procData);
                   alert(
                     "Case successfully created : " +
-                      res.data["CreateCase_Output"]["CaseNo"]
+                      res.data["CreateCase_Output"]["CaseNo"],
                   );
                   submitCase(procData, navigateHome);
                 }
@@ -489,19 +489,19 @@ export default function GroupTermination() {
               });
           } else {
             alert(
-              "Please choose desired case and click on Populate Data button, then only Submit the case."
+              "Please choose desired case and click on Populate Data button, then only Submit the case.",
             );
             setButtonDisableFlag(false);
             return;
           }
         } else {
           alert(
-            "Please fill Termination Date and Reason, then only Submit the case."
+            "Please fill Termination Date and Reason, then only Submit the case.",
           );
         }
       } else {
         alert(
-          "Please select case and populate the data before submittig the case."
+          "Please select case and populate the data before submittig the case.",
         );
       }
     } catch (error) {
@@ -526,7 +526,9 @@ export default function GroupTermination() {
   };
 
   function filterData() {
-    return caseData?.data?.filter((item) => item?.CaseID !== Number(prop.state.caseNumber));
+    return caseData?.data?.filter(
+      (item) => item?.CaseID !== Number(prop.state.caseNumber),
+    );
   }
   function dispatchUpdateData(updatedData) {
     dispatch({
@@ -565,7 +567,7 @@ export default function GroupTermination() {
       }
       console.log(
         "Inside updateDashboardData isDecisionDiscard 1: ",
-        isDecisionDiscard
+        isDecisionDiscard,
       );
       let callUpdateApi = true;
       if (!isDecisionDiscard && callProcRef.current === "callProc") {
@@ -580,7 +582,7 @@ export default function GroupTermination() {
         // TermiData.terminationDate = selectedReason.terminationDate.toISOString();
         //TermiData.terminationDate = selectedReason.terminationDate.toLocaleDateString();
         TermiData.terminationDate = extractDate(
-          selectedReason?.terminationDate
+          selectedReason?.terminationDate,
         );
         TermiData.CaseNumber = prop.state.caseNumber;
         TermiData.Operation = "U";
@@ -613,7 +615,7 @@ export default function GroupTermination() {
       } else {
         // if(callProcRef.current === 'callProc'){
         alert(
-          "Please fill Termination Date and Reason, then only Submit the case."
+          "Please fill Termination Date and Reason, then only Submit the case.",
         );
         //}
       }
@@ -739,7 +741,7 @@ export default function GroupTermination() {
           .catch((err) => {
             console.log(
               "Error in calling callProcedure option GETPROVIDERSEARCHDATA: ",
-              err.message
+              err.message,
             );
           });
         setVisible(true);
@@ -771,7 +773,7 @@ export default function GroupTermination() {
       });
       if (validateStateFlag < 2) {
         alert(
-          "Please select atleast one more field other than State to do Search."
+          "Please select atleast one more field other than State to do Search.",
         );
         return false;
       }
@@ -894,11 +896,11 @@ export default function GroupTermination() {
     console.log("Field3", prop.state.Field3);
     if (prop.state.Field3 === "Provider") {
       getApiJson["tableNames"] = getTableDetails()["providerLinear"].concat(
-        getTableDetails()["terminationData"]
+        getTableDetails()["terminationData"],
       );
     } else {
       getApiJson["tableNames"] = getTableDetails()["facAncLinear"].concat(
-        getTableDetails()["terminationData"]
+        getTableDetails()["terminationData"],
       );
     }
 
@@ -930,7 +932,7 @@ export default function GroupTermination() {
                   console.log("apiResponse xx Date: ");
                   if (typeof apiResponse.dateOfBirth === "string") {
                     const dob = new Date(
-                      getDatePartOnly(apiResponse.dateOfBirth)
+                      getDatePartOnly(apiResponse.dateOfBirth),
                     );
                     apiResponse.dateOfBirth = dob;
                   }
@@ -938,7 +940,7 @@ export default function GroupTermination() {
                 if (apiResponse.hasOwnProperty("ecfmgIssueDate")) {
                   if (typeof apiResponse.ecfmgIssueDate === "string") {
                     const eid = new Date(
-                      getDatePartOnly(apiResponse.ecfmgIssueDate)
+                      getDatePartOnly(apiResponse.ecfmgIssueDate),
                     );
                     apiResponse.ecfmgIssueDate = eid;
                   }
@@ -946,7 +948,7 @@ export default function GroupTermination() {
                 if (apiResponse.hasOwnProperty("ecfmgExpirationDate")) {
                   if (typeof apiResponse.ecfmgExpirationDate === "string") {
                     const eed = new Date(
-                      getDatePartOnly(apiResponse.ecfmgExpirationDate)
+                      getDatePartOnly(apiResponse.ecfmgExpirationDate),
                     );
                     apiResponse.ecfmgExpirationDate = eed;
                   }
@@ -954,7 +956,7 @@ export default function GroupTermination() {
                 if (apiResponse.hasOwnProperty("attestationDate")) {
                   if (typeof apiResponse.attestationDate === "string") {
                     const atd = new Date(
-                      getDatePartOnly(apiResponse.attestationDate)
+                      getDatePartOnly(apiResponse.attestationDate),
                     );
                     apiResponse.dateOfBirth = atd;
                   }
@@ -1035,8 +1037,8 @@ export default function GroupTermination() {
                 },
                 terminationDate: new Date(
                   getDatePartOnly(
-                    respData.terminationGridValue[0]["TerminationDate#date"]
-                  )
+                    respData.terminationGridValue[0]["TerminationDate#date"],
+                  ),
                 ),
               };
               setSelectedReason(dataJson);
@@ -1059,7 +1061,7 @@ export default function GroupTermination() {
           {props.selectProps.placeholder}
         </Placeholder>
         {React.Children.map(children, (child) =>
-          child && child.type !== Placeholder ? child : null
+          child && child.type !== Placeholder ? child : null,
         )}
       </ValueContainer>
     );
@@ -1159,13 +1161,13 @@ export default function GroupTermination() {
         const provContLinkData = mastersSelector["masterProvContLinkData"];
         printConsole(
           "Inside getDashboardData provContLinkData Data: ",
-          provContLinkData
+          provContLinkData,
         );
         if (provContLinkData !== undefined && provContLinkData.length > 0) {
           const contractIdData = provContLinkData[0][0];
           printConsole(
             "Inside getDashboardData contractIdData Data: ",
-            contractIdData
+            contractIdData,
           );
           if (
             contractIdData !== undefined &&
@@ -1364,13 +1366,13 @@ export default function GroupTermination() {
                       if (
                         hasOwnPropertyCaseInsensitive(
                           apiResponse,
-                          linearFieldArray[field]
+                          linearFieldArray[field],
                         )
                       ) {
                         console.log(
                           "field xx03: ",
                           apiResponse,
-                          linearFieldArray[field]
+                          linearFieldArray[field],
                         );
                         apiResponseNew[linearFieldArray[field]] =
                           apiResponse[
@@ -1402,27 +1404,27 @@ export default function GroupTermination() {
                       if (
                         hasOwnPropertyCaseInsensitive(
                           apiResponse,
-                          linearFieldSelectArray[field]
+                          linearFieldSelectArray[field],
                         )
                       ) {
                         console.log(
                           "field xx03: ",
                           apiResponse,
-                          linearFieldSelectArray[field]
+                          linearFieldSelectArray[field],
                         );
                         apiResponseNew[linearFieldSelectArray[field]] = {
                           label:
                             apiResponse[
                               getKeyCase(
                                 apiResponse,
-                                linearFieldSelectArray[field]
+                                linearFieldSelectArray[field],
                               )
                             ],
                           value:
                             apiResponse[
                               getKeyCase(
                                 apiResponse,
-                                linearFieldSelectArray[field]
+                                linearFieldSelectArray[field],
                               )
                             ],
                         };
@@ -1432,7 +1434,7 @@ export default function GroupTermination() {
                     if (
                       hasOwnPropertyCaseInsensitive(
                         apiResponse,
-                        "DATE_OF_BIRTH#date"
+                        "DATE_OF_BIRTH#date",
                       )
                     ) {
                       if (
@@ -1443,7 +1445,7 @@ export default function GroupTermination() {
                         const dob = new Date(
                           apiResponse[
                             getKeyCase(apiResponse, "DATE_OF_BIRTH#date")
-                          ]
+                          ],
                         );
                         apiResponseNew.dateOfBirth = dob;
                       }
@@ -1457,7 +1459,7 @@ export default function GroupTermination() {
               });
             } else {
               alert(
-                "This case is already Terminated. Please select different case."
+                "This case is already Terminated. Please select different case.",
               );
             }
           }
@@ -1716,7 +1718,7 @@ export default function GroupTermination() {
               await new Promise((resolve) => setTimeout(resolve, 500)).catch(
                 (err) => {
                   console.error(err);
-                }
+                },
               );
               //alert(JSON.stringify(values, null, 2));
               saveData(values);
@@ -1793,8 +1795,8 @@ export default function GroupTermination() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -1838,8 +1840,8 @@ export default function GroupTermination() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -1847,7 +1849,7 @@ export default function GroupTermination() {
                                           formikFieldsOnChange(
                                             e,
                                             setFieldValue,
-                                            field
+                                            field,
                                           )
                                         }
                                         value={convertToCase(field.value)}
@@ -1889,9 +1891,9 @@ export default function GroupTermination() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value ||
-                                              field.value === null
-                                            ? "is-valid"
-                                            : ""
+                                                field.value === null
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -1935,8 +1937,8 @@ export default function GroupTermination() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -1944,7 +1946,7 @@ export default function GroupTermination() {
                                           formikFieldsOnChange(
                                             e,
                                             setFieldValue,
-                                            field
+                                            field,
                                           )
                                         }
                                         value={convertToCase(field.value)}
@@ -1986,8 +1988,8 @@ export default function GroupTermination() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -2073,7 +2075,7 @@ export default function GroupTermination() {
                                     onChange={(selectValue, event) =>
                                       handleLinearSelectChange(
                                         selectValue,
-                                        event
+                                        event,
                                       )
                                     }
                                     value={apiTestState.gender}
@@ -2107,8 +2109,8 @@ export default function GroupTermination() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -2151,8 +2153,8 @@ export default function GroupTermination() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         //oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
@@ -2230,8 +2232,8 @@ export default function GroupTermination() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -2313,7 +2315,7 @@ export default function GroupTermination() {
                                     onChange={(selectValue, event) =>
                                       handleLinearSelectChange(
                                         selectValue,
-                                        event
+                                        event,
                                       )
                                     }
                                     value={apiTestState.agesSeen}
@@ -2343,8 +2345,8 @@ export default function GroupTermination() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -2390,8 +2392,8 @@ export default function GroupTermination() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -2471,7 +2473,7 @@ export default function GroupTermination() {
                                     onChange={(selectValue, event) =>
                                       handleLinearSelectChange(
                                         selectValue,
-                                        event
+                                        event,
                                       )
                                     }
                                     value={apiTestState.newPatients}
@@ -2501,8 +2503,8 @@ export default function GroupTermination() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         {...field}
@@ -2585,7 +2587,7 @@ export default function GroupTermination() {
                                     onChange={(selectValue, event) =>
                                       handleLinearSelectChange(
                                         selectValue,
-                                        event
+                                        event,
                                       )
                                     }
                                     value={apiTestState.delegated}
@@ -2655,7 +2657,7 @@ export default function GroupTermination() {
                                     onChange={(selectValue, event) =>
                                       handleLinearSelectChange(
                                         selectValue,
-                                        event
+                                        event,
                                       )
                                     }
                                     value={apiTestState.contractId}
@@ -2723,8 +2725,8 @@ export default function GroupTermination() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         disabled={true}
@@ -2736,7 +2738,7 @@ export default function GroupTermination() {
                                           formikFieldsOnChange(
                                             e,
                                             setFieldValue,
-                                            field
+                                            field,
                                           )
                                         }
                                         value={convertToCase(field.value)}
@@ -2777,8 +2779,8 @@ export default function GroupTermination() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         disabled={true}
@@ -2787,7 +2789,7 @@ export default function GroupTermination() {
                                           formikFieldsOnChange(
                                             e,
                                             setFieldValue,
-                                            field
+                                            field,
                                           )
                                         }
                                         value={convertToCase(field.value)}
@@ -2828,8 +2830,8 @@ export default function GroupTermination() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         // oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
@@ -2875,8 +2877,8 @@ export default function GroupTermination() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         disabled={true}
@@ -2918,8 +2920,8 @@ export default function GroupTermination() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         placeholder="John"
                                         disabled={true}
@@ -2960,8 +2962,8 @@ export default function GroupTermination() {
                                           meta.touched && meta.error
                                             ? " is-invalid"
                                             : field.value
-                                            ? "is-valid"
-                                            : ""
+                                              ? "is-valid"
+                                              : ""
                                         }`}
                                         disabled={true}
                                         placeholder="John"
@@ -3016,7 +3018,7 @@ export default function GroupTermination() {
                                           }),
                                           valueContainer: (
                                             provided,
-                                            state
+                                            state,
                                           ) => ({
                                             ...provided,
                                             overflow: "visible",
@@ -3140,7 +3142,7 @@ export default function GroupTermination() {
                                     onChange={(selectValue, event) =>
                                       handleLinearSelectChange(
                                         selectValue,
-                                        event
+                                        event,
                                       )
                                     }
                                     value={apiTestState.contractId}

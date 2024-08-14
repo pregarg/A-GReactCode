@@ -54,7 +54,7 @@ export function useAxios() {
         }
       }
       return Promise.reject(err);
-    }
+    },
   );
 
   return { customAxios, fileUpDownAxios, esignAxios, rosterAxios };
