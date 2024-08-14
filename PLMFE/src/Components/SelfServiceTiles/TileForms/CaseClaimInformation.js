@@ -490,10 +490,11 @@ const CaseClaimInformation = (props) => {
       const endDate = tempInput["Service_End_Date"];
 
       const daysSpan = calculateDaysDifference(startDate, endDate);
+      console.log("days in span",daysSpan)
 
-      // Update the state with the calculated number of days in span
+     
       tempInput["Number_of_Days_in_Span"] = daysSpan;
-      setGridFieldTempState(tempInput); // Update the state with the new value
+      setGridFieldTempState(tempInput); 
     }
   };
   const calculateDaysDifference = (startDate, endDate) => {
@@ -502,8 +503,13 @@ const CaseClaimInformation = (props) => {
     const end = new Date(endDate);
     const timeDiff = end.getTime() - start.getTime();
     const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+    console.log("days difference", daysDiff)
     return daysDiff;
+    
   };
+
+  
+  
   const handleGridFieldChange = (index, event) => {
     let tempInput = { ...gridFieldTempState };
     let { name, value } = event.target;
@@ -794,12 +800,31 @@ const CaseClaimInformation = (props) => {
             <div className="row my-2">
               {renderSelectField("Claim_type", "Claim type", claimTypeValues)}
               {renderInputField("Claim_Number", "Claim Number", 16)}
-              {renderDatePicker(
-                "Claim_Adjusted_Date",
-                "Claim Adjusted Date",
-                "Claim Adjusted Date",
-              )}
+              {renderInputField(
+                  "Authorization_Number",
+                  "Authorization Number",
+                  9,
+                )}
+              
             </div>
+            <div className="row my-2">
+              {renderDatePicker(
+                  "Original_Denial_Date",
+                  "Original Denial Date",
+                  "Original Denial Date",
+                )}
+                {renderDatePicker(
+                  "Service_Start_Date",
+                  "Service Start Date",
+                  "Service Start Date",
+                )}
+                {renderDatePicker(
+                  "Service_End_Date",
+                  "Service End Date",
+                  "Service End Date",
+                )}
+              </div>
+            {shouldHideFields &&
             <div className="row my-2">
               {renderSelectField(
                 "Claim_Decision",
@@ -813,45 +838,31 @@ const CaseClaimInformation = (props) => {
               )}
               {renderInputField("Reason_Text", "Reason Text", 4000)}
             </div>
-            {shouldHideFields && (
+            }
+            
+            
+            {shouldHideFields &&
               <div className="row my-2">
-                {renderSelectField(
-                  "Service_Type",
-                  "Service Type",
-                  serviceTypeValues,
-                )}
-                {renderDatePicker(
-                  "Service_Start_Date",
-                  "Service Start Date",
-                  "Service Start Date",
-                )}
-                {renderDatePicker(
-                  "Service_End_Date",
-                  "Service End Date",
-                  "Service End Date",
-                )}
-              </div>
-            )}
-            {shouldHideFields && (
-              <div className="row my-2">
-                {renderInputField(
-                  "Authorization_Number",
-                  "Authorization Number",
-                  9,
-                )}
+              {renderDatePicker(
+                "Claim_Adjusted_Date",
+                "Claim Adjusted Date",
+                "Claim Adjusted Date",
+              )}
+                
                 {renderSelectField(
                   "Processing_Status",
                   "Processing Status",
                   processingStatusValues,
                 )}
-                {renderDatePicker(
-                  "Original_Denial_Date",
-                  "Original Denial Date",
-                  "Original Denial Date",
+               
+                {renderInputField(
+                  "Effectuation_Notes",
+                  "Effectuation Notes",
+                  4000,
                 )}
               </div>
-            )}
-            {shouldHideFields && (
+            }
+            {shouldHideFields &&
               <div className="row my-2">
                 {renderInputField("Payment_Method", "Payment Method", 30)}
                 {renderInputField("Payment_Number", "Payment Number", 50)}
@@ -861,21 +872,33 @@ const CaseClaimInformation = (props) => {
                   "Payment Date",
                 )}
               </div>
-            )}
+            }
+           
+                    <div className="row my-2">
             {shouldHideFields && (
-              <div className="row my-2">
+              <>
+                {renderDatePicker(
+                  "Denied_As_Of_Date",
+                  "Denied As Of Date",
+                  "Denied As Of Date",
+                )}
                 {renderDatePicker(
                   "Payment_Mail_Date_Postmark",
                   "Payment Mail Date Postmark",
                   "Payment Mail Date Postmark",
                 )}
-                {renderInputField(
-                  "Effectuation_Notes",
-                  "Effectuation Notes",
-                  4000,
-                )}
-              </div>
+              </>
             )}
+            {shouldHideFields && location.state.stageName !== "Research" && (
+              renderSelectField(
+                "Service_Type",
+                "Service Type",
+                serviceTypeValues,
+              )
+            )}
+          </div>
+
+
             <div className="row">
               <div className="col-xs-6 col-md-12">
                 <ClaimInformationTable

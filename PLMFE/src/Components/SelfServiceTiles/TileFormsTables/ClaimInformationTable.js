@@ -633,7 +633,7 @@ export default function ClaimInformationTable({
                 }
               />
             </div>
-            <div className="col-xs-6 col-md-3">
+            {/* <div className="col-xs-6 col-md-3">
               <label htmlFor="datePicker">Number of Days in Span</label>
               <br />
               <div className="form-floating">
@@ -678,8 +678,32 @@ export default function ClaimInformationTable({
                   }
                 />
               </div>
+            </div> */}
+              <div className="col-xs-6 col-md-3">
+              <label>Number of Days in Span</label>
+              <br />
+              <input
+                type="text"
+                value={
+                  "Number_of_Days_in_Span" in data &&
+                  data.Number_of_Days_in_Span.value !== undefined
+                    ? convertToCase(data.Number_of_Days_in_Span.value)
+                    : convertToCase(data.Number_of_Days_in_Span)
+                }
+                onChange={(evnt) =>
+                  handleGridFieldChange(
+                    index,
+                    evnt,
+                    ClaimInformationTable.displayName,
+                  )
+                }
+                name="Number_of_Days_in_Span"
+                className="form-control"
+                maxLength="50"
+                title="Please Enter Number of Days in Span"
+                disabled={lockStatus == "V"}
+              />
             </div>
-
             <div className="col-xs-6 col-md-3">
               <label htmlFor="datePicker">Service Start Date</label>
               <br />
