@@ -11,8 +11,9 @@ export const SimpleSelectField = ({
 }) => {
   return (
     <>
-      <label>Auth Type Description</label>
-      <br />
+      <label>
+        <strong>{label}</strong>
+      </label>
       <Select
         styles={{
           control: (provided) => ({
