@@ -12,9 +12,11 @@ export const SimpleInputField = ({
   const { convertToCase } = useGetDBTables();
   return (
     <>
-      <label>{label}</label>
-      <br />
+      <label htmlFor={name}>
+        <strong>{label}</strong>
+      </label>
       <input
+        id={name}
         type="text"
         value={
           data?.[name]?.value

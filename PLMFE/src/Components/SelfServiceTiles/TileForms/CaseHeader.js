@@ -158,7 +158,6 @@ const CaseHeader = () => {
                 expeditedRequestValidationSchema={
                   expeditedRequestValidationSchema
                 }
-                // expeditedDate={expeditedDate}
               />
               {location.state.formView === "DashboardHomeView" && (
                 <DocumentSection

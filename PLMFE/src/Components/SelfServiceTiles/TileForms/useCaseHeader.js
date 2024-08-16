@@ -132,6 +132,7 @@ export const useCaseHeader = () => {
     Expedited_Denied_Date: undefined,
     Decision_Letter_Date: undefined,
   });
+  const [claimInformationGrid, setClaimInformationGrid] = useState([]);
   const [providerInformationGrid, setProviderInformationGrid] = useState([]);
   const [authorizationInformationGrid, setAuthorizationInformationGrid] =
     useState([]);
@@ -247,6 +248,10 @@ export const useCaseHeader = () => {
     ),
   });
   const expeditedRequestValidationSchema = Yup.object().shape({});
+  const claimInformationGridRowValidationSchema = Yup.object().shape({
+    Grant_Good_Cause: conditionalString("Filed_Timely", "NO", "Grant Good Cause is mandatory"),
+    Good_Cause_Reason: conditionalString("Filed_Timely", "YES", "Grant Good Reason is mandatory"),
+  });
   const providerInformationValidationSchema = Yup.object().shape({
     Point_of_Contact: Yup.object().shape({
       label: Yup.string().required("Point of Contact is mandatory"),
@@ -276,7 +281,10 @@ export const useCaseHeader = () => {
         return acc;
       }, {});
       setErrors(validationErrors);
-      console.log('errors were encountered while processing schema', validationErrors);
+      console.log(
+        "errors were encountered while processing schema",
+        validationErrors,
+      );
     }
   };
 
@@ -484,8 +492,6 @@ export const useCaseHeader = () => {
   });
 
   const [formData, setFormData] = useState({});
-
-  const [claimInformationGrid, setClaimInformationGrid] = useState([]);
 
   const [representativeInformationGrid, setRepresentativeInformationGrid] =
     useState([]);
