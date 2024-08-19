@@ -249,8 +249,16 @@ export const useCaseHeader = () => {
   });
   const expeditedRequestValidationSchema = Yup.object().shape({});
   const claimInformationGridRowValidationSchema = Yup.object().shape({
-    Grant_Good_Cause: conditionalString("Filed_Timely", "NO", "Grant Good Cause is mandatory"),
-    Good_Cause_Reason: conditionalString("Filed_Timely", "YES", "Grant Good Reason is mandatory"),
+    Grant_Good_Cause: conditionalString(
+      "Filed_Timely",
+      "NO",
+      "Grant Good Cause is mandatory",
+    ),
+    Good_Cause_Reason: conditionalString(
+      "Filed_Timely",
+      "YES",
+      "Grant Good Reason is mandatory",
+    ),
   });
   const providerInformationValidationSchema = Yup.object().shape({
     Point_of_Contact: Yup.object().shape({

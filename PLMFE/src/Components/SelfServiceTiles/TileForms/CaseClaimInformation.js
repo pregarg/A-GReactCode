@@ -1,7 +1,7 @@
-import React, {useEffect, useRef, useState} from "react";
-import {useAxios} from "../../../api/axios.hook";
-import {useLocation} from "react-router-dom";
-import {useSelector} from "react-redux";
+import React, { useEffect, useRef, useState } from "react";
+import { useAxios } from "../../../api/axios.hook";
+import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 import useGetDBTables from "../../CustomHooks/useGetDBTables";
 import ClaimInformationTable from "../TileFormsTables/ClaimInformationTable";
 import CaseHeader from "./CaseHeader";
@@ -10,9 +10,9 @@ import TableComponent from "../../../../src/util/TableComponent";
 import ClaimSearch from "../TileForms/ClaimSearch";
 import ProviderSearch from "../TileForms/ProviderSearch";
 import useUpdateDecision from "../../CustomHooks/useUpdateDecision";
-import {FormikInputField} from "../Common/FormikInputField";
-import {FormikDatePicker} from "../Common/FormikDatePicker";
-import {FormikSelectField} from "../Common/FormikSelectField";
+import { FormikInputField } from "../Common/FormikInputField";
+import { FormikDatePicker } from "../Common/FormikDatePicker";
+import { FormikSelectField } from "../Common/FormikSelectField";
 
 const CaseClaimInformation = (props) => {
   const {
@@ -890,7 +890,9 @@ const CaseClaimInformation = (props) => {
                   gridFieldTempState={gridFieldTempState}
                   editTableRows={editTableRows}
                   gridRowsFinalSubmit={gridRowsFinalSubmit}
-                  validationSchema={props.claimInformationGridRowValidationSchema}
+                  validationSchema={
+                    props.claimInformationGridRowValidationSchema
+                  }
                   lockStatus={
                     location.state.lockStatus !== undefined &&
                     location.state.lockStatus !== ""

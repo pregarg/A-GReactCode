@@ -67,7 +67,7 @@ export default function ClaimInformationTable({
       setSaveDisabled(true);
       validationSchema.validateSync(gridFieldTempState, { abortEarly: false });
     } catch (errors) {
-      setSaveDisabled(false)
+      setSaveDisabled(false);
     }
   }, [gridFieldTempState]);
 
