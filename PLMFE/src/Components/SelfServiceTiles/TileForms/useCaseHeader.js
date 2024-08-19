@@ -7,10 +7,15 @@ import useGetDBTables from "../../CustomHooks/useGetDBTables";
 import useUpdateDecision from "../../CustomHooks/useUpdateDecision";
 import _ from "lodash";
 
+import TableComponent from "../../../../src/util/TableComponent";
+
 export const useCaseHeader = () => {
-  var currentDate = new Date();
+  const currentDate = new Date();
   const location = useLocation();
   const [hasSubmitError, setHasSubmitError] = useState(true);
+  const [responseData, setResponseData] = useState([]);
+  const [showMember360, setShowMember360] = useState(false);
+  const [showProvider360, setShowProvider360] = useState(false);
   const [shouldShowSubmitError, setShowSubmitError] = useState(false);
   const { fileUpDownAxios } = useAxios();
   let documentSectionDataRef = useRef([]);
@@ -553,6 +558,111 @@ export const useCaseHeader = () => {
     setAuthorizationInformation({ ...authorizationInformation, [name]: value });
   };
 
+  const handleShowMember360 = () => {
+    setShowMember360(true);
+    if (memberInformation.Member_ID) {
+      populateModalTable("MEMBER360DATA", memberInformation.Member_ID);
+    }
+  };
+  const handleCloseMember360 = () => {
+    setShowMember360(false);
+    setResponseData([]);
+  };
+
+  const handleShowProvider360 = () => {
+    setShowProvider360(true);
+    if (providerInformationGrid.length !== 0) {
+      const providerIds = providerInformationGrid
+        .map((item) => item["Provider_ID"])
+        .filter((id) => id !== undefined)
+        .map((item) => item["value"]);
+
+      providerIds.forEach((providerId) => {
+        populateModalTable("PROVIDER360DATA", providerId);
+      });
+    }
+  };
+  const handleCloseProvider360 = () => {
+    setShowProvider360(false);
+    setResponseData([]);
+  };
+
+  const modalTableComponent = (isProvider) => {
+    var columnNames =
+      "Process~Process, Case ID~CaseID, Creation Date~CreationDate, Member ID~MemberID, Complaint type~AppellantType, Status~Status, Assigned To~AssignedTo, Issue Level~IssueLevel, Case Received Date~CaseReceivedDate, Case Due Date~CaseDueDate, Case Decision~CaseDecision";
+
+    if (isProvider) {
+      columnNames =
+        "Case ID~CaseID, Level Number~LevelNumber, Previous Level Case Number~PreviousLevelCase, Previous Level Number~PreviousLevelNumber, Provider ID~ProviderID, Provider Name~ProviderName, Provider TIN~ProviderTIN, Provider NPI~ProviderNPI, Vendor ID~VendorID, Issue Level~IssueLevel, Case Received Date~CaseReceivedDate, Resolution Date~ResolutionDate, Claims Linked~ClaimsLinked, Case Status~CaseStatus";
+    }
+
+    return <TableComponent columnName={columnNames} rowValues={responseData} />;
+  };
+
+  const populateModalTable = async (option, id) => {
+    //console.log("select provider Search Values", selectSearchValues);
+    var getApiJson = {};
+
+    if (option === "MEMBER360DATA") {
+      getApiJson = {
+        option: option,
+        CaseID: "",
+        CreationDate: "",
+        MemberID: memberInformation.Member_ID || "",
+      };
+    } else if (option === "PROVIDER360DATA") {
+      getApiJson = {
+        option: option,
+        ProviderID: id || "",
+      };
+    }
+
+    console.log("API Request JSON:", getApiJson);
+
+    try {
+      let res = await customAxios.post("/generic/callProcedure", getApiJson, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      console.log("API Response:", res.data);
+
+      let resApiData = res.data.CallProcedure_Output?.data || [];
+      console.log("Response Data:", resApiData);
+      resApiData = resApiData?.length > 0 ? resApiData : [];
+
+      if (resApiData.length > 0) {
+        const respKeys = Object.keys(resApiData);
+        console.log("respKeys--->", respKeys);
+        respKeys.forEach((k) => {
+          let apiResponse = resApiData[k];
+          if (
+            apiResponse.hasOwnProperty("Provider_Par_Date") &&
+            typeof apiResponse.Provider_Par_Date === "string"
+          ) {
+            console.log("lll--->", apiResponse.Provider_Par_Date); // 2024-05-08T00:00:00
+            const mad = new Date(extractDate(apiResponse.Provider_Par_Date));
+
+            apiResponse.Provider_Par_Date = extractDate(mad);
+            console.log("getDatePartOnly-->", mad); //Wed May 08 2024 00:00:00 GMT+0530 (India Standard Time)
+            console.log("extractDate-->", apiResponse.Provider_Par_Date); //2024-05-18
+          }
+        });
+
+        setResponseData((responseData) => [resApiData[0], ...responseData]);
+        //alert(JSON.stringify(responseData))
+
+        console.log("setting provider search--->");
+      }
+      const apiStat = res.data.CallProcedure_Output.Status;
+      if (apiStat === -1) {
+        alert("Error in fetching data");
+      }
+    } catch (error) {
+      console.error("API Error:", error);
+      alert("Error in fetching data. Please try again later.");
+    }
+  };
+
   const getGridDataValues = (tableData) => {
     //var headers = document.getElementById(tableId).headers;
     let returnArray = [];
@@ -673,7 +783,6 @@ export const useCaseHeader = () => {
   }
 
   const getCaseByCaseNumber = async () => {
-    let daysLeft, hoursLeft, minutesLeft, secondsLeft;
     let getApiJson = {};
     getApiJson["tableNames"] = getTableDetails()["angTables"];
     getApiJson["whereClause"] = { caseNumber: location.state.caseNumber };
@@ -719,28 +828,9 @@ export const useCaseHeader = () => {
             appellant_Type,
           );
 
-          // const currentDate = new Date();
-
           const caseDueDateString = extractDate(dueDate);
           const internalDueDateString = extractDate(internalDate);
           const finalcaseReceivedDate = extractDate(caseReceivedDate);
-
-          // Calculate the time left until the case due date
-          const timeLeft = dueDate - currentDate;
-
-          daysLeft = Math.max(Math.floor(timeLeft / (1000 * 60 * 60 * 24)), 0);
-          hoursLeft = Math.max(
-            Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-            0,
-          );
-          minutesLeft = Math.max(
-            Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60)),
-            0,
-          );
-          secondsLeft = Math.max(
-            Math.floor((timeLeft % (1000 * 60)) / 1000),
-            0,
-          );
 
           setCaseHeader((prevState) => ({
             ...prevState,
@@ -758,21 +848,8 @@ export const useCaseHeader = () => {
           }));
         }
 
-        // Calculate case aging
-        const timeDifference = currentDate - caseReceivedDate;
-        const caseAgingInDays = Math.floor(
-          timeDifference / (1000 * 60 * 60 * 24),
-        );
-        const complianceTime = `${daysLeft}d ${hoursLeft}h ${minutesLeft}m ${secondsLeft}s`;
-        // Now you can use `daysLeft` in `setCaseTimelines`
-        setCaseTimelines((prevState) => ({
-          ...prevState,
-          ...(data?.["angCaseTimelines"]?.[0] || {}),
-          Case_Aging: caseAgingInDays + " days",
-          Compliance_Time_Left_to_Finish: complianceTime + " remaining",
-        }));
-
         // Update other state values
+        setCaseTimelines(data?.["angCaseTimelines"]?.[0] || {});
         setCaseInformation(data?.["angCaseInformation"]?.[0] || {});
         setClaimInformation(data?.["angClaimInformation"]?.[0] || {});
         setClaimInformationGrid(data?.["angClaimInformationGrid"] || []);
@@ -1226,6 +1303,14 @@ export const useCaseHeader = () => {
     claimInformationErrors,
     memberInformationErrors,
     shouldShowSubmitError,
+    handleShowMember360,
+    showMember360,
+    handleCloseMember360,
+    handleShowProvider360,
+    showProvider360,
+    handleCloseProvider360,
+    populateModalTable,
+    modalTableComponent,
     claimInformationGridRowValidationSchema,
   };
 };
