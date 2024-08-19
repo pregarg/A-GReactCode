@@ -120,7 +120,9 @@ const CaseHeader = () => {
                 claimInformationValidationSchema={
                   claimInformationValidationSchema
                 }
-                claimInformationGridRowValidationSchema={claimInformationGridRowValidationSchema}
+                claimInformationGridRowValidationSchema={
+                  claimInformationGridRowValidationSchema
+                }
                 handleClaimInformationGridData={claimInformationGrid}
                 claimInformationErrors={claimInformationErrors}
                 shouldShowSubmitError={shouldShowSubmitError}
