@@ -63,6 +63,7 @@ export default function GridModal(show) {
                   );
                 }
               }}
+              disabled={show.saveDisabled}
               style={{ float: "left" }}
             >
               Save & Close

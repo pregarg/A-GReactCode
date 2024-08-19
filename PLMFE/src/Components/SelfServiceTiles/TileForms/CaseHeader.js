@@ -76,9 +76,8 @@ const CaseHeader = () => {
     claimInformationErrors,
     memberInformationErrors,
     shouldShowSubmitError,
+    claimInformationGridRowValidationSchema,
   } = useCaseHeader();
-
-  // const [memberInformation, setMemberInformation] = useState();
 
   const FormComponent = () => (
     <div
@@ -118,6 +117,7 @@ const CaseHeader = () => {
                 claimInformationValidationSchema={
                   claimInformationValidationSchema
                 }
+                claimInformationGridRowValidationSchema={claimInformationGridRowValidationSchema}
                 handleClaimInformationGridData={claimInformationGrid}
                 claimInformationErrors={claimInformationErrors}
                 shouldShowSubmitError={shouldShowSubmitError}

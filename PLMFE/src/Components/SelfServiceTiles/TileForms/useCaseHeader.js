@@ -1218,5 +1218,6 @@ export const useCaseHeader = () => {
     claimInformationErrors,
     memberInformationErrors,
     shouldShowSubmitError,
+    claimInformationGridRowValidationSchema,
   };
 };

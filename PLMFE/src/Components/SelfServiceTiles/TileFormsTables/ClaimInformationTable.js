@@ -23,6 +23,7 @@ export default function ClaimInformationTable({
   editTableRows,
   gridFieldTempState,
   calculateDaysDifference,
+  validationSchema,
 }) {
   ClaimInformationTable.displayName = "ClaimInformationTable";
 
@@ -59,6 +60,16 @@ export default function ClaimInformationTable({
   let lineNumberOptions = [];
   let filedTimelyValues = [];
   let grantGoodCauseValues = [];
+
+  const [saveDisabled, setSaveDisabled] = useState(false);
+  useEffect(() => {
+    try {
+      setSaveDisabled(true);
+      validationSchema.validateSync(gridFieldTempState, { abortEarly: false });
+    } catch (errors) {
+      setSaveDisabled(false)
+    }
+  }, [gridFieldTempState]);
 
   useEffect(() => {
     if (masterAngFiledTimelySelector) {
@@ -600,6 +611,7 @@ export default function ClaimInformationTable({
         operationValue={operationValue}
         gridRowsFinalSubmit={gridRowsFinalSubmit}
         lockStatus={lockStatus}
+        saveDisabled={saveDisabled}
       ></GridModal>
     </>
   );
