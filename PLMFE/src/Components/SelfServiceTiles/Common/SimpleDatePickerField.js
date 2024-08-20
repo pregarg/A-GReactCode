@@ -10,8 +10,9 @@ export const SimpleDatePickerField = ({
 }) => {
   return (
     <>
-      <label htmlFor={name}>{label}</label>
-      <br />
+      <label htmlFor={name}>
+        <strong>{label}</strong>
+      </label>
       <div className="form-floating">
         <ReactDatePicker
           className="form-control example-custom-input-modal"
