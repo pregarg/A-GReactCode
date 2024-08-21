@@ -1,5 +1,6 @@
 import React from "react";
 import Select from "react-select";
+import useGetDBTables from "../../CustomHooks/useGetDBTables";
 
 export const SimpleSelectField = ({
   name,
@@ -8,7 +9,9 @@ export const SimpleSelectField = ({
   data,
   disabled,
   onChange,
+    validationErrors,
 }) => {
+  const { convertToCase } = useGetDBTables();
   return (
     <>
       <label>
@@ -29,6 +32,14 @@ export const SimpleSelectField = ({
         isDisabled={disabled}
         isClearable
       />
+      {validationErrors?.[name] && (
+          <div
+              className="invalid-feedback"
+              style={{ display: "block", fontSize: "12px" }}
+          >
+            {validationErrors[name]}
+          </div>
+      )}
     </>
   );
 };

@@ -61,13 +61,18 @@ export default function ClaimInformationTable({
   let filedTimelyValues = [];
   let grantGoodCauseValues = [];
 
-  const [saveDisabled, setSaveDisabled] = useState(false);
+  const [validationErrors, setValidationErrors] = useState({});
   useEffect(() => {
+    console.log('eval in progress', validationErrors, gridFieldTempState)
     try {
-      setSaveDisabled(true);
+      setValidationErrors([]);
       validationSchema.validateSync(gridFieldTempState, { abortEarly: false });
     } catch (errors) {
-      setSaveDisabled(false);
+      const validationErrors = errors.inner.reduce((acc, error) => {
+        acc[error.path] = error.message;
+        return acc;
+      }, {});
+      setValidationErrors(validationErrors);
     }
   }, [gridFieldTempState]);
 
@@ -116,6 +121,7 @@ export default function ClaimInformationTable({
               ClaimInformationTable.displayName,
             )
           }
+          validationErrors={validationErrors}
           disabled={
             prop.state.formView === "DashboardView" &&
             (prop.state.stageName === "Redirect Review" ||
@@ -142,6 +148,7 @@ export default function ClaimInformationTable({
               ClaimInformationTable.displayName,
             )
           }
+          validationErrors={validationErrors}
           disabled={
             prop.state.formView === "DashboardView" &&
             (prop.state.stageName === "Redirect Review" ||
@@ -172,6 +179,7 @@ export default function ClaimInformationTable({
               ClaimInformationTable.displayName,
             )
           }
+          validationErrors={validationErrors}
           disabled={
             prop.state.formView === "DashboardView" &&
             (prop.state.stageName === "Redirect Review" ||
@@ -611,7 +619,7 @@ export default function ClaimInformationTable({
         operationValue={operationValue}
         gridRowsFinalSubmit={gridRowsFinalSubmit}
         lockStatus={lockStatus}
-        saveDisabled={saveDisabled}
+        validationErrors={validationErrors}
       ></GridModal>
     </>
   );
