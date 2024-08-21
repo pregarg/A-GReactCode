@@ -132,6 +132,11 @@ export const useCaseHeader = () => {
     Expedited_Denied_Date: undefined,
     Decision_Letter_Date: undefined,
   });
+
+  const [notes, setNotes] = useState({
+    Case_Notes: "",
+    Internal_Notes: "",
+  });
   const [claimInformationGrid, setClaimInformationGrid] = useState([]);
   const [providerInformationGrid, setProviderInformationGrid] = useState([]);
   const [authorizationInformationGrid, setAuthorizationInformationGrid] =
@@ -387,10 +392,10 @@ export const useCaseHeader = () => {
     const angCaseInformation = trimJsonValues({ ...caseInformation });
     const angClaimInformation = trimJsonValues({ ...claimInformation });
     const angMemberInformation = trimJsonValues({ ...memberInformation });
-    const angAuthorizationInformation = trimJsonValues({
-      ...authorizationInformation,
-    });
+    const angAuthorizationInformation = trimJsonValues({   ...authorizationInformation, });
     const angExpeditedRequest = trimJsonValues({ ...expeditedRequest });
+    const angNotes = trimJsonValues({ ...notes });
+
 
     apiJson["ANG_Case_Header"] = angCaseHeader;
     apiJson["ANG_Case_Timelines"] = angCaseTimelines;
@@ -405,7 +410,7 @@ export const useCaseHeader = () => {
     apiJson["ANG_Authorization_Information_Grid"] =
       angAuthorizationInformationGrid;
     apiJson["ANG_Expedited_Request"] = angExpeditedRequest;
-
+    apiJson["ANG_Notes"] = angNotes;
     let mainCaseReqBody = {
       ...mainCaseDetails,
       caseStatus: "Open",
@@ -780,6 +785,7 @@ export const useCaseHeader = () => {
           data?.["angAuthorizationInformationGrid"] || [],
         );
         setExpeditedRequest(data?.["angExpeditedRequest"]?.[0] || {});
+        setNotes(data?.["angNotes"]?.[0] || {});
         setFormData(_.cloneDeep(data));
 
         // Update case data in caseData array
@@ -827,7 +833,8 @@ export const useCaseHeader = () => {
       ...authorizationInformation,
     });
     const angExpeditedRequest = trimJsonValues({ ...expeditedRequest });
-
+    const angNotes = trimJsonValues({ ...notes });
+    
     const angClaimInformationGrid = getGridDataValues(claimInformationGrid);
     const originalClaimInformationGrid = getGridDataValues(
       formData["angClaimInformationGrid"],
@@ -881,6 +888,10 @@ export const useCaseHeader = () => {
     apiJson["ANG_Expedited_Request"] = CompareJSON(
       angExpeditedRequest,
       formData["angExpeditedRequest"][0],
+    );
+    apiJson["ANG_Notes"] = CompareJSON(
+      angNotes,
+      formData["angNotes"][0],
     );
 
     let updateClaimArray = [];
@@ -1203,6 +1214,8 @@ export const useCaseHeader = () => {
     setAuthorizationInformationGrid,
     expeditedRequest,
     setExpeditedRequest,
+    notes,
+    setNotes,
     expeditedRequestValidationSchema,
     location,
     navigateHome,

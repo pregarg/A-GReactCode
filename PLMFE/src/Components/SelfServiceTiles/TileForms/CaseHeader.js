@@ -11,6 +11,8 @@ import CaseInformation from "../../../WorkItemDashboard/CaseInformation";
 import MemberInformationAccordion from "./MemberInformationAccordion";
 import AuthorizationInformationAccordion from "./AuthorizationInformationAccordion";
 import ExpeditedRequestAccordion from "./ExpeditedRequestAccordion";
+import NotesAccordion from "./NotesAccordion";
+
 import RepresentativeInformationAccordion from "./RepresentativeInformationAccordion";
 import { useCaseHeader } from "./useCaseHeader";
 import DocumentSection from "../DocumentSection";
@@ -59,6 +61,8 @@ const CaseHeader = () => {
     setAuthorizationInformationGrid,
     expeditedRequest,
     setExpeditedRequest,
+    notes,
+    setNotes,
     expeditedRequestValidationSchema,
     location,
     navigateHome,
@@ -159,6 +163,12 @@ const CaseHeader = () => {
                   expeditedRequestValidationSchema
                 }
               />
+             < NotesAccordion
+             
+                notesData = {notes}
+                setNotesData= {setNotes}
+              />
+
               {location.state.formView === "DashboardHomeView" && (
                 <DocumentSection
                   fileDataRef={documentSectionDataRef.current}
