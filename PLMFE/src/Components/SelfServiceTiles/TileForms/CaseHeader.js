@@ -2,6 +2,8 @@ import { React, useState } from "react";
 import { Formik } from "formik";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
+import Dropdown from "react-bootstrap/Dropdown";
+import DropdownButton from "react-bootstrap/DropdownButton";
 import CaseHeaderAccordion from "./CaseHeaderAccordion";
 import CaseTimelinesAccordion from "./CaseTimelinesAccordion";
 import CaseInformationAccordion from "./CaseInformationAccordion";
@@ -17,20 +19,14 @@ import RepresentativeInformationAccordion from "./RepresentativeInformationAccor
 import { useCaseHeader } from "./useCaseHeader";
 import DocumentSection from "../DocumentSection";
 import { useLocation } from "react-router-dom";
+import Member360 from "../TileForms/Member360";
+import Provider360 from "../TileForms/Provider360";
 
 const CaseHeader = () => {
   CaseHeader.displayName = "Appeals";
   const caseHeaderConfigData = JSON.parse(
     process.env.REACT_APP_CASEHEADER_DETAILS,
   );
-  // const [expeditedDate, setExpeditedDate] = useState(null);
-
-  const handleExpeditedPriorityChange = (date) => {
-    setExpeditedRequest((prevState) => ({
-      ...prevState,
-      Expedited_Upgrade_Date_Time: date,
-    }));
-  };
 
   const {
     caseTimelines,
@@ -80,9 +76,16 @@ const CaseHeader = () => {
     claimInformationErrors,
     memberInformationErrors,
     shouldShowSubmitError,
+    claimInformationGridRowValidationSchema,
+    handleShowMember360,
+    showMember360,
+    handleCloseMember360,
+    handleShowProvider360,
+    showProvider360,
+    handleCloseProvider360,
+    populateModalTable,
+    modalTableComponent,
   } = useCaseHeader();
-
-  // const [memberInformation, setMemberInformation] = useState();
 
   const FormComponent = () => (
     <div
@@ -114,13 +117,15 @@ const CaseHeader = () => {
                 }
                 caseInformationErrors={caseInformationErrors}
                 shouldShowSubmitError={shouldShowSubmitError}
-                onExpeditedPriorityChange={handleExpeditedPriorityChange}
               />
               <CaseClaimInformation
                 claimInformationData={claimInformation}
                 setClaimInformationData={setClaimInformation}
                 claimInformationValidationSchema={
                   claimInformationValidationSchema
+                }
+                claimInformationGridRowValidationSchema={
+                  claimInformationGridRowValidationSchema
                 }
                 handleClaimInformationGridData={claimInformationGrid}
                 claimInformationErrors={claimInformationErrors}
@@ -241,6 +246,47 @@ const CaseHeader = () => {
             )}
           </div>
         </div>
+        {(memberInformation.Member_ID ||
+          providerInformationGrid.length !== 0) && (
+          <DropdownButton
+            id="dropdown-basic-button"
+            title="Dropdown button"
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              marginRight: "10px",
+            }}
+          >
+            <Dropdown.Item
+              onClick={(event) => {
+                handleShowMember360(event);
+              }}
+            >
+              Member 360
+            </Dropdown.Item>
+            <Dropdown.Item
+              onClick={(event) => {
+                handleShowProvider360(event);
+              }}
+            >
+              Provider 360
+            </Dropdown.Item>
+          </DropdownButton>
+        )}
+        {showMember360 && (
+          <Member360
+            showMember360={showMember360}
+            handleCloseMember360={handleCloseMember360}
+            member360TableComponent={modalTableComponent}
+          />
+        )}
+        {showProvider360 && (
+          <Provider360
+            showProvider360={showProvider360}
+            handleCloseProvider360={handleCloseProvider360}
+            provider360TableComponent={modalTableComponent}
+          />
+        )}
       </div>
       <div className="col-xs-12">
         <div className="container">

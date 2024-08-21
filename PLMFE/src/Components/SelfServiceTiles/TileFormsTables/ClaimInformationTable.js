@@ -23,6 +23,7 @@ export default function ClaimInformationTable({
   editTableRows,
   gridFieldTempState,
   calculateDaysDifference,
+  validationSchema,
 }) {
   ClaimInformationTable.displayName = "ClaimInformationTable";
 
@@ -59,6 +60,21 @@ export default function ClaimInformationTable({
   let lineNumberOptions = [];
   let filedTimelyValues = [];
   let grantGoodCauseValues = [];
+
+  const [validationErrors, setValidationErrors] = useState({});
+  useEffect(() => {
+    console.log('eval in progress', validationErrors, gridFieldTempState)
+    try {
+      setValidationErrors([]);
+      validationSchema.validateSync(gridFieldTempState, { abortEarly: false });
+    } catch (errors) {
+      const validationErrors = errors.inner.reduce((acc, error) => {
+        acc[error.path] = error.message;
+        return acc;
+      }, {});
+      setValidationErrors(validationErrors);
+    }
+  }, [gridFieldTempState]);
 
   useEffect(() => {
     if (masterAngFiledTimelySelector) {
@@ -105,6 +121,7 @@ export default function ClaimInformationTable({
               ClaimInformationTable.displayName,
             )
           }
+          validationErrors={validationErrors}
           disabled={
             prop.state.formView === "DashboardView" &&
             (prop.state.stageName === "Redirect Review" ||
@@ -131,6 +148,7 @@ export default function ClaimInformationTable({
               ClaimInformationTable.displayName,
             )
           }
+          validationErrors={validationErrors}
           disabled={
             prop.state.formView === "DashboardView" &&
             (prop.state.stageName === "Redirect Review" ||
@@ -161,6 +179,7 @@ export default function ClaimInformationTable({
               ClaimInformationTable.displayName,
             )
           }
+          validationErrors={validationErrors}
           disabled={
             prop.state.formView === "DashboardView" &&
             (prop.state.stageName === "Redirect Review" ||
@@ -600,6 +619,7 @@ export default function ClaimInformationTable({
         operationValue={operationValue}
         gridRowsFinalSubmit={gridRowsFinalSubmit}
         lockStatus={lockStatus}
+        validationErrors={validationErrors}
       ></GridModal>
     </>
   );

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useAxios } from "../../../api/axios.hook";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -913,7 +913,9 @@ const CaseClaimInformation = (props) => {
                   gridFieldTempState={gridFieldTempState}
                   editTableRows={editTableRows}
                   gridRowsFinalSubmit={gridRowsFinalSubmit}
-                  //selectJson={selectValues}
+                  validationSchema={
+                    props.claimInformationGridRowValidationSchema
+                  }
                   lockStatus={
                     location.state.lockStatus !== undefined &&
                     location.state.lockStatus !== ""
