@@ -348,9 +348,9 @@ export const useCaseHeader = () => {
     Mail_to_Address: Yup.string().required("Mail to Address is mandatory"),
     Address_Line_1: Yup.string().required("Address Line 1 is mandatory"),
     City: Yup.string().required("City is mandatory"),
-    State_: Yup.string().required("State is mandatory"),
+    State: Yup.string().required("State is mandatory"),
     Zip_Code: Yup.string().required("Zip Code is mandatory"),
-    Provider_ID_: Yup.string().required("Provider ID is mandatory"),
+    Provider_ID: Yup.string().required("Provider ID is mandatory"),
     NPI_ID: Yup.string().required("NPI ID is mandatory"),
     Par_Provider_Start_Date: Yup.string().required(
       "Par Provider Start Date is mandatory",
