@@ -1,13 +1,13 @@
 import React, { useRef } from "react";
 import { Button, Modal } from "react-bootstrap";
 
-export default function Provider360(modalProps) {
+export default function NotesHistory(modalProps) {
   return (
     <>
       <Modal
-        show={modalProps.showProvider360}
+        show={modalProps.showNotesHistory}
         onHide={() => {
-          modalProps.handleCloseProvider360(false);
+          modalProps.handleCloseNotesHistory(false);
         }}
         backdrop="static"
         keyboard={false}
@@ -18,12 +18,12 @@ export default function Provider360(modalProps) {
         centered
       >
         <Modal.Header closeButton className="justify-content-center">
-          <Modal.Title className="text-center w-100">Provider 360</Modal.Title>
+          <Modal.Title className="text-center w-100">Notes History</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <>
             <div style={{ overflowX: "auto", maxWidth: "100%" }}>
-              {modalProps.provider360TableComponent("provider360")}
+              {modalProps.notesHistoryTableComponent("notesHistory")}
             </div>
           </>
         </Modal.Body>

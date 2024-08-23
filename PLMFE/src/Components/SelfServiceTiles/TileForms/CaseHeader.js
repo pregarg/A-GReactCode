@@ -21,6 +21,7 @@ import DocumentSection from "../DocumentSection";
 import { useLocation } from "react-router-dom";
 import Member360 from "../TileForms/Member360";
 import Provider360 from "../TileForms/Provider360";
+import NotesHistory from "../TileForms/NotesHistory";
 
 const CaseHeader = () => {
   CaseHeader.displayName = "Appeals";
@@ -83,6 +84,9 @@ const CaseHeader = () => {
     handleShowProvider360,
     showProvider360,
     handleCloseProvider360,
+    showNotesHistory,
+    handleShowNotesHistory,
+    handleCloseNotesHistory,
     populateModalTable,
     modalTableComponent,
   } = useCaseHeader();
@@ -271,6 +275,13 @@ const CaseHeader = () => {
             >
               Provider 360
             </Dropdown.Item>
+            <Dropdown.Item
+              onClick={(event) => {
+                handleShowNotesHistory(event);
+              }}
+            >
+              Notes History
+            </Dropdown.Item>
           </DropdownButton>
         )}
         {showMember360 && (
@@ -285,6 +296,13 @@ const CaseHeader = () => {
             showProvider360={showProvider360}
             handleCloseProvider360={handleCloseProvider360}
             provider360TableComponent={modalTableComponent}
+          />
+        )}
+        {showNotesHistory && (
+          <NotesHistory
+          showNotesHistory={showNotesHistory}
+          handleCloseNotesHistory={handleCloseNotesHistory}
+          notesHistoryTableComponent={modalTableComponent}
           />
         )}
       </div>
