@@ -32,7 +32,7 @@ export default function ClaimInformationTable({
   const [modalShow, setModalShow] = useState(false);
   const [isTouched, setIsTouched] = useState({});
 
-  const { getGridJson, convertToCase } = useGetDBTables();
+  const { convertToCase } = useGetDBTables();
 
   const masterAngFiledTimelySelector = useSelector(
     (state) => state?.masterAngFiledTimely,
@@ -63,7 +63,6 @@ export default function ClaimInformationTable({
 
   const [validationErrors, setValidationErrors] = useState({});
   useEffect(() => {
-    console.log('eval in progress', validationErrors, gridFieldTempState)
     try {
       setValidationErrors([]);
       validationSchema.validateSync(gridFieldTempState, { abortEarly: false });
@@ -113,7 +112,7 @@ export default function ClaimInformationTable({
           name={name}
           label={label}
           maxLength={maxLength}
-          data={getGridJson(gridFieldTempState)}
+          data={gridFieldTempState}
           onChange={(event) =>
             handleGridFieldChange(
               index,
@@ -139,7 +138,7 @@ export default function ClaimInformationTable({
           name={name}
           label={label}
           options={options}
-          data={getGridJson(gridFieldTempState)}
+          data={gridFieldTempState}
           onChange={(selectValue, event) =>
             handleGridSelectChange(
               index,
@@ -170,7 +169,7 @@ export default function ClaimInformationTable({
         <SimpleDatePickerField
           name={name}
           label={label}
-          data={getGridJson(gridFieldTempState)}
+          data={gridFieldTempState}
           onChange={(selectValue) =>
             handleGridDateChange(
               index,

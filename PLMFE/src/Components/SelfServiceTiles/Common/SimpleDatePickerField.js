@@ -7,7 +7,7 @@ export const SimpleDatePickerField = ({
   data,
   disabled,
   onChange,
-    validationErrors,
+  validationErrors,
 }) => {
   return (
     <>
@@ -37,12 +37,12 @@ export const SimpleDatePickerField = ({
         />
       </div>
       {validationErrors?.[name] && (
-          <div
-              className="invalid-feedback"
-              style={{ display: "block", fontSize: "12px" }}
-          >
-            {validationErrors[name]}
-          </div>
+        <div
+          className="invalid-feedback"
+          style={{ display: "block", fontSize: "12px" }}
+        >
+          {validationErrors[name]}
+        </div>
       )}
     </>
   );

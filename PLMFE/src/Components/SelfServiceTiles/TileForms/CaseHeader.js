@@ -77,6 +77,7 @@ const CaseHeader = () => {
     memberInformationErrors,
     shouldShowSubmitError,
     claimInformationGridRowValidationSchema,
+    providerInformationGridValidationSchema,
     handleShowMember360,
     showMember360,
     handleCloseMember360,
@@ -133,6 +134,7 @@ const CaseHeader = () => {
                 updateClaimInformationGridData={setClaimInformationGrid}
                 handleProviderInformationGridData={providerInformationGrid}
                 updateProviderInformationGridData={setProviderInformationGrid}
+                providerInformationGridValidationSchema={providerInformationGridValidationSchema}
               />
               <MemberInformationAccordion
                 memberInformationData={memberInformation}

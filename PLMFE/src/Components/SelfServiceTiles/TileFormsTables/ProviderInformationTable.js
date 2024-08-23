@@ -19,6 +19,7 @@ export default function ProviderInformationTable({
   lockStatus,
   editTableRows,
   gridFieldTempState,
+  validationSchema,
 }) {
   ProviderInformationTable.displayName = "ProviderInformationTable";
 
@@ -121,6 +122,20 @@ export default function ProviderInformationTable({
     }
   });
 
+  const [validationErrors, setValidationErrors] = useState({});
+  useEffect(() => {
+    try {
+      setValidationErrors([]);
+      validationSchema.validateSync(gridFieldTempState, { abortEarly: false });
+    } catch (errors) {
+      const validationErrors = errors.inner.reduce((acc, error) => {
+        acc[error.path] = error.message;
+        return acc;
+      }, {});
+      setValidationErrors(validationErrors);
+    }
+  }, [gridFieldTempState]);
+
   const renderSimpleInputField = (name, label, maxLength, index) => {
     return (
       <div className="col-xs-6 col-md-3">
@@ -128,7 +143,8 @@ export default function ProviderInformationTable({
           name={name}
           label={label}
           maxLength={maxLength}
-          data={getGridJson(gridFieldTempState)}
+          data={gridFieldTempState}
+          validationErrors={validationErrors}
           onChange={(event) =>
             handleGridFieldChange(
               index,
@@ -153,7 +169,8 @@ export default function ProviderInformationTable({
           name={name}
           label={label}
           options={options}
-          data={getGridJson(gridFieldTempState)}
+          data={gridFieldTempState}
+          validationErrors={validationErrors}
           onChange={(selectValue, event) =>
             handleGridSelectChange(
               index,
@@ -183,7 +200,8 @@ export default function ProviderInformationTable({
         <SimpleDatePickerField
           name={name}
           label={label}
-          data={getGridJson(gridFieldTempState)}
+          data={gridFieldTempState}
+          validationErrors={validationErrors}
           onChange={(selectValue) =>
             handleGridDateChange(
               index,
@@ -653,6 +671,7 @@ export default function ProviderInformationTable({
         operationValue={operationValue}
         gridRowsFinalSubmit={gridRowsFinalSubmit}
         lockStatus={lockStatus}
+        validationErrors={validationErrors}
       ></GridModal>
     </>
   );
