@@ -153,13 +153,13 @@ export const useCaseHeader = () => {
       otherwise: (schema) => schema.notRequired(),
     });
   const conditionalLabelValue = (dependsOn, valueEquals, validationMsg) =>
-      Yup.object({
-        value: Yup.string().when(dependsOn, {
-          is: (value) => value?.value === valueEquals,
-          then: (schema) => schema.required(validationMsg),
-          otherwise: (schema) => schema.notRequired(),
-        })
-      });
+    Yup.object({
+      value: Yup.string().when(dependsOn, {
+        is: (value) => value?.value === valueEquals,
+        then: (schema) => schema.required(validationMsg),
+        otherwise: (schema) => schema.notRequired(),
+      }),
+    });
 
   const pair1 = [
     "intake",
@@ -202,8 +202,21 @@ export const useCaseHeader = () => {
     Line_of_Business_LOB: Yup.string().required(
       "Line of Business is mandatory",
     ),
-    Case_Level_Priority: Yup.string().required("Case Level Priority is mandatory"),
-    Appellant_Description: Yup.string().required("Appellant Description is mandatory"),
+    Case_Level_Priority: Yup.string().required(
+      "Case Level Priority is mandatory",
+    ),
+    Appellant_Description: Yup.string().required(
+      "Appellant Description is mandatory",
+    ),
+    Research_Type: Yup.string().required(
+        "Research Type is mandatory",
+    ),
+    Denial_Type: Yup.string().required(
+        "Denial Type is mandatory",
+    ),
+    Denied_As_Of_Date: Yup.date().required(
+        "Denied As Of Date is mandatory",
+    ),
     Service_Type: Yup.string().required("Service Type is mandatory"),
     Decision_Reason: Yup.string().required("Decision Reason is mandatory"),
     Filed_Timely: Yup.string().required("Filed Timely is mandatory"),
@@ -220,6 +233,7 @@ export const useCaseHeader = () => {
       pair1,
       "Payment Method is mandatory",
     ),
+    Filed_Timely: Yup.string().required("Filed Timely is mandatory"),
     Claim_Decision: conditionalActivateOnStage(
       pair1,
       "Claim Decision is mandatory",
@@ -268,45 +282,79 @@ export const useCaseHeader = () => {
     Member_Last_Name: Yup.string().required("Member Last Name is mandatory"),
     ContractPlan_ID: Yup.string().required("Contract Plan ID is mandatory"),
     Plan_Code: Yup.string().required("Plan Code is mandatory"),
-    Primary_Care_Physician_PCP: Yup.string().required("Primary Care Physician PCP is mandatory"),
+    Member_IPA: Yup.string().required("Member IPA is mandatory"),
+    PBP: Yup.string().required("PBP is mandatory"),
+    Primary_Care_Physician_PCP: Yup.string().required(
+      "Primary Care Physician PCP is mandatory",
+    ),
     PCP_ID: Yup.string().required("PCP ID is mandatory"),
     Members_Age: Yup.string().required("Members Age is mandatory"),
     Deceased: Yup.string().required("Deceased is mandatory"),
     Gender: Yup.string().required("Gender is mandatory"),
     Dual_Plan: Yup.string().required("Dual Plan is mandatory"),
-    Preferred_Language: Yup.string().required("Preferred Language is mandatory"),
+    Preferred_Language: Yup.string().required(
+      "Preferred Language is mandatory",
+    ),
     Mail_to_Address: Yup.string().required("Mail to Address is mandatory"),
     Address_Line_1: Yup.string().required("Address Line 1 is mandatory"),
     City: Yup.string().required("City is mandatory"),
     State_: Yup.string().required("State is mandatory"),
     Email_Address: Yup.string().required("Email Address is mandatory"),
+    Medicaid_ID: Yup.string().required("MemberID Address is mandatory"),
+    Zip_Code: Yup.string().required("Zip code Address is mandatory"),
+    Plan_Effective_Date: Yup.string().required(
+      "Plan Effective Date Address is mandatory",
+    ),
+    Plan_Expiration_Date: Yup.string().required(
+      "Plan Expiration Date Address is mandatory",
+    ),
+    Date_of_Birth: Yup.string().required("Date of Birth Address is mandatory"),
+    Special_Need_Indicator: Yup.string().required(
+      "Special_Need_Indicator Address is mandatory",
+    ),
   });
   const expeditedRequestValidationSchema = Yup.object().shape({});
   const claimInformationGridRowValidationSchema = Yup.object().shape({
-    Grant_Good_Cause: conditionalLabelValue(
+    Grant_Good_Cause: conditionalString(
       "Filed_Timely",
       "NO",
       "Grant Good Cause is mandatory",
     ),
-    Good_Cause_Reason: conditionalLabelValue(
+    Good_Cause_Reason: conditionalString(
       "Filed_Timely",
       "YES",
       "Grant Good Reason is mandatory",
     ),
   });
-  const providerInformationValidationSchema = Yup.object().shape({
+  const providerInformationGridValidationSchema = Yup.object().shape({
     Point_of_Contact: Yup.string().required("Point of Contact is mandatory"),
-    Sequential_Provider_ID: Yup.string().required("Sequential Provider ID is mandatory"),
+    Sequential_Provider_ID: Yup.string().required(
+      "Sequential Provider ID is mandatory",
+    ),
     Provider_Name: Yup.string().required("Provider Name is mandatory"),
     Provider_TIN: Yup.string().required("Provider TIN is mandatory"),
-    Participating_Provider: Yup.string().required("Participating Provider is mandatory"),
+    Participating_Provider: Yup.string().required(
+      "Participating Provider is mandatory",
+    ),
     Provider_Type: Yup.string().required("Provider Type is mandatory"),
-    Provider_Vendor_Specialty: Yup.string().required("Provider Vendor Specialty is mandatory"),
+    Provider_Vendor_Specialty: Yup.string().required(
+      "Provider Vendor Specialty is mandatory",
+    ),
     Mail_to_Address: Yup.string().required("Mail to Address is mandatory"),
     Address_Line_1: Yup.string().required("Address Line 1 is mandatory"),
     City: Yup.string().required("City is mandatory"),
     State_: Yup.string().required("State is mandatory"),
     Zip_Code: Yup.string().required("Zip Code is mandatory"),
+    Provider_ID_: Yup.string().required("Provider ID is mandatory"),
+    NPI_ID: Yup.string().required("NPI ID is mandatory"),
+    Par_Provider_Start_Date: Yup.string().required(
+      "Par Provider Start Date is mandatory",
+    ),
+    Par_Provider_End_Date: Yup.string().required(
+      "Par Provider End Date is mandatory",
+    ),
+    Vendor_ID: Yup.string().required("Vendor ID is mandatory"),
+    Vendor_Name: Yup.string().required("Vendor_Name is mandatory"),
   });
   const authorizationInformationValidationSchema = Yup.object().shape({
     Issue_Number: Yup.object().shape({
@@ -1349,5 +1397,6 @@ export const useCaseHeader = () => {
     populateModalTable,
     modalTableComponent,
     claimInformationGridRowValidationSchema,
+    providerInformationGridValidationSchema,
   };
 };

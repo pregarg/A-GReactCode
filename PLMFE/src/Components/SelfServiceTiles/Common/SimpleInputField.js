@@ -8,7 +8,7 @@ export const SimpleInputField = ({
   data,
   disabled,
   onChange,
-  validationErrors
+  validationErrors,
 }) => {
   const { convertToCase } = useGetDBTables();
   return (
@@ -31,12 +31,12 @@ export const SimpleInputField = ({
         disabled={disabled}
       />
       {validationErrors?.[name] && (
-          <div
-              className="invalid-feedback"
-              style={{ display: "block", fontSize: "12px" }}
-          >
-            {validationErrors[name]}
-          </div>
+        <div
+          className="invalid-feedback"
+          style={{ display: "block", fontSize: "12px" }}
+        >
+          {validationErrors[name]}
+        </div>
       )}
     </>
   );

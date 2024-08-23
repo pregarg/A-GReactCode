@@ -9,9 +9,8 @@ export const SimpleSelectField = ({
   data,
   disabled,
   onChange,
-    validationErrors,
+  validationErrors,
 }) => {
-  const { convertToCase } = useGetDBTables();
   return (
     <>
       <label>
@@ -24,8 +23,15 @@ export const SimpleSelectField = ({
             fontWeight: "lighter",
           }),
         }}
-        value={data?.[name]}
-        onChange={onChange}
+        value={
+          data?.[name]?.label !== undefined
+            ? data?.[name]
+            : {
+                label: data?.[name],
+                value: data?.[name],
+              }
+        }
+        onChange={(selectValue, event) => onChange(selectValue?.value, event)}
         options={options}
         name={name}
         id={name}
@@ -33,12 +39,12 @@ export const SimpleSelectField = ({
         isClearable
       />
       {validationErrors?.[name] && (
-          <div
-              className="invalid-feedback"
-              style={{ display: "block", fontSize: "12px" }}
-          >
-            {validationErrors[name]}
-          </div>
+        <div
+          className="invalid-feedback"
+          style={{ display: "block", fontSize: "12px" }}
+        >
+          {validationErrors[name]}
+        </div>
       )}
     </>
   );

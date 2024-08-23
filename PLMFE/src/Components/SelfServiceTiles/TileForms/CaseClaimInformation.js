@@ -455,27 +455,11 @@ const CaseClaimInformation = (props) => {
   };
 
   const handleGridSelectChange = (index, selectedValue, event) => {
-    let rowsInput = { ...gridFieldTempState };
-
     const { name } = event;
-    let val = selectedValue;
-    if (event.action === "clear") {
-      if (name.toLowerCase() === "languages") {
-        val = [];
-      } else {
-        val = { label: "", value: "" };
-      }
-    } else {
-      if (selectedValue && selectedValue.label && selectedValue.value) {
-        val = {
-          label: selectedValue.label.toUpperCase(),
-          value: selectedValue.value.toUpperCase(),
-        };
-      }
-    }
-
-    rowsInput[name] = val;
-    setGridFieldTempState(rowsInput);
+    setGridFieldTempState({
+      ...gridFieldTempState,
+      [name]: (selectedValue?.value || selectedValue)?.toUpperCase(),
+    });
   };
 
   const handleGridDateChange = (index, selectedValue, fieldName) => {
@@ -488,12 +472,11 @@ const CaseClaimInformation = (props) => {
     ) {
       const startDate = tempInput["Service_Start_Date"];
       const endDate = tempInput["Service_End_Date"];
-
-      const daysSpan = calculateDaysDifference(startDate, endDate);
-
-      // Update the state with the calculated number of days in span
-      tempInput["Number_of_Days_in_Span"] = daysSpan;
-      setGridFieldTempState(tempInput); // Update the state with the new value
+      tempInput["Number_of_Days_in_Span"] = calculateDaysDifference(
+        startDate,
+        endDate,
+      );
+      setGridFieldTempState(tempInput);
     }
   };
   const calculateDaysDifference = (startDate, endDate) => {
@@ -501,8 +484,7 @@ const CaseClaimInformation = (props) => {
     const start = new Date(startDate);
     const end = new Date(endDate);
     const timeDiff = end.getTime() - start.getTime();
-    const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
-    return daysDiff;
+    return Math.ceil(timeDiff / (1000 * 3600 * 24));
   };
   const handleGridFieldChange = (index, event) => {
     let tempInput = { ...gridFieldTempState };
@@ -961,6 +943,7 @@ const CaseClaimInformation = (props) => {
               <div className="col-xs-6 col-md-12">
                 <ProviderInformationTable
                   providerInformationGridData={providerInformationGridData}
+                  validationSchema={props.providerInformationGridValidationSchema}
                   addTableRows={addTableRows}
                   deleteTableRows={deleteTableRows}
                   handleGridSelectChange={handleGridSelectChange}

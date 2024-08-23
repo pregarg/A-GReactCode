@@ -32,7 +32,9 @@ export const FormikDatePicker = ({
   );
   const dateValue = data[name + "#date"]
     ? new Date(data[name + "#date"])
-    : data[name] ? new Date(data[name]) : undefined;
+    : data[name]
+      ? new Date(data[name])
+      : undefined;
   return (
     <div>
       <ReactDatePicker
