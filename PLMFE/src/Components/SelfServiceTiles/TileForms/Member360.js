@@ -23,7 +23,7 @@ export default function Member360(modalProps) {
         <Modal.Body>
           <>
             <div style={{ overflowX: "auto", maxWidth: "100%" }}>
-              {modalProps.member360TableComponent(false)}
+              {modalProps.member360TableComponent("member360")}
             </div>
           </>
         </Modal.Body>

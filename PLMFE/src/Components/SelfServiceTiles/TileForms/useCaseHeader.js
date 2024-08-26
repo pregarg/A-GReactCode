@@ -16,6 +16,7 @@ export const useCaseHeader = () => {
   const [responseData, setResponseData] = useState([]);
   const [showMember360, setShowMember360] = useState(false);
   const [showProvider360, setShowProvider360] = useState(false);
+  const [showNotesHistory, setShowNotesHistory] = useState(false);
   const [shouldShowSubmitError, setShowSubmitError] = useState(false);
   const { fileUpDownAxios } = useAxios();
   let documentSectionDataRef = useRef([]);
@@ -677,16 +678,65 @@ export const useCaseHeader = () => {
     setResponseData([]);
   };
 
+  const handleShowNotesHistory= () => {
+    setShowNotesHistory(true)
+    if (notes.Case_Notes) {
+      populateModalTable("NOTESHISTORY",location.state.caseNumber);
+    }
+  };
+  const handleCloseNotesHistory = () => {
+    setShowNotesHistory(false);
+    setResponseData([]);
+  };
+
   const modalTableComponent = (isProvider) => {
+   if (isProvider === "member360")
     var columnNames =
       "Process~Process, Case ID~CaseID, Creation Date~CreationDate, Member ID~MemberID, Complaint type~AppellantType, Status~Status, Assigned To~AssignedTo, Issue Level~IssueLevel, Case Received Date~CaseReceivedDate, Case Due Date~CaseDueDate, Case Decision~CaseDecision";
 
-    if (isProvider) {
+    else if (isProvider=== "provider360") {
       columnNames =
         "Case ID~CaseID, Level Number~LevelNumber, Previous Level Case Number~PreviousLevelCase, Previous Level Number~PreviousLevelNumber, Provider ID~ProviderID, Provider Name~ProviderName, Provider TIN~ProviderTIN, Provider NPI~ProviderNPI, Vendor ID~VendorID, Issue Level~IssueLevel, Case Received Date~CaseReceivedDate, Resolution Date~ResolutionDate, Claims Linked~ClaimsLinked, Case Status~CaseStatus";
     }
+    else if (isProvider === "notesHistory"){
+      columnNames = "Date Time~Date time, User Name~User Name, Notes~Notes, Workstep~Workstep"
+    }
 
-    return <TableComponent columnName={columnNames} rowValues={responseData} />;
+    return (
+    <>
+     <div className="accordion-item">
+                      <h2 className="accordion-header" id="panelsStayOpen-Instructions">
+                        <button className="accordion-button accordionButtonStyle" type="button">
+                          Case Notes
+                        </button>
+                      </h2>
+                    <div>
+                    <TableComponent columnName={columnNames} rowValues={responseData} />
+                     </div>
+      </div>
+      <div className="accordion-item">
+                      <h2 className="accordion-header" id="panelsStayOpen-Instructions">
+                        <button className="accordion-button accordionButtonStyle" type="button">
+                          Internal Case Notes
+                        </button>
+                      </h2>
+                    <div>
+                    <TableComponent columnName={columnNames} rowValues={responseData} />
+                     </div>
+      </div>
+      <div className="accordion-item">
+                      <h2 className="accordion-header" id="panelsStayOpen-Instructions">
+                        <button className="accordion-button accordionButtonStyle" type="button">
+                          White Glove Reason
+                        </button>
+                      </h2>
+                    <div>
+                    <TableComponent columnName={columnNames} rowValues={responseData} />
+                     </div>
+      </div>
+    
+    </>
+    )
   };
 
   const populateModalTable = async (option, id) => {
@@ -704,6 +754,16 @@ export const useCaseHeader = () => {
       getApiJson = {
         option: option,
         ProviderID: id || "",
+      };
+    }else if (option === "NOTESHISTORY") {
+      
+      getApiJson = {
+        option: option,
+        Datetime: "",
+        UserName:"",
+        Notes:"",
+        Workstep:"",
+        CaseID: id || ""
       };
     }
 
@@ -723,25 +783,9 @@ export const useCaseHeader = () => {
       if (resApiData.length > 0) {
         const respKeys = Object.keys(resApiData);
         console.log("respKeys--->", respKeys);
-        respKeys.forEach((k) => {
-          let apiResponse = resApiData[k];
-          if (
-            apiResponse.hasOwnProperty("Provider_Par_Date") &&
-            typeof apiResponse.Provider_Par_Date === "string"
-          ) {
-            console.log("lll--->", apiResponse.Provider_Par_Date); // 2024-05-08T00:00:00
-            const mad = new Date(extractDate(apiResponse.Provider_Par_Date));
-
-            apiResponse.Provider_Par_Date = extractDate(mad);
-            console.log("getDatePartOnly-->", mad); //Wed May 08 2024 00:00:00 GMT+0530 (India Standard Time)
-            console.log("extractDate-->", apiResponse.Provider_Par_Date); //2024-05-18
-          }
-        });
-
         setResponseData((responseData) => [resApiData[0], ...responseData]);
         //alert(JSON.stringify(responseData))
 
-        console.log("setting provider search--->");
       }
       const apiStat = res.data.CallProcedure_Output.Status;
       if (apiStat === -1) {
@@ -957,7 +1001,7 @@ export const useCaseHeader = () => {
         setExpeditedRequest(data?.["angExpeditedRequest"]?.[0] || {});
         setNotes(data?.["angNotes"]?.[0] || {});
         setFormData(_.cloneDeep(data));
-
+        
         // Update case data in caseData array
         const caseIDToUpdate = data?.mainTable?.[0]?.CaseID;
         const indexToUpdate = caseData.data.findIndex(
@@ -1407,6 +1451,9 @@ export const useCaseHeader = () => {
     handleShowProvider360,
     showProvider360,
     handleCloseProvider360,
+    showNotesHistory,
+    handleShowNotesHistory,
+    handleCloseNotesHistory,
     populateModalTable,
     modalTableComponent,
     claimInformationGridRowValidationSchema,
