@@ -318,11 +318,14 @@ export const useCaseHeader = () => {
     ),
     Date_of_Birth: Yup.string().required("Date of Birth Address is mandatory"),
     Special_Need_Indicator: Yup.string().required(
-      "Special_Need_Indicator Address is mandatory",
+      "Special Need Indicator Address is mandatory",
     ),
   });
   const expeditedRequestValidationSchema = Yup.object().shape({});
   const claimInformationGridRowValidationSchema = Yup.object().shape({
+    Filed_Timely: Yup.string().required(
+        "Filed Timely Address is mandatory",
+    ),
     Grant_Good_Cause: conditionalString(
       "Filed_Timely",
       "NO",
@@ -363,12 +366,23 @@ export const useCaseHeader = () => {
     ),
     Vendor_ID: Yup.string().required("Vendor ID is mandatory"),
     Vendor_Name: Yup.string().required("Vendor_Name is mandatory"),
+    Email_Address: conditionalString("Communication_Preference", "EMAIL",
+        "Email Address is mandatory"),
+    Fax_Number: conditionalString("Communication_Preference", "FAX",
+        "Fax Number is mandatory"),
+    Provider_Contact_Name: conditionalString("Mail_to_Address", "ALTERNATE",
+        "Provider Contact Name is mandatory"),
   });
-  const authorizationInformationValidationSchema = Yup.object().shape({
-    Issue_Number: Yup.object().shape({
-      label: Yup.string().required("Issue Number is mandatory"),
-      value: Yup.string().required("Issue Number is mandatory"),
-    }),
+  const authorizationInformationGridValidationSchema = Yup.object().shape({
+    Authorization_Decision: Yup.string().required("Authorization Decision is mandatory"),
+    Authorization_Decision_Reason: Yup.string().required("Authorization Decision Reason is mandatory"),
+  });
+  const representativeInformationGridValidationSchema = Yup.object().shape({
+    Communication_Preference: Yup.string().required("Communication Preference is mandatory"),
+    Email_Address: conditionalString("Communication_Preference", "EMAIL",
+        "Email Address is mandatory"),
+    Fax_Number: conditionalString("Communication_Preference", "FAX",
+        "Fax Number is mandatory"),
   });
 
   const [caseTimelinesErrors, setCaseTimelinesErrors] = useState([]);
@@ -1479,5 +1493,7 @@ export const useCaseHeader = () => {
     modalTableComponent,
     claimInformationGridRowValidationSchema,
     providerInformationGridValidationSchema,
+    authorizationInformationGridValidationSchema,
+    representativeInformationGridValidationSchema,
   };
 };

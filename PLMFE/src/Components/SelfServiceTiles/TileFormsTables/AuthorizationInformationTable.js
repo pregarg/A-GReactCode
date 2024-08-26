@@ -18,6 +18,7 @@ export default function AuthorizationInformationTable({
   lockStatus,
   editTableRows,
   gridFieldTempState,
+    validationSchema,
 }) {
   AuthorizationInformationTable.displayName = "AuthorizationInformationTable";
 
@@ -29,7 +30,7 @@ export default function AuthorizationInformationTable({
 
   const [isTouched, setIsTouched] = useState({});
 
-  const { getGridJson, convertToCase } = useGetDBTables();
+  const { convertToCase } = useGetDBTables();
 
   const masterAngAuthServiceTypeSelector = useSelector(
     (state) => state?.masterAngAuthServiceType,
@@ -55,6 +56,19 @@ export default function AuthorizationInformationTable({
     }
   });
 
+  const [validationErrors, setValidationErrors] = useState({});
+  useEffect(() => {
+    try {
+      setValidationErrors([]);
+      validationSchema.validateSync(gridFieldTempState, { abortEarly: false });
+    } catch (errors) {
+      const validationErrors = errors.inner.reduce((acc, error) => {
+        acc[error.path] = error.message;
+        return acc;
+      }, {});
+      setValidationErrors(validationErrors);
+    }
+  }, [gridFieldTempState]);
   const renderSimpleInputField = (name, label, maxLength, index) => {
     return (
       <div className="col-xs-6 col-md-3">
@@ -62,7 +76,7 @@ export default function AuthorizationInformationTable({
           name={name}
           label={label}
           maxLength={maxLength}
-          data={getGridJson(gridFieldTempState)}
+          data={gridFieldTempState}
           onChange={(event) =>
             handleGridFieldChange(
               index,
@@ -70,6 +84,7 @@ export default function AuthorizationInformationTable({
               AuthorizationInformationTable.displayName,
             )
           }
+          validationErrors={validationErrors}
           disabled={
             prop.state.formView === "DashboardView" &&
             (prop.state.stageName === "Redirect Review" ||
@@ -92,7 +107,7 @@ export default function AuthorizationInformationTable({
           name={name}
           label={label}
           options={options}
-          data={getGridJson(gridFieldTempState)}
+          data={gridFieldTempState}
           onChange={(selectValue, event) =>
             handleGridSelectChange(
               index,
@@ -101,6 +116,7 @@ export default function AuthorizationInformationTable({
               AuthorizationInformationTable.displayName,
             )
           }
+          validationErrors={validationErrors}
           disabled={
             prop.state.formView === "DashboardView" &&
             (prop.state.stageName === "Redirect Review" ||
@@ -122,7 +138,7 @@ export default function AuthorizationInformationTable({
         <SimpleDatePickerField
           name={name}
           label={label}
-          data={getGridJson(gridFieldTempState)}
+          data={gridFieldTempState}
           onChange={(selectValue) =>
             handleGridDateChange(
               index,
@@ -131,6 +147,7 @@ export default function AuthorizationInformationTable({
               AuthorizationInformationTable.displayName,
             )
           }
+          validationErrors={validationErrors}
           disabled={
             prop.state.formView === "DashboardView" &&
             (prop.state.stageName === "Redirect Review" ||
@@ -388,6 +405,7 @@ export default function AuthorizationInformationTable({
         operationValue={operationValue}
         gridRowsFinalSubmit={gridRowsFinalSubmit}
         lockStatus={lockStatus}
+        validationErrors={validationErrors}
       ></GridModal>
     </>
   );

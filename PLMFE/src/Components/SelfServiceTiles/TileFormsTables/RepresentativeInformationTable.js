@@ -19,6 +19,7 @@ export default function RepresentativeInformationTable({
   lockStatus,
   editTableRows,
   gridFieldTempState,
+    validationSchema,
 }) {
   RepresentativeInformationTable.displayName = "RepresentativeInformationTable";
 
@@ -130,6 +131,19 @@ export default function RepresentativeInformationTable({
     }
   });
 
+  const [validationErrors, setValidationErrors] = useState({});
+  useEffect(() => {
+    try {
+      setValidationErrors([]);
+      validationSchema.validateSync(gridFieldTempState, { abortEarly: false });
+    } catch (errors) {
+      const validationErrors = errors.inner.reduce((acc, error) => {
+        acc[error.path] = error.message;
+        return acc;
+      }, {});
+      setValidationErrors(validationErrors);
+    }
+  }, [gridFieldTempState]);
   const renderSimpleInputField = (name, label, maxLength, index) => {
     return (
       <div className="col-xs-6 col-md-3">
@@ -137,7 +151,8 @@ export default function RepresentativeInformationTable({
           name={name}
           label={label}
           maxLength={maxLength}
-          data={getGridJson(gridFieldTempState)}
+          data={gridFieldTempState}
+          validationErrors={validationErrors}
           onChange={(event) =>
             handleGridFieldChange(
               index,
@@ -162,7 +177,8 @@ export default function RepresentativeInformationTable({
           name={name}
           label={label}
           options={options}
-          data={getGridJson(gridFieldTempState)}
+          data={gridFieldTempState}
+          validationErrors={validationErrors}
           onChange={(selectValue, event) =>
             handleGridSelectChange(
               index,
@@ -192,7 +208,8 @@ export default function RepresentativeInformationTable({
         <SimpleDatePickerField
           name={name}
           label={label}
-          data={getGridJson(gridFieldTempState)}
+          data={gridFieldTempState}
+          validationErrors={validationErrors}
           onChange={(selectValue) =>
             handleGridDateChange(
               index,
@@ -488,6 +505,7 @@ export default function RepresentativeInformationTable({
         operationValue={operationValue}
         gridRowsFinalSubmit={gridRowsFinalSubmit}
         lockStatus={lockStatus}
+        validationErrors={validationErrors}
       ></GridModal>
     </>
   );
