@@ -141,6 +141,7 @@ export default function RepresentativeInformationTable({
         acc[error.path] = error.message;
         return acc;
       }, {});
+      console.log('errors were encountered in representative information table', validationErrors);
       setValidationErrors(validationErrors);
     }
   }, [gridFieldTempState]);

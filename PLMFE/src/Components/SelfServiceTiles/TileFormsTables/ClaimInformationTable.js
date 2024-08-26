@@ -71,6 +71,7 @@ export default function ClaimInformationTable({
         acc[error.path] = error.message;
         return acc;
       }, {});
+      console.log('errors were encountered in claim information table', validationErrors);
       setValidationErrors(validationErrors);
     }
   }, [gridFieldTempState]);
