@@ -14,6 +14,7 @@ import MemberInformationAccordion from "./MemberInformationAccordion";
 import AuthorizationInformationAccordion from "./AuthorizationInformationAccordion";
 import ExpeditedRequestAccordion from "./ExpeditedRequestAccordion";
 import NotesAccordion from "./NotesAccordion";
+import { FaBars } from 'react-icons/fa';
 
 import RepresentativeInformationAccordion from "./RepresentativeInformationAccordion";
 import { useCaseHeader } from "./useCaseHeader";
@@ -252,17 +253,53 @@ const CaseHeader = () => {
             )}
           </div>
         </div>
-        {(memberInformation.Member_ID ||
-          providerInformationGrid.length !== 0) && (
-          <DropdownButton
-            id="dropdown-basic-button"
-            title="Dropdown button"
+        {
+          // <DropdownButton
+          //   id="dropdown-basic-button"
+          //   title="Dropdown button"
+          //   style={{
+          //     display: "flex",
+          //     justifyContent: "flex-end",
+          //     marginRight: "10px",
+          //   }}
+          // >
+          //   <Dropdown.Item
+          //     onClick={(event) => {
+          //       handleShowMember360(event);
+          //     }}
+          //   >
+          //     Member 360
+          //   </Dropdown.Item>
+          //   <Dropdown.Item
+          //     onClick={(event) => {
+          //       handleShowProvider360(event);
+          //     }}
+          //   >
+          //     Provider 360
+          //   </Dropdown.Item>
+          //   <Dropdown.Item
+          //     onClick={(event) => {
+          //       handleShowNotesHistory(event);
+          //     }}
+          //   >
+          //     Notes History
+          //   </Dropdown.Item>
+          // </DropdownButton>
+          <Dropdown>
+          <Dropdown.Toggle
+            id="dropdown-custom-components"
             style={{
               display: "flex",
-              justifyContent: "flex-end",
+              justifyContent: 'flex-end',
               marginRight: "10px",
+              border: "none",
+              backgroundColor: "transparent"
             }}
           >
+          <FaBars size={24} />
+          </Dropdown.Toggle>
+    
+          <Dropdown.Menu>
             <Dropdown.Item
               onClick={(event) => {
                 handleShowMember360(event);
@@ -284,8 +321,10 @@ const CaseHeader = () => {
             >
               Notes History
             </Dropdown.Item>
-          </DropdownButton>
-        )}
+          </Dropdown.Menu>
+        </Dropdown>
+     
+        }
         {showMember360 && (
           <Member360
             showMember360={showMember360}
