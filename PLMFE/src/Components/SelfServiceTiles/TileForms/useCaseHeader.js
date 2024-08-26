@@ -128,6 +128,8 @@ export const useCaseHeader = () => {
     Special_Need_Indicator: "",
     State_: "",
     Zip_Code: "",
+    WhiteGloveReason: "",
+    WhiteGloveCancelledReason: "",
   });
   const [expeditedRequest, setExpeditedRequest] = useState({
     Expedited_Requested: "",
@@ -680,9 +682,8 @@ export const useCaseHeader = () => {
 
   const handleShowNotesHistory= () => {
     setShowNotesHistory(true)
-    if (notes.Case_Notes) {
       populateModalTable("NOTESHISTORY",location.state.caseNumber);
-    }
+    
   };
   const handleCloseNotesHistory = () => {
     setShowNotesHistory(false);
@@ -690,59 +691,77 @@ export const useCaseHeader = () => {
   };
 
   const modalTableComponent = (isProvider) => {
-   if (isProvider === "member360")
-    var columnNames =
-      "Process~Process, Case ID~CaseID, Creation Date~CreationDate, Member ID~MemberID, Complaint type~AppellantType, Status~Status, Assigned To~AssignedTo, Issue Level~IssueLevel, Case Received Date~CaseReceivedDate, Case Due Date~CaseDueDate, Case Decision~CaseDecision";
+    let columnNames = "";
+    console.log("responseData1234567",responseData)
+    let caseNotesData = responseData[0]?.NotesHistory
+    let whiteGloveData = responseData[0]?.WhiteGloveHistory
+    let internalNotes = responseData[0]?.InternalNotesHistory
+    console.log("caseNotesData",caseNotesData)
+    if (isProvider === "member360") {
+      columnNames =
+        "Process~Process, Case ID~CaseID, Creation Date~CreationDate, Member ID~MemberID, Complaint type~AppellantType, Status~Status, Assigned To~AssignedTo, Issue Level~IssueLevel, Case Received Date~CaseReceivedDate, Case Due Date~CaseDueDate, Case Decision~CaseDecision";
 
-    else if (isProvider=== "provider360") {
+      return (
+        <div>
+          <TableComponent columnName={columnNames} rowValues={responseData} />
+        </div>
+      );
+    } else if (isProvider === "provider360") {
       columnNames =
         "Case ID~CaseID, Level Number~LevelNumber, Previous Level Case Number~PreviousLevelCase, Previous Level Number~PreviousLevelNumber, Provider ID~ProviderID, Provider Name~ProviderName, Provider TIN~ProviderTIN, Provider NPI~ProviderNPI, Vendor ID~VendorID, Issue Level~IssueLevel, Case Received Date~CaseReceivedDate, Resolution Date~ResolutionDate, Claims Linked~ClaimsLinked, Case Status~CaseStatus";
-    }
-    else if (isProvider === "notesHistory"){
-      columnNames = "Date Time~Date time, User Name~User Name, Notes~Notes, Workstep~Workstep"
-    }
 
-    return (
-    <>
-     <div className="accordion-item">
-                      <h2 className="accordion-header" id="panelsStayOpen-Instructions">
-                        <button className="accordion-button accordionButtonStyle" type="button">
-                          Case Notes
-                        </button>
-                      </h2>
-                    <div>
-                    <TableComponent columnName={columnNames} rowValues={responseData} />
-                     </div>
-      </div>
-      <div className="accordion-item">
-                      <h2 className="accordion-header" id="panelsStayOpen-Instructions">
-                        <button className="accordion-button accordionButtonStyle" type="button">
-                          Internal Case Notes
-                        </button>
-                      </h2>
-                    <div>
-                    <TableComponent columnName={columnNames} rowValues={responseData} />
-                     </div>
-      </div>
-      <div className="accordion-item">
-                      <h2 className="accordion-header" id="panelsStayOpen-Instructions">
-                        <button className="accordion-button accordionButtonStyle" type="button">
-                          White Glove Reason
-                        </button>
-                      </h2>
-                    <div>
-                    <TableComponent columnName={columnNames} rowValues={responseData} />
-                     </div>
-      </div>
+      return (
+        <div>
+          <TableComponent columnName={columnNames} rowValues={responseData} />
+        </div>
+      );
+    } else if (isProvider === "notesHistory") {
+
+      return (
+        <>
+          <div className="accordion-item">
+            <h2 className="accordion-header" id="panelsStayOpen-Instructions">
+              <button className="accordion-button accordionButtonStyle" type="button">
+                Case Notes
+              </button>
+            </h2>
+            <div>
+              <TableComponent columnName="Date Time~Date time, User Name~User Name, Notes~Notes, Workstep~Workstep" rowValues={caseNotesData} />
+            </div>
+          </div>
+          <div className="accordion-item">
+            <h2 className="accordion-header" id="panelsStayOpen-Instructions">
+              <button className="accordion-button accordionButtonStyle" type="button">
+                Internal Case Notes
+              </button>
+            </h2>
+            <div>
+              <TableComponent columnName="Date Time~Date time, User Name~User Name, InternalNotes~InternalNotes, Workstep~Workstep" rowValues={internalNotes} />
+            </div>
+          </div>
+          <div className="accordion-item">
+            <h2 className="accordion-header" id="panelsStayOpen-Instructions">
+              <button className="accordion-button accordionButtonStyle" type="button">
+                White Glove Reason
+              </button>
+            </h2>
+            <div>
+              <TableComponent columnName="Date Time~Date time, User Name~User Name, Entity ID~Entity ID, Entity Name~Entity Name, White Glove Reason~WhiteGloveReason, White Glove Cancelled Reason~WhiteGloveCancelledReason, Workstep~Workstep" rowValues={whiteGloveData} />
+            </div>
+          </div>
+        </>
+      );
+    } 
     
-    </>
-    )
+    return null; 
   };
+  
+  
 
   const populateModalTable = async (option, id) => {
-    //console.log("select provider Search Values", selectSearchValues);
+    // console.log("select provider Search Values", selectSearchValues);
     var getApiJson = {};
-
+  
     if (option === "MEMBER360DATA") {
       getApiJson = {
         option: option,
@@ -755,38 +774,38 @@ export const useCaseHeader = () => {
         option: option,
         ProviderID: id || "",
       };
-    }else if (option === "NOTESHISTORY") {
-      
+    } else if (option === "NOTESHISTORY") {
       getApiJson = {
         option: option,
-        Datetime: "",
-        UserName:"",
-        Notes:"",
-        Workstep:"",
+        WhiteGloveReason: memberInformation.WhiteGloveReason,
+        WhiteGloveCancelledReason: memberInformation.WhiteGloveCancelledReason,
+        Notes: notes.Case_Notes,
+        InternalNotes: notes.Internal_Notes,
         CaseID: id || ""
       };
     }
-
+  
     console.log("API Request JSON:", getApiJson);
-
+  
     try {
       let res = await customAxios.post("/generic/callProcedure", getApiJson, {
         headers: { Authorization: `Bearer ${token}` },
       });
-
+  
       console.log("API Response:", res.data);
-
+  
       let resApiData = res.data.CallProcedure_Output?.data || [];
       console.log("Response Data:", resApiData);
       resApiData = resApiData?.length > 0 ? resApiData : [];
-
+  
       if (resApiData.length > 0) {
         const respKeys = Object.keys(resApiData);
         console.log("respKeys--->", respKeys);
         setResponseData((responseData) => [resApiData[0], ...responseData]);
-        //alert(JSON.stringify(responseData))
-
+        
+        // alert(JSON.stringify(responseData))
       }
+  
       const apiStat = res.data.CallProcedure_Output.Status;
       if (apiStat === -1) {
         alert("Error in fetching data");
@@ -796,6 +815,7 @@ export const useCaseHeader = () => {
       alert("Error in fetching data. Please try again later.");
     }
   };
+  
 
   const getGridDataValues = (tableData) => {
     //var headers = document.getElementById(tableId).headers;
