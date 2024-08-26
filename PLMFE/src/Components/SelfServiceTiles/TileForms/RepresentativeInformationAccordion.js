@@ -22,8 +22,6 @@ const RepresentativeInformationAccordion = (props) => {
 
   const { getRowNumberForGrid } = useUpdateDecision();
 
-  const { ValueContainer, Placeholder } = components;
-
   const [
     representativeInformationGridData,
     setRepresentativeInformationGridData,
@@ -168,39 +166,14 @@ const RepresentativeInformationAccordion = (props) => {
   const handleGridSelectChange = (
     index,
     selectedValue,
-    evnt,
+    event,
     triggeredFormName,
   ) => {
-    // console.log("Inside select change index: ", index);
-    console.log("Inside select change selectedValue: ", evnt, selectedValue);
-    // console.log("Inside select change evnt: ", evnt);
-    // console.log("Inside select change trigeredFormName: ", triggeredFormName);
-    let rowsInput = { ...gridFieldTempState };
-
-    const { name } = evnt;
-    let val = selectedValue;
-    if (evnt.action === "clear") {
-      if (name.toLowerCase() === "languages") {
-        val = [];
-      } else {
-        val = { label: "", value: "" };
-      }
-    } else {
-      if (selectedValue && selectedValue.label && selectedValue.value) {
-        val = {
-          label: selectedValue.label.toUpperCase(),
-          value: selectedValue.value.toUpperCase(),
-        };
-      } else {
-        // Handle the case where selectedValue or its properties are undefined
-        console.log("selectedValue or its properties are undefined");
-      }
-    }
-
-    console.log("Inside handleSelectChange Val: ", val);
-    rowsInput[name] = val;
-
-    setGridFieldTempState(rowsInput);
+    const { name } = event;
+    setGridFieldTempState({
+      ...gridFieldTempState,
+      [name]: (selectedValue?.value || selectedValue)?.toUpperCase(),
+    });
   };
 
   const handleGridDateChange = (
@@ -211,7 +184,6 @@ const RepresentativeInformationAccordion = (props) => {
   ) => {
     let tempInput = { ...gridFieldTempState };
     tempInput[fieldName] = selectedValue;
-    //console.log("Inside handleGridDateChange tempInput: ",tempInput);
     setGridFieldTempState(tempInput);
   };
 
@@ -498,7 +470,7 @@ const RepresentativeInformationAccordion = (props) => {
                   gridFieldTempState={gridFieldTempState}
                   editTableRows={editTableRows}
                   gridRowsFinalSubmit={gridRowsFinalSubmit}
-                  //selectJson={selectValues}
+                  validationSchema={props.representativeInformationGridValidationSchema}
                   lockStatus={
                     prop.state !== null &&
                     prop.state.lockStatus !== undefined &&

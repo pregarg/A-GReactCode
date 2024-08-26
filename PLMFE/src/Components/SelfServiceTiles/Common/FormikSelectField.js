@@ -83,11 +83,7 @@ export const FormikSelectField = ({
   displayErrors,
 }) => {
   const wrapPlaceholder = (name, placeholder) => {
-    const field = schema?.fields?.[name];
-    const required =
-      (field?.type === "date" && field?.internalTests?.optionality) ||
-      field?.tests?.some((test) => test.OPTIONS?.name === "required");
-    return `${placeholder}${required ? " *" : ""}`;
+    return `${placeholder}${errors?.[name] ? ' *' : ''}`;
   };
   const { ValueContainer, Placeholder } = components;
   const CustomValueContainer = ({ children, ...props }) => {

@@ -80,6 +80,8 @@ const CaseHeader = () => {
     shouldShowSubmitError,
     claimInformationGridRowValidationSchema,
     providerInformationGridValidationSchema,
+    authorizationInformationGridValidationSchema,
+    representativeInformationGridValidationSchema,
     handleShowMember360,
     showMember360,
     handleCloseMember360,
@@ -157,6 +159,7 @@ const CaseHeader = () => {
                 updateRepresentativeInformationGridData={
                   setRepresentativeInformationGrid
                 }
+                representativeInformationGridValidationSchema={representativeInformationGridValidationSchema}
               />
               <AuthorizationInformationAccordion
                 handleOnChange={handleAuthorizationInformationChange}
@@ -167,6 +170,7 @@ const CaseHeader = () => {
                 updateAuthorizationInformationGridData={
                   setAuthorizationInformationGrid
                 }
+                authorizationInformationGridValidationSchema={authorizationInformationGridValidationSchema}
               />
               <ExpeditedRequestAccordion
                 expeditedRequestData={expeditedRequest}
