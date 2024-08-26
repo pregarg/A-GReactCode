@@ -1332,7 +1332,7 @@ export default function DecisionTab(props) {
 
                   <div className="row">
                     <div className="col-xs-12 col-md-4">
-                      <label>Decision</label>
+                      <label>Decision *</label>
                       <Select
                         styles={{
                           control: (provided) => ({
@@ -1355,10 +1355,9 @@ export default function DecisionTab(props) {
                       />
                     </div>
 
-                    {/* descision reason */}
-                    {prop.state.formNames == "Appeals" && (
+                    {prop.state.formNames === "Appeals" && (
                       <div className="col-xs-12 col-md-4">
-                        <label>Decision Reason</label>
+                        <label>Decision Reason *</label>
                         <Select
                           styles={{
                             control: (provided) => ({
@@ -1396,7 +1395,7 @@ export default function DecisionTab(props) {
                   </div>
                   <div className="row my-2">
                     <div className="col-xs-12">
-                      <label>Case Notes:</label>
+                      <label>Case Notes: *</label>
                       <textarea
                         onChange={handleLinearFieldChange}
                         value={
