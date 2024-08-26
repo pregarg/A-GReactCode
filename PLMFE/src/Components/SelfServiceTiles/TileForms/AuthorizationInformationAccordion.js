@@ -173,25 +173,11 @@ const AuthorizationInformationAccordion = (props) => {
   };
 
   const handleGridSelectChange = (index, selectedValue, event) => {
-    let rowsInput = { ...gridFieldTempState };
     const { name } = event;
-    let val = selectedValue;
-    if (event.action === "clear") {
-      if (name.toLowerCase() === "languages") {
-        val = [];
-      } else {
-        val = { label: "", value: "" };
-      }
-    } else {
-      if (selectedValue?.label && selectedValue?.value) {
-        val = {
-          label: selectedValue.label.toUpperCase(),
-          value: selectedValue.value.toUpperCase(),
-        };
-      }
-    }
-    rowsInput[name] = val;
-    setGridFieldTempState(rowsInput);
+    setGridFieldTempState({
+      ...gridFieldTempState,
+      [name]: (selectedValue?.value || selectedValue)?.toUpperCase(),
+    });
   };
 
   const handleGridDateChange = (index, selectedValue, fieldName) => {
@@ -684,7 +670,7 @@ const AuthorizationInformationAccordion = (props) => {
                   gridFieldTempState={gridFieldTempState}
                   editTableRows={editTableRows}
                   gridRowsFinalSubmit={gridRowsFinalSubmit}
-                  //selectJson={selectValues}
+                  validationSchema={props.authorizationInformationGridValidationSchema}
                   lockStatus={
                     prop.state !== null &&
                     prop.state.lockStatus !== undefined &&

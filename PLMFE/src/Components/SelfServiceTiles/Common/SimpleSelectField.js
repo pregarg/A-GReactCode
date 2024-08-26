@@ -14,7 +14,7 @@ export const SimpleSelectField = ({
   return (
     <>
       <label>
-        <strong>{label}</strong>
+        <strong>{label}{validationErrors?.[name] ? ' *' : ''}</strong>
       </label>
       <Select
         styles={{

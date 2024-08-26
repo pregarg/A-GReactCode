@@ -12,7 +12,7 @@ export const SimpleDatePickerField = ({
   return (
     <>
       <label htmlFor={name}>
-        <strong>{label}</strong>
+        <strong>{label}{validationErrors?.[name] ? ' *' : ''}</strong>
       </label>
       <div className="form-floating">
         <ReactDatePicker
