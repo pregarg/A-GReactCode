@@ -682,8 +682,9 @@ export const useCaseHeader = () => {
 
   const handleShowNotesHistory= () => {
     setShowNotesHistory(true)
+    if (notes.Case_Notes || notes.Internal_Notes || memberInformation.WhiteGloveReason || memberInformation.WhiteGloveCancelledReason) {
       populateModalTable("NOTESHISTORY",location.state.caseNumber);
-    
+    }
   };
   const handleCloseNotesHistory = () => {
     setShowNotesHistory(false);
