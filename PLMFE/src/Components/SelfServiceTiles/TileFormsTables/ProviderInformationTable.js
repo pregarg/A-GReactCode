@@ -132,6 +132,7 @@ export default function ProviderInformationTable({
         acc[error.path] = error.message;
         return acc;
       }, {});
+      console.log('errors were encountered in provider information table', validationErrors);
       setValidationErrors(validationErrors);
     }
   }, [gridFieldTempState]);
@@ -320,7 +321,7 @@ export default function ProviderInformationTable({
             )}
             {renderSimpleInputField(
               "Point_of_Contact",
-              "Point of Contact *",
+              "Point of Contact",
               50,
               index,
             )}

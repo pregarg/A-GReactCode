@@ -66,6 +66,7 @@ export default function AuthorizationInformationTable({
         acc[error.path] = error.message;
         return acc;
       }, {});
+      console.log('errors were encountered in authorization information table', validationErrors);
       setValidationErrors(validationErrors);
     }
   }, [gridFieldTempState]);
@@ -167,7 +168,7 @@ export default function AuthorizationInformationTable({
     return (
       <div className="Container AddProviderLabel AddModalLabel">
         <div className="row">
-          {renderSimpleInputField("Issue_Number", "Issue Number *", 50, index)}
+          {renderSimpleInputField("Issue_Number", "Issue Number", 50, index)}
           {renderSimpleInputField(
             "Authorization_Number",
             "Authorization Number",
