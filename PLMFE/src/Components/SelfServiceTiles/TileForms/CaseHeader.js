@@ -30,6 +30,12 @@ const CaseHeader = () => {
     process.env.REACT_APP_CASEHEADER_DETAILS,
   );
 
+  const handleExpeditedPriorityChange = (date) => {
+    setExpeditedRequest((prevState) => ({
+      ...prevState,
+      Expedited_Upgrade_Date_Time: date
+    }));
+  };
   const {
     caseTimelines,
     caseTimelinesValidationSchema,
@@ -116,6 +122,7 @@ const CaseHeader = () => {
                 caseTimelinesValidationSchema={caseTimelinesValidationSchema}
                 caseTimelinesErrors={caseTimelinesErrors}
                 shouldShowSubmitError={shouldShowSubmitError}
+               
               />
               <CaseInformationAccordion
                 caseInformationData={caseInformation}
@@ -125,6 +132,7 @@ const CaseHeader = () => {
                 }
                 caseInformationErrors={caseInformationErrors}
                 shouldShowSubmitError={shouldShowSubmitError}
+                onExpeditedPriorityChange={handleExpeditedPriorityChange}
               />
               <CaseClaimInformation
                 claimInformationData={claimInformation}

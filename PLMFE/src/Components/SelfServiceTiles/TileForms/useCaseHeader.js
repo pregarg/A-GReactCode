@@ -128,8 +128,8 @@ export const useCaseHeader = () => {
     Special_Need_Indicator: "",
     State_: "",
     Zip_Code: "",
-    //WhiteGloveReason: "",
-    //WhiteGloveCancelledReason: "",
+    WhiteGloveReason: "",
+    WhiteGloveCancelledReason: "",
   });
   const [expeditedRequest, setExpeditedRequest] = useState({
     Expedited_Requested: "",
@@ -694,8 +694,9 @@ export const useCaseHeader = () => {
 
   const handleShowNotesHistory= () => {
     setShowNotesHistory(true)
+    if (notes.Case_Notes || notes.Internal_Notes || memberInformation.WhiteGloveReason || memberInformation.WhiteGloveCancelledReason) {
       populateModalTable("NOTESHISTORY",location.state.caseNumber);
-    
+    }
   };
   const handleCloseNotesHistory = () => {
     setShowNotesHistory(false);
@@ -949,6 +950,7 @@ export const useCaseHeader = () => {
   }
 
   const getCaseByCaseNumber = async () => {
+    let daysLeft, hoursLeft, minutesLeft, secondsLeft;
     let getApiJson = {};
     getApiJson["tableNames"] = getTableDetails()["angTables"];
     getApiJson["whereClause"] = { caseNumber: location.state.caseNumber };
@@ -993,10 +995,18 @@ export const useCaseHeader = () => {
             appealType,
             appellant_Type,
           );
+          const currentDate = new Date();
 
           const caseDueDateString = extractDate(dueDate);
           const internalDueDateString = extractDate(internalDate);
           const finalcaseReceivedDate = extractDate(caseReceivedDate);
+
+          const timeLeft = dueDate - currentDate
+
+          daysLeft = Math.max(Math.floor(timeLeft / (1000 * 60 * 60 * 24)), 0);
+          hoursLeft = Math.max(Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)), 0);
+          minutesLeft = Math.max(Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60)), 0);
+          secondsLeft = Math.max(Math.floor((timeLeft % (1000 * 60)) / 1000), 0);
 
           setCaseHeader((prevState) => ({
             ...prevState,
@@ -1013,9 +1023,22 @@ export const useCaseHeader = () => {
             Case_Status: caseStatus || prevState.Case_Status,
           }));
         }
+        // Calculate case aging
+        const timeDifference = currentDate - caseReceivedDate;
+        const caseAgingInDays = Math.floor(
+          timeDifference / (1000 * 60 * 60 * 24)
+        );
+        const complianceTime = `${daysLeft}d ${hoursLeft}h ${minutesLeft}m ${secondsLeft}s`;
+        
+        setCaseTimelines((prevState) => ({
+          ...prevState,
+          ...(data?.["angCaseTimelines"]?.[0] || {}),
+          Case_Aging: caseAgingInDays + " days",
+         Compliance_Time_Left_to_Finish: complianceTime + " remaining",
+        }));
 
         // Update other state values
-        setCaseTimelines(data?.["angCaseTimelines"]?.[0] || {});
+       // setCaseTimelines(data?.["angCaseTimelines"]?.[0] || {});
         setCaseInformation(data?.["angCaseInformation"]?.[0] || {});
         setClaimInformation(data?.["angClaimInformation"]?.[0] || {});
         setClaimInformationGrid(data?.["angClaimInformationGrid"] || []);
