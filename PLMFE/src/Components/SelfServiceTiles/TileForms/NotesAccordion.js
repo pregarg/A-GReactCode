@@ -29,7 +29,7 @@ const NotesAccordion = (props) => {
         maxLength={maxLength}
         data={notesData}
         onChange={handleNotesRequestData}
-        disabled={invalidInputState}
+        disabled={location.state.stageName === "CaseArchived"}
         persist={persistNotesInformationData}
         schema={props.notesValidationSchema}
         displayErrors={props.shouldShowSubmitError}
