@@ -40,20 +40,7 @@ const AuthorizationInformationAccordion = (props) => {
     setAuthorizationInformationGridData,
   ] = useState(props.handleAuthorizationInformationGridData);
 
-  const [gridFieldTempState, setGridFieldTempState] = useState({
-    Issue_Number: undefined,
-    Authorization_Number: undefined,
-    Auth_Status: undefined,
-    Provider_Name: undefined,
-    Authorization_Type: undefined,
-    Auth_Type_Description: undefined,
-    Auth_Request_Date: undefined,
-    Auth_Expiration_Date: undefined,
-    CPT_Descriptions: undefined,
-    Service_Start_Date: undefined,
-    Denial_Code: undefined,
-    Denial_Reason: undefined,
-  });
+  const [gridFieldTempState, setGridFieldTempState] = useState({});
 
   const [showAuthSearch, setShowAuthSearch] = useState(false);
   const [selectedCriteria, setSelectedCriteria] = useState();
@@ -670,7 +657,9 @@ const AuthorizationInformationAccordion = (props) => {
                   gridFieldTempState={gridFieldTempState}
                   editTableRows={editTableRows}
                   gridRowsFinalSubmit={gridRowsFinalSubmit}
-                  validationSchema={props.authorizationInformationGridValidationSchema}
+                  validationSchema={
+                    props.authorizationInformationGridValidationSchema
+                  }
                   lockStatus={
                     prop.state !== null &&
                     prop.state.lockStatus !== undefined &&

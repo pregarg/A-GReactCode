@@ -19,7 +19,7 @@ export default function RepresentativeInformationTable({
   lockStatus,
   editTableRows,
   gridFieldTempState,
-    validationSchema,
+  validationSchema,
 }) {
   RepresentativeInformationTable.displayName = "RepresentativeInformationTable";
 
@@ -131,6 +131,30 @@ export default function RepresentativeInformationTable({
     }
   });
 
+  const tableFields = [
+    "Issue_Number",
+    "First_Name",
+    "Last_Name",
+    "Relationship",
+    "AOR_Type",
+    "AOR_Approved_Date",
+    "AOR_Expiration_Date",
+    "Communication_Preference",
+    "Mail_to_Address",
+    "Email_Address",
+    "Phone_Number",
+    "Fax_Number",
+    "Authorization_Approved_Date",
+    "Authorization_Expiration_Date",
+    "Authorization_Type",
+    "Address_Line_1",
+    "Address_Line_2",
+    "City",
+    "State_",
+    "Zip_Code",
+    "Country",
+  ];
+
   const [validationErrors, setValidationErrors] = useState({});
   useEffect(() => {
     try {
@@ -141,7 +165,10 @@ export default function RepresentativeInformationTable({
         acc[error.path] = error.message;
         return acc;
       }, {});
-      console.log('errors were encountered in representative information table', validationErrors);
+      console.log(
+        "errors were encountered in representative information table",
+        validationErrors,
+      );
       setValidationErrors(validationErrors);
     }
   }, [gridFieldTempState]);
@@ -402,13 +429,13 @@ export default function RepresentativeInformationTable({
               </td>
             )}
 
-            {Object.keys((e) => (
+            {tableFields.map((e) => (
               <td className="tableData">
                 {e.endsWith("_Date")
-                  ? data?.[e].value !== undefined
+                  ? data?.[e]?.value
                     ? formatDate(data[e].value)
                     : formatDate(data[e])
-                  : data?.[e].value !== undefined
+                  : data?.[e]?.value
                     ? convertToCase(data[e].value)
                     : convertToCase(data[e])}
               </td>
@@ -485,7 +512,7 @@ export default function RepresentativeInformationTable({
                 </th>
               )}
               {lockStatus === "V" && <th style={{ width: "" }}></th>}
-              {Object.keys(gridFieldTempState).map((e) => (
+              {tableFields.map((e) => (
                 <th scope="col">{e.replaceAll("_", "")}</th>
               ))}
             </tr>

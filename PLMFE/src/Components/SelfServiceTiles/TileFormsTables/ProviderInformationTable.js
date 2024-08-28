@@ -132,7 +132,10 @@ export default function ProviderInformationTable({
         acc[error.path] = error.message;
         return acc;
       }, {});
-      console.log('errors were encountered in provider information table', validationErrors);
+      console.log(
+        "errors were encountered in provider information table",
+        validationErrors,
+      );
       setValidationErrors(validationErrors);
     }
   }, [gridFieldTempState]);

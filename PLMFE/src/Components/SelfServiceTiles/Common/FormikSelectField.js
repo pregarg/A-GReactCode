@@ -83,7 +83,7 @@ export const FormikSelectField = ({
   displayErrors,
 }) => {
   const wrapPlaceholder = (name, placeholder) => {
-    return `${placeholder}${errors?.[name] ? ' *' : ''}`;
+    return `${placeholder}${errors?.[name] ? " *" : ""}`;
   };
   const { ValueContainer, Placeholder } = components;
   const CustomValueContainer = ({ children, ...props }) => {
