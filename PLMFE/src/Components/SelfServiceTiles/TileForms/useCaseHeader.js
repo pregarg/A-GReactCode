@@ -128,8 +128,8 @@ export const useCaseHeader = () => {
     Special_Need_Indicator: "",
     State_: "",
     Zip_Code: "",
-    WhiteGloveReason: "",
-    WhiteGloveCancelledReason: "",
+    //WhiteGloveReason: "",
+    //WhiteGloveCancelledReason: "",
   });
   const [expeditedRequest, setExpeditedRequest] = useState({
     Expedited_Requested: "",
@@ -202,9 +202,9 @@ export const useCaseHeader = () => {
     AOR_Received_Date: Yup.date()
       .required("AOR Received Date is mandatory")
       .max(new Date(), "AOR Received Date cannot be in future"),
-     WOL_Received_Date: Yup.date()
-     .required("WOL Received Date is mandatory")
-         .max(new Date(), "WOL Received Date cannot be in future"),
+    WOL_Received_Date: Yup.date()
+      .required("WOL Received Date is mandatory")
+      .max(new Date(), "WOL Received Date cannot be in future"),
   });
   const caseInformationValidationSchema = Yup.object().shape({
     Line_of_Business_LOB: Yup.string().required(
@@ -216,12 +216,8 @@ export const useCaseHeader = () => {
     Appellant_Description: Yup.string().required(
       "Appellant Description is mandatory",
     ),
-    Research_Type: Yup.string().required(
-        "Research Type is mandatory",
-    ),
-    Denial_Type: Yup.string().required(
-        "Denial Type is mandatory",
-    ),
+    Research_Type: Yup.string().required("Research Type is mandatory"),
+    Denial_Type: Yup.string().required("Denial Type is mandatory"),
     // Denied_As_Of_Date: Yup.date().required(
     //     "Denied As Of Date is mandatory",
     // ),
@@ -254,7 +250,7 @@ export const useCaseHeader = () => {
       "Processing_Status",
       "NOT ADJUSTED",
       "Reason Text is mandatory",
-    ),/*
+    ) /*
     Decision_Reason: conditionalActivateOnStage(
       pair1,
       "Decision Reason is mandatory",
@@ -273,7 +269,7 @@ export const useCaseHeader = () => {
     ),
     Payment_Mail_Date_Postmark: Yup.date().required(
       "Payment Mail Date Postmark is mandatory",
-    ),*/
+    ),*/,
   });
   const memberInformationValidationSchema = Yup.object().shape({
     Email_ID: conditionalString(
@@ -308,7 +304,7 @@ export const useCaseHeader = () => {
     City: Yup.string().required("City is mandatory"),
     State_: Yup.string().required("State is mandatory"),
     // Email_Address: Yup.string().required("Email Address is mandatory"),
-    Medicaid_ID: Yup.string().required("MemberID Address is mandatory"),
+    Medicaid_ID: Yup.string().required("Medicaid ID is mandatory"),
     Zip_Code: Yup.string().required("Zip code Address is mandatory"),
     Plan_Effective_Date: Yup.string().required(
       "Plan Effective Date Address is mandatory",
@@ -322,6 +318,9 @@ export const useCaseHeader = () => {
     ),
   });
   const expeditedRequestValidationSchema = Yup.object().shape({});
+  const notesValidationSchema = Yup.object().shape({
+    Case_Notes: Yup.string().required("Case Notes is mandatory"),
+  });
   const claimInformationGridRowValidationSchema = Yup.object().shape({
     /*Filed_Timely: Yup.string().required(
         "Filed Timely Address is mandatory",
@@ -366,21 +365,35 @@ export const useCaseHeader = () => {
     // ),
     // Vendor_ID: Yup.string().required("Vendor ID is mandatory"),
     // Vendor_Name: Yup.string().required("Vendor_Name is mandatory"),
-    Email_Address: conditionalString("Communication_Preference", "EMAIL",
-        "Email Address is mandatory"),
-    Fax_Number: conditionalString("Communication_Preference", "FAX",
-        "Fax Number is mandatory"),
-    Provider_Contact_Name: conditionalString("Mail_to_Address", "ALTERNATE",
-        "Provider Contact Name is mandatory"),
+    Email_Address: conditionalString(
+      "Communication_Preference",
+      "EMAIL",
+      "Email Address is mandatory",
+    ),
+    Fax_Number: conditionalString(
+      "Communication_Preference",
+      "FAX",
+      "Fax Number is mandatory",
+    ),
+    Provider_Contact_Name: conditionalString(
+      "Mail_to_Address",
+      "ALTERNATE",
+      "Provider Contact Name is mandatory",
+    ),
   });
-  const authorizationInformationGridValidationSchema = Yup.object().shape({
-  });
+  const authorizationInformationGridValidationSchema = Yup.object().shape({});
   const representativeInformationGridValidationSchema = Yup.object().shape({
     // Communication_Preference: Yup.string().required("Communication Preference is mandatory"),
-    Email_Address: conditionalString("Communication_Preference", "EMAIL",
-        "Email Address is mandatory"),
-    Fax_Number: conditionalString("Communication_Preference", "FAX",
-        "Fax Number is mandatory"),
+    Email_Address: conditionalString(
+      "Communication_Preference",
+      "EMAIL",
+      "Email Address is mandatory",
+    ),
+    Fax_Number: conditionalString(
+      "Communication_Preference",
+      "FAX",
+      "Fax Number is mandatory",
+    ),
   });
 
   const [caseTimelinesErrors, setCaseTimelinesErrors] = useState([]);
@@ -388,6 +401,7 @@ export const useCaseHeader = () => {
   const [claimInformationErrors, setClaimInformationErrors] = useState([]);
   const [memberInformationErrors, setMemberInformationErrors] = useState([]);
   const [expeditedRequestErrors, setExpeditedRequestErrors] = useState([]);
+  const [notesErrors, setNotesErrors] = useState([]);
 
   const validateSync = (schema, data, setErrors) => {
     try {
@@ -432,6 +446,7 @@ export const useCaseHeader = () => {
       expeditedRequest,
       setExpeditedRequestErrors,
     );
+    validateSync(notesValidationSchema, notes, setNotesErrors);
   }, [
     caseTimelines,
     caseInformation,
@@ -505,10 +520,11 @@ export const useCaseHeader = () => {
     const angCaseInformation = trimJsonValues({ ...caseInformation });
     const angClaimInformation = trimJsonValues({ ...claimInformation });
     const angMemberInformation = trimJsonValues({ ...memberInformation });
-    const angAuthorizationInformation = trimJsonValues({   ...authorizationInformation, });
+    const angAuthorizationInformation = trimJsonValues({
+      ...authorizationInformation,
+    });
     const angExpeditedRequest = trimJsonValues({ ...expeditedRequest });
     const angNotes = trimJsonValues({ ...notes });
-
 
     apiJson["ANG_Case_Header"] = angCaseHeader;
     apiJson["ANG_Case_Timelines"] = angCaseTimelines;
@@ -692,10 +708,15 @@ export const useCaseHeader = () => {
     setResponseData([]);
   };
 
-  const handleShowNotesHistory= () => {
-    setShowNotesHistory(true)
-    if (notes.Case_Notes || notes.Internal_Notes || memberInformation.WhiteGloveReason || memberInformation.WhiteGloveCancelledReason) {
-      populateModalTable("NOTESHISTORY",location.state.caseNumber);
+  const handleShowNotesHistory = () => {
+    setShowNotesHistory(true);
+    if (
+      notes.Case_Notes ||
+      notes.Internal_Notes ||
+      memberInformation.WhiteGloveReason ||
+      memberInformation.WhiteGloveCancelledReason
+    ) {
+      populateModalTable("NOTESHISTORY", location.state.caseNumber);
     }
   };
   const handleCloseNotesHistory = () => {
@@ -705,11 +726,9 @@ export const useCaseHeader = () => {
 
   const modalTableComponent = (isProvider) => {
     let columnNames = "";
-    console.log("responseData1234567",responseData)
-    let caseNotesData = responseData[0]?.NotesHistory
-    let whiteGloveData = responseData[0]?.WhiteGloveHistory
-    let internalNotes = responseData[0]?.InternalNotesHistory
-    console.log("caseNotesData",caseNotesData)
+    let caseNotesData = responseData[0]?.NotesHistory;
+    let whiteGloveData = responseData[0]?.WhiteGloveHistory;
+    let internalNotes = responseData[0]?.InternalNotesHistory;
     if (isProvider === "member360") {
       columnNames =
         "Process~Process, Case ID~CaseID, Creation Date~CreationDate, Member ID~MemberID, Complaint type~AppellantType, Status~Status, Assigned To~AssignedTo, Issue Level~IssueLevel, Case Received Date~CaseReceivedDate, Case Due Date~CaseDueDate, Case Decision~CaseDecision";
@@ -729,52 +748,66 @@ export const useCaseHeader = () => {
         </div>
       );
     } else if (isProvider === "notesHistory") {
-
       return (
         <>
           <div className="accordion-item">
             <h2 className="accordion-header" id="panelsStayOpen-Instructions">
-              <button className="accordion-button accordionButtonStyle" type="button">
+              <button
+                className="accordion-button accordionButtonStyle"
+                type="button"
+              >
                 Case Notes
               </button>
             </h2>
             <div>
-              <TableComponent columnName="Date Time~Date time, User Name~User Name, Notes~Notes, Workstep~Workstep" rowValues={caseNotesData} />
+              <TableComponent
+                columnName="Date Time~Date time, User Name~User Name, Notes~Notes, Workstep~Workstep"
+                rowValues={caseNotesData}
+              />
             </div>
           </div>
           <div className="accordion-item">
             <h2 className="accordion-header" id="panelsStayOpen-Instructions">
-              <button className="accordion-button accordionButtonStyle" type="button">
+              <button
+                className="accordion-button accordionButtonStyle"
+                type="button"
+              >
                 Internal Case Notes
               </button>
             </h2>
             <div>
-              <TableComponent columnName="Date Time~Date time, User Name~User Name, InternalNotes~InternalNotes, Workstep~Workstep" rowValues={internalNotes} />
+              <TableComponent
+                columnName="Date Time~Date time, User Name~User Name, InternalNotes~InternalNotes, Workstep~Workstep"
+                rowValues={internalNotes}
+              />
             </div>
           </div>
           <div className="accordion-item">
             <h2 className="accordion-header" id="panelsStayOpen-Instructions">
-              <button className="accordion-button accordionButtonStyle" type="button">
+              <button
+                className="accordion-button accordionButtonStyle"
+                type="button"
+              >
                 White Glove Reason
               </button>
             </h2>
             <div>
-              <TableComponent columnName="Date Time~Date time, User Name~User Name, Entity ID~Entity ID, Entity Name~Entity Name, White Glove Reason~WhiteGloveReason, White Glove Cancelled Reason~WhiteGloveCancelledReason, Workstep~Workstep" rowValues={whiteGloveData} />
+              <TableComponent
+                columnName="Date Time~Date time, User Name~User Name, Entity ID~Entity ID, Entity Name~Entity Name, White Glove Reason~WhiteGloveReason, White Glove Cancelled Reason~WhiteGloveCancelledReason, Workstep~Workstep"
+                rowValues={whiteGloveData}
+              />
             </div>
           </div>
         </>
       );
-    } 
-    
-    return null; 
+    }
+
+    return null;
   };
-  
-  
 
   const populateModalTable = async (option, id) => {
-    // console.log("select provider Search Values", selectSearchValues);
-    var getApiJson = {};
-  
+    let getApiJson = {};
+
     if (option === "MEMBER360DATA") {
       getApiJson = {
         option: option,
@@ -794,31 +827,23 @@ export const useCaseHeader = () => {
         WhiteGloveCancelledReason: memberInformation.WhiteGloveCancelledReason,
         Notes: notes.Case_Notes,
         InternalNotes: notes.Internal_Notes,
-        CaseID: id || ""
+        CaseID: id || "",
       };
     }
-  
-    console.log("API Request JSON:", getApiJson);
-  
+
     try {
       let res = await customAxios.post("/generic/callProcedure", getApiJson, {
         headers: { Authorization: `Bearer ${token}` },
       });
-  
-      console.log("API Response:", res.data);
-  
+
       let resApiData = res.data.CallProcedure_Output?.data || [];
-      console.log("Response Data:", resApiData);
       resApiData = resApiData?.length > 0 ? resApiData : [];
-  
+
       if (resApiData.length > 0) {
         const respKeys = Object.keys(resApiData);
-        console.log("respKeys--->", respKeys);
         setResponseData((responseData) => [resApiData[0], ...responseData]);
-        
-        // alert(JSON.stringify(responseData))
       }
-  
+
       const apiStat = res.data.CallProcedure_Output.Status;
       if (apiStat === -1) {
         alert("Error in fetching data");
@@ -828,7 +853,6 @@ export const useCaseHeader = () => {
       alert("Error in fetching data. Please try again later.");
     }
   };
-  
 
   const getGridDataValues = (tableData) => {
     //var headers = document.getElementById(tableId).headers;
@@ -1001,12 +1025,21 @@ export const useCaseHeader = () => {
           const internalDueDateString = extractDate(internalDate);
           const finalcaseReceivedDate = extractDate(caseReceivedDate);
 
-          const timeLeft = dueDate - currentDate
+          const timeLeft = dueDate - currentDate;
 
           daysLeft = Math.max(Math.floor(timeLeft / (1000 * 60 * 60 * 24)), 0);
-          hoursLeft = Math.max(Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)), 0);
-          minutesLeft = Math.max(Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60)), 0);
-          secondsLeft = Math.max(Math.floor((timeLeft % (1000 * 60)) / 1000), 0);
+          hoursLeft = Math.max(
+            Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+            0,
+          );
+          minutesLeft = Math.max(
+            Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60)),
+            0,
+          );
+          secondsLeft = Math.max(
+            Math.floor((timeLeft % (1000 * 60)) / 1000),
+            0,
+          );
 
           setCaseHeader((prevState) => ({
             ...prevState,
@@ -1026,19 +1059,19 @@ export const useCaseHeader = () => {
         // Calculate case aging
         const timeDifference = currentDate - caseReceivedDate;
         const caseAgingInDays = Math.floor(
-          timeDifference / (1000 * 60 * 60 * 24)
+          timeDifference / (1000 * 60 * 60 * 24),
         );
         const complianceTime = `${daysLeft}d ${hoursLeft}h ${minutesLeft}m ${secondsLeft}s`;
-        
+
         setCaseTimelines((prevState) => ({
           ...prevState,
           ...(data?.["angCaseTimelines"]?.[0] || {}),
           Case_Aging: caseAgingInDays + " days",
-         Compliance_Time_Left_to_Finish: complianceTime + " remaining",
+          Compliance_Time_Left_to_Finish: complianceTime + " remaining",
         }));
 
         // Update other state values
-       // setCaseTimelines(data?.["angCaseTimelines"]?.[0] || {});
+        // setCaseTimelines(data?.["angCaseTimelines"]?.[0] || {});
         setCaseInformation(data?.["angCaseInformation"]?.[0] || {});
         setClaimInformation(data?.["angClaimInformation"]?.[0] || {});
         setClaimInformationGrid(data?.["angClaimInformationGrid"] || []);
@@ -1056,7 +1089,7 @@ export const useCaseHeader = () => {
         setExpeditedRequest(data?.["angExpeditedRequest"]?.[0] || {});
         setNotes(data?.["angNotes"]?.[0] || {});
         setFormData(_.cloneDeep(data));
-        
+
         // Update case data in caseData array
         const caseIDToUpdate = data?.mainTable?.[0]?.CaseID;
         const indexToUpdate = caseData.data.findIndex(
@@ -1103,7 +1136,7 @@ export const useCaseHeader = () => {
     });
     const angExpeditedRequest = trimJsonValues({ ...expeditedRequest });
     const angNotes = trimJsonValues({ ...notes });
-    
+
     const angClaimInformationGrid = getGridDataValues(claimInformationGrid);
     const originalClaimInformationGrid = getGridDataValues(
       formData["angClaimInformationGrid"],
@@ -1158,10 +1191,7 @@ export const useCaseHeader = () => {
       angExpeditedRequest,
       formData["angExpeditedRequest"][0],
     );
-    apiJson["ANG_Notes"] = CompareJSON(
-      angNotes,
-      formData["angNotes"][0],
-    );
+    apiJson["ANG_Notes"] = CompareJSON(angNotes, formData["angNotes"][0]);
 
     let updateClaimArray = [];
     if (
@@ -1511,6 +1541,8 @@ export const useCaseHeader = () => {
     handleCloseNotesHistory,
     populateModalTable,
     modalTableComponent,
+    notesErrors,
+    notesValidationSchema,
     claimInformationGridRowValidationSchema,
     providerInformationGridValidationSchema,
     authorizationInformationGridValidationSchema,

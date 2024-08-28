@@ -18,7 +18,7 @@ export default function AuthorizationInformationTable({
   lockStatus,
   editTableRows,
   gridFieldTempState,
-    validationSchema,
+  validationSchema,
 }) {
   AuthorizationInformationTable.displayName = "AuthorizationInformationTable";
 
@@ -56,6 +56,21 @@ export default function AuthorizationInformationTable({
     }
   });
 
+  const tableFields = [
+    "Issue_Number",
+    "Authorization_Number",
+    "Auth_Status",
+    "Provider_Name",
+    "Authorization_Type",
+    "Auth_Type_Description",
+    "Auth_Request_Date",
+    "Auth_Expiration_Date",
+    "CPT_Descriptions",
+    "Service_Start_Date",
+    "Denial_Code",
+    "Denial_Reason",
+  ];
+
   const [validationErrors, setValidationErrors] = useState({});
   useEffect(() => {
     try {
@@ -66,7 +81,10 @@ export default function AuthorizationInformationTable({
         acc[error.path] = error.message;
         return acc;
       }, {});
-      console.log('errors were encountered in authorization information table', validationErrors);
+      console.log(
+        "errors were encountered in authorization information table",
+        validationErrors,
+      );
       setValidationErrors(validationErrors);
     }
   }, [gridFieldTempState]);
@@ -296,7 +314,7 @@ export default function AuthorizationInformationTable({
               </td>
             )}
 
-            {Object.keys(gridFieldTempState)
+            {tableFields
               .filter((e) => e !== "rowNumber")
               .map((e) => (
                 <td className="tableData">
@@ -381,7 +399,7 @@ export default function AuthorizationInformationTable({
                 </th>
               )}
               {lockStatus === "V" && <th style={{ width: "" }}></th>}
-              {Object.keys(gridFieldTempState)
+              {tableFields
                 .filter((e) => e !== "rowNumber")
                 .map((e) => (
                   <th key={e} scope="col">

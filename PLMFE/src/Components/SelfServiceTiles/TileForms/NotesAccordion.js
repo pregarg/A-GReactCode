@@ -1,24 +1,17 @@
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
 import useGetDBTables from "../../CustomHooks/useGetDBTables";
 import { FormikInputField } from "../Common/FormikInputField";
 
 const NotesAccordion = (props) => {
   const { convertToCase } = useGetDBTables();
-
   const [notesData, setNotesData] = useState(props.notesData);
-
-  const location = useLocation();
-  console.log("casenotess12334", location);
-
   const [invalidInputState, setInvalidInputState] = useState(false);
 
   const persistNotesInformationData = () => {
     props.setNotesData(notesData);
   };
 
-  const handleNotesRequestData = (name, value,persist) => {
-    console.log("notesdataaaa", name, "+", value)
+  const handleNotesRequestData = (name, value, persist) => {
     const newData = {
       ...notesData,
       [name]: typeof value === "string" ? convertToCase(value) : value,
@@ -28,42 +21,6 @@ const NotesAccordion = (props) => {
       props.setNotesData(newData);
     }
   };
-  // const InputField = (name, placeholder, maxLength) => {
-  //   return (
-  //     <>
-  //       <Field name={name}>
-  //         {({ field, meta }) => (
-  //           <div className="form-floating">
-  //             <input
-  //               maxLength={maxLength}
-  //               type="text"
-  //               id={name}
-  //               autoComplete="off"
-  //               className={`form-control ${
-  //                 meta.error ? "is-invalid" : field.value ? "is-valid" : ""
-  //               }`}
-  //               placeholder={wrapPlaceholder(name, placeholder)}
-  //               onChange={(event) =>
-  //                 handleExpeditedRequestData(name, event.target.value)
-  //               }
-  //               onBlur={persistExpeditedRequestData}
-  //               value={expeditedRequestData[name]}
-  //               disabled={invalidInputState}
-  //             />
-  //             <label htmlFor="floatingInputGrid">
-  //               {wrapPlaceholder(name, placeholder)}
-  //             </label>
-  //             {meta.error && (
-  //               <div className="invalid-feedback" style={{ display: "block" }}>
-  //                 {meta.error}
-  //               </div>
-  //             )}
-  //           </div>
-  //         )}
-  //       </Field>
-  //     </>
-  //   );
-  // };
   const renderInputField = (name, placeholder, maxLength) => (
     <div className="col-xs-6 col-md-4">
       <FormikInputField
@@ -74,9 +31,9 @@ const NotesAccordion = (props) => {
         onChange={handleNotesRequestData}
         disabled={location.state.stageName === "CaseArchived"}
         persist={persistNotesInformationData}
-        schema={""}
-        displayErrors={""}
-        errors={""}
+        schema={props.notesValidationSchema}
+        displayErrors={props.shouldShowSubmitError}
+        errors={props.notesErrors}
       />
     </div>
   );

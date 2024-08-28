@@ -13,7 +13,7 @@ export const FormikDatePicker = ({
   displayErrors,
 }) => {
   const wrapPlaceholder = (name, placeholder) => {
-    return `${placeholder}${errors?.[name] ? ' *' : ''}`;
+    return `${placeholder}${errors?.[name] ? " *" : ""}`;
   };
   const CustomInput = (props) => (
     <div className="form-floating">

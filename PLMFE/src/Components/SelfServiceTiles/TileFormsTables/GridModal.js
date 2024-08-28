@@ -64,7 +64,8 @@ export default function GridModal(show) {
                 }
               }}
               disabled={
-                  show.validationErrors && Object.keys(show.validationErrors).length > 0
+                show.validationErrors &&
+                Object.keys(show.validationErrors).length > 0
               }
               style={{ float: "left" }}
             >
