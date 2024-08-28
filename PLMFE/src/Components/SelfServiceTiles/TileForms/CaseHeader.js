@@ -14,7 +14,7 @@ import MemberInformationAccordion from "./MemberInformationAccordion";
 import AuthorizationInformationAccordion from "./AuthorizationInformationAccordion";
 import ExpeditedRequestAccordion from "./ExpeditedRequestAccordion";
 import NotesAccordion from "./NotesAccordion";
-import { FaBars } from 'react-icons/fa';
+import { FaBars } from "react-icons/fa";
 
 import RepresentativeInformationAccordion from "./RepresentativeInformationAccordion";
 import { useCaseHeader } from "./useCaseHeader";
@@ -61,6 +61,8 @@ const CaseHeader = () => {
     setExpeditedRequest,
     notes,
     setNotes,
+    notesErrors,
+    notesValidationSchema,
     expeditedRequestValidationSchema,
     location,
     navigateHome,
@@ -141,7 +143,9 @@ const CaseHeader = () => {
                 updateClaimInformationGridData={setClaimInformationGrid}
                 handleProviderInformationGridData={providerInformationGrid}
                 updateProviderInformationGridData={setProviderInformationGrid}
-                providerInformationGridValidationSchema={providerInformationGridValidationSchema}
+                providerInformationGridValidationSchema={
+                  providerInformationGridValidationSchema
+                }
               />
               <MemberInformationAccordion
                 memberInformationData={memberInformation}
@@ -159,7 +163,9 @@ const CaseHeader = () => {
                 updateRepresentativeInformationGridData={
                   setRepresentativeInformationGrid
                 }
-                representativeInformationGridValidationSchema={representativeInformationGridValidationSchema}
+                representativeInformationGridValidationSchema={
+                  representativeInformationGridValidationSchema
+                }
               />
               <AuthorizationInformationAccordion
                 handleOnChange={handleAuthorizationInformationChange}
@@ -170,7 +176,9 @@ const CaseHeader = () => {
                 updateAuthorizationInformationGridData={
                   setAuthorizationInformationGrid
                 }
-                authorizationInformationGridValidationSchema={authorizationInformationGridValidationSchema}
+                authorizationInformationGridValidationSchema={
+                  authorizationInformationGridValidationSchema
+                }
               />
               <ExpeditedRequestAccordion
                 expeditedRequestData={expeditedRequest}
@@ -179,10 +187,12 @@ const CaseHeader = () => {
                   expeditedRequestValidationSchema
                 }
               />
-             < NotesAccordion
-             
-                notesData = {notes}
-                setNotesData= {setNotes}
+              <NotesAccordion
+                notesData={notes}
+                setNotesData={setNotes}
+                notesErrors={notesErrors}
+                notesValidationSchema={notesValidationSchema}
+                shouldShowSubmitError={shouldShowSubmitError}
               />
 
               {location.state.formView === "DashboardHomeView" && (
@@ -290,44 +300,43 @@ const CaseHeader = () => {
           //   </Dropdown.Item>
           // </DropdownButton>
           <Dropdown>
-          <Dropdown.Toggle
-            id="dropdown-custom-components"
-            style={{
-              display: "flex",
-              justifyContent: 'flex-end',
-              marginRight: "10px",
-              border: "none",
-              backgroundColor: "transparent"
-            }}
-          >
-          <FaBars size={24} />
-          </Dropdown.Toggle>
-    
-          <Dropdown.Menu>
-            <Dropdown.Item
-              onClick={(event) => {
-                handleShowMember360(event);
+            <Dropdown.Toggle
+              id="dropdown-custom-components"
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                marginRight: "10px",
+                border: "none",
+                backgroundColor: "transparent",
               }}
             >
-              Member 360
-            </Dropdown.Item>
-            <Dropdown.Item
-              onClick={(event) => {
-                handleShowProvider360(event);
-              }}
-            >
-              Provider 360
-            </Dropdown.Item>
-            <Dropdown.Item
-              onClick={(event) => {
-                handleShowNotesHistory(event);
-              }}
-            >
-              Notes History
-            </Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
-     
+              <FaBars size={24} />
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>
+              <Dropdown.Item
+                onClick={(event) => {
+                  handleShowMember360(event);
+                }}
+              >
+                Member 360
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={(event) => {
+                  handleShowProvider360(event);
+                }}
+              >
+                Provider 360
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={(event) => {
+                  handleShowNotesHistory(event);
+                }}
+              >
+                Notes History
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
         }
         {showMember360 && (
           <Member360
@@ -345,9 +354,9 @@ const CaseHeader = () => {
         )}
         {showNotesHistory && (
           <NotesHistory
-          showNotesHistory={showNotesHistory}
-          handleCloseNotesHistory={handleCloseNotesHistory}
-          notesHistoryTableComponent={modalTableComponent}
+            showNotesHistory={showNotesHistory}
+            handleCloseNotesHistory={handleCloseNotesHistory}
+            notesHistoryTableComponent={modalTableComponent}
           />
         )}
       </div>

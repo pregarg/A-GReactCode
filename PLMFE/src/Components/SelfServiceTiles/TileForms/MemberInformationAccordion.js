@@ -35,8 +35,10 @@ const MemberInformationAccordion = (props) => {
   const [selectedAddress, setSelectedAddress] = useState([]);
   const [whiteGloveIndicator, setWhiteGloveIndicator] = useState(false);
   const [whiteGloveReason, setWhiteGloveReason] = useState("");
-  const [whiteGloveCancelledReason, setWhiteGloveCancelledReason] = useState("");
-  const [whiteGloveIndicatorInitialized, setWhiteGloveIndicatorInitialized] = useState(false);
+  const [whiteGloveCancelledReason, setWhiteGloveCancelledReason] =
+    useState("");
+  const [whiteGloveIndicatorInitialized, setWhiteGloveIndicatorInitialized] =
+    useState(false);
 
   let location = useLocation();
 
@@ -69,21 +71,21 @@ const MemberInformationAccordion = (props) => {
   const persistMemberInformationData = () => {
     props.setMemberInformationData(memberInformationData);
   };
- 
+
   const handleWhiteGloveChange = (e) => {
-    console.log("shivani1111",e)
+    console.log("shivani1111", e);
     const isChecked = e.target.checked;
     setWhiteGloveIndicator(isChecked);
     setWhiteGloveIndicatorInitialized(true);
     if (isChecked) {
-      setWhiteGloveCancelledReason(''); 
+      setWhiteGloveCancelledReason("");
     } else {
-      setWhiteGloveReason(''); 
+      setWhiteGloveReason("");
     }
 
     //handleMemberInformationData("White_Glove_Indicator", e.target.checked, true);
   };
-  
+
   const renderInputField = (name, placeholder, maxLength) => (
     <div className="col-xs-6 col-md-4">
       <FormikInputField
@@ -459,19 +461,25 @@ const MemberInformationAccordion = (props) => {
             </div>
             <div className="row my-2">
               {renderInputField("Zip_Code", "Zip Code", 50)}
-                <div className="col-xs-6 col-md-4" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <label style={{ display: 'flex', alignItems: 'center' }}>
+              <div
+                className="col-xs-6 col-md-4"
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <label style={{ display: "flex", alignItems: "center" }}>
                   <input
                     type="checkbox"
                     checked={whiteGloveIndicator}
                     onChange={handleWhiteGloveChange}
                     disabled={invalidInputState}
-                    style={{ marginRight: '8px' }} 
+                    style={{ marginRight: "8px" }}
                   />
                   White Glove Indicator?
                 </label>
               </div>
-
             </div>
             <div className="form-floating">
               <input
@@ -485,11 +493,12 @@ const MemberInformationAccordion = (props) => {
                 disabled={!whiteGloveIndicator}
               />
               <label>White Glove Reason</label>
-              <div className="invalid-feedback" style={{ display: "block" }}>
-              
-              </div>
+              <div
+                className="invalid-feedback"
+                style={{ display: "block" }}
+              ></div>
             </div>
-           
+
             <div className="form-floating">
               <input
                 id="WhiteGloveCancelledReason"
@@ -498,16 +507,18 @@ const MemberInformationAccordion = (props) => {
                 className="form-control"
                 placeholder="White Glove Cancelled Reason"
                 value={whiteGloveCancelledReason}
-              onChange={(e) => setWhiteGloveCancelledReason(e.target.value)}
-              disabled={whiteGloveIndicator  || !whiteGloveIndicatorInitialized}
+                onChange={(e) => setWhiteGloveCancelledReason(e.target.value)}
+                disabled={
+                  whiteGloveIndicator || !whiteGloveIndicatorInitialized
+                }
               />
               <label>White Glove Cancelled Reason</label>
-              <div className="invalid-feedback" style={{ display: "block" }}>
-              </div>
-              </div>
-            
-           
+              <div
+                className="invalid-feedback"
+                style={{ display: "block" }}
+              ></div>
             </div>
+          </div>
         </div>
         {showMemberSearch && (
           <MemberSearch

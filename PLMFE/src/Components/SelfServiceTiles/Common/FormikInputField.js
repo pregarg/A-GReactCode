@@ -14,7 +14,7 @@ export const FormikInputField = ({
   displayErrors,
 }) => {
   const wrapPlaceholder = (name, placeholder) => {
-    return `${placeholder}${errors?.[name] ? ' *' : ''}`;
+    return `${placeholder}${errors?.[name] ? " *" : ""}`;
   };
   return (
     <>

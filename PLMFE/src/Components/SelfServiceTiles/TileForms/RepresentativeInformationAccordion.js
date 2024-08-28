@@ -27,29 +27,7 @@ const RepresentativeInformationAccordion = (props) => {
     setRepresentativeInformationGridData,
   ] = useState(props.handleRepresentativeInformationGridData);
 
-  const [gridFieldTempState, setGridFieldTempState] = useState({
-    Issue_Number: undefined,
-    First_Name: undefined,
-    Last_Name: undefined,
-    Relationship: undefined,
-    AOR_Type: undefined,
-    AOR_Approved_Date: undefined,
-    AOR_Expiration_Date: undefined,
-    Communication_Preference: undefined,
-    Mail_to_Address: undefined,
-    Email_Address: undefined,
-    Phone_Number: undefined,
-    Fax_Number: undefined,
-    Authorization_Approved_Date: undefined,
-    Authorization_Expiration_Date: undefined,
-    Authorization_Type: undefined,
-    Address_Line_1: undefined,
-    Address_Line_2: undefined,
-    City: undefined,
-    State_: undefined,
-    Zip_Code: undefined,
-    Country: undefined,
-  });
+  const [gridFieldTempState, setGridFieldTempState] = useState({});
   const [selectedCriteria, setSelectedCriteria] = useState();
   const [selectSearchValues, setSelectSearchValues] = useState();
   const [responseData, setResponseData] = useState([]);
@@ -470,7 +448,9 @@ const RepresentativeInformationAccordion = (props) => {
                   gridFieldTempState={gridFieldTempState}
                   editTableRows={editTableRows}
                   gridRowsFinalSubmit={gridRowsFinalSubmit}
-                  validationSchema={props.representativeInformationGridValidationSchema}
+                  validationSchema={
+                    props.representativeInformationGridValidationSchema
+                  }
                   lockStatus={
                     prop.state !== null &&
                     prop.state.lockStatus !== undefined &&

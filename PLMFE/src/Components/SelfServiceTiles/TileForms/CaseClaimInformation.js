@@ -487,8 +487,6 @@ const CaseClaimInformation = (props) => {
     return Math.ceil(timeDiff / (1000 * 3600 * 24));
   };
 
-
-
   const handleGridFieldChange = (index, event) => {
     let tempInput = { ...gridFieldTempState };
     let { name, value } = event.target;
@@ -780,53 +778,51 @@ const CaseClaimInformation = (props) => {
               {renderSelectField("Claim_type", "Claim type", claimTypeValues)}
               {renderInputField("Claim_Number", "Claim Number", 16)}
               {renderInputField(
-                  "Authorization_Number",
-                  "Authorization Number",
-                  9,
-                )}
-
+                "Authorization_Number",
+                "Authorization Number",
+                9,
+              )}
             </div>
             <div className="row my-2">
               {renderDatePicker(
-                  "Original_Denial_Date",
-                  "Original Denial Date",
-                  "Original Denial Date",
-                )}
-                {renderDatePicker(
-                  "Service_Start_Date",
-                  "Service Start Date",
-                  "Service Start Date",
-                )}
-                {renderDatePicker(
-                  "Service_End_Date",
-                  "Service End Date",
-                  "Service End Date",
-                )}
-              </div>
-            {shouldHideFields &&
-            <div className="row my-2">
-              {renderSelectField(
-                "Claim_Decision",
-                "Claim Decision",
-                decisionValues,
+                "Original_Denial_Date",
+                "Original Denial Date",
+                "Original Denial Date",
               )}
-              {renderSelectField(
-                "Decision_Reason",
-                "Decision Reason",
-                decisionReasonValues,
+              {renderDatePicker(
+                "Service_Start_Date",
+                "Service Start Date",
+                "Service Start Date",
               )}
-              {renderInputField("Reason_Text", "Reason Text", 4000)}
+              {renderDatePicker(
+                "Service_End_Date",
+                "Service End Date",
+                "Service End Date",
+              )}
             </div>
-            }
-
-
-            {shouldHideFields &&
+            {shouldHideFields && (
               <div className="row my-2">
-              {renderDatePicker(
-                "Claim_Adjusted_Date",
-                "Claim Adjusted Date",
-                "Claim Adjusted Date",
-              )}
+                {renderSelectField(
+                  "Claim_Decision",
+                  "Claim Decision",
+                  decisionValues,
+                )}
+                {renderSelectField(
+                  "Decision_Reason",
+                  "Decision Reason",
+                  decisionReasonValues,
+                )}
+                {renderInputField("Reason_Text", "Reason Text", 4000)}
+              </div>
+            )}
+
+            {shouldHideFields && (
+              <div className="row my-2">
+                {renderDatePicker(
+                  "Claim_Adjusted_Date",
+                  "Claim Adjusted Date",
+                  "Claim Adjusted Date",
+                )}
 
                 {renderSelectField(
                   "Processing_Status",
@@ -840,8 +836,8 @@ const CaseClaimInformation = (props) => {
                   4000,
                 )}
               </div>
-            }
-            {shouldHideFields &&
+            )}
+            {shouldHideFields && (
               <div className="row my-2">
                 {renderInputField("Payment_Method", "Payment Method", 30)}
                 {renderInputField("Payment_Number", "Payment Number", 50)}
@@ -851,32 +847,31 @@ const CaseClaimInformation = (props) => {
                   "Payment Date",
                 )}
               </div>
-            }
-
-                    <div className="row my-2">
-            {shouldHideFields && (
-              <>
-                {renderDatePicker(
-                  "Denied_As_Of_Date",
-                  "Denied As Of Date",
-                  "Denied As Of Date",
-                )}
-                {renderDatePicker(
-                  "Payment_Mail_Date_Postmark",
-                  "Payment Mail Date Postmark",
-                  "Payment Mail Date Postmark",
-                )}
-              </>
             )}
-            {shouldHideFields && location.state.stageName !== "Research" && (
-              renderSelectField(
-                "Service_Type",
-                "Service Type",
-                serviceTypeValues,
-              )
-            )}
-          </div>
 
+            <div className="row my-2">
+              {shouldHideFields && (
+                <>
+                  {renderDatePicker(
+                    "Denied_As_Of_Date",
+                    "Denied As Of Date",
+                    "Denied As Of Date",
+                  )}
+                  {renderDatePicker(
+                    "Payment_Mail_Date_Postmark",
+                    "Payment Mail Date Postmark",
+                    "Payment Mail Date Postmark",
+                  )}
+                </>
+              )}
+              {shouldHideFields &&
+                location.state.stageName !== "Research" &&
+                renderSelectField(
+                  "Service_Type",
+                  "Service Type",
+                  serviceTypeValues,
+                )}
+            </div>
 
             <div className="row">
               <div className="col-xs-6 col-md-12">
@@ -963,7 +958,9 @@ const CaseClaimInformation = (props) => {
               <div className="col-xs-6 col-md-12">
                 <ProviderInformationTable
                   providerInformationGridData={providerInformationGridData}
-                  validationSchema={props.providerInformationGridValidationSchema}
+                  validationSchema={
+                    props.providerInformationGridValidationSchema
+                  }
                   addTableRows={addTableRows}
                   deleteTableRows={deleteTableRows}
                   handleGridSelectChange={handleGridSelectChange}

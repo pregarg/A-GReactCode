@@ -14,7 +14,10 @@ export const SimpleInputField = ({
   return (
     <>
       <label htmlFor={name}>
-        <strong>{label}{validationErrors?.[name] ? ' *' : ''}</strong>
+        <strong>
+          {label}
+          {validationErrors?.[name] ? " *" : ""}
+        </strong>
       </label>
       <input
         id={name}
