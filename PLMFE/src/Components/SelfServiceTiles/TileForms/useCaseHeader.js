@@ -251,22 +251,22 @@ export const useCaseHeader = () => {
       "NOT ADJUSTED",
       "Reason Text is mandatory",
     ) /*
-    Decision_Reason: conditionalActivateOnStage(
-      pair1,
-      "Decision Reason is mandatory",
-    ),
-    Payment_Number: conditionalActivateOnStage(
-      pair1,
-      "Payment Number is mandatory",
-    ),
-    Effectuation_Notes: conditionalActivateOnStage(
-      pair1,
-      "Effectuation Notes is mandatory",
-    ),
-    Claim_Adjusted_Date: conditionalActivateOnStage(
-      pair1,
-      "Claim Adjusted Date is mandatory",
-    ),
+    // Decision_Reason: conditionalActivateOnStage(
+    //   pair1,
+    //   "Decision Reason is mandatory",
+    // ),
+    // Payment_Number: conditionalActivateOnStage(
+    //   pair1,
+    //   "Payment Number is mandatory",
+    // ),
+    // Effectuation_Notes: conditionalActivateOnStage(
+    //   pair1,
+    //   "Effectuation Notes is mandatory",
+    // ),
+    // Claim_Adjusted_Date: conditionalActivateOnStage(
+    //   pair1,
+    //   "Claim Adjusted Date is mandatory",
+    // ),
     Payment_Mail_Date_Postmark: Yup.date().required(
       "Payment Mail Date Postmark is mandatory",
     ),*/,
@@ -322,7 +322,7 @@ export const useCaseHeader = () => {
     Case_Notes: Yup.string().required("Case Notes is mandatory"),
   });
   const claimInformationGridRowValidationSchema = Yup.object().shape({
-    /*Filed_Timely: Yup.string().required(
+    Filed_Timely: Yup.string().required(
         "Filed Timely Address is mandatory",
     ),
     Grant_Good_Cause: conditionalString(
@@ -334,37 +334,37 @@ export const useCaseHeader = () => {
       "Grant_Good_Cause",
       "YES",
       "Grant Good Reason is mandatory",
-    ),*/
+    ),
   });
   const providerInformationGridValidationSchema = Yup.object().shape({
-    // Point_of_Contact: Yup.string().required("Point of Contact is mandatory"),
-    // Sequential_Provider_ID: Yup.string().required(
-    //    "Sequential Provider ID is mandatory",
-    // ),
-    // Provider_Name: Yup.string().required("Provider Name is mandatory"),
-    // Provider_TIN: Yup.string().required("Provider TIN is mandatory"),
-    // Participating_Provider: Yup.string().required(
-    //   "Participating Provider is mandatory",
-    // ),
-    // Provider_Type: Yup.string().required("Provider Type is mandatory"),
-    // Provider_Vendor_Specialty: Yup.string().required(
-    //    "Provider Vendor Specialty is mandatory",
-    // ),
-    // Mail_to_Address: Yup.string().required("Mail to Address is mandatory"),
-    // Address_Line_1: Yup.string().required("Address Line 1 is mandatory"),
-    // City: Yup.string().required("City is mandatory"),
-    // State: Yup.string().required("State is mandatory"),
-    // Zip_Code: Yup.string().required("Zip Code is mandatory"),
-    // Provider_ID: Yup.string().required("Provider ID is mandatory"),
-    // NPI_ID: Yup.string().required("NPI ID is mandatory"),
-    // Par_Provider_Start_Date: Yup.string().required(
-    //    "Par Provider Start Date is mandatory",
-    // ),
-    // Par_Provider_End_Date: Yup.string().required(
-    //   "Par Provider End Date is mandatory",
-    // ),
-    // Vendor_ID: Yup.string().required("Vendor ID is mandatory"),
-    // Vendor_Name: Yup.string().required("Vendor_Name is mandatory"),
+    Point_of_Contact: Yup.string().required("Point of Contact is mandatory"),
+    Sequential_Provider_ID: Yup.string().required(
+       "Sequential Provider ID is mandatory",
+    ),
+    Provider_Name: Yup.string().required("Provider Name is mandatory"),
+    Provider_TIN: Yup.string().required("Provider TIN is mandatory"),
+    Participating_Provider: Yup.string().required(
+      "Participating Provider is mandatory",
+    ),
+    Provider_Type: Yup.string().required("Provider Type is mandatory"),
+    Provider_Vendor_Specialty: Yup.string().required(
+       "Provider Vendor Specialty is mandatory",
+    ),
+    Mail_to_Address: Yup.string().required("Mail to Address is mandatory"),
+    Address_Line_1: Yup.string().required("Address Line 1 is mandatory"),
+    City: Yup.string().required("City is mandatory"),
+    State: Yup.string().required("State is mandatory"),
+    Zip_Code: Yup.string().required("Zip Code is mandatory"),
+    Provider_ID: Yup.string().required("Provider ID is mandatory"),
+    NPI_ID: Yup.string().required("NPI ID is mandatory"),
+    Par_Provider_Start_Date: Yup.string().required(
+       "Par Provider Start Date is mandatory",
+    ),
+    Par_Provider_End_Date: Yup.string().required(
+      "Par Provider End Date is mandatory",
+    ),
+    Vendor_ID: Yup.string().required("Vendor ID is mandatory"),
+    Vendor_Name: Yup.string().required("Vendor_Name is mandatory"),
     Email_Address: conditionalString(
       "Communication_Preference",
       "EMAIL",
@@ -383,7 +383,7 @@ export const useCaseHeader = () => {
   });
   const authorizationInformationGridValidationSchema = Yup.object().shape({});
   const representativeInformationGridValidationSchema = Yup.object().shape({
-    // Communication_Preference: Yup.string().required("Communication Preference is mandatory"),
+    Communication_Preference: Yup.string().required("Communication Preference is mandatory"),
     Email_Address: conditionalString(
       "Communication_Preference",
       "EMAIL",
@@ -708,15 +708,10 @@ export const useCaseHeader = () => {
     setResponseData([]);
   };
 
-  const handleShowNotesHistory = () => {
-    setShowNotesHistory(true);
-    if (
-      notes.Case_Notes ||
-      notes.Internal_Notes ||
-      memberInformation.WhiteGloveReason ||
-      memberInformation.WhiteGloveCancelledReason
-    ) {
-      populateModalTable("NOTESHISTORY", location.state.caseNumber);
+  const handleShowNotesHistory= () => {
+    setShowNotesHistory(true)
+    if (notes.Case_Notes || notes.Internal_Notes || memberInformation.WhiteGloveReason || memberInformation.WhiteGloveCancelledReason) {
+      populateModalTable("NOTESHISTORY",location.state.caseNumber);
     }
   };
   const handleCloseNotesHistory = () => {
@@ -1025,21 +1020,12 @@ export const useCaseHeader = () => {
           const internalDueDateString = extractDate(internalDate);
           const finalcaseReceivedDate = extractDate(caseReceivedDate);
 
-          const timeLeft = dueDate - currentDate;
+          const timeLeft = dueDate - currentDate
 
           daysLeft = Math.max(Math.floor(timeLeft / (1000 * 60 * 60 * 24)), 0);
-          hoursLeft = Math.max(
-            Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-            0,
-          );
-          minutesLeft = Math.max(
-            Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60)),
-            0,
-          );
-          secondsLeft = Math.max(
-            Math.floor((timeLeft % (1000 * 60)) / 1000),
-            0,
-          );
+          hoursLeft = Math.max(Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)), 0);
+          minutesLeft = Math.max(Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60)), 0);
+          secondsLeft = Math.max(Math.floor((timeLeft % (1000 * 60)) / 1000), 0);
 
           setCaseHeader((prevState) => ({
             ...prevState,
@@ -1059,7 +1045,7 @@ export const useCaseHeader = () => {
         // Calculate case aging
         const timeDifference = currentDate - caseReceivedDate;
         const caseAgingInDays = Math.floor(
-          timeDifference / (1000 * 60 * 60 * 24),
+          timeDifference / (1000 * 60 * 60 * 24)
         );
         const complianceTime = `${daysLeft}d ${hoursLeft}h ${minutesLeft}m ${secondsLeft}s`;
 
@@ -1067,11 +1053,11 @@ export const useCaseHeader = () => {
           ...prevState,
           ...(data?.["angCaseTimelines"]?.[0] || {}),
           Case_Aging: caseAgingInDays + " days",
-          Compliance_Time_Left_to_Finish: complianceTime + " remaining",
+         Compliance_Time_Left_to_Finish: complianceTime + " remaining",
         }));
 
         // Update other state values
-        // setCaseTimelines(data?.["angCaseTimelines"]?.[0] || {});
+       // setCaseTimelines(data?.["angCaseTimelines"]?.[0] || {});
         setCaseInformation(data?.["angCaseInformation"]?.[0] || {});
         setClaimInformation(data?.["angClaimInformation"]?.[0] || {});
         setClaimInformationGrid(data?.["angClaimInformationGrid"] || []);
