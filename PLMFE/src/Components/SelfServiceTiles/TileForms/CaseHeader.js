@@ -33,7 +33,7 @@ const CaseHeader = () => {
   const handleExpeditedPriorityChange = (date) => {
     setExpeditedRequest((prevState) => ({
       ...prevState,
-      Expedited_Upgrade_Date_Time: date
+      Expedited_Upgrade_Date_Time: date,
     }));
   };
   const {
@@ -124,7 +124,6 @@ const CaseHeader = () => {
                 caseTimelinesValidationSchema={caseTimelinesValidationSchema}
                 caseTimelinesErrors={caseTimelinesErrors}
                 shouldShowSubmitError={shouldShowSubmitError}
-               
               />
               <CaseInformationAccordion
                 caseInformationData={caseInformation}
