@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import useGetDBTables from "../../CustomHooks/useGetDBTables";
 import { FormikInputField } from "../Common/FormikInputField";
+import { useLocation } from "react-router-dom";
 
 const NotesAccordion = (props) => {
   const { convertToCase } = useGetDBTables();
+  const location = useLocation();
   const [notesData, setNotesData] = useState(props.notesData);
   const [invalidInputState, setInvalidInputState] = useState(false);
 
