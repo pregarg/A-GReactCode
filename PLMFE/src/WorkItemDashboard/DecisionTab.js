@@ -102,10 +102,32 @@ export default function DecisionTab(props) {
 
   const decisonRef = React.createRef();
   const decisonReasonRef = useRef();
+  // const handleSelectChange = (selectedValue, evnt) => {
+  //   const { name } = evnt;
+  //   if (name === "decision") {
+  //     prop.state.decision = selectedValue?.value;
+      
+  //   }
+  //   setDecisionState({ ...decisionState, [name]: selectedValue });
+  // };
   const handleSelectChange = (selectedValue, evnt) => {
     const { name } = evnt;
     if (name === "decision") {
       prop.state.decision = selectedValue?.value;
+      decisonReasonRef.current.clearValue();
+
+    }
+    if (prop.state.formNames === 'Appeals') {
+      console.log("check1", prop.state.formNames)
+      if (selectedValue?.value) {
+        console.log("check2", selectedValue?.value)
+        if (decisionReasonArray[stageName]) {
+          console.log("check3", decisionReasonArray[stageName])
+          setReasonSelectValues([...decisionReasonArray[stageName][selectedValue?.value]]);
+        } else {
+          setReasonSelectValues([])
+        }
+      }
     }
     setDecisionState({ ...decisionState, [name]: selectedValue });
   };
@@ -284,10 +306,11 @@ export default function DecisionTab(props) {
       );
     }
   };
-
-  const masterAngDecisionSelector = useSelector(
-    (state) => state?.masterAngDecision,
-  );
+  const mastersSelector = useSelector((masters) => masters);
+  
+  // const masterAngDecisionSelector = useSelector(
+  //   (state) => state?.masterAngDecision,
+  // );
   const masterAngDocumentSelector = useSelector(
     (state) => state?.masterAngDocument,
   );
@@ -409,32 +432,73 @@ export default function DecisionTab(props) {
   }, []);
 
   useEffect(() => {
-    const angSel = masterAngDecisionSelector?.[0] || [];
-    if (angSel && angSel.length) {
-      setSelectValues(
-        [
-          ...new Set(
-            angSel
-              .filter(
-                (e) => e.WORKSTEP.toLowerCase() === stageName.toLowerCase(),
-              )
-              .map((e) => convertToCase(e.DECISION)),
-          ),
-        ].map((e) => ({ label: e, value: e })),
-      );
-      setReasonSelectValues(
-        [
-          ...new Set(
-            angSel
-              .filter(
-                (e) => e.WORKSTEP.toLowerCase() === stageName.toLowerCase(),
-              )
-              .map((e) => convertToCase(e.DECISION_REASON)),
-          ),
-        ].map((e) => ({ label: e, value: e })),
-      );
+    let selectJson = {};
+    let mappedObject = {};
+    let decisionOptions = [];
+
+    console.log("stageName--->", stageName);
+
+    if (decisonRef.current !== null )
+     // && tabInput?.buttonClicked !== "callProc"
+     {
+        decisonRef.current.clearValue();
     }
-  }, [masterAngDecisionSelector, props]);
+
+    // Decision Dropdown
+    if (mastersSelector.hasOwnProperty("masterAngDecision")) {
+        console.log("logger decision: ", mastersSelector["masterAngDecision"]);
+
+        selectJson.decisionOptions = Array.isArray(mastersSelector["masterAngDecision"]) 
+            ? mastersSelector["masterAngDecision"][0] || [] 
+            : [];
+
+        if (Array.isArray(selectJson.decisionOptions)) {
+            selectJson.decisionOptions
+                .filter((data) => {
+                    console.log("data--->", data.WORKSTEP);
+                    return data.WORKSTEP.toLowerCase() == stageName.toLowerCase();
+                })
+                .map((val) => {
+                    const existingIndex = decisionOptions.findIndex((item) => item.value === val.DECISION);
+                    if (existingIndex === -1) {
+                        decisionOptions.push({
+                            value: val.DECISION,
+                            label: val.DECISION,
+                        });
+                    }
+                });
+
+            selectJson.decisionOptions
+                .filter((data) => data.WORKSTEP.toLowerCase() == stageName.toLowerCase())
+                .map((val) => {
+                    let stageName = val.WORKSTEP;
+                    let decision = val.DECISION;
+                    let decisionReason = val.DECISION_REASON;
+                    if (!mappedObject[stageName]) {
+                        mappedObject[stageName] = {};
+                    }
+                    if (!mappedObject[stageName][decision]) {
+                        mappedObject[stageName][decision] = [];
+                    }
+                    mappedObject[stageName][decision].push({
+                        value: decisionReason,
+                        label: decisionReason,
+                    });
+                });
+        } else {
+            console.error("selectJson.decisionOptions is not an array");
+        }
+    }
+
+    console.log("decision options", decisionOptions);
+    console.log("mapped object", mappedObject);
+
+    setTimeout(() => {
+        setSelectValues(decisionOptions);
+        setDecisionReasonArray(mappedObject);
+        console.log("logger selectValues ", selectValues);
+    }, 1000);
+}, [mastersSelector,props]);
 
   const openDecisionModal = (index) => {
     let docIndexJson = { ...docClickedIndex.current };

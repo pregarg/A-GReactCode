@@ -276,50 +276,50 @@ export const useCaseHeader = () => {
     ),*/
   });
   const memberInformationValidationSchema = Yup.object().shape({
-    Email_ID: conditionalString(
-      "Communication_Preference",
-      "EMAIL",
-      "Email ID is mandatory",
-    ),
-    Fax_Number: conditionalString(
-      "Communication_Preference",
-      "FAX",
-      "Fax Number is mandatory",
-    ),
-    Member_First_Name: Yup.string().required("Member First Name is mandatory"),
-    Member_Last_Name: Yup.string().required("Member Last Name is mandatory"),
-    ContractPlan_ID: Yup.string().required("Contract Plan ID is mandatory"),
-    Plan_Code: Yup.string().required("Plan Code is mandatory"),
-    Member_IPA: Yup.string().required("Member IPA is mandatory"),
-    //PBP: Yup.string().required("PBP is mandatory"),
-    Primary_Care_Physician_PCP: Yup.string().required(
-      "Primary Care Physician PCP is mandatory",
-    ),
-    PCP_ID: Yup.string().required("PCP ID is mandatory"),
-    Members_Age: Yup.string().required("Members Age is mandatory"),
-    Deceased: Yup.string().required("Deceased is mandatory"),
-    Gender: Yup.string().required("Gender is mandatory"),
-    Dual_Plan: Yup.string().required("Dual Plan is mandatory"),
-    Preferred_Language: Yup.string().required(
-      "Preferred Language is mandatory",
-    ),
-    Mail_to_Address: Yup.string().required("Mail to Address is mandatory"),
-    Address_Line_1: Yup.string().required("Address Line 1 is mandatory"),
-    City: Yup.string().required("City is mandatory"),
-    State_: Yup.string().required("State is mandatory"),
-    // Email_Address: Yup.string().required("Email Address is mandatory"),
-    Medicaid_ID: Yup.string().required("MemberID Address is mandatory"),
-    Zip_Code: Yup.string().required("Zip code Address is mandatory"),
-    Plan_Effective_Date: Yup.string().required(
-      "Plan Effective Date Address is mandatory",
-    ),
-    Plan_Expiration_Date: Yup.string().required(
-      "Plan Expiration Date Address is mandatory",
-    ),
-    Date_of_Birth: Yup.string().required("Date of Birth Address is mandatory"),
-    Special_Need_Indicator: Yup.string().required(
-      "Special Need Indicator Address is mandatory",
-    ),
+    // Email_ID: conditionalString(
+    //   "Communication_Preference",
+    //   "EMAIL",
+    //   "Email ID is mandatory",
+    // ),
+    // Fax_Number: conditionalString(
+    //   "Communication_Preference",
+    //   "FAX",
+    //   "Fax Number is mandatory",
+    // ),
+    // Member_First_Name: Yup.string().required("Member First Name is mandatory"),
+    // Member_Last_Name: Yup.string().required("Member Last Name is mandatory"),
+    // ContractPlan_ID: Yup.string().required("Contract Plan ID is mandatory"),
+    // Plan_Code: Yup.string().required("Plan Code is mandatory"),
+    // Member_IPA: Yup.string().required("Member IPA is mandatory"),
+    // //PBP: Yup.string().required("PBP is mandatory"),
+    // Primary_Care_Physician_PCP: Yup.string().required(
+    //   "Primary Care Physician PCP is mandatory",
+    // ),
+    // PCP_ID: Yup.string().required("PCP ID is mandatory"),
+    // Members_Age: Yup.string().required("Members Age is mandatory"),
+    // Deceased: Yup.string().required("Deceased is mandatory"),
+    // Gender: Yup.string().required("Gender is mandatory"),
+    // Dual_Plan: Yup.string().required("Dual Plan is mandatory"),
+    // Preferred_Language: Yup.string().required(
+    //   "Preferred Language is mandatory",
+    // ),
+    // Mail_to_Address: Yup.string().required("Mail to Address is mandatory"),
+    // Address_Line_1: Yup.string().required("Address Line 1 is mandatory"),
+    // City: Yup.string().required("City is mandatory"),
+    // State_: Yup.string().required("State is mandatory"),
+    // // Email_Address: Yup.string().required("Email Address is mandatory"),
+    // Medicaid_ID: Yup.string().required("MemberID Address is mandatory"),
+    // Zip_Code: Yup.string().required("Zip code Address is mandatory"),
+    // Plan_Effective_Date: Yup.string().required(
+    //   "Plan Effective Date Address is mandatory",
+    // ),
+    // Plan_Expiration_Date: Yup.string().required(
+    //   "Plan Expiration Date Address is mandatory",
+    // ),
+    // Date_of_Birth: Yup.string().required("Date of Birth Address is mandatory"),
+    // Special_Need_Indicator: Yup.string().required(
+    //   "Special Need Indicator Address is mandatory",
+    // ),
   });
   const expeditedRequestValidationSchema = Yup.object().shape({});
   const claimInformationGridRowValidationSchema = Yup.object().shape({
@@ -499,12 +499,13 @@ export const useCaseHeader = () => {
     const angAuthorizationInformationGrid = getGridDataValues(
       authorizationInformationGrid,
     );
-
+    console.log("angMemberInform",memberInformation)
     const angCaseHeader = trimJsonValues({ ...updatedCaseHeader });
     const angCaseTimelines = trimJsonValues({ ...caseTimelines });
     const angCaseInformation = trimJsonValues({ ...caseInformation });
     const angClaimInformation = trimJsonValues({ ...claimInformation });
     const angMemberInformation = trimJsonValues({ ...memberInformation });
+    console.log("angMemberInformation1",angMemberInformation)
     const angAuthorizationInformation = trimJsonValues({   ...authorizationInformation, });
     const angExpeditedRequest = trimJsonValues({ ...expeditedRequest });
     const angNotes = trimJsonValues({ ...notes });
@@ -517,8 +518,7 @@ export const useCaseHeader = () => {
     apiJson["ANG_Claim_Information_Grid"] = angClaimInformationGrid;
     apiJson["ANG_Provider_Information_Grid"] = angProviderInformationGrid;
     apiJson["ANG_Member_Information"] = angMemberInformation;
-    apiJson["ANG_Representative_Information_Grid"] =
-      angRepresentativeInformationGrid;
+    apiJson["ANG_Representative_Information_Grid"] = angRepresentativeInformationGrid;
     apiJson["ANG_Authorization_Information"] = angAuthorizationInformation;
     apiJson["ANG_Authorization_Information_Grid"] =
       angAuthorizationInformationGrid;
