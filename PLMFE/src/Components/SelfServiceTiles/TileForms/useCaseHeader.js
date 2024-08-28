@@ -272,6 +272,7 @@ export const useCaseHeader = () => {
     ),*/,
   });
   const memberInformationValidationSchema = Yup.object().shape({
+
     Email_ID: conditionalString(
       "Communication_Preference",
       "EMAIL",
@@ -316,6 +317,7 @@ export const useCaseHeader = () => {
     Special_Need_Indicator: Yup.string().required(
       "Special Need Indicator Address is mandatory",
     ),
+
   });
   const expeditedRequestValidationSchema = Yup.object().shape({});
   const notesValidationSchema = Yup.object().shape({
@@ -514,15 +516,20 @@ export const useCaseHeader = () => {
     const angAuthorizationInformationGrid = getGridDataValues(
       authorizationInformationGrid,
     );
-
+    console.log("angMemberInform",memberInformation)
     const angCaseHeader = trimJsonValues({ ...updatedCaseHeader });
     const angCaseTimelines = trimJsonValues({ ...caseTimelines });
     const angCaseInformation = trimJsonValues({ ...caseInformation });
     const angClaimInformation = trimJsonValues({ ...claimInformation });
     const angMemberInformation = trimJsonValues({ ...memberInformation });
+
+    console.log("angMemberInformation1",angMemberInformation)
+    const angAuthorizationInformation = trimJsonValues({   ...authorizationInformation, });
+
     const angAuthorizationInformation = trimJsonValues({
       ...authorizationInformation,
     });
+
     const angExpeditedRequest = trimJsonValues({ ...expeditedRequest });
     const angNotes = trimJsonValues({ ...notes });
 
@@ -533,8 +540,7 @@ export const useCaseHeader = () => {
     apiJson["ANG_Claim_Information_Grid"] = angClaimInformationGrid;
     apiJson["ANG_Provider_Information_Grid"] = angProviderInformationGrid;
     apiJson["ANG_Member_Information"] = angMemberInformation;
-    apiJson["ANG_Representative_Information_Grid"] =
-      angRepresentativeInformationGrid;
+    apiJson["ANG_Representative_Information_Grid"] = angRepresentativeInformationGrid;
     apiJson["ANG_Authorization_Information"] = angAuthorizationInformation;
     apiJson["ANG_Authorization_Information_Grid"] =
       angAuthorizationInformationGrid;

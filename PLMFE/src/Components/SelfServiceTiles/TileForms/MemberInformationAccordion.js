@@ -19,11 +19,9 @@ const MemberInformationAccordion = (props) => {
   const angDeceasedSelector = useSelector((state) => state?.masterAngDeceased);
   const angGenderSelector = useSelector((state) => state?.masterAngGender);
   const angDualSelector = useSelector((state) => state?.masterAngDualPlan);
-  const mailToAddSelector = useSelector(
-    (state) => state?.masterAngMailToAddress,
+  const mailToAddSelector = useSelector((state) => state?.masterAngMailToAddress,
   );
-  const angPrefSelector = useSelector(
-    (state) => state?.masterAngPreferredLanguage,
+  const angPrefSelector = useSelector((state) => state?.masterAngPreferredLanguage,
   );
   const commAngPrefSelector = useSelector((state) => state?.masterAngCommPref);
   const token = useSelector((state) => state.auth.token);
@@ -73,7 +71,7 @@ const MemberInformationAccordion = (props) => {
   };
 
   const handleWhiteGloveChange = (e) => {
-    console.log("shivani1111", e);
+
     const isChecked = e.target.checked;
     setWhiteGloveIndicator(isChecked);
     setWhiteGloveIndicatorInitialized(true);
@@ -82,8 +80,6 @@ const MemberInformationAccordion = (props) => {
     } else {
       setWhiteGloveReason("");
     }
-
-    //handleMemberInformationData("White_Glove_Indicator", e.target.checked, true);
   };
 
   const renderInputField = (name, placeholder, maxLength) => (
@@ -443,7 +439,7 @@ const MemberInformationAccordion = (props) => {
             <div className="row my-2">
               {renderInputField("Address_Line_1", "Address Line 1", 100)}
               {renderInputField("Address_Line_2", "Address Line 2", 100)}
-              {renderInputField("Action", "Action", 50)}
+              {renderInputField("Zip_Code", "Zip Code", 50)}
             </div>
             <div className="row my-2">
               {renderInputField("City", "City", 50)}
@@ -460,7 +456,11 @@ const MemberInformationAccordion = (props) => {
               {renderInputField("Fax_Number", "Fax Number", 50)}
             </div>
             <div className="row my-2">
-              {renderInputField("Zip_Code", "Zip Code", 50)}
+
+            {renderInputField("Action", "Action", 50)}
+                <div className="col-xs-6 col-md-4"
+                 style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <label style={{ display: 'flex', alignItems: 'center' }}>
               <div
                 className="col-xs-6 col-md-4"
                 style={{
@@ -470,6 +470,7 @@ const MemberInformationAccordion = (props) => {
                 }}
               >
                 <label style={{ display: "flex", alignItems: "center" }}>
+
                   <input
                     type="checkbox"
                     checked={whiteGloveIndicator}
@@ -484,12 +485,16 @@ const MemberInformationAccordion = (props) => {
             <div className="form-floating">
               <input
                 id="WhiteGloveReason"
+                name="WhiteGloveReason"
                 maxLength="4000"
                 type="text"
                 className="form-control"
                 placeholder="White Glove Reason"
                 value={whiteGloveReason}
-                onChange={(e) => setWhiteGloveReason(e.target.value)}
+                onChange={ 
+                  (e) => { console.log("Input value:", e.target.value)
+                     setWhiteGloveReason(e.target.value)}}
+                // onChange={(e) => handleMemberInformationData("WhiteGloveReason", e.target.value, true)}
                 disabled={!whiteGloveIndicator}
               />
               <label>White Glove Reason</label>
@@ -502,6 +507,7 @@ const MemberInformationAccordion = (props) => {
             <div className="form-floating">
               <input
                 id="WhiteGloveCancelledReason"
+                name = "WhiteGloveCancelledReason"
                 maxLength="4000"
                 type="text"
                 className="form-control"
