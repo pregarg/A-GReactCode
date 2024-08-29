@@ -202,9 +202,12 @@ export const useCaseHeader = () => {
     AOR_Received_Date: Yup.date()
       .required("AOR Received Date is mandatory")
       .max(new Date(), "AOR Received Date cannot be in future"),
-    WOL_Received_Date: Yup.date()
-      .required("WOL Received Date is mandatory")
-      .max(new Date(), "WOL Received Date cannot be in future"),
+    WOL_Received_Date: Yup.date().when('Case_Received_Date', {
+      is: (value) => !!value,
+      then: (schema) => schema.required("WOL Received Date is mandatory")
+          .max(new Date(), "WOL Received Date cannot be in future"),
+      otherwise: (schema) => schema.notRequired(),
+    })
   });
   const caseInformationValidationSchema = Yup.object().shape({
     Line_of_Business_LOB: Yup.string().required(
