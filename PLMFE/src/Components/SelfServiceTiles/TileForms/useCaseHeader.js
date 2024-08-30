@@ -327,78 +327,78 @@ export const useCaseHeader = () => {
     Case_Notes: Yup.string().required("Case Notes is mandatory"),
   });
   const claimInformationGridRowValidationSchema = Yup.object().shape({
-    Filed_Timely: Yup.string().required(
-        "Filed Timely Address is mandatory",
-    ),
-    Grant_Good_Cause: conditionalString(
-      "Filed_Timely",
-      "NO",
-      "Grant Good Cause is mandatory",
-    ),
-    Good_Cause_Reason: conditionalString(
-      "Grant_Good_Cause",
-      "YES",
-      "Grant Good Reason is mandatory",
-    ),
+    // Filed_Timely: Yup.string().required(
+    //     "Filed Timely Address is mandatory",
+    // ),
+    // Grant_Good_Cause: conditionalString(
+    //   "Filed_Timely",
+    //   "NO",
+    //   "Grant Good Cause is mandatory",
+    // ),
+    // Good_Cause_Reason: conditionalString(
+    //   "Grant_Good_Cause",
+    //   "YES",
+    //   "Grant Good Reason is mandatory",
+    // ),
   });
   const providerInformationGridValidationSchema = Yup.object().shape({
-    Point_of_Contact: Yup.string().required("Point of Contact is mandatory"),
-    Sequential_Provider_ID: Yup.string().required(
-       "Sequential Provider ID is mandatory",
-    ),
-    Provider_Name: Yup.string().required("Provider Name is mandatory"),
-    Provider_TIN: Yup.string().required("Provider TIN is mandatory"),
-    Participating_Provider: Yup.string().required(
-      "Participating Provider is mandatory",
-    ),
-    Provider_Type: Yup.string().required("Provider Type is mandatory"),
-    Provider_Vendor_Specialty: Yup.string().required(
-       "Provider Vendor Specialty is mandatory",
-    ),
-    Mail_to_Address: Yup.string().required("Mail to Address is mandatory"),
-    Address_Line_1: Yup.string().required("Address Line 1 is mandatory"),
-    City: Yup.string().required("City is mandatory"),
-    State: Yup.string().required("State is mandatory"),
-    Zip_Code: Yup.string().required("Zip Code is mandatory"),
-    Provider_ID: Yup.string().required("Provider ID is mandatory"),
-    NPI_ID: Yup.string().required("NPI ID is mandatory"),
-    Par_Provider_Start_Date: Yup.string().required(
-       "Par Provider Start Date is mandatory",
-    ),
-    Par_Provider_End_Date: Yup.string().required(
-      "Par Provider End Date is mandatory",
-    ),
-    Vendor_ID: Yup.string().required("Vendor ID is mandatory"),
-    Vendor_Name: Yup.string().required("Vendor_Name is mandatory"),
-    Email_Address: conditionalString(
-      "Communication_Preference",
-      "EMAIL",
-      "Email Address is mandatory",
-    ),
-    Fax_Number: conditionalString(
-      "Communication_Preference",
-      "FAX",
-      "Fax Number is mandatory",
-    ),
-    Provider_Contact_Name: conditionalString(
-      "Mail_to_Address",
-      "ALTERNATE",
-      "Provider Contact Name is mandatory",
-    ),
+    // Point_of_Contact: Yup.string().required("Point of Contact is mandatory"),
+    // Sequential_Provider_ID: Yup.string().required(
+    //    "Sequential Provider ID is mandatory",
+    // ),
+    // Provider_Name: Yup.string().required("Provider Name is mandatory"),
+    // Provider_TIN: Yup.string().required("Provider TIN is mandatory"),
+    // Participating_Provider: Yup.string().required(
+    //   "Participating Provider is mandatory",
+    // ),
+    // Provider_Type: Yup.string().required("Provider Type is mandatory"),
+    // Provider_Vendor_Specialty: Yup.string().required(
+    //    "Provider Vendor Specialty is mandatory",
+    // ),
+    // Mail_to_Address: Yup.string().required("Mail to Address is mandatory"),
+    // Address_Line_1: Yup.string().required("Address Line 1 is mandatory"),
+    // City: Yup.string().required("City is mandatory"),
+    // State: Yup.string().required("State is mandatory"),
+    // Zip_Code: Yup.string().required("Zip Code is mandatory"),
+    // Provider_ID: Yup.string().required("Provider ID is mandatory"),
+    // NPI_ID: Yup.string().required("NPI ID is mandatory"),
+    // Par_Provider_Start_Date: Yup.string().required(
+    //    "Par Provider Start Date is mandatory",
+    // ),
+    // Par_Provider_End_Date: Yup.string().required(
+    //   "Par Provider End Date is mandatory",
+    // ),
+    // Vendor_ID: Yup.string().required("Vendor ID is mandatory"),
+    // Vendor_Name: Yup.string().required("Vendor_Name is mandatory"),
+    // Email_Address: conditionalString(
+    //   "Communication_Preference",
+    //   "EMAIL",
+    //   "Email Address is mandatory",
+    // ),
+    // Fax_Number: conditionalString(
+    //   "Communication_Preference",
+    //   "FAX",
+    //   "Fax Number is mandatory",
+    // ),
+    // Provider_Contact_Name: conditionalString(
+    //   "Mail_to_Address",
+    //   "ALTERNATE",
+    //   "Provider Contact Name is mandatory",
+    // ),
   });
   const authorizationInformationGridValidationSchema = Yup.object().shape({});
   const representativeInformationGridValidationSchema = Yup.object().shape({
-    Communication_Preference: Yup.string().required("Communication Preference is mandatory"),
-    Email_Address: conditionalString(
-      "Communication_Preference",
-      "EMAIL",
-      "Email Address is mandatory",
-    ),
-    Fax_Number: conditionalString(
-      "Communication_Preference",
-      "FAX",
-      "Fax Number is mandatory",
-    ),
+    // Communication_Preference: Yup.string().required("Communication Preference is mandatory"),
+    // Email_Address: conditionalString(
+    //   "Communication_Preference",
+    //   "EMAIL",
+    //   "Email Address is mandatory",
+    // ),
+    // Fax_Number: conditionalString(
+    //   "Communication_Preference",
+    //   "FAX",
+    //   "Fax Number is mandatory",
+    // ),
   });
 
   const [caseTimelinesErrors, setCaseTimelinesErrors] = useState([]);
@@ -1056,13 +1056,13 @@ export const useCaseHeader = () => {
         const caseAgingInDays = Math.floor(
           timeDifference / (1000 * 60 * 60 * 24)
         );
-        const complianceTime = `${daysLeft}d ${hoursLeft}h ${minutesLeft}m ${secondsLeft}s`;
+        const complianceTime = `${daysLeft}d${hoursLeft}h${minutesLeft}m`;
 
         setCaseTimelines((prevState) => ({
           ...prevState,
           ...(data?.["angCaseTimelines"]?.[0] || {}),
           Case_Aging: caseAgingInDays + " days",
-         Compliance_Time_Left_to_Finish: complianceTime + " remaining",
+         Compliance_Time_Left_to_Finish: complianceTime,
         }));
 
         // Update other state values
