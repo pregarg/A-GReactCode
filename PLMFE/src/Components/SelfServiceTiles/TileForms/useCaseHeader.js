@@ -128,8 +128,8 @@ export const useCaseHeader = () => {
     Special_Need_Indicator: "",
     State_: "",
     Zip_Code: "",
-    //WhiteGloveReason: "",
-    //WhiteGloveCancelledReason: "",
+    WhiteGloveReason: "",
+    WhiteGloveCancelledReason: "",
   });
   const [expeditedRequest, setExpeditedRequest] = useState({
     Expedited_Requested: "",
@@ -202,12 +202,9 @@ export const useCaseHeader = () => {
     AOR_Received_Date: Yup.date()
       .required("AOR Received Date is mandatory")
       .max(new Date(), "AOR Received Date cannot be in future"),
-    WOL_Received_Date: Yup.date().when('Case_Received_Date', {
-      is: (value) => !!value,
-      then: (schema) => schema.required("WOL Received Date is mandatory")
-          .max(new Date(), "WOL Received Date cannot be in future"),
-      otherwise: (schema) => schema.notRequired(),
-    })
+    WOL_Received_Date: Yup.date()
+      .required("WOL Received Date is mandatory")
+      .max(new Date(), "WOL Received Date cannot be in future"),
   });
   const caseInformationValidationSchema = Yup.object().shape({
     Line_of_Business_LOB: Yup.string().required(
@@ -254,22 +251,22 @@ export const useCaseHeader = () => {
       "NOT ADJUSTED",
       "Reason Text is mandatory",
     ) /*
-    // Decision_Reason: conditionalActivateOnStage(
-    //   pair1,
-    //   "Decision Reason is mandatory",
-    // ),
-    // Payment_Number: conditionalActivateOnStage(
-    //   pair1,
-    //   "Payment Number is mandatory",
-    // ),
-    // Effectuation_Notes: conditionalActivateOnStage(
-    //   pair1,
-    //   "Effectuation Notes is mandatory",
-    // ),
-    // Claim_Adjusted_Date: conditionalActivateOnStage(
-    //   pair1,
-    //   "Claim Adjusted Date is mandatory",
-    // ),
+    Decision_Reason: conditionalActivateOnStage(
+      pair1,
+      "Decision Reason is mandatory",
+    ),
+    Payment_Number: conditionalActivateOnStage(
+      pair1,
+      "Payment Number is mandatory",
+    ),
+    Effectuation_Notes: conditionalActivateOnStage(
+      pair1,
+      "Effectuation Notes is mandatory",
+    ),
+    Claim_Adjusted_Date: conditionalActivateOnStage(
+      pair1,
+      "Claim Adjusted Date is mandatory",
+    ),
     Payment_Mail_Date_Postmark: Yup.date().required(
       "Payment Mail Date Postmark is mandatory",
     ),*/,
@@ -327,19 +324,19 @@ export const useCaseHeader = () => {
     Case_Notes: Yup.string().required("Case Notes is mandatory"),
   });
   const claimInformationGridRowValidationSchema = Yup.object().shape({
-    // Filed_Timely: Yup.string().required(
-    //     "Filed Timely Address is mandatory",
-    // ),
-    // Grant_Good_Cause: conditionalString(
-    //   "Filed_Timely",
-    //   "NO",
-    //   "Grant Good Cause is mandatory",
-    // ),
-    // Good_Cause_Reason: conditionalString(
-    //   "Grant_Good_Cause",
-    //   "YES",
-    //   "Grant Good Reason is mandatory",
-    // ),
+    /*Filed_Timely: Yup.string().required(
+        "Filed Timely Address is mandatory",
+    ),
+    Grant_Good_Cause: conditionalString(
+      "Filed_Timely",
+      "NO",
+      "Grant Good Cause is mandatory",
+    ),
+    Good_Cause_Reason: conditionalString(
+      "Grant_Good_Cause",
+      "YES",
+      "Grant Good Reason is mandatory",
+    ),*/
   });
   const providerInformationGridValidationSchema = Yup.object().shape({
     // Point_of_Contact: Yup.string().required("Point of Contact is mandatory"),
@@ -370,35 +367,35 @@ export const useCaseHeader = () => {
     // ),
     // Vendor_ID: Yup.string().required("Vendor ID is mandatory"),
     // Vendor_Name: Yup.string().required("Vendor_Name is mandatory"),
-    // Email_Address: conditionalString(
-    //   "Communication_Preference",
-    //   "EMAIL",
-    //   "Email Address is mandatory",
-    // ),
-    // Fax_Number: conditionalString(
-    //   "Communication_Preference",
-    //   "FAX",
-    //   "Fax Number is mandatory",
-    // ),
-    // Provider_Contact_Name: conditionalString(
-    //   "Mail_to_Address",
-    //   "ALTERNATE",
-    //   "Provider Contact Name is mandatory",
-    // ),
+    Email_Address: conditionalString(
+      "Communication_Preference",
+      "EMAIL",
+      "Email Address is mandatory",
+    ),
+    Fax_Number: conditionalString(
+      "Communication_Preference",
+      "FAX",
+      "Fax Number is mandatory",
+    ),
+    Provider_Contact_Name: conditionalString(
+      "Mail_to_Address",
+      "ALTERNATE",
+      "Provider Contact Name is mandatory",
+    ),
   });
   const authorizationInformationGridValidationSchema = Yup.object().shape({});
   const representativeInformationGridValidationSchema = Yup.object().shape({
     // Communication_Preference: Yup.string().required("Communication Preference is mandatory"),
-    // Email_Address: conditionalString(
-    //   "Communication_Preference",
-    //   "EMAIL",
-    //   "Email Address is mandatory",
-    // ),
-    // Fax_Number: conditionalString(
-    //   "Communication_Preference",
-    //   "FAX",
-    //   "Fax Number is mandatory",
-    // ),
+    Email_Address: conditionalString(
+      "Communication_Preference",
+      "EMAIL",
+      "Email Address is mandatory",
+    ),
+    Fax_Number: conditionalString(
+      "Communication_Preference",
+      "FAX",
+      "Fax Number is mandatory",
+    ),
   });
 
   const [caseTimelinesErrors, setCaseTimelinesErrors] = useState([]);
@@ -527,7 +524,7 @@ export const useCaseHeader = () => {
     const angMemberInformation = trimJsonValues({ ...memberInformation });
 
     console.log("angMemberInformation1",angMemberInformation)
-    const angAuthorizationInformation = trimJsonValues({   ...authorizationInformation, });
+  //  const angAuthorizationInformation = trimJsonValues({   ...authorizationInformation, });
 
     const angAuthorizationInformation = trimJsonValues({
       ...authorizationInformation,
@@ -717,10 +714,15 @@ export const useCaseHeader = () => {
     setResponseData([]);
   };
 
-  const handleShowNotesHistory= () => {
-    setShowNotesHistory(true)
-    if (notes.Case_Notes || notes.Internal_Notes || memberInformation.WhiteGloveReason || memberInformation.WhiteGloveCancelledReason) {
-      populateModalTable("NOTESHISTORY",location.state.caseNumber);
+  const handleShowNotesHistory = () => {
+    setShowNotesHistory(true);
+    if (
+      notes.Case_Notes ||
+      notes.Internal_Notes ||
+      memberInformation.WhiteGloveReason ||
+      memberInformation.WhiteGloveCancelledReason
+    ) {
+      populateModalTable("NOTESHISTORY", location.state.caseNumber);
     }
   };
   const handleCloseNotesHistory = () => {
@@ -842,6 +844,7 @@ export const useCaseHeader = () => {
 
       let resApiData = res.data.CallProcedure_Output?.data || [];
       resApiData = resApiData?.length > 0 ? resApiData : [];
+      console.log("resApiData--->",resApiData)
 
       if (resApiData.length > 0) {
         const respKeys = Object.keys(resApiData);
@@ -1029,12 +1032,21 @@ export const useCaseHeader = () => {
           const internalDueDateString = extractDate(internalDate);
           const finalcaseReceivedDate = extractDate(caseReceivedDate);
 
-          const timeLeft = dueDate - currentDate
+          const timeLeft = dueDate - currentDate;
 
           daysLeft = Math.max(Math.floor(timeLeft / (1000 * 60 * 60 * 24)), 0);
-          hoursLeft = Math.max(Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)), 0);
-          minutesLeft = Math.max(Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60)), 0);
-          secondsLeft = Math.max(Math.floor((timeLeft % (1000 * 60)) / 1000), 0);
+          hoursLeft = Math.max(
+            Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+            0,
+          );
+          minutesLeft = Math.max(
+            Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60)),
+            0,
+          );
+          secondsLeft = Math.max(
+            Math.floor((timeLeft % (1000 * 60)) / 1000),
+            0,
+          );
 
           setCaseHeader((prevState) => ({
             ...prevState,
@@ -1054,19 +1066,19 @@ export const useCaseHeader = () => {
         // Calculate case aging
         const timeDifference = currentDate - caseReceivedDate;
         const caseAgingInDays = Math.floor(
-          timeDifference / (1000 * 60 * 60 * 24)
+          timeDifference / (1000 * 60 * 60 * 24),
         );
-        const complianceTime = `${daysLeft}d${hoursLeft}h${minutesLeft}m`;
+        const complianceTime = `${daysLeft}d ${hoursLeft}h ${minutesLeft}m ${secondsLeft}s`;
 
         setCaseTimelines((prevState) => ({
           ...prevState,
           ...(data?.["angCaseTimelines"]?.[0] || {}),
           Case_Aging: caseAgingInDays + " days",
-         Compliance_Time_Left_to_Finish: complianceTime,
+          Compliance_Time_Left_to_Finish: complianceTime + " remaining",
         }));
 
         // Update other state values
-       // setCaseTimelines(data?.["angCaseTimelines"]?.[0] || {});
+        // setCaseTimelines(data?.["angCaseTimelines"]?.[0] || {});
         setCaseInformation(data?.["angCaseInformation"]?.[0] || {});
         setClaimInformation(data?.["angClaimInformation"]?.[0] || {});
         setClaimInformationGrid(data?.["angClaimInformationGrid"] || []);
