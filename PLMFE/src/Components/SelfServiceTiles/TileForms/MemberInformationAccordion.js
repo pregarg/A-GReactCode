@@ -32,9 +32,8 @@ const MemberInformationAccordion = (props) => {
   const { customAxios: axios } = useAxios();
   const [selectedAddress, setSelectedAddress] = useState([]);
   const [whiteGloveIndicator, setWhiteGloveIndicator] = useState(false);
-  const [whiteGloveReason, setWhiteGloveReason] = useState("");
-  const [whiteGloveCancelledReason, setWhiteGloveCancelledReason] =
-    useState("");
+  // const [whiteGloveReason, setWhiteGloveReason] = useState("");
+  // const [whiteGloveCancelledReason, setWhiteGloveCancelledReason] = useState("");
   const [whiteGloveIndicatorInitialized, setWhiteGloveIndicatorInitialized] =
     useState(false);
 
@@ -66,20 +65,21 @@ const MemberInformationAccordion = (props) => {
       props.setMemberInformationData(newData);
     }
   };
+
+
   const persistMemberInformationData = () => {
     props.setMemberInformationData(memberInformationData);
   };
 
   const handleWhiteGloveChange = (e) => {
-
     const isChecked = e.target.checked;
-    setWhiteGloveIndicator(isChecked);
-    setWhiteGloveIndicatorInitialized(true);
-    if (isChecked) {
-      setWhiteGloveCancelledReason("");
-    } else {
-      setWhiteGloveReason("");
-    }
+       setWhiteGloveIndicator(isChecked);
+       setWhiteGloveIndicatorInitialized(true);
+    // if (isChecked) {
+    //   setWhiteGloveCancelledReason("");
+    // } else {
+    //   setWhiteGloveReason("");
+    // }
   };
 
   const renderInputField = (name, placeholder, maxLength) => (
@@ -458,9 +458,7 @@ const MemberInformationAccordion = (props) => {
             <div className="row my-2">
 
             {renderInputField("Action", "Action", 50)}
-                <div className="col-xs-6 col-md-4"
-                 style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <label style={{ display: 'flex', alignItems: 'center' }}>
+               
               <div
                 className="col-xs-6 col-md-4"
                 style={{
@@ -469,13 +467,13 @@ const MemberInformationAccordion = (props) => {
                   alignItems: "center",
                 }}
               >
-                <label style={{ display: "flex", alignItems: "center" }}>
+                <label>
 
                   <input
                     type="checkbox"
                     checked={whiteGloveIndicator}
                     onChange={handleWhiteGloveChange}
-                    disabled={invalidInputState}
+                    disabled={""}
                     style={{ marginRight: "8px" }}
                   />
                   White Glove Indicator?
@@ -490,11 +488,16 @@ const MemberInformationAccordion = (props) => {
                 type="text"
                 className="form-control"
                 placeholder="White Glove Reason"
-                value={whiteGloveReason}
-                onChange={ 
-                  (e) => { console.log("Input value:", e.target.value)
-                     setWhiteGloveReason(e.target.value)}}
-                // onChange={(e) => handleMemberInformationData("WhiteGloveReason", e.target.value, true)}
+                // value={whiteGloveReason}
+               value = {memberInformationData.WhiteGloveReason || ""}
+                onChange={(e) => {
+                  console.log("Input value:", e.target.value);
+                  handleMemberInformationData("WhiteGloveReason", e.target.value);
+                }}
+                // onChange={ 
+                //   (e) => { console.log("Input value:", e.target.value)
+                //      setWhiteGloveReason(e.target.value)}}
+              
                 disabled={!whiteGloveIndicator}
               />
               <label>White Glove Reason</label>
@@ -512,8 +515,12 @@ const MemberInformationAccordion = (props) => {
                 type="text"
                 className="form-control"
                 placeholder="White Glove Cancelled Reason"
-                value={whiteGloveCancelledReason}
-                onChange={(e) => setWhiteGloveCancelledReason(e.target.value)}
+                value={memberInformationData.WhiteGloveCancelledReason || ""}
+                // onChange={(e) => setWhiteGloveCancelledReason(e.target.value)}
+                onChange={(e) => {
+                  console.log("Input value:", e.target.value);
+                  handleMemberInformationData("WhiteGloveCancelledReason", e.target.value);
+                }}
                 disabled={
                   whiteGloveIndicator || !whiteGloveIndicatorInitialized
                 }
@@ -544,6 +551,7 @@ const MemberInformationAccordion = (props) => {
         )}
       </div>
     </div>
+
   );
 };
 export default MemberInformationAccordion;

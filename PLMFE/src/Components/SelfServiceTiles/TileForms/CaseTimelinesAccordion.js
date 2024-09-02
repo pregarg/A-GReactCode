@@ -14,7 +14,7 @@ const CaseTimelinesAccordion = (props) => {
     process.env.REACT_APP_CASEHEADER_DETAILS || "{}",
   );
   const stageName = caseHeaderConfigData["StageName"];
-
+  
   const { convertToCase } = useGetDBTables();
   const masterAngCaseFilingMethodSelector = useSelector(
     (state) => state?.masterAngCaseFilingMethod,
