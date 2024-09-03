@@ -838,6 +838,7 @@ export const useCaseHeader = () => {
     }
 
     try {
+      
       let res = await customAxios.post("/generic/callProcedure", getApiJson, {
         headers: { Authorization: `Bearer ${token}` },
       });

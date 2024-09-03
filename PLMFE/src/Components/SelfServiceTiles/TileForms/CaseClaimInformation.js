@@ -799,6 +799,7 @@ const CaseClaimInformation = (props) => {
                 "Service End Date",
                 "Service End Date",
               )}
+             
             </div>
             {shouldHideFields && (
               <div className="row my-2">
@@ -871,6 +872,10 @@ const CaseClaimInformation = (props) => {
                   "Service Type",
                   serviceTypeValues,
                 )}
+                
+            </div>
+            <div className="row my-2">
+            {renderDatePicker("Denied_As_Of_Date ", "Denied As Of Date ", "Denied As Of Date")}
             </div>
 
             <div className="row">
