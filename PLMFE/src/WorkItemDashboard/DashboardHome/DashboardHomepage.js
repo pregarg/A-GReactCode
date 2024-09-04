@@ -752,6 +752,7 @@ export default function DashboardHomepage() {
         "ancillary/facility modification":
           "/DashboardLogin/AncillaryFacilityModification",
         appeals: "/DashboardLogin/Appeals",
+        providerDisputes: "/DashboardLogin/ProviderDisputes",
         "payto modification": "/DashboardLogin/GroupPayToModification",
         "address modification": "/DashboardLogin/GroupAddressModification",
         "provider contracting": "/ContractingHome/ProviderContracting",
@@ -1595,11 +1596,27 @@ export default function DashboardHomepage() {
                     <ListItemText
                       secondary={
                         <Typography {...innerTypoStyles}>
-                          Appeal Cases
+                          Appeals
                         </Typography>
                       }
                     />
                   </ListItemButton>
+                  <ListItemButton
+                    sx={{ ml: 4, fontSize: "25px" }}
+                    onClick={() => {
+                      formNavigation("ProviderDisputes");
+                    }}
+                  >
+                    <ListItemIcon>{<TbAmbulance />}</ListItemIcon>
+                    <ListItemText
+                      secondary={
+                        <Typography {...innerTypoStyles}>
+                          Provider Disputes
+                        </Typography>
+                      }
+                    />
+                  </ListItemButton>
+
                   <ListItemButton
                     sx={{ ml: 4, fontSize: "25px" }}
                     onClick={() => formNavigation("Termination")}
