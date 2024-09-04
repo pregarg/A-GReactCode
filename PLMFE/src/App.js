@@ -16,6 +16,7 @@ import BulkHealth from "./Components/SelfServiceTiles/TileForms/BulkHealth";
 import ProviderDemo from "./Components/SelfServiceTiles/TileForms/ProviderDemo";
 import AncFacDemo from "./Components/SelfServiceTiles/TileForms/AncFacDemo";
 import CaseHeader from "./Components/SelfServiceTiles/TileForms/CaseHeader";
+import ProviderDisputes from "./Components/SelfServiceTiles/TileForms/ProviderDisputes";
 import GroupPayTo from "./Components/SelfServiceTiles/TileForms/GroupPayTo";
 import GroupAddress from "./Components/SelfServiceTiles/TileForms/GroupAddress";
 import GroupTermination from "./Components/SelfServiceTiles/TileForms/GroupTermination";
@@ -98,6 +99,12 @@ function App() {
                   ></Route>,
                   // <Route exact path="GroupPayToModification" element = {<GroupPayTo />} key={'groupPay'}></Route>,
                   // <Route exact path="GroupAddressModification" element = {<GroupAddress />} key={'groupAddress'}></Route>,
+                  <Route
+                    exact
+                    path="ProviderDisputes"
+                    element={<ProviderDisputes />}
+                    key={"providerDisputes"}
+                  ></Route>,
                   <Route
                     exact
                     path="GroupTermination"
@@ -193,6 +200,13 @@ function App() {
                   <Route path="" element={<CaseHeader />} key={"dash"}></Route>,
                 ]}
               ></Route>,
+              <Route
+              path="ProviderDisputes"
+              element={<Layout />}
+              children={[
+                <Route path="" element={<ProviderDisputes />} key={"dash"}></Route>,
+              ]}
+            ></Route>,
               // <Route
               //  path='GroupPayToModification'
               //  element = {<Layout/>}
