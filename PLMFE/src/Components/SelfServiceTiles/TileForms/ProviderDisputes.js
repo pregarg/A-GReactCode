@@ -23,9 +23,10 @@ import { useLocation } from "react-router-dom";
 import Member360 from "../TileForms/Member360";
 import Provider360 from "../TileForms/Provider360";
 import NotesHistory from "../TileForms/NotesHistory";
+import { RenderType } from "./Constants";
 
 const ProviderDisputes = () => {
- // CaseHeader.displayName = "Appeals";
+  // CaseHeader.displayName = "Appeals";
   const caseHeaderConfigData = JSON.parse(
     process.env.REACT_APP_CASEHEADER_DETAILS,
   );
@@ -124,6 +125,7 @@ const ProviderDisputes = () => {
                 caseTimelinesValidationSchema={caseTimelinesValidationSchema}
                 caseTimelinesErrors={caseTimelinesErrors}
                 shouldShowSubmitError={shouldShowSubmitError}
+                renderType={RenderType.PROVIDER_DISPUTE}
               />
               <CaseInformationAccordion
                 caseInformationData={caseInformation}
@@ -205,7 +207,7 @@ const ProviderDisputes = () => {
               {location.state.formView === "DashboardHomeView" && (
                 <DocumentSection
                   fileDataRef={documentSectionDataRef.current}
-                //  displayName={CaseHeader.displayName}
+                  //  displayName={CaseHeader.displayName}
                   stageName={caseHeaderConfigData["StageName"]}
                 />
               )}

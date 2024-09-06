@@ -1595,9 +1595,7 @@ export default function DashboardHomepage() {
                     <ListItemIcon>{<TbAmbulance />}</ListItemIcon>
                     <ListItemText
                       secondary={
-                        <Typography {...innerTypoStyles}>
-                          Appeals
-                        </Typography>
+                        <Typography {...innerTypoStyles}>Appeals</Typography>
                       }
                     />
                   </ListItemButton>

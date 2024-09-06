@@ -201,12 +201,16 @@ function App() {
                 ]}
               ></Route>,
               <Route
-              path="ProviderDisputes"
-              element={<Layout />}
-              children={[
-                <Route path="" element={<ProviderDisputes />} key={"dash"}></Route>,
-              ]}
-            ></Route>,
+                path="ProviderDisputes"
+                element={<Layout />}
+                children={[
+                  <Route
+                    path=""
+                    element={<ProviderDisputes />}
+                    key={"dash"}
+                  ></Route>,
+                ]}
+              ></Route>,
               // <Route
               //  path='GroupPayToModification'
               //  element = {<Layout/>}
