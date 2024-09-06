@@ -23,6 +23,7 @@ import { useLocation } from "react-router-dom";
 import Member360 from "../TileForms/Member360";
 import Provider360 from "../TileForms/Provider360";
 import NotesHistory from "../TileForms/NotesHistory";
+import { RenderType } from "./Constants";
 
 const CaseHeader = () => {
   CaseHeader.displayName = "Appeals";
@@ -124,6 +125,7 @@ const CaseHeader = () => {
                 caseTimelinesValidationSchema={caseTimelinesValidationSchema}
                 caseTimelinesErrors={caseTimelinesErrors}
                 shouldShowSubmitError={shouldShowSubmitError}
+                renderType={RenderType.APPEALS}
               />
               <CaseInformationAccordion
                 caseInformationData={caseInformation}

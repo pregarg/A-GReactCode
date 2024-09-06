@@ -7,6 +7,7 @@ import "./Appeals.css";
 import { FormikInputField } from "../Common/FormikInputField";
 import { FormikDatePicker } from "../Common/FormikDatePicker";
 import { FormikSelectField } from "../Common/FormikSelectField";
+import { chunkArray, RenderType } from "./Constants";
 
 const CaseTimelinesAccordion = (props) => {
   const location = useLocation();
@@ -14,7 +15,7 @@ const CaseTimelinesAccordion = (props) => {
     process.env.REACT_APP_CASEHEADER_DETAILS || "{}",
   );
   const stageName = caseHeaderConfigData["StageName"];
-  
+
   const { convertToCase } = useGetDBTables();
   const masterAngCaseFilingMethodSelector = useSelector(
     (state) => state?.masterAngCaseFilingMethod,
@@ -48,10 +49,10 @@ const CaseTimelinesAccordion = (props) => {
         onChange={handleCaseTimelinesData}
         displayErrors={props.shouldShowSubmitError}
         disabled={
+          props.renderType === RenderType.APPEALS &&
           (location.state.formView === "DashboardView" ||
             location.state.formView === "DashboardHomeView") &&
           ((stageName === "Start" && name !== "Acknowledgment_Timely") ||
-            // && name !== "Case_in_Compliance" && name !== "Out_of_Compliance_Reason"
             location.state.stageName === "Intake" ||
             location.state.stageName === "Acknowledge" ||
             location.state.stageName === "Redirect Review" ||
@@ -80,7 +81,8 @@ const CaseTimelinesAccordion = (props) => {
         onChange={handleCaseTimelinesData}
         displayErrors={props.shouldShowSubmitError}
         disabled={
-          (location.state.formView === "DashboardView" &&
+          (props.renderType === RenderType.APPEALS &&
+            location.state.formView === "DashboardView" &&
             (location.state.stageName === "Redirect Review" ||
               location.state.stageName === "Effectuate" ||
               location.state.stageName === "Pending Effectuate" ||
@@ -106,6 +108,7 @@ const CaseTimelinesAccordion = (props) => {
         onChange={handleCaseTimelinesData}
         displayErrors={props.shouldShowSubmitError}
         disabled={
+          props.renderType === RenderType.APPEALS &&
           location.state.formView === "DashboardView" &&
           (location.state.stageName === "Redirect Review" ||
             location.state.stageName === "Documents Needed" ||
@@ -135,6 +138,114 @@ const CaseTimelinesAccordion = (props) => {
     }
   }, []);
 
+  const fields = [
+    {
+      type: "select",
+      name: "Case_Filing_Method",
+      placeholder: "Case Filing Method",
+      values: caseFilingMethodValues,
+      renderTypes: [RenderType.APPEALS],
+    },
+    {
+      type: "input",
+      name: "Case_Aging",
+      placeholder: "Case Aging",
+      maxLength: 16,
+      renderTypes: [RenderType.APPEALS, RenderType.PROVIDER_DISPUTE],
+    },
+    {
+      type: "input",
+      name: "Compliance_Time_Left_to_Finish",
+      placeholder: "Compliance Time Left to Finish",
+      maxLength: 16,
+      renderTypes: [RenderType.APPEALS, RenderType.PROVIDER_DISPUTE],
+    },
+    {
+      type: "input",
+      name: "Acknowledgment_Timely",
+      placeholder: "Acknowledgement Timely",
+      maxLength: 16,
+      renderTypes: [RenderType.APPEALS, RenderType.PROVIDER_DISPUTE],
+    },
+    {
+      type: "input",
+      name: "Timeframe_Extended",
+      placeholder: "Timeframe Extended",
+      maxLength: 30,
+      renderTypes: [RenderType.APPEALS, RenderType.PROVIDER_DISPUTE],
+    },
+    {
+      type: "input",
+      name: "Case_in_Compliance",
+      placeholder: "Case in Compliance",
+      maxLength: 30,
+      renderTypes: [RenderType.APPEALS, RenderType.PROVIDER_DISPUTE],
+    },
+    {
+      type: "input",
+      name: "Out_of_Compliance_Reason",
+      placeholder: "Out of Compliance Reason",
+      maxLength: 30,
+      renderTypes: [RenderType.APPEALS, RenderType.PROVIDER_DISPUTE],
+    },
+    {
+      type: "date",
+      name: "Case_Received_Date",
+      placeholder: "Case Received Date",
+      label: "Case Received Date",
+      renderTypes: [RenderType.APPEALS, RenderType.PROVIDER_DISPUTE],
+    },
+    {
+      type: "date",
+      name: "AOR_Received_Date",
+      placeholder: "AOR Received Date",
+      label: "AOR Received Date",
+      renderTypes: [RenderType.APPEALS, RenderType.PROVIDER_DISPUTE],
+    },
+    {
+      type: "date",
+      name: "WOL_Received_Date",
+      placeholder: "WOL Received Date",
+      label: "WOL Received Date",
+      renderTypes: [RenderType.APPEALS],
+    },
+    {
+      type: "input",
+      name: "Global_Case_ID",
+      placeholder: "Global Case ID",
+      maxLength: 30,
+      renderTypes: [RenderType.PROVIDER_DISPUTE],
+    },
+    {
+      type: "input",
+      name: "Department",
+      placeholder: "Department",
+      maxLength: 30,
+      renderTypes: [RenderType.PROVIDER_DISPUTE],
+    },
+    {
+      type: "input",
+      name: "CRM_Ticket_Number",
+      placeholder: "CRM Ticket Number",
+      maxLength: 30,
+      renderTypes: [RenderType.PROVIDER_DISPUTE],
+    },
+    {
+      type: "input",
+      name: "RMS_Ticket_Number",
+      placeholder: "RMS Ticket Number",
+      maxLength: 30,
+      renderTypes: [RenderType.PROVIDER_DISPUTE],
+    },
+    {
+      type: "input",
+      name: "Are_number_of_claims_more_than_10",
+      placeholder: "Are number of claims more than 10",
+      maxLength: 30,
+      renderTypes: [RenderType.PROVIDER_DISPUTE],
+    },
+  ];
+
   return (
     <Formik
       initialValues={props.caseTimelinesData}
@@ -163,60 +274,35 @@ const CaseTimelinesAccordion = (props) => {
               aria-labelledby="panelsStayOpen-Timelines"
             >
               <div className="accordion-body">
-                <div className="row my-2">
-                  {renderSelectField(
-                    "Case_Filing_Method",
-                    "Case Filing Method",
-                    caseFilingMethodValues,
-                  )}
-                  {renderInputField("Case_Aging", "Case Aging", 16)}
-                  {renderInputField(
-                    "Compliance_Time_Left_to_Finish",
-                    "Compliance Time Left to Finish",
-                    16,
-                  )}
-                </div>
-                <div className="row my-2">
-                  {renderInputField(
-                    "Acknowledgment_Timely",
-                    "Acknowledgement Timely",
-                    16,
-                  )}
-                  {renderInputField(
-                    "Timeframe_Extended",
-                    "Timeframe Extended",
-                    30,
-                  )}
-                  {renderInputField(
-                    "Case_in_Compliance",
-                    "Case in Compliance",
-                    30,
-                  )}
-                </div>
-                <div className="row my-2">
-                  {renderInputField(
-                    "Out_of_Compliance_Reason",
-                    "Out of Compliance Reason",
-                    30,
-                  )}
-                  {renderDatePicker(
-                    "Case_Received_Date",
-                    "Case Received Date",
-                    "Case Received Date",
-                  )}
-                  {renderDatePicker(
-                    "AOR_Received_Date",
-                    "AOR Received Date",
-                    "AOR Received Date",
-                  )}
-                </div>
-                <div className="row">
-                  {renderDatePicker(
-                    "WOL_Received_Date",
-                    "WOL Received Date",
-                    "WOL Received Date",
-                  )}
-                </div>
+                {chunkArray(fields, 3, (e) =>
+                  e.renderTypes.includes(props.renderType),
+                ).map((chunk) => (
+                  <div className="row my-2">
+                    {chunk.map((item) => {
+                      console.log("curtsk", chunk);
+                      return (
+                        (item.type === "select" &&
+                          renderSelectField(
+                            item.name,
+                            item.placeholder,
+                            item.values,
+                          )) ||
+                        (item.type === "input" &&
+                          renderInputField(
+                            item.name,
+                            item.placeholder,
+                            item.maxLength,
+                          )) ||
+                        (item.type === "date" &&
+                          renderDatePicker(
+                            item.name,
+                            item.placeholder,
+                            item.label,
+                          ))
+                      );
+                    })}
+                  </div>
+                ))}
               </div>
             </div>
           </div>

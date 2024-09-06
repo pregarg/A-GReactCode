@@ -19,9 +19,11 @@ const MemberInformationAccordion = (props) => {
   const angDeceasedSelector = useSelector((state) => state?.masterAngDeceased);
   const angGenderSelector = useSelector((state) => state?.masterAngGender);
   const angDualSelector = useSelector((state) => state?.masterAngDualPlan);
-  const mailToAddSelector = useSelector((state) => state?.masterAngMailToAddress,
+  const mailToAddSelector = useSelector(
+    (state) => state?.masterAngMailToAddress,
   );
-  const angPrefSelector = useSelector((state) => state?.masterAngPreferredLanguage,
+  const angPrefSelector = useSelector(
+    (state) => state?.masterAngPreferredLanguage,
   );
   const commAngPrefSelector = useSelector((state) => state?.masterAngCommPref);
   const token = useSelector((state) => state.auth.token);
@@ -66,15 +68,14 @@ const MemberInformationAccordion = (props) => {
     }
   };
 
-
   const persistMemberInformationData = () => {
     props.setMemberInformationData(memberInformationData);
   };
 
   const handleWhiteGloveChange = (e) => {
     const isChecked = e.target.checked;
-       setWhiteGloveIndicator(isChecked);
-       setWhiteGloveIndicatorInitialized(true);
+    setWhiteGloveIndicator(isChecked);
+    setWhiteGloveIndicatorInitialized(true);
     // if (isChecked) {
     //   setWhiteGloveCancelledReason("");
     // } else {
@@ -456,9 +457,8 @@ const MemberInformationAccordion = (props) => {
               {renderInputField("Fax_Number", "Fax Number", 50)}
             </div>
             <div className="row my-2">
+              {renderInputField("Action", "Action", 50)}
 
-            {renderInputField("Action", "Action", 50)}
-               
               <div
                 className="col-xs-6 col-md-4"
                 style={{
@@ -468,7 +468,6 @@ const MemberInformationAccordion = (props) => {
                 }}
               >
                 <label>
-
                   <input
                     type="checkbox"
                     checked={whiteGloveIndicator}
@@ -489,15 +488,18 @@ const MemberInformationAccordion = (props) => {
                 className="form-control"
                 placeholder="White Glove Reason"
                 // value={whiteGloveReason}
-               value = {memberInformationData.WhiteGloveReason || ""}
+                value={memberInformationData.WhiteGloveReason || ""}
                 onChange={(e) => {
                   console.log("Input value:", e.target.value);
-                  handleMemberInformationData("WhiteGloveReason", e.target.value);
+                  handleMemberInformationData(
+                    "WhiteGloveReason",
+                    e.target.value,
+                  );
                 }}
-                // onChange={ 
+                // onChange={
                 //   (e) => { console.log("Input value:", e.target.value)
                 //      setWhiteGloveReason(e.target.value)}}
-              
+
                 disabled={!whiteGloveIndicator}
               />
               <label>White Glove Reason</label>
@@ -510,7 +512,7 @@ const MemberInformationAccordion = (props) => {
             <div className="form-floating">
               <input
                 id="WhiteGloveCancelledReason"
-                name = "WhiteGloveCancelledReason"
+                name="WhiteGloveCancelledReason"
                 maxLength="4000"
                 type="text"
                 className="form-control"
@@ -519,7 +521,10 @@ const MemberInformationAccordion = (props) => {
                 // onChange={(e) => setWhiteGloveCancelledReason(e.target.value)}
                 onChange={(e) => {
                   console.log("Input value:", e.target.value);
-                  handleMemberInformationData("WhiteGloveCancelledReason", e.target.value);
+                  handleMemberInformationData(
+                    "WhiteGloveCancelledReason",
+                    e.target.value,
+                  );
                 }}
                 disabled={
                   whiteGloveIndicator || !whiteGloveIndicatorInitialized
@@ -551,7 +556,6 @@ const MemberInformationAccordion = (props) => {
         )}
       </div>
     </div>
-
   );
 };
 export default MemberInformationAccordion;

@@ -126,8 +126,11 @@ export default function ClaimInformationTable({
           }
           validationErrors={validationErrors}
           disabled={
-            (prop.state.formView === "DashboardView"||prop.state.formView === "DashboardHomeView") &&
-            (((claimStageName === "Start" || prop.state.stageName === "Intake"))&&(name === "Good_Cause_Reason")||
+            (prop.state.formView === "DashboardView" ||
+              prop.state.formView === "DashboardHomeView") &&
+            (((claimStageName === "Start" ||
+              prop.state.stageName === "Intake") &&
+              name === "Good_Cause_Reason") ||
               prop.state.stageName === "Redirect Review" ||
               prop.state.stageName === "Documents Needed" ||
               prop.state.stageName === "CaseArchived")
@@ -154,8 +157,11 @@ export default function ClaimInformationTable({
           }
           validationErrors={validationErrors}
           disabled={
-            (prop.state.formView === "DashboardView"||prop.state.formView === "DashboardHomeView") &&
-            (((claimStageName === "Start" || prop.state.stageName === "Intake"))&& (name === "Filed_Timely" || name==="Grant_Good_Cause") ||
+            (prop.state.formView === "DashboardView" ||
+              prop.state.formView === "DashboardHomeView") &&
+            (((claimStageName === "Start" ||
+              prop.state.stageName === "Intake") &&
+              (name === "Filed_Timely" || name === "Grant_Good_Cause")) ||
               prop.state.stageName === "Redirect Review" ||
               prop.state.stageName === "Documents Needed" ||
               prop.state.stageName === "Effectuate" ||

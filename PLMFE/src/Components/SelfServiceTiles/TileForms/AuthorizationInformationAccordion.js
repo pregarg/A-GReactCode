@@ -491,7 +491,8 @@ const AuthorizationInformationAccordion = (props) => {
                 prop.state.stageName === "Resolve" ||
                 prop.state.stageName === "Case Completed" ||
                 prop.state.stageName === "Reopen" ||
-                prop.state.stageName === "Research" ||prop.state.stageName === "CaseArchived") && (
+                prop.state.stageName === "Research" ||
+                prop.state.stageName === "CaseArchived") && (
                 <div className="col-xs-6 col-md-4">
                   <Field name="authdecision">
                     {({ field, meta }) => (
