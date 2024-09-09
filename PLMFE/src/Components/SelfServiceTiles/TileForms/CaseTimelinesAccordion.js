@@ -239,7 +239,7 @@ const CaseTimelinesAccordion = (props) => {
     },
     {
       type: "input",
-      name: "Are_number_of_claims_more_than_10",
+      name: "Number_of_Claims_More_Than_10",
       placeholder: "Are number of claims more than 10",
       maxLength: 30,
       renderTypes: [RenderType.PROVIDER_DISPUTE],
