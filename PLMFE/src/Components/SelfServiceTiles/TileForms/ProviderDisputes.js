@@ -39,8 +39,10 @@ const ProviderDisputes = () => {
   };
   const {
     caseTimelines,
+    pd_CaseTimelines,
     caseTimelinesValidationSchema,
     setCaseTimelines,
+    setPdCaseTimelines,
     handleCaseHeaderChange,
     caseHeader,
     setCaseHeader,
@@ -75,6 +77,7 @@ const ProviderDisputes = () => {
     navigateHome,
     saveAndExit,
     submitData,
+    pdsubmitData,
     potentialDupData,
     apiTestState,
     callProcRef,
@@ -114,20 +117,21 @@ const ProviderDisputes = () => {
           <div className="row">
             <div className="col-xs-6" style={{ textAlign: "center" }}>
               <br />
-              <CaseHeaderAccordion
+              {/* <CaseHeaderAccordion
                 handleOnChange={handleCaseHeaderChange}
                 handleData={caseHeader}
                 setCaseHeader={setCaseHeader}
-              />
+                renderType={RenderType.PROVIDER_DISPUTE}
+              /> */}
               <CaseTimelinesAccordion
-                caseTimelinesData={caseTimelines}
-                setCaseTimelinesData={setCaseTimelines}
-                caseTimelinesValidationSchema={caseTimelinesValidationSchema}
+                caseTimelinesData={pd_CaseTimelines}
+                setCaseTimelinesData={setPdCaseTimelines}
+                caseTimelinesValidationSchema={""}
                 caseTimelinesErrors={caseTimelinesErrors}
                 shouldShowSubmitError={shouldShowSubmitError}
                 renderType={RenderType.PROVIDER_DISPUTE}
               />
-              <CaseInformationAccordion
+              {/* <CaseInformationAccordion
                 caseInformationData={caseInformation}
                 setCaseInformationData={setCaseInformation}
                 caseInformationValidationSchema={
@@ -210,7 +214,7 @@ const ProviderDisputes = () => {
                   //  displayName={CaseHeader.displayName}
                   stageName={caseHeaderConfigData["StageName"]}
                 />
-              )}
+              )} */}
             </div>
           </div>
         </div>
@@ -267,7 +271,7 @@ const ProviderDisputes = () => {
                   type="button"
                   className="btn btn-outline-primary btnStyle"
                   name="submit"
-                  onClick={submitData}
+                  onClick={pdsubmitData}
                   style={{ float: "right", marginRight: "10px" }}
                 >
                   Submit

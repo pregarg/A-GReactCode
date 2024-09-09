@@ -49,6 +49,24 @@ export const useCaseHeader = () => {
     Timeframe_Extended: "",
     WOL_Received_Date: undefined,
   });
+
+  const [pd_CaseTimelines, setPdCaseTimelines] = useState({
+    caseNumber: "",
+    Case_Received_Date: undefined,
+    AOR_Received_Date: undefined,
+    Case_Aging: "",
+    Compliance_Time_Left_to_Finish: "",
+    Acknowledgment_Timely: "",
+    Timeframe_Extended: "",
+    Case_in_Compliance: "",
+    Out_of_Compliance_Reason: "",
+    Global_Case_ID: "",
+    Department: "",
+    CRM_Ticket_Number: "",
+    RMS_Ticket_Number: "",
+    Number_of_Claims_More_Than_10: ""
+  });
+
   const [caseInformation, setCaseInformation] = useState({
     caseNumber: "",
     Appeal_Type: "",
@@ -489,6 +507,123 @@ export const useCaseHeader = () => {
   //   setDisableSaveAndExit(!decisionTab?.Decision_Case_Notes?.trim())
   // }, [decisionTab]);
 
+  const pdsubmitData = async () => {
+    // if (hasSubmitError) {
+    //   setShowSubmitError(true);
+    //   return;
+    // }
+    // const currentUser = authSelector.userName || "system";
+    // const receivedDate = extractDate(currentDate);
+    // const updatedCaseHeader = {
+    //   ...caseHeader,
+    //   Case_Owner: currentUser,
+    //   Case_Received_Date: receivedDate,
+    //   Case_Validation: "Valid",
+    // };
+     let apiJson = {};
+
+    // const angClaimInformationGrid = getGridDataValues(claimInformationGrid);
+    // const angProviderInformationGrid = getGridDataValues(
+    //   providerInformationGrid,
+    // );
+    // const angRepresentativeInformationGrid = getGridDataValues(
+    //   representativeInformationGrid,
+    // );
+    // const angAuthorizationInformationGrid = getGridDataValues(
+    //   authorizationInformationGrid,
+    // );
+    
+    // const angCaseHeader = trimJsonValues({ ...updatedCaseHeader });
+    //const angCaseTimelines = trimJsonValues({ ...caseTimelines });
+    // const angCaseInformation = trimJsonValues({ ...caseInformation });
+    // const angClaimInformation = trimJsonValues({ ...claimInformation });
+    // const angMemberInformation = trimJsonValues({ ...memberInformation });
+
+    // console.log("angMemberInformation1", angMemberInformation);
+    // //  const angAuthorizationInformation = trimJsonValues({   ...authorizationInformation, });
+
+    // const angAuthorizationInformation = trimJsonValues({
+    //   ...authorizationInformation,
+    // });
+
+    // const angExpeditedRequest = trimJsonValues({ ...expeditedRequest });
+    // const angNotes = trimJsonValues({ ...notes });
+
+    // apiJson["ANG_Case_Header"] = angCaseHeader;
+    //apiJson["ANG_Case_Timelines"] = angCaseTimelines;
+    // apiJson["ANG_Case_Information"] = angCaseInformation;
+    // apiJson["ANG_Claim_Information"] = angClaimInformation;
+    // apiJson["ANG_Claim_Information_Grid"] = angClaimInformationGrid;
+    // apiJson["ANG_Provider_Information_Grid"] = angProviderInformationGrid;
+    // apiJson["ANG_Member_Information"] = angMemberInformation;
+    // apiJson["ANG_Representative_Information_Grid"] =
+    //   angRepresentativeInformationGrid;
+    // apiJson["ANG_Authorization_Information"] = angAuthorizationInformation;
+    // apiJson["ANG_Authorization_Information_Grid"] =
+    //   angAuthorizationInformationGrid;
+    // apiJson["ANG_Expedited_Request"] = angExpeditedRequest;
+    // apiJson["ANG_Notes"] = angNotes;
+    
+    let mainCaseReqBody = {
+      ...mainCaseDetails,
+      transactionType: "Provider Disputes",
+      caseStatus: "Open",
+      lockStatus: "N",
+    };
+
+    const pdCaseTimelines = trimJsonValues({ ...pd_CaseTimelines });
+    apiJson["PD_Case_Timelines"] = pdCaseTimelines;
+
+    const flowId = caseHeaderConfigData["FlowId"];
+    const stageName = caseHeaderConfigData["StageName"];
+
+    apiJson["MainCaseTable"] = mainCaseReqBody;
+    
+    const response = await customAxios.post("/generic/create", apiJson, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    // Handle the response from the create endpoint.
+    const apiStat = response.data.CreateCase_Output.Status;
+
+    if (apiStat === -1) {
+      alert("Case is not created.");
+    }
+
+    if (apiStat === 0) {
+      let procData = {};
+      let procDataState = {};
+      procDataState.stageName = stageName;
+      procDataState.flowId = flowId;
+      procDataState.caseNumber = response.data["CreateCase_Output"]["CaseNo"];
+      procDataState.decision = "Submit";
+      procDataState.userName = authSelector.userName || "system";
+      procDataState.formNames = "Provider Disputes";
+      procData.state = procDataState;
+      if (documentSectionDataRef.current.length > 0) {
+        const documentArray = [...documentSectionDataRef.current].filter(
+          (x) => x.docStatus === "Uploaded",
+        );
+        documentArray.forEach((e) => {
+          const fileUploadData = new FormData();
+          fileUploadData.append("file", e.fileData);
+          fileUploadData.append("source", "Manual");
+          fileUploadData.append(
+            "caseNumber",
+            response.data["CreateCase_Output"]["CaseNo"],
+          );
+          fileUploadData.append("docType", e.documentType);
+          fileUpDownAxios.post("/uploadFile", fileUploadData).then(() => {});
+        });
+      }
+      alert(
+        "Case created successfully: " +
+          response.data["CreateCase_Output"]["CaseNo"],
+      );
+      submitCase(procData, navigateHome);
+    }
+  };
+
   const submitData = async () => {
     if (hasSubmitError) {
       setShowSubmitError(true);
@@ -514,7 +649,7 @@ export const useCaseHeader = () => {
     const angAuthorizationInformationGrid = getGridDataValues(
       authorizationInformationGrid,
     );
-    console.log("angMemberInform", memberInformation);
+    
     const angCaseHeader = trimJsonValues({ ...updatedCaseHeader });
     const angCaseTimelines = trimJsonValues({ ...caseTimelines });
     const angCaseInformation = trimJsonValues({ ...caseInformation });
@@ -555,7 +690,7 @@ export const useCaseHeader = () => {
     const stageName = caseHeaderConfigData["StageName"];
 
     apiJson["MainCaseTable"] = mainCaseReqBody;
-
+    console.log("pdcasetimelines", caseTimelines);
     const response = await customAxios.post("/generic/create", apiJson, {
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -1078,6 +1213,7 @@ export const useCaseHeader = () => {
 
         // Update other state values
         // setCaseTimelines(data?.["angCaseTimelines"]?.[0] || {});
+       
         setCaseInformation(data?.["angCaseInformation"]?.[0] || {});
         setClaimInformation(data?.["angClaimInformation"]?.[0] || {});
         setClaimInformationGrid(data?.["angClaimInformationGrid"] || []);
@@ -1094,6 +1230,8 @@ export const useCaseHeader = () => {
         );
         setExpeditedRequest(data?.["angExpeditedRequest"]?.[0] || {});
         setNotes(data?.["angNotes"]?.[0] || {});
+
+        setPdCaseTimelines(data?.["pdCaseTimelines"]?.[0] || {});
         setFormData(_.cloneDeep(data));
 
         // Update case data in caseData array
@@ -1492,8 +1630,10 @@ export const useCaseHeader = () => {
 
   return {
     caseTimelines,
+    pd_CaseTimelines,
     caseTimelinesValidationSchema,
     setCaseTimelines,
+    setPdCaseTimelines,
     handleCaseHeaderChange,
     caseHeader,
     setCaseHeader,
@@ -1526,6 +1666,7 @@ export const useCaseHeader = () => {
     navigateHome,
     saveAndExit,
     submitData,
+    pdsubmitData,
     potentialDupData,
     apiTestState,
     callProcRef,
