@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import { Formik } from "formik";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
@@ -102,7 +102,13 @@ const ProviderDisputes = () => {
     handleCloseNotesHistory,
     populateModalTable,
     modalTableComponent,
+    caseTimelinesFields,
+    setRenderType,
   } = useCaseHeader();
+
+  useEffect(() => {
+    setRenderType(RenderType.PROVIDER_DISPUTE);
+  }, []);
 
   const FormComponent = () => (
     <div
@@ -126,6 +132,7 @@ const ProviderDisputes = () => {
                 caseTimelinesErrors={caseTimelinesErrors}
                 shouldShowSubmitError={shouldShowSubmitError}
                 renderType={RenderType.PROVIDER_DISPUTE}
+                caseTimelinesFields={caseTimelinesFields}
               />
               <CaseInformationAccordion
                 caseInformationData={caseInformation}

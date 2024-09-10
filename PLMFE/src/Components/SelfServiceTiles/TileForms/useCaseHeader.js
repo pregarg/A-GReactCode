@@ -8,6 +8,7 @@ import useUpdateDecision from "../../CustomHooks/useUpdateDecision";
 import _ from "lodash";
 
 import TableComponent from "../../../../src/util/TableComponent";
+import { useCaseTimelines } from "./useCaseTimelines";
 
 export const useCaseHeader = () => {
   const currentDate = new Date();
@@ -18,6 +19,7 @@ export const useCaseHeader = () => {
   const [showProvider360, setShowProvider360] = useState(false);
   const [showNotesHistory, setShowNotesHistory] = useState(false);
   const [shouldShowSubmitError, setShowSubmitError] = useState(false);
+  const [renderType, setRenderType] = useState();
   const { fileUpDownAxios } = useAxios();
   let documentSectionDataRef = useRef([]);
   const authSelector = useSelector((state) => state.auth);
@@ -36,19 +38,13 @@ export const useCaseHeader = () => {
     caseNumber: "",
   });
 
-  const [caseTimelines, setCaseTimelines] = useState({
-    caseNumber: "",
-    Acknowledgment_Timely: "",
-    AOR_Received_Date: undefined,
-    Case_Aging: "",
-    Case_Filing_Method: "",
-    Case_in_Compliance: "No",
-    Case_Received_Date: currentDate,
-    Compliance_Time_Left_to_Finish: "",
-    Out_of_Compliance_Reason: "Case still tf.",
-    Timeframe_Extended: "",
-    WOL_Received_Date: undefined,
-  });
+  const {
+    caseTimelinesFields,
+    caseTimelines,
+    caseTimelinesValidationSchema,
+    setCaseTimelines,
+  } = useCaseTimelines(renderType);
+
   const [caseInformation, setCaseInformation] = useState({
     caseNumber: "",
     Appeal_Type: "",
@@ -182,30 +178,6 @@ export const useCaseHeader = () => {
     "documents needed",
     "research",
   ];
-
-  const caseTimelinesValidationSchema = Yup.object().shape({
-    Case_Filing_Method: Yup.string().required(
-      "Case Filing Method is mandatory",
-    ),
-    Acknowledgment_Timely: Yup.string().required(
-      "Case Acknowledgment Timely is mandatory",
-    ),
-    Case_in_Compliance: Yup.string().required(
-      "Case in Compliance is mandatory",
-    ),
-    Out_of_Compliance_Reason: Yup.string().required(
-      "Out of Compliance Reason is mandatory",
-    ),
-    Case_Received_Date: Yup.date()
-      .required("Case Received Date is mandatory")
-      .max(new Date(), "Case Received  Date cannot be in future"),
-    AOR_Received_Date: Yup.date()
-      .required("AOR Received Date is mandatory")
-      .max(new Date(), "AOR Received Date cannot be in future"),
-    WOL_Received_Date: Yup.date()
-      .required("WOL Received Date is mandatory")
-      .max(new Date(), "WOL Received Date cannot be in future"),
-  });
   const caseInformationValidationSchema = Yup.object().shape({
     Line_of_Business_LOB: Yup.string().required(
       "Line of Business is mandatory",
@@ -408,7 +380,7 @@ export const useCaseHeader = () => {
       setErrors([]);
       schema.validateSync(data, { abortEarly: false });
     } catch (errors) {
-      const validationErrors = errors.inner.reduce((acc, error) => {
+      const validationErrors = (errors.inner || []).reduce((acc, error) => {
         acc[error.path] = error.message;
         return acc;
       }, {});
@@ -474,7 +446,7 @@ export const useCaseHeader = () => {
     memberInformationErrors,
     expeditedRequestErrors,
   ]);
-  const [disableSaveAndExit, setDisableSaveAndExit] = useState(true);
+  //const [disableSaveAndExit, setDisableSaveAndExit] = useState(true);
   const [authorizationInformation, setAuthorizationInformation] = useState({
     Authorization_Decision: "",
     Authorization_Decision_Reason: "",
@@ -1553,5 +1525,7 @@ export const useCaseHeader = () => {
     providerInformationGridValidationSchema,
     authorizationInformationGridValidationSchema,
     representativeInformationGridValidationSchema,
+    caseTimelinesFields,
+    setRenderType,
   };
 };
