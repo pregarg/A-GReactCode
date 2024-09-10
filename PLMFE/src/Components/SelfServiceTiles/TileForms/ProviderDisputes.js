@@ -40,11 +40,9 @@ const ProviderDisputes = () => {
   };
   const {
     caseTimelines,
-    pd_CaseTimelines,
     pd_MemberAddRecord,
     caseTimelinesValidationSchema,
     setCaseTimelines,
-    setPdCaseTimelines,
     setpdMemberAddRecord,
     handleCaseHeaderChange,
     caseHeader,
@@ -135,8 +133,8 @@ const ProviderDisputes = () => {
                 renderType={RenderType.PROVIDER_DISPUTE}
               /> */}
               <CaseTimelinesAccordion
-                caseTimelinesData={pd_CaseTimelines}
-                setCaseTimelinesData={setPdCaseTimelines}
+                caseTimelinesData={caseTimelines}
+                setCaseTimelinesData={setCaseTimelines}
                 caseTimelinesValidationSchema={caseTimelinesValidationSchema}
                 caseTimelinesErrors={caseTimelinesErrors}
                 shouldShowSubmitError={shouldShowSubmitError}

@@ -1148,7 +1148,7 @@ export const useCaseHeader = () => {
         setExpeditedRequest(data?.["angExpeditedRequest"]?.[0] || {});
         setNotes(data?.["angNotes"]?.[0] || {});
 
-        setPdCaseTimelines(data?.["pdCaseTimelines"]?.[0] || {});
+        setCaseTimelines(data?.["pdCaseTimelines"]?.[0] || {});
         setFormData(_.cloneDeep(data));
 
         // Update case data in caseData array

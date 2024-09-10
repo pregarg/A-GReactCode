@@ -155,7 +155,6 @@ const MemberAddOfRecordsAccordion = (props) => {
                 ).map((chunk) => (
                   <div className="row my-2">
                     {chunk.map((item) => {
-                      console.log("curtsk", chunk);
                       return (
                         // (item.type === "select" &&
                         //   renderSelectField(
