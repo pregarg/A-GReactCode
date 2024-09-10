@@ -175,6 +175,20 @@ export const useCaseHeader = () => {
     State_: "",
   });
 
+  const [pd_MemberAltContactInfo, setpdMemberAltContactInfo] = useState({
+    caseNumber: "",
+    Issue_Number: "",
+    Address_Line_1: "",
+    Address_Line_2: "",
+    Zip_Code: "",
+    City: "",
+    State_: "",
+    Alternate_Phone_Number: "",
+    Fax_Number: "",
+    Alternate_Email_Address: "",
+    Communication_Preference: "",
+  });
+
 
   const [claimInformationGrid, setClaimInformationGrid] = useState([]);
   const [providerInformationGrid, setProviderInformationGrid] = useState([]);
@@ -428,6 +442,7 @@ export const useCaseHeader = () => {
   });
 
   const memberAddOfRecordsValidationSchema = Yup.object().shape({});
+  const memberAltContactInfoValidationSchema = Yup.object().shape({});
 
   const [caseTimelinesErrors, setCaseTimelinesErrors] = useState([]);
   const [caseInformationErrors, setCaseInformationErrors] = useState([]);
@@ -436,6 +451,7 @@ export const useCaseHeader = () => {
   const [expeditedRequestErrors, setExpeditedRequestErrors] = useState([]);
   const [notesErrors, setNotesErrors] = useState([]);
   const [memberAddErrors, setMemberAddErrorsErrors] = useState([]);
+  const [memberAltContactErrors, setMemberAltContactErrors] = useState([]);
   const validateSync = (schema, data, setErrors) => {
     try {
       setErrors([]);
@@ -481,6 +497,7 @@ export const useCaseHeader = () => {
     );
     validateSync(notesValidationSchema, notes, setNotesErrors);
     validateSync(memberAddOfRecordsValidationSchema, pd_MemberAddRecord, setMemberAddErrorsErrors);
+    validateSync(memberAltContactInfoValidationSchema, pd_MemberAltContactInfo, setMemberAltContactErrors);
     
   }, [
     caseTimelines,
@@ -538,6 +555,9 @@ export const useCaseHeader = () => {
 
     const pdMemberAddRecord = trimJsonValues({ ...pd_MemberAddRecord });
     apiJson["PD_MEMBER_ADD_OF_RECORDS"] = pdMemberAddRecord;
+
+    const pdMemberAltContactInfo = trimJsonValues({ ...pd_MemberAltContactInfo });
+    apiJson["PD_MEMBER_ALTERNATIVE_CONTACT_INFO"] = pdMemberAltContactInfo;
 
     const flowId = caseHeaderConfigData["FlowId"];
     const stageName = caseHeaderConfigData["StageName"];
@@ -1597,10 +1617,12 @@ export const useCaseHeader = () => {
     caseTimelines,
     pd_CaseTimelines,
     pd_MemberAddRecord,
+    pd_MemberAltContactInfo,
     caseTimelinesValidationSchema,
     setCaseTimelines,
     setPdCaseTimelines,
     setpdMemberAddRecord,
+    setpdMemberAltContactInfo,
     handleCaseHeaderChange,
     caseHeader,
     setCaseHeader,
@@ -1657,11 +1679,13 @@ export const useCaseHeader = () => {
     modalTableComponent,
     notesErrors,
     memberAddErrors,
+    memberAltContactErrors,
     notesValidationSchema,
     claimInformationGridRowValidationSchema,
     providerInformationGridValidationSchema,
     authorizationInformationGridValidationSchema,
     representativeInformationGridValidationSchema,
     memberAddOfRecordsValidationSchema,
+    memberAltContactInfoValidationSchema
   };
 };

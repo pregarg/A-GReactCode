@@ -24,6 +24,8 @@ import Member360 from "../TileForms/Member360";
 import Provider360 from "../TileForms/Provider360";
 import NotesHistory from "../TileForms/NotesHistory";
 import MemberAddOfRecordsAccordion from "../TileForms/MemberAddOfRecordsAccordion";
+import MemberAltContactInfoAccordion from "../TileForms/MemberAltContactInfoAccordion";
+
 import { RenderType } from "./Constants";
 
 const ProviderDisputes = () => {
@@ -42,10 +44,12 @@ const ProviderDisputes = () => {
     caseTimelines,
     pd_CaseTimelines,
     pd_MemberAddRecord,
+    pd_MemberAltContactInfo,
     caseTimelinesValidationSchema,
     setCaseTimelines,
     setPdCaseTimelines,
     setpdMemberAddRecord,
+    setpdMemberAltContactInfo,
     handleCaseHeaderChange,
     caseHeader,
     setCaseHeader,
@@ -75,6 +79,7 @@ const ProviderDisputes = () => {
     setNotes,
     notesErrors,
     memberAddErrors,
+    memberAltContactErrors,
     notesValidationSchema,
     expeditedRequestValidationSchema,
     location,
@@ -99,6 +104,7 @@ const ProviderDisputes = () => {
     authorizationInformationGridValidationSchema,
     representativeInformationGridValidationSchema,
     memberAddOfRecordsValidationSchema,
+    memberAltContactInfoValidationSchema,
     handleShowMember360,
     showMember360,
     handleCloseMember360,
@@ -227,6 +233,14 @@ const ProviderDisputes = () => {
                 setMemberAddData={setpdMemberAddRecord}
                 memberAddOfRecordsValidationSchema={memberAddOfRecordsValidationSchema}
                 memberAddErrors={memberAddErrors}
+                shouldShowSubmitError={shouldShowSubmitError}
+                renderType={RenderType.PROVIDER_DISPUTE}
+              />
+              <MemberAltContactInfoAccordion
+                memberAltContactData={pd_MemberAltContactInfo}
+                setMemberAltContactData={setpdMemberAltContactInfo}
+                memberAltContactInfoValidationSchema={memberAltContactInfoValidationSchema}
+                memberAltContactErrors={memberAltContactErrors}
                 shouldShowSubmitError={shouldShowSubmitError}
                 renderType={RenderType.PROVIDER_DISPUTE}
               />
