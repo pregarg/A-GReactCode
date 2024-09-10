@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import { Formik } from "formik";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
@@ -40,11 +40,9 @@ const ProviderDisputes = () => {
   };
   const {
     caseTimelines,
-    pd_CaseTimelines,
     pd_MemberAddRecord,
     caseTimelinesValidationSchema,
     setCaseTimelines,
-    setPdCaseTimelines,
     setpdMemberAddRecord,
     handleCaseHeaderChange,
     caseHeader,
@@ -110,7 +108,13 @@ const ProviderDisputes = () => {
     handleCloseNotesHistory,
     populateModalTable,
     modalTableComponent,
+    caseTimelinesFields,
+    setRenderType,
   } = useCaseHeader();
+
+  useEffect(() => {
+    setRenderType(RenderType.PROVIDER_DISPUTE);
+  }, []);
 
   const FormComponent = () => (
     <div
@@ -129,12 +133,13 @@ const ProviderDisputes = () => {
                 renderType={RenderType.PROVIDER_DISPUTE}
               /> */}
               <CaseTimelinesAccordion
-                caseTimelinesData={pd_CaseTimelines}
-                setCaseTimelinesData={setPdCaseTimelines}
+                caseTimelinesData={caseTimelines}
+                setCaseTimelinesData={setCaseTimelines}
                 caseTimelinesValidationSchema={caseTimelinesValidationSchema}
                 caseTimelinesErrors={caseTimelinesErrors}
                 shouldShowSubmitError={shouldShowSubmitError}
                 renderType={RenderType.PROVIDER_DISPUTE}
+                caseTimelinesFields={caseTimelinesFields}
               />
               {/* <CaseInformationAccordion
                 caseInformationData={caseInformation}

@@ -8,6 +8,7 @@ import useUpdateDecision from "../../CustomHooks/useUpdateDecision";
 import _ from "lodash";
 
 import TableComponent from "../../../../src/util/TableComponent";
+import { useCaseTimelines } from "./useCaseTimelines";
 
 export const useCaseHeader = () => {
   const currentDate = new Date();
@@ -18,6 +19,7 @@ export const useCaseHeader = () => {
   const [showProvider360, setShowProvider360] = useState(false);
   const [showNotesHistory, setShowNotesHistory] = useState(false);
   const [shouldShowSubmitError, setShowSubmitError] = useState(false);
+  const [renderType, setRenderType] = useState();
   const { fileUpDownAxios } = useAxios();
   let documentSectionDataRef = useRef([]);
   const authSelector = useSelector((state) => state.auth);
@@ -36,18 +38,22 @@ export const useCaseHeader = () => {
     caseNumber: "",
   });
 
-  const [caseTimelines, setCaseTimelines] = useState({
+  const {
+    caseTimelinesFields,
+    caseTimelines,
+    caseTimelinesValidationSchema,
+    setCaseTimelines,
+  } = useCaseTimelines(renderType);
+
+  const [pd_MemberAddRecord, setpdMemberAddRecord] = useState({
     caseNumber: "",
-    Acknowledgment_Timely: "",
-    AOR_Received_Date: undefined,
-    Case_Aging: "",
-    Case_Filing_Method: "",
-    Case_in_Compliance: "No",
-    Case_Received_Date: currentDate,
-    Compliance_Time_Left_to_Finish: "",
-    Out_of_Compliance_Reason: "Case still tf.",
-    Timeframe_Extended: "",
-    WOL_Received_Date: undefined,
+    Issue_Number: "",
+    Mail_to_Address: "",
+    Address_Line_1: "",
+    Address_Line_2: "",
+    Zip_Code: "",
+    City: "",
+    State_: "",
   });
 
   const [caseInformation, setCaseInformation] = useState({
@@ -146,36 +152,6 @@ export const useCaseHeader = () => {
     Case_Notes: "",
     Internal_Notes: "",
   });
-   
-  const [pd_CaseTimelines, setPdCaseTimelines] = useState({
-    caseNumber: "",
-    Case_Received_Date: undefined,
-    AOR_Received_Date: undefined,
-    Case_Aging: "",
-    Compliance_Time_Left_to_Finish: "",
-    Acknowledgment_Timely: "",
-    Timeframe_Extended: "",
-    Case_in_Compliance: "",
-    Out_of_Compliance_Reason: "",
-    Global_Case_ID: "",
-    Department: "",
-    CRM_Ticket_Number: "",
-    RMS_Ticket_Number: "",
-    Number_of_Claims_More_Than_10: ""
-  });
-
-  const [pd_MemberAddRecord, setpdMemberAddRecord] = useState({
-    caseNumber: "",
-    Issue_Number: "",
-    Mail_to_Address: "",
-    Address_Line_1: "",
-    Address_Line_2: "",
-    Zip_Code: "",
-    City: "",
-    State_: "",
-  });
-
-
   const [claimInformationGrid, setClaimInformationGrid] = useState([]);
   const [providerInformationGrid, setProviderInformationGrid] = useState([]);
   const [authorizationInformationGrid, setAuthorizationInformationGrid] =
@@ -213,30 +189,6 @@ export const useCaseHeader = () => {
     "documents needed",
     "research",
   ];
-
-  const caseTimelinesValidationSchema = Yup.object().shape({
-    Case_Filing_Method: Yup.string().required(
-      "Case Filing Method is mandatory",
-    ),
-    Acknowledgment_Timely: Yup.string().required(
-      "Case Acknowledgment Timely is mandatory",
-    ),
-    Case_in_Compliance: Yup.string().required(
-      "Case in Compliance is mandatory",
-    ),
-    Out_of_Compliance_Reason: Yup.string().required(
-      "Out of Compliance Reason is mandatory",
-    ),
-    Case_Received_Date: Yup.date()
-      .required("Case Received Date is mandatory")
-      .max(new Date(), "Case Received  Date cannot be in future"),
-    AOR_Received_Date: Yup.date()
-      .required("AOR Received Date is mandatory")
-      .max(new Date(), "AOR Received Date cannot be in future"),
-    WOL_Received_Date: Yup.date()
-      .required("WOL Received Date is mandatory")
-      .max(new Date(), "WOL Received Date cannot be in future"),
-  });
   const caseInformationValidationSchema = Yup.object().shape({
     Line_of_Business_LOB: Yup.string().required(
       "Line of Business is mandatory",
@@ -441,7 +393,7 @@ export const useCaseHeader = () => {
       setErrors([]);
       schema.validateSync(data, { abortEarly: false });
     } catch (errors) {
-      const validationErrors = errors.inner.reduce((acc, error) => {
+      const validationErrors = (errors.inner || []).reduce((acc, error) => {
         acc[error.path] = error.message;
         return acc;
       }, {});
@@ -509,7 +461,7 @@ export const useCaseHeader = () => {
     memberInformationErrors,
     expeditedRequestErrors,
   ]);
-  const [disableSaveAndExit, setDisableSaveAndExit] = useState(true);
+  //const [disableSaveAndExit, setDisableSaveAndExit] = useState(true);
   const [authorizationInformation, setAuthorizationInformation] = useState({
     Authorization_Decision: "",
     Authorization_Decision_Reason: "",
@@ -533,8 +485,8 @@ export const useCaseHeader = () => {
       lockStatus: "N",
     };
 
-    const pdCaseTimelines = trimJsonValues({ ...pd_CaseTimelines });
-    apiJson["PD_Case_Timelines"] = pdCaseTimelines;
+    //const pdCaseTimelines = trimJsonValues({ ...pd_CaseTimelines });
+    //apiJson["PD_Case_Timelines"] = pdCaseTimelines;
 
     const pdMemberAddRecord = trimJsonValues({ ...pd_MemberAddRecord });
     apiJson["PD_MEMBER_ADD_OF_RECORDS"] = pdMemberAddRecord;
@@ -614,7 +566,7 @@ export const useCaseHeader = () => {
     const angAuthorizationInformationGrid = getGridDataValues(
       authorizationInformationGrid,
     );
-    
+    console.log("angMemberInform", memberInformation);
     const angCaseHeader = trimJsonValues({ ...updatedCaseHeader });
     const angCaseTimelines = trimJsonValues({ ...caseTimelines });
     const angCaseInformation = trimJsonValues({ ...caseInformation });
@@ -655,7 +607,7 @@ export const useCaseHeader = () => {
     const stageName = caseHeaderConfigData["StageName"];
 
     apiJson["MainCaseTable"] = mainCaseReqBody;
-    console.log("pdcasetimelines", caseTimelines);
+
     const response = await customAxios.post("/generic/create", apiJson, {
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -1196,7 +1148,7 @@ export const useCaseHeader = () => {
         setExpeditedRequest(data?.["angExpeditedRequest"]?.[0] || {});
         setNotes(data?.["angNotes"]?.[0] || {});
 
-        setPdCaseTimelines(data?.["pdCaseTimelines"]?.[0] || {});
+        setCaseTimelines(data?.["pdCaseTimelines"]?.[0] || {});
         setFormData(_.cloneDeep(data));
 
         // Update case data in caseData array
@@ -1595,12 +1547,9 @@ export const useCaseHeader = () => {
 
   return {
     caseTimelines,
-    pd_CaseTimelines,
     pd_MemberAddRecord,
     caseTimelinesValidationSchema,
     setCaseTimelines,
-    setPdCaseTimelines,
-    setpdMemberAddRecord,
     handleCaseHeaderChange,
     caseHeader,
     setCaseHeader,
@@ -1663,5 +1612,7 @@ export const useCaseHeader = () => {
     authorizationInformationGridValidationSchema,
     representativeInformationGridValidationSchema,
     memberAddOfRecordsValidationSchema,
+    caseTimelinesFields,
+    setRenderType,
   };
 };
