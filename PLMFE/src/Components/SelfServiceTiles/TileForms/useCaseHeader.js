@@ -50,23 +50,6 @@ export const useCaseHeader = () => {
     WOL_Received_Date: undefined,
   });
 
-  const [pd_CaseTimelines, setPdCaseTimelines] = useState({
-    caseNumber: "",
-    Case_Received_Date: undefined,
-    AOR_Received_Date: undefined,
-    Case_Aging: "",
-    Compliance_Time_Left_to_Finish: "",
-    Acknowledgment_Timely: "",
-    Timeframe_Extended: "",
-    Case_in_Compliance: "",
-    Out_of_Compliance_Reason: "",
-    Global_Case_ID: "",
-    Department: "",
-    CRM_Ticket_Number: "",
-    RMS_Ticket_Number: "",
-    Number_of_Claims_More_Than_10: ""
-  });
-
   const [caseInformation, setCaseInformation] = useState({
     caseNumber: "",
     Appeal_Type: "",
@@ -163,6 +146,36 @@ export const useCaseHeader = () => {
     Case_Notes: "",
     Internal_Notes: "",
   });
+   
+  const [pd_CaseTimelines, setPdCaseTimelines] = useState({
+    caseNumber: "",
+    Case_Received_Date: undefined,
+    AOR_Received_Date: undefined,
+    Case_Aging: "",
+    Compliance_Time_Left_to_Finish: "",
+    Acknowledgment_Timely: "",
+    Timeframe_Extended: "",
+    Case_in_Compliance: "",
+    Out_of_Compliance_Reason: "",
+    Global_Case_ID: "",
+    Department: "",
+    CRM_Ticket_Number: "",
+    RMS_Ticket_Number: "",
+    Number_of_Claims_More_Than_10: ""
+  });
+
+  const [pd_MemberAddRecord, setpdMemberAddRecord] = useState({
+    caseNumber: "",
+    Issue_Number: "",
+    Mail_to_Address: "",
+    Address_Line_1: "",
+    Address_Line_2: "",
+    Zip_Code: "",
+    City: "",
+    State_: "",
+  });
+
+
   const [claimInformationGrid, setClaimInformationGrid] = useState([]);
   const [providerInformationGrid, setProviderInformationGrid] = useState([]);
   const [authorizationInformationGrid, setAuthorizationInformationGrid] =
@@ -414,13 +427,15 @@ export const useCaseHeader = () => {
     ),
   });
 
+  const memberAddOfRecordsValidationSchema = Yup.object().shape({});
+
   const [caseTimelinesErrors, setCaseTimelinesErrors] = useState([]);
   const [caseInformationErrors, setCaseInformationErrors] = useState([]);
   const [claimInformationErrors, setClaimInformationErrors] = useState([]);
   const [memberInformationErrors, setMemberInformationErrors] = useState([]);
   const [expeditedRequestErrors, setExpeditedRequestErrors] = useState([]);
   const [notesErrors, setNotesErrors] = useState([]);
-
+  const [memberAddErrors, setMemberAddErrorsErrors] = useState([]);
   const validateSync = (schema, data, setErrors) => {
     try {
       setErrors([]);
@@ -465,6 +480,8 @@ export const useCaseHeader = () => {
       setExpeditedRequestErrors,
     );
     validateSync(notesValidationSchema, notes, setNotesErrors);
+    validateSync(memberAddOfRecordsValidationSchema, pd_MemberAddRecord, setMemberAddErrorsErrors);
+    
   }, [
     caseTimelines,
     caseInformation,
@@ -508,62 +525,7 @@ export const useCaseHeader = () => {
   // }, [decisionTab]);
 
   const pdsubmitData = async () => {
-    // if (hasSubmitError) {
-    //   setShowSubmitError(true);
-    //   return;
-    // }
-    // const currentUser = authSelector.userName || "system";
-    // const receivedDate = extractDate(currentDate);
-    // const updatedCaseHeader = {
-    //   ...caseHeader,
-    //   Case_Owner: currentUser,
-    //   Case_Received_Date: receivedDate,
-    //   Case_Validation: "Valid",
-    // };
      let apiJson = {};
-
-    // const angClaimInformationGrid = getGridDataValues(claimInformationGrid);
-    // const angProviderInformationGrid = getGridDataValues(
-    //   providerInformationGrid,
-    // );
-    // const angRepresentativeInformationGrid = getGridDataValues(
-    //   representativeInformationGrid,
-    // );
-    // const angAuthorizationInformationGrid = getGridDataValues(
-    //   authorizationInformationGrid,
-    // );
-    
-    // const angCaseHeader = trimJsonValues({ ...updatedCaseHeader });
-    //const angCaseTimelines = trimJsonValues({ ...caseTimelines });
-    // const angCaseInformation = trimJsonValues({ ...caseInformation });
-    // const angClaimInformation = trimJsonValues({ ...claimInformation });
-    // const angMemberInformation = trimJsonValues({ ...memberInformation });
-
-    // console.log("angMemberInformation1", angMemberInformation);
-    // //  const angAuthorizationInformation = trimJsonValues({   ...authorizationInformation, });
-
-    // const angAuthorizationInformation = trimJsonValues({
-    //   ...authorizationInformation,
-    // });
-
-    // const angExpeditedRequest = trimJsonValues({ ...expeditedRequest });
-    // const angNotes = trimJsonValues({ ...notes });
-
-    // apiJson["ANG_Case_Header"] = angCaseHeader;
-    //apiJson["ANG_Case_Timelines"] = angCaseTimelines;
-    // apiJson["ANG_Case_Information"] = angCaseInformation;
-    // apiJson["ANG_Claim_Information"] = angClaimInformation;
-    // apiJson["ANG_Claim_Information_Grid"] = angClaimInformationGrid;
-    // apiJson["ANG_Provider_Information_Grid"] = angProviderInformationGrid;
-    // apiJson["ANG_Member_Information"] = angMemberInformation;
-    // apiJson["ANG_Representative_Information_Grid"] =
-    //   angRepresentativeInformationGrid;
-    // apiJson["ANG_Authorization_Information"] = angAuthorizationInformation;
-    // apiJson["ANG_Authorization_Information_Grid"] =
-    //   angAuthorizationInformationGrid;
-    // apiJson["ANG_Expedited_Request"] = angExpeditedRequest;
-    // apiJson["ANG_Notes"] = angNotes;
-    
     let mainCaseReqBody = {
       ...mainCaseDetails,
       transactionType: "Provider Disputes",
@@ -573,6 +535,9 @@ export const useCaseHeader = () => {
 
     const pdCaseTimelines = trimJsonValues({ ...pd_CaseTimelines });
     apiJson["PD_Case_Timelines"] = pdCaseTimelines;
+
+    const pdMemberAddRecord = trimJsonValues({ ...pd_MemberAddRecord });
+    apiJson["PD_MEMBER_ADD_OF_RECORDS"] = pdMemberAddRecord;
 
     const flowId = caseHeaderConfigData["FlowId"];
     const stageName = caseHeaderConfigData["StageName"];
@@ -1631,9 +1596,11 @@ export const useCaseHeader = () => {
   return {
     caseTimelines,
     pd_CaseTimelines,
+    pd_MemberAddRecord,
     caseTimelinesValidationSchema,
     setCaseTimelines,
     setPdCaseTimelines,
+    setpdMemberAddRecord,
     handleCaseHeaderChange,
     caseHeader,
     setCaseHeader,
@@ -1689,10 +1656,12 @@ export const useCaseHeader = () => {
     populateModalTable,
     modalTableComponent,
     notesErrors,
+    memberAddErrors,
     notesValidationSchema,
     claimInformationGridRowValidationSchema,
     providerInformationGridValidationSchema,
     authorizationInformationGridValidationSchema,
     representativeInformationGridValidationSchema,
+    memberAddOfRecordsValidationSchema,
   };
 };

@@ -161,7 +161,7 @@ const CaseTimelinesAccordion = (props) => {
       renderTypes: [RenderType.APPEALS, RenderType.PROVIDER_DISPUTE],
     },
     {
-      type: "input",
+      type: "select",
       name: "Acknowledgment_Timely",
       placeholder: "Acknowledgement Timely",
       maxLength: 16,
@@ -175,7 +175,7 @@ const CaseTimelinesAccordion = (props) => {
       renderTypes: [RenderType.APPEALS, RenderType.PROVIDER_DISPUTE],
     },
     {
-      type: "input",
+      type: "select",
       name: "Case_in_Compliance",
       placeholder: "Case in Compliance",
       maxLength: 30,
@@ -238,9 +238,10 @@ const CaseTimelinesAccordion = (props) => {
       renderTypes: [RenderType.PROVIDER_DISPUTE],
     },
     {
-      type: "input",
+      type: "select",
       name: "Number_of_Claims_More_Than_10",
       placeholder: "Are number of claims more than 10",
+      // values: ["YES", "NO"],
       maxLength: 30,
       renderTypes: [RenderType.PROVIDER_DISPUTE],
     },
