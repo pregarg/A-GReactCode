@@ -92,6 +92,8 @@ export default function useGetDBTables() {
         "ANG_Authorization_Information_Grid~angAuthorizationInformationGrid",
         "ANG_Expedited_Request~angExpeditedRequest",
         "ANG_Notes~angNotes",
+
+        "PD_Case_Timelines~pdCaseTimelines"
       ],
       angCaseStatusTable: ["ANG_MASTER_CASE_STATUS~angCaseStatus"],
     };

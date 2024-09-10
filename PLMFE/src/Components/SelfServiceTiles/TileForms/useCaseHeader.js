@@ -45,6 +45,17 @@ export const useCaseHeader = () => {
     setCaseTimelines,
   } = useCaseTimelines(renderType);
 
+  const [pd_MemberAddRecord, setpdMemberAddRecord] = useState({
+    caseNumber: "",
+    Issue_Number: "",
+    Mail_to_Address: "",
+    Address_Line_1: "",
+    Address_Line_2: "",
+    Zip_Code: "",
+    City: "",
+    State_: "",
+  });
+
   const [caseInformation, setCaseInformation] = useState({
     caseNumber: "",
     Appeal_Type: "",
@@ -368,13 +379,15 @@ export const useCaseHeader = () => {
     ),
   });
 
+  const memberAddOfRecordsValidationSchema = Yup.object().shape({});
+
   const [caseTimelinesErrors, setCaseTimelinesErrors] = useState([]);
   const [caseInformationErrors, setCaseInformationErrors] = useState([]);
   const [claimInformationErrors, setClaimInformationErrors] = useState([]);
   const [memberInformationErrors, setMemberInformationErrors] = useState([]);
   const [expeditedRequestErrors, setExpeditedRequestErrors] = useState([]);
   const [notesErrors, setNotesErrors] = useState([]);
-
+  const [memberAddErrors, setMemberAddErrorsErrors] = useState([]);
   const validateSync = (schema, data, setErrors) => {
     try {
       setErrors([]);
@@ -419,6 +432,8 @@ export const useCaseHeader = () => {
       setExpeditedRequestErrors,
     );
     validateSync(notesValidationSchema, notes, setNotesErrors);
+    validateSync(memberAddOfRecordsValidationSchema, pd_MemberAddRecord, setMemberAddErrorsErrors);
+    
   }, [
     caseTimelines,
     caseInformation,
@@ -460,6 +475,71 @@ export const useCaseHeader = () => {
   // useEffect(() => {
   //   setDisableSaveAndExit(!decisionTab?.Decision_Case_Notes?.trim())
   // }, [decisionTab]);
+
+  const pdsubmitData = async () => {
+     let apiJson = {};
+    let mainCaseReqBody = {
+      ...mainCaseDetails,
+      transactionType: "Provider Disputes",
+      caseStatus: "Open",
+      lockStatus: "N",
+    };
+
+    //const pdCaseTimelines = trimJsonValues({ ...pd_CaseTimelines });
+    //apiJson["PD_Case_Timelines"] = pdCaseTimelines;
+
+    const pdMemberAddRecord = trimJsonValues({ ...pd_MemberAddRecord });
+    apiJson["PD_MEMBER_ADD_OF_RECORDS"] = pdMemberAddRecord;
+
+    const flowId = caseHeaderConfigData["FlowId"];
+    const stageName = caseHeaderConfigData["StageName"];
+
+    apiJson["MainCaseTable"] = mainCaseReqBody;
+    
+    const response = await customAxios.post("/generic/create", apiJson, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    // Handle the response from the create endpoint.
+    const apiStat = response.data.CreateCase_Output.Status;
+
+    if (apiStat === -1) {
+      alert("Case is not created.");
+    }
+
+    if (apiStat === 0) {
+      let procData = {};
+      let procDataState = {};
+      procDataState.stageName = stageName;
+      procDataState.flowId = flowId;
+      procDataState.caseNumber = response.data["CreateCase_Output"]["CaseNo"];
+      procDataState.decision = "Submit";
+      procDataState.userName = authSelector.userName || "system";
+      procDataState.formNames = "Provider Disputes";
+      procData.state = procDataState;
+      if (documentSectionDataRef.current.length > 0) {
+        const documentArray = [...documentSectionDataRef.current].filter(
+          (x) => x.docStatus === "Uploaded",
+        );
+        documentArray.forEach((e) => {
+          const fileUploadData = new FormData();
+          fileUploadData.append("file", e.fileData);
+          fileUploadData.append("source", "Manual");
+          fileUploadData.append(
+            "caseNumber",
+            response.data["CreateCase_Output"]["CaseNo"],
+          );
+          fileUploadData.append("docType", e.documentType);
+          fileUpDownAxios.post("/uploadFile", fileUploadData).then(() => {});
+        });
+      }
+      alert(
+        "Case created successfully: " +
+          response.data["CreateCase_Output"]["CaseNo"],
+      );
+      submitCase(procData, navigateHome);
+    }
+  };
 
   const submitData = async () => {
     if (hasSubmitError) {
@@ -1050,6 +1130,7 @@ export const useCaseHeader = () => {
 
         // Update other state values
         // setCaseTimelines(data?.["angCaseTimelines"]?.[0] || {});
+       
         setCaseInformation(data?.["angCaseInformation"]?.[0] || {});
         setClaimInformation(data?.["angClaimInformation"]?.[0] || {});
         setClaimInformationGrid(data?.["angClaimInformationGrid"] || []);
@@ -1066,6 +1147,8 @@ export const useCaseHeader = () => {
         );
         setExpeditedRequest(data?.["angExpeditedRequest"]?.[0] || {});
         setNotes(data?.["angNotes"]?.[0] || {});
+
+        setPdCaseTimelines(data?.["pdCaseTimelines"]?.[0] || {});
         setFormData(_.cloneDeep(data));
 
         // Update case data in caseData array
@@ -1464,6 +1547,7 @@ export const useCaseHeader = () => {
 
   return {
     caseTimelines,
+    pd_MemberAddRecord,
     caseTimelinesValidationSchema,
     setCaseTimelines,
     handleCaseHeaderChange,
@@ -1498,6 +1582,7 @@ export const useCaseHeader = () => {
     navigateHome,
     saveAndExit,
     submitData,
+    pdsubmitData,
     potentialDupData,
     apiTestState,
     callProcRef,
@@ -1520,11 +1605,13 @@ export const useCaseHeader = () => {
     populateModalTable,
     modalTableComponent,
     notesErrors,
+    memberAddErrors,
     notesValidationSchema,
     claimInformationGridRowValidationSchema,
     providerInformationGridValidationSchema,
     authorizationInformationGridValidationSchema,
     representativeInformationGridValidationSchema,
+    memberAddOfRecordsValidationSchema,
     caseTimelinesFields,
     setRenderType,
   };

@@ -23,6 +23,7 @@ import { useLocation } from "react-router-dom";
 import Member360 from "../TileForms/Member360";
 import Provider360 from "../TileForms/Provider360";
 import NotesHistory from "../TileForms/NotesHistory";
+import MemberAddOfRecordsAccordion from "../TileForms/MemberAddOfRecordsAccordion";
 import { RenderType } from "./Constants";
 
 const ProviderDisputes = () => {
@@ -39,8 +40,12 @@ const ProviderDisputes = () => {
   };
   const {
     caseTimelines,
+    pd_CaseTimelines,
+    pd_MemberAddRecord,
     caseTimelinesValidationSchema,
     setCaseTimelines,
+    setPdCaseTimelines,
+    setpdMemberAddRecord,
     handleCaseHeaderChange,
     caseHeader,
     setCaseHeader,
@@ -69,12 +74,14 @@ const ProviderDisputes = () => {
     notes,
     setNotes,
     notesErrors,
+    memberAddErrors,
     notesValidationSchema,
     expeditedRequestValidationSchema,
     location,
     navigateHome,
     saveAndExit,
     submitData,
+    pdsubmitData,
     potentialDupData,
     apiTestState,
     callProcRef,
@@ -91,6 +98,7 @@ const ProviderDisputes = () => {
     providerInformationGridValidationSchema,
     authorizationInformationGridValidationSchema,
     representativeInformationGridValidationSchema,
+    memberAddOfRecordsValidationSchema,
     handleShowMember360,
     showMember360,
     handleCloseMember360,
@@ -120,21 +128,22 @@ const ProviderDisputes = () => {
           <div className="row">
             <div className="col-xs-6" style={{ textAlign: "center" }}>
               <br />
-              <CaseHeaderAccordion
+              {/* <CaseHeaderAccordion
                 handleOnChange={handleCaseHeaderChange}
                 handleData={caseHeader}
                 setCaseHeader={setCaseHeader}
-              />
+                renderType={RenderType.PROVIDER_DISPUTE}
+              /> */}
               <CaseTimelinesAccordion
-                caseTimelinesData={caseTimelines}
-                setCaseTimelinesData={setCaseTimelines}
+                caseTimelinesData={pd_CaseTimelines}
+                setCaseTimelinesData={setPdCaseTimelines}
                 caseTimelinesValidationSchema={caseTimelinesValidationSchema}
                 caseTimelinesErrors={caseTimelinesErrors}
                 shouldShowSubmitError={shouldShowSubmitError}
                 renderType={RenderType.PROVIDER_DISPUTE}
                 caseTimelinesFields={caseTimelinesFields}
               />
-              <CaseInformationAccordion
+              {/* <CaseInformationAccordion
                 caseInformationData={caseInformation}
                 setCaseInformationData={setCaseInformation}
                 caseInformationValidationSchema={
@@ -172,6 +181,7 @@ const ProviderDisputes = () => {
                 memberInformationErrors={memberInformationErrors}
                 shouldShowSubmitError={shouldShowSubmitError}
               />
+              
               <RepresentativeInformationAccordion
                 handleRepresentativeInformationGridData={
                   representativeInformationGrid
@@ -217,7 +227,16 @@ const ProviderDisputes = () => {
                   //  displayName={CaseHeader.displayName}
                   stageName={caseHeaderConfigData["StageName"]}
                 />
-              )}
+              )} */}
+
+              <MemberAddOfRecordsAccordion
+                memberAddData={pd_MemberAddRecord}
+                setMemberAddData={setpdMemberAddRecord}
+                memberAddOfRecordsValidationSchema={memberAddOfRecordsValidationSchema}
+                memberAddErrors={memberAddErrors}
+                shouldShowSubmitError={shouldShowSubmitError}
+                renderType={RenderType.PROVIDER_DISPUTE}
+              />
             </div>
           </div>
         </div>
@@ -274,7 +293,7 @@ const ProviderDisputes = () => {
                   type="button"
                   className="btn btn-outline-primary btnStyle"
                   name="submit"
-                  onClick={submitData}
+                  onClick={pdsubmitData}
                   style={{ float: "right", marginRight: "10px" }}
                 >
                   Submit
