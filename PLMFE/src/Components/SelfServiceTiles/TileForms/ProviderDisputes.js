@@ -23,6 +23,7 @@ import { useLocation } from "react-router-dom";
 import Member360 from "../TileForms/Member360";
 import Provider360 from "../TileForms/Provider360";
 import NotesHistory from "../TileForms/NotesHistory";
+import MemberAddOfRecordsAccordion from "../TileForms/MemberAddOfRecordsAccordion";
 import { RenderType } from "./Constants";
 
 const ProviderDisputes = () => {
@@ -40,9 +41,11 @@ const ProviderDisputes = () => {
   const {
     caseTimelines,
     pd_CaseTimelines,
+    pd_MemberAddRecord,
     caseTimelinesValidationSchema,
     setCaseTimelines,
     setPdCaseTimelines,
+    setpdMemberAddRecord,
     handleCaseHeaderChange,
     caseHeader,
     setCaseHeader,
@@ -71,6 +74,7 @@ const ProviderDisputes = () => {
     notes,
     setNotes,
     notesErrors,
+    memberAddErrors,
     notesValidationSchema,
     expeditedRequestValidationSchema,
     location,
@@ -94,6 +98,7 @@ const ProviderDisputes = () => {
     providerInformationGridValidationSchema,
     authorizationInformationGridValidationSchema,
     representativeInformationGridValidationSchema,
+    memberAddOfRecordsValidationSchema,
     handleShowMember360,
     showMember360,
     handleCloseMember360,
@@ -126,7 +131,7 @@ const ProviderDisputes = () => {
               <CaseTimelinesAccordion
                 caseTimelinesData={pd_CaseTimelines}
                 setCaseTimelinesData={setPdCaseTimelines}
-                caseTimelinesValidationSchema={""}
+                caseTimelinesValidationSchema={caseTimelinesValidationSchema}
                 caseTimelinesErrors={caseTimelinesErrors}
                 shouldShowSubmitError={shouldShowSubmitError}
                 renderType={RenderType.PROVIDER_DISPUTE}
@@ -169,6 +174,7 @@ const ProviderDisputes = () => {
                 memberInformationErrors={memberInformationErrors}
                 shouldShowSubmitError={shouldShowSubmitError}
               />
+              
               <RepresentativeInformationAccordion
                 handleRepresentativeInformationGridData={
                   representativeInformationGrid
@@ -215,6 +221,15 @@ const ProviderDisputes = () => {
                   stageName={caseHeaderConfigData["StageName"]}
                 />
               )} */}
+
+              <MemberAddOfRecordsAccordion
+                memberAddData={pd_MemberAddRecord}
+                setMemberAddData={setpdMemberAddRecord}
+                memberAddOfRecordsValidationSchema={memberAddOfRecordsValidationSchema}
+                memberAddErrors={memberAddErrors}
+                shouldShowSubmitError={shouldShowSubmitError}
+                renderType={RenderType.PROVIDER_DISPUTE}
+              />
             </div>
           </div>
         </div>
