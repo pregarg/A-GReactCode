@@ -86,6 +86,12 @@ export const useCaseHeader = (renderType) => {
         placeholder: "Original case Received Date",
         renderTypes: [RenderType.PROVIDER_DISPUTE],
       },
+      {
+        type: "none",
+        name: "White_Glove_Indicator",
+        placeholder: "White Glove Indicator",
+        renderTypes: [RenderType.PROVIDER_DISPUTE],
+      },
     ].filter((e) => e.renderTypes.includes(renderType));
     setCaseHeaderFields(fields);
     setCaseHeader({
