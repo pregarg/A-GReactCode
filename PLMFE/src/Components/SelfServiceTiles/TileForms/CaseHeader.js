@@ -17,7 +17,7 @@ import NotesAccordion from "./NotesAccordion";
 import { FaBars } from "react-icons/fa";
 
 import RepresentativeInformationAccordion from "./RepresentativeInformationAccordion";
-import { useCaseHeader } from "./useCaseHeader";
+import { useHeader } from "./useHeader";
 import DocumentSection from "../DocumentSection";
 import { useLocation } from "react-router-dom";
 import Member360 from "../TileForms/Member360";
@@ -104,7 +104,8 @@ const CaseHeader = () => {
     modalTableComponent,
     caseTimelinesFields,
     setRenderType,
-  } = useCaseHeader();
+    caseHeaderFields,
+  } = useHeader();
 
   useEffect(() => {
     setRenderType(RenderType.APPEALS);
@@ -124,6 +125,7 @@ const CaseHeader = () => {
                 handleOnChange={handleCaseHeaderChange}
                 handleData={caseHeader}
                 setCaseHeader={setCaseHeader}
+                caseHeaderFields={caseHeaderFields}
               />
               <CaseTimelinesAccordion
                 caseTimelinesData={caseTimelines}
