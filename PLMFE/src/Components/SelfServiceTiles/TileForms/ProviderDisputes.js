@@ -17,7 +17,7 @@ import NotesAccordion from "./NotesAccordion";
 import { FaBars } from "react-icons/fa";
 
 import RepresentativeInformationAccordion from "./RepresentativeInformationAccordion";
-import { useCaseHeader } from "./useCaseHeader";
+import { useHeader } from "./useHeader";
 import DocumentSection from "../DocumentSection";
 import { useLocation } from "react-router-dom";
 import Member360 from "../TileForms/Member360";
@@ -110,7 +110,8 @@ const ProviderDisputes = () => {
     modalTableComponent,
     caseTimelinesFields,
     setRenderType,
-  } = useCaseHeader();
+    caseHeaderFields,
+  } = useHeader();
 
   useEffect(() => {
     setRenderType(RenderType.PROVIDER_DISPUTE);
@@ -126,12 +127,12 @@ const ProviderDisputes = () => {
           <div className="row">
             <div className="col-xs-6" style={{ textAlign: "center" }}>
               <br />
-              {/* <CaseHeaderAccordion
+              <CaseHeaderAccordion
                 handleOnChange={handleCaseHeaderChange}
                 handleData={caseHeader}
                 setCaseHeader={setCaseHeader}
-                renderType={RenderType.PROVIDER_DISPUTE}
-              /> */}
+                caseHeaderFields={caseHeaderFields}
+              />
               <CaseTimelinesAccordion
                 caseTimelinesData={caseTimelines}
                 setCaseTimelinesData={setCaseTimelines}
@@ -230,7 +231,9 @@ const ProviderDisputes = () => {
               <MemberAddOfRecordsAccordion
                 memberAddData={pd_MemberAddRecord}
                 setMemberAddData={setpdMemberAddRecord}
-                memberAddOfRecordsValidationSchema={memberAddOfRecordsValidationSchema}
+                memberAddOfRecordsValidationSchema={
+                  memberAddOfRecordsValidationSchema
+                }
                 memberAddErrors={memberAddErrors}
                 shouldShowSubmitError={shouldShowSubmitError}
                 renderType={RenderType.PROVIDER_DISPUTE}
