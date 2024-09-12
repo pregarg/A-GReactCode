@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Formik, Form } from "formik";
@@ -7,7 +7,7 @@ import "./Appeals.css";
 import { FormikInputField } from "../Common/FormikInputField";
 import { FormikDatePicker } from "../Common/FormikDatePicker";
 import { FormikSelectField } from "../Common/FormikSelectField";
-import { chunkArray, RenderType } from "./Constants";
+import { renderElements, RenderType } from "./Constants";
 
 const MemberAddOfRecordsAccordion = (props) => {
   const location = useLocation();
@@ -67,57 +67,7 @@ const MemberAddOfRecordsAccordion = (props) => {
     </div>
   );
 
-  const fields = [
-    {
-      type: "input",
-      name: "Issue_Number",
-      placeholder: "Issue Number",
-      maxLength: 50,
-      renderTypes: [RenderType.PROVIDER_DISPUTE],
-    },
-    {
-      type: "input",
-      name: "Mail_to_Address",
-      placeholder: "Mail to Address",
-      maxLength: 50,
-      renderTypes: [RenderType.PROVIDER_DISPUTE],
-    },
-    {
-      type: "input",
-      name: "Address_Line_1",
-      placeholder: "Address Line 1",
-      maxLength: 50,
-      renderTypes: [RenderType.PROVIDER_DISPUTE],
-    },
-    {
-      type: "input",
-      name: "Address_Line_2",
-      placeholder: "Address Line 2",
-      maxLength: 50,
-      renderTypes: [RenderType.PROVIDER_DISPUTE],
-    },
-    {
-      type: "input",
-      name: "Zip_Code",
-      placeholder: "Zip Code",
-      maxLength: 30,
-      renderTypes: [RenderType.PROVIDER_DISPUTE],
-    },
-    {
-      type: "input",
-      name: "City",
-      placeholder: "City",
-      maxLength: 30,
-      renderTypes: [RenderType.PROVIDER_DISPUTE],
-    },
-    {
-      type: "input",
-      name: "State_",
-      placeholder: "State",
-      maxLength: 30,
-      renderTypes: [RenderType.PROVIDER_DISPUTE],
-    },
-  ];
+
 
   return (
     <Formik
@@ -147,35 +97,14 @@ const MemberAddOfRecordsAccordion = (props) => {
               aria-labelledby="panelsStayOpen-Timelines"
             >
               <div className="accordion-body">
-                {chunkArray(fields, 3, (e) =>
-                  e.renderTypes.includes(props.renderType),
-                ).map((chunk) => (
-                  <div className="row my-2">
-                    {chunk.map((item) => {
-                      return (
-                        // (item.type === "select" &&
-                        //   renderSelectField(
-                        //     item.name,
-                        //     item.placeholder,
-                        //     item.values,
-                        //   )) ||
-                        item.type === "input" &&
-                        renderInputField(
-                          item.name,
-                          item.placeholder,
-                          item.maxLength,
-                        )
-                        //   ||
-                        // (item.type === "date" &&
-                        //   renderDatePicker(
-                        //     item.name,
-                        //     item.placeholder,
-                        //     item.label,
-                        //   ))
-                      );
-                    })}
-                  </div>
-                ))}
+              
+              {renderElements(
+                  props.memberAddRecordFields,
+                  "",
+                  renderInputField,
+                  "",
+                  
+                )}
               </div>
             </div>
           </div>

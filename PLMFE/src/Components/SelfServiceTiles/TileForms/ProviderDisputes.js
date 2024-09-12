@@ -45,6 +45,7 @@ const ProviderDisputes = () => {
     pd_MemberAddRecord,
     pd_MemberAltContactInfo,
     caseTimelinesValidationSchema,
+    memberAltContactValidationSchema,
     setCaseTimelines,
     setpdMemberAddRecord,
     setpdMemberAltContactInfo,
@@ -115,6 +116,8 @@ const ProviderDisputes = () => {
     populateModalTable,
     modalTableComponent,
     caseTimelinesFields,
+    memberAddRecordFields,
+    memberAltContactFields,
     setRenderType,
     caseHeaderFields,
   } = useHeader();
@@ -237,21 +240,21 @@ const ProviderDisputes = () => {
               <MemberAddOfRecordsAccordion
                 memberAddData={pd_MemberAddRecord}
                 setMemberAddData={setpdMemberAddRecord}
-                memberAddOfRecordsValidationSchema={
-                  memberAddOfRecordsValidationSchema
-                }
+                memberAddOfRecordsValidationSchema={memberAddOfRecordsValidationSchema}
+                memberAddRecordFields={memberAddRecordFields}
                 memberAddErrors={memberAddErrors}
                 shouldShowSubmitError={shouldShowSubmitError}
                 renderType={RenderType.PROVIDER_DISPUTE}
               />
-              <MemberAltContactInfoAccordion
+              {/* <MemberAltContactInfoAccordion
                 memberAltContactData={pd_MemberAltContactInfo}
                 setMemberAltContactData={setpdMemberAltContactInfo}
-                memberAltContactInfoValidationSchema={memberAltContactInfoValidationSchema}
+                memberAltContactValidationSchema={memberAltContactValidationSchema}
+                memberAltContactFields={memberAltContactFields}
                 memberAltContactErrors={memberAltContactErrors}
                 shouldShowSubmitError={shouldShowSubmitError}
                 renderType={RenderType.PROVIDER_DISPUTE}
-              />
+              /> */}
             </div>
           </div>
         </div>

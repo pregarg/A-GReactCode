@@ -16,6 +16,7 @@ export const useCaseTimelines = (renderType) => {
   });
   const [caseTimelinesValidationSchema, setCaseTimelinesValidationSchema] =
     useState(Yup.object().shape({}));
+    
   useEffect(() => {
     if (masterAngCaseFilingMethodSelector) {
       const caseFilingMethodArray =
@@ -168,19 +169,21 @@ export const useCaseTimelines = (renderType) => {
       },
       {
         type: "input",
-        name: "Are_number_of_claims_more_than_10",
+        name: "Number_of_Claims_More_Than_10",
         placeholder: "Are number of claims more than 10",
         maxLength: 30,
         renderTypes: [RenderType.PROVIDER_DISPUTE],
       },
     ].filter((e) => e.renderTypes.includes(renderType));
+
+    const caseTimelinesObject = fields.reduce((acc, field) => {
+      acc[field.name] = caseTimelines[field.name] || field.defaultValue;
+      return acc;
+    }, { caseNumber: caseTimelines.caseNumber });
+
     setCaseTimelinesFields(fields);
-    setCaseTimelines({
-      caseNumber: caseTimelines.caseNumber,
-      ...fields.map((e) => ({
-        [e.name]: caseTimelines[e.name] || e.defaultValue,
-      })),
-    });
+    
+    setCaseTimelines(caseTimelinesObject);
     setCaseTimelinesValidationSchema(
       Yup.object().shape({
         ...fields

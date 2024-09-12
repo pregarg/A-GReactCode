@@ -7,7 +7,7 @@ import "./Appeals.css";
 import { FormikInputField } from "../Common/FormikInputField";
 import { FormikDatePicker } from "../Common/FormikDatePicker";
 import { FormikSelectField } from "../Common/FormikSelectField";
-import { chunkArray, RenderType } from "./Constants";
+import { renderElements, RenderType } from "./Constants";
 
 const MemberAltContactInfoAccordion = (props) => {
   const location = useLocation();
@@ -70,84 +70,12 @@ const MemberAltContactInfoAccordion = (props) => {
     </div>
   );
  
-  const fields = [
-    {
-      type: "input",
-      name: "Issue_Number",
-      placeholder: "Issue Number",
-      maxLength: 50,
-      renderTypes: [RenderType.PROVIDER_DISPUTE],
-    },
   
-    {
-      type: "input",
-      name: "Address_Line_1",
-      placeholder: "Address Line 1",
-      maxLength: 50,
-      renderTypes: [RenderType.PROVIDER_DISPUTE],
-    },
-    {
-      type: "input",
-      name: "Address_Line_2",
-      placeholder: "Address Line 2",
-      maxLength: 50,
-      renderTypes: [RenderType.PROVIDER_DISPUTE],
-    },
-    {
-      type: "input",
-      name: "Zip_Code",
-      placeholder: "Zip Code",
-      maxLength: 30,
-      renderTypes: [RenderType.PROVIDER_DISPUTE],
-    },
-    {
-      type: "input",
-      name: "City",
-      placeholder: "City",
-      maxLength: 30,
-      renderTypes: [ RenderType.PROVIDER_DISPUTE],
-    },
-    {
-      type: "input",
-      name: "State_",
-      placeholder: "State",
-      maxLength: 30,
-      renderTypes: [RenderType.PROVIDER_DISPUTE],
-    },
-    {
-        type: "input",
-        name: "Alternate_Phone_Number",
-        placeholder: "Alternate Phone Number",
-        maxLength: 50,
-        renderTypes: [RenderType.PROVIDER_DISPUTE],
-      },
-      {
-        type: "input",
-        name: "Fax_Number",
-        placeholder: "Fax Number",
-        maxLength: 30,
-        renderTypes: [RenderType.PROVIDER_DISPUTE],
-      },
-      {
-        type: "input",
-        name: "Alternate_Email_Address",
-        placeholder: "Alternate Email Address",
-        maxLength: 30,
-        renderTypes: [ RenderType.PROVIDER_DISPUTE],
-      },
-      {
-        type: "input",
-        name: "Communication_Preference",
-        placeholder: "Communication Preference",
-        maxLength: 50,
-        renderTypes: [RenderType.PROVIDER_DISPUTE],
-      },
-  ];
 
   return (
     <Formik
       initialValues={props.memberAltContactData}
-      validationSchema={props.memberAltContactInfoValidationSchema}
+      validationSchema={props.memberAltContactValidationSchema}
       onSubmit={() => {}}
       enableReinitialize
     >
@@ -172,36 +100,13 @@ const MemberAltContactInfoAccordion = (props) => {
               aria-labelledby="panelsStayOpen-Timelines"
             >
               <div className="accordion-body">
-                {chunkArray(fields, 3, (e) =>
-                  e.renderTypes.includes(props.renderType),
-                ).map((chunk) => (
-                  <div className="row my-2">
-                    {chunk.map((item) => {
-                      console.log("curtsk", chunk);
-                      return (
-                        // (item.type === "select" &&
-                        //   renderSelectField(
-                        //     item.name,
-                        //     item.placeholder,
-                        //     item.values,
-                        //   )) ||
-                        (item.type === "input" &&
-                          renderInputField(
-                            item.name,
-                            item.placeholder,
-                            item.maxLength,
-                          )) 
-                        //   ||
-                        // (item.type === "date" &&
-                        //   renderDatePicker(
-                        //     item.name,
-                        //     item.placeholder,
-                        //     item.label,
-                        //   ))
-                      );
-                    })}
-                  </div>
-                ))}
+              {renderElements(
+                  props.memberAltContactFields,
+                  "",
+                  renderInputField,
+                  "",
+                  
+                )}
               </div>
             </div>
           </div>

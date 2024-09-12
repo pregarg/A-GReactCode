@@ -82,7 +82,7 @@ export const useCaseHeader = (renderType) => {
       },
       {
         type: "none",
-        name: "Original_case_Received_Date",
+        name: "Original_Case_Received_Date",
         placeholder: "Original case Received Date",
         renderTypes: [RenderType.PROVIDER_DISPUTE],
       },
@@ -93,13 +93,20 @@ export const useCaseHeader = (renderType) => {
         renderTypes: [RenderType.PROVIDER_DISPUTE],
       },
     ].filter((e) => e.renderTypes.includes(renderType));
+
+    const caseHeaderObject = fields.reduce((acc, field) => {
+      acc[field.name] = caseHeader[field.name] || field.defaultValue;
+      return acc;
+    }, { caseNumber: caseHeader.caseNumber });
+
     setCaseHeaderFields(fields);
-    setCaseHeader({
-      caseNumber: caseHeader.caseNumber,
-      ...fields.map((e) => ({
-        [e.name]: caseHeader[e.name] || e.defaultValue,
-      })),
-    });
+    // setCaseHeader({
+    //   caseNumber: caseHeader.caseNumber,
+    //   ...fields.map((e) => ({
+    //     [e.name]: caseHeader[e.name] || e.defaultValue,
+    //   })),
+    // });
+    setCaseHeader(caseHeaderObject);
   }, [renderType]);
   return {
     caseHeader,
