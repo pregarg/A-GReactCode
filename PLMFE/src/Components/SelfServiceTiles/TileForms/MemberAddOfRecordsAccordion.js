@@ -17,11 +17,8 @@ const MemberAddOfRecordsAccordion = (props) => {
   const stageName = caseHeaderConfigData["StageName"];
 
   const { convertToCase } = useGetDBTables();
-  
-  const [memberAddData, setMemberAddData] = useState(
-    props.memberAddData || {},
-  );
 
+  const [memberAddData, setMemberAddData] = useState(props.memberAddData || {});
 
   const handleMemberAddData = (name, value, persist) => {
     const newData = {
@@ -69,7 +66,7 @@ const MemberAddOfRecordsAccordion = (props) => {
       />
     </div>
   );
- 
+
   const fields = [
     {
       type: "input",
@@ -111,7 +108,7 @@ const MemberAddOfRecordsAccordion = (props) => {
       name: "City",
       placeholder: "City",
       maxLength: 30,
-      renderTypes: [ RenderType.PROVIDER_DISPUTE],
+      renderTypes: [RenderType.PROVIDER_DISPUTE],
     },
     {
       type: "input",
@@ -155,7 +152,6 @@ const MemberAddOfRecordsAccordion = (props) => {
                 ).map((chunk) => (
                   <div className="row my-2">
                     {chunk.map((item) => {
-                      console.log("curtsk", chunk);
                       return (
                         // (item.type === "select" &&
                         //   renderSelectField(
@@ -163,12 +159,12 @@ const MemberAddOfRecordsAccordion = (props) => {
                         //     item.placeholder,
                         //     item.values,
                         //   )) ||
-                        (item.type === "input" &&
-                          renderInputField(
-                            item.name,
-                            item.placeholder,
-                            item.maxLength,
-                          )) 
+                        item.type === "input" &&
+                        renderInputField(
+                          item.name,
+                          item.placeholder,
+                          item.maxLength,
+                        )
                         //   ||
                         // (item.type === "date" &&
                         //   renderDatePicker(

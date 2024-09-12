@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import { Formik } from "formik";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
@@ -17,7 +17,7 @@ import NotesAccordion from "./NotesAccordion";
 import { FaBars } from "react-icons/fa";
 
 import RepresentativeInformationAccordion from "./RepresentativeInformationAccordion";
-import { useCaseHeader } from "./useCaseHeader";
+import { useHeader } from "./useHeader";
 import DocumentSection from "../DocumentSection";
 import { useLocation } from "react-router-dom";
 import Member360 from "../TileForms/Member360";
@@ -102,7 +102,14 @@ const CaseHeader = () => {
     handleCloseNotesHistory,
     populateModalTable,
     modalTableComponent,
-  } = useCaseHeader();
+    caseTimelinesFields,
+    setRenderType,
+    caseHeaderFields,
+  } = useHeader();
+
+  useEffect(() => {
+    setRenderType(RenderType.APPEALS);
+  }, []);
 
   const FormComponent = () => (
     <div
@@ -118,6 +125,7 @@ const CaseHeader = () => {
                 handleOnChange={handleCaseHeaderChange}
                 handleData={caseHeader}
                 setCaseHeader={setCaseHeader}
+                caseHeaderFields={caseHeaderFields}
               />
               <CaseTimelinesAccordion
                 caseTimelinesData={caseTimelines}
@@ -126,6 +134,7 @@ const CaseHeader = () => {
                 caseTimelinesErrors={caseTimelinesErrors}
                 shouldShowSubmitError={shouldShowSubmitError}
                 renderType={RenderType.APPEALS}
+                caseTimelinesFields={caseTimelinesFields}
               />
               <CaseInformationAccordion
                 caseInformationData={caseInformation}
