@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Formik, Form } from "formik";
@@ -9,7 +9,7 @@ import { FormikDatePicker } from "../Common/FormikDatePicker";
 import { FormikSelectField } from "../Common/FormikSelectField";
 import { renderElements, RenderType } from "./Constants";
 
-const MemberAddOfRecordsAccordion = (props) => {
+const MemberAltContactInfoAccordion = (props) => {
   const location = useLocation();
   const caseHeaderConfigData = JSON.parse(
     process.env.REACT_APP_CASEHEADER_DETAILS || "{}",
@@ -17,21 +17,24 @@ const MemberAddOfRecordsAccordion = (props) => {
   const stageName = caseHeaderConfigData["StageName"];
 
   const { convertToCase } = useGetDBTables();
+  
+  const [memberAltContactData, setMemberAltContactData] = useState(
+    props.memberAltContactData || {},
+  );
 
-  const [memberAddData, setMemberAddData] = useState(props.memberAddData || {});
 
-  const handleMemberAddData = (name, value, persist) => {
+  const handleMemberAltContactData = (name, value, persist) => {
     const newData = {
-      ...memberAddData,
+      ...memberAltContactData,
       [name]: typeof value === "string" ? convertToCase(value) : value,
     };
-    setMemberAddData(newData);
+    setMemberAltContactData(newData);
     if (persist) {
-      props.setMemberAddData(newData);
+      props.setMemberAltContactData(newData);
     }
   };
   const persistMemberAddDataData = () => {
-    props.setMemberAddData(memberAddData);
+    props.setMemberAltContactData(memberAltContactData);
   };
 
   const renderInputField = (name, placeholder, maxLength) => (
@@ -40,8 +43,8 @@ const MemberAddOfRecordsAccordion = (props) => {
         name={name}
         placeholder={placeholder}
         maxLength={maxLength}
-        data={memberAddData}
-        onChange={handleMemberAddData}
+        data={memberAltContactData}
+        onChange={handleMemberAltContactData}
         displayErrors={props.shouldShowSubmitError}
         disabled={
           props.renderType === RenderType.APPEALS &&
@@ -61,18 +64,18 @@ const MemberAddOfRecordsAccordion = (props) => {
             location.state.stageName === "CaseArchived")
         }
         persist={persistMemberAddDataData}
-        schema={props.memberAddOfRecordsValidationSchema}
-        errors={props.memberAddErrors}
+        schema={props.memberAltContactInfoValidationSchema}
+        errors={props.memberAltContactErrors}
       />
     </div>
   );
-
-
+ 
+  
 
   return (
     <Formik
-      initialValues={props.memberAddData}
-      validationSchema={props.memberAddOfRecordsValidationSchema}
+      initialValues={props.memberAltContactData}
+      validationSchema={props.memberAltContactValidationSchema}
       onSubmit={() => {}}
       enableReinitialize
     >
@@ -88,7 +91,7 @@ const MemberAddOfRecordsAccordion = (props) => {
                 aria-expanded="true"
                 aria-controls="panelsStayOpen-collapseOne"
               >
-                Member Address Of Records
+                Member Alternative Contact Information
               </button>
             </h2>
             <div
@@ -97,9 +100,8 @@ const MemberAddOfRecordsAccordion = (props) => {
               aria-labelledby="panelsStayOpen-Timelines"
             >
               <div className="accordion-body">
-              
               {renderElements(
-                  props.memberAddRecordFields,
+                  props.memberAltContactFields,
                   "",
                   renderInputField,
                   "",
@@ -114,4 +116,4 @@ const MemberAddOfRecordsAccordion = (props) => {
   );
 };
 
-export default MemberAddOfRecordsAccordion;
+export default MemberAltContactInfoAccordion;

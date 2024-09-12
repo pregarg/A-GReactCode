@@ -10,6 +10,8 @@ import _ from "lodash";
 import TableComponent from "../../../../src/util/TableComponent";
 import { useCaseTimelines } from "./useCaseTimelines";
 import { useCaseHeader } from "./useCaseHeader";
+import { useMemberAddOfRecords } from "./useMemberAddOfRecords.js";
+import { useMemberAltContactInfo } from "./useMemberAltContactInfo.js";
 
 export const useHeader = () => {
   const currentDate = new Date();
@@ -35,16 +37,20 @@ export const useHeader = () => {
     setCaseTimelines,
   } = useCaseTimelines(renderType);
 
-  const [pd_MemberAddRecord, setpdMemberAddRecord] = useState({
-    caseNumber: "",
-    Issue_Number: "",
-    Mail_to_Address: "",
-    Address_Line_1: "",
-    Address_Line_2: "",
-    Zip_Code: "",
-    City: "",
-    State_: "",
-  });
+  const {
+    memberAltContactFields,
+    pd_MemberAltContactInfo,
+    memberAltContactValidationSchema,
+    setpdMemberAltContactInfo,
+  } = useMemberAltContactInfo(renderType)
+
+  const {
+    memberAddRecordFields,
+    pd_MemberAddRecord,
+    memberAddOfRecordsValidationSchema,
+    setpdMemberAddRecord,
+  } = useMemberAddOfRecords(renderType);
+
 
   const [caseInformation, setCaseInformation] = useState({
     caseNumber: "",
@@ -369,8 +375,6 @@ export const useHeader = () => {
     ),
   });
 
-  const memberAddOfRecordsValidationSchema = Yup.object().shape({});
-
   const [caseTimelinesErrors, setCaseTimelinesErrors] = useState([]);
   const [caseInformationErrors, setCaseInformationErrors] = useState([]);
   const [claimInformationErrors, setClaimInformationErrors] = useState([]);
@@ -478,11 +482,17 @@ export const useHeader = () => {
       lockStatus: "N",
     };
 
-    //const pdCaseTimelines = trimJsonValues({ ...pd_CaseTimelines });
-    //apiJson["PD_Case_Timelines"] = pdCaseTimelines;
+    const pdCaseHeader = trimJsonValues({ ...caseHeader });
+    apiJson["PD_CASE_HEADER"] = pdCaseHeader;
+
+    const pdCaseTimelines = trimJsonValues({ ...caseTimelines });
+    apiJson["PD_Case_Timelines"] = pdCaseTimelines;
 
     const pdMemberAddRecord = trimJsonValues({ ...pd_MemberAddRecord });
     apiJson["PD_MEMBER_ADD_OF_RECORDS"] = pdMemberAddRecord;
+
+    const pdMemberAltContact = trimJsonValues({ ...pd_MemberAltContactInfo });
+    apiJson["PD_MEMBER_ALTERNATIVE_CONTACT_INFO"] = pdMemberAltContact;
 
     const flowId = caseHeaderConfigData["FlowId"];
     const stageName = caseHeaderConfigData["StageName"];
@@ -1541,14 +1551,18 @@ export const useHeader = () => {
   return {
     caseTimelines,
     pd_MemberAddRecord,
+    pd_MemberAltContactInfo,
     caseTimelinesValidationSchema,
     setCaseTimelines,
+    setpdMemberAddRecord,
+    setpdMemberAltContactInfo,
     handleCaseHeaderChange,
     caseHeader,
     setCaseHeader,
     caseInformation,
     setCaseInformation,
     caseInformationValidationSchema,
+    memberAltContactValidationSchema,
     claimInformation,
     setClaimInformation,
     claimInformationValidationSchema,
@@ -1606,7 +1620,10 @@ export const useHeader = () => {
     representativeInformationGridValidationSchema,
     memberAddOfRecordsValidationSchema,
     caseTimelinesFields,
+    memberAddRecordFields,
+    memberAltContactFields,
     setRenderType,
     caseHeaderFields,
+    
   };
 };
