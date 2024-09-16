@@ -379,6 +379,25 @@ const masterAngAppellantDescReducer = (state = [], action) => {
   }
   return state;
 };
+const masterAngProductTypeReducer = (state = [], action) => {
+  if (action.type === "GET_PRODUCT_TYPE") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_PRODUCT_TYPE") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+
+const masterAngDenialTypeReducer = (state = [], action) => {
+  if (action.type === "GET_DENIAL_TYPE") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_DENIAL_TYPE") {
+    state = [];
+    return state;
+  }
+  return state;
+};
 
 const masterAngAppellantTypeReducer = (state = [], action) => {
   if (action.type === "GET_APPELLANT_TYPE") {
@@ -439,7 +458,15 @@ const masterAngClaimTypeReducer = (state = [], action) => {
   }
   return state;
 };
-
+const masterAngLineNumberReducer = (state = [], action) => {
+  if (action.type === "GET_LINE_NUMBER") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_LINE_NUMBER") {
+    state = [];
+    return state;
+  }
+  return state;
+};
 const masterAngDecisionReducer = (state = [], action) => {
   if (action.type === "GET_DECISION") {
     return [action.payload];
@@ -628,6 +655,35 @@ const masterAngDocumentReducer = (state = [], action) => {
   }
   return state;
 };
+const masterAngDocNeededReducer = (state = [], action) => {
+  if (action.type === "GET_DOC_NEEDED") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_DOC_NEEDED") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+
+const masterAngRequestedFromReducer = (state = [], action) => {
+  if (action.type === "GET_REQUESTED_FROM") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_REQUESTED_FROM") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+
+const masterAngNeededByReducer = (state = [], action) => {
+  if (action.type === "GET_NEEDED_BY") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_NEEDED_BY") {
+    state = [];
+    return state;
+  }
+  return state;
+};
 
 const masterAngRelationshipReducer = (state = [], action) => {
   if (action.type === "GET_RELATIONSHIP") {
@@ -751,12 +807,15 @@ export default combineReducers({
   masterAngCaseFilingMethod: masterAngCaseFilingMethodReducer,
   masterAngLOBMapping: masterAngLOBMappingReducer,
   masterAngAppellantDesc: masterAngAppellantDescReducer,
+  masterAngProductType:masterAngProductTypeReducer,
+  masterAngDenialType:masterAngDenialTypeReducer,
   masterAngAppellantType: masterAngAppellantTypeReducer,
   masterAngAppealType: masterAngAppealTypeReducer,
   masterAngCaseLevelPriority: masterAngCaseLevelPriorityReducer,
   masterAngIssueLevel: masterAngIssueLevelReducer,
   masterAngReviewType: masterAngReviewTypeReducer,
   masterAngClaimType: masterAngClaimTypeReducer,
+  masterAngLineNumber:masterAngLineNumberReducer,
   masterAngDecision: masterAngDecisionReducer,
   masterAngAuthServiceType: masterAngAuthServiceTypeReducer,
   masterAngProcessingStatus: masterAngProcessingStatusReducer,
@@ -775,6 +834,9 @@ export default combineReducers({
   masterAngExpeditedRequested: masterAngExpeditedRequestedReducer,
   masterAngExpeditedDenied: masterAngExpeditedDeniedReducer,
   masterAngStUpExpedited: masterAngStUpExpeditedReducer,
+  masterAngDocNeeded:masterAngDocNeededReducer,
+  masterAngRequestedFrom:masterAngRequestedFromReducer,
+  masterAngNeededBy:masterAngNeededByReducer,
   masterAngDocument: masterAngDocumentReducer,
   masterAngRelationship: masterAngRelationshipReducer,
   masterAngAORType: masterAngAORTypeReducer,

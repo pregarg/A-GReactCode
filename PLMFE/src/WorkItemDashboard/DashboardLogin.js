@@ -12,12 +12,15 @@ import {
   getMasterAngCaseFilingMethod,
   getMasterAngLOBMapping,
   getMasterAngAppellantDesc,
+  getMasterAngProductType,
+  getMasterAngDenialType,
   getMasterAngAppellantType,
   getMasterAngAppealType,
   getMasterAngCaseLevelPriority,
   getMasterAngIssueLevel,
   getMasterAngReviewType,
   getMasterAngClaimType,
+  getMasterAngLineNumber,
   getMasterAngDecision,
   getMasterAngAuthServiceType,
   getMasterAngProcessingStatus,
@@ -36,6 +39,9 @@ import {
   getMasterAngExpeditedRequested,
   getMasterAngExpeditedDenied,
   getMasterAngStUpExpedited,
+  getMasterAngDocNeeded,
+  getMasterAngRequestedFrom,
+  getMasterAngNeededBy,
   getMasterAngDocument,
   getMasterAngRelationship,
   getMasterAngAORType,
@@ -329,6 +335,23 @@ export default function DashboardLogin() {
       ),
     );
     dispatch(
+      getMasterAngProductType(
+        loginToken,
+        false,
+        onMasterLoadFail,
+        onMasterLoadSuccess,
+      ),
+    );
+    dispatch(
+      getMasterAngDenialType(
+        loginToken,
+        false,
+        onMasterLoadFail,
+        onMasterLoadSuccess,
+      ),
+    );
+    
+    dispatch(
       getMasterAngAppellantDesc(
         loginToken,
         false,
@@ -378,6 +401,14 @@ export default function DashboardLogin() {
     );
     dispatch(
       getMasterAngClaimType(
+        loginToken,
+        false,
+        onMasterLoadFail,
+        onMasterLoadSuccess,
+      ),
+    );
+    dispatch(
+      getMasterAngLineNumber(
         loginToken,
         false,
         onMasterLoadFail,
@@ -528,6 +559,31 @@ export default function DashboardLogin() {
         onMasterLoadSuccess,
       ),
     );
+    dispatch(
+      getMasterAngDocNeeded(
+        loginToken,
+        false,
+        onMasterLoadFail,
+        onMasterLoadSuccess,
+      ),
+    );
+    dispatch(
+      getMasterAngRequestedFrom(
+        loginToken,
+        false,
+        onMasterLoadFail,
+        onMasterLoadSuccess,
+      ),
+    );
+    dispatch(
+      getMasterAngNeededBy(
+        loginToken,
+        false,
+        onMasterLoadFail,
+        onMasterLoadSuccess,
+      ),
+    );
+    
     dispatch(
       getMasterAngDocument(
         loginToken,

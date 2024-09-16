@@ -37,6 +37,9 @@ export default function ClaimInformationTable({
   const masterAngFiledTimelySelector = useSelector(
     (state) => state?.masterAngFiledTimely,
   );
+  const masterAngLineNumberSelector = useSelector(
+    (state) => state?.masterAngLineNumber,
+  );
   const masterAngGrantGoodCauseSelector = useSelector(
     (state) => state?.masterAngGrantGoodCause,
   );
@@ -57,11 +60,12 @@ export default function ClaimInformationTable({
   const shouldHideFields = !excludedStages.includes(
     prop.state.stageName || claimStageName,
   );
-  let lineNumberOptions = [];
+   let lineNumberOptions = [];
   let filedTimelyValues = [];
   let grantGoodCauseValues = [];
 
   const [validationErrors, setValidationErrors] = useState({});
+  
   useEffect(() => {
     try {
       setValidationErrors([]);
@@ -90,6 +94,20 @@ export default function ClaimInformationTable({
         filedTimelyValues.push({
           label: convertToCase(filedTimelyArray[i].Filed_Timely),
           value: convertToCase(filedTimelyArray[i].Filed_Timely),
+        });
+      }
+    }
+
+    if (masterAngLineNumberSelector) {
+      const lineNumberArray =
+      masterAngLineNumberSelector.length === 0
+          ? []
+          : masterAngLineNumberSelector[0];
+
+      for (let i = 0; i < lineNumberArray.length; i++) {
+        lineNumberOptions.push({
+          label: convertToCase(lineNumberArray[i].Line_Number),
+          value: convertToCase(lineNumberArray[i].Line_Number),
         });
       }
     }
@@ -344,7 +362,7 @@ export default function ClaimInformationTable({
             {renderSimpleInputField("ServiceSpan", "Service Span", 50, index)}
             {renderSimpleInputField("MemberID", "Member ID", 50, index)}
             {renderSimpleInputField("ProviderName", "Provider Name", 50, index)}
-            {renderSimpleInputField("Claim_type", "Claim Type", 50, index)}
+            
           </div>
           <div className="row">
             {shouldHideFields &&
@@ -379,6 +397,7 @@ export default function ClaimInformationTable({
                 "Payment Mail Date (Postmark)",
                 index,
               )}
+              {renderSimpleInputField("Claim_type", "Claim Type", 50, index)}
           </div>
         </div>
       </>

@@ -14,6 +14,7 @@ import MemberInformationAccordion from "./MemberInformationAccordion";
 import AuthorizationInformationAccordion from "./AuthorizationInformationAccordion";
 import ExpeditedRequestAccordion from "./ExpeditedRequestAccordion";
 import NotesAccordion from "./NotesAccordion";
+import DocsNeededAccordion from "./DocsNeededAccordion";
 import { FaBars } from "react-icons/fa";
 
 import RepresentativeInformationAccordion from "./RepresentativeInformationAccordion";
@@ -37,6 +38,7 @@ const CaseHeader = () => {
       Expedited_Upgrade_Date_Time: date,
     }));
   };
+  
   const {
     caseTimelines,
     caseTimelinesValidationSchema,
@@ -66,11 +68,15 @@ const CaseHeader = () => {
     setAuthorizationInformationGrid,
     expeditedRequest,
     setExpeditedRequest,
+    expeditedRequestValidationSchema,
     notes,
     setNotes,
     notesErrors,
     notesValidationSchema,
-    expeditedRequestValidationSchema,
+    docsNeeded,
+    setdocsNeeded,
+    docsNeededValidationSchema,
+    docsNeededErrors,
     location,
     navigateHome,
     saveAndExit,
@@ -103,10 +109,12 @@ const CaseHeader = () => {
     populateModalTable,
     modalTableComponent,
     caseTimelinesFields,
+    docsNeededFields,
     setRenderType,
     caseHeaderFields,
   } = useHeader();
-
+  const stage = location.state.stageName;
+  const stageName =caseHeaderConfigData["StageName"];
   useEffect(() => {
     setRenderType(RenderType.APPEALS);
   }, []);
@@ -121,12 +129,17 @@ const CaseHeader = () => {
           <div className="row">
             <div className="col-xs-6" style={{ textAlign: "center" }}>
               <br />
+              {stageName !== "Start" || (stage === "Intake" || stage ==="Acknowledge"|| stage === "Research" ||stage === "Effectuate"
+                 || stage === "Pending Effectuate" || stage === "Resolve" || stage ==="Case Completed"|| stage === "Reopen" || stage === "Redirect Review" || stage === "Documents Needed" 
+               || stage === "CaseArchived" 
+              ) &&(
               <CaseHeaderAccordion
                 handleOnChange={handleCaseHeaderChange}
                 handleData={caseHeader}
                 setCaseHeader={setCaseHeader}
                 caseHeaderFields={caseHeaderFields}
               />
+              )} 
               <CaseTimelinesAccordion
                 caseTimelinesData={caseTimelines}
                 setCaseTimelinesData={setCaseTimelines}
@@ -211,6 +224,16 @@ const CaseHeader = () => {
                 notesErrors={notesErrors}
                 notesValidationSchema={notesValidationSchema}
                 shouldShowSubmitError={shouldShowSubmitError}
+              />
+
+              <DocsNeededAccordion
+                docsNeededData={docsNeeded}
+                setdocsNeededData={setdocsNeeded}
+                docsNeededValidationSchema={docsNeededValidationSchema}
+                docsNeededErrors={docsNeededErrors}
+                shouldShowSubmitError={shouldShowSubmitError}
+                renderType={RenderType.APPEALS}
+                docsNeededFields={docsNeededFields}
               />
 
               {location.state.formView === "DashboardHomeView" && (

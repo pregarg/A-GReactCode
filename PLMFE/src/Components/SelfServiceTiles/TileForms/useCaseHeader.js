@@ -10,15 +10,9 @@ export const useCaseHeader = (renderType) => {
     const fields = [
       {
         type: "none",
-        name: "Case_ID",
+        name: "caseNumber",
         placeholder: "Case ID",
-        renderTypes: [RenderType.PROVIDER_DISPUTE],
-      },
-      {
-        type: "none",
-        name: "Case_Due_Date",
-        placeholder: "Case Due Date",
-        renderTypes: [RenderType.APPEALS, RenderType.PROVIDER_DISPUTE],
+        renderTypes: [RenderType.APPEALS,RenderType.PROVIDER_DISPUTE],
       },
       {
         type: "none",
@@ -26,18 +20,14 @@ export const useCaseHeader = (renderType) => {
         placeholder: "Case Owner",
         renderTypes: [RenderType.APPEALS, RenderType.PROVIDER_DISPUTE],
       },
-      {
-        type: "none",
-        name: "Case_Received_Date",
-        placeholder: "Case Received Date",
-        renderTypes: [RenderType.APPEALS],
-      },
+      
       {
         type: "none",
         name: "Case_Status",
         placeholder: "Case Status",
         renderTypes: [RenderType.APPEALS, RenderType.PROVIDER_DISPUTE],
       },
+        
       {
         type: "none",
         name: "Case_Validation",
@@ -46,10 +36,24 @@ export const useCaseHeader = (renderType) => {
       },
       {
         type: "none",
-        name: "Environmental_Description",
-        placeholder: "Environmental Description",
+        name: "White_Glove_Indicator",
+        placeholder: "White Glove Indicator",
         renderTypes: [RenderType.APPEALS],
       },
+      {
+        type: "none",
+        name: "Environmental_Description",
+        placeholder: "Environmental Description",
+        defaultValue: "Dev",
+        renderTypes: [RenderType.APPEALS],
+      },
+      {
+        type: "none",
+        name: "Case_Due_Date",
+        placeholder: "Case Due Date",
+        renderTypes: [RenderType.APPEALS, RenderType.PROVIDER_DISPUTE],
+      },
+      
       {
         type: "none",
         name: "Extended_Case_Due_Date",
@@ -62,11 +66,18 @@ export const useCaseHeader = (renderType) => {
         placeholder: "Internal Due Date",
         renderTypes: [RenderType.APPEALS],
       },
+    
+      {
+        type: "none",
+        name: "Case_Received_Date",
+        placeholder: "Case Received Date",
+        renderTypes: [RenderType.APPEALS],
+      },
       {
         type: "none",
         name: "Subcase_ID",
         placeholder: "Subcase ID",
-        renderTypes: [RenderType.APPEALS],
+        renderTypes: [RenderType.PROVIDER_DISPUTE],
       },
       {
         type: "none",

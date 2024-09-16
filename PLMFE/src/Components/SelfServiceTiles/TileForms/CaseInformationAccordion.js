@@ -21,11 +21,16 @@ const CaseInformationAccordion = (props) => {
     (state) => state?.masterAngAppellantType,
   );
   const appealTypeSelector = useSelector((state) => state?.masterAngAppealType);
+  console.log("appealTypeSelector master",appealTypeSelector )
   const caseLevelSelector = useSelector(
     (state) => state?.masterAngCaseLevelPriority,
   );
   const issueLevelSelector = useSelector((state) => state?.masterAngIssueLevel);
   const masterAngSelector = useSelector((state) => state?.masterAngReviewType);
+
+  const productTypeSelector = useSelector((state) => state?.masterAngProductType);
+  console.log("productTypeSelector master",productTypeSelector )
+  const denialTypeSelector = useSelector((state) => state?.masterAngDenialType);
 
   const location = useLocation();
   const caseHeaderConfigData = JSON.parse(
@@ -42,6 +47,10 @@ const CaseInformationAccordion = (props) => {
   const [reviewTypeValues, setReviewTypeValues] = useState([]);
   const [productValues, setProductValues] = useState([]);
   const [productStateValues, setProductStateValues] = useState([]);
+
+  const [productTypeValues, setProductTypeValues] = useState([]);
+  const [denialTypeValues, setDenialTypeValues] = useState([]);
+ 
 
   useEffect(() => {
     const kvMapper = (e) => ({
@@ -78,6 +87,13 @@ const CaseInformationAccordion = (props) => {
 
     const masterAng = masterAngSelector?.[0] || [];
     setReviewTypeValues(masterAng.map((e) => e.Review_Type).map(kvMapper));
+
+    const productType = productTypeSelector?.[0] || [];
+    console.log("productType",productType)
+    setProductTypeValues(productType.map((e) => e.Product_Type).map(kvMapper));
+
+    const denialType = denialTypeSelector?.[0] || [];
+    setDenialTypeValues(denialType.map((e) => e.Denial_Type).map(kvMapper));
   }, []);
 
   useEffect(() => {
@@ -208,50 +224,53 @@ const CaseInformationAccordion = (props) => {
               "Line of Business",
               lobValues,
             )}
-            {renderInputField("LOB_Description", "LOB Description", 300)}
-            {renderInputField("Claim_Number", "Claim Number", 16)}
-          </div>
-          <div className="row my-2">
-            {renderSelectField("Product", "Product", productValues)}
-            {renderSelectField("Product_Type", "Product Type", [
-              { label: "USER", value: "USER" },
-            ])}
-            {renderSelectField(
+             {renderSelectField(
               "Product_State",
               "Product State",
               productStateValues,
             )}
+            {renderInputField("LOB_Description", "LOB Description", 300)}
+           
           </div>
           <div className="row my-2">
-            {renderSelectField(
-              "Appellant_Description",
-              "Appellant Description",
-              appellantDescValues,
-            )}
-            {renderSelectField(
+            {renderSelectField("Product", "Product", productValues)}
+            {renderSelectField("Product_Type", "Product Type", productTypeValues
+            //  [{ label: "USER", value: "USER" },]
+              )}
+            {renderInputField("Claim_Number", "Claim Number", 16)}
+           
+          </div>
+          <div className="row my-2">
+          {renderSelectField(
               "Appellant_Type",
               "Appellant Type",
               appellantTypeValues,
             )}
+            {renderSelectField(
+              "Appellant_Description",
+              "Appellant Description",
+              appellantDescValues,
+            )} 
             {renderSelectField("Appeal_Type", "Appeal Type", appealTypeValues)}
           </div>
           <div className="row my-2">
-            {renderSelectField("Issue_Level", "Issue Level", issueLevelValues)}
-            {renderInputField("Issue_Description", "Issue Description", 4000)}
-            {renderSelectField(
+          {renderInputField("Research_Type", "Research Type", 4000)}
+                {renderSelectField(
               "Case_Level_Priority",
               "Case Level Priority",
               caseLevelPriorityValues,
             )}
+            {renderSelectField("Issue_Level", "Issue Level", issueLevelValues)}
+           
+        
           </div>
           <div className="row my-2">
             {renderSelectField("Review_Type", "Review Type", reviewTypeValues)}
-            {renderSelectField("Denial_Type", "Denial Type", [
-              { label: "USER", value: "USER" },
-            ])}
-            {renderSelectField("Research_Type", "Research Type", [
-              { label: "USER", value: "USER" },
-            ])}
+            {renderSelectField("Denial_Type", "Denial Type", denialTypeValues
+            //  [{ label: "USER", value: "USER" },]
+            )}
+             {renderInputField("Issue_Description", "Issue Description", 4000)}
+            
           </div>
           <div className="row">
             {renderInputField("Inbound_Email_ID", "Inbound Email ID", 4000)}

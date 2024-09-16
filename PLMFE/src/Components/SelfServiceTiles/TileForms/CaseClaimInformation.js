@@ -53,6 +53,7 @@ const CaseClaimInformation = (props) => {
   const masterAngClaimTypeSelector = useSelector(
     (state) => state?.masterAngClaimType,
   );
+ 
   const masterAngDecisionSelector = useSelector(
     (state) => state?.masterAngDecision,
   );
@@ -173,6 +174,7 @@ const CaseClaimInformation = (props) => {
   };
 
   const [claimTypeValues, setClaimTypeValues] = useState([]);
+
   const [decisionValues, setDecisionValues] = useState([]);
   const [decisionReasonValues, setDecisionReasonValues] = useState([]);
   const [serviceTypeValues, setServiceTypeValues] = useState([]);
@@ -189,7 +191,7 @@ const CaseClaimInformation = (props) => {
         kvMapper,
       ),
     );
-
+   
     const angDecision = masterAngDecisionSelector?.[0] || [];
     setDecisionValues(
       [...new Set(angDecision.map((e) => convertToCase(e.DECISION)))].map(
@@ -287,6 +289,12 @@ const CaseClaimInformation = (props) => {
         });
         let resApiData = res.data.CallProcedure_Output?.data || [];
         resApiData = resApiData?.length > 0 ? resApiData : [];
+
+        if(resApiData[0].length === 0 )  {
+          console.log("No data found for the member ID");
+             alert("No data found");
+             return; 
+           }
 
         if (resApiData.length > 0) {
           const respKeys = Object.keys(resApiData);
@@ -401,7 +409,11 @@ const CaseClaimInformation = (props) => {
 
         let resApiData = res.data.CallProcedure_Output?.data || [];
         resApiData = resApiData?.length > 0 ? resApiData : [];
-
+        if(resApiData[0].length === 0 )  {
+          console.log("No data found for the member ID");
+             alert("No data found");
+             return; 
+           }
         if (resApiData.length > 0) {
           const respKeys = Object.keys(resApiData);
           respKeys.forEach((k) => {
@@ -775,30 +787,32 @@ const CaseClaimInformation = (props) => {
               Claim Search
             </button>
             <div className="row my-2">
-              {renderSelectField("Claim_type", "Claim type", claimTypeValues)}
+             
               {renderInputField("Claim_Number", "Claim Number", 16)}
               {renderInputField(
                 "Authorization_Number",
                 "Authorization Number",
                 9,
               )}
+               {renderDatePicker(
+                "Service_Start_Date",
+                "Service Start Date",
+                "Service Start Date",
+              )}
             </div>
             <div className="row my-2">
+            {renderDatePicker(
+                "Service_End_Date",
+                "Service End Date",
+                "Service End Date",
+              )}
+               {renderSelectField("Claim_type", "Claim type", claimTypeValues)}
               {renderDatePicker(
                 "Original_Denial_Date",
                 "Original Denial Date",
                 "Original Denial Date",
               )}
-              {renderDatePicker(
-                "Service_Start_Date",
-                "Service Start Date",
-                "Service Start Date",
-              )}
-              {renderDatePicker(
-                "Service_End_Date",
-                "Service End Date",
-                "Service End Date",
-              )}
+             
             </div>
             {shouldHideFields && (
               <div className="row my-2">

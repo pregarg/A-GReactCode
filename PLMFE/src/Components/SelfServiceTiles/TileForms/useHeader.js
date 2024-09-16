@@ -9,6 +9,7 @@ import _ from "lodash";
 
 import TableComponent from "../../../../src/util/TableComponent";
 import { useCaseTimelines } from "./useCaseTimelines";
+import { useDocsNeeded } from "./useDocsNeeded";
 import { useCaseHeader } from "./useCaseHeader";
 import { useMemberAddOfRecords } from "./useMemberAddOfRecords.js";
 import { useMemberAltContactInfo } from "./useMemberAltContactInfo.js";
@@ -50,6 +51,13 @@ export const useHeader = () => {
     memberAddOfRecordsValidationSchema,
     setpdMemberAddRecord,
   } = useMemberAddOfRecords(renderType);
+
+  const {
+    docsNeeded,
+    setdocsNeeded,
+    docsNeededValidationSchema,
+    docsNeededFields,
+  } = useDocsNeeded(renderType);
 
 
   const [caseInformation, setCaseInformation] = useState({
@@ -382,6 +390,7 @@ export const useHeader = () => {
   const [expeditedRequestErrors, setExpeditedRequestErrors] = useState([]);
   const [notesErrors, setNotesErrors] = useState([]);
   const [memberAddErrors, setMemberAddErrorsErrors] = useState([]);
+  const [docsNeededErrors, setdocsNeededErrors] = useState([]);
   const validateSync = (schema, data, setErrors) => {
     try {
       setErrors([]);
@@ -425,6 +434,11 @@ export const useHeader = () => {
       expeditedRequest,
       setExpeditedRequestErrors,
     );
+    validateSync(
+    docsNeededValidationSchema,
+    docsNeeded,
+    setdocsNeededErrors,
+    );
     validateSync(notesValidationSchema, notes, setNotesErrors);
     validateSync(
       memberAddOfRecordsValidationSchema,
@@ -439,6 +453,7 @@ export const useHeader = () => {
     expeditedRequest,
     providerInformationGrid,
     authorizationInformationGrid,
+    docsNeeded,
   ]);
 
   useEffect(() => {
@@ -449,6 +464,7 @@ export const useHeader = () => {
         ...claimInformationErrors,
         ...memberInformationErrors,
         ...expeditedRequestErrors,
+        ...docsNeededErrors,
       }).length > 0,
     );
   }, [
@@ -457,6 +473,7 @@ export const useHeader = () => {
     claimInformationErrors,
     memberInformationErrors,
     expeditedRequestErrors,
+    docsNeededErrors,
   ]);
   //const [disableSaveAndExit, setDisableSaveAndExit] = useState(true);
   const [authorizationInformation, setAuthorizationInformation] = useState({
@@ -585,6 +602,7 @@ export const useHeader = () => {
 
     const angExpeditedRequest = trimJsonValues({ ...expeditedRequest });
     const angNotes = trimJsonValues({ ...notes });
+    const angDocsNeeded = trimJsonValues({ ...docsNeeded });
 
     apiJson["ANG_Case_Header"] = angCaseHeader;
     apiJson["ANG_Case_Timelines"] = angCaseTimelines;
@@ -600,6 +618,7 @@ export const useHeader = () => {
       angAuthorizationInformationGrid;
     apiJson["ANG_Expedited_Request"] = angExpeditedRequest;
     apiJson["ANG_Notes"] = angNotes;
+    apiJson["ANG_DOCS_NEEDED"] = angDocsNeeded;
     let mainCaseReqBody = {
       ...mainCaseDetails,
       caseStatus: "Open",
@@ -1123,14 +1142,15 @@ export const useHeader = () => {
           timeDifference / (1000 * 60 * 60 * 24),
         );
         const complianceTime = `${daysLeft}d ${hoursLeft}h ${minutesLeft}m ${secondsLeft}s`;
-
+        console.log("complianceTime",complianceTime)
+        console.log("setCaseTimelines",setCaseTimelines)
         setCaseTimelines((prevState) => ({
           ...prevState,
           ...(data?.["angCaseTimelines"]?.[0] || {}),
           Case_Aging: caseAgingInDays + " days",
           Compliance_Time_Left_to_Finish: complianceTime + " remaining",
         }));
-
+        console.log("data casetimelines",data?.["angCaseTimelines"])
         // Update other state values
         // setCaseTimelines(data?.["angCaseTimelines"]?.[0] || {});
 
@@ -1150,8 +1170,9 @@ export const useHeader = () => {
         );
         setExpeditedRequest(data?.["angExpeditedRequest"]?.[0] || {});
         setNotes(data?.["angNotes"]?.[0] || {});
+        setdocsNeeded(data?.["angDocsNeeded"]?.[0] || {});
 
-        setCaseTimelines(data?.["pdCaseTimelines"]?.[0] || {});
+       // setCaseTimelines(data?.["pdCaseTimelines"]?.[0] || {});
         setFormData(_.cloneDeep(data));
 
         // Update case data in caseData array
@@ -1200,6 +1221,7 @@ export const useHeader = () => {
     });
     const angExpeditedRequest = trimJsonValues({ ...expeditedRequest });
     const angNotes = trimJsonValues({ ...notes });
+    const angDocsNeeded = trimJsonValues({ ...docsNeeded });
 
     const angClaimInformationGrid = getGridDataValues(claimInformationGrid);
     const originalClaimInformationGrid = getGridDataValues(
@@ -1256,6 +1278,8 @@ export const useHeader = () => {
       formData["angExpeditedRequest"][0],
     );
     apiJson["ANG_Notes"] = CompareJSON(angNotes, formData["angNotes"][0]);
+    apiJson["ANG_DOCS_NEEDED"] = CompareJSON(angDocsNeeded, formData["angDocsNeeded"][0]);
+    
 
     let updateClaimArray = [];
     if (
@@ -1547,7 +1571,7 @@ export const useHeader = () => {
         }
       });
   };
-
+ 
   return {
     caseTimelines,
     pd_MemberAddRecord,
@@ -1624,6 +1648,10 @@ export const useHeader = () => {
     memberAltContactFields,
     setRenderType,
     caseHeaderFields,
-    
+    docsNeeded,
+    setdocsNeeded,
+    docsNeededValidationSchema,
+    docsNeededErrors,
+    docsNeededFields, 
   };
 };
