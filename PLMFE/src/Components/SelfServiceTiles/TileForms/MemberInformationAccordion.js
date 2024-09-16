@@ -186,6 +186,8 @@ const MemberInformationAccordion = (props) => {
     props.setMemberInformationData({ ...selectedAddress[0] });
   };
 
+  
+  
   const showMembers = async () => {
     let MemberID = selectSearchValues?.memberID;
     let MedicareID = selectSearchValues?.medicareID;
@@ -193,7 +195,7 @@ const MemberInformationAccordion = (props) => {
     let MemberFirstName = selectSearchValues?.memberFirstNameId;
     let MemberLastName = selectSearchValues?.memberLasstNameId;
     let DOB = selectSearchValues?.dateOfBirth;
-
+  
     // Check if at least one search parameter has a value
     if (
       MemberID ||
@@ -212,55 +214,64 @@ const MemberInformationAccordion = (props) => {
         Member_Last_Name: MemberLastName || "",
         Date_of_Birth: extractDate(DOB) || "",
       };
-
+  
       try {
         let res = await axios.post("/generic/callProcedure", getApiJson, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        console.log("res", res);
+        console.log("Full API Response:", res.data); // Debugging the API response
+  
+        // Access the first element of resApiData
         let resApiData = res.data.CallProcedure_Output?.data || [];
-        resApiData = resApiData?.length > 0 ? resApiData : [];
-        console.log("procedure ka data", resApiData);
-        if (resApiData.length > 0) {
-          const respKeys = Object.keys(resApiData);
-          respKeys.forEach((k) => {
-            let apiResponse = resApiData[k];
-            console.log("apiResponse", apiResponse);
-            if (
-              apiResponse.hasOwnProperty("Date_of_Birth") &&
-              typeof apiResponse.Date_of_Birth === "string"
-            ) {
-              const mad = new Date(getDatePartOnly(apiResponse.Date_of_Birth));
-              apiResponse.Date_of_Birth = extractDate(mad);
-
-              console.log("dob-->", mad);
-              console.log("dob2-->", extractDate(mad));
-            }
-            if (
-              apiResponse.hasOwnProperty("Plan_Effective_Date") &&
-              typeof apiResponse.Plan_Effective_Date === "string"
-            ) {
-              const mad = new Date(
-                getDatePartOnly(apiResponse.Plan_Effective_Date),
-              );
-              apiResponse.Plan_Effective_Date = extractDate(mad);
-              console.log("dob-->", apiResponse.Plan_Effective_Date);
-            }
-
-            if (
-              apiResponse.hasOwnProperty("Plan_Expiration_Date") &&
-              typeof apiResponse.Plan_Expiration_Date === "string"
-            ) {
-              const mad = new Date(
-                getDatePartOnly(apiResponse.Plan_Expiration_Date),
-              );
-              apiResponse.Plan_Expiration_Date = extractDate(mad);
-              console.log("dob-->", apiResponse.Plan_Expiration_Date);
-            }
-          });
-
-          setResponseData(resApiData);
+        console.log("procedure ka data", resApiData); // Check if data exists
+  
+      if(resApiData[0].length === 0 )  {
+       console.log("No data found for the member ID");
+          alert("No data found");
+          return; 
         }
+  
+        const respKeys = Object.keys(resApiData[0]); 
+        respKeys.forEach((k) => {
+          let apiResponse = resApiData[0][k]; 
+          console.log("apiResponse", apiResponse);
+          
+          if (
+            apiResponse?.hasOwnProperty("Date_of_Birth") &&
+            typeof apiResponse.Date_of_Birth === "string"
+          ) {
+            const mad = new Date(getDatePartOnly(apiResponse.Date_of_Birth));
+            apiResponse.Date_of_Birth = extractDate(mad);
+  
+            console.log("dob-->", mad);
+            console.log("dob2-->", extractDate(mad));
+          }
+  
+          if (
+            apiResponse?.hasOwnProperty("Plan_Effective_Date") &&
+            typeof apiResponse.Plan_Effective_Date === "string"
+          ) {
+            const mad = new Date(
+              getDatePartOnly(apiResponse.Plan_Effective_Date)
+            );
+            apiResponse.Plan_Effective_Date = extractDate(mad);
+            console.log("Plan Effective Date -->", apiResponse.Plan_Effective_Date);
+          }
+  
+          if (
+            apiResponse?.hasOwnProperty("Plan_Expiration_Date") &&
+            typeof apiResponse.Plan_Expiration_Date === "string"
+          ) {
+            const mad = new Date(
+              getDatePartOnly(apiResponse.Plan_Expiration_Date)
+            );
+            apiResponse.Plan_Expiration_Date = extractDate(mad);
+            console.log("Plan Expiration Date -->", apiResponse.Plan_Expiration_Date);
+          }
+        });
+  
+        setResponseData(resApiData);
+  
         const apiStat = res.data.CallProcedure_Output.Status;
         if (apiStat === -1) {
           alert("Error in fetching data");
@@ -273,6 +284,7 @@ const MemberInformationAccordion = (props) => {
       alert("Please select at least one search value.");
     }
   };
+  
 
   const memberSearchTableComponent = () => {
     let columnNames =

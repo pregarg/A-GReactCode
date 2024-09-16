@@ -247,6 +247,84 @@ export const getMasterAngAppellantDesc = (
   };
 };
 
+export const getMasterAngProductType = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append(
+        "tableName",
+        "ANG_MASTER_PRODUCT_TYPE~masterAngProductType",
+      );
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterAngProductType];
+            //console.log(response);
+            dispatch({ type: "GET_PRODUCT_TYPE", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_PRODUCT_TYPE", payload: "" });
+    }
+  };
+};
+
+export const getMasterAngDenialType = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append(
+        "tableName",
+        "ANG_MASTER_DENIAL_TYPE~masterAngDenialType",
+      );
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterAngDenialType];
+            //console.log(response);
+            dispatch({ type: "GET_DENIAL_TYPE", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_DENIAL_TYPE", payload: "" });
+    }
+  };
+};
+
 export const getMasterAngAppellantType = (
   token,
   clearFlag = false,
@@ -468,7 +546,41 @@ export const getMasterAngClaimType = (
     }
   };
 };
-
+export const getMasterAngLineNumber = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append("tableName", "ANG_MASTER_LINE_NUMBER~masterAngLineNumber");
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterAngLineNumber];
+            //console.log(response);
+            dispatch({ type: "GET_LINE_NUMBER", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_LINE_NUMBER", payload: "" });
+    }
+  };
+};
 export const getMasterAngDecision = (
   token,
   clearFlag = false,
@@ -1113,6 +1225,120 @@ export const getMasterAngExpeditedDenied = (
         });
     } else if (clearFlag) {
       dispatch({ type: "CLEAR_EXPEDITED_DENIED", payload: "" });
+    }
+  };
+};
+export const getMasterAngDocNeeded = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append(
+        "tableName",
+        "ANG_MASTER_DOC_NEEDED~masterAngDocNeeded",
+      );
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterAngDocNeeded];
+            //console.log(response);
+            dispatch({ type: "GET_DOC_NEEDED", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_DOC_NEEDED", payload: "" });
+    }
+  };
+};
+export const getMasterAngRequestedFrom = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append(
+        "tableName",
+        "ANG_MASTER_REQUESTED_FROM~masterAngRequestedFrom",
+      );
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterAngRequestedFrom];
+            //console.log(response);
+            dispatch({ type: "GET_REQUESTED_FROM", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_REQUESTED_FROM", payload: "" });
+    }
+  };
+};
+export const getMasterAngNeededBy= (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append(
+        "tableName",
+        "ANG_MASTER_NEEDED_BY~masterAngNeededBy",
+      );
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterAngNeededBy];
+            //console.log(response);
+            dispatch({ type: "GET_NEEDED_BY", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_NEEDED_BY", payload: "" });
     }
   };
 };

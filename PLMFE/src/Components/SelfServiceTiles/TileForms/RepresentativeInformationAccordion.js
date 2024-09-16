@@ -200,7 +200,11 @@ const RepresentativeInformationAccordion = (props) => {
         });
         let resApiData = res.data.CallProcedure_Output?.data || [];
         resApiData = resApiData?.length > 0 ? resApiData : [];
-
+        if(resApiData[0].length === 0 )  {
+          console.log("No data found for the member ID");
+             alert("No data found");
+             return; 
+           }
         if (resApiData.length > 0) {
           const respKeys = Object.keys(resApiData);
           respKeys.forEach((k) => {
