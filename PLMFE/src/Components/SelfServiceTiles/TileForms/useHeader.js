@@ -10,6 +10,7 @@ import _ from "lodash";
 import TableComponent from "../../../../src/util/TableComponent";
 import { useCaseTimelines } from "./useCaseTimelines";
 import { useDocsNeeded } from "./useDocsNeeded";
+import { useCaseDecisionDetail } from "./useCaseDecisionDetails.js"
 import { useCaseHeader } from "./useCaseHeader";
 import { useMemberAddOfRecords } from "./useMemberAddOfRecords.js";
 import { useMemberAltContactInfo } from "./useMemberAltContactInfo.js";
@@ -58,6 +59,13 @@ export const useHeader = () => {
     docsNeededValidationSchema,
     docsNeededFields,
   } = useDocsNeeded(renderType);
+
+  const {
+    caseDecisionDetails,
+    setcaseDecisionDetails,
+    caseDecisionDetailsValidationSchema,
+    caseDecisionDetailsFields,
+  } = useCaseDecisionDetail(renderType);
 
 
   const [caseInformation, setCaseInformation] = useState({
@@ -391,6 +399,7 @@ export const useHeader = () => {
   const [notesErrors, setNotesErrors] = useState([]);
   const [memberAddErrors, setMemberAddErrorsErrors] = useState([]);
   const [docsNeededErrors, setdocsNeededErrors] = useState([]);
+  const [caseDecisionDetailsErrors, setcaseDecisionDetailsErrors] = useState([]);
   const validateSync = (schema, data, setErrors) => {
     try {
       setErrors([]);
@@ -439,6 +448,11 @@ export const useHeader = () => {
     docsNeeded,
     setdocsNeededErrors,
     );
+    validateSync(
+      caseDecisionDetailsValidationSchema,
+      caseDecisionDetails,
+      setcaseDecisionDetailsErrors,
+    );
     validateSync(notesValidationSchema, notes, setNotesErrors);
     validateSync(
       memberAddOfRecordsValidationSchema,
@@ -454,6 +468,7 @@ export const useHeader = () => {
     providerInformationGrid,
     authorizationInformationGrid,
     docsNeeded,
+    caseDecisionDetails,
   ]);
 
   useEffect(() => {
@@ -465,6 +480,7 @@ export const useHeader = () => {
         ...memberInformationErrors,
         ...expeditedRequestErrors,
         ...docsNeededErrors,
+        ...caseDecisionDetailsErrors,
       }).length > 0,
     );
   }, [
@@ -474,6 +490,7 @@ export const useHeader = () => {
     memberInformationErrors,
     expeditedRequestErrors,
     docsNeededErrors,
+    caseDecisionDetailsErrors,
   ]);
   //const [disableSaveAndExit, setDisableSaveAndExit] = useState(true);
   const [authorizationInformation, setAuthorizationInformation] = useState({
@@ -603,6 +620,7 @@ export const useHeader = () => {
     const angExpeditedRequest = trimJsonValues({ ...expeditedRequest });
     const angNotes = trimJsonValues({ ...notes });
     const angDocsNeeded = trimJsonValues({ ...docsNeeded });
+    const angCaseDecisionDetails= trimJsonValues({ ...caseDecisionDetails });
 
     apiJson["ANG_Case_Header"] = angCaseHeader;
     apiJson["ANG_Case_Timelines"] = angCaseTimelines;
@@ -619,6 +637,7 @@ export const useHeader = () => {
     apiJson["ANG_Expedited_Request"] = angExpeditedRequest;
     apiJson["ANG_Notes"] = angNotes;
     apiJson["ANG_DOCS_NEEDED"] = angDocsNeeded;
+    apiJson["ANG_Case_Decision_Details"] = angCaseDecisionDetails;
     let mainCaseReqBody = {
       ...mainCaseDetails,
       caseStatus: "Open",
@@ -1171,6 +1190,7 @@ export const useHeader = () => {
         setExpeditedRequest(data?.["angExpeditedRequest"]?.[0] || {});
         setNotes(data?.["angNotes"]?.[0] || {});
         setdocsNeeded(data?.["angDocsNeeded"]?.[0] || {});
+        setcaseDecisionDetails(data?.["angCaseDecisionDetails"]?.[0] || {});
 
        // setCaseTimelines(data?.["pdCaseTimelines"]?.[0] || {});
         setFormData(_.cloneDeep(data));
@@ -1222,6 +1242,7 @@ export const useHeader = () => {
     const angExpeditedRequest = trimJsonValues({ ...expeditedRequest });
     const angNotes = trimJsonValues({ ...notes });
     const angDocsNeeded = trimJsonValues({ ...docsNeeded });
+    const angCaseDecisionDetails = trimJsonValues({ ...caseDecisionDetails });
 
     const angClaimInformationGrid = getGridDataValues(claimInformationGrid);
     const originalClaimInformationGrid = getGridDataValues(
@@ -1278,7 +1299,11 @@ export const useHeader = () => {
       formData["angExpeditedRequest"][0],
     );
     apiJson["ANG_Notes"] = CompareJSON(angNotes, formData["angNotes"][0]);
+    console.log("angDocsNeeded",angDocsNeeded);
     apiJson["ANG_DOCS_NEEDED"] = CompareJSON(angDocsNeeded, formData["angDocsNeeded"][0]);
+    console.log("abcssss",angCaseDecisionDetails);
+    apiJson["ANG_Case_Decision_Details"] = CompareJSON(angCaseDecisionDetails, formData["angCaseDecisionDetails"][0]);
+    
     
 
     let updateClaimArray = [];
@@ -1533,9 +1558,11 @@ export const useHeader = () => {
     apiJson["ANG_Provider_Information_Grid"] = updateProviderArray;
     apiJson["ANG_Representative_Information_Grid"] = updateRepresentativeArray;
     apiJson["ANG_Authorization_Information_Grid"] = updateAuthorizationArray;
+    
+
 
     apiJson["caseNumber"] = location.state.caseNumber;
-
+    console.log("abcsssttttts",angCaseDecisionDetails);
     customAxios
       .post("/generic/update", apiJson, {
         headers: { Authorization: `Bearer ${token}` },
@@ -1653,5 +1680,10 @@ export const useHeader = () => {
     docsNeededValidationSchema,
     docsNeededErrors,
     docsNeededFields, 
+    caseDecisionDetails,
+    setcaseDecisionDetails,
+    caseDecisionDetailsValidationSchema,
+    caseDecisionDetailsErrors,
+	  caseDecisionDetailsFields,
   };
 };

@@ -15,6 +15,7 @@ import AuthorizationInformationAccordion from "./AuthorizationInformationAccordi
 import ExpeditedRequestAccordion from "./ExpeditedRequestAccordion";
 import NotesAccordion from "./NotesAccordion";
 import DocsNeededAccordion from "./DocsNeededAccordion";
+import CaseDecisionDetailsAccordion from "./CaseDecisionDetailsAccordion";
 import { FaBars } from "react-icons/fa";
 
 import RepresentativeInformationAccordion from "./RepresentativeInformationAccordion";
@@ -77,6 +78,10 @@ const CaseHeader = () => {
     setdocsNeeded,
     docsNeededValidationSchema,
     docsNeededErrors,
+    caseDecisionDetails,
+    setcaseDecisionDetails,
+    caseDecisionDetailsValidationSchema,
+    caseDecisionDetailsErrors,
     location,
     navigateHome,
     saveAndExit,
@@ -110,6 +115,7 @@ const CaseHeader = () => {
     modalTableComponent,
     caseTimelinesFields,
     docsNeededFields,
+    caseDecisionDetailsFields,
     setRenderType,
     caseHeaderFields,
   } = useHeader();
@@ -235,7 +241,20 @@ const CaseHeader = () => {
                 renderType={RenderType.APPEALS}
                 docsNeededFields={docsNeededFields}
               />
-
+              {stageName !== "Start" || (stage === "Research" ||stage === "Effectuate"
+                 || stage === "Pending Effectuate" || stage === "Resolve" || stage ==="Case Completed"|| stage === "Reopen"
+               || stage === "CaseArchived" 
+              ) &&(
+              <CaseDecisionDetailsAccordion
+                caseDecisionDetailsData={caseDecisionDetails}
+                setcaseDecisionDetailsData={setcaseDecisionDetails}
+                caseDecisionDetailsValidationSchema={caseDecisionDetailsValidationSchema}
+                caseDecisionDetailsErrors={caseDecisionDetailsErrors}
+                shouldShowSubmitError={shouldShowSubmitError}
+                renderType={RenderType.APPEALS}
+                caseDecisionDetailsFields={caseDecisionDetailsFields}
+              />
+              )}
               {location.state.formView === "DashboardHomeView" && (
                 <DocumentSection
                   fileDataRef={documentSectionDataRef.current}
