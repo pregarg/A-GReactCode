@@ -6,11 +6,11 @@ import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import CaseHeaderAccordion from "./CaseHeaderAccordion";
 import CaseTimelinesAccordion from "./CaseTimelinesAccordion";
-import CaseInformationAccordion from "./CaseInformationAccordion";
-import CaseClaimInformation from "./CaseClaimInformation";
+import CaseInformationAccordion from "./ProviderDisputeCaseInformationAccordion";
+import CaseClaimInformation from "./ProviderDisputeClaimInformation";
 import DecisionTab from "../../../WorkItemDashboard/DecisionTab";
 import CaseInformation from "../../../WorkItemDashboard/CaseInformation";
-import MemberInformationAccordion from "./MemberInformationAccordion";
+import MemberInformationAccordion from "./ProviderDisputeMemberInformationAccordion";
 import AuthorizationInformationAccordion from "./AuthorizationInformationAccordion";
 import ExpeditedRequestAccordion from "./ExpeditedRequestAccordion";
 import NotesAccordion from "./NotesAccordion";
@@ -151,7 +151,7 @@ const ProviderDisputes = () => {
                 renderType={RenderType.PROVIDER_DISPUTE}
                 caseTimelinesFields={caseTimelinesFields}
               />
-              {/* <CaseInformationAccordion
+               <CaseInformationAccordion
                 caseInformationData={caseInformation}
                 setCaseInformationData={setCaseInformation}
                 caseInformationValidationSchema={
@@ -180,6 +180,7 @@ const ProviderDisputes = () => {
                   providerInformationGridValidationSchema
                 }
               />
+              
               <MemberInformationAccordion
                 memberInformationData={memberInformation}
                 setMemberInformationData={setMemberInformation}
@@ -189,7 +190,7 @@ const ProviderDisputes = () => {
                 memberInformationErrors={memberInformationErrors}
                 shouldShowSubmitError={shouldShowSubmitError}
               />
-              
+              {/*
               <RepresentativeInformationAccordion
                 handleRepresentativeInformationGridData={
                   representativeInformationGrid
