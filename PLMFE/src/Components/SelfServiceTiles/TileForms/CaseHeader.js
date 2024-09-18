@@ -78,6 +78,9 @@ const CaseHeader = () => {
     setdocsNeeded,
     docsNeededValidationSchema,
     docsNeededErrors,
+    docNeededGrid,
+    setDocNeededGrid,
+    docNeededGridValidationSchema,
     caseDecisionDetails,
     setcaseDecisionDetails,
     caseDecisionDetailsValidationSchema,
@@ -233,13 +236,9 @@ const CaseHeader = () => {
               />
 
               <DocsNeededAccordion
-                docsNeededData={docsNeeded}
-                setdocsNeededData={setdocsNeeded}
-                docsNeededValidationSchema={docsNeededValidationSchema}
-                docsNeededErrors={docsNeededErrors}
-                shouldShowSubmitError={shouldShowSubmitError}
-                renderType={RenderType.APPEALS}
-                docsNeededFields={docsNeededFields}
+                handleDocNeededGridData={docNeededGrid}
+                updatedocNeededGridData={setDocNeededGrid}
+                docNeededGridValidationSchema={docNeededGridValidationSchema}
               />
               {stageName !== "Start" || (stage === "Research" ||stage === "Effectuate"
                  || stage === "Pending Effectuate" || stage === "Resolve" || stage ==="Case Completed"|| stage === "Reopen"

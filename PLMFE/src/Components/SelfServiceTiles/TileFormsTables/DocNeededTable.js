@@ -7,8 +7,8 @@ import { SimpleInputField } from "../Common/SimpleInputField";
 import { SimpleSelectField } from "../Common/SimpleSelectField";
 import { SimpleDatePickerField } from "../Common/SimpleDatePickerField";
 
-export default function RepresentativeInformationTable({
-  representativeInformationGridData,
+export default function DocNeededTable({
+  docNeededGridData,
   deleteTableRows,
   handleGridSelectChange,
   addTableRows,
@@ -21,7 +21,7 @@ export default function RepresentativeInformationTable({
   gridFieldTempState,
   validationSchema,
 }) {
-  RepresentativeInformationTable.displayName = "RepresentativeInformationTable";
+  DocNeededTable.displayName = "DocNeededTable";
 
   const [dataIndex, setDataIndex] = useState();
 
@@ -33,126 +33,150 @@ export default function RepresentativeInformationTable({
 
   const { getGridJson, convertToCase } = useGetDBTables();
 
-  const masterAngRelationshipSelector = useSelector(
-    (state) => state?.masterAngRelationship,
-  );
-  const masterAngAORTypeSelector = useSelector(
-    (state) => state?.masterAngAORType,
-  );
-  const masterAngCommPrefSelector = useSelector(
-    (state) => state?.masterAngCommPref,
-  );
-  const masterAngMailToAddressSelector = useSelector(
-    (state) => state?.masterAngMailToAddress,
-  );
+  const [docsNeededValues, setDocsNeededValues] = useState([]);
+  const [requestedFromValues, setRequestedFromValues] = useState([]);
+  const [neededByValues, setNeededByValues] = useState([]);
 
   let prop = useLocation();
+  const masterAngDocNeededSelector = useSelector(
+    (state) => state?.masterAngDocNeeded,
+  );
+  const masterAngRequestedFromSelector = useSelector(
+    (state) => state?.masterAngRequestedFrom,
+  );
+  const masterAngNeededBySelector = useSelector(
+    (state) => state?.masterAngNeededBy,
+  );
 
-  let relationshipValues = [];
-  let aorTypeValues = [];
-  let commPrefValues = [];
-  let mailToAddressValues = [];
+//   const masterAngRelationshipSelector = useSelector(
+//     (state) => state?.masterAngRelationship,
+//   );
+//   const masterAngAORTypeSelector = useSelector(
+//     (state) => state?.masterAngAORType,
+//   );
+//   const masterAngCommPrefSelector = useSelector(
+//     (state) => state?.masterAngCommPref,
+//   );
+//   const masterAngMailToAddressSelector = useSelector(
+//     (state) => state?.masterAngMailToAddress,
+//   );
+useEffect(() => {
+    const kvMapper = (e) => ({
+      label: convertToCase(e),
+      value: convertToCase(e),
+    });
+    const docsNeeded = masterAngDocNeededSelector?.[0] || [];
+    setDocsNeededValues(
+        docsNeeded.map((e) => e.Doc_Needed).map(kvMapper),
+    );
+    const requestedFrom = masterAngRequestedFromSelector?.[0] || [];
+    setRequestedFromValues(
+        requestedFrom.map((e) => e.Requested_From).map(kvMapper),
+    );
+    const neededBy =masterAngNeededBySelector?.[0] || [];
+    setNeededByValues(
+        neededBy.map((e) => e.Needed_By).map(kvMapper),
+    );
+    
+}, []);
+  
 
-  useEffect(() => {
-    if (masterAngRelationshipSelector) {
-      const relationshipArray =
-        masterAngRelationshipSelector.length === 0
-          ? []
-          : masterAngRelationshipSelector[0];
-      const uniquerelationshipValues = {};
+//   let relationshipValues = [];
+//   let aorTypeValues = [];
+//   let commPrefValues = [];
+//   let mailToAddressValues = [];
 
-      for (let i = 0; i < relationshipArray.length; i++) {
-        const relationship = convertToCase(relationshipArray[i].Relationship);
 
-        if (!uniquerelationshipValues[relationship]) {
-          uniquerelationshipValues[relationship] = true;
-          relationshipValues.push({
-            label: convertToCase(relationshipArray[i].Relationship),
-            value: convertToCase(relationshipArray[i].Relationship),
-          });
-        }
-      }
-    }
 
-    if (masterAngAORTypeSelector) {
-      const aorTypeArray =
-        masterAngAORTypeSelector.length === 0
-          ? []
-          : masterAngAORTypeSelector[0];
-      const uniqueAORTypeValues = {};
+//   useEffect(() => {
+//     if (masterAngRelationshipSelector) {
+//       const relationshipArray =
+//         masterAngRelationshipSelector.length === 0
+//           ? []
+//           : masterAngRelationshipSelector[0];
+//       const uniquerelationshipValues = {};
 
-      for (let i = 0; i < aorTypeArray.length; i++) {
-        const aorType = convertToCase(aorTypeArray[i].AOR_Type);
+//       for (let i = 0; i < relationshipArray.length; i++) {
+//         const relationship = convertToCase(relationshipArray[i].Relationship);
 
-        if (!uniqueAORTypeValues[aorType]) {
-          uniqueAORTypeValues[aorType] = true;
-          aorTypeValues.push({
-            label: convertToCase(aorTypeArray[i].AOR_Type),
-            value: convertToCase(aorTypeArray[i].AOR_Type),
-          });
-        }
-      }
-    }
+//         if (!uniquerelationshipValues[relationship]) {
+//           uniquerelationshipValues[relationship] = true;
+//           relationshipValues.push({
+//             label: convertToCase(relationshipArray[i].Relationship),
+//             value: convertToCase(relationshipArray[i].Relationship),
+//           });
+//         }
+//       }
+//     }
 
-    if (masterAngCommPrefSelector) {
-      const commPrefArray =
-        masterAngCommPrefSelector.length === 0
-          ? []
-          : masterAngCommPrefSelector[0];
+//     if (masterAngAORTypeSelector) {
+//       const aorTypeArray =
+//         masterAngAORTypeSelector.length === 0
+//           ? []
+//           : masterAngAORTypeSelector[0];
+//       const uniqueAORTypeValues = {};
 
-      for (let i = 0; i < commPrefArray.length; i++) {
-        commPrefValues.push({
-          label: convertToCase(commPrefArray[i].Comm_Pref),
-          value: convertToCase(commPrefArray[i].Comm_Pref),
-        });
-      }
-    }
+//       for (let i = 0; i < aorTypeArray.length; i++) {
+//         const aorType = convertToCase(aorTypeArray[i].AOR_Type);
 
-    if (masterAngMailToAddressSelector) {
-      const mailToAddressArray =
-        masterAngMailToAddressSelector.length === 0
-          ? []
-          : masterAngMailToAddressSelector[0];
-      const uniqueMailToAddressValues = {};
+//         if (!uniqueAORTypeValues[aorType]) {
+//           uniqueAORTypeValues[aorType] = true;
+//           aorTypeValues.push({
+//             label: convertToCase(aorTypeArray[i].AOR_Type),
+//             value: convertToCase(aorTypeArray[i].AOR_Type),
+//           });
+//         }
+//       }
+//     }
 
-      for (let i = 0; i < mailToAddressArray.length; i++) {
-        const mailToAddress = convertToCase(
-          mailToAddressArray[i].Mail_to_Address,
-        );
+//     if (masterAngCommPrefSelector) {
+//       const commPrefArray =
+//         masterAngCommPrefSelector.length === 0
+//           ? []
+//           : masterAngCommPrefSelector[0];
 
-        if (!uniqueMailToAddressValues[mailToAddress]) {
-          uniqueMailToAddressValues[mailToAddress] = true;
-          mailToAddressValues.push({
-            label: convertToCase(mailToAddressArray[i].Mail_to_Address),
-            value: convertToCase(mailToAddressArray[i].Mail_to_Address),
-          });
-        }
-      }
-    }
-  });
+//       for (let i = 0; i < commPrefArray.length; i++) {
+//         commPrefValues.push({
+//           label: convertToCase(commPrefArray[i].Comm_Pref),
+//           value: convertToCase(commPrefArray[i].Comm_Pref),
+//         });
+//       }
+//     }
+
+//     if (masterAngMailToAddressSelector) {
+//       const mailToAddressArray =
+//         masterAngMailToAddressSelector.length === 0
+//           ? []
+//           : masterAngMailToAddressSelector[0];
+//       const uniqueMailToAddressValues = {};
+
+//       for (let i = 0; i < mailToAddressArray.length; i++) {
+//         const mailToAddress = convertToCase(
+//           mailToAddressArray[i].Mail_to_Address,
+//         );
+
+//         if (!uniqueMailToAddressValues[mailToAddress]) {
+//           uniqueMailToAddressValues[mailToAddress] = true;
+//           mailToAddressValues.push({
+//             label: convertToCase(mailToAddressArray[i].Mail_to_Address),
+//             value: convertToCase(mailToAddressArray[i].Mail_to_Address),
+//           });
+//         }
+//       }
+//     }
+//   });
 
   const tableFields = [
-    "Issue_Number",
-    "First_Name",
-    "Last_Name",
-    "Relationship",
-    "AOR_Type",
-    "AOR_Approved_Date",
-    "AOR_Expiration_Date",
-    "Communication_Preference",
-    "Mail_to_Address",
-    "Email_Address",
-    "Phone_Number",
-    "Fax_Number",
-    "Authorization_Approved_Date",
-    "Authorization_Expiration_Date",
-    "Authorization_Type",
-    "Address_Line_1",
-    "Address_Line_2",
-    "City",
-    "State_",
-    "Zip_Code",
-    "County",
+    "Doc_Needed",
+    "Doc_Number",
+    "Requested_From",
+    "Needed_By",
+    "Requested_By",
+    "Request_Date",
+    "Follow_Up_Date1",
+    "Follow_Up_Date2",
+    "Due_Date",
+    "Received_Date",
   ];
 
   const [validationErrors, setValidationErrors] = useState({});
@@ -166,12 +190,14 @@ export default function RepresentativeInformationTable({
         return acc;
       }, {});
       console.log(
-        "errors were encountered in representative information table",
+        "errors were encountered in doc needed table",
         validationErrors,
       );
       setValidationErrors(validationErrors);
     }
   }, [gridFieldTempState]);
+
+
   const renderSimpleInputField = (name, label, maxLength, index) => {
     return (
       <div className="col-xs-6 col-md-3">
@@ -185,14 +211,16 @@ export default function RepresentativeInformationTable({
             handleGridFieldChange(
               index,
               event,
-              RepresentativeInformationTable.displayName,
+              DocNeededTable.displayName,
             )
           }
           disabled={
-            prop.state.formView === "DashboardView" &&
-            (prop.state.stageName === "Redirect Review" ||
-              prop.state.stageName === "Documents Needed" ||
-              prop.state.stageName === "CaseArchived")
+            (prop.state.formView === "DashboardView" &&
+              (prop.state.stageName === "Redirect Review" ||
+                prop.state.stageName === "Effectuate" ||
+                prop.state.stageName === "Pending Effectuate" ||   
+                prop.state.stageName === "Case Completed" ||
+                prop.state.stageName === "CaseArchived"))   
           }
         />
       </div>
@@ -212,19 +240,16 @@ export default function RepresentativeInformationTable({
               index,
               selectValue,
               event,
-              RepresentativeInformationTable.displayName,
+              DocNeededTable.displayName,
             )
           }
           disabled={
-            prop.state.formView === "DashboardView" &&
-            (prop.state.stageName === "Redirect Review" ||
-              prop.state.stageName === "Documents Needed" ||
-              prop.state.stageName === "Effectuate" ||
-              prop.state.stageName === "Pending Effectuate" ||
-              prop.state.stageName === "Resolve" ||
-              prop.state.stageName === "Case Completed" ||
-              prop.state.stageName === "Reopen" ||
-              prop.state.stageName === "CaseArchived")
+                prop.state.formView === "DashboardView" &&
+              (prop.state.stageName === "Redirect Review" ||
+                prop.state.stageName === "Effectuate" ||
+                prop.state.stageName === "Pending Effectuate" ||   
+                prop.state.stageName === "Case Completed" ||
+                prop.state.stageName === "CaseArchived")  
           }
         />
       </div>
@@ -243,19 +268,16 @@ export default function RepresentativeInformationTable({
               index,
               selectValue,
               name,
-              RepresentativeInformationTable.displayName,
+              DocNeededTable.displayName,
             )
           }
           disabled={
             prop.state.formView === "DashboardView" &&
-            (prop.state.stageName === "Redirect Review" ||
-              prop.state.stageName === "Documents Needed" ||
-              prop.state.stageName === "Effectuate" ||
-              prop.state.stageName === "Pending Effectuate" ||
-              prop.state.stageName === "Resolve" ||
-              prop.state.stageName === "Case Completed" ||
-              prop.state.stageName === "Reopen" ||
-              prop.state.stageName === "CaseArchived")
+              (prop.state.stageName === "Redirect Review" ||
+                prop.state.stageName === "Effectuate" ||
+                prop.state.stageName === "Pending Effectuate" ||   
+                prop.state.stageName === "Case Completed" ||
+                prop.state.stageName === "CaseArchived")  
           }
         />
       </div>
@@ -266,89 +288,57 @@ export default function RepresentativeInformationTable({
     return (
       <div className="Container AddProviderLabel AddModalLabel">
         <div className="row">
-          {renderSimpleInputField("Issue_Number", "Issue Number", 50, index)}
-          {renderSimpleInputField("First_Name", "First Name", 50, index)}
-          {renderSimpleInputField("Last_Name", "Last Name", 50, index)}
+        {renderSimpleSelectField(
+            "Doc_Needed",
+            "Doc Needed",
+            docsNeededValues,
+            index,
+          )}
+          {renderSimpleInputField("Doc_Number", "Doc Number", 50, index)}
           {renderSimpleSelectField(
-            "Relationship",
-            "Relationship",
-            relationshipValues,
-            index,
-          )}
-        </div>
-        <div className="row">
-          {renderSimpleSelectField(
-            "AOR_Type",
-            "AOR Type",
-            aorTypeValues,
-            index,
-          )}
-          {renderSimpleDatePickerField(
-            "AOR_Approved_Date",
-            "AOR Approved Date",
-            index,
-          )}
-          {renderSimpleDatePickerField(
-            "AOR_Expiration_Date",
-            "AOR Expiration Date",
+            "Requested_From",
+            "Requested From",
+            requestedFromValues,
             index,
           )}
           {renderSimpleSelectField(
-            "Communication_Preference",
-            "Communication Preference",
-            commPrefValues,
+            "Needed_By",
+            "Needed By",
+            neededByValues,
             index,
           )}
+         
         </div>
         <div className="row">
-          {renderSimpleSelectField(
-            "Mail_to_Address",
-            "Mail To Address",
-            mailToAddressValues,
-            index,
-          )}
-          {renderSimpleInputField("Email_Address", "Email Address", 50, index)}
-          {renderSimpleInputField("Phone_Number", "Phone Number", 50, index)}
-          {renderSimpleInputField("Fax_Number", "Fax Number", 50, index)}
-        </div>
-        <div className="row">
+          {renderSimpleInputField("Requested_By", "Requested By", 50, index)}
           {renderSimpleDatePickerField(
-            "Authorization_Approved_Date",
-            "Authorization Approved Date",
+            "Request_Date",
+            "Request Date",
             index,
           )}
           {renderSimpleDatePickerField(
-            "Authorization_Expiration_Date",
-            "Authorization Expiration Date",
+            "Follow_Up_Date1",
+            "Follow-Up Date1",
             index,
           )}
-          {renderSimpleInputField(
-            "Authorization_Type",
-            "Authorization Type",
-            50,
-            index,
-          )}
-          {renderSimpleInputField("Notes", "Notes", 50, index)}
-        </div>
-        <div className="row">
-          {renderSimpleInputField(
-            "Address_Line_1",
-            "Address Line 1",
-            50,
-            index,
-          )}
-          {renderSimpleInputField(
-            "Address_Line_2",
-            "Address Line 2",
-            50,
+          {renderSimpleDatePickerField(
+            "Follow_Up_Date2",
+            "Follow-Up Date2",
             index,
           )}
         </div>
         <div className="row">
-          {renderSimpleInputField("City", "City", 50, index)}
-          {renderSimpleInputField("State_", "State", 50, index)}
-          {renderSimpleInputField("Zip_Code", "Zip Code", 50, index)}
-          {renderSimpleInputField("County", "County", 50, index)}
+          {renderSimpleDatePickerField(
+            "Due_Date",
+            "Due Date",
+            index,
+          )}
+          {renderSimpleDatePickerField(
+            "Received_Date",
+            "Received Date",
+            index,
+          )}
+          
         </div>
       </div>
     );
@@ -356,10 +346,10 @@ export default function RepresentativeInformationTable({
 
   const tdData = () => {
     if (
-      representativeInformationGridData !== undefined &&
-      representativeInformationGridData.length > 0
+      docNeededGridData !== undefined &&
+      docNeededGridData.length > 0
     ) {
-      return representativeInformationGridData.map((data, index) => {
+      return docNeededGridData.map((data, index) => {
         return (
           <tr
             key={index}
@@ -381,7 +371,7 @@ export default function RepresentativeInformationTable({
                       onClick={() => {
                         deleteTableRows(
                           index,
-                          RepresentativeInformationTable.displayName,
+                          DocNeededTable.displayName,
                           "Force Delete",
                         );
                         handleOperationValue("Force Delete");
@@ -397,7 +387,7 @@ export default function RepresentativeInformationTable({
                       onClick={() => {
                         editTableRows(
                           index,
-                          RepresentativeInformationTable.displayName,
+                          DocNeededTable.displayName,
                         );
                         handleModalChange(true);
                         handleDataIndex(index);
@@ -501,9 +491,9 @@ export default function RepresentativeInformationTable({
                   <button
                     className="addBtn"
                     onClick={() => {
-                      addTableRows(RepresentativeInformationTable.displayName);
+                      addTableRows(DocNeededTable.displayName);
                       handleModalChange(true);
-                      handleDataIndex(representativeInformationGridData.length);
+                      handleDataIndex(docNeededGridData.length);
                       handleOperationValue("Add");
                     }}
                   >
@@ -521,14 +511,14 @@ export default function RepresentativeInformationTable({
         </table>
       </div>
       <GridModal
-        name="Representative Information"
+        name="Documents Needed"
         validationObject={isTouched}
         modalShow={modalShow}
         handleModalChange={handleModalChange}
         dataIndex={dataIndex}
         tdDataReplica={tdDataReplica}
         deleteTableRows={deleteTableRows}
-        gridName={RepresentativeInformationTable.displayName}
+        gridName={DocNeededTable.displayName}
         decreaseDataIndex={decreaseDataIndex}
         operationValue={operationValue}
         gridRowsFinalSubmit={gridRowsFinalSubmit}
