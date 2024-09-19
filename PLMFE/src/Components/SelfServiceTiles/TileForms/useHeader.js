@@ -9,7 +9,7 @@ import _ from "lodash";
 
 import TableComponent from "../../../../src/util/TableComponent";
 import { useCaseTimelines } from "./useCaseTimelines";
-
+import { useCaseDecision } from "./useCaseDecision.js"
 import { useCaseDecisionDetail } from "./useCaseDecisionDetails.js"
 import { useCaseHeader } from "./useCaseHeader";
 import { useMemberAddOfRecords } from "./useMemberAddOfRecords.js";
@@ -54,11 +54,20 @@ export const useHeader = () => {
   } = useMemberAddOfRecords(renderType);
 
   const {
+    caseDecision,
+    caseDecisionValidationSchema,
+    setcaseDecision,
+	  caseDecisionFields,
+  } = useCaseDecision(renderType);
+
+  const {
     caseDecisionDetails,
     setcaseDecisionDetails,
     caseDecisionDetailsValidationSchema,
     caseDecisionDetailsFields,
   } = useCaseDecisionDetail(renderType);
+
+
 
 
   const [caseInformation, setCaseInformation] = useState({
@@ -394,6 +403,7 @@ export const useHeader = () => {
   const [notesErrors, setNotesErrors] = useState([]);
   const [memberAddErrors, setMemberAddErrorsErrors] = useState([]);
   const [caseDecisionDetailsErrors, setcaseDecisionDetailsErrors] = useState([]);
+  const [caseDecisionErrors, setcaseDecisionErrors] = useState([]);
   const validateSync = (schema, data, setErrors) => {
     try {
       setErrors([]);
@@ -442,6 +452,11 @@ export const useHeader = () => {
       caseDecisionDetails,
       setcaseDecisionDetailsErrors,
     );
+    validateSync(
+      caseDecision,
+      caseDecisionValidationSchema,
+      setcaseDecisionErrors
+    );
     validateSync(notesValidationSchema, notes, setNotesErrors);
     validateSync(
       memberAddOfRecordsValidationSchema,
@@ -457,6 +472,7 @@ export const useHeader = () => {
     providerInformationGrid,
     authorizationInformationGrid,
     caseDecisionDetails,
+    caseDecision,
   ]);
 
   useEffect(() => {
@@ -468,6 +484,7 @@ export const useHeader = () => {
         ...memberInformationErrors,
         ...expeditedRequestErrors,
         ...caseDecisionDetailsErrors,
+        ...caseDecisionErrors,
       }).length > 0,
     );
   }, [
@@ -477,6 +494,7 @@ export const useHeader = () => {
     memberInformationErrors,
     expeditedRequestErrors,
     caseDecisionDetailsErrors,
+    caseDecisionErrors,
   ]);
   //const [disableSaveAndExit, setDisableSaveAndExit] = useState(true);
   const [authorizationInformation, setAuthorizationInformation] = useState({
@@ -606,7 +624,7 @@ export const useHeader = () => {
     const angExpeditedRequest = trimJsonValues({ ...expeditedRequest });
     const angNotes = trimJsonValues({ ...notes });
    
-    
+    const angCaseDecision= trimJsonValues({ ...caseDecision });
     const angCaseDecisionDetails= trimJsonValues({ ...caseDecisionDetails });
 
     apiJson["ANG_Case_Header"] = angCaseHeader;
@@ -624,7 +642,7 @@ export const useHeader = () => {
     apiJson["ANG_DOCS_NEEDED"] = angDocNeededGrid;
     apiJson["ANG_Expedited_Request"] = angExpeditedRequest;
     apiJson["ANG_Notes"] = angNotes;
-   
+    apiJson["ANG_Case_Decision"] = angCaseDecision;
     apiJson["ANG_Case_Decision_Details"] = angCaseDecisionDetails;
     let mainCaseReqBody = {
       ...mainCaseDetails,
@@ -1177,9 +1195,11 @@ export const useHeader = () => {
         setAuthorizationInformationGrid(
           data?.["angAuthorizationInformationGrid"] || [],
         );
+        setDocNeededGrid(data?.["angDocNeededGrid"] || [] );
         setExpeditedRequest(data?.["angExpeditedRequest"]?.[0] || {});
         setNotes(data?.["angNotes"]?.[0] || {});
-        setDocNeededGrid(data?.["angDocNeededGrid"] || [] );
+        
+        setcaseDecision(data?.["angCaseDecision"]?.[0] || {});
         setcaseDecisionDetails(data?.["angCaseDecisionDetails"]?.[0] || {});
 
        // setCaseTimelines(data?.["pdCaseTimelines"]?.[0] || {});
@@ -1231,6 +1251,7 @@ export const useHeader = () => {
     });
     const angExpeditedRequest = trimJsonValues({ ...expeditedRequest });
     const angNotes = trimJsonValues({ ...notes });
+    const angCaseDecision = trimJsonValues({ ...caseDecision});
     const angCaseDecisionDetails = trimJsonValues({ ...caseDecisionDetails });
 
     const angClaimInformationGrid = getGridDataValues(claimInformationGrid);
@@ -1295,7 +1316,7 @@ export const useHeader = () => {
       formData["angExpeditedRequest"][0],
     );
     apiJson["ANG_Notes"] = CompareJSON(angNotes, formData["angNotes"][0]);
-    
+    apiJson["ANG_Case_Decision"] = CompareJSON(angCaseDecision, formData["angCaseDecision"][0]);
     apiJson["ANG_Case_Decision_Details"] = CompareJSON(angCaseDecisionDetails, formData["angCaseDecisionDetails"][0]);
     
     
@@ -1735,6 +1756,11 @@ export const useHeader = () => {
     docNeededGrid,
     setDocNeededGrid,
     docNeededGridValidationSchema, 
+    caseDecision,
+    caseDecisionValidationSchema,
+    setcaseDecision,
+    caseDecisionErrors,
+	  caseDecisionFields,
     caseDecisionDetails,
     setcaseDecisionDetails,
     caseDecisionDetailsValidationSchema,
