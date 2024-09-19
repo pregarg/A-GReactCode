@@ -190,6 +190,17 @@ const ProviderDisputes = () => {
                 memberInformationErrors={memberInformationErrors}
                 shouldShowSubmitError={shouldShowSubmitError}
               />
+              <MemberAddOfRecordsAccordion
+                  memberAddData={pd_MemberAddRecord}
+                  setMemberAddData={setpdMemberAddRecord}
+                  memberAddOfRecordsValidationSchema={memberAddOfRecordsValidationSchema}
+                  memberAddRecordFields={memberAddRecordFields}
+                  memberAddErrors={memberAddErrors}
+                  shouldShowSubmitError={shouldShowSubmitError}
+                  renderType={RenderType.PROVIDER_DISPUTE}
+              />
+
+              <MemberAltContactInfoAccordion />
 
               <RepresentativeInformationAccordion
                 handleRepresentativeInformationGridData={
@@ -238,17 +249,7 @@ const ProviderDisputes = () => {
               {/*  />*/}
               {/*)}*/}
 
-              <MemberAddOfRecordsAccordion
-                memberAddData={pd_MemberAddRecord}
-                setMemberAddData={setpdMemberAddRecord}
-                memberAddOfRecordsValidationSchema={memberAddOfRecordsValidationSchema}
-                memberAddRecordFields={memberAddRecordFields}
-                memberAddErrors={memberAddErrors}
-                shouldShowSubmitError={shouldShowSubmitError}
-                renderType={RenderType.PROVIDER_DISPUTE}
-              />
 
-               <MemberAltContactInfoAccordion />
              
             </div>
           </div>
