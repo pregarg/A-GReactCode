@@ -395,11 +395,8 @@ const MemberInformationAccordion = (props) => {
                 "Date of Birth",
               )}
               {renderSelectField("Provider_Dual_Plan", "Dual Plan", dualPlanValues)}
-              {/* {renderInputField("Members_Age", "Members Age", 50)} */}
-              {/* {renderSelectField("Gender", "Gender", genderValues)} */}
             </div>
             <div className="row my-2">
-              {/* {renderSelectField("Deceased", "Deceased", deceasedValues)} */}
               
               {renderSelectField(
                 "Provider_Preferred_Language",
@@ -419,7 +416,6 @@ const MemberInformationAccordion = (props) => {
                 "Plan Effective Date",
                 "Plan Effective Date",
               )}
-              {/* {renderInputField("Plan_Description", "Plan Description", 240)} */}
             </div>
            
             <div className="row my-2">
@@ -427,8 +423,7 @@ const MemberInformationAccordion = (props) => {
               {renderInputField("Provider_Phone_Number", "Phone Number", 50)}
               {renderInputField("Provider_LIS", "LIS", 50)}
             </div>
-          
-            
+    
             <div className="row my-2">
              
               {renderInputField("Provider_Portal_Enrolled", "Portal Enrolled", 50)}
