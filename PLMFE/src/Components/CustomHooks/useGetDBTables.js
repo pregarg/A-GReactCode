@@ -93,6 +93,7 @@ export default function useGetDBTables() {
         "ANG_Expedited_Request~angExpeditedRequest",
         "ANG_Notes~angNotes",
         "ANG_DOCS_NEEDED~angDocNeededGrid",
+        "ANG_Case_Decision~angCaseDecision",
         "ANG_Case_Decision_Details~angCaseDecisionDetails",
         "PD_CASE_HEADER~pdCaseHeader",
         "PD_Case_Timelines~pdCaseTimelines",

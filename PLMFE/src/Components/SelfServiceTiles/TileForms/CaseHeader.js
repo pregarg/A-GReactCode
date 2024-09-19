@@ -16,6 +16,7 @@ import ExpeditedRequestAccordion from "./ExpeditedRequestAccordion";
 import NotesAccordion from "./NotesAccordion";
 import DocsNeededAccordion from "./DocsNeededAccordion";
 import CaseDecisionDetailsAccordion from "./CaseDecisionDetailsAccordion";
+import CaseDecisionAccordion from "./CaseDecisionAccordion";
 import { FaBars } from "react-icons/fa";
 
 import RepresentativeInformationAccordion from "./RepresentativeInformationAccordion";
@@ -81,6 +82,10 @@ const CaseHeader = () => {
     docNeededGrid,
     setDocNeededGrid,
     docNeededGridValidationSchema,
+    caseDecision,
+    caseDecisionValidationSchema,
+    setcaseDecision,
+    caseDecisionErrors,
     caseDecisionDetails,
     setcaseDecisionDetails,
     caseDecisionDetailsValidationSchema,
@@ -117,7 +122,7 @@ const CaseHeader = () => {
     populateModalTable,
     modalTableComponent,
     caseTimelinesFields,
-    docsNeededFields,
+    caseDecisionFields,
     caseDecisionDetailsFields,
     setRenderType,
     caseHeaderFields,
@@ -227,19 +232,19 @@ const CaseHeader = () => {
                   expeditedRequestValidationSchema
                 }
               />
-              <NotesAccordion
-                notesData={notes}
-                setNotesData={setNotes}
-                notesErrors={notesErrors}
-                notesValidationSchema={notesValidationSchema}
+               {stageName !== "Start" || ( stage === "Redirect Review" || stage === "Documents Needed"
+                 || stage === "Research" ||stage === "Effectuate" || stage === "Pending Effectuate" 
+                 || stage === "Resolve" || stage ==="Case Completed"|| stage === "Reopen") &&(
+              <CaseDecisionAccordion
+                caseDecisionData={caseDecision}
+                setcaseDecisionData={setcaseDecision }
+                caseDecisionValidationSchema={caseDecisionValidationSchema}
+                caseDecisionErrors={caseDecisionErrors}
                 shouldShowSubmitError={shouldShowSubmitError}
+                renderType={RenderType.APPEALS}
+                caseDecisionFields={caseDecisionFields}
               />
-
-              <DocsNeededAccordion
-                handleDocNeededGridData={docNeededGrid}
-                updatedocNeededGridData={setDocNeededGrid}
-                docNeededGridValidationSchema={docNeededGridValidationSchema}
-              />
+              )}
               {stageName !== "Start" || (stage === "Research" ||stage === "Effectuate"
                  || stage === "Pending Effectuate" || stage === "Resolve" || stage ==="Case Completed"|| stage === "Reopen"
                || stage === "CaseArchived" 
@@ -253,7 +258,21 @@ const CaseHeader = () => {
                 renderType={RenderType.APPEALS}
                 caseDecisionDetailsFields={caseDecisionDetailsFields}
               />
+              
               )}
+               <DocsNeededAccordion
+                handleDocNeededGridData={docNeededGrid}
+                updatedocNeededGridData={setDocNeededGrid}
+                docNeededGridValidationSchema={docNeededGridValidationSchema}
+              />
+               <NotesAccordion
+                notesData={notes}
+                setNotesData={setNotes}
+                notesErrors={notesErrors}
+                notesValidationSchema={notesValidationSchema}
+                shouldShowSubmitError={shouldShowSubmitError}
+              />
+
               {location.state.formView === "DashboardHomeView" && (
                 <DocumentSection
                   fileDataRef={documentSectionDataRef.current}

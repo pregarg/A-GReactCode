@@ -265,17 +265,43 @@ const AuthorizationInformationAccordion = (props) => {
       }
     }
   };
-  const authorizationDecisionValues = [
-    { value: "APPROVED", label: "APPROVED" },
-    { value: "DENIED", label: "DENIED" },
-  ];
+  const [authorizationDecisionValues, setAuthorizationDecisionValues] = useState([]);
+  const [authorizationDecisionReasonValues, setAuthorizationDecisionReasonValues] = useState([]);
 
-  const authorizationDecisionReasonValues = [
-    { label: "INSUFFICIENT INFORMATION", value: "INSUFFICIENT INFORMATION" },
-    { label: "DOCUMENTATION INCOMPLETE", value: "DOCUMENTATION INCOMPLETE" },
-    { label: "PENDING APPROVAL", value: "PENDING APPROVAL" },
-    { label: "OTHER", value: "OTHER" },
-  ];
+  const masterAngAuthDecisionSelector = useSelector(
+    (state) => state?.masterAngAuthDecision,
+    
+  );
+ 
+  useEffect(() => {
+    const kvMapper = (e) => ({
+      label: convertToCase(e),
+      value: convertToCase(e),
+    });
+    
+    const authDecision =masterAngAuthDecisionSelector?.[0] || [];
+    console.log("masterAngAuthDecisionSelector",masterAngAuthDecisionSelector)
+    setAuthorizationDecisionValues(
+      authDecision.map((e) => e.AUTH_DECISION).map(kvMapper),
+      console.log("authDecision value", authDecision)
+    );
+    const authDecisionReason =masterAngAuthDecisionSelector?.[0] || [];
+     setAuthorizationDecisionReasonValues(
+      authDecisionReason.map((e) => e.AUTH_DECISION_REASON).map(kvMapper),
+    );
+    
+}, []);
+  // const authorizationDecisionValues = [
+  //   { value: "APPROVED", label: "APPROVED" },
+  //   { value: "DENIED", label: "DENIED" },
+  // ];
+
+  // const authorizationDecisionReasonValues = [
+  //   { label: "INSUFFICIENT INFORMATION", value: "INSUFFICIENT INFORMATION" },
+  //   { label: "DOCUMENTATION INCOMPLETE", value: "DOCUMENTATION INCOMPLETE" },
+  //   { label: "PENDING APPROVAL", value: "PENDING APPROVAL" },
+  //   { label: "OTHER", value: "OTHER" },
+  // ];
 
   const showAuths = async () => {
     let FromDate =

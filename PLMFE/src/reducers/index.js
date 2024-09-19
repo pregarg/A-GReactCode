@@ -704,6 +704,15 @@ const masterAngAORTypeReducer = (state = [], action) => {
   }
   return state;
 };
+const masterAngAuthDecisionReducer = (state = [], action) => {
+  if (action.type === "GET_AUTH_DECISION") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_AUTH_DECISION") {
+    state = [];
+    return state;
+  }
+  return state;
+};
 
 const storeTableStateReducer = (
   state = {
@@ -840,6 +849,7 @@ export default combineReducers({
   masterAngDocument: masterAngDocumentReducer,
   masterAngRelationship: masterAngRelationshipReducer,
   masterAngAORType: masterAngAORTypeReducer,
+  masterAngAuthDecision:masterAngAuthDecisionReducer,
   dashboardNavigationState: storeTableStateReducer,
   usersTable: usersReducer,
 });

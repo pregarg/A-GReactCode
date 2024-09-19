@@ -616,6 +616,41 @@ export const getMasterAngDecision = (
     }
   };
 };
+export const getMasterAngAuthDecision = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append("tableName", "ANG_MASTER_AUTH_DECISION~masterAngAuthDecision");
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterAngAuthDecision];
+            //console.log(response);
+            dispatch({ type: "GET_AUTH_DECISION", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_AUTH_DECISION", payload: "" });
+    }
+  };
+};
 
 export const getMasterAngAuthServiceType = (
   token,

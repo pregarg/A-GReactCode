@@ -42,6 +42,7 @@ import {
   getMasterAngDocNeeded,
   getMasterAngRequestedFrom,
   getMasterAngNeededBy,
+  getMasterAngAuthDecision,
   getMasterAngDocument,
   getMasterAngRelationship,
   getMasterAngAORType,
@@ -583,7 +584,14 @@ export default function DashboardLogin() {
         onMasterLoadSuccess,
       ),
     );
-    
+    dispatch(
+      getMasterAngAuthDecision(
+        loginToken,
+        false,
+        onMasterLoadFail,
+        onMasterLoadSuccess,
+      ),
+    );
     dispatch(
       getMasterAngDocument(
         loginToken,
