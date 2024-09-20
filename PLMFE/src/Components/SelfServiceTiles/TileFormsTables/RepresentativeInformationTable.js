@@ -343,12 +343,12 @@ export default function RepresentativeInformationTable({
             50,
             index,
           )}
-        </div>
-        <div className="row">
           {renderSimpleInputField("City", "City", 50, index)}
           {renderSimpleInputField("State_", "State", 50, index)}
-          {renderSimpleInputField("Zip_Code", "Zip Code", 50, index)}
+        </div>
+        <div className="row">
           {renderSimpleInputField("County", "County", 50, index)}
+          {renderSimpleInputField("Zip_Code", "Zip Code", 50, index)}
         </div>
       </div>
     );

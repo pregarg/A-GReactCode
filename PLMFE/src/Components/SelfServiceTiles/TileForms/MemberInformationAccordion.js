@@ -406,20 +406,20 @@ const MemberInformationAccordion = (props) => {
             </div>
             <div className="row my-2">
               {renderInputField("Member_IPA", "Member IPA", 50)}
-              {renderInputField("Medicare_ID_HICN", "Medicare ID HICN", 50)}
+              {renderInputField("Medicare_ID_HICN", "Medicare ID (HICN)", 50)}
               {renderInputField("Medicaid_ID", "Medicaid ID", 50)}
             </div>
             <div className="row my-2">
               {renderInputField(
                 "Primary_Care_Physician_PCP",
-                "Primary Care Physician PCP",
+                "Primary Care Physician (PCP)",
                 50,
               )}
               {renderInputField("PCP_ID", "PCP ID", 50)}
               {renderInputField("PCP_NPI_ID", "PCP NPI ID", 50)}
             </div>
             <div className="row my-2">
-              {renderInputField("ContractPlan_ID", "Contract Plan ID", 50)}
+              {renderInputField("ContractPlan_ID", "Contract/Plan ID", 50)}
               {renderInputField("Plan_Name", "Plan Name", 50)}
               {renderInputField("Plan_Description", "Plan Description", 240)}
             </div>
@@ -452,12 +452,13 @@ const MemberInformationAccordion = (props) => {
             <div className="row my-2">
               {renderInputField("Address_Line_1", "Address Line 1", 100)}
               {renderInputField("Address_Line_2", "Address Line 2", 100)}
-              {renderInputField("Zip_Code", "Zip Code", 50)}
+              {renderInputField("City", "City", 50)}
+              
             </div>
             <div className="row my-2">
-              {renderInputField("City", "City", 50)}
               {renderInputField("County", "County", 50)}
               {renderInputField("State_", "State", 240)}
+              {renderInputField("Zip_Code", "Zip Code", 50)}
             </div>
             <div className="row ny-2">
               {renderSelectField(
@@ -470,6 +471,7 @@ const MemberInformationAccordion = (props) => {
             </div>
             <div className="row my-2">
               {renderInputField("Action", "Action", 50)}
+              {renderInputField("PBP", "PBP", 100)}
 
               <div
                 className="col-xs-6 col-md-4"

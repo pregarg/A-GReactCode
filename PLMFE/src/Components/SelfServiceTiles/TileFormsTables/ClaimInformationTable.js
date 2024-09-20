@@ -147,11 +147,16 @@ export default function ClaimInformationTable({
             (prop.state.formView === "DashboardView" ||
               prop.state.formView === "DashboardHomeView") &&
             (((claimStageName === "Start" ||
-              prop.state.stageName === "Intake") &&
-              name === "Good_Cause_Reason") ||
+              prop.state.stageName === "Intake") && (name === "Good_Cause_Reason")) ||
               prop.state.stageName === "Redirect Review" ||
-              prop.state.stageName === "Documents Needed" ||
-              prop.state.stageName === "CaseArchived")
+              ((prop.state.stageName === "Research")
+               && (name ==="Payment_Method"|| name === "Payment_Number")) ||
+               ((prop.state.stageName === "Effectuate" ||
+                prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" ||
+                prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen") &&(name !== "Issue_Number"))||
+                prop.state.stageName === "CaseArchived"
+               )
+            
           }
         />
       </div>
@@ -174,11 +179,10 @@ export default function ClaimInformationTable({
             )
           }
           validationErrors={validationErrors}
-          disabled={
+          disabled ={
             (prop.state.formView === "DashboardView" ||
               prop.state.formView === "DashboardHomeView") &&
-            (((claimStageName === "Start" ||
-              prop.state.stageName === "Intake") &&
+            (((claimStageName === "Start" || prop.state.stageName === "Intake") &&
               (name === "Filed_Timely" || name === "Grant_Good_Cause")) ||
               prop.state.stageName === "Redirect Review" ||
               prop.state.stageName === "Documents Needed" ||
@@ -211,14 +215,14 @@ export default function ClaimInformationTable({
           validationErrors={validationErrors}
           disabled={
             prop.state.formView === "DashboardView" &&
-            (prop.state.stageName === "Redirect Review" ||
-              prop.state.stageName === "Documents Needed" ||
-              prop.state.stageName === "Effectuate" ||
-              prop.state.stageName === "Pending Effectuate" ||
-              prop.state.stageName === "Resolve" ||
-              prop.state.stageName === "Case Completed" ||
-              prop.state.stageName === "Reopen" ||
-              prop.state.stageName === "CaseArchived")
+            (
+               prop.state.stageName === "Redirect Review" ||
+              ((prop.state.stageName === "Research") && (name === "Claim_Adjusted_Date"
+                || name ==="Payment_Date"|| name === "Payment_Mail_Date_Postmark")) || prop.state.stageName === "Effectuate" ||
+                prop.state.stageName === "Pending Effectuate" ||prop.state.stageName === "Resolve" ||
+                prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" ||
+              prop.state.stageName === "CaseArchived"
+              )
           }
         />
       </div>

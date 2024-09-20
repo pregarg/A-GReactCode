@@ -197,7 +197,7 @@ const CaseInformationAccordion = (props) => {
       />
     </div>
   );
-
+  const linksEnabled = false; 
   return (
     <div className="accordion-item" id="caseInformationData">
       <h2 className="accordion-Information" id="panelsStayOpen-Information">
@@ -275,15 +275,16 @@ const CaseInformationAccordion = (props) => {
           <div className="row">
             {renderInputField("Inbound_Email_ID", "Inbound Email ID", 4000)}
           </div>
+          
           <div className="row my-2"></div>
-          <div className="case Collobaration">
+          {/* <div className="case Collobaration">
             <p className="collobarationheader">Case Collaboration</p>
             <div className="row my-2">
               <div className="col-xs-6 col-md-4">
                 <p className="prevcase">Previous Case</p>
               </div>
               <div className="col-xs-6 col-md-4">
-                <a className="refTag" href="https://www.google.com">
+                <a className="refTag" href="https://www.google.com" tabIndex="-1" aria-disabled="true">
                   Duplicate/Related case(s)
                 </a>
               </div>
@@ -293,7 +294,34 @@ const CaseInformationAccordion = (props) => {
                 </a>
               </div>
             </div>
+          </div> */}
+          <div className="case Collobaration">
+            <p className="collobarationheader">Case Collaboration</p>
+            <div className="row my-2">
+              <div className="col-xs-6 col-md-4">
+                <p className="prevcase">Previous Case</p>
+              </div>
+              <div className="col-xs-6 col-md-4">
+                {linksEnabled ? (
+                  <a className="refTag" href="https://www.google.com">
+                    Duplicate/Related case(s)
+                  </a>
+                ) : (
+                  <span className="disabled-link">Duplicate/Related case(s)</span>
+                )}
+              </div>
+              <div className="col-xs-6 col-md-4">
+                {linksEnabled ? (
+                  <a className="refTag" href="https://www.google.com">
+                    Redirect/Case(s)
+                  </a>
+                ) : (
+                  <span className="disabled-link">Redirect/Case(s)</span>
+                )}
+              </div>
+            </div>
           </div>
+
         </div>
       </div>
     </div>

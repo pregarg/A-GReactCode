@@ -28,7 +28,10 @@ export default function ProviderInformationTable({
   const [modalShow, setModalShow] = useState(false);
   const [isTouched, _] = useState({});
   const { getGridJson, convertToCase } = useGetDBTables();
-
+  const caseHeaderConfigData = JSON.parse(
+    process.env.REACT_APP_CASEHEADER_DETAILS || "{}",
+  );
+  const stageName = caseHeaderConfigData["StageName"];
   const masterAngProviderTypeSelector = useSelector(
     (state) => state?.masterAngProviderType,
   );
@@ -157,9 +160,16 @@ export default function ProviderInformationTable({
             )
           }
           disabled={
-            location.state.formView === "DashboardView" &&
-            (location.state.stageName === "Redirect Review" ||
+           
+            (location.state.formView === "DashboardView" ||
+              location.state.formView === "DashboardHomeView") &&
+            (stageName === "Start" && name === "Provider_Alert")||
+            ((location.state.stageName === "Intake") && (name === "Provider_Alert")||
+              location.state.stageName === "Redirect Review" ||
               location.state.stageName === "Documents Needed" ||
+              ((location.state.stageName === "Effectuate" ||
+                location.state.stageName === "Pending Effectuate" || location.state.stageName === "Resolve" ||
+                location.state.stageName === "Case Completed" || location.state.stageName === "Reopen") &&(name !== "Issue_Number"))||
               location.state.stageName === "CaseArchived")
           }
         />
@@ -262,7 +272,8 @@ export default function ProviderInformationTable({
               50,
               index,
             )}
-            {renderSimpleInputField("Medicaid_ID", "Medicare ID", 50, index)}
+            {renderSimpleInputField("Medicare_ID", "Medicare ID", 50, index)}
+            {renderSimpleInputField("Medicaid_ID", "Medicaid ID", 50, index)}
           </div>
           <div className="row">
             {renderSimpleInputField(
@@ -393,10 +404,10 @@ export default function ProviderInformationTable({
               50,
               index,
             )}
-          </div>
-          <div className="row">
             {renderSimpleInputField("City", "City", 50, index)}
             {renderSimpleInputField("State", "State", 50, index)}
+          </div>
+          <div className="row"> 
             {renderSimpleInputField("Zip_Code", "Zip Code", 50, index)}
             {renderSimpleSelectField(
               "Mail_to_Address",
@@ -626,7 +637,7 @@ export default function ProviderInformationTable({
               <th scope="col">Provider TIN</th>
               <th scope="col">State Provider ID</th>
               <th scope="col">Provider ID</th>
-              <th scope="col">Medicare ID</th>
+              <th scope="col">Medicare ID</th>              
               <th scope="col">Medicaid ID</th>
               <th scope="col">PR Reprsentative</th>
               <th scope="col">Participating Provider</th>
@@ -651,7 +662,7 @@ export default function ProviderInformationTable({
               <th scope="col">Address Line 2</th>
               <th scope="col">City</th>
               <th scope="col">State</th>
-              <th scope="col">Zip Code</th>
+              <th scope="col">Zip Code</th>43
               <th scope="col">Mail to Address</th>
               <th scope="col">Communication Preference</th>
             </tr>
