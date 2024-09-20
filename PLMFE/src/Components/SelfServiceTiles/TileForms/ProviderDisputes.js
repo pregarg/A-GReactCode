@@ -25,8 +25,10 @@ import Provider360 from "../TileForms/Provider360";
 import NotesHistory from "../TileForms/NotesHistory";
 import MemberAddOfRecordsAccordion from "../TileForms/MemberAddOfRecordsAccordion";
 import MemberAltContactInfoAccordion from "../TileForms/MemberAltContactInfoAccordion";
+// import ProviderDecisionAccordion from "../TileForms/ProviderDisputeDecisionAccordion";
 
 import { RenderType } from "./Constants";
+import ProviderDisputeDecisionAccordion from "./ProviderDisputeDecisionAccordion";
 
 const ProviderDisputes = () => {
   // CaseHeader.displayName = "Appeals";
@@ -233,6 +235,7 @@ const ProviderDisputes = () => {
               {/*    expeditedRequestValidationSchema*/}
               {/*  }*/}
               {/*/>*/}
+              <ProviderDisputeDecisionAccordion  />
               <NotesAccordion
                 notesData={notes}
                 setNotesData={setNotes}
