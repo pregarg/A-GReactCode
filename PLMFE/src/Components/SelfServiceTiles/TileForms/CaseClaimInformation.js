@@ -864,20 +864,19 @@ const CaseClaimInformation = (props) => {
             )}
 
             <div className="row my-2">
-              {shouldHideFields && (
                 <>
                   {renderDatePicker(
                     "Denied_As_Of_Date",
                     "Denied As Of Date",
                     "Denied As Of Date",
                   )}
-                  {renderDatePicker(
+                {shouldHideFields &&
+                  renderDatePicker(
                     "Payment_Mail_Date_Postmark",
                     "Payment Mail Date Postmark",
                     "Payment Mail Date Postmark",
                   )}
                 </>
-              )}
               {shouldHideFields &&
                 location.state.stageName !== "Research" &&
                 renderSelectField(
@@ -886,13 +885,13 @@ const CaseClaimInformation = (props) => {
                   serviceTypeValues,
                 )}
             </div>
-            <div className="row my-2">
+            {/* <div className="row my-2">
               {renderDatePicker(
                 "Denied_As_Of_Date ",
                 "Denied As Of Date ",
                 "Denied As Of Date",
               )}
-            </div>
+            </div> */}
 
             <div className="row">
               <div className="col-xs-6 col-md-12">
