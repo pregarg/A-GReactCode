@@ -11,12 +11,12 @@ import CaseClaimInformation from "./ProviderDisputeClaimInformation";
 import DecisionTab from "../../../WorkItemDashboard/DecisionTab";
 import CaseInformation from "../../../WorkItemDashboard/CaseInformation";
 import MemberInformationAccordion from "./ProviderDisputeMemberInformationAccordion";
-import AuthorizationInformationAccordion from "./AuthorizationInformationAccordion";
+import AuthorizationInformationAccordion from "./ProviderDisputeAuthorizationInformationAccordion";
 import ExpeditedRequestAccordion from "./ExpeditedRequestAccordion";
-import NotesAccordion from "./NotesAccordion";
+import NotesAccordion from "./ProviderDisputeNotesAccordion";
 import { FaBars } from "react-icons/fa";
 
-import RepresentativeInformationAccordion from "./RepresentativeInformationAccordion";
+import RepresentativeInformationAccordion from "./ProviderDisputeRepresentativeInformationAccordion";
 import { useHeader } from "./useHeader";
 import DocumentSection from "../DocumentSection";
 import { useLocation } from "react-router-dom";
@@ -190,7 +190,18 @@ const ProviderDisputes = () => {
                 memberInformationErrors={memberInformationErrors}
                 shouldShowSubmitError={shouldShowSubmitError}
               />
-              {/*
+              <MemberAddOfRecordsAccordion
+                  memberAddData={pd_MemberAddRecord}
+                  setMemberAddData={setpdMemberAddRecord}
+                  memberAddOfRecordsValidationSchema={memberAddOfRecordsValidationSchema}
+                  memberAddRecordFields={memberAddRecordFields}
+                  memberAddErrors={memberAddErrors}
+                  shouldShowSubmitError={shouldShowSubmitError}
+                  renderType={RenderType.PROVIDER_DISPUTE}
+              />
+
+              <MemberAltContactInfoAccordion />
+
               <RepresentativeInformationAccordion
                 handleRepresentativeInformationGridData={
                   representativeInformationGrid
@@ -215,13 +226,13 @@ const ProviderDisputes = () => {
                   authorizationInformationGridValidationSchema
                 }
               />
-              <ExpeditedRequestAccordion
-                expeditedRequestData={expeditedRequest}
-                setExpeditedRequestData={setExpeditedRequest}
-                expeditedRequestValidationSchema={
-                  expeditedRequestValidationSchema
-                }
-              />
+              {/*<ExpeditedRequestAccordion*/}
+              {/*  expeditedRequestData={expeditedRequest}*/}
+              {/*  setExpeditedRequestData={setExpeditedRequest}*/}
+              {/*  expeditedRequestValidationSchema={*/}
+              {/*    expeditedRequestValidationSchema*/}
+              {/*  }*/}
+              {/*/>*/}
               <NotesAccordion
                 notesData={notes}
                 setNotesData={setNotes}
@@ -230,32 +241,16 @@ const ProviderDisputes = () => {
                 shouldShowSubmitError={shouldShowSubmitError}
               />
 
-              {location.state.formView === "DashboardHomeView" && (
-                <DocumentSection
-                  fileDataRef={documentSectionDataRef.current}
-                  //  displayName={CaseHeader.displayName}
-                  stageName={caseHeaderConfigData["StageName"]}
-                />
-              )} */}
+              {/*{location.state.formView === "DashboardHomeView" && (*/}
+              {/*  <DocumentSection*/}
+              {/*    fileDataRef={documentSectionDataRef.current}*/}
+              {/*    //  displayName={CaseHeader.displayName}*/}
+              {/*    stageName={caseHeaderConfigData["StageName"]}*/}
+              {/*  />*/}
+              {/*)}*/}
 
-              <MemberAddOfRecordsAccordion
-                memberAddData={pd_MemberAddRecord}
-                setMemberAddData={setpdMemberAddRecord}
-                memberAddOfRecordsValidationSchema={memberAddOfRecordsValidationSchema}
-                memberAddRecordFields={memberAddRecordFields}
-                memberAddErrors={memberAddErrors}
-                shouldShowSubmitError={shouldShowSubmitError}
-                renderType={RenderType.PROVIDER_DISPUTE}
-              />
-              {/* <MemberAltContactInfoAccordion
-                memberAltContactData={pd_MemberAltContactInfo}
-                setMemberAltContactData={setpdMemberAltContactInfo}
-                memberAltContactValidationSchema={memberAltContactValidationSchema}
-                memberAltContactFields={memberAltContactFields}
-                memberAltContactErrors={memberAltContactErrors}
-                shouldShowSubmitError={shouldShowSubmitError}
-                renderType={RenderType.PROVIDER_DISPUTE}
-              /> */}
+
+             
             </div>
           </div>
         </div>

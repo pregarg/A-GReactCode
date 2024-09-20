@@ -152,6 +152,19 @@ export const useHeader = () => {
     WhiteGloveReason: "",
     WhiteGloveCancelledReason: "",
   });
+  const [memberAlternativeContact, setMemberAlternativeContact] = useState({
+    Issue_Number: "",
+    Address_Line_1: "",
+    Address_Line_2: "",
+    City: "",
+    Zip_Code: "",
+    State: "",
+    Alternative_Phone_Number: "",
+    Fax_Number: "",
+    Alternative_Email_Address: "",
+    Communication_Preference: "",
+    
+  });
   const [expeditedRequest, setExpeditedRequest] = useState({
     Expedited_Requested: "",
     Expedited_Reason: "",
@@ -314,6 +327,7 @@ export const useHeader = () => {
       "Special Need Indicator Address is mandatory",
     ),
   });
+  const memberAlternativeContactSchema = Yup.object().shape({});
   const expeditedRequestValidationSchema = Yup.object().shape({});
   const notesValidationSchema = Yup.object().shape({
     Case_Notes: Yup.string().required("Case Notes is mandatory"),
@@ -399,6 +413,7 @@ export const useHeader = () => {
   const [caseInformationErrors, setCaseInformationErrors] = useState([]);
   const [claimInformationErrors, setClaimInformationErrors] = useState([]);
   const [memberInformationErrors, setMemberInformationErrors] = useState([]);
+  const [memberAlternativeContactErrors, setMemberAlternativeContactErrors] = useState([]);
   const [expeditedRequestErrors, setExpeditedRequestErrors] = useState([]);
   const [notesErrors, setNotesErrors] = useState([]);
   const [memberAddErrors, setMemberAddErrorsErrors] = useState([]);
@@ -443,6 +458,11 @@ export const useHeader = () => {
       setMemberInformationErrors,
     );
     validateSync(
+      memberAlternativeContactSchema,
+      memberAlternativeContact,
+      setMemberAlternativeContactErrors,
+    );
+    validateSync(
       expeditedRequestValidationSchema,
       expeditedRequest,
       setExpeditedRequestErrors,
@@ -468,6 +488,7 @@ export const useHeader = () => {
     caseInformation,
     claimInformation,
     memberInformation,
+    memberAlternativeContact,
     expeditedRequest,
     providerInformationGrid,
     authorizationInformationGrid,
@@ -482,6 +503,7 @@ export const useHeader = () => {
         ...caseInformationErrors,
         ...claimInformationErrors,
         ...memberInformationErrors,
+        ...memberAlternativeContactErrors,
         ...expeditedRequestErrors,
         ...caseDecisionDetailsErrors,
         ...caseDecisionErrors,
@@ -492,6 +514,7 @@ export const useHeader = () => {
     caseInformationErrors,
     claimInformationErrors,
     memberInformationErrors,
+    memberAlternativeContactErrors,
     expeditedRequestErrors,
     caseDecisionDetailsErrors,
     caseDecisionErrors,
@@ -613,6 +636,7 @@ export const useHeader = () => {
     const angCaseInformation = trimJsonValues({ ...caseInformation });
     const angClaimInformation = trimJsonValues({ ...claimInformation });
     const angMemberInformation = trimJsonValues({ ...memberInformation });
+    const angMemberAlternativeContact = trimJsonValues({...memberAlternativeContact});
 
     console.log("angMemberInformation1", angMemberInformation);
     //  const angAuthorizationInformation = trimJsonValues({   ...authorizationInformation, });
@@ -634,6 +658,7 @@ export const useHeader = () => {
     apiJson["ANG_Claim_Information_Grid"] = angClaimInformationGrid;
     apiJson["ANG_Provider_Information_Grid"] = angProviderInformationGrid;
     apiJson["ANG_Member_Information"] = angMemberInformation;
+    apiJson["ANG_Member_Alternative_Contact_Information"] = angMemberAlternativeContact;
     apiJson["ANG_Representative_Information_Grid"] =
       angRepresentativeInformationGrid;
     apiJson["ANG_Authorization_Information"] = angAuthorizationInformation;
@@ -1186,6 +1211,7 @@ export const useHeader = () => {
         setClaimInformationGrid(data?.["angClaimInformationGrid"] || []);
         setProviderInformationGrid(data?.["angProviderInformationGrid"] || []);
         setMemberInformation(data?.["angMemberInformation"]?.[0] || {});
+        setMemberAlternativeContact(data?.["angMemberAlternativeContact"]?.[0] || {});
         setRepresentativeInformationGrid(
           data?.["angRepresentativeInformationGrid"] || [],
         );
@@ -1702,6 +1728,9 @@ export const useHeader = () => {
     memberInformation,
     memberInformationValidationSchema,
     setMemberInformation,
+    memberAlternativeContact,
+    setMemberAlternativeContact,
+    memberAlternativeContactSchema,
     representativeInformationGrid,
     setRepresentativeInformationGrid,
     handleAuthorizationInformationChange,
@@ -1728,6 +1757,7 @@ export const useHeader = () => {
     caseInformationErrors,
     claimInformationErrors,
     memberInformationErrors,
+    memberAlternativeContactErrors,
     shouldShowSubmitError,
     handleShowMember360,
     showMember360,
