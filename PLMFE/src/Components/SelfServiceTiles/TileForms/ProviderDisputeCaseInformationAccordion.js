@@ -203,12 +203,12 @@ const CaseInformationAccordion = (props) => {
               "Product State",
               productStateValues,
             )}
-            {renderInputField("LOB_Description_Dispute", "LOB Description", 300)}
+            {renderInputField("LOB_Description_Dispute", "LOB Description", 1000)}
            
           </div>
           <div className="row my-2">
             {renderSelectField("Product_Dispute", "Product", productValues)}
-            {renderInputField("Claim_Number", "Claim Number", 30)}
+            {renderInputField("Claim_Number", "Claim Number", 50)}
             {renderSelectField(
               "Appellant_Type_Dispute",
               "Appellant Type",
@@ -223,7 +223,7 @@ const CaseInformationAccordion = (props) => {
               appellantDescValues,
             )} 
             {renderSelectField("Appeal_Type_Dispute", "Appeal Type", appealTypeValues)}
-            {renderInputField("Research_Type_Dispute", "Research Type", 30)}
+            {renderInputField("Research_Type_Dispute", "Research Type", 300)}
           </div>
           <div className="row my-2">
           
@@ -233,7 +233,7 @@ const CaseInformationAccordion = (props) => {
               caseLevelPriorityValues,
             )}
             {renderInputField("Issue_Level_Number", "Issue Level Number")}
-            {renderInputField("Issue_Level_Priority", "Issue Level Priority", 30)}
+            {renderInputField("Issue_Level_Priority", "Issue Level Priority", 50)}
           </div>
           <div className="row my-2">
             {renderInputField("Complainant_Type", "Complainant Type")}

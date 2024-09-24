@@ -295,7 +295,7 @@ export default function ClaimInformationTable({
             {renderSimpleInputField(
               "Good_Cause_Reason",
               "Good Cause Reason",
-              50,
+              300,
               index,
             )}
             {renderSimpleInputField(
@@ -336,7 +336,7 @@ export default function ClaimInformationTable({
             {renderSimpleInputField(
               "DenialDescription",
               "Denial Description",
-              50,
+              4000,
               index,
             )}
           </div>
