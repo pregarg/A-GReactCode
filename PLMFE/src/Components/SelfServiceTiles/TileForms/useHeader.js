@@ -16,6 +16,7 @@ import { useMemberAddOfRecords } from "./useMemberAddOfRecords.js";
 import { useMemberAltContactInfo } from "./useMemberAltContactInfo.js";
 import { useDecisionAddOfRecords } from "./useDecisionAddRecord.js";
 import { useProviderAddOfRecords } from "./useProviderAddOfRecords";
+import { useRepresentativeAddOfRecords } from "./useRepresentativeAddOfRecords";
 
 import {usePdProviderAltContactInfo} from "./usePdProviderAltContactInfo";
 
@@ -57,6 +58,12 @@ export const useHeader = () => {
     memberAddOfRecordsValidationSchema,
     setpdMemberAddRecord,
   } = useMemberAddOfRecords(renderType);
+  const {
+    representativeAddRecordFields,
+    pd_RepresentativeAddRecord,
+    representativeAddOfRecordsValidationSchema,
+    setpdRepresentativeAddRecord,
+  } = useRepresentativeAddOfRecords(renderType);
   
   const {
     decisionAddRecordFields,
@@ -438,6 +445,7 @@ export const useHeader = () => {
   const [memberAlterfnativeContactErrors, setMemberAlternativeContactErrors] = useState([]);
   const [expeditedRequestErrors, setExpeditedRequestErrors] = useState([]);
   const [notesErrors, setNotesErrors] = useState([]);
+  const [representativeAddErrors, setRepresentativeAddErrorsErrors] = useState([]);
   const [memberAddErrors, setMemberAddErrorsErrors] = useState([]);
   const [providerAddErrors, setProviderAddErrorsErrors] = useState([]);
   const [providerAltErrors, setProviderAltErrorsErrors] = useState([]);
@@ -507,6 +515,11 @@ export const useHeader = () => {
       memberAddOfRecordsValidationSchema,
       pd_MemberAddRecord,
       setMemberAddErrorsErrors,
+    );
+    validateSync(
+        representativeAddOfRecordsValidationSchema,
+        pd_RepresentativeAddRecord,
+        setRepresentativeAddErrorsErrors,
     );
     validateSync(
       decisionAddOfRecordsValidationSchema,
@@ -593,6 +606,9 @@ export const useHeader = () => {
 
     const pdMemberAddRecord = trimJsonValues({ ...pd_MemberAddRecord });
     apiJson["PD_MEMBER_ADD_OF_RECORDS"] = pdMemberAddRecord;
+
+    const pdRepresentativeAddRecord = trimJsonValues({ ...pd_RepresentativeAddRecord });
+    apiJson["PD_Representative_Add_of_Records"] = pdRepresentativeAddRecord;
 
     const pdDecisionAddRecord = trimJsonValues({ ...pd_DecisionAddRecord });
     apiJson["PD_Decision"] = pdDecisionAddRecord;
@@ -1757,6 +1773,7 @@ export const useHeader = () => {
   return {
     caseTimelines,
     pd_MemberAddRecord,
+    pd_RepresentativeAddRecord,
     pd_DecisionAddRecord,
     pd_ProviderAddRecord,
     pd_ProviderAlt,
@@ -1764,6 +1781,7 @@ export const useHeader = () => {
     caseTimelinesValidationSchema,
     setCaseTimelines,
     setpdMemberAddRecord,
+    setpdRepresentativeAddRecord,
     setpdDecisionAddRecord,
     setpdProviderAddRecord,
     setpdProviderAlt,
@@ -1829,6 +1847,7 @@ export const useHeader = () => {
     modalTableComponent,
     notesErrors,
     memberAddErrors,
+    representativeAddErrors,
     decisionAddErrors,
     providerAddErrors,
     providerAltErrors,
@@ -1843,6 +1862,7 @@ export const useHeader = () => {
     providerAltValidationSchema,
     caseTimelinesFields,
     memberAddRecordFields,
+    representativeAddRecordFields,
     decisionAddRecordFields,
     providerAddRecordFields,
     providerAltFields,
