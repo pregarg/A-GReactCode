@@ -224,7 +224,7 @@ export default function AuthorizationInformationTable({
           {renderSimpleInputField(
             "CPT_Descriptions",
             "CPT Descriptions",
-            50,
+            250,
             index,
           )}
           {renderSimpleDatePickerField(
