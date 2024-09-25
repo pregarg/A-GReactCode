@@ -98,8 +98,10 @@ export default function useGetDBTables() {
         "PD_CASE_HEADER~pdCaseHeader",
         "PD_Case_Timelines~pdCaseTimelines",
         "PD_MEMBER_ADD_OF_RECORDS~pdMemberAddRecord",
-        "PD_MEMBER_ALTERNATIVE_CONTACT_INFO~pdMemberAltContact"
-
+        "PD_MEMBER_ALTERNATIVE_CONTACT_INFO~pdMemberAltContact",
+        "PD_Decision~pdDecisionAddRecord",
+        "PD_Provider_Add_of_Records~pdProviderAddRecord",
+        "PD_Provider_Alternative_Contact_Info~pdProviderAlt",
       ],
       angCaseStatusTable: ["ANG_MASTER_CASE_STATUS~angCaseStatus"],
     };
