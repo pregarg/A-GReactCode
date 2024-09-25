@@ -27,6 +27,7 @@ import MemberAddOfRecordsAccordion from "../TileForms/MemberAddOfRecordsAccordio
 import ProviderDecisionRecordsAccordion from "../TileForms/ProviderDecisionRecordsAccordion";
 import MemberAltContactInfoAccordion from "../TileForms/MemberAltContactInfoAccordion";
 import PdProviderAltContactAccordion from "../TileForms/PdProviderAltContactAccordion";
+import RepresentativeAddRecordsAccordion from "../TileForms/RepresentativeAddRecordsAccordion";
 
 import { RenderType } from "./Constants";
 import ProviderAddOfRecordsAccordion from "./ProviderAddOfRecordsAccordion";
@@ -48,6 +49,7 @@ const ProviderDisputes = () => {
     caseTimelines,
     pd_MemberAddRecord,
     pd_DecisionAddRecord,
+    pd_RepresentativeAddRecord,
     pd_ProviderAddRecord,
     pd_ProviderAlt,
     pd_MemberAltContactInfo,
@@ -55,6 +57,7 @@ const ProviderDisputes = () => {
     memberAltContactValidationSchema,
     setCaseTimelines,
     setpdMemberAddRecord,
+    setpdRepresentativeAddRecord,
     setpdDecisionAddRecord,
     setpdProviderAddRecord,
     setpdProviderAlt,
@@ -88,6 +91,7 @@ const ProviderDisputes = () => {
     setNotes,
     notesErrors,
     memberAddErrors,
+    representativeAddErrors,
     decisionAddErrors,
     providerAddErrors,
     providerAltErrors,
@@ -116,6 +120,7 @@ const ProviderDisputes = () => {
     authorizationInformationGridValidationSchema,
     representativeInformationGridValidationSchema,
     memberAddOfRecordsValidationSchema,
+    representativeAddOfRecordsValidationSchema,
     decisionAddOfRecordsValidationSchema,
     providerAddOfRecordsValidationSchema,
     providerAltValidationSchema,
@@ -133,6 +138,7 @@ const ProviderDisputes = () => {
     modalTableComponent,
     caseTimelinesFields,
     memberAddRecordFields,
+    representativeAddRecordFields,
     decisionAddRecordFields,
     providerAddRecordFields,
     providerAltFields,
@@ -249,6 +255,15 @@ const ProviderDisputes = () => {
                 representativeInformationGridValidationSchema={
                   representativeInformationGridValidationSchema
                 }
+              />
+              <RepresentativeAddRecordsAccordion
+                  representativeAddData={pd_RepresentativeAddRecord}
+                  setRepresentativeAddData={setpdRepresentativeAddRecord}
+                  representativeAddOfRecordsValidationSchema={representativeAddOfRecordsValidationSchema}
+                  representativeAddRecordFields={representativeAddRecordFields}
+                  representativeAddErrors={representativeAddErrors}
+                  shouldShowSubmitError={shouldShowSubmitError}
+                  renderType={RenderType.PROVIDER_DISPUTE}
               />
               <AuthorizationInformationAccordion
                 handleOnChange={handleAuthorizationInformationChange}
