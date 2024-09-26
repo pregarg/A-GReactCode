@@ -714,6 +714,43 @@ const masterAngAuthDecisionReducer = (state = [], action) => {
   return state;
 };
 
+const masterPDTimeFrameExtendedReducer = (state = [], action) => {
+  if (action.type === "GET_TIMEFRAME_EXTENDED") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_TIMEFRAME_EXTENDED") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+const masterPDCaseInComplianceReducer = (state = [], action) => {
+  if (action.type === "GET_CASE_IN_COMPLIANCE") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_CASE_IN_COMPLIANCE") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+const masterPDDepartmentReducer = (state = [], action) => {
+  if (action.type === "GET_DEPARTMENT") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_DEPARTMENT") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+const masterPDNoOfClaimsReducer = (state = [], action) => {
+  if (action.type === "GET_NUM_OF_CLAIMS") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_NUM_OF_CLAIMS") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+
 const storeTableStateReducer = (
   state = {
     data: [],
@@ -850,6 +887,12 @@ export default combineReducers({
   masterAngRelationship: masterAngRelationshipReducer,
   masterAngAORType: masterAngAORTypeReducer,
   masterAngAuthDecision:masterAngAuthDecisionReducer,
+
+  masterPDTimeFrameExtended:masterPDTimeFrameExtendedReducer,
+  masterPDCaseInCompliance:masterPDCaseInComplianceReducer,
+  masterPDDepartment:masterPDDepartmentReducer,
+  masterPDNoOfClaims:masterPDNoOfClaimsReducer,
+
   dashboardNavigationState: storeTableStateReducer,
   usersTable: usersReducer,
 });

@@ -355,6 +355,7 @@ export default function RepresentativeInformationTable({
   };
 
   const tdData = () => {
+    console.log("representativeInformationGridData:",representativeInformationGridData);
     if (
       representativeInformationGridData !== undefined &&
       representativeInformationGridData.length > 0

@@ -548,6 +548,12 @@ export const useHeader = () => {
 
     const pdCaseTimelines = trimJsonValues({ ...caseTimelines });
     apiJson["PD_Case_Timelines"] = pdCaseTimelines;
+ 
+    const pdCaseInformation = trimJsonValues({ ...caseInformation });
+    apiJson["PD_Case_Information"] = pdCaseInformation;
+
+    const pdClaimInformation = trimJsonValues({ ...claimInformation });
+    apiJson["PD_Claim_Information"] = pdClaimInformation;
 
     const pdMemberAddRecord = trimJsonValues({ ...pd_MemberAddRecord });
     apiJson["PD_MEMBER_ADD_OF_RECORDS"] = pdMemberAddRecord;
@@ -658,7 +664,7 @@ export const useHeader = () => {
     apiJson["ANG_Claim_Information_Grid"] = angClaimInformationGrid;
     apiJson["ANG_Provider_Information_Grid"] = angProviderInformationGrid;
     apiJson["ANG_Member_Information"] = angMemberInformation;
-    apiJson["ANG_Member_Alternative_Contact_Information"] = angMemberAlternativeContact;
+    //apiJson["ANG_Member_Alternative_Contact_Information"] = angMemberAlternativeContact;
     apiJson["ANG_Representative_Information_Grid"] =
       angRepresentativeInformationGrid;
     apiJson["ANG_Authorization_Information"] = angAuthorizationInformation;
@@ -1228,7 +1234,10 @@ export const useHeader = () => {
         setcaseDecision(data?.["angCaseDecision"]?.[0] || {});
         setcaseDecisionDetails(data?.["angCaseDecisionDetails"]?.[0] || {});
 
-       // setCaseTimelines(data?.["pdCaseTimelines"]?.[0] || {});
+        // setCaseTimelines(data?.["pdCaseTimelines"]?.[0] || {});
+        // setClaimInformation(data?.["pdCaseInformation"]?.[0] || {});
+        // setClaimInformation(data?.["pdClaimInformation"]?.[0] || {});
+        
         setFormData(_.cloneDeep(data));
 
         // Update case data in caseData array

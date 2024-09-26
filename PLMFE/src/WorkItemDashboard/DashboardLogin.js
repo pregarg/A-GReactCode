@@ -46,6 +46,10 @@ import {
   getMasterAngDocument,
   getMasterAngRelationship,
   getMasterAngAORType,
+  getMasterPDCaseInCompliance,
+  getMasterPDTimeFrameExtended,
+  getMasterPDDepartment,
+  getMasterPDNoOfClaims,
   getMasterLanguages,
   getMasterLicenseType,
   getMasterStateSymbol,
@@ -616,6 +620,40 @@ export default function DashboardLogin() {
         onMasterLoadSuccess,
       ),
     );
+    dispatch(
+      getMasterPDTimeFrameExtended(
+        loginToken,
+        false,
+        onMasterLoadFail,
+        onMasterLoadSuccess,
+      ),
+    );
+    dispatch(
+      getMasterPDCaseInCompliance(
+        loginToken,
+        false,
+        onMasterLoadFail,
+        onMasterLoadSuccess,
+      ),
+    );
+    dispatch(
+      getMasterPDDepartment(
+        loginToken,
+        false,
+        onMasterLoadFail,
+        onMasterLoadSuccess,
+      ),
+    );
+    dispatch(
+      getMasterPDNoOfClaims(
+        loginToken,
+        false,
+        onMasterLoadFail,
+        onMasterLoadSuccess,
+      ),
+    );
+
+
     dispatch(
       getAllUsers(loginToken, false, onMasterLoadFail, onMasterLoadSuccess),
     );

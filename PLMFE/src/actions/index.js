@@ -1528,6 +1528,148 @@ export const getMasterAngAORType = (
   };
 };
 
+export const getMasterPDTimeFrameExtended = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append("tableName", "PD_MASTER_TIMEFRAME_EXTENDED~masterPDTimeFrameExtended");
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterPDTimeFrameExtended];
+            //console.log(response);
+            dispatch({ type: "GET_TIMEFRAME_EXTENDED", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_TIMEFRAME_EXTENDED", payload: "" });
+    }
+  };
+};
+export const getMasterPDCaseInCompliance = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append("tableName", "PD_MASTER_CASE_IN_COMPLIANCE~masterPDCaseInCompliance");
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterPDCaseInCompliance];
+            //console.log(response);
+            dispatch({ type: "GET_CASE_IN_COMPLIANCE", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_CASE_IN_COMPLIANCE", payload: "" });
+    }
+  };
+};
+export const getMasterPDDepartment = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append("tableName", "PD_MASTER_DEPARTMENT~masterPDDepartment");
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterPDDepartment];
+            //console.log(response);
+            dispatch({ type: "GET_DEPARTMENT", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_DEPARTMENT", payload: "" });
+    }
+  };
+};
+export const getMasterPDNoOfClaims = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append("tableName", "PD_MASTER_NUM_OF_CLAIMS~masterPDNoOfClaims");
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterPDNoOfClaims];
+            //console.log(response);
+            dispatch({ type: "GET_NUM_OF_CLAIMS", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_NUM_OF_CLAIMS", payload: "" });
+    }
+  };
+};
+
+
 export const getMasterAddressType = (
   token,
   clearFlag = false,

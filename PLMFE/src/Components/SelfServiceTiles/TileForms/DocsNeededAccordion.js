@@ -91,6 +91,7 @@ const DocsNeededAccordion = (props) => {
   ) => {
     let tempInput = { ...gridFieldTempState };
     tempInput[fieldName] = selectedValue;
+    console.log("tempInput:",tempInput);
     setGridFieldTempState(tempInput);
   };
 

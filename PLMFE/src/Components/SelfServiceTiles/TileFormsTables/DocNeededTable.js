@@ -345,6 +345,7 @@ useEffect(() => {
   };
 
   const tdData = () => {
+    console.log("docNeededGridData",docNeededGridData)
     if (
       docNeededGridData !== undefined &&
       docNeededGridData.length > 0
