@@ -181,6 +181,27 @@ export const useHeader = () => {
     WhiteGloveReason: "",
     WhiteGloveCancelledReason: "",
   });
+  const [ProvidermemberInformation, setProviderMemberInformation] = useState({
+    Provider_Issue_Number: "",
+    Provider_Member_ID: "",
+    Provider_Member_First_Name: "",
+    Provider_Member_Last_Name: "",
+    Provider_Medicare_ID_HICN: "",
+    Provider_Medicaid_ID: "",
+    Provider_ContractPlan_ID: "",
+    Provider_Plan_Effective_Date: undefined,
+    Provider_Plan_Name: "",
+    Provider_Date_of_Birth: undefined,
+    Provider_Email_ID: "",
+    Provider_Phone_Number: "",
+    Provider_Dual_Plan: "",
+    Provider_Preferred_Language: "",
+    Provider_LIS: "",
+    Provider_Portal_Enrolled: "",
+    Provider_Current_Alert: "",
+    Provider_Next_alert: "",
+    
+  });
   const [memberAlternativeContact, setMemberAlternativeContact] = useState({
     Issue_Number: "",
     Address_Line_1: "",
@@ -194,6 +215,22 @@ export const useHeader = () => {
     Communication_Preference: "",
     
   });
+  // const [providerDisputeAuthorizationInformation, setProviderDisputeAuthorizationInformation] = useState({
+  //   Issue_Number: "",
+  //   Auth_Number: "",
+  //   Auth_Status: "",
+  //   Provider_Name: "",
+  //   Authorization_Type: "",
+  //   Auth_Type_Description: "",
+  //   Auth_Request_Date: undefined,
+  //   Expiration_Date: undefined,
+  //   CPT_Descriptions: "",
+  //   Service_Start_Date: undefined,
+  //   Denial_Code: "",
+  //   Denial_Reason: "",
+  //
+  //
+  // });
   const [expeditedRequest, setExpeditedRequest] = useState({
     Expedited_Requested: "",
     Expedited_Reason: "",
@@ -356,6 +393,10 @@ export const useHeader = () => {
       "Special Need Indicator Address is mandatory",
     ),
   });
+  const ProvidermemberInformationValidationSchema = Yup.object().shape({
+   
+  });
+  // const providerDisputeAuthorizationInformation = Yup.object().shape({});
   const memberAlternativeContactSchema = Yup.object().shape({});
   const expeditedRequestValidationSchema = Yup.object().shape({});
   const notesValidationSchema = Yup.object().shape({
@@ -442,6 +483,8 @@ export const useHeader = () => {
   const [caseInformationErrors, setCaseInformationErrors] = useState([]);
   const [claimInformationErrors, setClaimInformationErrors] = useState([]);
   const [memberInformationErrors, setMemberInformationErrors] = useState([]);
+  const [ProvidermemberInformationErrors, setProviderMemberInformationErrors] = useState([]);
+  //const [providerDisputeAuthorizationInformationGridErrors, setProviderDisputeAuthorizationInformationGridErrors] = useState([]);
   const [memberAlterfnativeContactErrors, setMemberAlternativeContactErrors] = useState([]);
   const [expeditedRequestErrors, setExpeditedRequestErrors] = useState([]);
   const [notesErrors, setNotesErrors] = useState([]);
@@ -490,6 +533,12 @@ export const useHeader = () => {
       memberInformation,
       setMemberInformationErrors,
     );
+    validateSync(
+      ProvidermemberInformationValidationSchema,
+      ProvidermemberInformation,
+      setProviderMemberInformationErrors,
+    );
+
     validateSync(
       memberAlternativeContactSchema,
       memberAlternativeContact,
@@ -543,6 +592,7 @@ export const useHeader = () => {
     caseInformation,
     claimInformation,
     memberInformation,
+    ProvidermemberInformation,
     memberAlternativeContact,
     expeditedRequest,
     providerInformationGrid,
@@ -558,6 +608,7 @@ export const useHeader = () => {
         ...caseInformationErrors,
         ...claimInformationErrors,
         ...memberInformationErrors,
+        ...ProvidermemberInformationErrors,
         // ...memberAlternativeContactErrors,
         ...expeditedRequestErrors,
         ...caseDecisionDetailsErrors,
@@ -569,6 +620,7 @@ export const useHeader = () => {
     caseInformationErrors,
     claimInformationErrors,
     memberInformationErrors,
+    ProvidermemberInformationErrors,
     // memberAlternativeContactErrors,
     expeditedRequestErrors,
     caseDecisionDetailsErrors,
@@ -612,6 +664,13 @@ export const useHeader = () => {
 
     const pdDecisionAddRecord = trimJsonValues({ ...pd_DecisionAddRecord });
     apiJson["PD_Decision"] = pdDecisionAddRecord;
+
+
+
+    const angProviderMemberInformation = trimJsonValues({ ...ProvidermemberInformation });
+    console.log("Provider Member Information is : ", angProviderMemberInformation)
+    apiJson["PD_Member_Information"] = angProviderMemberInformation;
+
 
     const pdProviderAddRecord = trimJsonValues({ ...pd_ProviderAddRecord });
     apiJson["PD_Provider_Add_of_Records"] = pdProviderAddRecord;
@@ -730,7 +789,7 @@ export const useHeader = () => {
       angRepresentativeInformationGrid;
     apiJson["ANG_Authorization_Information"] = angAuthorizationInformation;
     apiJson["ANG_Authorization_Information_Grid"] =
-      angAuthorizationInformationGrid;
+        angAuthorizationInformationGrid;
     apiJson["ANG_DOCS_NEEDED"] = angDocNeededGrid;
     apiJson["ANG_Expedited_Request"] = angExpeditedRequest;
     apiJson["ANG_Notes"] = angNotes;
@@ -876,6 +935,7 @@ export const useHeader = () => {
   const handleAuthorizationInformationChange = (value, name) => {
     setAuthorizationInformation({ ...authorizationInformation, [name]: value });
   };
+
 
   const handleShowMember360 = () => {
     setShowMember360(true);
@@ -1278,6 +1338,7 @@ export const useHeader = () => {
         setClaimInformationGrid(data?.["angClaimInformationGrid"] || []);
         setProviderInformationGrid(data?.["angProviderInformationGrid"] || []);
         setMemberInformation(data?.["angMemberInformation"]?.[0] || {});
+        setProviderMemberInformation(data?.["angProviderMemberInformation"]?.[0] || {});
         setMemberAlternativeContact(data?.["angMemberAlternativeContact"]?.[0] || {});
         setRepresentativeInformationGrid(
           data?.["angRepresentativeInformationGrid"] || [],
@@ -1803,6 +1864,9 @@ export const useHeader = () => {
     memberInformation,
     memberInformationValidationSchema,
     setMemberInformation,
+    ProvidermemberInformation,
+    ProvidermemberInformationValidationSchema,
+    setProviderMemberInformation,
     memberAlternativeContact,
     setMemberAlternativeContact,
     memberAlternativeContactSchema,
@@ -1832,6 +1896,7 @@ export const useHeader = () => {
     caseInformationErrors,
     claimInformationErrors,
     memberInformationErrors,
+    ProvidermemberInformationErrors,
     // memberAlternativeContactErrors,
     shouldShowSubmitError,
     handleShowMember360,
