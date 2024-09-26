@@ -67,6 +67,33 @@ const ProviderAddOfRecordsAccordion = (props) => {
       </div>
   );
 
+  const renderSelectField = (name, placeholder, options) => (
+    <div className="col-xs-6 col-md-4">
+      <FormikSelectField
+        name={name}
+        placeholder={placeholder}
+        data={providerAddData}
+        options={options}
+        onChange={handleProviderAddData}
+        displayErrors={props.shouldShowSubmitError}
+        disabled={
+          props.renderType === RenderType.APPEALS &&
+          location.state.formView === "DashboardView" &&
+          (location.state.stageName === "Redirect Review" ||
+            location.state.stageName === "Documents Needed" ||
+            location.state.stageName === "Effectuate" ||
+            location.state.stageName === "Pending Effectuate" ||
+            location.state.stageName === "Resolve" ||
+            location.state.stageName === "Case Completed" ||
+            location.state.stageName === "Reopen" ||
+            location.state.stageName === "CaseArchived")
+        }
+        schema={props.providerAddOfRecordsValidationSchema}
+        errors={props.providerAddErrors}
+      />
+    </div>
+  );
+
 
 
   return (
@@ -100,7 +127,7 @@ const ProviderAddOfRecordsAccordion = (props) => {
 
                     {renderElements(
                         props.providerAddRecordFields,
-                        "",
+                        renderSelectField,
                         renderInputField,
                         "",
 

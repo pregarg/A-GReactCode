@@ -68,7 +68,32 @@ const DecisionAddOfRecordsAccordion = (props) => {
     </div>
   );
 
-
+  const renderSelectField = (name, placeholder, options) => (
+    <div className="col-xs-6 col-md-4">
+      <FormikSelectField
+        name={name}
+        placeholder={placeholder}
+        data={decisionAddData}
+        options={options}
+        onChange={handleDecisionAddData}
+        displayErrors={props.shouldShowSubmitError}
+        disabled={
+          props.renderType === RenderType.APPEALS &&
+          location.state.formView === "DashboardView" &&
+          (location.state.stageName === "Redirect Review" ||
+            location.state.stageName === "Documents Needed" ||
+            location.state.stageName === "Effectuate" ||
+            location.state.stageName === "Pending Effectuate" ||
+            location.state.stageName === "Resolve" ||
+            location.state.stageName === "Case Completed" ||
+            location.state.stageName === "Reopen" ||
+            location.state.stageName === "CaseArchived")
+        }
+        schema={props.decisionAddOfRecordsValidationSchema}
+        errors={props.decisionAddErrors}
+      />
+    </div>
+  );
 
   return (
     <Formik
@@ -89,7 +114,7 @@ const DecisionAddOfRecordsAccordion = (props) => {
                 aria-expanded="true"
                 aria-controls="panelsStayOpen-collapseOne"
               >
-                Decision
+               Intake Decision
               </button>
             </h2>
             <div
@@ -101,7 +126,7 @@ const DecisionAddOfRecordsAccordion = (props) => {
               
               {renderElements(
                   props.decisionAddRecordFields,
-                  "",
+                  renderSelectField,
                   renderInputField,
                   "",
                   

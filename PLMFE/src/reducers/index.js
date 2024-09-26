@@ -750,6 +750,124 @@ const masterPDNoOfClaimsReducer = (state = [], action) => {
   }
   return state;
 };
+const masterPDMailToAddressReducer = (state = [], action) => {
+  if (action.type === "GET_MAIL_TO_ADDRESS") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_MAIL_TO_ADDRESS") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+const masterPDIntakeDecisionReducer = (state = [], action) => {
+  if (action.type === "GET_INTAKE_DECISION") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_INTAKE_DECISION") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+const masterPDIntakeDecisionReasonReducer = (state = [], action) => {
+  if (action.type === "GET_INTAKE_DECISION_REASON") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_INTAKE_DECISION_REASON") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+const masterPDClaimTypeReducer = (state = [], action) => {
+  if (action.type === "GET_CLAIM_TYPE") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_CLAIM_TYPE") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+const masterPDFilledTimelyReducer = (state = [], action) => {
+  if (action.type === "GET_FILED_TIMELY") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_FILED_TIMELY") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+const masterPDGrantGoodCauseReducer = (state = [], action) => {
+  if (action.type === "GET_GRANT_GOOD_CAUSE") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_GRANT_GOOD_CAUSE") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+const masterPDPortalEnrolledReducer = (state = [], action) => {
+  if (action.type === "GET_PORTAL_ENROLLED") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_PORTAL_ENROLLED") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+const masterPDDenialCodeAndReasonReducer = (state = [], action) => {
+  if (action.type === "GET_DENIAL_CODE_AND_REASON") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_DENIAL_CODE_AND_REASON") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+const masterPDComplainantTypeReducer = (state = [], action) => {
+  if (action.type === "GET_COMPLAINANT_TYPE") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_COMPLAINANT_TYPE") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+const masterPDSubIssueLevelReducer = (state = [], action) => {
+  if (action.type === "GET_SUB_ISSUE_LEVEL") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_SUB_ISSUE_LEVEL") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+const masterPDIssueTypeReducer = (state = [], action) => {
+  if (action.type === "GET_ISSUE_TYPE") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_ISSUE_TYPE") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+const masterPDProductReducer = (state = [], action) => {
+  if (action.type === "GET_PRODUCT") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_PRODUCT") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+const masterPDCaseFillingMethodReducer = (state = [], action) => {
+  if (action.type === "GET_CASE_FILING_METHOD") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_CASE_FILING_METHOD") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+
 
 const storeTableStateReducer = (
   state = {
@@ -892,6 +1010,20 @@ export default combineReducers({
   masterPDCaseInCompliance:masterPDCaseInComplianceReducer,
   masterPDDepartment:masterPDDepartmentReducer,
   masterPDNoOfClaims:masterPDNoOfClaimsReducer,
+  masterPDMailToAddress:masterPDMailToAddressReducer,
+  masterPDIntakeDecision:masterPDIntakeDecisionReducer,
+  masterPDIntakeDecisionReason:masterPDIntakeDecisionReasonReducer,
+  masterPDClaimType:masterPDClaimTypeReducer,
+  masterPDFilledTimely:masterPDFilledTimelyReducer,
+  masterPDGrantGoodCause:masterPDGrantGoodCauseReducer,
+  masterPDPortalEnrolled:masterPDPortalEnrolledReducer,
+  masterPDDenialCodeAndReason:masterPDDenialCodeAndReasonReducer,
+  masterPDComplainantType:masterPDComplainantTypeReducer,
+  masterPDSubIssueLevel:masterPDSubIssueLevelReducer,
+  masterPDIssueType:masterPDIssueTypeReducer,
+  masterPDProduct:masterPDProductReducer,
+  masterPDCaseFillingMethod:masterPDCaseFillingMethodReducer,
+
 
   dashboardNavigationState: storeTableStateReducer,
   usersTable: usersReducer,

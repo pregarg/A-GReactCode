@@ -50,6 +50,19 @@ import {
   getMasterPDTimeFrameExtended,
   getMasterPDDepartment,
   getMasterPDNoOfClaims,
+  getMasterPDMailToAddress,
+  getMasterPDIntakeDecision,
+  getMasterPDIntakeDecisionReason,
+  getMasterPDClaimType,
+  getMasterPDFilledTimely,
+  getMasterPDGrantGoodCause,
+  getMasterPDPortalEnrolled,
+  getMasterPDDenialCodeAndReason,
+  getMasterPDComplainantType,
+  getMasterPDSubIssueLevel,
+  getMasterPDIssueType,
+  getMasterPDProduct,
+  getMasterPDCaseFillingMethod,
   getMasterLanguages,
   getMasterLicenseType,
   getMasterStateSymbol,
@@ -652,8 +665,110 @@ export default function DashboardLogin() {
         onMasterLoadSuccess,
       ),
     );
-
-
+    dispatch(
+      getMasterPDMailToAddress(
+        loginToken,
+        false,
+        onMasterLoadFail,
+        onMasterLoadSuccess,
+      ),
+    );
+    dispatch(
+      getMasterPDIntakeDecision(
+        loginToken,
+        false,
+        onMasterLoadFail,
+        onMasterLoadSuccess,
+      ),
+    );
+    dispatch(
+      getMasterPDIntakeDecisionReason(
+        loginToken,
+        false,
+        onMasterLoadFail,
+        onMasterLoadSuccess,
+      ),
+    );
+    dispatch(
+      getMasterPDClaimType(
+        loginToken,
+        false,
+        onMasterLoadFail,
+        onMasterLoadSuccess,
+      ),
+    );
+    dispatch(
+      getMasterPDFilledTimely(
+        loginToken,
+        false,
+        onMasterLoadFail,
+        onMasterLoadSuccess,
+      ),
+    );
+    dispatch(
+      getMasterPDGrantGoodCause(
+        loginToken,
+        false,
+        onMasterLoadFail,
+        onMasterLoadSuccess,
+      ),
+    );
+    dispatch(
+      getMasterPDPortalEnrolled(
+        loginToken,
+        false,
+        onMasterLoadFail,
+        onMasterLoadSuccess,
+      ),
+    );
+    dispatch(
+      getMasterPDDenialCodeAndReason(
+        loginToken,
+        false,
+        onMasterLoadFail,
+        onMasterLoadSuccess,
+      ),
+    );
+    dispatch(
+      getMasterPDComplainantType(
+        loginToken,
+        false,
+        onMasterLoadFail,
+        onMasterLoadSuccess,
+      ),
+    );
+    dispatch(
+      getMasterPDSubIssueLevel(
+        loginToken,
+        false,
+        onMasterLoadFail,
+        onMasterLoadSuccess,
+      ),
+    );
+    dispatch(
+      getMasterPDIssueType(
+        loginToken,
+        false,
+        onMasterLoadFail,
+        onMasterLoadSuccess,
+      ),
+    );
+    dispatch(
+      getMasterPDProduct(
+        loginToken,
+        false,
+        onMasterLoadFail,
+        onMasterLoadSuccess,
+      ),
+    );
+    dispatch(
+      getMasterPDCaseFillingMethod(
+        loginToken,
+        false,
+        onMasterLoadFail,
+        onMasterLoadSuccess,
+      ),
+    );
     dispatch(
       getAllUsers(loginToken, false, onMasterLoadFail, onMasterLoadSuccess),
     );
