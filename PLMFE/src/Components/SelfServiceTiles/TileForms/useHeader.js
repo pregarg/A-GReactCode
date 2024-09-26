@@ -17,7 +17,7 @@ import { useMemberAltContactInfo } from "./useMemberAltContactInfo.js";
 import { useDecisionAddOfRecords } from "./useDecisionAddRecord.js";
 import { useProviderAddOfRecords } from "./useProviderAddOfRecords";
 import { useRepresentativeAddOfRecords } from "./useRepresentativeAddOfRecords";
-
+import { useRepresentativeAltContact } from "./useRepresentativeAltContact";
 import {usePdProviderAltContactInfo} from "./usePdProviderAltContactInfo";
 
 
@@ -64,6 +64,12 @@ export const useHeader = () => {
     representativeAddOfRecordsValidationSchema,
     setpdRepresentativeAddRecord,
   } = useRepresentativeAddOfRecords(renderType);
+  const {
+    representativeAltFields,
+    pd_RepresentativeAltRecord,
+    representativeAltContactValidationSchema,
+    setpdRepresentativeAltRecord,
+  } = useRepresentativeAltContact(renderType);
   
   const {
     decisionAddRecordFields,
@@ -246,6 +252,7 @@ export const useHeader = () => {
     Internal_Notes: "",
   });
   const [claimInformationGrid, setClaimInformationGrid] = useState([]);
+  const [ProviderClaimInformationGrid, setProviderClaimInformationGrid] = useState([]);
   const [providerInformationGrid, setProviderInformationGrid] = useState([]);
   const [authorizationInformationGrid, setAuthorizationInformationGrid] =
     useState([]);
@@ -485,10 +492,11 @@ export const useHeader = () => {
   const [memberInformationErrors, setMemberInformationErrors] = useState([]);
   const [ProvidermemberInformationErrors, setProviderMemberInformationErrors] = useState([]);
   //const [providerDisputeAuthorizationInformationGridErrors, setProviderDisputeAuthorizationInformationGridErrors] = useState([]);
-  const [memberAlterfnativeContactErrors, setMemberAlternativeContactErrors] = useState([]);
+  const [memberAlternativeContactErrors, setMemberAlternativeContactErrors] = useState([]);
   const [expeditedRequestErrors, setExpeditedRequestErrors] = useState([]);
   const [notesErrors, setNotesErrors] = useState([]);
   const [representativeAddErrors, setRepresentativeAddErrorsErrors] = useState([]);
+  const [representativeAltErrors, setRepresentativeAltErrorsErrors] = useState([]);
   const [memberAddErrors, setMemberAddErrorsErrors] = useState([]);
   const [providerAddErrors, setProviderAddErrorsErrors] = useState([]);
   const [providerAltErrors, setProviderAltErrorsErrors] = useState([]);
@@ -571,6 +579,11 @@ export const useHeader = () => {
         setRepresentativeAddErrorsErrors,
     );
     validateSync(
+        representativeAltContactValidationSchema,
+        pd_RepresentativeAltRecord,
+        setRepresentativeAltErrorsErrors,
+    );
+    validateSync(
       decisionAddOfRecordsValidationSchema,
       pd_DecisionAddRecord,
       setDecisionAddErrorsErrors,
@@ -609,7 +622,7 @@ export const useHeader = () => {
         ...claimInformationErrors,
         ...memberInformationErrors,
         ...ProvidermemberInformationErrors,
-        // ...memberAlternativeContactErrors,
+         ...memberAlternativeContactErrors,
         ...expeditedRequestErrors,
         ...caseDecisionDetailsErrors,
         ...caseDecisionErrors,
@@ -621,7 +634,7 @@ export const useHeader = () => {
     claimInformationErrors,
     memberInformationErrors,
     ProvidermemberInformationErrors,
-    // memberAlternativeContactErrors,
+     memberAlternativeContactErrors,
     expeditedRequestErrors,
     caseDecisionDetailsErrors,
     caseDecisionErrors,
@@ -668,13 +681,17 @@ export const useHeader = () => {
     const pdRepresentativeAddRecord = trimJsonValues({ ...pd_RepresentativeAddRecord });
     apiJson["PD_Representative_Add_of_Records"] = pdRepresentativeAddRecord;
 
+    const pdRepresentativeAltRecord = trimJsonValues({ ...pd_RepresentativeAltRecord });
+    apiJson["PD_Representative_Alternative_Contact_Info"] = pdRepresentativeAltRecord;
+
     const pdDecisionAddRecord = trimJsonValues({ ...pd_DecisionAddRecord });
     apiJson["PD_Decision"] = pdDecisionAddRecord;
 
-
+    const pdClaimInformationGrid = getGridDataValues(ProviderClaimInformationGrid);
+	  apiJson["PD_Claim_Information_Grid"] = pdClaimInformationGrid;
 
     const angProviderMemberInformation = trimJsonValues({ ...ProvidermemberInformation });
-    console.log("Provider Member Information is : ", angProviderMemberInformation)
+    // console.log("Provider Member Information is : ", angProviderMemberInformation)
     apiJson["PD_Member_Information"] = angProviderMemberInformation;
 
 
@@ -1844,6 +1861,7 @@ export const useHeader = () => {
     caseTimelines,
     pd_MemberAddRecord,
     pd_RepresentativeAddRecord,
+    pd_RepresentativeAltRecord,
     pd_DecisionAddRecord,
     pd_ProviderAddRecord,
     pd_ProviderAlt,
@@ -1852,6 +1870,7 @@ export const useHeader = () => {
     setCaseTimelines,
     setpdMemberAddRecord,
     setpdRepresentativeAddRecord,
+    setpdRepresentativeAltRecord,
     setpdDecisionAddRecord,
     setpdProviderAddRecord,
     setpdProviderAlt,
@@ -1906,7 +1925,7 @@ export const useHeader = () => {
     claimInformationErrors,
     memberInformationErrors,
     ProvidermemberInformationErrors,
-    // memberAlternativeContactErrors,
+    memberAlternativeContactErrors,
     shouldShowSubmitError,
     handleShowMember360,
     showMember360,
@@ -1922,6 +1941,7 @@ export const useHeader = () => {
     notesErrors,
     memberAddErrors,
     representativeAddErrors,
+    representativeAltErrors,
     decisionAddErrors,
     providerAddErrors,
     providerAltErrors,
@@ -1931,12 +1951,14 @@ export const useHeader = () => {
     authorizationInformationGridValidationSchema,
     representativeInformationGridValidationSchema,
     memberAddOfRecordsValidationSchema,
+    representativeAltContactValidationSchema,
     decisionAddOfRecordsValidationSchema,
     providerAddOfRecordsValidationSchema,
     providerAltValidationSchema,
     caseTimelinesFields,
     memberAddRecordFields,
     representativeAddRecordFields,
+    representativeAltFields,
     decisionAddRecordFields,
     providerAddRecordFields,
     providerAltFields,
@@ -1956,6 +1978,5 @@ export const useHeader = () => {
     caseDecisionDetailsValidationSchema,
     caseDecisionDetailsErrors,
 	  caseDecisionDetailsFields,
-    // decisionAddRecordFields,
   };
 };
