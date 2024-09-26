@@ -10,12 +10,11 @@ import CaseInformationAccordion from "./ProviderDisputeCaseInformationAccordion"
 import CaseClaimInformation from "./ProviderDisputeClaimInformation";
 import DecisionTab from "../../../WorkItemDashboard/DecisionTab";
 import CaseInformation from "../../../WorkItemDashboard/CaseInformation";
-import MemberInformationAccordion from "./ProviderDisputeMemberInformationAccordion";
-import AuthorizationInformationAccordion from "./ProviderDisputeAuthorizationInformationAccordion";
+import ProviderMemberInformationAccordion from "./ProviderDisputeMemberInformationAccordion";
 import ExpeditedRequestAccordion from "./ExpeditedRequestAccordion";
 import NotesAccordion from "./ProviderDisputeNotesAccordion";
 import { FaBars } from "react-icons/fa";
-
+import AuthorizationInformationAccordion from "./ProviderDisputeAuthorizationInformationAccordion";
 import RepresentativeInformationAccordion from "./ProviderDisputeRepresentativeInformationAccordion";
 import { useHeader } from "./useHeader";
 import DocumentSection from "../DocumentSection";
@@ -75,9 +74,9 @@ const ProviderDisputes = () => {
     setClaimInformationGrid,
     providerInformationGrid,
     setProviderInformationGrid,
-    memberInformation,
-    memberInformationValidationSchema,
-    setMemberInformation,
+    ProvidermemberInformation,
+    ProvidermemberInformationValidationSchema,
+    setProviderMemberInformation,
     representativeInformationGrid,
     setRepresentativeInformationGrid,
     handleAuthorizationInformationChange,
@@ -113,7 +112,7 @@ const ProviderDisputes = () => {
     caseTimelinesErrors,
     caseInformationErrors,
     claimInformationErrors,
-    memberInformationErrors,
+    ProvidermemberInformationErrors,
     shouldShowSubmitError,
     claimInformationGridRowValidationSchema,
     providerInformationGridValidationSchema,
@@ -225,13 +224,13 @@ const ProviderDisputes = () => {
                   renderType={RenderType.PROVIDER_DISPUTE}
               />
               
-              <MemberInformationAccordion
-                memberInformationData={memberInformation}
-                setMemberInformationData={setMemberInformation}
-                memberInformationValidationSchema={
-                  memberInformationValidationSchema
+              <ProviderMemberInformationAccordion
+                ProvidermemberInformationData={ProvidermemberInformation}
+                setProviderMemberInformationData={setProviderMemberInformation}
+                ProvidermemberInformationValidationSchema={
+                  ProvidermemberInformationValidationSchema
                 }
-                memberInformationErrors={memberInformationErrors}
+                ProvidermemberInformationErrors={ProvidermemberInformationErrors}
                 shouldShowSubmitError={shouldShowSubmitError}
               />
               <MemberAddOfRecordsAccordion

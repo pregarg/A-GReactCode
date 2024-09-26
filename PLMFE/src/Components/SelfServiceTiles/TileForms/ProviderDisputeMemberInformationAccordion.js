@@ -2,18 +2,18 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import useGetDBTables from "../../CustomHooks/useGetDBTables";
-import MemberSearch from "../TileForms/MemberSearch";
+import ProviderMemberSearch from "../TileForms/ProviderMemberSearch";
 import TableComponent from "../../../../src/util/TableComponent";
 import { useAxios } from "../../../api/axios.hook";
 import { FormikInputField } from "../Common/FormikInputField";
 import { FormikDatePicker } from "../Common/FormikDatePicker";
 import { FormikSelectField } from "../Common/FormikSelectField";
 
-const MemberInformationAccordion = (props) => {
+const ProviderMemberInformationAccordion = (props) => {
   const { convertToCase, extractDate, getDatePartOnly } = useGetDBTables();
 
-  const [memberInformationData, setMemberInformationData] = useState(
-    props.memberInformationData,
+  const [ProvidermemberInformationData, setProviderMemberInformationData] = useState(
+    props.ProvidermemberInformationData,
   );
 
   const angDeceasedSelector = useSelector((state) => state?.masterAngDeceased);
@@ -30,7 +30,7 @@ const MemberInformationAccordion = (props) => {
   const [selectedCriteria, setSelectedCriteria] = useState();
   const [selectSearchValues, setSelectSearchValues] = useState();
   const [responseData, setResponseData] = useState([]);
-  const [showMemberSearch, setShowMemberSearch] = useState(false);
+  const [showProviderMemberSearch, setShowProviderMemberSearch] = useState(false);
   const { customAxios: axios } = useAxios();
   const [selectedAddress, setSelectedAddress] = useState([]);
   const [whiteGloveIndicator, setWhiteGloveIndicator] = useState(false);
@@ -57,19 +57,19 @@ const MemberInformationAccordion = (props) => {
     );
   }, [location]);
 
-  const handleMemberInformationData = (name, value, persist) => {
+  const handleProviderMemberInformationData = (name, value, persist) => {
     const newData = {
-      ...memberInformationData,
+      ...ProvidermemberInformationData,
       [name]: typeof value === "string" ? convertToCase(value) : value,
     };
-    setMemberInformationData(newData);
+    setProviderMemberInformationData(newData);
     if (persist) {
-      props.setMemberInformationData(newData);
+      props.setProviderMemberInformationData(newData);
     }
   };
 
-  const persistMemberInformationData = () => {
-    props.setMemberInformationData(memberInformationData);
+  const persistProviderMemberInformationData = () => {
+    props.setProviderMemberInformationData(ProvidermemberInformationData);
   };
 
   const handleWhiteGloveChange = (e) => {
@@ -89,13 +89,13 @@ const MemberInformationAccordion = (props) => {
         name={name}
         placeholder={placeholder}
         maxLength={maxLength}
-        data={memberInformationData}
-        onChange={handleMemberInformationData}
+        data={ProvidermemberInformationData}
+        onChange={handleProviderMemberInformationData}
         disabled={invalidInputState}
-        persist={persistMemberInformationData}
-        schema={props.memberInformationValidationSchema}
+        persist={persistProviderMemberInformationData}
+        // schema={props.ProvidermemberInformationValidationSchema}
         displayErrors={props.shouldShowSubmitError}
-        errors={props.memberInformationErrors}
+        errors={props.ProvidermemberInformationErrors}
       />
     </div>
   );
@@ -104,9 +104,9 @@ const MemberInformationAccordion = (props) => {
       <FormikDatePicker
         name={name}
         placeholder={placeholder}
-        data={memberInformationData}
+        data={ProvidermemberInformationData}
         label={label}
-        onChange={handleMemberInformationData}
+        onChange={handleProviderMemberInformationData}
         disabled={
           location.state.formView === "DashboardView" &&
           (location.state.stageName === "Redirect Review" ||
@@ -119,8 +119,8 @@ const MemberInformationAccordion = (props) => {
             location.state.stageName === "CaseArchived")
         }
         displayErrors={props.shouldShowSubmitError}
-        schema={props.memberInformationValidationSchema}
-        errors={props.memberInformationErrors}
+        // schema={props.ProvidermemberInformationValidationSchema}
+        errors={props.ProvidermemberInformationErrors}
       />
     </div>
   );
@@ -129,9 +129,9 @@ const MemberInformationAccordion = (props) => {
       <FormikSelectField
         name={name}
         placeholder={placeholder}
-        data={memberInformationData}
+        data={ProvidermemberInformationData}
         options={options}
-        onChange={handleMemberInformationData}
+        onChange={handleProviderMemberInformationData}
         displayErrors={props.shouldShowSubmitError}
         disabled={
           location.state.formView === "DashboardView" &&
@@ -144,23 +144,23 @@ const MemberInformationAccordion = (props) => {
             location.state.stageName === "Reopen" ||
             location.state.stageName === "CaseArchived")
         }
-        schema={props.memberInformationValidationSchema}
-        errors={props.memberInformationErrors}
+        // schema={props.ProvidermemberInformationValidationSchema}
+        errors={props.ProvidermemberInformationErrors}
       />
     </div>
   );
 
-  const handleShowMemberSearch = () => {
-    setShowMemberSearch(true);
+  const handleShowProviderMemberSearch = () => {
+    setShowProviderMemberSearch(true);
   };
   const handleCloseSearch = () => {
-    setShowMemberSearch(false);
+    setShowProviderMemberSearch(false);
     setSelectedCriteria([]);
     setSelectSearchValues([]);
     setResponseData([]);
   };
 
-  const handleClearMemberSearch = () => {
+  const handleClearProviderMemberSearch = () => {
     setSelectSearchValues([]);
     setSelectedCriteria([]);
     setResponseData([]);
@@ -178,40 +178,40 @@ const MemberInformationAccordion = (props) => {
     setSelectedAddress(updatedTableData);
   };
 
-  const handleSelectedMembers = () => {
-    setShowMemberSearch(false);
+  const handleSelectedProviderMembers = () => {
+    setShowProviderMemberSearch(false);
     setSelectedCriteria([]);
     setSelectSearchValues([]);
     setResponseData([]);
-    props.setMemberInformationData({ ...selectedAddress[0] });
+    props.setProviderMemberInformationData({ ...selectedAddress[0] });
   };
 
   
   
-  const showMembers = async () => {
-    let MemberID = selectSearchValues?.memberID;
+  const showProviderMembers = async () => {
+    let ProviderMemberID = selectSearchValues?.ProvidermemberID;
     let MedicareID = selectSearchValues?.medicareID;
     let MedicaidID = selectSearchValues?.medicaidID;
-    let MemberFirstName = selectSearchValues?.memberFirstNameId;
-    let MemberLastName = selectSearchValues?.memberLasstNameId;
+    let ProviderMemberFirstName = selectSearchValues?.ProvidermemberFirstNameId;
+    let ProviderMemberLastName = selectSearchValues?.ProvidermemberLasstNameId;
     let DOB = selectSearchValues?.dateOfBirth;
   
     // Check if at least one search parameter has a value
     if (
-      MemberID ||
+      ProviderMemberID ||
       MedicareID ||
       MedicaidID ||
-      MemberFirstName ||
-      MemberLastName ||
+      ProviderMemberFirstName ||
+      ProviderMemberLastName ||
       DOB
     ) {
       let getApiJson = {
         option: "GETMEMBERSEARCHDATA",
-        Member_ID: MemberID || "",
+        ProviderMember_ID: ProviderMemberID || "",
         Medicare_ID: MedicareID || "",
         Medicaid_ID: MedicaidID || "",
-        Member_First_Name: MemberFirstName || "",
-        Member_Last_Name: MemberLastName || "",
+        ProviderMember_First_Name: ProviderMemberFirstName || "",
+        ProviderMember_Last_Name: ProviderMemberLastName || "",
         Date_of_Birth: extractDate(DOB) || "",
       };
   
@@ -286,7 +286,7 @@ const MemberInformationAccordion = (props) => {
   };
   
 
-  const memberSearchTableComponent = () => {
+  const ProvidermemberSearchTableComponent = () => {
     let columnNames =
       "Action~Action,Member ID~Member_ID,Member First Name~Member_First_Name,Member Last Name~Member_Last_Name,Date of Birth~Date_of_Birth,Plan Code~Plan_Code,ContractPlan ID~ContractPlan_ID,Medicare ID HICN~Medicare_ID_HICN,Plan Name~Plan_Name,Plan Effective Date~Plan_Effective_Date,Plan Expiration Date~Plan_Expiration_Date,Email ID~Email_ID,Phone Number~Phone_Number,Dual Plan~Dual_Plan,Address Line 1~Address_Line_1,Address Line 2~Address_Line_2,Zip Code~Zip_Code,City~City,County~County,State~State_,Preferred Language~Preferred_Language";
     if (responseData.length > 0) {
@@ -372,7 +372,7 @@ const MemberInformationAccordion = (props) => {
             <button
               type="button"
               className="btn btn-outline-primary"
-              onClick={(event) => handleShowMemberSearch(event)}
+              onClick={(event) => handleShowProviderMemberSearch(event)}
               disabled={
                 location.state.stageName === "Redirect Review" ||
                 location.state.stageName === "Documents Needed" ||
@@ -433,8 +433,8 @@ const MemberInformationAccordion = (props) => {
             </div>
           </div>
         </div>
-        {showMemberSearch && (
-          <MemberSearch
+        {showProviderMemberSearch && (
+          <ProviderMemberSearch
             handleCloseSearch={handleCloseSearch}
             selectedCriteria={selectedCriteria}
             setSelectedCriteria={setSelectedCriteria}
@@ -442,15 +442,15 @@ const MemberInformationAccordion = (props) => {
             setSelectSearchValues={setSelectSearchValues}
             responseData={responseData}
             setResponseData={setResponseData}
-            handleClearMemberSearch={handleClearMemberSearch}
-            showMemberSearch={showMemberSearch}
-            showMembers={showMembers}
-            memberSearchTableComponent={memberSearchTableComponent}
-            handleSelectedMembers={handleSelectedMembers}
+            handleClearProviderMemberSearch={handleClearProviderMemberSearch}
+            showProviderMemberSearch={showProviderMemberSearch}
+            showProviderMembers={showProviderMembers}
+            ProvidermemberSearchTableComponent={ProvidermemberSearchTableComponent}
+            handleSelectedProviderMembers={handleSelectedProviderMembers}
           />
         )}
       </div>
     </div>
   );
 };
-export default MemberInformationAccordion;
+export default ProviderMemberInformationAccordion;
