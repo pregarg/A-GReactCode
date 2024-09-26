@@ -1,13 +1,38 @@
 import { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { RenderType } from "./Constants";
-
+import useGetDBTables from "../../CustomHooks/useGetDBTables";
+import { useSelector } from "react-redux";
 export const useDecisionAddOfRecords = (renderType) => {
-  debugger
+ // debugger
+ const { convertToCase } = useGetDBTables();
   const [decisionAddRecordFields, setDecisionAddRecordFields] = useState([]);
   const [pd_DecisionAddRecord, setpdDecisionAddRecord] = useState({
     caseNumber: ""
   });
+  const masterPDIntakeDecisionSelector = useSelector(
+    (state) => state?.masterPDIntakeDecision,
+  );
+  const masterPDIntakeDecisionReasonSelector = useSelector(
+    (state) => state?.masterPDIntakeDecisionReason,
+  );
+  const [intakeDecisionValues, setIntakeDecisionValues] = useState([]);
+  const [intakeDecisionReasonValues, setIntakeDecisionReasonValues] = useState([]);
+
+  useEffect(() => {
+        const kvMapper = (e) => ({
+          label: convertToCase(e),
+          value: convertToCase(e),
+        });
+        const intakeDecision = masterPDIntakeDecisionSelector?.[0] || [];
+        setIntakeDecisionValues(
+          intakeDecision.map((e) => e.Intake_Decision).map(kvMapper),
+        );
+        const intakeDecisionReason = masterPDIntakeDecisionReasonSelector?.[0] || [];
+        setIntakeDecisionReasonValues(
+          intakeDecisionReason.map((e) => e.Intake_Decision_Reason).map(kvMapper),
+        );
+      }, []);
 
   const [decisionAddOfRecordsValidationSchema, setDecisionAddOfRecordsValidationSchema] =
     useState(Yup.object().shape({}));
@@ -15,17 +40,17 @@ export const useDecisionAddOfRecords = (renderType) => {
   useEffect(() => {
     const fields = [
         {
-            type: "input",
+            type: "select",
             name: "Intake_Decision",
             placeholder: "Intake Decision",
-            maxLength: 250,
+            values: intakeDecisionValues,
             renderTypes: [RenderType.PROVIDER_DISPUTE],
           },
           {
-            type: "input",
+            type: "select",
             name: "Intake_Decision_Reason",
             placeholder: "Intake Decision Reason",
-            maxLength: 250,
+            values: intakeDecisionReasonValues,
             renderTypes: [RenderType.PROVIDER_DISPUTE],
           },
           {

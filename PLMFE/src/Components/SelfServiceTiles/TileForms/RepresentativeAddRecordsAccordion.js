@@ -66,7 +66,32 @@ const RepresentativeAddRecordsAccordion = (props) => {
         />
       </div>
   );
-
+  const renderSelectField = (name, placeholder, options) => (
+    <div className="col-xs-6 col-md-4">
+      <FormikSelectField
+        name={name}
+        placeholder={placeholder}
+        data={representativeAddData}
+        options={options}
+        onChange={handleRepresentativeAddData}
+        displayErrors={props.shouldShowSubmitError}
+        disabled={
+          props.renderType === RenderType.APPEALS &&
+          location.state.formView === "DashboardView" &&
+          (location.state.stageName === "Redirect Review" ||
+            location.state.stageName === "Documents Needed" ||
+            location.state.stageName === "Effectuate" ||
+            location.state.stageName === "Pending Effectuate" ||
+            location.state.stageName === "Resolve" ||
+            location.state.stageName === "Case Completed" ||
+            location.state.stageName === "Reopen" ||
+            location.state.stageName === "CaseArchived")
+        }
+        schema={props.representativeAddOfRecordsValidationSchema}
+        errors={props.representativeAddErrors}
+      />
+    </div>
+  );
 
 
   return (
@@ -100,7 +125,7 @@ const RepresentativeAddRecordsAccordion = (props) => {
 
                     {renderElements(
                         props.representativeAddRecordFields,
-                        "",
+                        renderSelectField,
                         renderInputField,
                         "",
 
