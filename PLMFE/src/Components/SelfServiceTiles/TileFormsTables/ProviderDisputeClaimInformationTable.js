@@ -8,9 +8,9 @@ import { SimpleInputField } from "../Common/SimpleInputField";
 import { SimpleSelectField } from "../Common/SimpleSelectField";
 import { SimpleDatePickerField } from "../Common/SimpleDatePickerField";
 
-export default function ClaimInformationTable({
-  claimInformationGridData,
-  setClaimInformationGridData,
+export default function ProviderClaimInformationTable({
+  ProviderclaimInformationGridData,
+  setProviderClaimInformationGridData,
   updateGridData,
   deleteTableRows,
   handleGridSelectChange,
@@ -25,7 +25,7 @@ export default function ClaimInformationTable({
   calculateDaysDifference,
   validationSchema,
 }) {
-  ClaimInformationTable.displayName = "ClaimInformationTable";
+  ProviderClaimInformationTable.displayName = "ProviderClaimInformationTable";
 
   const [dataIndex, setDataIndex] = useState();
   const [operationValue, setOperationValue] = useState("");
@@ -46,7 +46,7 @@ export default function ClaimInformationTable({
   const caseHeaderConfigData = JSON.parse(
     process.env.REACT_APP_CASEHEADER_DETAILS || "{}",
   );
-  const claimStageName = caseHeaderConfigData["StageName"];
+  const ProviderclaimStageName = caseHeaderConfigData["StageName"];
 
   let prop = useLocation();
 
@@ -58,7 +58,7 @@ export default function ClaimInformationTable({
     "Documents Needed",
   ];
   const shouldHideFields = !excludedStages.includes(
-    prop.state.stageName || claimStageName,
+    prop.state.stageName || ProviderclaimStageName,
   );
    let lineNumberOptions = [];
   let filedTimelyValues = [];
@@ -66,19 +66,45 @@ export default function ClaimInformationTable({
 
   const [validationErrors, setValidationErrors] = useState({});
   
+  // useEffect(() => {
+  //   try {
+  //     setValidationErrors([]);
+  //     validationSchema.validateSync(gridFieldTempState, { abortEarly: false });
+  //   } catch (errors) {
+  //     const validationErrors = errors.inner.reduce((acc, error) => {
+  //       acc[error.path] = error.message;
+  //       return acc;
+  //     }, {});
+  //     console.log(
+  //       "errors were encountered in Provider claim information table",
+  //       validationErrors,
+  //     );
+  //     setValidationErrors(validationErrors);
+  //   }
+  // }, [gridFieldTempState]);
   useEffect(() => {
     try {
+      // Clear validation errors initially
       setValidationErrors([]);
+      
+      // Attempt to validate
       validationSchema.validateSync(gridFieldTempState, { abortEarly: false });
-    } catch (errors) {
-      const validationErrors = errors.inner.reduce((acc, error) => {
-        acc[error.path] = error.message;
-        return acc;
-      }, {});
+    } catch (err) {
+      // Ensure err.inner exists and is an array before reducing
+      const validationErrors = err.inner && Array.isArray(err.inner)
+        ? err.inner.reduce((acc, error) => {
+            acc[error.path] = error.message;
+            return acc;
+          }, {})
+        : {}; // Fallback to an empty object if no validation errors
+  
+      // Log validation errors for debugging
       console.log(
-        "errors were encountered in claim information table",
+        "Errors were encountered in Provider claim information table",
         validationErrors,
       );
+      
+      // Set the validation errors state
       setValidationErrors(validationErrors);
     }
   }, [gridFieldTempState]);
@@ -139,14 +165,14 @@ export default function ClaimInformationTable({
             handleGridFieldChange(
               index,
               event,
-              ClaimInformationTable.displayName,
+              ProviderClaimInformationTable.displayName,
             )
           }
           validationErrors={validationErrors}
           disabled={
             (prop.state.formView === "DashboardView" ||
               prop.state.formView === "DashboardHomeView") &&
-            (((claimStageName === "Start" ||
+            (((ProviderclaimStageName === "Start" ||
               prop.state.stageName === "Intake") &&
               name === "Good_Cause_Reason") ||
               prop.state.stageName === "Redirect Review" ||
@@ -170,14 +196,14 @@ export default function ClaimInformationTable({
               index,
               selectValue,
               event,
-              ClaimInformationTable.displayName,
+              ProviderClaimInformationTable.displayName,
             )
           }
           validationErrors={validationErrors}
           disabled={
             (prop.state.formView === "DashboardView" ||
               prop.state.formView === "DashboardHomeView") &&
-            (((claimStageName === "Start" ||
+            (((ProviderclaimStageName === "Start" ||
               prop.state.stageName === "Intake") &&
               (name === "Filed_Timely" || name === "Grant_Good_Cause")) ||
               prop.state.stageName === "Redirect Review" ||
@@ -205,7 +231,7 @@ export default function ClaimInformationTable({
               index,
               selectValue,
               name,
-              ClaimInformationTable.displayName,
+              ProviderClaimInformationTable.displayName,
             )
           }
           validationErrors={validationErrors}
@@ -243,21 +269,39 @@ export default function ClaimInformationTable({
           </div>
           <div className="row">
             {renderSimpleSelectField("Provider_Account", "Provider Account", filedTimelyValues, index)}
-            {renderSimpleSelectField("High_Dollar_Dispute", "High Dollar Dispute", grantGoodCauseValues, index)}
-            {renderSimpleInputField("Issue_Number", "Issue Number", 50, index)}
             
+            {renderSimpleInputField("Issue_Number", "Issue Number", 50, index)}
+            {renderSimpleInputField("Claim_Number", "Claim Number", 16,index)}
+              {renderSimpleInputField(
+                "Authorization_Number",
+                "Authorization Number",
+                9,
+              )}
+              </div>
+              <div className="row">
+               {renderSimpleDatePickerField(
+                "Service_Start_Date",
+                "Service Start Date",
+                "Service Start Date",
+              )}
+            {renderSimpleDatePickerField(
+                "Service_End_Date",
+                "Service End Date",
+                "Service End Date",
+              )}
+               {/* {renderSimpleSelectField("Claim_type", "Claim type", ProviderclaimTypeValues)} */}
           </div>
-        </div>
+          </div>
       </>
     );
   };
   
 
   const tdData = () => {
-    updateGridData(claimInformationGridData);
-    if (claimInformationGridData !== undefined && claimInformationGridData.length > 0) {
-      updateGridData(claimInformationGridData);
-      return claimInformationGridData.map((data, index) => {
+    updateGridData(ProviderclaimInformationGridData);
+    if (ProviderclaimInformationGridData !== undefined && ProviderclaimInformationGridData.length > 0) {
+      updateGridData(ProviderclaimInformationGridData);
+      return ProviderclaimInformationGridData.map((data, index) => {
         return (
           <tr
             key={index}
@@ -270,7 +314,7 @@ export default function ClaimInformationTable({
                     className="deleteBtn"
                     style={{ width: "75%", float: "left" }}
                     onClick={() => {
-                      deleteTableRows(index, ClaimInformationTable.displayName, "Force Delete");
+                      deleteTableRows(index, ProviderClaimInformationTable.displayName, "Force Delete");
                       handleOperationValue("Force Delete");
                       decreaseDataIndex();
                     }}
@@ -282,7 +326,7 @@ export default function ClaimInformationTable({
                     style={{ width: "75%", float: "right" }}
                     type="button"
                     onClick={() => {
-                      editTableRows(index, ClaimInformationTable.displayName);
+                      editTableRows(index, ProviderClaimInformationTable.displayName);
                       handleModalChange(true);
                       handleDataIndex(index);
                       handleOperationValue("Edit");
@@ -300,7 +344,7 @@ export default function ClaimInformationTable({
                   style={{ float: "right" }}
                   type="button"
                   onClick={() => {
-                    editTableRows(index, ClaimInformationTable.displayName);
+                    editTableRows(index, ProviderClaimInformationTable.displayName);
                     handleModalChange(true);
                     handleDataIndex(index);
                     handleOperationValue("Edit");
@@ -321,7 +365,11 @@ export default function ClaimInformationTable({
               "Patient_ref_Account",
               "Provider_Account",
               "High_Dollar_Dispute",
-              "Issue_Number"
+              "Issue_Number",
+              "Authorization Number",
+              "Claim Type",
+              "Service Start Date",
+	            "Service End Date",
             ].map((e) => (
               <td className="tableData">
                 {e.endsWith("_Date")
@@ -394,9 +442,9 @@ export default function ClaimInformationTable({
                   <button
                     className="addBtn"
                     onClick={() => {
-                      addTableRows(ClaimInformationTable.displayName);
+                      addTableRows(ProviderClaimInformationTable.displayName);
                       handleModalChange(true);
-                      handleDataIndex(claimInformationGridData.length);
+                      handleDataIndex(ProviderclaimInformationGridData.length);
                       handleOperationValue("Add");
                     }}
                   >
@@ -430,7 +478,7 @@ export default function ClaimInformationTable({
         dataIndex={dataIndex}
         tdDataReplica={tdDataReplica}
         deleteTableRows={deleteTableRows}
-        gridName={ClaimInformationTable.displayName}
+        gridName={ProviderClaimInformationTable.displayName}
         decreaseDataIndex={decreaseDataIndex}
         operationValue={operationValue}
         gridRowsFinalSubmit={gridRowsFinalSubmit}
