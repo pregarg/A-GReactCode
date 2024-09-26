@@ -24,11 +24,14 @@ import Member360 from "../TileForms/Member360";
 import Provider360 from "../TileForms/Provider360";
 import NotesHistory from "../TileForms/NotesHistory";
 import MemberAddOfRecordsAccordion from "../TileForms/MemberAddOfRecordsAccordion";
+import ProviderDecisionRecordsAccordion from "../TileForms/ProviderDecisionRecordsAccordion";
 import MemberAltContactInfoAccordion from "../TileForms/MemberAltContactInfoAccordion";
-// import ProviderDecisionAccordion from "../TileForms/ProviderDisputeDecisionAccordion";
+import PdProviderAltContactAccordion from "../TileForms/PdProviderAltContactAccordion";
+import RepresentativeAddRecordsAccordion from "../TileForms/RepresentativeAddRecordsAccordion";
 
 import { RenderType } from "./Constants";
-import ProviderDisputeDecisionAccordion from "./ProviderDisputeDecisionAccordion";
+import ProviderAddOfRecordsAccordion from "./ProviderAddOfRecordsAccordion";
+
 
 const ProviderDisputes = () => {
   // CaseHeader.displayName = "Appeals";
@@ -45,11 +48,19 @@ const ProviderDisputes = () => {
   const {
     caseTimelines,
     pd_MemberAddRecord,
+    pd_DecisionAddRecord,
+    pd_RepresentativeAddRecord,
+    pd_ProviderAddRecord,
+    pd_ProviderAlt,
     pd_MemberAltContactInfo,
     caseTimelinesValidationSchema,
     memberAltContactValidationSchema,
     setCaseTimelines,
     setpdMemberAddRecord,
+    setpdRepresentativeAddRecord,
+    setpdDecisionAddRecord,
+    setpdProviderAddRecord,
+    setpdProviderAlt,
     setpdMemberAltContactInfo,
     handleCaseHeaderChange,
     caseHeader,
@@ -80,6 +91,10 @@ const ProviderDisputes = () => {
     setNotes,
     notesErrors,
     memberAddErrors,
+    representativeAddErrors,
+    decisionAddErrors,
+    providerAddErrors,
+    providerAltErrors,
     memberAltContactErrors,
     notesValidationSchema,
     expeditedRequestValidationSchema,
@@ -105,6 +120,10 @@ const ProviderDisputes = () => {
     authorizationInformationGridValidationSchema,
     representativeInformationGridValidationSchema,
     memberAddOfRecordsValidationSchema,
+    representativeAddOfRecordsValidationSchema,
+    decisionAddOfRecordsValidationSchema,
+    providerAddOfRecordsValidationSchema,
+    providerAltValidationSchema,
     memberAltContactInfoValidationSchema,
     handleShowMember360,
     showMember360,
@@ -119,6 +138,10 @@ const ProviderDisputes = () => {
     modalTableComponent,
     caseTimelinesFields,
     memberAddRecordFields,
+    representativeAddRecordFields,
+    decisionAddRecordFields,
+    providerAddRecordFields,
+    providerAltFields,
     memberAltContactFields,
     setRenderType,
     caseHeaderFields,
@@ -182,6 +205,25 @@ const ProviderDisputes = () => {
                   providerInformationGridValidationSchema
                 }
               />
+
+              <ProviderAddOfRecordsAccordion
+                  providerAddData={pd_ProviderAddRecord}
+                  setProviderAddData={setpdProviderAddRecord}
+                  providerAddOfRecordsValidationSchema={providerAddOfRecordsValidationSchema}
+                  providerAddRecordFields={providerAddRecordFields}
+                  providerAddErrors={providerAddErrors}
+                  shouldShowSubmitError={shouldShowSubmitError}
+                  renderType={RenderType.PROVIDER_DISPUTE}
+              />
+              <PdProviderAltContactAccordion
+                  providerAltData={pd_ProviderAlt}
+                  setProviderAltData={setpdProviderAlt}
+                  providerAltValidationSchema={providerAltValidationSchema}
+                  providerAltFields={providerAltFields}
+                  providerAltErrors={providerAltErrors}
+                  shouldShowSubmitError={shouldShowSubmitError}
+                  renderType={RenderType.PROVIDER_DISPUTE}
+              />
               
               <MemberInformationAccordion
                 memberInformationData={memberInformation}
@@ -201,7 +243,6 @@ const ProviderDisputes = () => {
                   shouldShowSubmitError={shouldShowSubmitError}
                   renderType={RenderType.PROVIDER_DISPUTE}
               />
-
               <MemberAltContactInfoAccordion />
 
               <RepresentativeInformationAccordion
@@ -214,6 +255,15 @@ const ProviderDisputes = () => {
                 representativeInformationGridValidationSchema={
                   representativeInformationGridValidationSchema
                 }
+              />
+              <RepresentativeAddRecordsAccordion
+                  representativeAddData={pd_RepresentativeAddRecord}
+                  setRepresentativeAddData={setpdRepresentativeAddRecord}
+                  representativeAddOfRecordsValidationSchema={representativeAddOfRecordsValidationSchema}
+                  representativeAddRecordFields={representativeAddRecordFields}
+                  representativeAddErrors={representativeAddErrors}
+                  shouldShowSubmitError={shouldShowSubmitError}
+                  renderType={RenderType.PROVIDER_DISPUTE}
               />
               <AuthorizationInformationAccordion
                 handleOnChange={handleAuthorizationInformationChange}
@@ -228,14 +278,15 @@ const ProviderDisputes = () => {
                   authorizationInformationGridValidationSchema
                 }
               />
-              {/*<ExpeditedRequestAccordion*/}
-              {/*  expeditedRequestData={expeditedRequest}*/}
-              {/*  setExpeditedRequestData={setExpeditedRequest}*/}
-              {/*  expeditedRequestValidationSchema={*/}
-              {/*    expeditedRequestValidationSchema*/}
-              {/*  }*/}
-              {/*/>*/}
-              <ProviderDisputeDecisionAccordion  />
+              <ProviderDecisionRecordsAccordion
+                  decisionAddData={pd_DecisionAddRecord}
+                  setDecisionAddData={setpdDecisionAddRecord}
+                  decisionAddOfRecordsValidationSchema={decisionAddOfRecordsValidationSchema}
+                  decisionAddRecordFields={decisionAddRecordFields}
+                  decisionAddErrors={decisionAddErrors}
+                  shouldShowSubmitError={shouldShowSubmitError}
+                  renderType={RenderType.PROVIDER_DISPUTE}
+              />
               <NotesAccordion
                 notesData={notes}
                 setNotesData={setNotes}
