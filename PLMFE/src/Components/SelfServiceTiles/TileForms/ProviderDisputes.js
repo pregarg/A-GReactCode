@@ -26,6 +26,7 @@ import MemberAddOfRecordsAccordion from "../TileForms/MemberAddOfRecordsAccordio
 import ProviderDecisionRecordsAccordion from "../TileForms/ProviderDecisionRecordsAccordion";
 import MemberAltContactInfoAccordion from "../TileForms/MemberAltContactInfoAccordion";
 import PdProviderAltContactAccordion from "../TileForms/PdProviderAltContactAccordion";
+import PdCaseInformationAccordion from "../TileForms/PdCaseInformationAccordion";
 import RepresentativeAddRecordsAccordion from "../TileForms/RepresentativeAddRecordsAccordion";
 import RepresentativeAltContactAccordion from "../TileForms/RepresentativeAltContactAccordion";
 import { RenderType } from "./Constants";
@@ -149,6 +150,11 @@ const ProviderDisputes = () => {
     memberAltContactFields,
     setRenderType,
     caseHeaderFields,
+    caseInformationFields,
+    pd_CaseInformation,
+    pdCaseInformationValidationSchema,
+    setpdCaseInformation,
+    pdCaseInformationErrors,
   } = useHeader();
 
   useEffect(() => {
@@ -180,7 +186,16 @@ const ProviderDisputes = () => {
                 renderType={RenderType.PROVIDER_DISPUTE}
                 caseTimelinesFields={caseTimelinesFields}
               />
-               <CaseInformationAccordion
+              <PdCaseInformationAccordion
+                caseInformationData={pd_CaseInformation}
+                setcaseInformationData={setpdCaseInformation}
+                pdCaseInformationValidationSchema={pdCaseInformationValidationSchema}
+                pdCaseInformationErrors={pdCaseInformationErrors}
+                shouldShowSubmitError={shouldShowSubmitError}
+                caseInformationFields={caseInformationFields}
+                renderType={RenderType.PROVIDER_DISPUTE}
+              />
+               {/* <CaseInformationAccordion
                 caseInformationData={caseInformation}
                 setCaseInformationData={setCaseInformation}
                 caseInformationValidationSchema={
@@ -189,16 +204,13 @@ const ProviderDisputes = () => {
                 caseInformationErrors={caseInformationErrors}
                 shouldShowSubmitError={shouldShowSubmitError}
                 onExpeditedPriorityChange={handleExpeditedPriorityChange}
-              />
+
+              /> */}
               <ProviderCaseClaimInformation
                 ProviderclaimInformationData={ProviderclaimInformation}
                 setProviderClaimInformationData={setProviderClaimInformation}
-                ProviderclaimInformationValidationSchema={
-                  ProviderclaimInformationValidationSchema
-                }
-                ProviderclaimInformationGridRowValidationSchema={
-                  ProviderclaimInformationGridRowValidationSchema
-                }
+                ProviderclaimInformationValidationSchema={ProviderclaimInformationValidationSchema}
+                ProviderclaimInformationGridRowValidationSchema={ProviderclaimInformationGridRowValidationSchema}
                 handleProviderClaimInformationGridData={ProviderclaimInformationGrid}
                 ProviderclaimInformationErrors={ProviderclaimInformationErrors}
                 shouldShowSubmitError={shouldShowSubmitError}

@@ -858,6 +858,43 @@ const masterPDProductReducer = (state = [], action) => {
   }
   return state;
 };
+const masterPDComplaintTypeReducer = (state = [], action) => {
+  if (action.type === "GET_COMPLAINT_TYPE") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_COMPLAINT_TYPE") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+const masterPDIssueLevelNumReducer = (state = [], action) => {
+  if (action.type === "GET_CASE_LEVEL_NUMBER") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_CASE_LEVEL_NUMBER") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+const masterPDIssueLevelPriorityReducer = (state = [], action) => {
+  if (action.type === "GET_ISSUE_LEVEL") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_ISSUE_LEVEL") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+
+const masterPDLineOfBusinessReducer = (state = [], action) => {
+  if (action.type === "GET_LOBMAPPING") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_LOBMAPPING") {
+    state = [];
+    return state;
+  }
+  return state;
+};
 const masterPDCaseFillingMethodReducer = (state = [], action) => {
   if (action.type === "GET_CASE_FILING_METHOD") {
     return [action.payload];
@@ -1023,8 +1060,10 @@ export default combineReducers({
   masterPDIssueType:masterPDIssueTypeReducer,
   masterPDProduct:masterPDProductReducer,
   masterPDCaseFillingMethod:masterPDCaseFillingMethodReducer,
-
-
+  masterPDComplaintType:masterPDComplaintTypeReducer,
+  masterPDIssueLevelNum:masterPDIssueLevelNumReducer,
+  masterPDIssueLevelPriority:masterPDIssueLevelPriorityReducer,
+  masterPDLineOfBusiness:masterPDLineOfBusinessReducer,
   dashboardNavigationState: storeTableStateReducer,
   usersTable: usersReducer,
 });

@@ -42,10 +42,8 @@ export const useCaseTimelines = (renderType) => {
       label: convertToCase(e),
       value: convertToCase(e),
     });
-    // const arr = masterAngLOBMappingSelector?.[0] || [];
-    // setLobValues(arr.map((e) => e.LOB).map(kvMapper));
-    // setProductValues(arr.map((e) => e.Product).map(kvMapper));
-    // setProductStateValues(arr.map((e) => e.State).map(kvMapper));
+    
+    
 
     const caseFilling = masterAngCaseFilingMethodSelector?.[0] || [];
     setCaseFilingMethodValues(
@@ -60,8 +58,9 @@ export const useCaseTimelines = (renderType) => {
     const caseInCompliance = masterPDCaseInComplianceSelector?.[0] || [];
     setCaseInComplianceValues(caseInCompliance.map((e) => e.Case_in_Compliance).map(kvMapper));
 
-    const department = masterPDDepartmentSelector?.[0] || [];
-    setDepartmentValues(department.map((e) => e.Department).map(kvMapper),
+    const arr = masterPDDepartmentSelector?.[0] || [];
+    //const department = masterPDDepartmentSelector?.[0] || [];
+    setDepartmentValues(arr.map((e) => e.Department).map(kvMapper),
     );
 
     const noOfClaims = masterPDNoOfClaimsSelector?.[0] || [];
