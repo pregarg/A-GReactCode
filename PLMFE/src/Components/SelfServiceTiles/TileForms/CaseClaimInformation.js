@@ -319,11 +319,11 @@ const CaseClaimInformation = (props) => {
               apiResponse.Service_End_Date = extractDate(rad);
             }
             if (
-              apiResponse.hasOwnProperty("DenialDate") &&
-              typeof apiResponse.DenialDate === "string"
+              apiResponse.hasOwnProperty("Denial_Date") &&
+              typeof apiResponse.Denial_Date === "string"
             ) {
-              const rad = new Date(getDatePartOnly(apiResponse.DenialDate));
-              apiResponse.DenialDate = extractDate(rad);
+              const rad = new Date(getDatePartOnly(apiResponse.Denial_Date));
+              apiResponse.Denial_Date = extractDate(rad);
             }
           });
 
@@ -344,7 +344,7 @@ const CaseClaimInformation = (props) => {
 
   const claimSearchTableComponent = () => {
     let columnNames =
-      "Claim Number~Claim_Number,Claim Type~Claim_type,Authorization Number~Auth_Number,Service Start Date~Service_Start_Date,Service End Date~Service_End_Date,Service Span~ServiceSpan,Denial Date~DenialDate,Denial Code~DenialCode,Denial Description~DenialDescription,Member ID~MemberID,Member First Name~MemberFirstName,Member Last Name~MemberLastName,Provider ID~ProviderID,Provider Name~ProviderName";
+      "Claim Number~Claim_Number,Claim Type~Claim_type,Authorization Number~Auth_Number,Service Start Date~Service_Start_Date,Service End Date~Service_End_Date,Service Span~ServiceSpan,Denial Date~Denial_Date,Denial Code~DenialCode,Denial Description~DenialDescription,Member ID~MemberID,Member First Name~MemberFirstName,Member Last Name~MemberLastName,Provider ID~ProviderID,Provider Name~ProviderName";
     if (responseData.length > 0) {
       return (
         <>
@@ -711,7 +711,7 @@ const CaseClaimInformation = (props) => {
             (location.state.stageName === "Research" &&
               (name === "Claim_Adjusted_Date" ||
                 name === "Payment_Date" ||
-                name === "Payment_Mail_Date_Postmark")) ||
+                name === "Payment_Mail_Postmark_Date")) ||
             location.state.stageName === "Resolve" ||
             location.state.stageName === "Case Completed" ||
             location.state.stageName === "Reopen" ||
@@ -872,7 +872,7 @@ const CaseClaimInformation = (props) => {
                   )}
                 {shouldHideFields &&
                   renderDatePicker(
-                    "Payment_Mail_Date_Postmark",
+                    "Payment_Mail_Postmark_Date",
                     "Payment Mail Date Postmark",
                     "Payment Mail Date Postmark",
                   )}

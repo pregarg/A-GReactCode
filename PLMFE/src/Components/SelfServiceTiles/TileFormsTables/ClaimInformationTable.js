@@ -218,7 +218,7 @@ export default function ClaimInformationTable({
             (
                prop.state.stageName === "Redirect Review" ||
               ((prop.state.stageName === "Research") && (name === "Claim_Adjusted_Date"
-                || name ==="Payment_Date"|| name === "Payment_Mail_Date_Postmark")) || prop.state.stageName === "Effectuate" ||
+                || name ==="Payment_Date"|| name === "Payment_Mail_Postmark_Date")) || prop.state.stageName === "Effectuate" ||
                 prop.state.stageName === "Pending Effectuate" ||prop.state.stageName === "Resolve" ||
                 prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" ||
               prop.state.stageName === "CaseArchived"
@@ -289,7 +289,7 @@ export default function ClaimInformationTable({
               index,
             )}
             {renderSimpleInputField("DenialCode", "Denial Code", 50, index)}
-            {renderSimpleDatePickerField("DenialDate", "Denial Date", index)}
+            {renderSimpleDatePickerField("Denial_Date", "Denial Date", index)}
           </div>
           <div className="row">
             {renderSimpleInputField(
@@ -397,7 +397,7 @@ export default function ClaimInformationTable({
               )}
             {shouldHideFields &&
               renderSimpleDatePickerField(
-                "Payment_Mail_Date_Postmark",
+                "Payment_Mail_Postmark_Date",
                 "Payment Mail Date (Postmark)",
                 index,
               )}
@@ -510,12 +510,12 @@ export default function ClaimInformationTable({
               "Claim_Status",
               "Claim_Adjusted_Date",
               "DenialCode",
-              "DenialDate",
+              "Denial_Date",
               "DenialDescription",
               "Payment_Method",
               "Payment_Number",
               "Payment_Date",
-              "Payment_Mail_Date_Postmark",
+              "Payment_Mail_Postmark_Date",
               "Allowed_Amount",
               "Billed_Amount",
             ].map((e) => (

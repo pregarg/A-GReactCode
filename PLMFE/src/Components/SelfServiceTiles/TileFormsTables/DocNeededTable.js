@@ -173,8 +173,8 @@ useEffect(() => {
     "Needed_By",
     "Requested_By",
     "Request_Date",
-    "Follow_Up_Date1",
-    "Follow_Up_Date2",
+    "Follow_Up1_Date",
+    "Follow_Up2_Date",
     "Due_Date",
     "Received_Date",
   ];
@@ -317,12 +317,12 @@ useEffect(() => {
             index,
           )}
           {renderSimpleDatePickerField(
-            "Follow_Up_Date1",
+            "Follow_Up1_Date",
             "Follow-Up Date1",
             index,
           )}
           {renderSimpleDatePickerField(
-            "Follow_Up_Date2",
+            "Follow_Up2_Date",
             "Follow-Up Date2",
             index,
           )}

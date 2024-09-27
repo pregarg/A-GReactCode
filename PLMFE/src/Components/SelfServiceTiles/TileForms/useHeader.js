@@ -604,11 +604,11 @@ export const useHeader = () => {
     const pdCaseTimelines = trimJsonValues({ ...caseTimelines });
     apiJson["PD_Case_Timelines"] = pdCaseTimelines;
  
-    const pdCaseInformation = trimJsonValues({ ...caseInformation });
-    apiJson["PD_Case_Information"] = pdCaseInformation;
+    // const pdCaseInformation = trimJsonValues({ ...caseInformation });
+    // apiJson["PD_Case_Information"] = pdCaseInformation;
 
-    const pdClaimInformation = trimJsonValues({ ...claimInformation });
-    apiJson["PD_Claim_Information"] = pdClaimInformation;
+    // const pdClaimInformation = trimJsonValues({ ...claimInformation });
+    // apiJson["PD_Claim_Information"] = pdClaimInformation;
 
     const pdMemberAddRecord = trimJsonValues({ ...pd_MemberAddRecord });
     apiJson["PD_MEMBER_ADD_OF_RECORDS"] = pdMemberAddRecord;
