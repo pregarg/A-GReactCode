@@ -7,15 +7,14 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import CaseHeaderAccordion from "./CaseHeaderAccordion";
 import CaseTimelinesAccordion from "./CaseTimelinesAccordion";
 import CaseInformationAccordion from "./ProviderDisputeCaseInformationAccordion";
-import CaseClaimInformation from "./ProviderDisputeClaimInformation";
+import ProviderCaseClaimInformation from "./ProviderDisputeClaimInformation";
 import DecisionTab from "../../../WorkItemDashboard/DecisionTab";
 import CaseInformation from "../../../WorkItemDashboard/CaseInformation";
-import MemberInformationAccordion from "./ProviderDisputeMemberInformationAccordion";
-import AuthorizationInformationAccordion from "./ProviderDisputeAuthorizationInformationAccordion";
+import ProviderMemberInformationAccordion from "./ProviderDisputeMemberInformationAccordion";
 import ExpeditedRequestAccordion from "./ExpeditedRequestAccordion";
 import NotesAccordion from "./ProviderDisputeNotesAccordion";
 import { FaBars } from "react-icons/fa";
-
+import AuthorizationInformationAccordion from "./ProviderDisputeAuthorizationInformationAccordion";
 import RepresentativeInformationAccordion from "./ProviderDisputeRepresentativeInformationAccordion";
 import { useHeader } from "./useHeader";
 import DocumentSection from "../DocumentSection";
@@ -29,7 +28,7 @@ import MemberAltContactInfoAccordion from "../TileForms/MemberAltContactInfoAcco
 import PdProviderAltContactAccordion from "../TileForms/PdProviderAltContactAccordion";
 import PdCaseInformationAccordion from "../TileForms/PdCaseInformationAccordion";
 import RepresentativeAddRecordsAccordion from "../TileForms/RepresentativeAddRecordsAccordion";
-
+import RepresentativeAltContactAccordion from "../TileForms/RepresentativeAltContactAccordion";
 import { RenderType } from "./Constants";
 import ProviderAddOfRecordsAccordion from "./ProviderAddOfRecordsAccordion";
 
@@ -51,6 +50,7 @@ const ProviderDisputes = () => {
     pd_MemberAddRecord,
     pd_DecisionAddRecord,
     pd_RepresentativeAddRecord,
+    pd_RepresentativeAltRecord,
     pd_ProviderAddRecord,
     pd_ProviderAlt,
     pd_MemberAltContactInfo,
@@ -59,6 +59,7 @@ const ProviderDisputes = () => {
     setCaseTimelines,
     setpdMemberAddRecord,
     setpdRepresentativeAddRecord,
+    setpdRepresentativeAltRecord,
     setpdDecisionAddRecord,
     setpdProviderAddRecord,
     setpdProviderAlt,
@@ -68,16 +69,17 @@ const ProviderDisputes = () => {
     setCaseHeader,
     caseInformation,
     setCaseInformation,
-    claimInformation,
-    setClaimInformation,
-    claimInformationValidationSchema,
-    claimInformationGrid,
-    setClaimInformationGrid,
+    caseInformationValidationSchema,
+    ProviderclaimInformation,
+    setProviderClaimInformation,
+    ProviderclaimInformationValidationSchema,
+    ProviderclaimInformationGrid,
+    setProviderClaimInformationGrid,
     providerInformationGrid,
     setProviderInformationGrid,
-    memberInformation,
-    memberInformationValidationSchema,
-    setMemberInformation,
+    ProvidermemberInformation,
+    ProvidermemberInformationValidationSchema,
+    setProviderMemberInformation,
     representativeInformationGrid,
     setRepresentativeInformationGrid,
     handleAuthorizationInformationChange,
@@ -92,6 +94,7 @@ const ProviderDisputes = () => {
     notesErrors,
     memberAddErrors,
     representativeAddErrors,
+    representativeAltErrors,
     decisionAddErrors,
     providerAddErrors,
     providerAltErrors,
@@ -111,15 +114,17 @@ const ProviderDisputes = () => {
     decisionTab,
     setDecisionTab,
     caseTimelinesErrors,
-    claimInformationErrors,
-    memberInformationErrors,
+    caseInformationErrors,
+    ProviderclaimInformationErrors,
+    ProvidermemberInformationErrors,
     shouldShowSubmitError,
-    claimInformationGridRowValidationSchema,
+    ProviderclaimInformationGridRowValidationSchema,
     providerInformationGridValidationSchema,
     authorizationInformationGridValidationSchema,
     representativeInformationGridValidationSchema,
     memberAddOfRecordsValidationSchema,
     representativeAddOfRecordsValidationSchema,
+    representativeAltContactValidationSchema,
     decisionAddOfRecordsValidationSchema,
     providerAddOfRecordsValidationSchema,
     providerAltValidationSchema,
@@ -138,6 +143,7 @@ const ProviderDisputes = () => {
     caseTimelinesFields,
     memberAddRecordFields,
     representativeAddRecordFields,
+    representativeAltFields,
     decisionAddRecordFields,
     providerAddRecordFields,
     providerAltFields,
@@ -198,20 +204,17 @@ const ProviderDisputes = () => {
                 caseInformationErrors={caseInformationErrors}
                 shouldShowSubmitError={shouldShowSubmitError}
                 onExpeditedPriorityChange={handleExpeditedPriorityChange}
+
               /> */}
-              <CaseClaimInformation
-                claimInformationData={claimInformation}
-                setClaimInformationData={setClaimInformation}
-                claimInformationValidationSchema={
-                  claimInformationValidationSchema
-                }
-                claimInformationGridRowValidationSchema={
-                  claimInformationGridRowValidationSchema
-                }
-                handleClaimInformationGridData={claimInformationGrid}
-                claimInformationErrors={claimInformationErrors}
+              <ProviderCaseClaimInformation
+                ProviderclaimInformationData={ProviderclaimInformation}
+                setProviderClaimInformationData={setProviderClaimInformation}
+                ProviderclaimInformationValidationSchema={ProviderclaimInformationValidationSchema}
+                ProviderclaimInformationGridRowValidationSchema={ProviderclaimInformationGridRowValidationSchema}
+                handleProviderClaimInformationGridData={ProviderclaimInformationGrid}
+                ProviderclaimInformationErrors={ProviderclaimInformationErrors}
                 shouldShowSubmitError={shouldShowSubmitError}
-                updateClaimInformationGridData={setClaimInformationGrid}
+                updateClaimInformationGridData={setProviderClaimInformationGrid}
                 handleProviderInformationGridData={providerInformationGrid}
                 updateProviderInformationGridData={setProviderInformationGrid}
                 providerInformationGridValidationSchema={
@@ -238,13 +241,13 @@ const ProviderDisputes = () => {
                   renderType={RenderType.PROVIDER_DISPUTE}
               />
               
-              <MemberInformationAccordion
-                memberInformationData={memberInformation}
-                setMemberInformationData={setMemberInformation}
-                memberInformationValidationSchema={
-                  memberInformationValidationSchema
+              <ProviderMemberInformationAccordion
+                ProvidermemberInformationData={ProvidermemberInformation}
+                setProviderMemberInformationData={setProviderMemberInformation}
+                ProvidermemberInformationValidationSchema={
+                  ProvidermemberInformationValidationSchema
                 }
-                memberInformationErrors={memberInformationErrors}
+                ProvidermemberInformationErrors={ProvidermemberInformationErrors}
                 shouldShowSubmitError={shouldShowSubmitError}
               />
               <MemberAddOfRecordsAccordion
@@ -275,6 +278,15 @@ const ProviderDisputes = () => {
                   representativeAddOfRecordsValidationSchema={representativeAddOfRecordsValidationSchema}
                   representativeAddRecordFields={representativeAddRecordFields}
                   representativeAddErrors={representativeAddErrors}
+                  shouldShowSubmitError={shouldShowSubmitError}
+                  renderType={RenderType.PROVIDER_DISPUTE}
+              />
+              <RepresentativeAltContactAccordion
+                  representativeAltData={pd_RepresentativeAltRecord}
+                  setRepresentativeAltData={setpdRepresentativeAltRecord}
+                  representativeAltContactValidationSchema={representativeAltContactValidationSchema}
+                  representativeAltFields={representativeAltFields}
+                  representativeAltErrors={representativeAltErrors}
                   shouldShowSubmitError={shouldShowSubmitError}
                   renderType={RenderType.PROVIDER_DISPUTE}
               />

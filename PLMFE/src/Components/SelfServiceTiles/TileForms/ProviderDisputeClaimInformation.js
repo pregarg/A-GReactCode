@@ -3,18 +3,19 @@ import { useAxios } from "../../../api/axios.hook";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import useGetDBTables from "../../CustomHooks/useGetDBTables";
-import ClaimInformationTable from "../TileFormsTables/ProviderDisputeClaimInformationTable";
+import ProviderClaimInformationTable from "../TileFormsTables/ProviderDisputeClaimInformationTable";
 import CaseHeader from "./CaseHeader";
 import ProviderInformationTable from "../TileFormsTables/DisputeProviderInformationTable";
 import TableComponent from "../../../../src/util/TableComponent";
-import ClaimSearch from "../TileForms/ClaimSearch";
+import ProviderClaimSearch from "../TileForms/ProviderClaimSearch";
 import ProviderSearch from "../TileForms/ProviderSearch";
 import useUpdateDecision from "../../CustomHooks/useUpdateDecision";
 import { FormikInputField } from "../Common/FormikInputField";
 import { FormikDatePicker } from "../Common/FormikDatePicker";
 import { FormikSelectField } from "../Common/FormikSelectField";
+//import { FormikCheckboxField } from "../Common/FormikCheckBoxField";
 
-const CaseClaimInformation = (props) => {
+const CaseProviderClaimInformation = (props) => {
   const {
     convertToCase,
     checkGridJsonLength,
@@ -36,33 +37,34 @@ const CaseClaimInformation = (props) => {
   const { customAxios: axios } = useAxios();
   const token = useSelector((state) => state.auth.token);
 
-  const [claimInformationGridData, setClaimInformationGridData] = useState(
-    props.handleClaimInformationGridData,
+  const [ProviderclaimInformationGridData, setProviderClaimInformationGridData] = useState(
+    props.handleProviderClaimInformationGridData,
   );
 
   const [providerInformationGridData, setProviderInformationGridData] =
     useState(props.handleProviderInformationGridData);
 
-  const [showClaimSearch, setShowClaimSearch] = useState(false);
+  const [showProviderClaimSearch, setShowProviderClaimSearch] = useState(false);
   const [showProviderSearch, setShowProviderSearch] = useState(false);
   const [gridFieldTempState, setGridFieldTempState] = useState({});
 
   const [responseData, setResponseData] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState([]);
 
-  const masterAngClaimTypeSelector = useSelector(
-    (state) => state?.masterAngClaimType,
-  );
+  // const masterAngProviderClaimTypeSelector = useSelector(
+  //   (state) => state?.masterAngProviderClaimType,
+  // );
  
-  const masterAngDecisionSelector = useSelector(
-    (state) => state?.masterAngDecision,
-  );
-  const masterAngAuthServiceTypeSelector = useSelector(
-    (state) => state?.masterAngAuthServiceType,
-  );
-  const masterAngProcessingStatusSelector = useSelector(
-    (state) => state?.masterAngProcessingStatus,
-  );
+  // const masterAngDecisionSelector = useSelector(
+  //   (state) => state?.masterAngDecision,
+  // );
+
+  // const masterAngAuthServiceTypeSelector = useSelector(
+  //   (state) => state?.masterAngAuthServiceType,
+  // );
+  // const masterAngProcessingStatusSelector = useSelector(
+  //   (state) => state?.masterAngProcessingStatus,
+  // );
 
   const caseHeaderConfigData = JSON.parse(
     process.env.REACT_APP_CASEHEADER_DETAILS || "{}",
@@ -80,26 +82,26 @@ const CaseClaimInformation = (props) => {
     location.state.stageName || stageName,
   );
 
-  const handleShowClaimSearch = () => {
-    setShowClaimSearch(true);
+  const handleShowProviderClaimSearch = () => {
+    setShowProviderClaimSearch(true);
   };
   const handleShowProviderSearch = () => {
     setShowProviderSearch(true);
   };
   const handleCloseSearch = () => {
-    setShowClaimSearch(false);
+    setShowProviderClaimSearch(false);
     setShowProviderSearch(false);
     setSelectedCriteria([]);
     setSelectSearchValues([]);
     setResponseData([]);
   };
-  const handleClearClaimSearch = () => {
+  const handleClearProviderClaimSearch = () => {
     setSelectSearchValues([]);
     setSelectedCriteria([]);
     setResponseData([]);
   };
   const handleSelectedAddress = () => {
-    let rowNumber = getRowNumberForGrid(claimInformationGridData);
+    let rowNumber = getRowNumberForGrid(ProviderclaimInformationGridData);
     let addressToPopulate = [];
     if (selectedAddress.length > 0) {
       selectedAddress.map((elem) => {
@@ -114,17 +116,17 @@ const CaseClaimInformation = (props) => {
     }
 
     if (addressToPopulate.length > 0) {
-      setClaimInformationGridData([
-        ...claimInformationGridData,
+      setProviderClaimInformationGridData([
+        ...ProviderclaimInformationGridData,
         ...addressToPopulate,
       ]);
-      props.updateClaimInformationGridData([
-        ...claimInformationGridData,
+      props.updateProviderClaimInformationGridData([
+        ...ProviderclaimInformationGridData,
         ...addressToPopulate,
       ]);
     }
 
-    setShowClaimSearch(false);
+    setShowProviderClaimSearch(false);
     setSelectedCriteria([]);
     setSelectSearchValues([]);
     setResponseData([]);
@@ -173,7 +175,7 @@ const CaseClaimInformation = (props) => {
     setSelectedAddress(updatedTableData);
   };
 
-  const [claimTypeValues, setClaimTypeValues] = useState([]);
+  const [ProviderclaimTypeValues, setProviderClaimTypeValues] = useState([]);
 
   const [decisionValues, setDecisionValues] = useState([]);
   const [decisionReasonValues, setDecisionReasonValues] = useState([]);
@@ -185,44 +187,44 @@ const CaseClaimInformation = (props) => {
       label: convertToCase(e),
       value: convertToCase(e),
     });
-    const claimType = masterAngClaimTypeSelector?.[0] || [];
-    setClaimTypeValues(
-      [...new Set(claimType.map((e) => convertToCase(e.Claim_Type)))].map(
-        kvMapper,
-      ),
-    );
+    // const ProviderclaimType = masterAngProviderClaimTypeSelector?.[0] || [];
+    // setProviderClaimTypeValues(
+    //   [...new Set(ProviderclaimType.map((e) => convertToCase(e.ProviderClaim_Type)))].map(
+    //     kvMapper,
+    //   ),
+    // );
    
-    const angDecision = masterAngDecisionSelector?.[0] || [];
-    setDecisionValues(
-      [...new Set(angDecision.map((e) => convertToCase(e.DECISION)))].map(
-        kvMapper,
-      ),
-    );
-    setDecisionReasonValues(
-      [
-        ...new Set(angDecision.map((e) => convertToCase(e.DECISION_REASON))),
-      ].map(kvMapper),
-    );
+    // const angDecision = masterAngDecisionSelector?.[0] || [];
+    // setDecisionValues(
+    //   [...new Set(angDecision.map((e) => convertToCase(e.DECISION)))].map(
+    //     kvMapper,
+    //   ),
+    // );
+    // setDecisionReasonValues(
+    //   [
+    //     ...new Set(angDecision.map((e) => convertToCase(e.DECISION_REASON))),
+    //   ].map(kvMapper),
+    // );
 
-    const authServiceType = masterAngAuthServiceTypeSelector?.[0] || [];
-    setServiceTypeValues(
-      authServiceType.map((e) => e.SERVICE_TYPE_DESC).map(kvMapper),
-    );
+    // const authServiceType = masterAngAuthServiceTypeSelector?.[0] || [];
+    // setServiceTypeValues(
+    //   authServiceType.map((e) => e.SERVICE_TYPE_DESC).map(kvMapper),
+    // );
 
-    const procStatus = masterAngProcessingStatusSelector?.[0] || [];
-    setProcessingStatusValues(
-      [
-        ...new Set(procStatus.map((e) => convertToCase(e.Processing_Status))),
-      ].map(kvMapper),
-    );
+    // const procStatus = masterAngProcessingStatusSelector?.[0] || [];
+    // setProcessingStatusValues(
+    //   [
+    //     ...new Set(procStatus.map((e) => convertToCase(e.Processing_Status))),
+    //   ].map(kvMapper),
+    // );
   }, []);
   const gridDataRef = useRef({});
 
   const addTableRows = (triggeredFormName) => {
     let rowsInput = {};
 
-    if (triggeredFormName === "ClaimInformationTable") {
-      rowsInput.rowNumber = getRowNumberForGrid(claimInformationGridData);
+    if (triggeredFormName === "ProviderClaimInformationTable") {
+      rowsInput.rowNumber = getRowNumberForGrid(ProviderclaimInformationGridData);
     }
     if (triggeredFormName === "ProviderInformationTable") {
       rowsInput.rowNumber = getRowNumberForGrid(providerInformationGridData);
@@ -236,11 +238,11 @@ const CaseClaimInformation = (props) => {
       (operationValue === "Add" || operationValue === "Force Delete")
     ) {
       gridRowsFinalSubmit(triggeredFormName, index, "Delete");
-      if (triggeredFormName === "ClaimInformationTable") {
-        const rows = [...claimInformationGridData];
+      if (triggeredFormName === "ProviderClaimInformationTable") {
+        const rows = [...ProviderclaimInformationGridData];
         rows.splice(index, 1);
-        setClaimInformationGridData(rows);
-        props.updateClaimInformationGridData(rows);
+        setProviderClaimInformationGridData(rows);
+        props.updateProviderClaimInformationGridData(rows);
       }
       if (triggeredFormName === "ProviderInformationTable") {
         const rows = [...providerInformationGridData];
@@ -255,8 +257,8 @@ const CaseClaimInformation = (props) => {
     }
   };
 
-  const showClaims = async () => {
-    let ClaimNumber = selectSearchValues?.claimNumber;
+  const showProviderClaims = async () => {
+    let ProviderClaimNumber = selectSearchValues?.ProviderclaimNumber;
     let SequentialMemberID = selectSearchValues?.sequentialMemberId;
     let ProviderID = selectSearchValues?.providerId;
     let ServiceStartDate =
@@ -268,15 +270,15 @@ const CaseClaimInformation = (props) => {
 
     // Check if at least one search parameter has a value
     if (
-      ClaimNumber ||
+      ProviderClaimNumber ||
       SequentialMemberID ||
       ProviderID ||
       ServiceStartDate ||
       ServiceEndDate
     ) {
       let getApiJson = {
-        option: "GETCLAIMSEARCHDATA",
-        ClaimNumber: ClaimNumber || "",
+        option: "GETProviderCLAIMSEARCHDATA",
+        ProviderClaimNumber: ProviderClaimNumber || "",
         ServiceStartDate: extractDate(ServiceStartDate) || "",
         ServiceEndDate: extractDate(ServiceEndDate) || "",
         SequentialMemberID: SequentialMemberID || "",
@@ -342,7 +344,7 @@ const CaseClaimInformation = (props) => {
     }
   };
 
-  const claimSearchTableComponent = () => {
+  const ProviderclaimSearchTableComponent = () => {
     let columnNames =
       "Claim Number~Claim_Number,Claim Type~Claim_type,Authorization Number~Auth_Number,Service Start Date~Service_Start_Date,Service End Date~Service_End_Date,Service Span~ServiceSpan,Denial Date~DenialDate,Denial Code~DenialCode,Denial Description~DenialDescription,Member ID~MemberID,Member First Name~MemberFirstName,Member Last Name~MemberLastName,Provider ID~ProviderID,Provider Name~ProviderName";
     if (responseData.length > 0) {
@@ -509,8 +511,8 @@ const CaseClaimInformation = (props) => {
   const editTableRows = (index, triggeredFormName) => {
     let rowInput = {};
 
-    if (triggeredFormName === "ClaimInformationTable") {
-      rowInput = claimInformationGridData[index];
+    if (triggeredFormName === "ProviderClaimInformationTable") {
+      rowInput = ProviderclaimInformationGridData[index];
       setGridFieldTempState(rowInput);
     }
     if (triggeredFormName === "ProviderInformationTable") {
@@ -522,16 +524,16 @@ const CaseClaimInformation = (props) => {
   const gridRowsFinalSubmit = (triggeredFormName, index, operationType) => {
     let clonedJson = { ...gridFieldTempState };
     if (Object.keys(gridFieldTempState).length !== 0) {
-      if (triggeredFormName === "ClaimInformationTable") {
-        let indexJson = claimInformationGridData[index];
+      if (triggeredFormName === "ProviderClaimInformationTable") {
+        let indexJson = ProviderclaimInformationGridData[index];
 
         if (indexJson !== undefined && indexJson !== null) {
           clonedJson = Object.assign(indexJson, gridFieldTempState);
         }
 
         if (!checkGridJsonLength(clonedJson)) {
-          claimInformationGridData[index] = clonedJson;
-          setClaimInformationGridData([...claimInformationGridData]);
+          ProviderclaimInformationGridData[index] = clonedJson;
+          setProviderClaimInformationGridData([...ProviderclaimInformationGridData]);
         }
       }
       if (triggeredFormName === "ProviderInformationTable") {
@@ -565,20 +567,20 @@ const CaseClaimInformation = (props) => {
         }
         let gridRowArray = [];
 
-        if (triggeredFormName === "ClaimInformationTable") {
+        if (triggeredFormName === "ProviderClaimInformationTable") {
           gridRowArray = gridDataRef.current.hasOwnProperty(
-            "claimInformationTable",
+            "ProviderclaimInformationTable",
           )
-            ? [...gridDataRef.current.claimInformationTable]
+            ? [...gridDataRef.current.ProviderclaimInformationTable]
             : [];
-          gridRowJson = { ...claimInformationGridData[index] };
+          gridRowJson = { ...ProviderclaimInformationGridData[index] };
 
           if (Object.keys(gridRowJson).length !== 0) {
             gridRowJson["operation"] = oprtn;
 
             gridRowArray.push(trimJsonValues(gridRowJson));
 
-            gridDataRef.current.claimInformationTable =
+            gridDataRef.current.ProviderclaimInformationTable =
               getGridDataValues(gridRowArray);
           }
         }
@@ -641,31 +643,32 @@ const CaseClaimInformation = (props) => {
     return returnArray;
   };
 
-  const [claimInformationData, setClaimInformationData] = useState(
-    props.claimInformationData || {},
+  const [ProviderclaimInformationData, setProviderClaimInformationData] = useState(
+    props.ProviderclaimInformationData || {},
   );
-  const handleClaimInformationData = (name, value, persist) => {
+  const handleProviderClaimInformationData = (name, value, persist) => {
     const newData = {
-      ...claimInformationData,
+      ...ProviderclaimInformationData,
       [name]: typeof value === "string" ? convertToCase(value) : value,
     };
-    setClaimInformationData(newData);
+    setProviderClaimInformationData(newData);
     if (persist) {
-      props.setClaimInformationData(newData);
+      props.setProviderClaimInformationData(newData);
     }
   };
-  const persistClaimInformationData = () => {
-    props.setClaimInformationData(claimInformationData);
+  const persistProviderClaimInformationData = () => {
+    props.setProviderClaimInformationData(ProviderclaimInformationData);
   };
 
+  
   const renderInputField = (name, placeholder, maxLength) => (
     <div className="col-xs-6 col-md-4">
       <FormikInputField
         name={name}
         placeholder={placeholder}
         maxLength={maxLength}
-        data={claimInformationData}
-        onChange={handleClaimInformationData}
+        data={ProviderclaimInformationData}
+        onChange={handleProviderClaimInformationData}
         displayErrors={props.shouldShowSubmitError}
         disabled={
           location.state.formView === "DashboardView" &&
@@ -684,9 +687,9 @@ const CaseClaimInformation = (props) => {
             location.state.stageName === "Reopen" ||
             location.state.stageName === "CaseArchived")
         }
-        persist={persistClaimInformationData}
-        schema={props.claimInformationValidationSchema}
-        errors={props.claimInformationErrors}
+        persist={persistProviderClaimInformationData}
+        schema={props.ProviderclaimInformationValidationSchema}
+        errors={props.ProviderclaimInformationErrors}
       />
     </div>
   );
@@ -695,9 +698,9 @@ const CaseClaimInformation = (props) => {
       <FormikDatePicker
         name={name}
         placeholder={placeholder}
-        data={claimInformationData}
+        data={ProviderclaimInformationData}
         label={label}
-        onChange={handleClaimInformationData}
+        onChange={handleProviderClaimInformationData}
         displayErrors={props.shouldShowSubmitError}
         disabled={
           location.state.formView === "DashboardView" &&
@@ -717,8 +720,8 @@ const CaseClaimInformation = (props) => {
             location.state.stageName === "Reopen" ||
             location.state.stageName === "CaseArchived")
         }
-        schema={props.claimInformationValidationSchema}
-        errors={props.claimInformationErrors}
+        schema={props.ProviderclaimInformationValidationSchema}
+        errors={props.ProviderclaimInformationErrors}
       />
     </div>
   );
@@ -727,9 +730,9 @@ const CaseClaimInformation = (props) => {
       <FormikSelectField
         name={name}
         placeholder={placeholder}
-        data={claimInformationData}
+        data={ProviderclaimInformationData}
         options={options}
-        onChange={handleClaimInformationData}
+        onChange={handleProviderClaimInformationData}
         displayErrors={props.shouldShowSubmitError}
         disabled={
           location.state.formView === "DashboardView" &&
@@ -747,8 +750,8 @@ const CaseClaimInformation = (props) => {
             location.state.stageName === "Reopen" ||
             location.state.stageName === "CaseArchived")
         }
-        schema={props.claimInformationValidationSchema}
-        errors={props.claimInformationErrors}
+        schema={props.ProviderclaimInformationValidationSchema}
+        errors={props.ProviderclaimInformationErrors}
       />
     </div>
   );
@@ -777,7 +780,7 @@ const CaseClaimInformation = (props) => {
             <button
               type="button"
               className="btn btn-outline-primary"
-              onClick={(event) => handleShowClaimSearch(event)}
+              onClick={(event) => handleShowProviderClaimSearch(event)}
               disabled={
                 location.state.stageName === "Redirect Review" ||
                 location.state.stageName === "Documents Needed" ||
@@ -788,12 +791,13 @@ const CaseClaimInformation = (props) => {
             </button>
             <div className="row my-2">
              
-              {renderInputField("Claim_Number", "Claim Number", 16)}
+              {/* {renderInputField("Claim_Number", "Claim Number", 16)}
               {renderInputField(
-                "Authorization_Number",
-                "Authorization Number",
+                "High_Dollar_Dispute",
+                "High Dollar Dispute",
                 9,
               )}
+                
                {renderDatePicker(
                 "Service_Start_Date",
                 "Service Start Date",
@@ -806,95 +810,16 @@ const CaseClaimInformation = (props) => {
                 "Service End Date",
                 "Service End Date",
               )}
-               {renderSelectField("Claim_type", "Claim type", claimTypeValues)}
+               {renderSelectField("Claim_type", "Claim type", ProviderclaimTypeValues)} */}
               
              
             </div>
-            {/* {shouldHideFields && (
-              <div className="row my-2">
-                {renderSelectField(
-                  "Claim_Decision",
-                  "Claim Decision",
-                  decisionValues,
-                )}
-                {renderSelectField(
-                  "Decision_Reason",
-                  "Decision Reason",
-                  decisionReasonValues,
-                )}
-                {renderInputField("Reason_Text", "Reason Text", 4000)}
-              </div>
-            )} */}
-
-            {/* {shouldHideFields && (
-              <div className="row my-2">
-                {renderDatePicker(
-                  "Claim_Adjusted_Date",
-                  "Claim Adjusted Date",
-                  "Claim Adjusted Date",
-                )}
-
-                {renderSelectField(
-                  "Processing_Status",
-                  "Processing Status",
-                  processingStatusValues,
-                )}
-
-                {renderInputField(
-                  "Effectuation_Notes",
-                  "Effectuation Notes",
-                  4000,
-                )}
-              </div>
-            )}
-            {shouldHideFields && (
-              <div className="row my-2">
-                {renderInputField("Payment_Method", "Payment Method", 30)}
-                {renderInputField("Payment_Number", "Payment Number", 50)}
-                {renderDatePicker(
-                  "Payment_Date",
-                  "Payment Date",
-                  "Payment Date",
-                )}
-              </div>
-            )} */}
-
-            {/* <div className="row my-2">
-              {shouldHideFields && (
-                <>
-                  {renderDatePicker(
-                    "Denied_As_Of_Date",
-                    "Denied As Of Date",
-                    "Denied As Of Date",
-                  )}
-                  {renderDatePicker(
-                    "Payment_Mail_Date_Postmark",
-                    "Payment Mail Date Postmark",
-                    "Payment Mail Date Postmark",
-                  )}
-                </>
-              )}
-              {shouldHideFields &&
-                location.state.stageName !== "Research" &&
-                renderSelectField(
-                  "Service_Type",
-                  "Service Type",
-                  serviceTypeValues,
-                )}
-            </div> */}
-            {/* <div className="row my-2">
-              {renderDatePicker(
-                "Denied_As_Of_Date ",
-                "Denied As Of Date ",
-                "Denied As Of Date",
-              )}
-            </div> */}
 
             <div className="row">
               <div className="col-xs-6 col-md-12">
-                <ClaimInformationTable
-                  claimInformationGridData={claimInformationGridData}
-                  updateGridData={setClaimInformationGridData}
+                <ProviderClaimInformationTable
+                  ProviderclaimInformationGridData={ProviderclaimInformationGridData}
+                  updateGridData={setProviderClaimInformationGridData}
                   addTableRows={addTableRows}
                   deleteTableRows={deleteTableRows}
                   handleGridSelectChange={handleGridSelectChange}
@@ -905,7 +830,7 @@ const CaseClaimInformation = (props) => {
                   editTableRows={editTableRows}
                   gridRowsFinalSubmit={gridRowsFinalSubmit}
                   validationSchema={
-                    props.claimInformationGridRowValidationSchema
+                    props.ProviderclaimInformationGridRowValidationSchema
                   }
                   lockStatus={
                     location.state.lockStatus !== undefined &&
@@ -915,22 +840,22 @@ const CaseClaimInformation = (props) => {
                   }
                   fetchAutoPopulate={fetchAutoPopulate}
                   transactionType={CaseHeader.displayName}
-                ></ClaimInformationTable>
+                ></ProviderClaimInformationTable>
               </div>
             </div>
-            {showClaimSearch && (
-              <ClaimSearch
+            {showProviderClaimSearch && (
+              <ProviderClaimSearch
                 handleCloseSearch={handleCloseSearch}
                 selectedCriteria={selectedCriteria}
                 setSelectedCriteria={setSelectedCriteria}
                 selectSearchValues={selectSearchValues}
                 setSelectSearchValues={setSelectSearchValues}
-                showClaims={showClaims}
-                claimSearchTableComponent={claimSearchTableComponent}
+                showProviderClaims={showProviderClaims}
+                ProviderclaimSearchTableComponent={ProviderclaimSearchTableComponent}
                 responseData={responseData}
                 setResponseData={setResponseData}
-                handleClearClaimSearch={handleClearClaimSearch}
-                showClaimSearch={showClaimSearch}
+                handleClearProviderClaimSearch={handleClearProviderClaimSearch}
+                showProviderClaimSearch={showProviderClaimSearch}
                 handleSelectedAddress={handleSelectedAddress}
               />
             )}
@@ -1006,7 +931,7 @@ const CaseClaimInformation = (props) => {
                   setSelectedCriteria={setSelectedCriteria}
                   selectSearchValues={selectSearchValues}
                   setSelectSearchValues={setSelectSearchValues}
-                  handleClearClaimSearch={handleClearClaimSearch}
+                  handleClearProviderClaimSearch={handleClearProviderClaimSearch}
                   showProviderSearch={showProviderSearch}
                   showProviders={showProviders}
                   providerSearchTableComponent={providerSearchTableComponent}
@@ -1023,4 +948,4 @@ const CaseClaimInformation = (props) => {
   );
 };
 
-export default CaseClaimInformation;
+export default CaseProviderClaimInformation;
