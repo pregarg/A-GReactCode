@@ -188,7 +188,7 @@ const ProviderDisputes = () => {
               />
               <PdCaseInformationAccordion
                 caseInformationData={pd_CaseInformation}
-                setCaseInformationData={setpdCaseInformation}
+                setcaseInformationData={setpdCaseInformation}
                 pdCaseInformationValidationSchema={pdCaseInformationValidationSchema}
                 pdCaseInformationErrors={pdCaseInformationErrors}
                 shouldShowSubmitError={shouldShowSubmitError}
