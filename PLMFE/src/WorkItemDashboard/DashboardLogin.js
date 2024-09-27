@@ -63,6 +63,10 @@ import {
   getMasterPDIssueType,
   getMasterPDProduct,
   getMasterPDCaseFillingMethod,
+  getMasterPDIssueLevelPriority,
+  getMasterPDIssueLevelNumber,
+  getMasterPDComplaintType,
+  getMasterPDLOBMapping,
   getMasterLanguages,
   getMasterLicenseType,
   getMasterStateSymbol,
@@ -763,6 +767,38 @@ export default function DashboardLogin() {
     );
     dispatch(
       getMasterPDCaseFillingMethod(
+        loginToken,
+        false,
+        onMasterLoadFail,
+        onMasterLoadSuccess,
+      ),
+    );
+    dispatch(
+      getMasterPDIssueLevelPriority(
+        loginToken,
+        false,
+        onMasterLoadFail,
+        onMasterLoadSuccess,
+      ),
+    );
+    dispatch(
+      getMasterPDIssueLevelNumber(
+        loginToken,
+        false,
+        onMasterLoadFail,
+        onMasterLoadSuccess,
+      ),
+    );
+    dispatch(
+      getMasterPDComplaintType(
+        loginToken,
+        false,
+        onMasterLoadFail,
+        onMasterLoadSuccess,
+      ),
+    );
+    dispatch(
+      getMasterPDLOBMapping(
         loginToken,
         false,
         onMasterLoadFail,

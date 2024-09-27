@@ -2123,6 +2123,149 @@ export const getMasterPDCaseFillingMethod= (
     }
   };
 };
+
+export const getMasterPDIssueLevelPriority= (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append("tableName", "PD_MASTER_ISSUE_LEVEL~masterPDIssueLevelPriority");
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterPDIssueLevelPriority];
+            //console.log(response);
+            dispatch({ type: "GET_ISSUE_LEVEL", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_ISSUE_LEVEL", payload: "" });
+    }
+  };
+};
+export const getMasterPDIssueLevelNumber= (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append("tableName", "PD_MASTER_LEVEL_NUMBER~masterPDIssueLevelNum");
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterPDIssueLevelNum];
+            //console.log(response);
+            dispatch({ type: "GET_CASE_LEVEL_NUMBER", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_CASE_LEVEL_NUMBER", payload: "" });
+    }
+  };
+};
+export const getMasterPDComplaintType= (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append("tableName", "PD_MASTER_COMPLAINT_TYPE~masterPDComplaintType");
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterPDComplaintType];
+            //console.log(response);
+            dispatch({ type: "GET_COMPLAINT_TYPE", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_COMPLAINT_TYPE", payload: "" });
+    }
+  };
+};
+export const getMasterPDLOBMapping= (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append("tableName", "PD_MASTER_LOBMAPPING~masterPDLineOfBusiness");
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterPDLineOfBusiness];
+            //console.log(response);
+            dispatch({ type: "GET_LOBMAPPING", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_LOBMAPPING", payload: "" });
+    }
+  };
+};
+
+
 export const getMasterAddressType = (
   token,
   clearFlag = false,

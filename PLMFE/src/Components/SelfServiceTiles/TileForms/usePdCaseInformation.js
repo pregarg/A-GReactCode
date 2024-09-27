@@ -63,7 +63,7 @@ export const usePdCaseInformation = (renderType) => {
         });
         const arr = masterPDLineOfBusinessSelector?.[0] || [];
         setLineOfBusinessValues(arr.map((e) => e.LOB).map(kvMapper));
-        setProductStateValues(arr.map((e) => e.State).map(kvMapper));
+        setProductStateValues(arr.map((e) => e.State_).map(kvMapper));
     
         const product = masterPDProductSelector?.[0] || [];
         setProductValues(
@@ -72,11 +72,11 @@ export const usePdCaseInformation = (renderType) => {
     
         const issueLevelPriority =masterPDIssueLevelPrioritySelector?.[0] || [];
         setIssueLevelPriorityValues(
-            issueLevelPriority.map((e) => e.Issue_Level_Priority).map(kvMapper),
+            issueLevelPriority.map((e) => e.Issue_Level).map(kvMapper),
         );
     
         const issueLevelNumValues = masterPDIssueLevelNumSelector?.[0] || [];
-        setIssueLevelNumValues(issueLevelNumValues.map((e) => e.Issue_Level_Number).map(kvMapper));
+        setIssueLevelNumValues(issueLevelNumValues.map((e) => e.Level_Number).map(kvMapper));
     
         const complainantType = masterPDComplainantTypeSelector?.[0] || [];
         setComplainantTypeValues(complainantType.map((e) => e.Complainant_Type).map(kvMapper),
