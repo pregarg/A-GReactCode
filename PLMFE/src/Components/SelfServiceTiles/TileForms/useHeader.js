@@ -17,7 +17,7 @@ import { useMemberAltContactInfo } from "./useMemberAltContactInfo.js";
 import { useDecisionAddOfRecords } from "./useDecisionAddRecord.js";
 import { useProviderAddOfRecords } from "./useProviderAddOfRecords";
 import { useRepresentativeAddOfRecords } from "./useRepresentativeAddOfRecords";
-
+import { usePdCaseInformation } from "./usePdCaseInformation.js";
 import {usePdProviderAltContactInfo} from "./usePdProviderAltContactInfo";
 
 
@@ -44,6 +44,13 @@ export const useHeader = () => {
     caseTimelinesValidationSchema,
     setCaseTimelines,
   } = useCaseTimelines(renderType);
+
+  const {
+    caseInformationFields,
+    pd_CaseInformation,
+    pdCaseInformationValidationSchema,
+    setpdCaseInformation,
+  } = usePdCaseInformation(renderType);
 
   const {
     memberAltContactFields,
@@ -439,6 +446,8 @@ export const useHeader = () => {
   });
 
   const [caseTimelinesErrors, setCaseTimelinesErrors] = useState([]);
+  
+  const [pdCaseInformationErrors, setPdCaseInformationErrors] = useState([]);
   const [caseInformationErrors, setCaseInformationErrors] = useState([]);
   const [claimInformationErrors, setClaimInformationErrors] = useState([]);
   const [memberInformationErrors, setMemberInformationErrors] = useState([]);
@@ -494,6 +503,11 @@ export const useHeader = () => {
       memberAlternativeContactSchema,
       memberAlternativeContact,
       setMemberAlternativeContactErrors,
+    );
+    validateSync(
+      pdCaseInformationValidationSchema,
+      pd_CaseInformation,
+      setpdCaseInformation,
     );
     validateSync(
       expeditedRequestValidationSchema,
@@ -562,6 +576,7 @@ export const useHeader = () => {
         ...expeditedRequestErrors,
         ...caseDecisionDetailsErrors,
         ...caseDecisionErrors,
+        ...pdCaseInformationErrors,
       }).length > 0,
     );
   }, [
@@ -573,6 +588,7 @@ export const useHeader = () => {
     expeditedRequestErrors,
     caseDecisionDetailsErrors,
     caseDecisionErrors,
+    pdCaseInformationErrors,
   ]);
   //const [disableSaveAndExit, setDisableSaveAndExit] = useState(true);
   const [authorizationInformation, setAuthorizationInformation] = useState({
@@ -604,8 +620,8 @@ export const useHeader = () => {
     const pdCaseTimelines = trimJsonValues({ ...caseTimelines });
     apiJson["PD_Case_Timelines"] = pdCaseTimelines;
  
-    // const pdCaseInformation = trimJsonValues({ ...caseInformation });
-    // apiJson["PD_Case_Information"] = pdCaseInformation;
+    const pdCaseInformation = trimJsonValues({ ...pd_CaseInformation });
+    apiJson["PD_CASE_INFORMATION"] = pdCaseInformation;
 
     // const pdClaimInformation = trimJsonValues({ ...claimInformation });
     // apiJson["PD_Claim_Information"] = pdClaimInformation;
@@ -1891,6 +1907,11 @@ export const useHeader = () => {
     caseDecisionDetailsValidationSchema,
     caseDecisionDetailsErrors,
 	  caseDecisionDetailsFields,
+    pd_CaseInformation,
+    pdCaseInformationValidationSchema,
+    setpdCaseInformation,
+    caseInformationFields,
+    pdCaseInformationErrors,
     // decisionAddRecordFields,
   };
 };
