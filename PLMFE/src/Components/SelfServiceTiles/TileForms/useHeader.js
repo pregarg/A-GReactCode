@@ -21,6 +21,8 @@ import { usePdCaseInformation } from "./usePdCaseInformation.js";
 import { useRepresentativeAltContact } from "./useRepresentativeAltContact";
 import {usePdProviderAltContactInfo} from "./usePdProviderAltContactInfo";
 
+import {useRepresentativeInformation} from "./useRepresentativeInformation";
+
 
 export const useHeader = () => {
   const currentDate = new Date();
@@ -66,6 +68,12 @@ export const useHeader = () => {
     memberAddOfRecordsValidationSchema,
     setpdMemberAddRecord,
   } = useMemberAddOfRecords(renderType);
+  const {
+    representativeInformationFields,
+    pd_RepresentativeInformation,
+    representativeInformationValidationSchema,
+    setpdRepresentativeInformation,
+  } = useRepresentativeInformation(renderType);
   const {
     representativeAddRecordFields,
     pd_RepresentativeAddRecord,
@@ -155,6 +163,9 @@ export const useHeader = () => {
     Service_Start_Date: undefined,
     Service_End_Date: undefined,
   });
+  const [ProviderclaimInformation, setProviderClaimInformation] = useState({
+    High_Dollar_Dispute : "",
+  })
   const [memberInformation, setMemberInformation] = useState({
     caseNumber: "",
     Address_Line_1: "",
@@ -323,6 +334,7 @@ export const useHeader = () => {
     Appellant_Type: Yup.string().required("Appellant Type is mandatory"),
     Review_Type: Yup.string().required("Review Type is mandatory"),
   });
+  const providerclaimInformationValidationSchema = Yup.object().shape({});
   const claimInformationValidationSchema = Yup.object().shape({
     // Payment_Method: conditionalActivateOnStage(
     //   pair1,
@@ -499,6 +511,7 @@ export const useHeader = () => {
   const [pdCaseInformationErrors, setPdCaseInformationErrors] = useState([]);
   const [caseInformationErrors, setCaseInformationErrors] = useState([]);
   const [claimInformationErrors, setClaimInformationErrors] = useState([]);
+  const [providerClaimInformationErrors, setProviderclaimInformationErrors] = useState([]);
   const [memberInformationErrors, setMemberInformationErrors] = useState([]);
   const [ProvidermemberInformationErrors, setProviderMemberInformationErrors] = useState([]);
   //const [providerDisputeAuthorizationInformationGridErrors, setProviderDisputeAuthorizationInformationGridErrors] = useState([]);
@@ -506,6 +519,7 @@ export const useHeader = () => {
   const [expeditedRequestErrors, setExpeditedRequestErrors] = useState([]);
   const [notesErrors, setNotesErrors] = useState([]);
   const [representativeAddErrors, setRepresentativeAddErrorsErrors] = useState([]);
+  const [representativeInformationErrors, setRepresentativeInformationErrorsErrors] = useState([]);
   const [representativeAltErrors, setRepresentativeAltErrorsErrors] = useState([]);
   const [memberAddErrors, setMemberAddErrorsErrors] = useState([]);
   const [providerAddErrors, setProviderAddErrorsErrors] = useState([]);
@@ -545,6 +559,11 @@ export const useHeader = () => {
       claimInformationValidationSchema,
       claimInformation,
       setClaimInformationErrors,
+    );
+    validateSync(
+      providerclaimInformationValidationSchema,
+      ProviderclaimInformation,
+      setProviderclaimInformationErrors,
     );
     validateSync(
       memberInformationValidationSchema,
@@ -594,6 +613,11 @@ export const useHeader = () => {
         setRepresentativeAddErrorsErrors,
     );
     validateSync(
+        representativeInformationValidationSchema,
+        pd_RepresentativeInformation,
+        setRepresentativeInformationErrorsErrors,
+    );
+    validateSync(
         representativeAltContactValidationSchema,
         pd_RepresentativeAltRecord,
         setRepresentativeAltErrorsErrors,
@@ -619,6 +643,7 @@ export const useHeader = () => {
     caseTimelines,
     caseInformation,
     claimInformation,
+    ProviderclaimInformation,
     memberInformation,
     ProvidermemberInformation,
     memberAlternativeContact,
@@ -635,6 +660,7 @@ export const useHeader = () => {
         ...caseTimelinesErrors,
         ...caseInformationErrors,
         ...claimInformationErrors,
+        ...providerClaimInformationErrors,
         ...memberInformationErrors,
         ...ProvidermemberInformationErrors,
          ...memberAlternativeContactErrors,
@@ -648,6 +674,7 @@ export const useHeader = () => {
     caseTimelinesErrors,
     caseInformationErrors,
     claimInformationErrors,
+    providerClaimInformationErrors,
     memberInformationErrors,
     ProvidermemberInformationErrors,
      memberAlternativeContactErrors,
@@ -689,11 +716,14 @@ export const useHeader = () => {
     const pdCaseInformation = trimJsonValues({ ...pd_CaseInformation });
     apiJson["PD_CASE_INFORMATION"] = pdCaseInformation;
 
-    // const pdClaimInformation = trimJsonValues({ ...claimInformation });
-    // apiJson["PD_Claim_Information"] = pdClaimInformation;
+    const pdClaimInformation = trimJsonValues({ ...ProviderclaimInformation });
+    apiJson["PD_Claim_Information"] = pdClaimInformation;
 
     const pdMemberAddRecord = trimJsonValues({ ...pd_MemberAddRecord });
     apiJson["PD_MEMBER_ADD_OF_RECORDS"] = pdMemberAddRecord;
+
+    const pdRepresentativeInformation = trimJsonValues({ ...pd_RepresentativeInformation });
+    apiJson["PD_Representative_Information"] = pdRepresentativeInformation;
 
     const pdRepresentativeAddRecord = trimJsonValues({ ...pd_RepresentativeAddRecord });
     apiJson["PD_Representative_Add_of_Records"] = pdRepresentativeAddRecord;
@@ -1878,6 +1908,7 @@ export const useHeader = () => {
     caseTimelines,
     pd_MemberAddRecord,
     pd_RepresentativeAddRecord,
+    pd_RepresentativeInformation,
     pd_RepresentativeAltRecord,
     pd_DecisionAddRecord,
     pd_ProviderAddRecord,
@@ -1887,6 +1918,7 @@ export const useHeader = () => {
     setCaseTimelines,
     setpdMemberAddRecord,
     setpdRepresentativeAddRecord,
+    setpdRepresentativeInformation,
     setpdRepresentativeAltRecord,
     setpdDecisionAddRecord,
     setpdProviderAddRecord,
@@ -1901,7 +1933,9 @@ export const useHeader = () => {
     memberAltContactValidationSchema,
     claimInformation,
     setClaimInformation,
+    setProviderClaimInformation,
     claimInformationValidationSchema,
+    providerclaimInformationValidationSchema,
     claimInformationGrid,
     setClaimInformationGrid,
     providerInformationGrid,
@@ -1958,6 +1992,7 @@ export const useHeader = () => {
     notesErrors,
     memberAddErrors,
     representativeAddErrors,
+    representativeInformationErrors,
     representativeAltErrors,
     decisionAddErrors,
     providerAddErrors,
@@ -1969,12 +2004,14 @@ export const useHeader = () => {
     representativeInformationGridValidationSchema,
     memberAddOfRecordsValidationSchema,
     representativeAltContactValidationSchema,
+    representativeInformationValidationSchema,
     decisionAddOfRecordsValidationSchema,
     providerAddOfRecordsValidationSchema,
     providerAltValidationSchema,
     caseTimelinesFields,
     memberAddRecordFields,
     representativeAddRecordFields,
+    representativeInformationFields,
     representativeAltFields,
     decisionAddRecordFields,
     providerAddRecordFields,
