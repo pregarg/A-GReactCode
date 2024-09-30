@@ -109,50 +109,6 @@ export default function ProviderClaimInformationTable({
     }
   }, [gridFieldTempState]);
 
-  useEffect(() => {
-    if (masterAngFiledTimelySelector) {
-      const filedTimelyArray =
-        masterAngFiledTimelySelector.length === 0
-          ? []
-          : masterAngFiledTimelySelector[0];
-
-      for (let i = 0; i < filedTimelyArray.length; i++) {
-        filedTimelyValues.push({
-          label: convertToCase(filedTimelyArray[i].Filed_Timely),
-          value: convertToCase(filedTimelyArray[i].Filed_Timely),
-        });
-      }
-    }
-
-    if (masterAngLineNumberSelector) {
-      const lineNumberArray =
-      masterAngLineNumberSelector.length === 0
-          ? []
-          : masterAngLineNumberSelector[0];
-
-      for (let i = 0; i < lineNumberArray.length; i++) {
-        lineNumberOptions.push({
-          label: convertToCase(lineNumberArray[i].Line_Number),
-          value: convertToCase(lineNumberArray[i].Line_Number),
-        });
-      }
-    }
-
-    if (masterAngGrantGoodCauseSelector) {
-      const grantGoodCauseArray =
-        masterAngGrantGoodCauseSelector.length === 0
-          ? []
-          : masterAngGrantGoodCauseSelector[0];
-
-      for (let i = 0; i < grantGoodCauseArray.length; i++) {
-        grantGoodCauseValues.push({
-          label: convertToCase(grantGoodCauseArray[i].Grant_Good_Cause),
-          value: convertToCase(grantGoodCauseArray[i].Grant_Good_Cause),
-        });
-      }
-    }
-  });
-
   const renderSimpleInputField = (name, label, maxLength, index) => {
     return (
       <div className="col-xs-6 col-md-3">
@@ -289,7 +245,7 @@ export default function ProviderClaimInformationTable({
                 "Service End Date",
                 "Service End Date",
               )}
-               {/* {renderSimpleSelectField("Claim_type", "Claim type", ProviderclaimTypeValues)} */}
+                {/* {renderSimpleSelectField("Claim_type", "Claim type", ProviderclaimTypeValues)} */}
           </div>
           </div>
       </>
@@ -300,6 +256,7 @@ export default function ProviderClaimInformationTable({
   const tdData = () => {
     updateGridData(ProviderclaimInformationGridData);
     if (ProviderclaimInformationGridData !== undefined && ProviderclaimInformationGridData.length > 0) {
+      
       updateGridData(ProviderclaimInformationGridData);
       return ProviderclaimInformationGridData.map((data, index) => {
         return (
@@ -364,7 +321,6 @@ export default function ProviderClaimInformationTable({
               "Procedure_Code",
               "Patient_ref_Account",
               "Provider_Account",
-              "High_Dollar_Dispute",
               "Issue_Number",
               "Authorization Number",
               "Claim Type",
@@ -436,24 +392,24 @@ export default function ProviderClaimInformationTable({
           id="ClaimInformationTable"
         >
           <thead>
-            <tr className="tableRowStyle tableHeaderColor">
-              {lockStatus === "N" && (
-                <th style={{ width: "" }}>
+          <tr className="tableRowStyle tableHeaderColor">
+            {lockStatus === "N" && (
+                <th style={{width: ""}}>
                   <button
-                    className="addBtn"
-                    onClick={() => {
-                      addTableRows(ProviderClaimInformationTable.displayName);
-                      handleModalChange(true);
-                      handleDataIndex(ProviderclaimInformationGridData.length);
-                      handleOperationValue("Add");
-                    }}
+                      className="addBtn"
+                      onClick={() => {
+                        addTableRows(ProviderClaimInformationTable.displayName);
+                        handleModalChange(true);
+                        handleDataIndex(ProviderclaimInformationGridData.length);
+                        handleOperationValue("Add");
+                      }}
                   >
                     <i className="fa fa-plus"></i>
                   </button>
                 </th>
-              )}
-              {lockStatus === "V" && <th style={{ width: "" }}></th>}
-             <th scope="col">Number of Days in Span</th>
+            )}
+            {lockStatus === "V" && <th style={{width: ""}}></th>}
+            <th scope="col">Number of Days in Span</th>
             <th scope="col">Post Date</th>
             <th scope="col">Provider Name</th>
             <th scope="col">Billed Amount</th>
@@ -462,10 +418,13 @@ export default function ProviderClaimInformationTable({
             <th scope="col">Procedure Code or Diagnosis Code</th>
             <th scope="col">Patient Ref/Account#</th>
             <th scope="col">Provider Account #</th>
-            <th scope="col">High Dollar Dispute</th>
             <th scope="col">Issue Number</th>
+            <th scope="col">Authorization Number</th>
+            <th scope="col">Claim Type</th>
+            <th scope="col">Service Start Date</th>
+            <th scope="col">Service End Date</th>
 
-            </tr>
+          </tr>
           </thead>
           <tbody>{tdData()}</tbody>
         </table>

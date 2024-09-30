@@ -5,15 +5,16 @@ import { useSelector } from "react-redux";
 import useGetDBTables from "../../CustomHooks/useGetDBTables";
 import ProviderClaimInformationTable from "../TileFormsTables/ProviderDisputeClaimInformationTable";
 import CaseHeader from "./CaseHeader";
-import ProviderInformationTable from "../TileFormsTables/DisputeProviderInformationTable";
+import ProviderDisputeClaimInformationTable from "../TileFormsTables/DisputeProviderInformationTable";
 import TableComponent from "../../../../src/util/TableComponent";
 import ProviderClaimSearch from "../TileForms/ProviderClaimSearch";
-import ProviderSearch from "../TileForms/ProviderSearch";
+import ProviderDisputeClaimSearchNew from "../TileForms/ProviderSearch";
 import useUpdateDecision from "../../CustomHooks/useUpdateDecision";
 import { FormikInputField } from "../Common/FormikInputField";
 import { FormikDatePicker } from "../Common/FormikDatePicker";
 import { FormikSelectField } from "../Common/FormikSelectField";
-//import { FormikCheckboxField } from "../Common/FormikCheckBoxField";
+import { FormikCheckBoxField } from "../Common/FormikCheckBoxField";
+
 
 const CaseProviderClaimInformation = (props) => {
   const {
@@ -660,208 +661,73 @@ const CaseProviderClaimInformation = (props) => {
     props.setProviderClaimInformationData(ProviderclaimInformationData);
   };
 
+
+  const renderInputField = (name, placeholder, maxLength, isCheckbox = false, label = "") => (
+    <div className="col-xs-6 col-md-4">
+      {isCheckbox ? (
+        <FormikCheckBoxField
+          name={name}
+          label={label} // Label for checkbox
+          data={ProviderclaimInformationData}
+          onChange={handleProviderClaimInformationData}
+          displayErrors={props.shouldShowSubmitError}
+          disabled={
+            location.state.formView === "DashboardView" &&
+            (((location.state.stageName === "Redirect Review" ||
+              location.state.stageName === "Documents Needed" ||
+              location.state.stageName === "Effectuate" ||
+              location.state.stageName === "Pending Effectuate") &&
+              (name === "Claim_Number" || name === "Authorization_Number")) ||
+              (location.state.stageName === "Research" &&
+                (name === "Payment_Method" ||
+                  name === "Payment_Number" ||
+                  name === "Effectuation_Notes" ||
+                  name === "Reason_Text")) ||
+              location.state.stageName === "Resolve" ||
+              location.state.stageName === "Case Completed" ||
+              location.state.stageName === "Reopen" ||
+              location.state.stageName === "CaseArchived")
+          }
+          errors={props.ProviderclaimInformationErrors}
+        />
+      ) : (
+        <FormikInputField
+          name={name}
+          placeholder={placeholder}
+          maxLength={maxLength}
+          data={ProviderclaimInformationData}
+          onChange={handleProviderClaimInformationData}
+          displayErrors={props.shouldShowSubmitError}
+          disabled={
+            location.state.formView === "DashboardView" &&
+            (((location.state.stageName === "Redirect Review" ||
+              location.state.stageName === "Documents Needed" ||
+              location.state.stageName === "Effectuate" ||
+              location.state.stageName === "Pending Effectuate") &&
+              (name === "Claim_Number" || name === "Authorization_Number")) ||
+              (location.state.stageName === "Research" &&
+                (name === "Payment_Method" ||
+                  name === "Payment_Number" ||
+                  name === "Effectuation_Notes" ||
+                  name === "Reason_Text")) ||
+              location.state.stageName === "Resolve" ||
+              location.state.stageName === "Case Completed" ||
+              location.state.stageName === "Reopen" ||
+              location.state.stageName === "CaseArchived")
+          }
+          persist={persistProviderClaimInformationData}
+          schema={props.ProviderclaimInformationValidationSchema}
+          errors={props.ProviderclaimInformationErrors}
+        />
+      )}
+    </div>
+  );
   
-  const renderInputField = (name, placeholder, maxLength) => (
-    <div className="col-xs-6 col-md-4">
-      <FormikInputField
-        name={name}
-        placeholder={placeholder}
-        maxLength={maxLength}
-        data={ProviderclaimInformationData}
-        onChange={handleProviderClaimInformationData}
-        displayErrors={props.shouldShowSubmitError}
-        disabled={
-          location.state.formView === "DashboardView" &&
-          (((location.state.stageName === "Redirect Review" ||
-            location.state.stageName === "Documents Needed" ||
-            location.state.stageName === "Effectuate" ||
-            location.state.stageName === "Pending Effectuate") &&
-            (name === "Claim_Number" || name === "Authorization_Number")) ||
-            (location.state.stageName === "Research" &&
-              (name === "Payment_Method" ||
-                name === "Payment_Number" ||
-                name === "Effectuation_Notes" ||
-                name === "Reason_Text")) ||
-            location.state.stageName === "Resolve" ||
-            location.state.stageName === "Case Completed" ||
-            location.state.stageName === "Reopen" ||
-            location.state.stageName === "CaseArchived")
-        }
-        persist={persistProviderClaimInformationData}
-        schema={props.ProviderclaimInformationValidationSchema}
-        errors={props.ProviderclaimInformationErrors}
-      />
-    </div>
-  );
-  const renderDatePicker = (name, placeholder, label) => (
-    <div className="col-xs-6 col-md-4">
-      <FormikDatePicker
-        name={name}
-        placeholder={placeholder}
-        data={ProviderclaimInformationData}
-        label={label}
-        onChange={handleProviderClaimInformationData}
-        displayErrors={props.shouldShowSubmitError}
-        disabled={
-          location.state.formView === "DashboardView" &&
-          (((location.state.stageName === "Redirect Review" ||
-            location.state.stageName === "Documents Needed" ||
-            location.state.stageName === "Effectuate" ||
-            location.state.stageName === "Pending Effectuate") &&
-            (name === "Service_Start_Date" ||
-              name === "Service_End_Date" ||
-              name === "Original_Denial_Date")) ||
-            (location.state.stageName === "Research" &&
-              (name === "Claim_Adjusted_Date" ||
-                name === "Payment_Date" ||
-                name === "Payment_Mail_Date_Postmark")) ||
-            location.state.stageName === "Resolve" ||
-            location.state.stageName === "Case Completed" ||
-            location.state.stageName === "Reopen" ||
-            location.state.stageName === "CaseArchived")
-        }
-        schema={props.ProviderclaimInformationValidationSchema}
-        errors={props.ProviderclaimInformationErrors}
-      />
-    </div>
-  );
-  const renderSelectField = (name, placeholder, options) => (
-    <div className="col-xs-6 col-md-4">
-      <FormikSelectField
-        name={name}
-        placeholder={placeholder}
-        data={ProviderclaimInformationData}
-        options={options}
-        onChange={handleProviderClaimInformationData}
-        displayErrors={props.shouldShowSubmitError}
-        disabled={
-          location.state.formView === "DashboardView" &&
-          (((location.state.stageName === "Redirect Review" ||
-            location.state.stageName === "Documents Needed") &&
-            name === "Claim_type") ||
-            (location.state.stageName === "Research" &&
-              name === "Processing_Status") ||
-            (location.state.stageName === "Effectuate" &&
-              (name === "Claim_type" || name === "Service_Type")) ||
-            (location.state.stageName === "Pending Effectuate" &&
-              (name === "Claim_type" || name === "Service_Type")) ||
-            location.state.stageName === "Resolve" ||
-            location.state.stageName === "Case Completed" ||
-            location.state.stageName === "Reopen" ||
-            location.state.stageName === "CaseArchived")
-        }
-        schema={props.ProviderclaimInformationValidationSchema}
-        errors={props.ProviderclaimInformationErrors}
-      />
-    </div>
-  );
+
 
   return (
     <div>
-      <div className="accordion-item" id="claimInformation">
-        <h2 className="accordion-header" id="panelsStayOpen-claimInformation">
-          <button
-            className="accordion-button accordionButtonStyle"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#panelsStayOpen-collapseclaimInformation"
-            aria-expanded="true"
-            aria-controls="panelsStayOpen-collapseOne"
-          >
-            Claim Information
-          </button>
-        </h2>
-        <div
-          id="panelsStayOpen-collapseclaimInformation"
-          className="accordion-collapse collapse show"
-          aria-labelledby="panelsStayOpen-claimInformation"
-        >
-          <div className="accordion-body">
-            <button
-              type="button"
-              className="btn btn-outline-primary"
-              onClick={(event) => handleShowProviderClaimSearch(event)}
-              disabled={
-                location.state.stageName === "Redirect Review" ||
-                location.state.stageName === "Documents Needed" ||
-                location.state.stageName === "CaseArchived"
-              }
-            >
-              Claim Search
-            </button>
-            <div className="row my-2">
-             
-              {/* {renderInputField("Claim_Number", "Claim Number", 16)}
-              {renderInputField(
-                "High_Dollar_Dispute",
-                "High Dollar Dispute",
-                9,
-              )}
-                
-               {renderDatePicker(
-                "Service_Start_Date",
-                "Service Start Date",
-                "Service Start Date",
-              )}
-            </div>
-            <div className="row my-2">
-            {renderDatePicker(
-                "Service_End_Date",
-                "Service End Date",
-                "Service End Date",
-              )}
-               {renderSelectField("Claim_type", "Claim type", ProviderclaimTypeValues)} */}
-              
-             
-            </div>
-
-            <div className="row">
-              <div className="col-xs-6 col-md-12">
-                <ProviderClaimInformationTable
-                  ProviderclaimInformationGridData={ProviderclaimInformationGridData}
-                  updateGridData={setProviderClaimInformationGridData}
-                  addTableRows={addTableRows}
-                  deleteTableRows={deleteTableRows}
-                  handleGridSelectChange={handleGridSelectChange}
-                  handleGridDateChange={handleGridDateChange}
-                  handleGridFieldChange={handleGridFieldChange}
-                  calculateDaysDifference={calculateDaysDifference}
-                  gridFieldTempState={gridFieldTempState}
-                  editTableRows={editTableRows}
-                  gridRowsFinalSubmit={gridRowsFinalSubmit}
-                  validationSchema={
-                    props.ProviderclaimInformationGridRowValidationSchema
-                  }
-                  lockStatus={
-                    location.state.lockStatus !== undefined &&
-                    location.state.lockStatus !== ""
-                      ? location.state.lockStatus
-                      : "N"
-                  }
-                  fetchAutoPopulate={fetchAutoPopulate}
-                  transactionType={CaseHeader.displayName}
-                ></ProviderClaimInformationTable>
-              </div>
-            </div>
-            {showProviderClaimSearch && (
-              <ProviderClaimSearch
-                handleCloseSearch={handleCloseSearch}
-                selectedCriteria={selectedCriteria}
-                setSelectedCriteria={setSelectedCriteria}
-                selectSearchValues={selectSearchValues}
-                setSelectSearchValues={setSelectSearchValues}
-                showProviderClaims={showProviderClaims}
-                ProviderclaimSearchTableComponent={ProviderclaimSearchTableComponent}
-                responseData={responseData}
-                setResponseData={setResponseData}
-                handleClearProviderClaimSearch={handleClearProviderClaimSearch}
-                showProviderClaimSearch={showProviderClaimSearch}
-                handleSelectedAddress={handleSelectedAddress}
-              />
-            )}
-          </div>
-        </div>
-      </div>
+      
       <div className="accordion-item" id="providerInformation">
         <h2
           className="accordion-header"
@@ -875,7 +741,7 @@ const CaseProviderClaimInformation = (props) => {
             aria-expanded="true"
             aria-controls="panelsStayOpen-collapseOne"
           >
-            Provider Information
+            Claim Information
           </button>
         </h2>
         <div
@@ -894,11 +760,15 @@ const CaseProviderClaimInformation = (props) => {
                 location.state.stageName === "CaseArchived"
               }
             >
-              Provider Search
+              Claim Search
             </button>
             <div className="row my-2">
+            <div className="row my-2">
+               {/*{renderInputField("High_Dollar_Dispute", "High Dollar Dispute", 0, true, "High Dollar Dispute")}*/}
+               
+             </div>
               <div className="col-xs-6 col-md-12">
-                <ProviderInformationTable
+                <ProviderDisputeClaimInformationTable
                   providerInformationGridData={providerInformationGridData}
                   validationSchema={
                     props.providerInformationGridValidationSchema
@@ -920,12 +790,12 @@ const CaseProviderClaimInformation = (props) => {
                   }
                   fetchAutoPopulate={fetchAutoPopulate}
                   transactionType={CaseHeader.displayName}
-                ></ProviderInformationTable>
+                ></ProviderDisputeClaimInformationTable>
               </div>
             </div>
             <div>
               {showProviderSearch && (
-                <ProviderSearch
+                <ProviderDisputeClaimSearchNew
                   handleCloseSearch={handleCloseSearch}
                   selectedCriteria={selectedCriteria}
                   setSelectedCriteria={setSelectedCriteria}
