@@ -4,11 +4,11 @@ import { RenderType } from "./Constants";
 
 export const useMemberAltContactInfo = (renderType) => {
   
-  const [memberAltContactFields, setmemberAltContactFields] = useState([]);
-  const [pd_MemberAltContactInfo, setpdMemberAltContactInfo] = useState({
+  const [memberAltFields, setmemberAltFields] = useState([]);
+  const [pd_MemberAltInfo, setpdMemberAltInfo] = useState({
     caseNumber: "",
   });
-  const [memberAltContactValidationSchema, setMemberAltContactValidationSchema] =
+  const [memberAltValidationSchema, setMemberAltValidationSchema] =
     useState(Yup.object().shape({}));
     
 
@@ -88,15 +88,15 @@ export const useMemberAltContactInfo = (renderType) => {
           },
       ].filter((e) => e.renderTypes.includes(renderType));
 
-    const memberAltContactObject = fields.reduce((acc, field) => {
-      acc[field.name] = pd_MemberAltContactInfo[field.name] || field.defaultValue;
+    const memberAltObject = fields.reduce((acc, field) => {
+      acc[field.name] = pd_MemberAltInfo[field.name] || field.defaultValue;
       return acc;
-    }, { caseNumber: pd_MemberAltContactInfo.caseNumber });
+    }, { caseNumber: pd_MemberAltInfo.caseNumber });
 
-    setmemberAltContactFields(fields);
+    setmemberAltFields(fields);
     
-    setpdMemberAltContactInfo(memberAltContactObject);
-    setMemberAltContactValidationSchema(
+    setpdMemberAltInfo(memberAltObject);
+    setMemberAltValidationSchema(
       Yup.object().shape({
         ...fields
           .filter((e) => e?.validation?.[renderType])
@@ -108,9 +108,9 @@ export const useMemberAltContactInfo = (renderType) => {
     );
   }, [renderType]);
   return {
-    memberAltContactFields,
-    pd_MemberAltContactInfo,
-    memberAltContactValidationSchema,
-    setpdMemberAltContactInfo,
+    memberAltFields,
+    pd_MemberAltInfo,
+    memberAltValidationSchema,
+    setpdMemberAltInfo,
   };
 };

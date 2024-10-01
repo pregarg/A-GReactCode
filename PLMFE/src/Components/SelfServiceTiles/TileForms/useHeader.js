@@ -56,10 +56,10 @@ export const useHeader = () => {
   } = usePdCaseInformation(renderType);
 
   const {
-    memberAltContactFields,
-    pd_MemberAltContactInfo,
-    memberAltContactValidationSchema,
-    setpdMemberAltContactInfo,
+    memberAltFields,
+    pd_MemberAltInfo,
+    memberAltValidationSchema,
+    setpdMemberAltInfo,
   } = useMemberAltContactInfo(renderType)
 
   const {
@@ -228,19 +228,7 @@ export const useHeader = () => {
     Provider_Next_alert: "",
     
   });
-  const [memberAlternativeContact, setMemberAlternativeContact] = useState({
-    Issue_Number: "",
-    Address_Line_1: "",
-    Address_Line_2: "",
-    City: "",
-    Zip_Code: "",
-    State: "",
-    Alternative_Phone_Number: "",
-    Fax_Number: "",
-    Alternative_Email_Address: "",
-    Communication_Preference: "",
-    
-  });
+
   // const [providerDisputeAuthorizationInformation, setProviderDisputeAuthorizationInformation] = useState({
   //   Issue_Number: "",
   //   Auth_Number: "",
@@ -516,7 +504,7 @@ export const useHeader = () => {
   const [memberInformationErrors, setMemberInformationErrors] = useState([]);
   const [ProvidermemberInformationErrors, setProviderMemberInformationErrors] = useState([]);
   //const [providerDisputeAuthorizationInformationGridErrors, setProviderDisputeAuthorizationInformationGridErrors] = useState([]);
-  const [memberAlternativeContactErrors, setMemberAlternativeContactErrors] = useState([]);
+  const [memberAltErrors, setMemberAltErrorsErrors] = useState([]);
   const [expeditedRequestErrors, setExpeditedRequestErrors] = useState([]);
   const [notesErrors, setNotesErrors] = useState([]);
   const [representativeAddErrors, setRepresentativeAddErrorsErrors] = useState([]);
@@ -578,9 +566,9 @@ export const useHeader = () => {
     );
 
     validateSync(
-      memberAlternativeContactSchema,
-      memberAlternativeContact,
-      setMemberAlternativeContactErrors,
+        memberAltValidationSchema,
+        pd_MemberAltInfo,
+        setMemberAltErrorsErrors,
     );
     validateSync(
       pdCaseInformationValidationSchema,
@@ -647,7 +635,6 @@ export const useHeader = () => {
     ProviderclaimInformation,
     memberInformation,
     ProvidermemberInformation,
-    memberAlternativeContact,
     expeditedRequest,
     providerInformationGrid,
     authorizationInformationGrid,
@@ -664,7 +651,6 @@ export const useHeader = () => {
         ...providerClaimInformationErrors,
         ...memberInformationErrors,
         ...ProvidermemberInformationErrors,
-         ...memberAlternativeContactErrors,
         ...expeditedRequestErrors,
         ...caseDecisionDetailsErrors,
         ...caseDecisionErrors,
@@ -678,7 +664,6 @@ export const useHeader = () => {
     providerClaimInformationErrors,
     memberInformationErrors,
     ProvidermemberInformationErrors,
-     memberAlternativeContactErrors,
     expeditedRequestErrors,
     caseDecisionDetailsErrors,
     caseDecisionErrors,
@@ -752,8 +737,8 @@ export const useHeader = () => {
     const pdProviderAlt = trimJsonValues({ ...pd_ProviderAlt });
     apiJson["PD_Provider_Alternative_Contact_Info"] = pdProviderAlt;
 
-    const pdMemberAltContact = trimJsonValues({ ...pd_MemberAltContactInfo });
-    apiJson["PD_MEMBER_ALTERNATIVE_CONTACT_INFO"] = pdMemberAltContact;
+    const pdMemberAltInfo = trimJsonValues({ ...pd_MemberAltInfo });
+    apiJson["PD_MEMBER_ALTERNATIVE_CONTACT_INFO"] = pdMemberAltInfo;
 
     const flowId = caseHeaderConfigData["FlowId"];
     const stageName = caseHeaderConfigData["StageName"];
@@ -836,7 +821,6 @@ export const useHeader = () => {
     const angCaseInformation = trimJsonValues({ ...caseInformation });
     const angClaimInformation = trimJsonValues({ ...claimInformation });
     const angMemberInformation = trimJsonValues({ ...memberInformation });
-    const angMemberAlternativeContact = trimJsonValues({...memberAlternativeContact});
 
     console.log("angMemberInformation1", angMemberInformation);
     //  const angAuthorizationInformation = trimJsonValues({   ...authorizationInformation, });
@@ -1413,7 +1397,6 @@ export const useHeader = () => {
         setProviderInformationGrid(data?.["angProviderInformationGrid"] || []);
         setMemberInformation(data?.["angMemberInformation"]?.[0] || {});
         setProviderMemberInformation(data?.["angProviderMemberInformation"]?.[0] || {});
-        setMemberAlternativeContact(data?.["angMemberAlternativeContact"]?.[0] || {});
         setRepresentativeInformationGrid(
           data?.["angRepresentativeInformationGrid"] || [],
         );
@@ -1917,7 +1900,7 @@ export const useHeader = () => {
     pd_DecisionAddRecord,
     pd_ProviderAddRecord,
     pd_ProviderAlt,
-    pd_MemberAltContactInfo,
+    pd_MemberAltInfo,
     caseTimelinesValidationSchema,
     setCaseTimelines,
     setpdMemberAddRecord,
@@ -1927,14 +1910,14 @@ export const useHeader = () => {
     setpdDecisionAddRecord,
     setpdProviderAddRecord,
     setpdProviderAlt,
-    setpdMemberAltContactInfo,
+    setpdMemberAltInfo,
     handleCaseHeaderChange,
     caseHeader,
     setCaseHeader,
     caseInformation,
     setCaseInformation,
     caseInformationValidationSchema,
-    memberAltContactValidationSchema,
+    memberAltValidationSchema,
     claimInformation,
     setClaimInformation,
     setProviderClaimInformation,
@@ -1950,8 +1933,6 @@ export const useHeader = () => {
     ProvidermemberInformation,
     ProvidermemberInformationValidationSchema,
     setProviderMemberInformation,
-    memberAlternativeContact,
-    setMemberAlternativeContact,
     memberAlternativeContactSchema,
     representativeInformationGrid,
     setRepresentativeInformationGrid,
@@ -1980,7 +1961,7 @@ export const useHeader = () => {
     claimInformationErrors,
     memberInformationErrors,
     ProvidermemberInformationErrors,
-    memberAlternativeContactErrors,
+    memberAltErrors,
     shouldShowSubmitError,
     handleShowMember360,
     showMember360,
@@ -2020,7 +2001,7 @@ export const useHeader = () => {
     decisionAddRecordFields,
     providerAddRecordFields,
     providerAltFields,
-    memberAltContactFields,
+    memberAltFields,
     setRenderType,
     caseHeaderFields,
     docNeededGrid,

@@ -99,7 +99,7 @@ export default function useGetDBTables() {
         "PD_Case_Timelines~pdCaseTimelines",
         "PD_CASE_INFORMATION~pdCaseInformation",
         "PD_MEMBER_ADD_OF_RECORDS~pdMemberAddRecord",
-        "PD_MEMBER_ALTERNATIVE_CONTACT_INFO~pdMemberAltContact",
+        "PD_MEMBER_ALTERNATIVE_CONTACT_INFO~pd_MemberAltInfo",
         "PD_Decision~pdDecisionAddRecord",
         "PD_Member_Information~angProviderMemberInformation",
         "PD_Provider_Add_of_Records~pdProviderAddRecord",

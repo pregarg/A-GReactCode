@@ -56,9 +56,9 @@ const ProviderDisputes = () => {
     pd_RepresentativeAltRecord,
     pd_ProviderAddRecord,
     pd_ProviderAlt,
-    pd_MemberAltContactInfo,
+    pd_MemberAltInfo,
     caseTimelinesValidationSchema,
-    memberAltContactValidationSchema,
+    memberAltValidationSchema,
     setCaseTimelines,
     setpdMemberAddRecord,
     setpdRepresentativeAddRecord,
@@ -67,7 +67,7 @@ const ProviderDisputes = () => {
     setpdDecisionAddRecord,
     setpdProviderAddRecord,
     setpdProviderAlt,
-    setpdMemberAltContactInfo,
+    setpdMemberAltInfo,
     handleCaseHeaderChange,
     caseHeader,
     setCaseHeader,
@@ -103,7 +103,7 @@ const ProviderDisputes = () => {
     decisionAddErrors,
     providerAddErrors,
     providerAltErrors,
-    memberAltContactErrors,
+    memberAltErrors,
     notesValidationSchema,
     expeditedRequestValidationSchema,
     location,
@@ -134,7 +134,6 @@ const ProviderDisputes = () => {
     decisionAddOfRecordsValidationSchema,
     providerAddOfRecordsValidationSchema,
     providerAltValidationSchema,
-    memberAltContactInfoValidationSchema,
     handleShowMember360,
     showMember360,
     handleCloseMember360,
@@ -154,7 +153,7 @@ const ProviderDisputes = () => {
     decisionAddRecordFields,
     providerAddRecordFields,
     providerAltFields,
-    memberAltContactFields,
+    memberAltFields,
     setRenderType,
     caseHeaderFields,
     caseInformationFields,
@@ -163,7 +162,8 @@ const ProviderDisputes = () => {
     setpdCaseInformation,
     pdCaseInformationErrors,
     pdCaseInformationGrid,
-    setPDCaseInformationGrid
+    setPDCaseInformationGrid,
+
   } = useHeader();
 
   useEffect(() => {
@@ -271,7 +271,15 @@ const ProviderDisputes = () => {
                   shouldShowSubmitError={shouldShowSubmitError}
                   renderType={RenderType.PROVIDER_DISPUTE}
               />
-              <MemberAltContactInfoAccordion />
+              <MemberAltContactInfoAccordion
+                  memberAltData={pd_MemberAltInfo}
+                  setMemberAltData={setpdMemberAltInfo}
+                  memberAltValidationSchema={memberAltValidationSchema}
+                  memberAltFields={memberAltFields}
+                  memberAltErrors={memberAltErrors}
+                  shouldShowSubmitError={shouldShowSubmitError}
+                  renderType={RenderType.PROVIDER_DISPUTE}
+              />
 
               {/*<RepresentativeInformationAccordion*/}
               {/*  handleRepresentativeInformationGridData={*/}
