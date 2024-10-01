@@ -7,8 +7,8 @@ import { SimpleInputField } from "../Common/SimpleInputField";
 import { SimpleSelectField } from "../Common/SimpleSelectField";
 import { SimpleDatePickerField } from "../Common/SimpleDatePickerField";
 
-export default function DocNeededTable({
-  docNeededGridData,
+export default function PDCaseInformationTable({
+  caseInformationGridData,
   deleteTableRows,
   handleGridSelectChange,
   addTableRows,
@@ -21,7 +21,7 @@ export default function DocNeededTable({
   gridFieldTempState,
   validationSchema,
 }) {
-  DocNeededTable.displayName = "DocNeededTable";
+  PDCaseInformationTable.displayName = "PDCaseInformationTable";
 
   const [dataIndex, setDataIndex] = useState();
 
@@ -33,150 +33,51 @@ export default function DocNeededTable({
 
   const { getGridJson, convertToCase } = useGetDBTables();
 
-  const [docsNeededValues, setDocsNeededValues] = useState([]);
-  const [requestedFromValues, setRequestedFromValues] = useState([]);
-  const [neededByValues, setNeededByValues] = useState([]);
+  const [issueTypeValues, setissueTypeValues] = useState([]);
+  const [decisionValues, setdecisionValues] = useState([]);
+  const [decisionReasonValues, setdecisionReasonValues] = useState([]);
 
   let prop = useLocation();
-  const masterAngDocNeededSelector = useSelector(
-    (state) => state?.masterAngDocNeeded,
+  const masterPDIssueTypeSelector = useSelector(
+    (state) => state?.masterPDIssueType,
   );
-  const masterAngRequestedFromSelector = useSelector(
-    (state) => state?.masterAngRequestedFrom,
+  const masterPDDecisionSelector = useSelector(
+    (state) => state?.masterPDDecision,
   );
-  const masterAngNeededBySelector = useSelector(
-    (state) => state?.masterAngNeededBy,
+  const masterPDDecisionReasonSelector = useSelector(
+    (state) => state?.masterPDDecisionReason,
   );
 
-//   const masterAngRelationshipSelector = useSelector(
-//     (state) => state?.masterAngRelationship,
-//   );
-//   const masterAngAORTypeSelector = useSelector(
-//     (state) => state?.masterAngAORType,
-//   );
-//   const masterAngCommPrefSelector = useSelector(
-//     (state) => state?.masterAngCommPref,
-//   );
-//   const masterAngMailToAddressSelector = useSelector(
-//     (state) => state?.masterAngMailToAddress,
-//   );
 useEffect(() => {
     const kvMapper = (e) => ({
       label: convertToCase(e),
       value: convertToCase(e),
     });
-    const docsNeeded = masterAngDocNeededSelector?.[0] || [];
-    setDocsNeededValues(
-        docsNeeded.map((e) => e.Doc_Needed).map(kvMapper),
+    const issueType = masterPDIssueTypeSelector?.[0] || [];
+    setissueTypeValues(
+        issueType.map((e) => e.Issue_Type).map(kvMapper),
     );
-    const requestedFrom = masterAngRequestedFromSelector?.[0] || [];
-    setRequestedFromValues(
-        requestedFrom.map((e) => e.Requested_From).map(kvMapper),
+    const decision = masterPDDecisionSelector?.[0] || [];
+    setdecisionValues(
+        decision.map((e) => e.Decision).map(kvMapper),
     );
-    const neededBy =masterAngNeededBySelector?.[0] || [];
-    setNeededByValues(
-        neededBy.map((e) => e.Needed_By).map(kvMapper),
+    const decisionReason =masterPDDecisionReasonSelector?.[0] || [];
+    setdecisionReasonValues(
+        decisionReason.map((e) => e.Decision_Reason).map(kvMapper),
     );
     
 }, []);
   
 
-//   let relationshipValues = [];
-//   let aorTypeValues = [];
-//   let commPrefValues = [];
-//   let mailToAddressValues = [];
-
-
-
-//   useEffect(() => {
-//     if (masterAngRelationshipSelector) {
-//       const relationshipArray =
-//         masterAngRelationshipSelector.length === 0
-//           ? []
-//           : masterAngRelationshipSelector[0];
-//       const uniquerelationshipValues = {};
-
-//       for (let i = 0; i < relationshipArray.length; i++) {
-//         const relationship = convertToCase(relationshipArray[i].Relationship);
-
-//         if (!uniquerelationshipValues[relationship]) {
-//           uniquerelationshipValues[relationship] = true;
-//           relationshipValues.push({
-//             label: convertToCase(relationshipArray[i].Relationship),
-//             value: convertToCase(relationshipArray[i].Relationship),
-//           });
-//         }
-//       }
-//     }
-
-//     if (masterAngAORTypeSelector) {
-//       const aorTypeArray =
-//         masterAngAORTypeSelector.length === 0
-//           ? []
-//           : masterAngAORTypeSelector[0];
-//       const uniqueAORTypeValues = {};
-
-//       for (let i = 0; i < aorTypeArray.length; i++) {
-//         const aorType = convertToCase(aorTypeArray[i].AOR_Type);
-
-//         if (!uniqueAORTypeValues[aorType]) {
-//           uniqueAORTypeValues[aorType] = true;
-//           aorTypeValues.push({
-//             label: convertToCase(aorTypeArray[i].AOR_Type),
-//             value: convertToCase(aorTypeArray[i].AOR_Type),
-//           });
-//         }
-//       }
-//     }
-
-//     if (masterAngCommPrefSelector) {
-//       const commPrefArray =
-//         masterAngCommPrefSelector.length === 0
-//           ? []
-//           : masterAngCommPrefSelector[0];
-
-//       for (let i = 0; i < commPrefArray.length; i++) {
-//         commPrefValues.push({
-//           label: convertToCase(commPrefArray[i].Comm_Pref),
-//           value: convertToCase(commPrefArray[i].Comm_Pref),
-//         });
-//       }
-//     }
-
-//     if (masterAngMailToAddressSelector) {
-//       const mailToAddressArray =
-//         masterAngMailToAddressSelector.length === 0
-//           ? []
-//           : masterAngMailToAddressSelector[0];
-//       const uniqueMailToAddressValues = {};
-
-//       for (let i = 0; i < mailToAddressArray.length; i++) {
-//         const mailToAddress = convertToCase(
-//           mailToAddressArray[i].Mail_to_Address,
-//         );
-
-//         if (!uniqueMailToAddressValues[mailToAddress]) {
-//           uniqueMailToAddressValues[mailToAddress] = true;
-//           mailToAddressValues.push({
-//             label: convertToCase(mailToAddressArray[i].Mail_to_Address),
-//             value: convertToCase(mailToAddressArray[i].Mail_to_Address),
-//           });
-//         }
-//       }
-//     }
-//   });
-
   const tableFields = [
-    "Doc_Needed",
-    "Doc_Number",
-    "Requested_From",
-    "Needed_By",
-    "Requested_By",
-    "Request_Date",
-    "Follow_Up1_Date",
-    "Follow_Up2_Date",
-    "Due_Date",
-    "Received_Date",
+    "Issue_Number",
+    "Claim_Number",
+    "Issue_Description",
+    "Issue_Type",
+    "Decision",
+    "Decision_Reason",
+    "Decision_Time_Date",
+    "Decision_Summary",
   ];
 
   const [validationErrors, setValidationErrors] = useState({});
@@ -211,17 +112,17 @@ useEffect(() => {
             handleGridFieldChange(
               index,
               event,
-              DocNeededTable.displayName,
+              PDCaseInformationTable.displayName,
             )
           }
-          disabled={
-            (prop.state.formView === "DashboardView" &&
-              (prop.state.stageName === "Redirect Review" ||
-                prop.state.stageName === "Effectuate" ||
-                prop.state.stageName === "Pending Effectuate" ||   
-                prop.state.stageName === "Case Completed" ||
-                prop.state.stageName === "CaseArchived"))   
-          }
+          // disabled={
+          //   (prop.state.formView === "DashboardView" &&
+          //     (prop.state.stageName === "Redirect Review" ||
+          //       prop.state.stageName === "Effectuate" ||
+          //       prop.state.stageName === "Pending Effectuate" ||   
+          //       prop.state.stageName === "Case Completed" ||
+          //       prop.state.stageName === "CaseArchived"))   
+          // }
         />
       </div>
     );
@@ -240,17 +141,17 @@ useEffect(() => {
               index,
               selectValue,
               event,
-              DocNeededTable.displayName,
+              PDCaseInformationTable.displayName,
             )
           }
-          disabled={
-                prop.state.formView === "DashboardView" &&
-              (prop.state.stageName === "Redirect Review" ||
-                prop.state.stageName === "Effectuate" ||
-                prop.state.stageName === "Pending Effectuate" ||   
-                prop.state.stageName === "Case Completed" ||
-                prop.state.stageName === "CaseArchived")  
-          }
+          // disabled={
+          //       prop.state.formView === "DashboardView" &&
+          //     (prop.state.stageName === "Redirect Review" ||
+          //       prop.state.stageName === "Effectuate" ||
+          //       prop.state.stageName === "Pending Effectuate" ||   
+          //       prop.state.stageName === "Case Completed" ||
+          //       prop.state.stageName === "CaseArchived")  
+          // }
         />
       </div>
     );
@@ -268,17 +169,17 @@ useEffect(() => {
               index,
               selectValue,
               name,
-              DocNeededTable.displayName,
+              PDCaseInformationTable.displayName,
             )
           }
-          disabled={
-            prop.state.formView === "DashboardView" &&
-              (prop.state.stageName === "Redirect Review" ||
-                prop.state.stageName === "Effectuate" ||
-                prop.state.stageName === "Pending Effectuate" ||   
-                prop.state.stageName === "Case Completed" ||
-                prop.state.stageName === "CaseArchived")  
-          }
+          // disabled={
+          //   prop.state.formView === "DashboardView" &&
+          //     (prop.state.stageName === "Redirect Review" ||
+          //       prop.state.stageName === "Effectuate" ||
+          //       prop.state.stageName === "Pending Effectuate" ||   
+          //       prop.state.stageName === "Case Completed" ||
+          //       prop.state.stageName === "CaseArchived")  
+          // }
         />
       </div>
     );
@@ -288,69 +189,48 @@ useEffect(() => {
     return (
       <div className="Container AddProviderLabel AddModalLabel">
         <div className="row">
+          {renderSimpleInputField("Issue_Number","Issue Number", 50, index)}
+          {renderSimpleInputField("Claim_Number","Claim Number", 50, index)}
+          {renderSimpleInputField("Issue_Description","Issue Description", 4000, index)}
+          {renderSimpleSelectField(
+            "Issue_Type",
+            "Issue Type",
+            issueTypeValues,
+            index,
+          )}
+        </div>
+        <div className="row">
         {renderSimpleSelectField(
-            "Doc_Needed",
-            "Doc Needed",
-            docsNeededValues,
+            "Decision",
+            "Decision",
+            decisionValues,
             index,
           )}
-          {renderSimpleInputField("Doc_Number", "Doc Number", 50, index)}
-          {renderSimpleSelectField(
-            "Requested_From",
-            "Requested From",
-            requestedFromValues,
+            {renderSimpleSelectField(
+            "Decision_Reason",
+            "Decision Reason",
+            decisionReasonValues,
             index,
           )}
-          {renderSimpleSelectField(
-            "Needed_By",
-            "Needed By",
-            neededByValues,
+          {renderSimpleDatePickerField(
+            "Decision_Time_Date",
+            "Decision Time Date",
             index,
           )}
-         
+         {renderSimpleInputField("Decision_Summary","Decision Summary", 4000, index)}
         </div>
-        <div className="row">
-          {renderSimpleInputField("Requested_By", "Requested By", 50, index)}
-          {renderSimpleDatePickerField(
-            "Request_Date",
-            "Request Date",
-            index,
-          )}
-          {renderSimpleDatePickerField(
-            "Follow_Up1_Date",
-            "Follow-Up Date1",
-            index,
-          )}
-          {renderSimpleDatePickerField(
-            "Follow_Up2_Date",
-            "Follow-Up Date2",
-            index,
-          )}
-        </div>
-        <div className="row">
-          {renderSimpleDatePickerField(
-            "Due_Date",
-            "Due Date",
-            index,
-          )}
-          {renderSimpleDatePickerField(
-            "Received_Date",
-            "Received Date",
-            index,
-          )}
-          
-        </div>
+       
       </div>
     );
   };
 
   const tdData = () => {
-    console.log("docNeededGridData",docNeededGridData)
+    console.log("caseInformationGridData",caseInformationGridData)
     if (
-      docNeededGridData !== undefined &&
-      docNeededGridData.length > 0
+      caseInformationGridData !== undefined &&
+      caseInformationGridData.length > 0
     ) {
-      return docNeededGridData.map((data, index) => {
+      return caseInformationGridData.map((data, index) => {
         return (
           <tr
             key={index}
@@ -372,7 +252,7 @@ useEffect(() => {
                       onClick={() => {
                         deleteTableRows(
                           index,
-                          DocNeededTable.displayName,
+                          PDCaseInformationTable.displayName,
                           "Force Delete",
                         );
                         handleOperationValue("Force Delete");
@@ -388,7 +268,7 @@ useEffect(() => {
                       onClick={() => {
                         editTableRows(
                           index,
-                          DocNeededTable.displayName,
+                          PDCaseInformationTable.displayName,
                         );
                         handleModalChange(true);
                         handleDataIndex(index);
@@ -492,9 +372,9 @@ useEffect(() => {
                   <button
                     className="addBtn"
                     onClick={() => {
-                      addTableRows(DocNeededTable.displayName);
+                      addTableRows(PDCaseInformationTable.displayName);
                       handleModalChange(true);
-                      handleDataIndex(docNeededGridData.length);
+                      handleDataIndex(caseInformationGridData?.length);
                       handleOperationValue("Add");
                     }}
                   >
@@ -512,14 +392,14 @@ useEffect(() => {
         </table>
       </div>
       <GridModal
-        name="Documents Needed"
+        name="Case Information"
         validationObject={isTouched}
         modalShow={modalShow}
         handleModalChange={handleModalChange}
         dataIndex={dataIndex}
         tdDataReplica={tdDataReplica}
         deleteTableRows={deleteTableRows}
-        gridName={DocNeededTable.displayName}
+        gridName={PDCaseInformationTable.displayName}
         decreaseDataIndex={decreaseDataIndex}
         operationValue={operationValue}
         gridRowsFinalSubmit={gridRowsFinalSubmit}

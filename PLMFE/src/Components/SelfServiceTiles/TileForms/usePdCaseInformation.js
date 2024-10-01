@@ -180,7 +180,7 @@ export const usePdCaseInformation = (renderType) => {
         acc[field.name] = pd_CaseInformation[field.name];
         return acc;
       }, { caseNumber: pd_CaseInformation.caseNumber });
-      
+   
     setcaseInformationFields(fields);
     setpdCaseInformation(caseInformationObject);
     setPdcaseInformationValidationSchema(

@@ -752,7 +752,7 @@ export default function DashboardHomepage() {
         "ancillary/facility modification":
           "/DashboardLogin/AncillaryFacilityModification",
         appeals: "/DashboardLogin/Appeals",
-        providerDisputes: "/DashboardLogin/ProviderDisputes",
+        "provider disputes": "/DashboardLogin/ProviderDisputes",
         "payto modification": "/DashboardLogin/GroupPayToModification",
         "address modification": "/DashboardLogin/GroupAddressModification",
         "provider contracting": "/ContractingHome/ProviderContracting",
