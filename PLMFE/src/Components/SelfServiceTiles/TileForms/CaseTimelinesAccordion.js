@@ -9,6 +9,7 @@ import { FormikSelectField } from "../Common/FormikSelectField";
 import { renderElements, RenderType } from "./Constants";
 
 const CaseTimelinesAccordion = (props) => {
+  console.log("props.renderType",props.renderType)
   const location = useLocation();
   const caseHeaderConfigData = JSON.parse(
     process.env.REACT_APP_CASEHEADER_DETAILS || "{}",
@@ -84,9 +85,9 @@ const CaseTimelinesAccordion = (props) => {
               location.state.stageName === "Resolve" ||
               location.state.stageName === "Case Completed" ||
               location.state.stageName === "Reopen" ||
-              location.state.stageName === "CaseArchived")) ||
+              location.state.stageName === "CaseArchived") ||
           (name === "Case_Received_Date" &&
-            location.state.stageName === "Documents Needed")
+            location.state.stageName === "Documents Needed"))
         }
         schema={props.caseTimelinesValidationSchema}
         errors={props.caseTimelinesErrors}

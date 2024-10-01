@@ -162,6 +162,7 @@ export const useHeader = () => {
     Service_Type: "",
     Service_Start_Date: undefined,
     Service_End_Date: undefined,
+    Denial_Date: undefined
   });
   const [ProviderclaimInformation, setProviderClaimInformation] = useState({
     High_Dollar_Dispute : "",
@@ -712,12 +713,15 @@ export const useHeader = () => {
 
     const pdCaseTimelines = trimJsonValues({ ...caseTimelines });
     apiJson["PD_Case_Timelines"] = pdCaseTimelines;
- 
+    console.log("pd_CaseInformation",pd_CaseInformation)
     const pdCaseInformation = trimJsonValues({ ...pd_CaseInformation });
     apiJson["PD_CASE_INFORMATION"] = pdCaseInformation;
 
-    const pdClaimInformation = trimJsonValues({ ...ProviderclaimInformation });
-    apiJson["PD_Claim_Information"] = pdClaimInformation;
+    const pdCaseInfoGrid = getGridDataValues(pdCaseInformationGrid);
+    apiJson["PD_CASE_INFORMATION_GRID"] = pdCaseInfoGrid;
+
+    // const pdClaimInformation = trimJsonValues({ ...ProviderclaimInformation });
+    // apiJson["PD_Claim_Information"] = pdClaimInformation;
 
     const pdMemberAddRecord = trimJsonValues({ ...pd_MemberAddRecord });
     apiJson["PD_MEMBER_ADD_OF_RECORDS"] = pdMemberAddRecord;
@@ -956,7 +960,7 @@ export const useHeader = () => {
     useState([]);
 
     const [docNeededGrid, setDocNeededGrid] = useState([]);
-
+    const [pdCaseInformationGrid, setPDCaseInformationGrid] = useState([]);
   const [mainCaseDetails, setMainCaseDetails] = useState({
     flowId: 0,
     stageName: "",
@@ -2037,6 +2041,8 @@ export const useHeader = () => {
     setpdCaseInformation,
     caseInformationFields,
     pdCaseInformationErrors,
+    pdCaseInformationGrid,
+    setPDCaseInformationGrid,
     // decisionAddRecordFields,
   };
 };

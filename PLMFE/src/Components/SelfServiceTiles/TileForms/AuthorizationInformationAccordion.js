@@ -11,8 +11,10 @@ import AuthSearch from "../TileForms/AuthSearch";
 import { useAxios } from "../../../api/axios.hook";
 import TableComponent from "../../../../src/util/TableComponent";
 import { selectStyle } from "./SelectStyle";
+import { renderElements, RenderType } from "./Constants";
 
 const AuthorizationInformationAccordion = (props) => {
+  console.log("props.renderType",props.renderType)
   const {
     convertToCase,
     checkGridJsonLength,
@@ -128,6 +130,8 @@ const AuthorizationInformationAccordion = (props) => {
   const gridDataRef = useRef({});
 
   const addTableRows = (triggeredFormName, index) => {
+    
+
     let rowsInput = {};
 
     if (triggeredFormName === "AuthorizationInformationTable") {
@@ -182,6 +186,7 @@ const AuthorizationInformationAccordion = (props) => {
 
   const editTableRows = (index, triggeredFormName) => {
     console.log("Inside editTableRows: ", triggeredFormName);
+    console.log("prop.renderType",prop.renderType)
     let rowInput = {};
 
     if (triggeredFormName === "AuthorizationInformationTable") {
@@ -480,7 +485,7 @@ const AuthorizationInformationAccordion = (props) => {
     });
     return returnArray;
   };
-  console.log("auth@@@123-->", prop.state.stageName);
+  console.log("auth@@@123-->", prop.state.stageName,prop.renderType);
   return (
     <div>
       <div className="accordion-item" id="claimInformation">

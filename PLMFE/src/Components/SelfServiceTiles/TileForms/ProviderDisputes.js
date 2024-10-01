@@ -6,7 +6,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import CaseHeaderAccordion from "./CaseHeaderAccordion";
 import CaseTimelinesAccordion from "./CaseTimelinesAccordion";
-import CaseInformationAccordion from "./ProviderDisputeCaseInformationAccordion";
+
 import ProviderCaseClaimInformation from "./ProviderDisputeClaimInformation";
 import DecisionTab from "../../../WorkItemDashboard/DecisionTab";
 import CaseInformation from "../../../WorkItemDashboard/CaseInformation";
@@ -162,6 +162,8 @@ const ProviderDisputes = () => {
     pdCaseInformationValidationSchema,
     setpdCaseInformation,
     pdCaseInformationErrors,
+    pdCaseInformationGrid,
+    setPDCaseInformationGrid
   } = useHeader();
 
   useEffect(() => {
@@ -194,12 +196,15 @@ const ProviderDisputes = () => {
                 caseTimelinesFields={caseTimelinesFields}
               />
               <PdCaseInformationAccordion
+                
                 caseInformationData={pd_CaseInformation}
                 setcaseInformationData={setpdCaseInformation}
                 pdCaseInformationValidationSchema={pdCaseInformationValidationSchema}
                 pdCaseInformationErrors={pdCaseInformationErrors}
                 shouldShowSubmitError={shouldShowSubmitError}
                 caseInformationFields={caseInformationFields}
+                handlecaseInformationGridData={pdCaseInformationGrid}
+                updatecaseInformationGridData={setPDCaseInformationGrid}
                 renderType={RenderType.PROVIDER_DISPUTE}
               />
                {/* <CaseInformationAccordion
@@ -318,6 +323,8 @@ const ProviderDisputes = () => {
                 authorizationInformationGridValidationSchema={
                   authorizationInformationGridValidationSchema
                 }
+                renderType={RenderType.PROVIDER_DISPUTE}
+                
               />
               <ProviderDecisionRecordsAccordion
                   decisionAddData={pd_DecisionAddRecord}

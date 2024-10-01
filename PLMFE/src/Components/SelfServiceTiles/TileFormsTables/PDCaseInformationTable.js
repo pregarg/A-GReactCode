@@ -6,22 +6,22 @@ import { useLocation } from "react-router-dom";
 import { SimpleInputField } from "../Common/SimpleInputField";
 import { SimpleSelectField } from "../Common/SimpleSelectField";
 import { SimpleDatePickerField } from "../Common/SimpleDatePickerField";
-import { renderElements, RenderType } from "../TileForms/Constants"
 
-export default function AuthorizationInformationTable({
-  authorizationInformationGridData,
+export default function PDCaseInformationTable({
+  caseInformationGridData,
   deleteTableRows,
   handleGridSelectChange,
   addTableRows,
   handleGridDateChange,
   handleGridFieldChange,
   gridRowsFinalSubmit,
+  selectJson,
   lockStatus,
   editTableRows,
   gridFieldTempState,
   validationSchema,
 }) {
-  AuthorizationInformationTable.displayName = "AuthorizationInformationTable";
+  PDCaseInformationTable.displayName = "PDCaseInformationTable";
 
   const [dataIndex, setDataIndex] = useState();
 
@@ -31,64 +31,74 @@ export default function AuthorizationInformationTable({
 
   const [isTouched, setIsTouched] = useState({});
 
-  const { convertToCase } = useGetDBTables();
+  const { getGridJson, convertToCase } = useGetDBTables();
 
-  const masterAngAuthServiceTypeSelector = useSelector(
-    (state) => state?.masterAngAuthServiceType,
-  );
+  const [issueTypeValues, setissueTypeValues] = useState([]);
+  const [decisionValues, setdecisionValues] = useState([]);
+  const [decisionReasonValues, setdecisionReasonValues] = useState([]);
 
   let prop = useLocation();
+  const masterPDIssueTypeSelector = useSelector(
+    (state) => state?.masterPDIssueType,
+  );
+  const masterPDDecisionSelector = useSelector(
+    (state) => state?.masterPDDecision,
+  );
+  const masterPDDecisionReasonSelector = useSelector(
+    (state) => state?.masterPDDecisionReason,
+  );
 
-  let authTypeDescriptionValues = [];
-
-  useEffect(() => {
-    if (masterAngAuthServiceTypeSelector) {
-      const authTypeDescriptionArray =
-        masterAngAuthServiceTypeSelector.length === 0
-          ? []
-          : masterAngAuthServiceTypeSelector[0];
-
-      for (let i = 0; i < authTypeDescriptionArray.length; i++) {
-        authTypeDescriptionValues.push({
-          label: convertToCase(authTypeDescriptionArray[i].SERVICE_TYPE_DESC),
-          value: convertToCase(authTypeDescriptionArray[i].SERVICE_TYPE_DESC),
-        });
-      }
-    }
-  });
+useEffect(() => {
+    const kvMapper = (e) => ({
+      label: convertToCase(e),
+      value: convertToCase(e),
+    });
+    const issueType = masterPDIssueTypeSelector?.[0] || [];
+    setissueTypeValues(
+        issueType.map((e) => e.Issue_Type).map(kvMapper),
+    );
+    const decision = masterPDDecisionSelector?.[0] || [];
+    setdecisionValues(
+        decision.map((e) => e.Decision).map(kvMapper),
+    );
+    const decisionReason =masterPDDecisionReasonSelector?.[0] || [];
+    setdecisionReasonValues(
+        decisionReason.map((e) => e.Decision_Reason).map(kvMapper),
+    );
+    
+}, []);
+  
 
   const tableFields = [
     "Issue_Number",
-    "Authorization_Number",
-    "Auth_Status",
-    "Provider_Name",
-    "Authorization_Type",
-    "Auth_Type_Description",
-    "Auth_Request_Date",
-    "Auth_Expiration_Date",
-    "CPT_Descriptions",
-    "Service_Start_Date",
-    "Denial_Code",
-    "Denial_Reason",
+    "Claim_Number",
+    "Issue_Description",
+    "Issue_Type",
+    "Decision",
+    "Decision_Reason",
+    "Decision_Time_Date",
+    "Decision_Summary",
   ];
 
   const [validationErrors, setValidationErrors] = useState({});
-  useEffect(() => {
-    try {
-      setValidationErrors([]);
-      validationSchema.validateSync(gridFieldTempState, { abortEarly: false });
-    } catch (errors) {
-      const validationErrors = errors.inner.reduce((acc, error) => {
-        acc[error.path] = error.message;
-        return acc;
-      }, {});
-      console.log(
-        "errors were encountered in authorization information table",
-        validationErrors,
-      );
-      setValidationErrors(validationErrors);
-    }
-  }, [gridFieldTempState]);
+  // useEffect(() => {
+  //   try {
+  //     setValidationErrors([]);
+  //     validationSchema.validateSync(gridFieldTempState, { abortEarly: false });
+  //   } catch (errors) {
+  //     const validationErrors = errors.inner.reduce((acc, error) => {
+  //       acc[error.path] = error.message;
+  //       return acc;
+  //     }, {});
+  //     console.log(
+  //       "errors were encountered in doc needed table",
+  //       validationErrors,
+  //     );
+  //     setValidationErrors(validationErrors);
+  //   }
+  // }, [gridFieldTempState]);
+
+
   const renderSimpleInputField = (name, label, maxLength, index) => {
     return (
       <div className="col-xs-6 col-md-3">
@@ -97,26 +107,22 @@ export default function AuthorizationInformationTable({
           label={label}
           maxLength={maxLength}
           data={gridFieldTempState}
+          validationErrors={validationErrors}
           onChange={(event) =>
             handleGridFieldChange(
               index,
               event,
-              AuthorizationInformationTable.displayName,
+              PDCaseInformationTable.displayName,
             )
           }
-          validationErrors={validationErrors}
-          disabled={
-            (prop.renderType === RenderType.APPEALS &&
-            prop.state.formView === "DashboardView" &&
-            (prop.state.stageName === "Redirect Review" ||
-              prop.state.stageName === "Documents Needed" ||
-              prop.state.stageName === "Effectuate" ||
-              prop.state.stageName === "Pending Effectuate" ||
-              prop.state.stageName === "Resolve" ||
-              prop.state.stageName === "Case Completed" ||
-              prop.state.stageName === "Reopen" ||
-              prop.state.stageName === "CaseArchived"))
-          }
+          // disabled={
+          //   (prop.state.formView === "DashboardView" &&
+          //     (prop.state.stageName === "Redirect Review" ||
+          //       prop.state.stageName === "Effectuate" ||
+          //       prop.state.stageName === "Pending Effectuate" ||   
+          //       prop.state.stageName === "Case Completed" ||
+          //       prop.state.stageName === "CaseArchived"))   
+          // }
         />
       </div>
     );
@@ -129,26 +135,23 @@ export default function AuthorizationInformationTable({
           label={label}
           options={options}
           data={gridFieldTempState}
+          validationErrors={validationErrors}
           onChange={(selectValue, event) =>
             handleGridSelectChange(
               index,
               selectValue,
               event,
-              AuthorizationInformationTable.displayName,
+              PDCaseInformationTable.displayName,
             )
           }
-          validationErrors={validationErrors}
-          disabled={(prop.renderType === RenderType.APPEALS &&
-            prop.state.formView === "DashboardView" &&
-            (prop.state.stageName === "Redirect Review" ||
-              prop.state.stageName === "Documents Needed" ||
-              prop.state.stageName === "Effectuate" ||
-              prop.state.stageName === "Pending Effectuate" ||
-              prop.state.stageName === "Resolve" ||
-              prop.state.stageName === "Case Completed" ||
-              prop.state.stageName === "Reopen" ||
-              prop.state.stageName === "CaseArchived"))
-          }
+          // disabled={
+          //       prop.state.formView === "DashboardView" &&
+          //     (prop.state.stageName === "Redirect Review" ||
+          //       prop.state.stageName === "Effectuate" ||
+          //       prop.state.stageName === "Pending Effectuate" ||   
+          //       prop.state.stageName === "Case Completed" ||
+          //       prop.state.stageName === "CaseArchived")  
+          // }
         />
       </div>
     );
@@ -160,94 +163,74 @@ export default function AuthorizationInformationTable({
           name={name}
           label={label}
           data={gridFieldTempState}
+          validationErrors={validationErrors}
           onChange={(selectValue) =>
             handleGridDateChange(
               index,
               selectValue,
               name,
-              AuthorizationInformationTable.displayName,
+              PDCaseInformationTable.displayName,
             )
           }
-          validationErrors={validationErrors}
-          disabled={(prop.renderType === RenderType.APPEALS &&
-            prop.state.formView === "DashboardView" &&
-            (prop.state.stageName === "Redirect Review" ||
-              prop.state.stageName === "Documents Needed" ||
-              prop.state.stageName === "Effectuate" ||
-              prop.state.stageName === "Pending Effectuate" ||
-              prop.state.stageName === "Resolve" ||
-              prop.state.stageName === "Case Completed" ||
-              prop.state.stageName === "Reopen" ||
-              prop.state.stageName === "CaseArchived"))
-          }
+          // disabled={
+          //   prop.state.formView === "DashboardView" &&
+          //     (prop.state.stageName === "Redirect Review" ||
+          //       prop.state.stageName === "Effectuate" ||
+          //       prop.state.stageName === "Pending Effectuate" ||   
+          //       prop.state.stageName === "Case Completed" ||
+          //       prop.state.stageName === "CaseArchived")  
+          // }
         />
       </div>
     );
   };
+
   const tdDataReplica = (index) => {
     return (
       <div className="Container AddProviderLabel AddModalLabel">
         <div className="row">
-          {renderSimpleInputField("Issue_Number", "Issue Number", 50, index)}
-          {renderSimpleInputField(
-            "Authorization_Number",
-            "Authorization Number",
-            50,
-            index,
-          )}
-          {prop.renderType === RenderType.APPEALS}
-          {renderSimpleInputField("Auth_Status", "Auth Status", 50, index)}
-          {renderSimpleInputField("Provider_Name", "Provider Name", 50, index)}
-        </div>
-        <div className="row">
-          {renderSimpleInputField(
-            "Authorization_Type",
-            "Authorization Type",
-            50,
-            index,
-          )}
+          {renderSimpleInputField("Issue_Number","Issue Number", 50, index)}
+          {renderSimpleInputField("Claim_Number","Claim Number", 50, index)}
+          {renderSimpleInputField("Issue_Description","Issue Description", 4000, index)}
           {renderSimpleSelectField(
-            "Auth_Type_Description",
-            "Auth Type Description",
-            authTypeDescriptionValues,
-            index,
-          )}
-          {renderSimpleDatePickerField(
-            "Auth_Request_Date",
-            "Auth Request Date",
-            index,
-          )}
-          {renderSimpleDatePickerField(
-            "Auth_Expiration_Date",
-            "Auth Expiration Date",
+            "Issue_Type",
+            "Issue Type",
+            issueTypeValues,
             index,
           )}
         </div>
         <div className="row">
-          {renderSimpleInputField(
-            "CPT_Descriptions",
-            "CPT Descriptions",
-            50,
+        {renderSimpleSelectField(
+            "Decision",
+            "Decision",
+            decisionValues,
+            index,
+          )}
+            {renderSimpleSelectField(
+            "Decision_Reason",
+            "Decision Reason",
+            decisionReasonValues,
             index,
           )}
           {renderSimpleDatePickerField(
-            "Service_Start_Date",
-            "Service Start Date",
+            "Decision_Time_Date",
+            "Decision Time Date",
             index,
           )}
-          {renderSimpleInputField("Denial_Code", "Denial Code", 50, index)}
-          {renderSimpleInputField("Denial_Reason", "Denial Reason", 50, index)}
+         {renderSimpleInputField("Decision_Summary","Decision Summary", 4000, index)}
         </div>
+       
       </div>
     );
   };
 
   const tdData = () => {
+    console.log("caseInformationGridData",caseInformationGridData)
     if (
-      authorizationInformationGridData !== undefined &&
-      authorizationInformationGridData.length > 0
+      caseInformationGridData !== undefined &&
+      caseInformationGridData.length > 0
     ) {
-      return authorizationInformationGridData.map((data, index) => {
+      return caseInformationGridData.map((data, index) => {
         return (
           <tr
             key={index}
@@ -269,7 +252,7 @@ export default function AuthorizationInformationTable({
                       onClick={() => {
                         deleteTableRows(
                           index,
-                          AuthorizationInformationTable.displayName,
+                          PDCaseInformationTable.displayName,
                           "Force Delete",
                         );
                         handleOperationValue("Force Delete");
@@ -285,7 +268,7 @@ export default function AuthorizationInformationTable({
                       onClick={() => {
                         editTableRows(
                           index,
-                          AuthorizationInformationTable.displayName,
+                          PDCaseInformationTable.displayName,
                         );
                         handleModalChange(true);
                         handleDataIndex(index);
@@ -317,19 +300,17 @@ export default function AuthorizationInformationTable({
               </td>
             )}
 
-            {tableFields
-              .filter((e) => e !== "rowNumber")
-              .map((e) => (
-                <td className="tableData">
-                  {e.endsWith("_Date")
-                    ? data?.[e]?.value
-                      ? formatDate(data[e].value)
-                      : formatDate(data[e])
-                    : data?.[e]?.value
-                      ? convertToCase(data[e].value)
-                      : convertToCase(data[e])}
-                </td>
-              ))}
+            {tableFields.map((e) => (
+              <td className="tableData">
+                {e.endsWith("_Date")
+                  ? data?.[e]?.value
+                    ? formatDate(data[e].value)
+                    : formatDate(data[e])
+                  : data?.[e]?.value
+                    ? convertToCase(data[e].value)
+                    : convertToCase(data[e])}
+              </td>
+            ))}
           </tr>
         );
       });
@@ -391,9 +372,9 @@ export default function AuthorizationInformationTable({
                   <button
                     className="addBtn"
                     onClick={() => {
-                      addTableRows(AuthorizationInformationTable.displayName);
+                      addTableRows(PDCaseInformationTable.displayName);
                       handleModalChange(true);
-                      handleDataIndex(authorizationInformationGridData.length);
+                      handleDataIndex(caseInformationGridData?.length);
                       handleOperationValue("Add");
                     }}
                   >
@@ -402,27 +383,23 @@ export default function AuthorizationInformationTable({
                 </th>
               )}
               {lockStatus === "V" && <th style={{ width: "" }}></th>}
-              {tableFields
-                .filter((e) => e !== "rowNumber")
-                .map((e) => (
-                  <th key={e} scope="col">
-                    {e.replaceAll("_", " ")}
-                  </th>
-                ))}
+              {tableFields.map((e) => (
+                <th scope="col">{e.replaceAll("_", " ")}</th>
+              ))}
             </tr>
           </thead>
           <tbody>{tdData()}</tbody>
         </table>
       </div>
       <GridModal
-        name="Authorization Information"
+        name="Case Information"
         validationObject={isTouched}
         modalShow={modalShow}
         handleModalChange={handleModalChange}
         dataIndex={dataIndex}
         tdDataReplica={tdDataReplica}
         deleteTableRows={deleteTableRows}
-        gridName={AuthorizationInformationTable.displayName}
+        gridName={PDCaseInformationTable.displayName}
         decreaseDataIndex={decreaseDataIndex}
         operationValue={operationValue}
         gridRowsFinalSubmit={gridRowsFinalSubmit}

@@ -7,6 +7,7 @@ import { FormikInputField } from "../Common/FormikInputField";
 import { FormikSelectField } from "../Common/FormikSelectField";
 
 const CaseInformationAccordion = (props) => {
+  console.log("props.renderType",props.renderType)
   const { convertToCase } = useGetDBTables();
   const [caseInformationData, setCaseInformationData] = useState(
     props.caseInformationData,
