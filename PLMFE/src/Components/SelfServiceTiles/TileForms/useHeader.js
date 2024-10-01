@@ -22,6 +22,7 @@ import { useRepresentativeAltContact } from "./useRepresentativeAltContact";
 import {usePdProviderAltContactInfo} from "./usePdProviderAltContactInfo";
 
 import {useRepresentativeInformation} from "./useRepresentativeInformation";
+import {useProviderInformation} from "./useProviderInformation";
 
 
 export const useHeader = () => {
@@ -75,6 +76,12 @@ export const useHeader = () => {
     representativeInformationValidationSchema,
     setpdRepresentativeInformation,
   } = useRepresentativeInformation(renderType);
+  const {
+    providerInformationFields,
+    pd_ProviderInformation,
+    providerInformationValidationSchema,
+    setpdProviderInformation,
+  } = useProviderInformation(renderType);
   const {
     representativeAddRecordFields,
     pd_RepresentativeAddRecord,
@@ -510,6 +517,7 @@ export const useHeader = () => {
   const [notesErrors, setNotesErrors] = useState([]);
   const [representativeAddErrors, setRepresentativeAddErrorsErrors] = useState([]);
   const [representativeInformationErrors, setRepresentativeInformationErrorsErrors] = useState([]);
+  const [providerInformationErrors, setProviderInformationErrorsErrors] = useState([]);
   const [representativeAltErrors, setRepresentativeAltErrorsErrors] = useState([]);
   const [memberAddErrors, setMemberAddErrorsErrors] = useState([]);
   const [providerAddErrors, setProviderAddErrorsErrors] = useState([]);
@@ -606,6 +614,11 @@ export const useHeader = () => {
         representativeInformationValidationSchema,
         pd_RepresentativeInformation,
         setRepresentativeInformationErrorsErrors,
+    );
+    validateSync(
+        providerInformationValidationSchema,
+        pd_ProviderInformation,
+        setProviderInformationErrorsErrors,
     );
     validateSync(
         representativeAltContactValidationSchema,
@@ -719,6 +732,9 @@ export const useHeader = () => {
 
     const pdRepresentativeInformation = trimJsonValues({ ...pd_RepresentativeInformation });
     apiJson["PD_Representative_Information"] = pdRepresentativeInformation;
+
+    const pdProviderInformation = trimJsonValues({ ...pd_ProviderInformation });
+    apiJson["PD_Provider_Information"] = pdProviderInformation;
 
     const pdRepresentativeAddRecord = trimJsonValues({ ...pd_RepresentativeAddRecord });
     apiJson["PD_Representative_Add_of_Records"] = pdRepresentativeAddRecord;
@@ -1903,6 +1919,7 @@ export const useHeader = () => {
     pd_MemberAddRecord,
     pd_RepresentativeAddRecord,
     pd_RepresentativeInformation,
+    pd_ProviderInformation,
     pd_RepresentativeAltRecord,
     pd_DecisionAddRecord,
     pd_ProviderAddRecord,
@@ -1913,6 +1930,7 @@ export const useHeader = () => {
     setpdMemberAddRecord,
     setpdRepresentativeAddRecord,
     setpdRepresentativeInformation,
+    setpdProviderInformation,
     setpdRepresentativeAltRecord,
     setpdDecisionAddRecord,
     setpdProviderAddRecord,
@@ -1985,6 +2003,7 @@ export const useHeader = () => {
     memberAddErrors,
     representativeAddErrors,
     representativeInformationErrors,
+    providerInformationErrors,
     representativeAltErrors,
     decisionAddErrors,
     providerAddErrors,
@@ -1997,6 +2016,7 @@ export const useHeader = () => {
     memberAddOfRecordsValidationSchema,
     representativeAltContactValidationSchema,
     representativeInformationValidationSchema,
+    providerInformationValidationSchema,
     decisionAddOfRecordsValidationSchema,
     providerAddOfRecordsValidationSchema,
     providerAltValidationSchema,
@@ -2004,6 +2024,7 @@ export const useHeader = () => {
     memberAddRecordFields,
     representativeAddRecordFields,
     representativeInformationFields,
+    providerInformationFields,
     representativeAltFields,
     decisionAddRecordFields,
     providerAddRecordFields,

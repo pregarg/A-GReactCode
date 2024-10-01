@@ -29,6 +29,7 @@ import PdProviderAltContactAccordion from "../TileForms/PdProviderAltContactAcco
 import PdCaseInformationAccordion from "../TileForms/PdCaseInformationAccordion";
 import RepresentativeAddRecordsAccordion from "../TileForms/RepresentativeAddRecordsAccordion";
 import PdRepresentativeInformationAccordion from "../TileForms/PdRepresentativeInformationAccordion";
+import PdProviderInformationAccordion from "../TileForms/PdProviderInformationAccordion";
 import RepresentativeAltContactAccordion from "../TileForms/RepresentativeAltContactAccordion";
 import { RenderType } from "./Constants";
 import ProviderAddOfRecordsAccordion from "./ProviderAddOfRecordsAccordion";
@@ -53,6 +54,7 @@ const ProviderDisputes = () => {
     pd_DecisionAddRecord,
     pd_RepresentativeAddRecord,
     pd_RepresentativeInformation,
+    pd_ProviderInformation,
     pd_RepresentativeAltRecord,
     pd_ProviderAddRecord,
     pd_ProviderAlt,
@@ -63,6 +65,7 @@ const ProviderDisputes = () => {
     setpdMemberAddRecord,
     setpdRepresentativeAddRecord,
     setpdRepresentativeInformation,
+    setpdProviderInformation,
     setpdRepresentativeAltRecord,
     setpdDecisionAddRecord,
     setpdProviderAddRecord,
@@ -99,6 +102,7 @@ const ProviderDisputes = () => {
     memberAddErrors,
     representativeAddErrors,
     representativeInformationErrors,
+    providerInformationErrors,
     representativeAltErrors,
     decisionAddErrors,
     providerAddErrors,
@@ -131,6 +135,7 @@ const ProviderDisputes = () => {
     memberAddOfRecordsValidationSchema,
     representativeAddOfRecordsValidationSchema,
     representativeInformationValidationSchema,
+    providerInformationValidationSchema,
     representativeAltContactValidationSchema,
     decisionAddOfRecordsValidationSchema,
     providerAddOfRecordsValidationSchema,
@@ -150,6 +155,7 @@ const ProviderDisputes = () => {
     memberAddRecordFields,
     representativeAddRecordFields,
     representativeInformationFields,
+    providerInformationFields,
     representativeAltFields,
     decisionAddRecordFields,
     providerAddRecordFields,
@@ -226,7 +232,15 @@ const ProviderDisputes = () => {
                 }
                 setIscheckedBox = {setIscheckedBox}
               />
-
+              <PdProviderInformationAccordion
+                  providerInformationData={pd_ProviderInformation}
+                  setProviderInformationData={setpdProviderInformation}
+                  providerInformationValidationSchema={providerInformationValidationSchema}
+                  providerInformationFields={providerInformationFields}
+                  providerInformationErrors={providerInformationErrors}
+                  shouldShowSubmitError={shouldShowSubmitError}
+                  renderType={RenderType.PROVIDER_DISPUTE}
+              />
               <ProviderAddOfRecordsAccordion
                   providerAddData={pd_ProviderAddRecord}
                   setProviderAddData={setpdProviderAddRecord}
