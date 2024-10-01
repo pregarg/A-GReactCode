@@ -232,14 +232,16 @@ export default function ProviderClaimInformationTable({
                 "Authorization_Number",
                 "Authorization Number",
                 9,
+                  index
               )}
               </div>
               <div className="row">
                {renderSimpleDatePickerField(
                 "Service_Start_Date",
                 "Service Start Date",
-                "Service Start Date",
-              )}
+                   index,
+
+               )}
             {renderSimpleDatePickerField(
                 "Service_End_Date",
                 "Service End Date",

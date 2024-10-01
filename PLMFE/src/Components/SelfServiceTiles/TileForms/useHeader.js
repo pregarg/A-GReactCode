@@ -34,6 +34,7 @@ export const useHeader = () => {
   const [showNotesHistory, setShowNotesHistory] = useState(false);
   const [shouldShowSubmitError, setShowSubmitError] = useState(false);
   const [renderType, setRenderType] = useState();
+  const [isCheckedBox,setIscheckedBox] = useState(false)
   const { fileUpDownAxios } = useAxios();
   let documentSectionDataRef = useRef([]);
   const authSelector = useSelector((state) => state.auth);
@@ -685,6 +686,7 @@ export const useHeader = () => {
   // }, [decisionTab]);
 
   const pdsubmitData = async () => {
+    console.log("Checkboxed is : ", isCheckedBox)
     let apiJson = {};
     let mainCaseReqBody = {
       ...mainCaseDetails,
@@ -697,16 +699,20 @@ export const useHeader = () => {
     apiJson["PD_CASE_HEADER"] = pdCaseHeader;
 
     const pdCaseTimelines = trimJsonValues({ ...caseTimelines });
+  
     apiJson["PD_Case_Timelines"] = pdCaseTimelines;
-    console.log("pd_CaseInformation",pd_CaseInformation)
+    console.log("pdCaseTimelinespdCaseTimelines",pdCaseTimelines)
     const pdCaseInformation = trimJsonValues({ ...pd_CaseInformation });
     apiJson["PD_CASE_INFORMATION"] = pdCaseInformation;
 
     const pdCaseInfoGrid = getGridDataValues(pdCaseInformationGrid);
     apiJson["PD_CASE_INFORMATION_GRID"] = pdCaseInfoGrid;
+    const pdClaimInfoGrid = getGridDataValues(pdClaimInformationGrid);
+    apiJson["PD_Claim_Information_Grid"] = pdClaimInfoGrid;
 
-    // const pdClaimInformation = trimJsonValues({ ...ProviderclaimInformation });
-    // apiJson["PD_Claim_Information"] = pdClaimInformation;
+    const checkBoxData = {isChecked : isCheckedBox};
+    const pdClaimInformation = trimJsonValues({...checkBoxData});
+    apiJson["PD_Claim_Information"] = pdClaimInformation;
 
     const pdMemberAddRecord = trimJsonValues({ ...pd_MemberAddRecord });
     apiJson["PD_MEMBER_ADD_OF_RECORDS"] = pdMemberAddRecord;
@@ -952,6 +958,7 @@ export const useHeader = () => {
     transactionType: "",
     caseStatus: "",
   });
+  const [pdClaimInformationGrid, setPDClaimInformationGrid] = useState([]);
 
   const callProcRef = useRef(null);
 
@@ -2024,6 +2031,9 @@ export const useHeader = () => {
     pdCaseInformationErrors,
     pdCaseInformationGrid,
     setPDCaseInformationGrid,
+    setIscheckedBox,
+    pdClaimInformationGrid,
+
     // decisionAddRecordFields,
   };
 };

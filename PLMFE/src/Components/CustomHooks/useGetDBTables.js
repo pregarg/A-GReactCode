@@ -107,7 +107,7 @@ export default function useGetDBTables() {
         "PD_Representative_Add_of_Records~pdRepresentativeAddRecord",
         "PD_Representative_Information~pdRepresentativeInformation",
         "PD_Claim_Information_Grid~pdClaimInformationGrid",
-        // "PD_Claim_Information~pdClaimInformation",
+        "PD_Claim_Information~pdClaimInformation",
         "PD_Representative_Alternative_Contact_Info~pdRepresentativeAltRecord",
       ],
       angCaseStatusTable: ["ANG_MASTER_CASE_STATUS~angCaseStatus"],

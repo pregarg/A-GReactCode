@@ -182,6 +182,7 @@ const CaseProviderClaimInformation = (props) => {
   const [decisionReasonValues, setDecisionReasonValues] = useState([]);
   const [serviceTypeValues, setServiceTypeValues] = useState([]);
   const [processingStatusValues, setProcessingStatusValues] = useState([]);
+  const [isCheckedBox, setIscheckedBox] = useState(false);
 
   useEffect(() => {
     const kvMapper = (e) => ({
@@ -661,6 +662,10 @@ const CaseProviderClaimInformation = (props) => {
     props.setProviderClaimInformationData(ProviderclaimInformationData);
   };
 
+  const handleCheckBoxChangeNew = () => {
+    setIscheckedBox(!isCheckedBox);
+    props.setIscheckedBox(isCheckedBox);
+  }
 
   const renderInputField = (name, placeholder, maxLength, isCheckbox = false, label = "") => (
     <div className="col-xs-6 col-md-4">
@@ -764,8 +769,11 @@ const CaseProviderClaimInformation = (props) => {
             </button>
             <div className="row my-2">
             <div className="row my-2">
-               {/*{renderInputField("High_Dollar_Dispute", "High Dollar Dispute", 0, true, "High Dollar Dispute")}*/}
+               {/* {renderInputField("High_Dollar_Dispute", "High Dollar Dispute", 16, false, "High Dollar Dispute")} */}
                
+               <label>
+                <input type="checkbox" checked={isCheckedBox} onChange={handleCheckBoxChangeNew}/>High Dollar Dispute
+               </label>
              </div>
               <div className="col-xs-6 col-md-12">
                 <ProviderDisputeClaimInformationTable

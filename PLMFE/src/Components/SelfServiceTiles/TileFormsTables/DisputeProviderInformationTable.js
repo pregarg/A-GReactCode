@@ -234,48 +234,41 @@ export default function ProviderInformationTable({
       <>
         <div className="Container AddProviderLabel AddModalLabel">
           <div className="row">
-            {renderSimpleInputField("White_Glove", "White Glove", 50, index)}
-            {renderSimpleInputField("Provider_ID", "Provider ID", 50, index)}
+            {renderSimpleInputField("Number_Of_Days_In_Span", "Number Of Days In Span", 50, index)}
+            {renderSimpleDatePickerField("Post_Date", "Post Date",  index)}
             {renderSimpleInputField("Provider_Name", "Provider Name", 50, index)}
-            {renderSimpleInputField("Provider_TIN", "Provider TIN", 50, index)}
-            
+            {renderSimpleInputField("Billed_Amount", "Billed AmountS)", 50, index)}
           </div>
           <div className="row">
-          {renderSimpleInputField("NPI_ID", "NPI #", 50, index)}
-            {renderSimpleInputField("PR_Representative", "PR Representative", 50, index)}
-            {renderSimpleInputField("Provider_Vendor_Specialty", "Provider/Vendor Specialty", 50, index)}
-            {renderSimpleInputField("Provider_Vendor_Specialty_Description", "Specialty Description", 50, index)}
+            {renderSimpleInputField("Allowed_Amount", "Allowed Amount", 50, index)}
+            {renderSimpleInputField("CCT_Policy_Name", "CCT Policy Name", 50, index)}
+            {renderSimpleDatePickerField("Procedure_Code", "Procedure Code or Diagnosis code", index)}
+            {renderSimpleInputField("Patient_Ref", "Patient Ref/Account", 50, index)}
           </div>
           <div className="row">
-            {renderSimpleDatePickerField("Provider_Par_Date", "Provider Contract Effective Date", index)}
-            {renderSimpleInputField("Participating_Provider", "Participating Provider", 50, index)}
-            {renderSimpleInputField("Vendor_ID", "Vendor ID", 50, index)}
-            {renderSimpleInputField("Vendor_Name", "Vendor Name", 50, index)}
+            {renderSimpleInputField("Provider_Account", "Provider Account",50, index)}
+
+            {renderSimpleInputField("Issue_Number", "Issue Number", 50, index)}
+            {renderSimpleInputField("Claim_Number", "Claim Number", 16, index)}
+            {renderSimpleInputField(
+                "Authorization_Number",
+                "Authorization Number",
+                9,
+                index
+            )}
           </div>
           <div className="row">
-            
-            {renderSimpleSelectField("Communication_Preference", "Communication Preference", commPrefValues, index)}
-            {renderSimpleSelectField("Portal_Enrolled", "Portal Enrolled", portalEnrolledValues, index)}
-            {renderSimpleInputField("Provider_IPA", "Provider IPA", 50, index)}
-            {renderSimpleInputField("Phone_Number", "Phone Number", 50, index)}
-          </div>
-          
-          <div className="row">
-          {renderSimpleInputField("Email_Address", "Email Address", 50, index)}
-            {renderSimpleInputField("Fax_Number", "Fax Number", 50, index)}
-            {renderSimpleInputField("Provider_Type", "Provider Type", 50, index)}
-            {renderSimpleInputField("Sequential_Provider_ID", "Seq Provider ID", 50, index)}
-          </div>
-          <div className="row">
-            {renderSimpleInputField("ACHHS_Provider_ID", "AHCCCS Provider ID", 50, index)}
-            {renderSimpleInputField("Provider_Alert", "Provider Alert", 50, index)}
-            {renderSimpleInputField("Current_Alert", "Current Alert", 50, index)}
-            {renderSimpleInputField("Next_Alert", "Next Alert", 50, index)}
-          </div>
-          <div className="row">
-            
-            {renderSimpleInputField("Historical_Alert", "Historical Alert", 50, index)}
-            {renderSimpleInputField("Acknowledge_Alert", "Acknowledge Alert", 50, index)}
+            {renderSimpleDatePickerField(
+                "Service_Start_Date",
+                "Service Start Date",
+                index,
+            )}
+            {renderSimpleDatePickerField(
+                "Service_End_Date",
+                "Service End Date",
+                "Service End Date",
+            )}
+            {renderSimpleInputField("Claim_Type", "Claim Type", 50, index)}
           </div>
         </div>
       </>
@@ -338,32 +331,20 @@ export default function ProviderInformationTable({
               </td>
             )}
             {[
-              "White_Glove",
-              "Provider_ID",
+              "Number_Of_Days_In_Span",
+              "Post_Date",
               "Provider_Name",
-              "Provider_TIN",
-              "NPI_ID",
-              "PR_Representative",
-              "Provider_Vendor_Specialty",
-              "Provider_Vendor_Specialty_Description",
-              "Provider_Par_Date",
-              "Participating_Provider",
-              "Vendor_ID",
-              "Vendor_Name",
-              "Communication_Preference",
-              "Portal_Enrolled",
-              "Provider_IPA",
-              "Phone_Number",
-              "Email_Address",
-              "Fax_Number",
-              "Provider_Type",
-              "Sequential_Provider_ID",
-              "AHCCCS_Provider_ID",
-              "Provider_Alert",
-              "Current_Alert",
-              "Next_Alert",
-              "Historical_Alert",
-              "Acknowledge_Alert",
+              "Billed_Amount",
+              "Allowed_Amount",
+              "CCT_Policy_Name",
+              "Procedure_Code",
+              "Patient_ref_Account",
+              "Provider_Account",
+              "Issue_Number",
+              "Authorization Number",
+              "Claim Type",
+              "Service Start Date",
+              "Service End Date",
             ].map((e) => (
               <td className="tableData">
                 {
@@ -449,31 +430,21 @@ export default function ProviderInformationTable({
                 </th>
               )}
               {lockStatus === "V" && <th style={{ width: "" }}></th>}
-              <th scope="col">Provider ID</th>
+              <th scope="col">Issue Number</th>
+              <th scope="col">Claim Number</th>
+              <th scope="col">Authorization Number</th>
               <th scope="col">Provider Name</th>
-              <th scope="col">Provider TIN</th>
-              <th scope="col">NPI #</th>
-              <th scope="col">PR Representative</th>
-              <th scope="col">Provider/Vendor Specialty</th>
-              <th scope="col">Specialty Description</th>
-              <th scope="col">Provider Contract Effective Date</th>
-              <th scope="col">Participating Provider</th>
-              <th scope="col">Vendor ID</th>
-              <th scope="col">Vendor Name</th>
-              <th scope="col">Communication Preference</th>
-              <th scope="col">Portal Enrolled</th>
-              <th scope="col">Provider IPA</th>
-              <th scope="col">Phone Number</th>
-              <th scope="col">Email Address</th>
-              <th scope="col">Fax Number</th>
-              <th scope="col">Provider Type</th>
-              <th scope="col">Sequential Provider ID</th>
-              <th scope="col">AHCCCS Provider ID</th>
-              <th scope="col">Provider Alert</th>
-              <th scope="col">Current Alert</th>
-              <th scope="col">Next Alert</th>
-              <th scope="col">Historical Alert</th>
-              <th scope="col">Acknowledge Alert</th>
+              <th scope="col">Claim Type</th>
+              <th scope="col">Service Start Date</th>
+              <th scope="col">Service End Date</th>
+              <th scope="col">Number of Days in Span</th>
+              <th scope="col">PostDate</th>
+              <th scope="col">Billed Amount</th>
+              <th scope="col">Allowed Amount</th>
+              <th scope="col">CCT Policy Name</th>
+              <th scope="col">Procedure Code or Diagnosis Code</th>
+              <th scope="col">Patient Ref/Account#</th>
+              <th scope="col">Provider Account #</th>
             </tr>
           </thead>
           <tbody>
@@ -483,7 +454,7 @@ export default function ProviderInformationTable({
         </table>
       </div>
       <GridModal
-        name="Provider Information"
+        name="Claim Information"
         validationObject={isTouched}
         modalShow={modalShow}
         handleModalChange={handleModalChange}

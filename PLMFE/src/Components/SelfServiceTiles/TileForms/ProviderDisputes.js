@@ -124,6 +124,7 @@ const ProviderDisputes = () => {
     ProvidermemberInformationErrors,
     shouldShowSubmitError,
     ProviderclaimInformationGridRowValidationSchema,
+    setIscheckedBox,
     providerInformationGridValidationSchema,
     authorizationInformationGridValidationSchema,
     representativeInformationGridValidationSchema,
@@ -170,6 +171,7 @@ const ProviderDisputes = () => {
     setRenderType(RenderType.PROVIDER_DISPUTE);
   }, []);
 
+  
   const FormComponent = () => (
     <div
       className="accordion AddProviderLabel"
@@ -207,17 +209,7 @@ const ProviderDisputes = () => {
                 updatecaseInformationGridData={setPDCaseInformationGrid}
                 renderType={RenderType.PROVIDER_DISPUTE}
               />
-               {/* <CaseInformationAccordion
-                caseInformationData={caseInformation}
-                setCaseInformationData={setCaseInformation}
-                caseInformationValidationSchema={
-                  caseInformationValidationSchema
-                }
-                caseInformationErrors={caseInformationErrors}
-                shouldShowSubmitError={shouldShowSubmitError}
-                onExpeditedPriorityChange={handleExpeditedPriorityChange}
 
-              /> */}
               <ProviderCaseClaimInformation
                 ProviderclaimInformationData={ProviderclaimInformation}
                 setProviderClaimInformationData={setProviderClaimInformation}
@@ -232,6 +224,7 @@ const ProviderDisputes = () => {
                 providerInformationGridValidationSchema={
                   providerInformationGridValidationSchema
                 }
+                setIscheckedBox = {setIscheckedBox}
               />
 
               <ProviderAddOfRecordsAccordion
