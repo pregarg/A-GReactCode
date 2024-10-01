@@ -6,6 +6,7 @@ import { useLocation } from "react-router-dom";
 import { SimpleInputField } from "../Common/SimpleInputField";
 import { SimpleSelectField } from "../Common/SimpleSelectField";
 import { SimpleDatePickerField } from "../Common/SimpleDatePickerField";
+import { renderElements, RenderType } from "../TileForms/Constants"
 
 export default function AuthorizationInformationTable({
   authorizationInformationGridData,
@@ -105,6 +106,7 @@ export default function AuthorizationInformationTable({
           }
           validationErrors={validationErrors}
           disabled={
+            (prop.renderType === RenderType.APPEALS &&
             prop.state.formView === "DashboardView" &&
             (prop.state.stageName === "Redirect Review" ||
               prop.state.stageName === "Documents Needed" ||
@@ -113,7 +115,7 @@ export default function AuthorizationInformationTable({
               prop.state.stageName === "Resolve" ||
               prop.state.stageName === "Case Completed" ||
               prop.state.stageName === "Reopen" ||
-              prop.state.stageName === "CaseArchived")
+              prop.state.stageName === "CaseArchived"))
           }
         />
       </div>
@@ -136,7 +138,7 @@ export default function AuthorizationInformationTable({
             )
           }
           validationErrors={validationErrors}
-          disabled={
+          disabled={(prop.renderType === RenderType.APPEALS &&
             prop.state.formView === "DashboardView" &&
             (prop.state.stageName === "Redirect Review" ||
               prop.state.stageName === "Documents Needed" ||
@@ -145,7 +147,7 @@ export default function AuthorizationInformationTable({
               prop.state.stageName === "Resolve" ||
               prop.state.stageName === "Case Completed" ||
               prop.state.stageName === "Reopen" ||
-              prop.state.stageName === "CaseArchived")
+              prop.state.stageName === "CaseArchived"))
           }
         />
       </div>
@@ -167,7 +169,7 @@ export default function AuthorizationInformationTable({
             )
           }
           validationErrors={validationErrors}
-          disabled={
+          disabled={(prop.renderType === RenderType.APPEALS &&
             prop.state.formView === "DashboardView" &&
             (prop.state.stageName === "Redirect Review" ||
               prop.state.stageName === "Documents Needed" ||
@@ -176,7 +178,7 @@ export default function AuthorizationInformationTable({
               prop.state.stageName === "Resolve" ||
               prop.state.stageName === "Case Completed" ||
               prop.state.stageName === "Reopen" ||
-              prop.state.stageName === "CaseArchived")
+              prop.state.stageName === "CaseArchived"))
           }
         />
       </div>
@@ -193,6 +195,7 @@ export default function AuthorizationInformationTable({
             50,
             index,
           )}
+          {prop.renderType === RenderType.APPEALS}
           {renderSimpleInputField("Auth_Status", "Auth Status", 50, index)}
           {renderSimpleInputField("Provider_Name", "Provider Name", 50, index)}
         </div>

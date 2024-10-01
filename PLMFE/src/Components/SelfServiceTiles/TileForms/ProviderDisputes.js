@@ -302,6 +302,8 @@ const ProviderDisputes = () => {
                 authorizationInformationGridValidationSchema={
                   authorizationInformationGridValidationSchema
                 }
+                renderType={RenderType.PROVIDER_DISPUTE}
+                
               />
               <ProviderDecisionRecordsAccordion
                   decisionAddData={pd_DecisionAddRecord}

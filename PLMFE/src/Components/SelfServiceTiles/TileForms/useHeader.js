@@ -154,6 +154,7 @@ export const useHeader = () => {
     Service_Type: "",
     Service_Start_Date: undefined,
     Service_End_Date: undefined,
+    Denial_Date: undefined
   });
   const [memberInformation, setMemberInformation] = useState({
     caseNumber: "",
