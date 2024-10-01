@@ -28,9 +28,11 @@ import MemberAltContactInfoAccordion from "../TileForms/MemberAltContactInfoAcco
 import PdProviderAltContactAccordion from "../TileForms/PdProviderAltContactAccordion";
 import PdCaseInformationAccordion from "../TileForms/PdCaseInformationAccordion";
 import RepresentativeAddRecordsAccordion from "../TileForms/RepresentativeAddRecordsAccordion";
+import PdRepresentativeInformationAccordion from "../TileForms/PdRepresentativeInformationAccordion";
 import RepresentativeAltContactAccordion from "../TileForms/RepresentativeAltContactAccordion";
 import { RenderType } from "./Constants";
 import ProviderAddOfRecordsAccordion from "./ProviderAddOfRecordsAccordion";
+
 
 
 const ProviderDisputes = () => {
@@ -50,6 +52,7 @@ const ProviderDisputes = () => {
     pd_MemberAddRecord,
     pd_DecisionAddRecord,
     pd_RepresentativeAddRecord,
+    pd_RepresentativeInformation,
     pd_RepresentativeAltRecord,
     pd_ProviderAddRecord,
     pd_ProviderAlt,
@@ -59,6 +62,7 @@ const ProviderDisputes = () => {
     setCaseTimelines,
     setpdMemberAddRecord,
     setpdRepresentativeAddRecord,
+    setpdRepresentativeInformation,
     setpdRepresentativeAltRecord,
     setpdDecisionAddRecord,
     setpdProviderAddRecord,
@@ -94,6 +98,7 @@ const ProviderDisputes = () => {
     notesErrors,
     memberAddErrors,
     representativeAddErrors,
+    representativeInformationErrors,
     representativeAltErrors,
     decisionAddErrors,
     providerAddErrors,
@@ -124,6 +129,7 @@ const ProviderDisputes = () => {
     representativeInformationGridValidationSchema,
     memberAddOfRecordsValidationSchema,
     representativeAddOfRecordsValidationSchema,
+    representativeInformationValidationSchema,
     representativeAltContactValidationSchema,
     decisionAddOfRecordsValidationSchema,
     providerAddOfRecordsValidationSchema,
@@ -143,6 +149,7 @@ const ProviderDisputes = () => {
     caseTimelinesFields,
     memberAddRecordFields,
     representativeAddRecordFields,
+    representativeInformationFields,
     representativeAltFields,
     decisionAddRecordFields,
     providerAddRecordFields,
@@ -261,16 +268,25 @@ const ProviderDisputes = () => {
               />
               <MemberAltContactInfoAccordion />
 
-              <RepresentativeInformationAccordion
-                handleRepresentativeInformationGridData={
-                  representativeInformationGrid
-                }
-                updateRepresentativeInformationGridData={
-                  setRepresentativeInformationGrid
-                }
-                representativeInformationGridValidationSchema={
-                  representativeInformationGridValidationSchema
-                }
+              {/*<RepresentativeInformationAccordion*/}
+              {/*  handleRepresentativeInformationGridData={*/}
+              {/*    representativeInformationGrid*/}
+              {/*  }*/}
+              {/*  updateRepresentativeInformationGridData={*/}
+              {/*    setRepresentativeInformationGrid*/}
+              {/*  }*/}
+              {/*  representativeInformationGridValidationSchema={*/}
+              {/*    representativeInformationGridValidationSchema*/}
+              {/*  }*/}
+              {/*/>*/}
+              <PdRepresentativeInformationAccordion
+                  representativeInformationData={pd_RepresentativeInformation}
+                  setRepresentativeInformationData={setpdRepresentativeInformation}
+                  representativeInformationValidationSchema={representativeInformationValidationSchema}
+                  representativeInformationFields={representativeInformationFields}
+                  representativeInformationErrors={representativeInformationErrors}
+                  shouldShowSubmitError={shouldShowSubmitError}
+                  renderType={RenderType.PROVIDER_DISPUTE}
               />
               <RepresentativeAddRecordsAccordion
                   representativeAddData={pd_RepresentativeAddRecord}
