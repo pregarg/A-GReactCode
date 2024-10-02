@@ -211,16 +211,16 @@ export const useProviderInformation = (renderType) => {
       },
       {
         type: "input",
-        name: "Next Alert",
-        placeholder: "Provider Alert",
+        name: "Next_Alert",
+        placeholder: "Next Alert",
         maxLength: 50,
         renderTypes: [RenderType.PROVIDER_DISPUTE],
         validation:{}
       },
       {
         type: "input",
-        name: "Historical Alert",
-        placeholder: "Current Alert",
+        name: "Historical_Alert",
+        placeholder: "Historical Alert",
         maxLength: 50,
         renderTypes: [RenderType.PROVIDER_DISPUTE],
         validation:{}

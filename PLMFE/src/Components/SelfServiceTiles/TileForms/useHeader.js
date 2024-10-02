@@ -236,6 +236,35 @@ export const useHeader = () => {
     Provider_Next_alert: "",
     
   });
+  const [PdProviderInformation, setPdProviderInformation] = useState({
+    Provider_ID:"",
+    Provider_Name:"",
+    Provider_TIN:"",
+    NPI_ID:"",
+  PR_Representative:"",
+  Provider_Vendor_Specialty:"",
+    Provider_Vendor_Specialty_Description:"",
+    Provider_Par_Date:undefined,
+  Participating_Provider:"",
+  Vendor_ID:"",
+  Vendor_Name:"",
+  Communication_Preference:"",
+  Portal_Enrolled:"",
+  Provider_IPA:"",
+  Phone_Number:"",
+  Email_Address:"",
+  Fax_Number:"",
+  Provider_Type:"",
+    Sequential_Provider_ID:"",
+    ACHHS_Provider_ID:"",
+
+  Provider_Alert:"",
+  Current_Alert:"",
+  Next_Alert:"",
+  Historical_Alert:"",
+  Acknowledge_Alert:"",
+
+  });
 
   // const [providerDisputeAuthorizationInformation, setProviderDisputeAuthorizationInformation] = useState({
   //   Issue_Number: "",
@@ -420,6 +449,9 @@ export const useHeader = () => {
   const ProvidermemberInformationValidationSchema = Yup.object().shape({
    
   });
+  const PdProviderInformationValidationSchema = Yup.object().shape({
+
+  });
   // const providerDisputeAuthorizationInformation = Yup.object().shape({});
   const memberAlternativeContactSchema = Yup.object().shape({});
   const expeditedRequestValidationSchema = Yup.object().shape({});
@@ -511,6 +543,7 @@ export const useHeader = () => {
   const [providerClaimInformationErrors, setProviderclaimInformationErrors] = useState([]);
   const [memberInformationErrors, setMemberInformationErrors] = useState([]);
   const [ProvidermemberInformationErrors, setProviderMemberInformationErrors] = useState([]);
+  const [PdProviderInformationErrors, setPdProviderInformationErrors] = useState([]);
   //const [providerDisputeAuthorizationInformationGridErrors, setProviderDisputeAuthorizationInformationGridErrors] = useState([]);
   const [memberAltErrors, setMemberAltErrorsErrors] = useState([]);
   const [expeditedRequestErrors, setExpeditedRequestErrors] = useState([]);
@@ -572,6 +605,11 @@ export const useHeader = () => {
       ProvidermemberInformationValidationSchema,
       ProvidermemberInformation,
       setProviderMemberInformationErrors,
+    );
+    validateSync(
+        PdProviderInformationValidationSchema,
+        PdProviderInformation,
+        setPdProviderInformationErrors,
     );
 
     validateSync(
@@ -649,6 +687,7 @@ export const useHeader = () => {
     ProviderclaimInformation,
     memberInformation,
     ProvidermemberInformation,
+    PdProviderInformation,
     expeditedRequest,
     providerInformationGrid,
     authorizationInformationGrid,
@@ -665,6 +704,7 @@ export const useHeader = () => {
         ...providerClaimInformationErrors,
         ...memberInformationErrors,
         ...ProvidermemberInformationErrors,
+        ...PdProviderInformationErrors,
         ...expeditedRequestErrors,
         ...caseDecisionDetailsErrors,
         ...caseDecisionErrors,
@@ -678,6 +718,7 @@ export const useHeader = () => {
     providerClaimInformationErrors,
     memberInformationErrors,
     ProvidermemberInformationErrors,
+    PdProviderInformationErrors,
     expeditedRequestErrors,
     caseDecisionDetailsErrors,
     caseDecisionErrors,
@@ -745,8 +786,9 @@ export const useHeader = () => {
     const pdDecisionAddRecord = trimJsonValues({ ...pd_DecisionAddRecord });
     apiJson["PD_Decision"] = pdDecisionAddRecord;
 
-    const pdClaimInformationGrid = getGridDataValues(ProviderClaimInformationGrid);
-	  apiJson["PD_Claim_Information_Grid"] = pdClaimInformationGrid;
+      apiJson["PD_Claim_Information_Grid"] = pdClaimInformationGrid;
+      const providerClaimInformationGrid = getGridDataValues(ProviderClaimInformationGrid);
+      apiJson["PD_Claim_Information_Grid"] = providerClaimInformationGrid;
 
     const angProviderMemberInformation = trimJsonValues({ ...ProvidermemberInformation });
     // console.log("Provider Member Information is : ", angProviderMemberInformation)
@@ -811,6 +853,8 @@ export const useHeader = () => {
       submitCase(procData, navigateHome);
     }
   };
+  
+  
 
   const submitData = async () => {
     if (hasSubmitError) {
@@ -863,6 +907,7 @@ export const useHeader = () => {
     apiJson["ANG_Claim_Information"] = angClaimInformation;
     apiJson["ANG_Claim_Information_Grid"] = angClaimInformationGrid;
     apiJson["ANG_Provider_Information_Grid"] = angProviderInformationGrid;
+    apiJson["PD_Claim_Information_Grid"] = angProviderInformationGrid;
     apiJson["ANG_Member_Information"] = angMemberInformation;
     //apiJson["ANG_Member_Alternative_Contact_Information"] = angMemberAlternativeContact;
     apiJson["ANG_Representative_Information_Grid"] =
@@ -1420,6 +1465,7 @@ export const useHeader = () => {
         setProviderInformationGrid(data?.["angProviderInformationGrid"] || []);
         setMemberInformation(data?.["angMemberInformation"]?.[0] || {});
         setProviderMemberInformation(data?.["angProviderMemberInformation"]?.[0] || {});
+        setPdProviderInformation(data?.["pdProviderInformation"]?.[0] || {});
         setRepresentativeInformationGrid(
           data?.["angRepresentativeInformationGrid"] || [],
         );
@@ -1956,8 +2002,11 @@ export const useHeader = () => {
     memberInformationValidationSchema,
     setMemberInformation,
     ProvidermemberInformation,
+    PdProviderInformation,
     ProvidermemberInformationValidationSchema,
+    PdProviderInformationValidationSchema,
     setProviderMemberInformation,
+    setPdProviderInformation,
     memberAlternativeContactSchema,
     representativeInformationGrid,
     setRepresentativeInformationGrid,
@@ -1986,6 +2035,7 @@ export const useHeader = () => {
     claimInformationErrors,
     memberInformationErrors,
     ProvidermemberInformationErrors,
+    PdProviderInformationErrors,
     memberAltErrors,
     shouldShowSubmitError,
     handleShowMember360,
@@ -2054,6 +2104,9 @@ export const useHeader = () => {
     setPDCaseInformationGrid,
     setIscheckedBox,
     pdClaimInformationGrid,
+    ProviderClaimInformationGrid,
+
+
 
     // decisionAddRecordFields,
   };

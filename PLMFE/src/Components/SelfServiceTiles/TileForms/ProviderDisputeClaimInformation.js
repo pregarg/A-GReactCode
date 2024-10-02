@@ -525,6 +525,8 @@ const CaseProviderClaimInformation = (props) => {
 
   const gridRowsFinalSubmit = (triggeredFormName, index, operationType) => {
     let clonedJson = { ...gridFieldTempState };
+    console.log("Cloned Json is : ", clonedJson)
+    console.log("Triggered Name : ", triggeredFormName)
     if (Object.keys(gridFieldTempState).length !== 0) {
       if (triggeredFormName === "ProviderClaimInformationTable") {
         let indexJson = ProviderclaimInformationGridData[index];
@@ -548,7 +550,7 @@ const CaseProviderClaimInformation = (props) => {
         if (!checkGridJsonLength(clonedJson)) {
           providerInformationGridData[index] = clonedJson;
           setProviderInformationGridData([...providerInformationGridData]);
-          //  props.updateProviderInformationGridData([...providerInformationGridData]);
+           props.updateProviderInformationGridData([...providerInformationGridData]);
         }
       }
 
