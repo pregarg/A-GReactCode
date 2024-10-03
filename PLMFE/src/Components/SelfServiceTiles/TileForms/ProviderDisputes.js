@@ -7,7 +7,7 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import CaseHeaderAccordion from "./CaseHeaderAccordion";
 import CaseTimelinesAccordion from "./CaseTimelinesAccordion";
 
-import ProviderCaseClaimInformation from "./ProviderDisputeClaimInformation";
+import ProviderDisputeClaimInformation from "./ProviderDisputeClaimInformation";
 import DecisionTab from "../../../WorkItemDashboard/DecisionTab";
 import CaseInformation from "../../../WorkItemDashboard/CaseInformation";
 import ProviderMemberInformationAccordion from "./ProviderDisputeMemberInformationAccordion";
@@ -37,9 +37,9 @@ import ProviderAddOfRecordsAccordion from "./ProviderAddOfRecordsAccordion";
 
 
 const ProviderDisputes = () => {
-  // CaseHeader.displayName = "Appeals";
-  const caseHeaderConfigData = JSON.parse(
-    process.env.REACT_APP_CASEHEADER_DETAILS,
+  ProviderDisputes.displayName = "Appeals";
+  const providerDisputeConfigData = JSON.parse(
+    process.env.REACT_APP_PROVIDERDISPUTES_DETAILS,
   );
 
   const handleExpeditedPriorityChange = (date) => {
@@ -170,7 +170,8 @@ const ProviderDisputes = () => {
     pdCaseInformationErrors,
     pdCaseInformationGrid,
     setPDCaseInformationGrid,
-
+    pdClaimInformationGrid,
+    setPDClaimInformationGrid
   } = useHeader();
 
   useEffect(() => {
@@ -216,17 +217,17 @@ const ProviderDisputes = () => {
                 renderType={RenderType.PROVIDER_DISPUTE}
               />
 
-              <ProviderCaseClaimInformation
+              <ProviderDisputeClaimInformation
                 ProviderclaimInformationData={ProviderclaimInformation}
                 setProviderClaimInformationData={setProviderClaimInformation}
                 ProviderclaimInformationValidationSchema={ProviderclaimInformationValidationSchema}
                 ProviderclaimInformationGridRowValidationSchema={ProviderclaimInformationGridRowValidationSchema}
-                handleProviderClaimInformationGridData={ProviderclaimInformationGrid}
+                handleProviderClaimInformationGridData={pdClaimInformationGrid}
                 ProviderclaimInformationErrors={ProviderclaimInformationErrors}
                 shouldShowSubmitError={shouldShowSubmitError}
-                updateClaimInformationGridData={setProviderClaimInformationGrid}
+                updateClaimInformationGridData={setPDClaimInformationGrid}
                 handleProviderInformationGridData={providerInformationGrid}
-                updateProviderInformationGridData={setProviderInformationGrid}
+                updateProviderInformationGridData={setPDClaimInformationGrid}
                 providerInformationGridValidationSchema={
                   providerInformationGridValidationSchema
                 }
@@ -357,16 +358,13 @@ const ProviderDisputes = () => {
                 notesValidationSchema={notesValidationSchema}
                 shouldShowSubmitError={shouldShowSubmitError}
               />
-
-              {/*{location.state.formView === "DashboardHomeView" && (*/}
-              {/*  <DocumentSection*/}
-              {/*    fileDataRef={documentSectionDataRef.current}*/}
-              {/*    //  displayName={CaseHeader.displayName}*/}
-              {/*    stageName={caseHeaderConfigData["StageName"]}*/}
-              {/*  />*/}
-              {/*)}*/}
-
-
+               {location.state.formView === "DashboardHomeView" && (
+                <DocumentSection
+                  fileDataRef={documentSectionDataRef.current}
+                  displayName={ProviderDisputes.displayName}
+                  stageName={providerDisputeConfigData["StageName"]}
+                />
+              )}
              
             </div>
           </div>

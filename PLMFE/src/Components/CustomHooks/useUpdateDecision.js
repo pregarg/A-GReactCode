@@ -108,6 +108,7 @@ export default function useUpdateDecision() {
 
   const submitCase = (prop, navigateHome) => {
     "Ready For Processing";
+    console.log("submitCase prop",prop)
     console.log("Inside useUpdateDecision Decisionprav: ", prop.state);
     // console.log('Inside  useUpdateDecision Decision state: ',decisionState);
     let resJson = {};
