@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import useGetDBTables from "../../CustomHooks/useGetDBTables";
-import ProviderMemberSearch from "../TileForms/ProviderMemberSearch";
+import MemberSearch from "../TileForms/MemberSearch";
 import TableComponent from "../../../../src/util/TableComponent";
 import { useAxios } from "../../../api/axios.hook";
 import { FormikInputField } from "../Common/FormikInputField";
@@ -15,7 +15,7 @@ const ProviderMemberInformationAccordion = (props) => {
   const [ProvidermemberInformationData, setProviderMemberInformationData] = useState(
     props.ProvidermemberInformationData,
   );
-
+  const [showMemberSearch, setShowMemberSearch] = useState(false);
   const angDeceasedSelector = useSelector((state) => state?.masterAngDeceased);
   const angGenderSelector = useSelector((state) => state?.masterAngGender);
   const angDualSelector = useSelector((state) => state?.masterAngDualPlan);
@@ -150,17 +150,18 @@ const ProviderMemberInformationAccordion = (props) => {
     </div>
   );
 
-  const handleShowProviderMemberSearch = () => {
-    setShowProviderMemberSearch(true);
+  const handleShowMemberSearch = () => {
+    setShowMemberSearch(true);
   };
+
   const handleCloseSearch = () => {
-    setShowProviderMemberSearch(false);
+    setShowMemberSearch(false);
     setSelectedCriteria([]);
     setSelectSearchValues([]);
     setResponseData([]);
   };
 
-  const handleClearProviderMemberSearch = () => {
+  const handleClearMemberSearch = () => {
     setSelectSearchValues([]);
     setSelectedCriteria([]);
     setResponseData([]);
@@ -178,40 +179,40 @@ const ProviderMemberInformationAccordion = (props) => {
     setSelectedAddress(updatedTableData);
   };
 
-  const handleSelectedProviderMembers = () => {
-    setShowProviderMemberSearch(false);
+  const handleSelectedMembers = () => {
+    setShowMemberSearch(false);
     setSelectedCriteria([]);
     setSelectSearchValues([]);
     setResponseData([]);
-    props.setProviderMemberInformationData({ ...selectedAddress[0] });
+    props.setMemberInformationData({ ...selectedAddress[0] });
   };
 
   
   
-  const showProviderMembers = async () => {
-    let ProviderMemberID = selectSearchValues?.ProvidermemberID;
+  const showMembers = async () => {
+    let MemberID = selectSearchValues?.memberID;
     let MedicareID = selectSearchValues?.medicareID;
     let MedicaidID = selectSearchValues?.medicaidID;
-    let ProviderMemberFirstName = selectSearchValues?.ProvidermemberFirstNameId;
-    let ProviderMemberLastName = selectSearchValues?.ProvidermemberLasstNameId;
+    let MemberFirstName = selectSearchValues?.memberFirstNameId;
+    let MemberLastName = selectSearchValues?.memberLasstNameId;
     let DOB = selectSearchValues?.dateOfBirth;
   
     // Check if at least one search parameter has a value
     if (
-      ProviderMemberID ||
+      MemberID ||
       MedicareID ||
       MedicaidID ||
-      ProviderMemberFirstName ||
-      ProviderMemberLastName ||
+      MemberFirstName ||
+      MemberLastName ||
       DOB
     ) {
       let getApiJson = {
         option: "GETMEMBERSEARCHDATA",
-        ProviderMember_ID: ProviderMemberID || "",
+        Member_ID: MemberID || "",
         Medicare_ID: MedicareID || "",
         Medicaid_ID: MedicaidID || "",
-        ProviderMember_First_Name: ProviderMemberFirstName || "",
-        ProviderMember_Last_Name: ProviderMemberLastName || "",
+        Member_First_Name: MemberFirstName || "",
+        Member_Last_Name: MemberLastName || "",
         Date_of_Birth: extractDate(DOB) || "",
       };
   
@@ -284,23 +285,23 @@ const ProviderMemberInformationAccordion = (props) => {
       alert("Please select at least one search value.");
     }
   };
-  
 
-  const ProvidermemberSearchTableComponent = () => {
+
+  const memberSearchTableComponent = () => {
     let columnNames =
-      "Action~Action,Member ID~Member_ID,Member First Name~Member_First_Name,Member Last Name~Member_Last_Name,Date of Birth~Date_of_Birth,Plan Code~Plan_Code,ContractPlan ID~ContractPlan_ID,Medicare ID HICN~Medicare_ID_HICN,Plan Name~Plan_Name,Plan Effective Date~Plan_Effective_Date,Plan Expiration Date~Plan_Expiration_Date,Email ID~Email_ID,Phone Number~Phone_Number,Dual Plan~Dual_Plan,Address Line 1~Address_Line_1,Address Line 2~Address_Line_2,Zip Code~Zip_Code,City~City,County~County,State~State_,Preferred Language~Preferred_Language";
+        "Action~Action,Member ID~Member_ID,Member First Name~Member_First_Name,Member Last Name~Member_Last_Name,Date of Birth~Date_of_Birth,Plan Code~Plan_Code,ContractPlan ID~ContractPlan_ID,Medicare ID HICN~Medicare_ID_HICN,Plan Name~Plan_Name,Plan Effective Date~Plan_Effective_Date,Plan Expiration Date~Plan_Expiration_Date,Email ID~Email_ID,Phone Number~Phone_Number,Dual Plan~Dual_Plan,Address Line 1~Address_Line_1,Address Line 2~Address_Line_2,Zip Code~Zip_Code,City~City,County~County,State~State_,Preferred Language~Preferred_Language";
     if (responseData.length > 0) {
       return (
-        <>
-          <TableComponent
-            columnName={columnNames}
-            rowValues={responseData}
-            showCheckBox={true}
-            handleCheckBoxChange={handleCheckBoxChange}
-            handleCheckBoxHeaderChange={handleCheckBoxHeaderChange}
-            CheckBoxInHeader={true}
-          />
-        </>
+          <>
+            <TableComponent
+                columnName={columnNames}
+                rowValues={responseData}
+                showCheckBox={true}
+                handleCheckBoxChange={handleCheckBoxChange}
+                handleCheckBoxHeaderChange={handleCheckBoxHeaderChange}
+                CheckBoxInHeader={true}
+            />
+          </>
       );
     } else {
       return <></>;
@@ -372,7 +373,7 @@ const ProviderMemberInformationAccordion = (props) => {
             <button
               type="button"
               className="btn btn-outline-primary"
-              onClick={(event) => handleShowProviderMemberSearch(event)}
+              onClick={(event) => handleShowMemberSearch(event)}
               disabled={
                 location.state.stageName === "Redirect Review" ||
                 location.state.stageName === "Documents Needed" ||
@@ -433,8 +434,8 @@ const ProviderMemberInformationAccordion = (props) => {
             </div>
           </div>
         </div>
-        {showProviderMemberSearch && (
-          <ProviderMemberSearch
+        {showMemberSearch && (
+          <MemberSearch
             handleCloseSearch={handleCloseSearch}
             selectedCriteria={selectedCriteria}
             setSelectedCriteria={setSelectedCriteria}
@@ -442,11 +443,11 @@ const ProviderMemberInformationAccordion = (props) => {
             setSelectSearchValues={setSelectSearchValues}
             responseData={responseData}
             setResponseData={setResponseData}
-            handleClearProviderMemberSearch={handleClearProviderMemberSearch}
-            showProviderMemberSearch={showProviderMemberSearch}
-            showProviderMembers={showProviderMembers}
-            ProvidermemberSearchTableComponent={ProvidermemberSearchTableComponent}
-            handleSelectedProviderMembers={handleSelectedProviderMembers}
+            handleClearMemberSearch={handleClearMemberSearch}
+            showMemberSearch={showMemberSearch}
+            showMembers={showMembers}
+            memberSearchTableComponent={memberSearchTableComponent}
+            handleSelectedMembers={handleSelectedMembers}
           />
         )}
       </div>

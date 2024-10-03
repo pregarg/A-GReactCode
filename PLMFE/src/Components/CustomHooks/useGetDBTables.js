@@ -111,6 +111,7 @@ export default function useGetDBTables() {
         "PD_Representative_Add_of_Records~pdRepresentativeAddRecord",
         "PD_Representative_Alternative_Contact_Info~pdRepresentativeAltRecord",
         "PD_Decision~pdDecisionAddRecord",
+        "PD_Authorization_Information~pdAuthorizationInformationGrid",
       ],
       angCaseStatusTable: ["ANG_MASTER_CASE_STATUS~angCaseStatus"],
     };

@@ -306,6 +306,7 @@ export const useHeader = () => {
   const [providerInformationGrid, setProviderInformationGrid] = useState([]);
   const [authorizationInformationGrid, setAuthorizationInformationGrid] =
     useState([]);
+    const [ProviderauthorizationInformationGrid,setProviderAuthorizationInformationGrid] = useState([]);
 
   const conditionalActivateOnStage = (stages, errorMessage) =>
     stages.includes(location.state?.stageName?.toLowerCase())
@@ -524,6 +525,7 @@ export const useHeader = () => {
     ),
   });
   const authorizationInformationGridValidationSchema = Yup.object().shape({});
+  const ProviderauthorizationInformationGridValidationSchema = Yup.object().shape({});
   const docNeededGridValidationSchema = Yup.object().shape({});
   
   const representativeInformationGridValidationSchema = Yup.object().shape({
@@ -696,6 +698,7 @@ export const useHeader = () => {
     expeditedRequest,
     providerInformationGrid,
     authorizationInformationGrid,
+    // ProviderauthorizationInformationGrid,
     caseDecisionDetails,
     caseDecision,
   ]);
@@ -803,9 +806,14 @@ export const useHeader = () => {
     const pdRepresentativeAltRecord = trimJsonValues({ ...pd_RepresentativeAltRecord });
     apiJson["PD_Representative_Alternative_Contact_Info"] = pdRepresentativeAltRecord;
 
+    const pdAuthorizationInformationGrid = getGridDataValues(ProviderauthorizationInformationGrid);
+    console.log("Provider authorization information grid data  : ",ProviderauthorizationInformationGrid)
+    // console.log("Provider authorization information grid data ankit  : ",pdAuthorizationInformationGrid)
+    apiJson["PD_Authorization_Information"] = pdAuthorizationInformationGrid;
+
     const pdDecisionAddRecord = trimJsonValues({ ...pd_DecisionAddRecord });
     apiJson["PD_Decision"] = pdDecisionAddRecord;
-    console.log("providerDisputesConfigData",providerDisputesConfigData)
+    
     // const flowId = providerDisputesConfigData["FlowId"];
     // const stageName = providerDisputesConfigData["StageName"];
         const flowId = caseHeaderConfigData["FlowId"];
@@ -1483,6 +1491,9 @@ export const useHeader = () => {
         setAuthorizationInformationGrid(
           data?.["angAuthorizationInformationGrid"] || [],
         );
+        setProviderAuthorizationInformationGrid(
+          data?.["pdAuthorizationInformationGrid"] || [],
+        );
         setDocNeededGrid(data?.["angDocNeededGrid"] || [] );
         setExpeditedRequest(data?.["angExpeditedRequest"]?.[0] || {});
         setNotes(data?.["angNotes"]?.[0] || {});
@@ -1570,6 +1581,7 @@ export const useHeader = () => {
     const originalAuthorizationInformationGrid = getGridDataValues(
       formData["angAuthorizationInformationGrid"],
     );
+    
 
     const angDocNeededGrid = getGridDataValues(
       docNeededGrid,
@@ -2023,6 +2035,8 @@ export const useHeader = () => {
     setAuthorizationInformation,
     authorizationInformationGrid,
     setAuthorizationInformationGrid,
+    ProviderauthorizationInformationGrid,
+    setProviderAuthorizationInformationGrid,
     expeditedRequest,
     setExpeditedRequest,
     notes,
@@ -2070,6 +2084,7 @@ export const useHeader = () => {
     claimInformationGridRowValidationSchema,
     providerInformationGridValidationSchema,
     authorizationInformationGridValidationSchema,
+    ProviderauthorizationInformationGridValidationSchema,
     representativeInformationGridValidationSchema,
     memberAddOfRecordsValidationSchema,
     representativeAltContactValidationSchema,

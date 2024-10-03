@@ -39,6 +39,7 @@ const AuthorizationInformationAccordion = (props) => {
     authorizationInformationGridData,
     setAuthorizationInformationGridData,
   ] = useState(props.handleAuthorizationInformationGridData);
+  
 
   const [gridFieldTempState, setGridFieldTempState] = useState({});
 
@@ -528,7 +529,7 @@ const AuthorizationInformationAccordion = (props) => {
                             // setAuthorizationInformationData({ ...authorizationInformationData, 'Authorization_Decision': value });
                             props.handleOnChange(
                               value,
-                              "Authorization_Decision",
+                              "Authorization_Decision",23
                             );
                           }}
                           options={authorizationDecisionValues}
