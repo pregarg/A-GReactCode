@@ -814,6 +814,7 @@ export const useHeader = () => {
     const pdDecisionAddRecord = trimJsonValues({ ...pd_DecisionAddRecord });
     apiJson["PD_Decision"] = pdDecisionAddRecord;
     
+
     // const flowId = providerDisputesConfigData["FlowId"];
     // const stageName = providerDisputesConfigData["StageName"];
         const flowId = caseHeaderConfigData["FlowId"];

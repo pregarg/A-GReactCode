@@ -10,7 +10,7 @@ import CaseTimelinesAccordion from "./CaseTimelinesAccordion";
 import ProviderDisputeClaimInformation from "./ProviderDisputeClaimInformation";
 import DecisionTab from "../../../WorkItemDashboard/DecisionTab";
 import CaseInformation from "../../../WorkItemDashboard/CaseInformation";
-import ProviderMemberInformationAccordion from "./ProviderDisputeMemberInformationAccordion";
+import ProviderDisputeMemberInformationAccordion from "./ProviderDisputeMemberInformationAccordion";
 import ExpeditedRequestAccordion from "./ExpeditedRequestAccordion";
 import NotesAccordion from "./ProviderDisputeNotesAccordion";
 import { FaBars } from "react-icons/fa";
@@ -267,7 +267,7 @@ const ProviderDisputes = () => {
                   renderType={RenderType.PROVIDER_DISPUTE}
               />
               
-              <ProviderMemberInformationAccordion
+              <ProviderDisputeMemberInformationAccordion
                 ProvidermemberInformationData={ProvidermemberInformation}
                 setProviderMemberInformationData={setProviderMemberInformation}
                 ProvidermemberInformationValidationSchema={

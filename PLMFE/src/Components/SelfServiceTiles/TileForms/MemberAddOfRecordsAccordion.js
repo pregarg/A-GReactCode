@@ -14,10 +14,11 @@ const MemberAddOfRecordsAccordion = (props) => {
   const caseHeaderConfigData = JSON.parse(
     process.env.REACT_APP_CASEHEADER_DETAILS || "{}",
   );
+
   const stageName = caseHeaderConfigData["StageName"];
 
   const { convertToCase } = useGetDBTables();
-
+ 
   const [memberAddData, setMemberAddData] = useState(props.memberAddData || {});
 
   const handleMemberAddData = (name, value, persist) => {
@@ -67,6 +68,32 @@ const MemberAddOfRecordsAccordion = (props) => {
     </div>
   );
 
+  const renderSelectField = (name, placeholder, options) => (
+    <div className="col-xs-6 col-md-4">
+      <FormikSelectField
+        name={name}
+        placeholder={placeholder}
+        data={memberAddData}
+        options={options}
+        onChange={handleMemberAddData}
+        displayErrors={props.shouldShowSubmitError}
+        disabled={
+          props.renderType === RenderType.APPEALS &&
+          location.state.formView === "DashboardView" &&
+          (location.state.stageName === "Redirect Review" ||
+            location.state.stageName === "Documents Needed" ||
+            location.state.stageName === "Effectuate" ||
+            location.state.stageName === "Pending Effectuate" ||
+            location.state.stageName === "Resolve" ||
+            location.state.stageName === "Case Completed" ||
+            location.state.stageName === "Reopen" ||
+            location.state.stageName === "CaseArchived")
+        }
+        schema={props.memberAddOfRecordsValidationSchema}
+        errors={props.memberAddErrors}
+      />
+    </div>
+  );
 
 
   return (
@@ -100,7 +127,7 @@ const MemberAddOfRecordsAccordion = (props) => {
               
               {renderElements(
                   props.memberAddRecordFields,
-                  "",
+                  renderSelectField,
                   renderInputField,
                   "",
                   
