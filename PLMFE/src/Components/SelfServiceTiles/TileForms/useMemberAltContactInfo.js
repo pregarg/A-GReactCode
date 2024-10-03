@@ -1,15 +1,34 @@
 import { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { RenderType } from "./Constants";
+import useGetDBTables from "../../CustomHooks/useGetDBTables";
+import { useSelector } from "react-redux";
 
 export const useMemberAltContactInfo = (renderType) => {
   
+  const { convertToCase } = useGetDBTables();
   const [memberAltFields, setmemberAltFields] = useState([]);
   const [pd_MemberAltInfo, setpdMemberAltInfo] = useState({
     caseNumber: "",
   });
   const [memberAltValidationSchema, setMemberAltValidationSchema] =
     useState(Yup.object().shape({}));
+
+    const masterPDCommPrefSelector = useSelector(
+      (state) => state?.masterPDCommPref,
+    );
+    const [commPrefValues, setCommPrefValues] = useState([]);
+    useEffect(() => {
+      const kvMapper = (e) => ({
+        label: convertToCase(e),
+        value: convertToCase(e),
+      });
+      const commPref = masterPDCommPrefSelector?.[0] || [];
+      setCommPrefValues(
+        commPref.map((e) => e.Comm_Pref).map(kvMapper),
+      );
+    }, []);
+  
     
 
   useEffect(() => {
@@ -79,10 +98,10 @@ export const useMemberAltContactInfo = (renderType) => {
             renderTypes: [ RenderType.PROVIDER_DISPUTE],
           },
           {
-            type: "input",
+            type: "select",
             name: "Communication_Preference",
             placeholder: "Communication Preference",
-            maxLength: 50,
+            values: commPrefValues,
             renderTypes: [RenderType.PROVIDER_DISPUTE],
             validation:{}
           },
