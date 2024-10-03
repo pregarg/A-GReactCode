@@ -389,46 +389,52 @@ const ProviderMemberInformationAccordion = (props) => {
             </div>
             <div className="row my-2">
             {renderInputField("Provider_Member_Last_Name", "Member Last Name", 60)}
-              {renderDatePicker(
-                "Provider_Date_of_Birth",
-                "Date of Birth",
-                "Date of Birth",
-              )}
-              {renderSelectField("Provider_Dual_Plan", "Dual Plan", dualPlanValues)}
-            </div>
-            <div className="row my-2">
+            {renderInputField("Provider_ContractPlan_ID", "Contract/ Plan ID", 50)}
+            {renderInputField("Provider_Medicare_ID_HICN", "Medicare ID", 50)}
               
-              {renderSelectField(
-                "Provider_Preferred_Language",
-                "Preferred Language",
-                preferredLanguageValues,
-              )}
-              {renderInputField("Provider_Medicare_ID_HICN", "Medicare ID HICN", 50)}
-              {renderInputField("Provider_Medicaid_ID", "Medicaid ID", 50)}
+        
             </div>
-           
-           
             <div className="row my-2">
-              {renderInputField("Provider_ContractPlan_ID", "Contract Plan ID", 50)}
-              {renderInputField("Provider_Plan_Name", "Plan Name", 50)}
-              {renderDatePicker(
+            {renderInputField("Provider_Medicaid_ID", "Medicaid ID", 50)}
+            {renderDatePicker(
                 "Provider_Plan_Effective_Date",
                 "Plan Effective Date",
                 "Plan Effective Date",
               )}
+              {renderInputField("Provider_Plan_Name", "Plan Name", 50)}
+            </div>
+           
+           
+            <div className="row my-2">
+            {renderDatePicker(
+                "Provider_Date_of_Birth",
+                "DOB",
+                "Date of Birth",
+              )}
+              {renderInputField("Plan_Type", "Plan Type", 100)}
+              {renderInputField("Plan_Code", "Plancode", 100)}
             </div>
            
             <div className="row my-2">
               {renderInputField("Provider_Email_ID", "Email ID", 100)}
               {renderInputField("Provider_Phone_Number", "Phone Number", 50)}
-              {renderInputField("Provider_LIS", "LIS", 50)}
+              {renderSelectField("Provider_Dual_Plan", "Dual Plan", dualPlanValues)}
+              
             </div>
     
             <div className="row my-2">
-             
-              {renderInputField("Provider_Portal_Enrolled", "Portal Enrolled", 50)}
-              {renderInputField("Provider_Current_Alert", "Current Alert", 50)}
-              {renderInputField("Provider_Next_Alert", "Next Alert", 50)}
+            {renderInputField("Provider_LIS", "LIS?", 50)}
+            {renderInputField(
+                "Provider_Preferred_Language",
+                "Preferred Language",
+                4000,
+              )}
+              {/* {renderSelectField("Provider_Portal_Enrolled", "Portal Enrolled", 50)} */}
+
+            </div>
+            <div className="row my-2">
+            {renderInputField("Provider_Current_Alert", "Current Alert", 50)}
+            {renderInputField("Provider_Next_Alert", "Next Alert", 50)}
 
             </div>
           </div>

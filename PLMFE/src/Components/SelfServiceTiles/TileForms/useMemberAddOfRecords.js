@@ -1,13 +1,32 @@
 import { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { RenderType } from "./Constants";
+import useGetDBTables from "../../CustomHooks/useGetDBTables";
+import { useSelector } from "react-redux";
 
 export const useMemberAddOfRecords = (renderType) => {
+  const { convertToCase } = useGetDBTables();
   
   const [memberAddRecordFields, setMemberAddRecordFields] = useState([]);
   const [pd_MemberAddRecord, setpdMemberAddRecord] = useState({
     caseNumber: ""
   });
+
+  const masterPDMailToAddressSelector = useSelector(
+    (state) => state?.masterPDMailToAddress,
+  );
+  const [mailToAddressValues, setMailToAddressValues] = useState([]);
+  useEffect(() => {
+    const kvMapper = (e) => ({
+      label: convertToCase(e),
+      value: convertToCase(e),
+    });
+    const mailToAddress = masterPDMailToAddressSelector?.[0] || [];
+    setMailToAddressValues(
+      mailToAddress.map((e) => e.Mail_to_Address).map(kvMapper),
+    );
+  }, []);
+
 
   const [memberAddOfRecordsValidationSchema, setMemberAddOfRecordsValidationSchema] =
     useState(Yup.object().shape({}));
@@ -22,10 +41,10 @@ export const useMemberAddOfRecords = (renderType) => {
           renderTypes: [RenderType.PROVIDER_DISPUTE],
         },
         {
-          type: "input",
+          type: "select",
           name: "Mail_to_Address",
-          placeholder: "Mail to Address",
-          maxLength: 50,
+          placeholder: "Mail to Address?",
+          values: mailToAddressValues,
           renderTypes: [RenderType.PROVIDER_DISPUTE],
         },
         {
