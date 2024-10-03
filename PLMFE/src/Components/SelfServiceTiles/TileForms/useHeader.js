@@ -813,7 +813,8 @@ export const useHeader = () => {
 
     const pdDecisionAddRecord = trimJsonValues({ ...pd_DecisionAddRecord });
     apiJson["PD_Decision"] = pdDecisionAddRecord;
-    
+
+    console.log("providerDisputesConfigData",providerDisputesConfigData)
 
     // const flowId = providerDisputesConfigData["FlowId"];
     // const stageName = providerDisputesConfigData["StageName"];
@@ -1582,7 +1583,7 @@ export const useHeader = () => {
     const originalAuthorizationInformationGrid = getGridDataValues(
       formData["angAuthorizationInformationGrid"],
     );
-    
+
 
     const angDocNeededGrid = getGridDataValues(
       docNeededGrid,
