@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import useGetDBTables from "../../CustomHooks/useGetDBTables";
 import ProviderClaimInformationTable from "../TileFormsTables/ProviderDisputeClaimInformationTable";
 import CaseHeader from "./CaseHeader";
-import ProviderDisputeClaimInformationTable from "../TileFormsTables/DisputeProviderInformationTable";
+import ProviderDisputeClaimInformationTable from "../TileFormsTables/ProviderDisputeClaimInformationTable";
 import TableComponent from "../../../../src/util/TableComponent";
 import ProviderClaimSearch from "../TileForms/ProviderClaimSearch";
 import ProviderDisputeClaimSearchNew from "../TileForms/ProviderSearch";
@@ -16,7 +16,7 @@ import { FormikSelectField } from "../Common/FormikSelectField";
 import { FormikCheckBoxField } from "../Common/FormikCheckBoxField";
 
 
-const CaseProviderClaimInformation = (props) => {
+const ProviderDisputeClaimInformation = (props) => {
   const {
     convertToCase,
     checkGridJsonLength,
@@ -223,13 +223,11 @@ const CaseProviderClaimInformation = (props) => {
   const gridDataRef = useRef({});
 
   const addTableRows = (triggeredFormName) => {
+    console.log("abcdert",triggeredFormName)
     let rowsInput = {};
 
     if (triggeredFormName === "ProviderClaimInformationTable") {
       rowsInput.rowNumber = getRowNumberForGrid(ProviderclaimInformationGridData);
-    }
-    if (triggeredFormName === "ProviderInformationTable") {
-      rowsInput.rowNumber = getRowNumberForGrid(providerInformationGridData);
     }
     setGridFieldTempState(rowsInput);
   };
@@ -240,22 +238,74 @@ const CaseProviderClaimInformation = (props) => {
       (operationValue === "Add" || operationValue === "Force Delete")
     ) {
       gridRowsFinalSubmit(triggeredFormName, index, "Delete");
+
       if (triggeredFormName === "ProviderClaimInformationTable") {
         const rows = [...ProviderclaimInformationGridData];
         rows.splice(index, 1);
         setProviderClaimInformationGridData(rows);
         props.updateProviderClaimInformationGridData(rows);
       }
-      if (triggeredFormName === "ProviderInformationTable") {
-        const rows = [...providerInformationGridData];
-        rows.splice(index, 1);
-        setProviderInformationGridData(rows);
-        props.updateProviderInformationGridData(rows);
-      }
     }
 
     if (operationValue === "Edit") {
       setGridFieldTempState({});
+    }
+  };
+  const gridRowsFinalSubmit = (triggeredFormName, index, operationType) => {
+    let clonedJson = { ...gridFieldTempState };
+    console.log("Cloned Json is : ", clonedJson)
+    console.log("Triggered Name : ", triggeredFormName)
+    if (Object.keys(gridFieldTempState).length !== 0) {
+      if (triggeredFormName === "ProviderClaimInformationTable") {
+        console.log("abc",ProviderclaimInformationGridData[index])
+        let indexJson = ProviderclaimInformationGridData[index];
+
+        if (indexJson !== undefined && indexJson !== null) {
+          clonedJson = Object.assign(indexJson, gridFieldTempState);
+        }
+
+        if (!checkGridJsonLength(clonedJson)) {
+          ProviderclaimInformationGridData[index] = clonedJson;
+          setProviderClaimInformationGridData([...ProviderclaimInformationGridData]);
+        }
+      }
+
+      //Handling for data update/Delete/Insert inside grids.
+      if (tabRef.current === "DashboardView") {
+        let oprtn;
+        let gridRowJson = {};
+        if (operationType === "Add") {
+          oprtn = "I";
+        }
+
+        if (operationType === "Edit") {
+          oprtn = "U";
+        }
+
+        if (operationType === "Delete") {
+          oprtn = "D";
+        }
+        let gridRowArray = [];
+
+        if (triggeredFormName === "ProviderClaimInformationTable") {
+          gridRowArray = gridDataRef.current.hasOwnProperty(
+            "ProviderclaimInformationTable",
+          )
+            ? [...gridDataRef.current.ProviderclaimInformationTable]
+            : [];
+          gridRowJson = { ...ProviderclaimInformationGridData[index] };
+
+          if (Object.keys(gridRowJson).length !== 0) {
+            gridRowJson["operation"] = oprtn;
+
+            gridRowArray.push(trimJsonValues(gridRowJson));
+
+            gridDataRef.current.ProviderclaimInformationTable =
+              getGridDataValues(gridRowArray);
+          }
+        }
+
+      }
     }
   };
 
@@ -523,92 +573,8 @@ const CaseProviderClaimInformation = (props) => {
     }
   };
 
-  const gridRowsFinalSubmit = (triggeredFormName, index, operationType) => {
-    let clonedJson = { ...gridFieldTempState };
-    console.log("Cloned Json is : ", clonedJson)
-    console.log("Triggered Name : ", triggeredFormName)
-    if (Object.keys(gridFieldTempState).length !== 0) {
-      if (triggeredFormName === "ProviderClaimInformationTable") {
-        let indexJson = ProviderclaimInformationGridData[index];
 
-        if (indexJson !== undefined && indexJson !== null) {
-          clonedJson = Object.assign(indexJson, gridFieldTempState);
-        }
-
-        if (!checkGridJsonLength(clonedJson)) {
-          ProviderclaimInformationGridData[index] = clonedJson;
-          setProviderClaimInformationGridData([...ProviderclaimInformationGridData]);
-        }
-      }
-      if (triggeredFormName === "ProviderInformationTable") {
-        let indexJson = providerInformationGridData[index];
-
-        if (indexJson !== undefined && indexJson !== null) {
-          clonedJson = Object.assign(indexJson, gridFieldTempState);
-        }
-
-        if (!checkGridJsonLength(clonedJson)) {
-          providerInformationGridData[index] = clonedJson;
-          setProviderInformationGridData([...providerInformationGridData]);
-           props.updateProviderInformationGridData([...providerInformationGridData]);
-        }
-      }
-
-      //Handling for data update/Delete/Insert inside grids.
-      if (tabRef.current === "DashboardView") {
-        let oprtn;
-        let gridRowJson = {};
-        if (operationType === "Add") {
-          oprtn = "I";
-        }
-
-        if (operationType === "Edit") {
-          oprtn = "U";
-        }
-
-        if (operationType === "Delete") {
-          oprtn = "D";
-        }
-        let gridRowArray = [];
-
-        if (triggeredFormName === "ProviderClaimInformationTable") {
-          gridRowArray = gridDataRef.current.hasOwnProperty(
-            "ProviderclaimInformationTable",
-          )
-            ? [...gridDataRef.current.ProviderclaimInformationTable]
-            : [];
-          gridRowJson = { ...ProviderclaimInformationGridData[index] };
-
-          if (Object.keys(gridRowJson).length !== 0) {
-            gridRowJson["operation"] = oprtn;
-
-            gridRowArray.push(trimJsonValues(gridRowJson));
-
-            gridDataRef.current.ProviderclaimInformationTable =
-              getGridDataValues(gridRowArray);
-          }
-        }
-        if (triggeredFormName === "ProviderInformationTable") {
-          gridRowArray = gridDataRef.current.hasOwnProperty(
-            "providerInformationTable",
-          )
-            ? [...gridDataRef.current.providerInformationTable]
-            : [];
-          gridRowJson = { ...providerInformationGridData[index] };
-
-          if (Object.keys(gridRowJson).length !== 0) {
-            gridRowJson["operation"] = oprtn;
-
-            gridRowArray.push(trimJsonValues(gridRowJson));
-
-            gridDataRef.current.providerInformationTable =
-              getGridDataValues(gridRowArray);
-          }
-        }
-      }
-    }
-  };
-
+ 
   const getGridDataValues = (tableData) => {
     let returnArray = [];
     tableData.map((data) => {
@@ -779,7 +745,7 @@ const CaseProviderClaimInformation = (props) => {
              </div>
               <div className="col-xs-6 col-md-12">
                 <ProviderDisputeClaimInformationTable
-                  providerInformationGridData={providerInformationGridData}
+                  ProviderclaimInformationGridData={ProviderclaimInformationGridData}
                   validationSchema={
                     props.providerInformationGridValidationSchema
                   }
@@ -828,4 +794,4 @@ const CaseProviderClaimInformation = (props) => {
   );
 };
 
-export default CaseProviderClaimInformation;
+export default ProviderDisputeClaimInformation;

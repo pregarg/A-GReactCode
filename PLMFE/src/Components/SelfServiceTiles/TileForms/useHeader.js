@@ -40,6 +40,11 @@ export const useHeader = () => {
   let documentSectionDataRef = useRef([]);
   const authSelector = useSelector((state) => state.auth);
 
+  const providerDisputesConfigData = JSON.parse(
+    process.env.REACT_APP_PROVIDERDISPUTES_DETAILS || "{}",
+   
+  );
+
   const { caseHeader, setCaseHeader, caseHeaderFields } =
     useCaseHeader(renderType);
 
@@ -745,37 +750,52 @@ export const useHeader = () => {
     let mainCaseReqBody = {
       ...mainCaseDetails,
       transactionType: "Provider Disputes",
+      stageId: "41",
       caseStatus: "Open",
       lockStatus: "N",
     };
+    const checkBoxData = {isChecked : isCheckedBox};
 
     const pdCaseHeader = trimJsonValues({ ...caseHeader });
     apiJson["PD_CASE_HEADER"] = pdCaseHeader;
 
     const pdCaseTimelines = trimJsonValues({ ...caseTimelines });
-  
     apiJson["PD_Case_Timelines"] = pdCaseTimelines;
-    console.log("pdCaseTimelinespdCaseTimelines",pdCaseTimelines)
+  
     const pdCaseInformation = trimJsonValues({ ...pd_CaseInformation });
     apiJson["PD_CASE_INFORMATION"] = pdCaseInformation;
 
     const pdCaseInfoGrid = getGridDataValues(pdCaseInformationGrid);
     apiJson["PD_CASE_INFORMATION_GRID"] = pdCaseInfoGrid;
+
+    const pdClaimInformation = trimJsonValues({...checkBoxData});
+    apiJson["PD_Claim_Information"] = pdClaimInformation;
+
     const pdClaimInfoGrid = getGridDataValues(pdClaimInformationGrid);
     apiJson["PD_Claim_Information_Grid"] = pdClaimInfoGrid;
 
-    const checkBoxData = {isChecked : isCheckedBox};
-    const pdClaimInformation = trimJsonValues({...checkBoxData});
-    apiJson["PD_Claim_Information"] = pdClaimInformation;
+    const pdProviderInformation = trimJsonValues({ ...pd_ProviderInformation });
+    apiJson["PD_Provider_Information"] = pdProviderInformation;
+
+    const pdProviderAddRecord = trimJsonValues({ ...pd_ProviderAddRecord });
+    apiJson["PD_Provider_Add_of_Records"] = pdProviderAddRecord;
+
+    const pdProviderAlt = trimJsonValues({ ...pd_ProviderAlt });
+    apiJson["PD_Provider_Alternative_Contact_Info"] = pdProviderAlt;
+
+    const pdMemberInformation = trimJsonValues({ ...ProvidermemberInformation });
+    // console.log("Provider Member Information is : ", angProviderMemberInformation)
+    apiJson["PD_Member_Information"] = pdMemberInformation;
 
     const pdMemberAddRecord = trimJsonValues({ ...pd_MemberAddRecord });
     apiJson["PD_MEMBER_ADD_OF_RECORDS"] = pdMemberAddRecord;
 
+    
+    const pdMemberAltInfo = trimJsonValues({ ...pd_MemberAltInfo });
+    apiJson["PD_MEMBER_ALTERNATIVE_CONTACT_INFO"] = pdMemberAltInfo;
+
     const pdRepresentativeInformation = trimJsonValues({ ...pd_RepresentativeInformation });
     apiJson["PD_Representative_Information"] = pdRepresentativeInformation;
-
-    const pdProviderInformation = trimJsonValues({ ...pd_ProviderInformation });
-    apiJson["PD_Provider_Information"] = pdProviderInformation;
 
     const pdRepresentativeAddRecord = trimJsonValues({ ...pd_RepresentativeAddRecord });
     apiJson["PD_Representative_Add_of_Records"] = pdRepresentativeAddRecord;
@@ -785,27 +805,11 @@ export const useHeader = () => {
 
     const pdDecisionAddRecord = trimJsonValues({ ...pd_DecisionAddRecord });
     apiJson["PD_Decision"] = pdDecisionAddRecord;
-
-      apiJson["PD_Claim_Information_Grid"] = pdClaimInformationGrid;
-      const providerClaimInformationGrid = getGridDataValues(ProviderClaimInformationGrid);
-      apiJson["PD_Claim_Information_Grid"] = providerClaimInformationGrid;
-
-    const angProviderMemberInformation = trimJsonValues({ ...ProvidermemberInformation });
-    // console.log("Provider Member Information is : ", angProviderMemberInformation)
-    apiJson["PD_Member_Information"] = angProviderMemberInformation;
-
-
-    const pdProviderAddRecord = trimJsonValues({ ...pd_ProviderAddRecord });
-    apiJson["PD_Provider_Add_of_Records"] = pdProviderAddRecord;
-
-    const pdProviderAlt = trimJsonValues({ ...pd_ProviderAlt });
-    apiJson["PD_Provider_Alternative_Contact_Info"] = pdProviderAlt;
-
-    const pdMemberAltInfo = trimJsonValues({ ...pd_MemberAltInfo });
-    apiJson["PD_MEMBER_ALTERNATIVE_CONTACT_INFO"] = pdMemberAltInfo;
-
-    const flowId = caseHeaderConfigData["FlowId"];
-    const stageName = caseHeaderConfigData["StageName"];
+    console.log("providerDisputesConfigData",providerDisputesConfigData)
+    // const flowId = providerDisputesConfigData["FlowId"];
+    // const stageName = providerDisputesConfigData["StageName"];
+        const flowId = caseHeaderConfigData["FlowId"];
+        const stageName = caseHeaderConfigData["StageName"];
 
     apiJson["MainCaseTable"] = mainCaseReqBody;
 
@@ -850,6 +854,7 @@ export const useHeader = () => {
         "Case created successfully: " +
           response.data["CreateCase_Output"]["CaseNo"],
       );
+      console.log("proc data pd", procData)
       submitCase(procData, navigateHome);
     }
   };
@@ -907,7 +912,6 @@ export const useHeader = () => {
     apiJson["ANG_Claim_Information"] = angClaimInformation;
     apiJson["ANG_Claim_Information_Grid"] = angClaimInformationGrid;
     apiJson["ANG_Provider_Information_Grid"] = angProviderInformationGrid;
-    apiJson["PD_Claim_Information_Grid"] = angProviderInformationGrid;
     apiJson["ANG_Member_Information"] = angMemberInformation;
     //apiJson["ANG_Member_Alternative_Contact_Information"] = angMemberAlternativeContact;
     apiJson["ANG_Representative_Information_Grid"] =
@@ -997,9 +1001,11 @@ export const useHeader = () => {
   };
 
   const caseData = useSelector((store) => store.dashboardNavigationState);
+
   const caseHeaderConfigData = JSON.parse(
     process.env.REACT_APP_CASEHEADER_DETAILS || "{}",
   );
+ 
   const [potentialDupData] = useState([]);
   const [apiTestState] = useState({
     delegated: "",
@@ -1363,6 +1369,8 @@ export const useHeader = () => {
     let getApiJson = {};
     getApiJson["tableNames"] = getTableDetails()["angTables"];
     getApiJson["whereClause"] = { caseNumber: location.state.caseNumber };
+    console.log("table name",getApiJson["tableNames"])
+    console.log("whereClause",getApiJson["whereClause"])
     try {
       // Make API request
       const res = await customAxios.post("/generic/get", getApiJson, {
@@ -2105,9 +2113,6 @@ export const useHeader = () => {
     setIscheckedBox,
     pdClaimInformationGrid,
     ProviderClaimInformationGrid,
-
-
-
-    // decisionAddRecordFields,
+    setPDClaimInformationGrid,
   };
 };

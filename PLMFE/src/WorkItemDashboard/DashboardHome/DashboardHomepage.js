@@ -131,6 +131,7 @@ export default function DashboardHomepage() {
     Provider: [],
     Contracting: [],
     Appealing: [],
+    ProviderDisputes: [],
   });
 
   const [advancedSearchState, setAdvancedSearchState] = useState(false);
@@ -568,7 +569,9 @@ export default function DashboardHomepage() {
           let chartData = {};
           let respData = [...res.data.CallProcedure_Output.data];
           let appealFiltered = respData.filter((elem) => elem.FLOWID === 3);
+          let providerDisputeFiltered = respData.filter((elem) => elem.FLOWID === 4);
           chartData.Appealing = appealFiltered;
+          chartData.ProviderDisputes = providerDisputeFiltered;
           setProvChartData(chartData);
         }
       })
@@ -869,6 +872,12 @@ export default function DashboardHomepage() {
     if (gridName === "Appealing") {
       filteringTableData(provContChartRef.current, caseStat);
     }
+    if (gridName === "ProviderDisputes") {
+      filteringTableData(provContChartRef.current, caseStat);
+    }
+    
+    
+
   };
 
   const filteringTableData = (tableArr, caseStat) => {
@@ -1926,6 +1935,21 @@ export default function DashboardHomepage() {
                         <DashboardBarChart
                           gridData={provChartData.Appealing}
                           gridName={"Appealing"}
+                          dashboardTableData={getDashboardTableData}
+                          isRender={donutRender}
+                        ></DashboardBarChart>
+                      )}
+                    </div>
+                  </div>
+                  <div className="card-body">
+                    <div className="card-title" style={{ textAlign: "left" }}>
+                      Provider Disputes Cases
+                    </div>
+                    <div className="card-text my-2">
+                      {provChartData.ProviderDisputes.length > 0 && (
+                        <DashboardBarChart
+                          gridData={provChartData.ProviderDisputes}
+                          gridName={"ProviderDisputes"}
                           dashboardTableData={getDashboardTableData}
                           isRender={donutRender}
                         ></DashboardBarChart>
