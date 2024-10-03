@@ -32,7 +32,7 @@ export const renderElements = (
           (item.type === "input" &&
             renderInputField(item.name, item.placeholder, item.maxLength)) ||
           (item.type === "date" &&
-            renderDatePicker(item.name, item.placeholder, item.label))
+            renderDatePicker(item.name, item.placeholder, item.label)) 
         );
       })}
     </div>
