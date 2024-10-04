@@ -1,9 +1,10 @@
+
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Formik, Form } from "formik";
 import useGetDBTables from "../../CustomHooks/useGetDBTables";
-import ProviderSearch from "../TileForms/ProviderSearch";
+import ProviderInformationSearch from "../TileForms/ProviderInformationSearch";
 import "./Appeals.css";
 import { FormikInputField } from "../Common/FormikInputField";
 import { useAxios } from "../../../api/axios.hook";
@@ -11,57 +12,75 @@ import { FormikDatePicker } from "../Common/FormikDatePicker";
 import { FormikSelectField } from "../Common/FormikSelectField";
 import { renderElements, RenderType } from "./Constants";
 import TableComponent from "../../../../src/util/TableComponent";
+import { FormikCheckBoxField } from "../Common/FormikCheckBoxField";
+import ProviderDisputeClaimInformationTable from "../TileFormsTables/ProviderDisputeClaimInformationTable";
+import CaseHeader from "./CaseHeader";
 
 const PdProviderInformationAccordion = (props) => {
   const { convertToCase, extractDate, getDatePartOnly } = useGetDBTables();
   const location = useLocation();
   const caseHeaderConfigData = JSON.parse(
-      process.env.REACT_APP_CASEHEADER_DETAILS || "{}"
+      process.env.REACT_APP_CASEHEADER_DETAILS || "{}",
   );
+  const [showProviderInformationSearch, setShowProviderInformationSearch] = useState(false);
 
   const [ProviderInformationInformationData, setProviderInformationInformationData] = useState(
-      props.ProviderInformationInformationData
+      props.ProviderInformationInformationData,
   );
   const commAngPrefSelector = useSelector((state) => state?.masterAngCommPref);
   const token = useSelector((state) => state.auth.token);
-
   const [selectedCriteria, setSelectedCriteria] = useState();
   const [selectSearchValues, setSelectSearchValues] = useState();
   const [responseData, setResponseData] = useState([]);
-  const [showProviderSearch, setShowProviderSearch] =
-      useState(false);
+  const [showProviderMemberSearch, setShowProviderMemberSearch] = useState(false);
   const { customAxios: axios } = useAxios();
   const [selectedAddress, setSelectedAddress] = useState([]);
   const stageName = caseHeaderConfigData["StageName"];
+  const [isCheckedBox, setIscheckedBox] = useState(false);
 
-  // Ensure isChecked defaults to 0 if undefined or null
+  // const [providerInformationData, setProviderInformationData] = useState(props.providerInformationData || {});
   const [providerInformationData, setProviderInformationData] = useState({
     ...props.providerInformationData,
     isChecked: props.providerInformationData.isChecked ?? 0, // Initialize as 0 if unchecked or null
   });
-
-  const handleCheckBoxChangeNew = (e) => {
-    const isCheckedValue = e.target.checked ? 1 : 0;
-    handleProviderInformationData("isChecked", isCheckedValue, true); // Set 1 if checked, 0 if unchecked
+  const handleProviderInformationData = (name, value, persist) => {
+    const newData = {
+      ...providerInformationData,
+      [name]: typeof value === "string" ? convertToCase(value) : value,
+    };
+    setProviderInformationData(newData);
+    if (persist) {
+      props.setProviderInformationData(newData);
+    }
+  };
+  const persistProviderInformationDataData = () => {
+    props.setProviderInformationData(providerInformationData);
   };
 
-  const handleShowProviderSearch = () => {
-    setShowProviderSearch(true);
+  const handleShowProviderInformationSearch = () => {
+    setShowProviderInformationSearch(true);
   };
-
   const handleCloseSearch = () => {
-    // setShowClaimSearch(false);
-    setShowProviderSearch(false);
+    setShowProviderInformationSearch(false);
     setSelectedCriteria([]);
     setSelectSearchValues([]);
     setResponseData([]);
   };
 
-  const handleClearProviderSearch = () => {
+  const handleClearProviderInformationSearch = () => {
     setSelectSearchValues([]);
     setSelectedCriteria([]);
     setResponseData([]);
   };
+
+  const handleSelectedProviderInformations = () => {
+    setShowProviderInformationSearch(false);
+    setSelectedCriteria([]);
+    setSelectSearchValues([]);
+    setResponseData([]);
+    props.setProviderInformationInformationData({ ...selectedAddress[0] });
+  };
+
   const handleCheckBoxChange = (event, ind) => {
     let jsn = responseData[ind];
     jsn.isChecked = event.target.checked;
@@ -76,74 +95,96 @@ const PdProviderInformationAccordion = (props) => {
   };
 
 
-  const showProviders = async () => {
-    let ProviderID = selectSearchValues?.providerID;
-    let NPI = selectSearchValues?.NPI;
-    let Taxid = selectSearchValues?.TaxID;
-    let ProviderFirstName =
-        selectSearchValues?.providerFirstName ||
-        selectSearchValues?.providerFirstName2;
-    let ProviderLastName =
-        selectSearchValues?.providerLastName ||
-        selectSearchValues?.providerLastName2;
-    let City = selectSearchValues?.city || selectSearchValues?.facilitycity;
-    let State =
-        selectSearchValues?.state ||
-        selectSearchValues?.state2 ||
-        selectSearchValues?.facilityState2;
-    let facilityName = selectSearchValues?.facilityName;
+  const handleCheckBoxChangeNew = (e) => {
+    const isCheckedValue = e.target.checked ? 1 : 0;
+    handleProviderInformationData("isChecked", isCheckedValue, true); // Set 1 if checked, 0 if unchecked
+  };
 
+
+  const showProviderInformations = async () => {
+    let ProviderMemberID = selectSearchValues?.ProvidermemberID;
+    let MedicareID = selectSearchValues?.medicareID;
+    let MedicaidID = selectSearchValues?.medicaidID;
+    let ProviderMemberFirstName = selectSearchValues?.ProvidermemberFirstNameId;
+    let ProviderMemberLastName = selectSearchValues?.ProvidermemberLasstNameId;
+    let DOB = selectSearchValues?.dateOfBirth;
+
+    // Check if at least one search parameter has a value
     if (
-        ProviderID ||
-        NPI ||
-        Taxid ||
-        ProviderFirstName ||
-        ProviderLastName ||
-        City ||
-        State ||
-        facilityName
+        ProviderMemberID ||
+        MedicareID ||
+        MedicaidID ||
+        ProviderMemberFirstName ||
+        ProviderMemberLastName ||
+        DOB
     ) {
       let getApiJson = {
-        option: "PROVIDERSEARCHDATA",
-        ProviderID: ProviderID || "",
-        NPI: NPI || "",
-        Taxid: Taxid || "",
-        ProviderFirstName: ProviderFirstName || "",
-        ProviderLastName: ProviderLastName || "",
-        City: City || "",
-        State: State || "",
-        facilityName: facilityName || "",
+        option: "GETPROVIDERINFORMATIONSEARCHDATA",
+        ProviderMember_ID: ProviderMemberID || "",
+        Medicare_ID: MedicareID || "",
+        Medicaid_ID: MedicaidID || "",
+        ProviderMember_First_Name: ProviderMemberFirstName || "",
+        ProviderMember_Last_Name: ProviderMemberLastName || "",
+        Date_of_Birth: extractDate(DOB) || "",
       };
 
       try {
         let res = await axios.post("/generic/callProcedure", getApiJson, {
           headers: { Authorization: `Bearer ${token}` },
         });
+        console.log("Full API Response:", res.data); // Debugging the API response
 
+        // Access the first element of resApiData
         let resApiData = res.data.CallProcedure_Output?.data || [];
-        resApiData = resApiData?.length > 0 ? resApiData : [];
+        console.log("procedure ka data", resApiData); // Check if data exists
+
         if(resApiData[0].length === 0 )  {
           console.log("No data found for the member ID");
           alert("No data found");
           return;
         }
-        if (resApiData.length > 0) {
-          const respKeys = Object.keys(resApiData);
-          respKeys.forEach((k) => {
-            let apiResponse = resApiData[k];
-            if (
-                apiResponse.hasOwnProperty("Provider_Par_Date") &&
-                typeof apiResponse.Provider_Par_Date === "string"
-            ) {
-              const mad = new Date(
-                  getDatePartOnly(apiResponse.Provider_Par_Date),
-              );
-              apiResponse.Provider_Par_Date = extractDate(mad);
-            }
-          });
 
-          setResponseData(resApiData);
-        }
+        const respKeys = Object.keys(resApiData[0]);
+        respKeys.forEach((k) => {
+          let apiResponse = resApiData[0][k];
+          console.log("apiResponse", apiResponse);
+
+          if (
+              apiResponse?.hasOwnProperty("Date_of_Birth") &&
+              typeof apiResponse.Date_of_Birth === "string"
+          ) {
+            const mad = new Date(getDatePartOnly(apiResponse.Date_of_Birth));
+            apiResponse.Date_of_Birth = extractDate(mad);
+
+            console.log("dob-->", mad);
+            console.log("dob2-->", extractDate(mad));
+          }
+
+          if (
+              apiResponse?.hasOwnProperty("Plan_Effective_Date") &&
+              typeof apiResponse.Plan_Effective_Date === "string"
+          ) {
+            const mad = new Date(
+                getDatePartOnly(apiResponse.Plan_Effective_Date)
+            );
+            apiResponse.Plan_Effective_Date = extractDate(mad);
+            console.log("Plan Effective Date -->", apiResponse.Plan_Effective_Date);
+          }
+
+          if (
+              apiResponse?.hasOwnProperty("Plan_Expiration_Date") &&
+              typeof apiResponse.Plan_Expiration_Date === "string"
+          ) {
+            const mad = new Date(
+                getDatePartOnly(apiResponse.Plan_Expiration_Date)
+            );
+            apiResponse.Plan_Expiration_Date = extractDate(mad);
+            console.log("Plan Expiration Date -->", apiResponse.Plan_Expiration_Date);
+          }
+        });
+
+        setResponseData(resApiData);
+
         const apiStat = res.data.CallProcedure_Output.Status;
         if (apiStat === -1) {
           alert("Error in fetching data");
@@ -157,10 +198,9 @@ const PdProviderInformationAccordion = (props) => {
     }
   };
 
-  const providerSearchTableComponent = () => {
+  const ProviderInformationSearchTableComponent = () => {
     let columnNames =
-        "Issue Number~Issue_Number,Provider ID~Provider_ID,Provider First Name~Provider_Name,Provider Last Name~Provider_Last_Name,TIN~Provider_TIN,Provider/Vendor Specialty~Provider_Vendor_Specialty,Provider Taxonomy~Provider_Taxonomy,NPI~NPI_ID,Phone~Phone_Number,Address Line 1~Address_Line_1,Address Line 2~Address_Line_2,Zip Code~Zip_Code,City~City,State~State,Participating Provider~Participating_Provider,Provider Par Date~Provider_Par_Date,Provider IPA~Provider_IPA,Vendor ID~Vendor_ID,Vendor Name~Vendor_Name,Provider Type~Provider_Type,Contact Name~Provider_Contact_Name,Contact Phone Number~Contact_Phone_Number,Contact Email Address~Contact_Email_Address";
-
+        "Action~Action,Information ID~Information_ID,Information First Name~Information_First_Name,Information Last Name~Information_Last_Name,Date of Birth~Date_of_Birth,Plan Code~Plan_Code,ContractPlan ID~ContractPlan_ID,Medicare ID HICN~Medicare_ID_HICN,Plan Name~Plan_Name,Plan Effective Date~Plan_Effective_Date,Plan Expiration Date~Plan_Expiration_Date,Email ID~Email_ID,Phone Number~Phone_Number,Dual Plan~Dual_Plan,Address Line 1~Address_Line_1,Address Line 2~Address_Line_2,Zip Code~Zip_Code,City~City,County~County,State~State_,Preferred Language~Preferred_Language";
     if (responseData.length > 0) {
       return (
           <>
@@ -179,33 +219,6 @@ const PdProviderInformationAccordion = (props) => {
     }
   };
 
-  const handleProviderInformationData = (name, value, persist) => {
-    const newData = {
-      ...providerInformationData,
-      [name]: typeof value === "string" ? convertToCase(value) : value,
-    };
-    setProviderInformationData(newData);
-    if (persist) {
-      props.setProviderInformationData(newData);
-    }
-  };
-
-  const persistProviderInformationDataData = async () => {
-    const payload = {
-      ...providerInformationData,
-      isChecked: providerInformationData.isChecked ? "1" : "0", // Ensure 1 or 0 is sent to the DB
-    };
-
-    try {
-      const res = await axios.post("/saveEndpoint", payload, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      console.log("Save successful:", res.data);
-    } catch (error) {
-      console.error("Error saving data:", error);
-    }
-  };
-
   const renderInputField = (name, placeholder, maxLength) => (
       <div className="col-xs-6 col-md-4">
         <FormikInputField
@@ -215,13 +228,29 @@ const PdProviderInformationAccordion = (props) => {
             data={providerInformationData}
             onChange={handleProviderInformationData}
             displayErrors={props.shouldShowSubmitError}
+            disabled={
+                props.renderType === RenderType.APPEALS &&
+                (location.state.formView === "DashboardView" ||
+                    location.state.formView === "DashboardHomeView") &&
+                ((stageName === "Start" && name !== "Acknowledgment_Timely") ||
+                    location.state.stageName === "Intake" ||
+                    location.state.stageName === "Acknowledge" ||
+                    location.state.stageName === "Redirect Review" ||
+                    location.state.stageName === "Documents Needed" ||
+                    location.state.stageName === "Research" ||
+                    location.state.stageName === "Effectuate" ||
+                    location.state.stageName === "Pending Effectuate" ||
+                    location.state.stageName === "Resolve" ||
+                    location.state.stageName === "Case Completed" ||
+                    location.state.stageName === "Reopen" ||
+                    location.state.stageName === "CaseArchived")
+            }
             persist={persistProviderInformationDataData}
             schema={props.providerInformationValidationSchema}
             errors={props.providerInformationErrors}
         />
       </div>
   );
-
   const renderSelectField = (name, placeholder, options) => (
       <div className="col-xs-6 col-md-4">
         <FormikSelectField
@@ -231,6 +260,18 @@ const PdProviderInformationAccordion = (props) => {
             options={options}
             onChange={handleProviderInformationData}
             displayErrors={props.shouldShowSubmitError}
+            disabled={
+                props.renderType === RenderType.APPEALS &&
+                location.state.formView === "DashboardView" &&
+                (location.state.stageName === "Redirect Review" ||
+                    location.state.stageName === "Documents Needed" ||
+                    location.state.stageName === "Effectuate" ||
+                    location.state.stageName === "Pending Effectuate" ||
+                    location.state.stageName === "Resolve" ||
+                    location.state.stageName === "Case Completed" ||
+                    location.state.stageName === "Reopen" ||
+                    location.state.stageName === "CaseArchived")
+            }
             schema={props.providerInformationValidationSchema}
             errors={props.providerInformationErrors}
         />
@@ -245,100 +286,24 @@ const PdProviderInformationAccordion = (props) => {
             data={providerInformationData}
             label={label}
             onChange={handleProviderInformationData}
+            disabled={
+                location.state.formView === "DashboardView" &&
+                (location.state.stageName === "Redirect Review" ||
+                    location.state.stageName === "Documents Needed" ||
+                    location.state.stageName === "Effectuate" ||
+                    location.state.stageName === "Pending Effectuate" ||
+                    location.state.stageName === "Resolve" ||
+                    location.state.stageName === "Case Completed" ||
+                    location.state.stageName === "Reopen" ||
+                    location.state.stageName === "CaseArchived")
+            }
             displayErrors={props.shouldShowSubmitError}
             schema={props.providerInformationValidationSchema}
             errors={props.providerInformationErrors}
         />
       </div>
   );
-
-  const handleSelectedProviderInformations = () => {
-    setShowProviderSearch(false);
-    setSelectedCriteria([]);
-    setSelectSearchValues([]);
-    setResponseData([]);
-    props.setProviderInformationInformationData({ ...selectedAddress[0] });
-  };
-
-  // const showProviderInformations = async () => {
-  //   let ProviderMemberID = selectSearchValues?.ProvidermemberID;
-  //   let MedicareID = selectSearchValues?.medicareID;
-  //   let MedicaidID = selectSearchValues?.medicaidID;
-  //   let ProviderMemberFirstName = selectSearchValues?.ProvidermemberFirstNameId;
-  //   let ProviderMemberLastName = selectSearchValues?.ProvidermemberLasstNameId;
-  //   let DOB = selectSearchValues?.dateOfBirth;
-  //
-  //   if (
-  //     ProviderMemberID ||
-  //     MedicareID ||
-  //     MedicaidID ||
-  //     ProviderMemberFirstName ||
-  //     ProviderMemberLastName ||
-  //     DOB
-  //   ) {
-  //     let getApiJson = {
-  //       option: "GETPROVIDERSEARCHDATA",
-  //       ProviderMember_ID: ProviderMemberID || "",
-  //       Medicare_ID: MedicareID || "",
-  //       Medicaid_ID: MedicaidID || "",
-  //       ProviderMember_First_Name: ProviderMemberFirstName || "",
-  //       ProviderMember_Last_Name: ProviderMemberLastName || "",
-  //       Date_of_Birth: extractDate(DOB) || "",
-  //     };
-  //
-  //     try {
-  //       let res = await axios.post("/generic/callProcedure", getApiJson, {
-  //         headers: { Authorization: `Bearer ${token}` },
-  //       });
-  //       let resApiData = res.data.CallProcedure_Output?.data || [];
-  //
-  //       if (resApiData.length === 0) {
-  //         alert("No data found");
-  //         return;
-  //       }
-  //
-  //       resApiData.forEach((apiResponse) => {
-  //         if (
-  //           apiResponse?.hasOwnProperty("Date_of_Birth") &&
-  //           typeof apiResponse.Date_of_Birth === "string"
-  //         ) {
-  //           const mad = new Date(getDatePartOnly(apiResponse.Date_of_Birth));
-  //           apiResponse.Date_of_Birth = extractDate(mad);
-  //         }
-  //
-  //         if (
-  //           apiResponse?.hasOwnProperty("Plan_Effective_Date") &&
-  //           typeof apiResponse.Plan_Effective_Date === "string"
-  //         ) {
-  //           const mad = new Date(
-  //             getDatePartOnly(apiResponse.Plan_Effective_Date)
-  //           );
-  //           apiResponse.Plan_Effective_Date = extractDate(mad);
-  //         }
-  //
-  //         if (
-  //           apiResponse?.hasOwnProperty("Plan_Expiration_Date") &&
-  //           typeof apiResponse.Plan_Expiration_Date === "string"
-  //         ) {
-  //           const mad = new Date(
-  //             getDatePartOnly(apiResponse.Plan_Expiration_Date)
-  //           );
-  //           apiResponse.Plan_Expiration_Date = extractDate(mad);
-  //         }
-  //       });
-  //
-  //       setResponseData(resApiData);
-  //     } catch (error) {
-  //       console.error("API Error:", error);
-  //       alert("Error in fetching data. Please try again later.");
-  //     }
-  //   } else {
-  //     alert("Please select at least one search value.");
-  //   }
-  // };
-
   return (
-
       <Formik
           initialValues={props.providerInformationData}
           validationSchema={props.providerInformationValidationSchema}
@@ -369,12 +334,49 @@ const PdProviderInformationAccordion = (props) => {
                     <button
                         type="button"
                         className="btn btn-outline-primary"
-                        onClick={(event) => handleShowProviderSearch(event)}
-
+                        onClick={(event) => handleShowProviderInformationSearch(event)}
+                        disabled={
+                            location.state.stageName === "Redirect Review" ||
+                            location.state.stageName === "Documents Needed" ||
+                            location.state.stageName === "CaseArchived"
+                        }
                     >
-                      Provider  Search
+                      Provider Information Search
                     </button>
+                    {/*<div className="row my-2">*/}
+                    {/*  <div className="row my-2">*/}
+                    {/*    /!* {renderInputField("High_Dollar_Dispute", "High Dollar Dispute", 16, false, "High Dollar Dispute")} *!/*/}
 
+                    {/*    <label>*/}
+                    {/*      <input type="checkbox" checked={isCheckedBox} onChange={handleCheckBoxChangeNew}/>White Glove*/}
+                    {/*    </label>*/}
+                    {/*  </div>*/}
+                    {/*  <div className="col-xs-6 col-md-12">*/}
+                    {/*    /!*<ProviderDisputeClaimInformationTable*!/*/}
+                    {/*    /!*    ProviderclaimInformationGridData={ProviderclaimInformationGridData}*!/*/}
+                    {/*    /!*    validationSchema={*!/*/}
+                    {/*    /!*      props.providerInformationGridValidationSchema*!/*/}
+                    {/*    /!*    }*!/*/}
+                    {/*    /!*    addTableRows={addTableRows}*!/*/}
+                    {/*    /!*    deleteTableRows={deleteTableRows}*!/*/}
+                    {/*    /!*    handleGridSelectChange={handleGridSelectChange}*!/*/}
+                    {/*    /!*    handleGridDateChange={handleGridDateChange}*!/*/}
+                    {/*    /!*    handleGridFieldChange={handleGridFieldChange}*!/*/}
+                    {/*    /!*    gridFieldTempState={gridFieldTempState}*!/*/}
+                    {/*    /!*    editTableRows={editTableRows}*!/*/}
+                    {/*    /!*    gridRowsFinalSubmit={gridRowsFinalSubmit}*!/*/}
+                    {/*    /!*    //selectJson={selectValues}*!/*/}
+                    {/*    /!*    lockStatus={*!/*/}
+                    {/*    /!*      location.state.lockStatus !== undefined &&*!/*/}
+                    {/*    /!*      location.state.lockStatus !== ""*!/*/}
+                    {/*    /!*          ? location.state.lockStatus*!/*/}
+                    {/*    /!*          : "N"*!/*/}
+                    {/*    /!*    }*!/*/}
+                    {/*    /!*    fetchAutoPopulate={fetchAutoPopulate}*!/*/}
+                    {/*    /!*    transactionType={CaseHeader.displayName}*!/*/}
+                    {/*    /!*></ProviderDisputeClaimInformationTable>*!/*/}
+                    {/*  </div>*/}
+                    {/*</div>*/}
                     <div className="row my-2">
                       <div className="col-md-3 text-start">
                         <label>
@@ -387,30 +389,28 @@ const PdProviderInformationAccordion = (props) => {
                         </label>
                       </div>
                     </div>
-
                     {renderElements(
                         props.providerInformationFields,
                         renderSelectField,
                         renderInputField,
-                        renderDatePicker
+                        renderDatePicker,
+                        "",
                     )}
                   </div>
-
-                  {showProviderSearch && (
-                      <ProviderSearch
+                  {showProviderInformationSearch && (
+                      <ProviderInformationSearch
                           handleCloseSearch={handleCloseSearch}
                           selectedCriteria={selectedCriteria}
                           setSelectedCriteria={setSelectedCriteria}
                           selectSearchValues={selectSearchValues}
                           setSelectSearchValues={setSelectSearchValues}
-                          handleClearProviderSearch={handleClearProviderSearch}
-                          showProviderSearch={showProviderSearch}
-                          showProviders={showProviders}
-                          providerSearchTableComponent={providerSearchTableComponent}
                           responseData={responseData}
                           setResponseData={setResponseData}
+                          handleClearProviderInformationSearch={handleClearProviderInformationSearch}
+                          showProviderInformationSearch={showProviderInformationSearch}
+                          showProviderInformations={showProviderInformations}
+                          ProviderInformationSearchTableComponent={ProviderInformationSearchTableComponent}
                           handleSelectedProviderInformations={handleSelectedProviderInformations}
-
                       />
                   )}
                 </div>
@@ -418,6 +418,7 @@ const PdProviderInformationAccordion = (props) => {
             </Form>
         )}
       </Formik>
+
   );
 };
 

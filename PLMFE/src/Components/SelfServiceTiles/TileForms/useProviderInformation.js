@@ -89,7 +89,7 @@ export const useProviderInformation = (renderType) => {
       },
       {
         type: "input",
-        name: "Specialty_Description",
+        name: "[Provider_Vendor_Specialty_Description",
         placeholder: "Specialty Description",
         maxLength: 50,
         renderTypes: [RenderType.PROVIDER_DISPUTE],
