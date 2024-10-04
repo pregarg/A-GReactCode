@@ -633,8 +633,17 @@ const ProviderDisputeClaimInformation = (props) => {
   };
 
   const handleCheckBoxChangeNew = () => {
+    let temp = localStorage.getItem('checkBox');
+    if(temp){
+      temp = temp == 'true' ? 'false' : 'true';
+      localStorage.setItem('checkBox', temp);
+    }else{
+      localStorage.setItem('checkBox','true');
+    }
+    
     setIscheckedBox(!isCheckedBox);
     props.setIscheckedBox(isCheckedBox);
+    
   }
 
   const renderInputField = (name, placeholder, maxLength, isCheckbox = false, label = "") => (
