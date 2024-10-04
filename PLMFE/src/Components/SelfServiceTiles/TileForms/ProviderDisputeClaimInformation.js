@@ -7,8 +7,10 @@ import ProviderClaimInformationTable from "../TileFormsTables/ProviderDisputeCla
 import CaseHeader from "./CaseHeader";
 import ProviderDisputeClaimInformationTable from "../TileFormsTables/ProviderDisputeClaimInformationTable";
 import TableComponent from "../../../../src/util/TableComponent";
-import ProviderClaimSearch from "../TileForms/ProviderClaimSearch";
+import ClaimSearch from "../TileForms/ClaimSearch";
+import ProviderSearch from "../TileForms/ProviderSearch";
 import ProviderDisputeClaimSearchNew from "../TileForms/ProviderSearch";
+
 import useUpdateDecision from "../../CustomHooks/useUpdateDecision";
 import { FormikInputField } from "../Common/FormikInputField";
 import { FormikDatePicker } from "../Common/FormikDatePicker";
@@ -45,10 +47,9 @@ const ProviderDisputeClaimInformation = (props) => {
   const [providerInformationGridData, setProviderInformationGridData] =
     useState(props.handleProviderInformationGridData);
 
-  const [showProviderClaimSearch, setShowProviderClaimSearch] = useState(false);
+  const [showClaimSearch, setShowClaimSearch] = useState(false);
   const [showProviderSearch, setShowProviderSearch] = useState(false);
   const [gridFieldTempState, setGridFieldTempState] = useState({});
-
   const [responseData, setResponseData] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState([]);
 
@@ -83,24 +84,25 @@ const ProviderDisputeClaimInformation = (props) => {
     location.state.stageName || stageName,
   );
 
-  const handleShowProviderClaimSearch = () => {
-    setShowProviderClaimSearch(true);
+  const handleShowClaimSearch = () => {
+    setShowClaimSearch(true);
   };
   const handleShowProviderSearch = () => {
     setShowProviderSearch(true);
   };
   const handleCloseSearch = () => {
-    setShowProviderClaimSearch(false);
+    setShowClaimSearch(false);
     setShowProviderSearch(false);
     setSelectedCriteria([]);
     setSelectSearchValues([]);
     setResponseData([]);
   };
-  const handleClearProviderClaimSearch = () => {
+  const handleClearClaimSearch = () => {
     setSelectSearchValues([]);
     setSelectedCriteria([]);
     setResponseData([]);
   };
+
   const handleSelectedAddress = () => {
     let rowNumber = getRowNumberForGrid(ProviderclaimInformationGridData);
     let addressToPopulate = [];
@@ -127,42 +129,42 @@ const ProviderDisputeClaimInformation = (props) => {
       ]);
     }
 
-    setShowProviderClaimSearch(false);
+    setShowClaimSearch(false);
     setSelectedCriteria([]);
     setSelectSearchValues([]);
     setResponseData([]);
   };
-  const handleSelectedProviders = (flag) => {
-    let rowNumber = getRowNumberForGrid(providerInformationGridData);
-    let addressToPopulate = [];
-    if (selectedAddress.length > 0) {
-      selectedAddress.map((elem) => {
-        if (elem?.isChecked) {
-          elem.rowNumber = rowNumber;
-          elem.operation = "I";
-          delete elem["isChecked"];
-          rowNumber++;
-          addressToPopulate.push(elem);
-        }
-      });
-    }
-
-    if (addressToPopulate.length > 0) {
-      setProviderInformationGridData([
-        ...providerInformationGridData,
-        ...addressToPopulate,
-      ]);
-      props.updateProviderInformationGridData([
-        ...providerInformationGridData,
-        ...addressToPopulate,
-      ]);
-    }
-
-    setShowProviderSearch(false);
-    setSelectedCriteria([]);
-    setSelectSearchValues([]);
-    setResponseData([]);
-  };
+  // const handleSelectedProviders = (flag) => {
+  //   let rowNumber = getRowNumberForGrid(providerInformationGridData);
+  //   let addressToPopulate = [];
+  //   if (selectedAddress.length > 0) {
+  //     selectedAddress.map((elem) => {
+  //       if (elem?.isChecked) {
+  //         elem.rowNumber = rowNumber;
+  //         elem.operation = "I";
+  //         delete elem["isChecked"];
+  //         rowNumber++;
+  //         addressToPopulate.push(elem);
+  //       }
+  //     });
+  //   }
+  //
+  //   if (addressToPopulate.length > 0) {
+  //     setProviderInformationGridData([
+  //       ...providerInformationGridData,
+  //       ...addressToPopulate,
+  //     ]);
+  //     props.updateProviderInformationGridData([
+  //       ...providerInformationGridData,
+  //       ...addressToPopulate,
+  //     ]);
+  //   }
+  //
+  //   setShowProviderSearch(false);
+  //   setSelectedCriteria([]);
+  //   setSelectSearchValues([]);
+  //   setResponseData([]);
+  // };
   const handleCheckBoxChange = (event, ind) => {
     let jsn = responseData[ind];
     jsn.isChecked = event.target.checked;
@@ -309,28 +311,28 @@ const ProviderDisputeClaimInformation = (props) => {
     }
   };
 
-  const showProviderClaims = async () => {
-    let ProviderClaimNumber = selectSearchValues?.ProviderclaimNumber;
+  const showClaims = async () => {
+    let ClaimNumber = selectSearchValues?.claimNumber;
     let SequentialMemberID = selectSearchValues?.sequentialMemberId;
     let ProviderID = selectSearchValues?.providerId;
     let ServiceStartDate =
-      selectSearchValues?.Service_Start_Date ||
-      selectSearchValues?.Service_Start_Date2;
+        selectSearchValues?.Service_Start_Date ||
+        selectSearchValues?.Service_Start_Date2;
     let ServiceEndDate =
-      selectSearchValues?.Service_End_Date ||
-      selectSearchValues?.Service_End_Date2;
+        selectSearchValues?.Service_End_Date ||
+        selectSearchValues?.Service_End_Date2;
 
     // Check if at least one search parameter has a value
     if (
-      ProviderClaimNumber ||
-      SequentialMemberID ||
-      ProviderID ||
-      ServiceStartDate ||
-      ServiceEndDate
+        ClaimNumber ||
+        SequentialMemberID ||
+        ProviderID ||
+        ServiceStartDate ||
+        ServiceEndDate
     ) {
       let getApiJson = {
-        option: "GETProviderCLAIMSEARCHDATA",
-        ProviderClaimNumber: ProviderClaimNumber || "",
+        option: "GETCLAIMSEARCHDATA",
+        ClaimNumber: ClaimNumber || "",
         ServiceStartDate: extractDate(ServiceStartDate) || "",
         ServiceEndDate: extractDate(ServiceEndDate) || "",
         SequentialMemberID: SequentialMemberID || "",
@@ -346,38 +348,38 @@ const ProviderDisputeClaimInformation = (props) => {
 
         if(resApiData[0].length === 0 )  {
           console.log("No data found for the member ID");
-             alert("No data found");
-             return; 
-           }
+          alert("No data found");
+          return;
+        }
 
         if (resApiData.length > 0) {
           const respKeys = Object.keys(resApiData);
           respKeys.forEach((k) => {
             let apiResponse = resApiData[k];
             if (
-              apiResponse.hasOwnProperty("Service_Start_Date") &&
-              typeof apiResponse.Service_Start_Date === "string"
+                apiResponse.hasOwnProperty("Service_Start_Date") &&
+                typeof apiResponse.Service_Start_Date === "string"
             ) {
               const mad = new Date(
-                getDatePartOnly(apiResponse.Service_Start_Date),
+                  getDatePartOnly(apiResponse.Service_Start_Date),
               );
               apiResponse.Service_Start_Date = extractDate(mad);
             }
             if (
-              apiResponse.hasOwnProperty("Service_End_Date") &&
-              typeof apiResponse.Service_End_Date === "string"
+                apiResponse.hasOwnProperty("Service_End_Date") &&
+                typeof apiResponse.Service_End_Date === "string"
             ) {
               const rad = new Date(
-                getDatePartOnly(apiResponse.Service_End_Date),
+                  getDatePartOnly(apiResponse.Service_End_Date),
               );
               apiResponse.Service_End_Date = extractDate(rad);
             }
             if (
-              apiResponse.hasOwnProperty("DenialDate") &&
-              typeof apiResponse.DenialDate === "string"
+                apiResponse.hasOwnProperty("Denial_Date") &&
+                typeof apiResponse.Denial_Date === "string"
             ) {
-              const rad = new Date(getDatePartOnly(apiResponse.DenialDate));
-              apiResponse.DenialDate = extractDate(rad);
+              const rad = new Date(getDatePartOnly(apiResponse.Denial_Date));
+              apiResponse.Denial_Date = extractDate(rad);
             }
           });
 
@@ -396,21 +398,21 @@ const ProviderDisputeClaimInformation = (props) => {
     }
   };
 
-  const ProviderclaimSearchTableComponent = () => {
+  const claimSearchTableComponent = () => {
     let columnNames =
-      "Claim Number~Claim_Number,Claim Type~Claim_type,Authorization Number~Auth_Number,Service Start Date~Service_Start_Date,Service End Date~Service_End_Date,Service Span~ServiceSpan,Denial Date~DenialDate,Denial Code~DenialCode,Denial Description~DenialDescription,Member ID~MemberID,Member First Name~MemberFirstName,Member Last Name~MemberLastName,Provider ID~ProviderID,Provider Name~ProviderName";
+        "Claim Number~Claim_Number,Claim Type~Claim_type,Authorization Number~Auth_Number,Service Start Date~Service_Start_Date,Service End Date~Service_End_Date,Service Span~ServiceSpan,Denial Date~Denial_Date,Denial Code~DenialCode,Denial Description~DenialDescription,Member ID~MemberID,Member First Name~MemberFirstName,Member Last Name~MemberLastName,Provider ID~ProviderID,Provider Name~ProviderName";
     if (responseData.length > 0) {
       return (
-        <>
-          <TableComponent
-            columnName={columnNames}
-            rowValues={responseData}
-            showCheckBox={true}
-            handleCheckBoxChange={handleCheckBoxChange}
-            handleCheckBoxHeaderChange={handleCheckBoxHeaderChange}
-            CheckBoxInHeader={true}
-          />
-        </>
+          <>
+            <TableComponent
+                columnName={columnNames}
+                rowValues={responseData}
+                showCheckBox={true}
+                handleCheckBoxChange={handleCheckBoxChange}
+                handleCheckBoxHeaderChange={handleCheckBoxHeaderChange}
+                CheckBoxInHeader={true}
+            />
+          </>
       );
     } else {
       return <></>;
@@ -422,27 +424,27 @@ const ProviderDisputeClaimInformation = (props) => {
     let NPI = selectSearchValues?.NPI;
     let Taxid = selectSearchValues?.TaxID;
     let ProviderFirstName =
-      selectSearchValues?.providerFirstName ||
-      selectSearchValues?.providerFirstName2;
+        selectSearchValues?.providerFirstName ||
+        selectSearchValues?.providerFirstName2;
     let ProviderLastName =
-      selectSearchValues?.providerLastName ||
-      selectSearchValues?.providerLastName2;
+        selectSearchValues?.providerLastName ||
+        selectSearchValues?.providerLastName2;
     let City = selectSearchValues?.city || selectSearchValues?.facilitycity;
     let State =
-      selectSearchValues?.state ||
-      selectSearchValues?.state2 ||
-      selectSearchValues?.facilityState2;
+        selectSearchValues?.state ||
+        selectSearchValues?.state2 ||
+        selectSearchValues?.facilityState2;
     let facilityName = selectSearchValues?.facilityName;
 
     if (
-      ProviderID ||
-      NPI ||
-      Taxid ||
-      ProviderFirstName ||
-      ProviderLastName ||
-      City ||
-      State ||
-      facilityName
+        ProviderID ||
+        NPI ||
+        Taxid ||
+        ProviderFirstName ||
+        ProviderLastName ||
+        City ||
+        State ||
+        facilityName
     ) {
       let getApiJson = {
         option: "PROVIDERSEARCHDATA",
@@ -465,19 +467,19 @@ const ProviderDisputeClaimInformation = (props) => {
         resApiData = resApiData?.length > 0 ? resApiData : [];
         if(resApiData[0].length === 0 )  {
           console.log("No data found for the member ID");
-             alert("No data found");
-             return; 
-           }
+          alert("No data found");
+          return;
+        }
         if (resApiData.length > 0) {
           const respKeys = Object.keys(resApiData);
           respKeys.forEach((k) => {
             let apiResponse = resApiData[k];
             if (
-              apiResponse.hasOwnProperty("Provider_Par_Date") &&
-              typeof apiResponse.Provider_Par_Date === "string"
+                apiResponse.hasOwnProperty("Provider_Par_Date") &&
+                typeof apiResponse.Provider_Par_Date === "string"
             ) {
               const mad = new Date(
-                getDatePartOnly(apiResponse.Provider_Par_Date),
+                  getDatePartOnly(apiResponse.Provider_Par_Date),
               );
               apiResponse.Provider_Par_Date = extractDate(mad);
             }
@@ -500,20 +502,20 @@ const ProviderDisputeClaimInformation = (props) => {
 
   const providerSearchTableComponent = () => {
     let columnNames =
-      "Issue Number~Issue_Number,Provider ID~Provider_ID,Provider First Name~Provider_Name,Provider Last Name~Provider_Last_Name,TIN~Provider_TIN,Provider/Vendor Specialty~Provider_Vendor_Specialty,Provider Taxonomy~Provider_Taxonomy,NPI~NPI_ID,Phone~Phone_Number,Address Line 1~Address_Line_1,Address Line 2~Address_Line_2,Zip Code~Zip_Code,City~City,State~State,Participating Provider~Participating_Provider,Provider Par Date~Provider_Par_Date,Provider IPA~Provider_IPA,Vendor ID~Vendor_ID,Vendor Name~Vendor_Name,Provider Type~Provider_Type,Contact Name~Provider_Contact_Name,Contact Phone Number~Contact_Phone_Number,Contact Email Address~Contact_Email_Address";
+        "Issue Number~Issue_Number,Provider ID~Provider_ID,Provider First Name~Provider_Name,Provider Last Name~Provider_Last_Name,TIN~Provider_TIN,Provider/Vendor Specialty~Provider_Vendor_Specialty,Provider Taxonomy~Provider_Taxonomy,NPI~NPI_ID,Phone~Phone_Number,Address Line 1~Address_Line_1,Address Line 2~Address_Line_2,Zip Code~Zip_Code,City~City,State~State,Participating Provider~Participating_Provider,Provider Par Date~Provider_Par_Date,Provider IPA~Provider_IPA,Vendor ID~Vendor_ID,Vendor Name~Vendor_Name,Provider Type~Provider_Type,Contact Name~Provider_Contact_Name,Contact Phone Number~Contact_Phone_Number,Contact Email Address~Contact_Email_Address";
 
     if (responseData.length > 0) {
       return (
-        <>
-          <TableComponent
-            columnName={columnNames}
-            rowValues={responseData}
-            showCheckBox={true}
-            handleCheckBoxChange={handleCheckBoxChange}
-            handleCheckBoxHeaderChange={handleCheckBoxHeaderChange}
-            CheckBoxInHeader={true}
-          />
-        </>
+          <>
+            <TableComponent
+                columnName={columnNames}
+                rowValues={responseData}
+                showCheckBox={true}
+                handleCheckBoxChange={handleCheckBoxChange}
+                handleCheckBoxHeaderChange={handleCheckBoxHeaderChange}
+                CheckBoxInHeader={true}
+            />
+          </>
       );
     } else {
       return <></>;
@@ -567,10 +569,10 @@ const ProviderDisputeClaimInformation = (props) => {
       rowInput = ProviderclaimInformationGridData[index];
       setGridFieldTempState(rowInput);
     }
-    if (triggeredFormName === "ProviderInformationTable") {
-      rowInput = providerInformationGridData[index];
-      setGridFieldTempState(rowInput);
-    }
+    // if (triggeredFormName === "ProviderInformationTable") {
+    //   rowInput = providerInformationGridData[index];
+    //   setGridFieldTempState(rowInput);
+    // }
   };
 
 
@@ -726,7 +728,7 @@ const ProviderDisputeClaimInformation = (props) => {
             <button
               type="button"
               className="btn btn-outline-primary"
-              onClick={(event) => handleShowProviderSearch(event)}
+              onClick={(event) => handleShowClaimSearch(event)}
               disabled={
                 location.state.stageName === "Redirect Review" ||
                 location.state.stageName === "Documents Needed" ||
@@ -770,21 +772,21 @@ const ProviderDisputeClaimInformation = (props) => {
               </div>
             </div>
             <div>
-              {showProviderSearch && (
-                <ProviderDisputeClaimSearchNew
-                  handleCloseSearch={handleCloseSearch}
-                  selectedCriteria={selectedCriteria}
-                  setSelectedCriteria={setSelectedCriteria}
-                  selectSearchValues={selectSearchValues}
-                  setSelectSearchValues={setSelectSearchValues}
-                  handleClearProviderClaimSearch={handleClearProviderClaimSearch}
-                  showProviderSearch={showProviderSearch}
-                  showProviders={showProviders}
-                  providerSearchTableComponent={providerSearchTableComponent}
-                  responseData={responseData}
-                  setResponseData={setResponseData}
-                  handleSelectedProviders={handleSelectedProviders}
-                />
+              {showClaimSearch && (
+                  <ClaimSearch
+                      handleCloseSearch={handleCloseSearch}
+                      selectedCriteria={selectedCriteria}
+                      setSelectedCriteria={setSelectedCriteria}
+                      selectSearchValues={selectSearchValues}
+                      setSelectSearchValues={setSelectSearchValues}
+                      showClaims={showClaims}
+                      claimSearchTableComponent={claimSearchTableComponent}
+                      responseData={responseData}
+                      setResponseData={setResponseData}
+                      handleClearClaimSearch={handleClearClaimSearch}
+                      showClaimSearch={showClaimSearch}
+                      handleSelectedAddress={handleSelectedAddress}
+                  />
               )}
             </div>
           </div>
