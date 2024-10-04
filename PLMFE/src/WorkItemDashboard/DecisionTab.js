@@ -28,6 +28,7 @@ import {
 } from "@mui/material";
 
 export default function DecisionTab(props) {
+  console.log("decisiontab props", props)
   const [modalShow, setModalShow] = useState({
     FileUpload: false,
     Version: false,
@@ -114,7 +115,7 @@ export default function DecisionTab(props) {
     const { name } = evnt;
     if (name === "decision") {
       prop.state.decision = selectedValue?.value;
-      decisonReasonRef.current.clearValue();
+     // decisonReasonRef.current.clearValue();
     }
     if (prop.state.formNames === "Appeals") {
       console.log("check1", prop.state.formNames);

@@ -14,7 +14,7 @@ import ProviderDisputeMemberInformationAccordion from "./ProviderDisputeMemberIn
 import ExpeditedRequestAccordion from "./ExpeditedRequestAccordion";
 import NotesAccordion from "./ProviderDisputeNotesAccordion";
 import { FaBars } from "react-icons/fa";
-import AuthorizationInformationAccordion from "./ProviderDisputeAuthorizationInformationAccordion";
+import ProviderDisputeAuthorizationInformationAccordion from "./ProviderDisputeAuthorizationInformationAccordion";
 import RepresentativeInformationAccordion from "./ProviderDisputeRepresentativeInformationAccordion";
 import { useHeader } from "./useHeader";
 import DocumentSection from "../DocumentSection";
@@ -37,6 +37,7 @@ import ProviderAddOfRecordsAccordion from "./ProviderAddOfRecordsAccordion";
 
 
 const ProviderDisputes = () => {
+  
   ProviderDisputes.displayName = "Appeals";
   const providerDisputeConfigData = JSON.parse(
     process.env.REACT_APP_PROVIDERDISPUTES_DETAILS,
@@ -180,6 +181,8 @@ const ProviderDisputes = () => {
     setPDClaimInformationGrid
   } = useHeader();
 
+  console.log("PD_location",location)
+
   useEffect(() => {
     setRenderType(RenderType.PROVIDER_DISPUTE);
   }, []);
@@ -200,6 +203,7 @@ const ProviderDisputes = () => {
                 handleData={caseHeader}
                 setCaseHeader={setCaseHeader}
                 caseHeaderFields={caseHeaderFields}
+                renderType={RenderType.PROVIDER_DISPUTE}
               />
               <CaseTimelinesAccordion
                 caseTimelinesData={caseTimelines}
@@ -211,7 +215,6 @@ const ProviderDisputes = () => {
                 caseTimelinesFields={caseTimelinesFields}
               />
               <PdCaseInformationAccordion
-                
                 caseInformationData={pd_CaseInformation}
                 setcaseInformationData={setpdCaseInformation}
                 pdCaseInformationValidationSchema={pdCaseInformationValidationSchema}
@@ -295,17 +298,6 @@ const ProviderDisputes = () => {
                   renderType={RenderType.PROVIDER_DISPUTE}
               />
 
-              {/*<RepresentativeInformationAccordion*/}
-              {/*  handleRepresentativeInformationGridData={*/}
-              {/*    representativeInformationGrid*/}
-              {/*  }*/}
-              {/*  updateRepresentativeInformationGridData={*/}
-              {/*    setRepresentativeInformationGrid*/}
-              {/*  }*/}
-              {/*  representativeInformationGridValidationSchema={*/}
-              {/*    representativeInformationGridValidationSchema*/}
-              {/*  }*/}
-              {/*/>*/}
               <PdRepresentativeInformationAccordion
                   representativeInformationData={pd_RepresentativeInformation}
                   setRepresentativeInformationData={setpdRepresentativeInformation}
@@ -333,9 +325,11 @@ const ProviderDisputes = () => {
                   shouldShowSubmitError={shouldShowSubmitError}
                   renderType={RenderType.PROVIDER_DISPUTE}
               />
-              <AuthorizationInformationAccordion
-                handleOnChange={handleProviderAuthorizationInformationChange}
-                handleData={ProviderauthorizationInformation}
+
+              <ProviderDisputeAuthorizationInformationAccordion
+                handleOnChange={handleAuthorizationInformationChange}
+                handleData={authorizationInformation}
+
                 handleAuthorizationInformationGridData={
                   ProviderauthorizationInformationGrid
                 }
@@ -535,12 +529,12 @@ const ProviderDisputes = () => {
           <div className="row">
             {location.state.formView === "DashboardView" ? (
               <Tabs
-                defaultActiveKey=" Case Header"
+                defaultActiveKey="Provider Disputes"
                 id="justify-tab-example"
                 className="mb-3"
                 justify
               >
-                <Tab eventKey={"Case Header"} title=" Case Details">
+                <Tab eventKey={"Provider Disputes"} title=" Case Details">
                   <FormComponent />
                 </Tab>
 

@@ -127,6 +127,8 @@ const CaseHeader = () => {
     setRenderType,
     caseHeaderFields,
   } = useHeader();
+
+  console.log("PD_location",location)
   const stage = location.state.stageName;
   const stageName =caseHeaderConfigData["StageName"];
   useEffect(() => {

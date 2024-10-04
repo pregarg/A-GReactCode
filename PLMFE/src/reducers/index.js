@@ -895,6 +895,34 @@ const masterPDLineOfBusinessReducer = (state = [], action) => {
   }
   return state;
 };
+
+const masterPDDualPlanReducer = (state = [], action) => {
+  if (action.type === "GET_DUAL_PLAN") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_DUAL_PLAN") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+const masterPDLisReducer = (state = [], action) => {
+  if (action.type === "GET_LIS") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_LIS") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+const masterPDCommPrefReducer = (state = [], action) => {
+  if (action.type === "GET_COMM_PREF") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_COMM_PREF") {
+    state = [];
+    return state;
+  }
+  return state;
+};
 const masterPDCaseFillingMethodReducer = (state = [], action) => {
   if (action.type === "GET_CASE_FILING_METHOD") {
     return [action.payload];
@@ -904,7 +932,33 @@ const masterPDCaseFillingMethodReducer = (state = [], action) => {
   }
   return state;
 };
-
+const masterPDRelationshipReducer = (state = [], action) => {
+  if (action.type === "GET_RELATIONSHIP") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_RELATIONSHIP") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+const masterPDAuthTypeReducer = (state = [], action) => {
+  if (action.type === "GET_AUTH_TYPE") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_AUTH_TYPE") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+const masterPDGoodCauseReasonReducer = (state = [], action) => {
+  if (action.type === "GET_GOOD_CAUSE_REASON") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_GOOD_CAUSE_REASON") {
+    state = [];
+    return state;
+  }
+  return state;
+};
 
 const storeTableStateReducer = (
   state = {
@@ -1064,6 +1118,12 @@ export default combineReducers({
   masterPDIssueLevelNum:masterPDIssueLevelNumReducer,
   masterPDIssueLevelPriority:masterPDIssueLevelPriorityReducer,
   masterPDLineOfBusiness:masterPDLineOfBusinessReducer,
+  masterPDDualPlan:masterPDDualPlanReducer,
+  masterPDLis:masterPDLisReducer,
+  masterPDCommPref:masterPDCommPrefReducer,
+  masterPDRelationship:masterPDRelationshipReducer,
+  masterPDAuthType:masterPDAuthTypeReducer,
+  masterPDGoodCauseReason:masterPDGoodCauseReasonReducer,
   dashboardNavigationState: storeTableStateReducer,
   usersTable: usersReducer,
 });

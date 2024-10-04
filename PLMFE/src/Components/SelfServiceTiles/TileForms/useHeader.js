@@ -45,7 +45,7 @@ export const useHeader = () => {
    
   );
 
-  const { caseHeader, setCaseHeader, caseHeaderFields } =
+  const {caseHeader, setCaseHeader, caseHeaderFields } =
     useCaseHeader(renderType);
 
   const {
@@ -748,14 +748,18 @@ export const useHeader = () => {
   // }, [decisionTab]);
 
   const pdsubmitData = async () => {
+    console.log("providerDisputesConfigData",providerDisputesConfigData)
+    const flowID = providerDisputesConfigData["FlowId"];
+    const stageNAME = providerDisputesConfigData["StageName"];
     console.log("Checkboxed is : ", isCheckedBox)
     let apiJson = {};
     let mainCaseReqBody = {
-      ...mainCaseDetails,
       transactionType: "Provider Disputes",
       stageId: "41",
       caseStatus: "Open",
       lockStatus: "N",
+      flowId: flowID,
+      stageName: stageNAME,
     };
     const checkBoxData = {isChecked : isCheckedBox};
 
@@ -814,12 +818,6 @@ export const useHeader = () => {
     const pdDecisionAddRecord = trimJsonValues({ ...pd_DecisionAddRecord });
     apiJson["PD_Decision"] = pdDecisionAddRecord;
 
-    console.log("providerDisputesConfigData",providerDisputesConfigData)
-
-    // const flowId = providerDisputesConfigData["FlowId"];
-    // const stageName = providerDisputesConfigData["StageName"];
-        const flowId = caseHeaderConfigData["FlowId"];
-        const stageName = caseHeaderConfigData["StageName"];
 
     apiJson["MainCaseTable"] = mainCaseReqBody;
 
@@ -837,8 +835,8 @@ export const useHeader = () => {
     if (apiStat === 0) {
       let procData = {};
       let procDataState = {};
-      procDataState.stageName = stageName;
-      procDataState.flowId = flowId;
+      procDataState.stageName = mainCaseReqBody.stageName;
+      procDataState.flowId = mainCaseReqBody.flowId;
       procDataState.caseNumber = response.data["CreateCase_Output"]["CaseNo"];
       procDataState.decision = "Submit";
       procDataState.userName = authSelector.userName || "system";
@@ -1396,117 +1394,139 @@ export const useHeader = () => {
       }
 
       if (apiStat === 0) {
-        const data = res.data.data;
-        // Extract data
-        const stageName = location.state.stageName;
-        const caseStatus = await getCaseStatus(stageName);
-        const caseReceivedDate = new Date(
-          data.angCaseHeader[0]["Case_Received_Date#date"],
-        );
 
-        const caseInfo = data?.["angCaseInformation"]?.[0];
-        const keysToCheck = [
-          "Product",
-          "Product_State",
-          "Line_of_Business_LOB",
-        ];
-        const hasAnyValue = hasAnyNonEmptyValue(caseInfo, keysToCheck);
+         const data = res.data.data;
+        // // Extract data
+        // console.log(" data.angCaseHeader[0]", data.angCaseHeader[0])
+        // const stageName = location.state.stageName;
+        // const caseStatus = await getCaseStatus(stageName);
+        // const caseReceivedDate = new Date(
+        //    data.angCaseHeader[0]["Case_Received_Date#date"],
+        //   // data.angCaseHeader[0]["Case_Received_Date"],
 
-        if (caseInfo && hasAnyValue) {
-          const caseLevelPriority = caseInfo.Case_Level_Priority;
-          const appealType = caseInfo.Appeal_Type;
-          const appellant_Type = caseInfo.Appellant_Type;
-          const { dueDate, internalDate } = calculateCaseDueDate(
-            caseReceivedDate,
-            caseLevelPriority,
-            appealType,
-            appellant_Type,
-          );
-          const currentDate = new Date();
+        // );
 
-          const caseDueDateString = extractDate(dueDate);
-          const internalDueDateString = extractDate(internalDate);
-          const finalcaseReceivedDate = extractDate(caseReceivedDate);
+        // const caseInfo = data?.["angCaseInformation"]?.[0];
+        // const keysToCheck = [
+        //   "Product",
+        //   "Product_State",
+        //   "Line_of_Business_LOB",
+        // ];
+        // const hasAnyValue = hasAnyNonEmptyValue(caseInfo, keysToCheck);
 
-          const timeLeft = dueDate - currentDate;
+        // if (caseInfo && hasAnyValue) {
+        //   const caseLevelPriority = caseInfo.Case_Level_Priority;
+        //   const appealType = caseInfo.Appeal_Type;
+        //   const appellant_Type = caseInfo.Appellant_Type;
+        //   const { dueDate, internalDate } = calculateCaseDueDate(
+        //     caseReceivedDate,
+        //     caseLevelPriority,
+        //     appealType,
+        //     appellant_Type,
+        //   );
+        //   const currentDate = new Date();
 
-          daysLeft = Math.max(Math.floor(timeLeft / (1000 * 60 * 60 * 24)), 0);
-          hoursLeft = Math.max(
-            Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-            0,
-          );
-          minutesLeft = Math.max(
-            Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60)),
-            0,
-          );
-          secondsLeft = Math.max(
-            Math.floor((timeLeft % (1000 * 60)) / 1000),
-            0,
-          );
+        //   const caseDueDateString = extractDate(dueDate);
+        //   const internalDueDateString = extractDate(internalDate);
+        //   const finalcaseReceivedDate = extractDate(caseReceivedDate);
 
-          setCaseHeader((prevState) => ({
-            ...prevState,
-            ...(data?.["angCaseHeader"]?.[0] || {}),
-            Case_Received_Date: finalcaseReceivedDate,
-            Case_Status: caseStatus || prevState.Case_Status,
-            Case_Due_Date: caseDueDateString,
-            Internal_Due_Date: internalDueDateString,
-          }));
-        } else {
-          setCaseHeader((prevState) => ({
-            ...prevState,
-            ...(data?.["angCaseHeader"]?.[0] || {}),
-            Case_Status: caseStatus || prevState.Case_Status,
-          }));
-        }
-        // Calculate case aging
-        const timeDifference = currentDate - caseReceivedDate;
-        const caseAgingInDays = Math.floor(
-          timeDifference / (1000 * 60 * 60 * 24),
-        );
-        const complianceTime = `${daysLeft}d ${hoursLeft}h ${minutesLeft}m ${secondsLeft}s`;
-        console.log("complianceTime",complianceTime)
-        console.log("setCaseTimelines",setCaseTimelines)
-        setCaseTimelines((prevState) => ({
-          ...prevState,
-          ...(data?.["angCaseTimelines"]?.[0] || {}),
-          Case_Aging: caseAgingInDays + " days",
-          Compliance_Time_Left_to_Finish: complianceTime + " remaining",
-        }));
-        console.log("data casetimelines",data?.["angCaseTimelines"])
-        // Update other state values
-        // setCaseTimelines(data?.["angCaseTimelines"]?.[0] || {});
+        //   const timeLeft = dueDate - currentDate;
 
-        setCaseInformation(data?.["angCaseInformation"]?.[0] || {});
-        setClaimInformation(data?.["angClaimInformation"]?.[0] || {});
-        setClaimInformationGrid(data?.["angClaimInformationGrid"] || []);
-        setProviderInformationGrid(data?.["angProviderInformationGrid"] || []);
-        setMemberInformation(data?.["angMemberInformation"]?.[0] || {});
-        setProviderMemberInformation(data?.["angProviderMemberInformation"]?.[0] || {});
-        setPdProviderInformation(data?.["pdProviderInformation"]?.[0] || {});
-        setRepresentativeInformationGrid(
-          data?.["angRepresentativeInformationGrid"] || [],
-        );
-        setAuthorizationInformation(
-          data?.["angAuthorizationInformation"]?.[0] || {},
-        );
-        setAuthorizationInformationGrid(
-          data?.["angAuthorizationInformationGrid"] || [],
-        );
-        setProviderAuthorizationInformationGrid(
-          data?.["pdAuthorizationInformationGrid"] || [],
-        );
-        setDocNeededGrid(data?.["angDocNeededGrid"] || [] );
-        setExpeditedRequest(data?.["angExpeditedRequest"]?.[0] || {});
-        setNotes(data?.["angNotes"]?.[0] || {});
+        //   daysLeft = Math.max(Math.floor(timeLeft / (1000 * 60 * 60 * 24)), 0);
+        //   hoursLeft = Math.max(
+        //     Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+        //     0,
+        //   );
+        //   minutesLeft = Math.max(
+        //     Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60)),
+        //     0,
+        //   );
+        //   secondsLeft = Math.max(
+        //     Math.floor((timeLeft % (1000 * 60)) / 1000),
+        //     0,
+        //   );
+
+        //   setCaseHeader((prevState) => ({
+        //     ...prevState,
+        //     ...(data?.["angCaseHeader"]?.[0] || {}),
+        //     Case_Received_Date: finalcaseReceivedDate,
+        //     Case_Status: caseStatus || prevState.Case_Status,
+        //     Case_Due_Date: caseDueDateString,
+        //     Internal_Due_Date: internalDueDateString,
+        //   }));
+        // } else {
+        //   setCaseHeader((prevState) => ({
+        //     ...prevState,
+        //     ...(data?.["angCaseHeader"]?.[0] || {}),
+        //     Case_Status: caseStatus || prevState.Case_Status,
+        //   }));
+        // }
+        // // Calculate case aging
+        // const timeDifference = currentDate - caseReceivedDate;
+        // const caseAgingInDays = Math.floor(
+        //   timeDifference / (1000 * 60 * 60 * 24),
+        // );
+        // const complianceTime = `${daysLeft}d ${hoursLeft}h ${minutesLeft}m ${secondsLeft}s`;
+        // console.log("complianceTime",complianceTime)
+        // console.log("setCaseTimelines",setCaseTimelines)
+        // // setCaseTimelines((prevState) => ({
+        // //   ...prevState,
+        // //   ...(data?.["angCaseTimelines"]?.[0] || {}),
+        // //   Case_Aging: caseAgingInDays + " days",
+        // //   Compliance_Time_Left_to_Finish: complianceTime + " remaining",
+        // // }));
+        // // console.log("data casetimelines",data?.["angCaseTimelines"])
+        // // Update other state values
+
+        //  setCaseTimelines(data?.["angCaseTimelines"]?.[0] || {});
+
+        // setCaseInformation(data?.["angCaseInformation"]?.[0] || {});
+        // setClaimInformation(data?.["angClaimInformation"]?.[0] || {});
+        // setClaimInformationGrid(data?.["angClaimInformationGrid"] || []);
+        // setProviderInformationGrid(data?.["angProviderInformationGrid"] || []);
+        // setMemberInformation(data?.["angMemberInformation"]?.[0] || {});
+        // setProviderMemberInformation(data?.["angProviderMemberInformation"]?.[0] || {});
+        // setPdProviderInformation(data?.["pdProviderInformation"]?.[0] || {});
+        // setRepresentativeInformationGrid(
+        //   data?.["angRepresentativeInformationGrid"] || [],
+        // );
+        // setAuthorizationInformation(
+        //   data?.["angAuthorizationInformation"]?.[0] || {},
+        // );
+        // setAuthorizationInformationGrid(
+        //   data?.["angAuthorizationInformationGrid"] || [],
+        // );
+        // setDocNeededGrid(data?.["angDocNeededGrid"] || [] );
+        // setExpeditedRequest(data?.["angExpeditedRequest"]?.[0] || {});
+        // setNotes(data?.["angNotes"]?.[0] || {});
+
+      
+        // setcaseDecision(data?.["angCaseDecision"]?.[0] || {});
+        // setcaseDecisionDetails(data?.["angCaseDecisionDetails"]?.[0] || {});
         
-        setcaseDecision(data?.["angCaseDecision"]?.[0] || {});
-        setcaseDecisionDetails(data?.["angCaseDecisionDetails"]?.[0] || {});
-
-        // setCaseTimelines(data?.["pdCaseTimelines"]?.[0] || {});
-        // setClaimInformation(data?.["pdCaseInformation"]?.[0] || {});
-        // setClaimInformation(data?.["pdClaimInformation"]?.[0] || {});
+        // ------------------PROVIDER DISPUTES---------------------- 
+        // setCaseHeader(data?.["pdCaseHeader"]?.[0] || {});
+        setCaseTimelines(data?.["pdCaseTimelines"]?.[0] || {});
         
+        setpdCaseInformation(data?.["pdCaseInformation"]?.[0] || {});
+        setPDCaseInformationGrid(data?.["pdCaseInfoGrid"] || []);
+        
+        setProviderClaimInformation(data?.["pdClaimInformation"]?.[0] || {});
+        setPDClaimInformationGrid(data?.["pdClaimInfoGrid"] || []);
+        
+        setpdProviderInformation(data?.["pdProviderInformation"]?.[0] || {});
+        setpdProviderAddRecord(data?.["pdProviderAddRecord"]?.[0] || {});
+        setpdProviderAlt(data?.["pdProviderAlt"]?.[0] || {});
+        
+        setProviderMemberInformation(data?.["pdMemberInformation"]?.[0] || {});
+        setpdMemberAddRecord(data?.["pdMemberAddRecord"]?.[0] || {});
+        setpdMemberAltInfo(data?.["pdMemberAltInfo"]?.[0] || {});
+        
+        setpdRepresentativeInformation(data?.["pdRepresentativeInformation"]?.[0] || {});
+        setpdRepresentativeAltRecord(data?.["pdRepresentativeAltRecord"]?.[0] || {});
+        setpdRepresentativeAddRecord(data?.["pdDecisionAddRecord"]?.[0] || {});
+
+
         setFormData(_.cloneDeep(data));
 
         // Update case data in caseData array
