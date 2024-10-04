@@ -91,10 +91,15 @@ const ProviderDisputes = () => {
     representativeInformationGrid,
     setRepresentativeInformationGrid,
     handleAuthorizationInformationChange,
+    handleProviderAuthorizationInformationChange,
     authorizationInformation,
     setAuthorizationInformation,
     authorizationInformationGrid,
     setAuthorizationInformationGrid,
+    ProviderauthorizationInformation,
+    setProviderAuthorizationInformation,
+    ProviderauthorizationInformationGrid,
+    setProviderAuthorizationInformationGrid,
     expeditedRequest,
     setExpeditedRequest,
     notes,
@@ -132,6 +137,7 @@ const ProviderDisputes = () => {
     setIscheckedBox,
     providerInformationGridValidationSchema,
     authorizationInformationGridValidationSchema,
+    ProviderauthorizationInformationGridValidationSchema,
     representativeInformationGridValidationSchema,
     memberAddOfRecordsValidationSchema,
     representativeAddOfRecordsValidationSchema,
@@ -319,17 +325,19 @@ const ProviderDisputes = () => {
                   shouldShowSubmitError={shouldShowSubmitError}
                   renderType={RenderType.PROVIDER_DISPUTE}
               />
+
               <ProviderDisputeAuthorizationInformationAccordion
                 handleOnChange={handleAuthorizationInformationChange}
                 handleData={authorizationInformation}
+
                 handleAuthorizationInformationGridData={
-                  authorizationInformationGrid
+                  ProviderauthorizationInformationGrid
                 }
                 updateAuthorizationInformationGridData={
-                  setAuthorizationInformationGrid
+                  setProviderAuthorizationInformationGrid
                 }
                 authorizationInformationGridValidationSchema={
-                  authorizationInformationGridValidationSchema
+                 ProviderauthorizationInformationGridValidationSchema
                 }
                 renderType={RenderType.PROVIDER_DISPUTE}
                 
