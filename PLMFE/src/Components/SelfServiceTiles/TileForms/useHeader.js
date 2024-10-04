@@ -1512,7 +1512,7 @@ export const useHeader = () => {
         // ------------------PROVIDER DISPUTES---------------------- 
         // setCaseHeader(data?.["pdCaseHeader"]?.[0] || {});
         setCaseTimelines(data?.["pdCaseTimelines"]?.[0] || {});
-        
+
         setpdCaseInformation(data?.["pdCaseInformation"]?.[0] || {});
         setPDCaseInformationGrid(data?.["pdCaseInfoGrid"] || []);
         
@@ -1529,7 +1529,11 @@ export const useHeader = () => {
         
         setpdRepresentativeInformation(data?.["pdRepresentativeInformation"]?.[0] || {});
         setpdRepresentativeAltRecord(data?.["pdRepresentativeAltRecord"]?.[0] || {});
-        setpdRepresentativeAddRecord(data?.["pdDecisionAddRecord"]?.[0] || {});
+        setpdRepresentativeAddRecord(data?.["pdRepresentativeAddRecord"]?.[0] || {});
+
+        setProviderAuthorizationInformationGrid(data?.["pdAuthorizationInformationGrid"]?.[0] || {});
+
+        setpdDecisionAddRecord(data?.["pdDecisionAddRecord"]?.[0] || {});
 
 
         setFormData(_.cloneDeep(data));
