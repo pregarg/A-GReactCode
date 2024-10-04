@@ -249,7 +249,9 @@ const ProviderDisputes = () => {
                   providerInformationFields={providerInformationFields}
                   providerInformationErrors={providerInformationErrors}
                   shouldShowSubmitError={shouldShowSubmitError}
+                  setIscheckedBox = {setIscheckedBox}
                   renderType={RenderType.PROVIDER_DISPUTE}
+
               />
               <ProviderAddOfRecordsAccordion
                   providerAddData={pd_ProviderAddRecord}
