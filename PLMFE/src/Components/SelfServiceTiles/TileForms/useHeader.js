@@ -751,7 +751,7 @@ export const useHeader = () => {
     console.log("providerDisputesConfigData",providerDisputesConfigData)
     const flowID = providerDisputesConfigData["FlowId"];
     const stageNAME = providerDisputesConfigData["StageName"];
-    console.log("Checkboxed is : ", isCheckedBox)
+    
     let apiJson = {};
     let mainCaseReqBody = {
       transactionType: "Provider Disputes",
@@ -761,7 +761,12 @@ export const useHeader = () => {
       flowId: flowID,
       stageName: stageNAME,
     };
-    const checkBoxData = {isChecked : isCheckedBox};
+    const temp = localStorage.getItem('checkBox') == 'true' ?1:0;
+    localStorage.setItem('checkBox','false');
+    console.log("type of temp is : ", temp)
+
+    
+    const checkBoxData = {isChecked : temp};
 
     const pdCaseHeader = trimJsonValues({ ...caseHeader });
     apiJson["PD_CASE_HEADER"] = pdCaseHeader;
