@@ -1878,6 +1878,44 @@ export const getMasterPDGrantGoodCause= (
     }
   };
 };
+
+export const getMasterPDGoodCauseReason= (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append("tableName", "PD_MASTER_GOOD_CAUSE_REASON~masterPDGoodCauseReason");
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterPDGoodCauseReason];
+            //console.log(response);
+            dispatch({ type: "GET_GOOD_CAUSE_REASON", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_GOOD_CAUSE_REASON", payload: "" });
+    }
+  };
+};
+
+
 export const getMasterPDPortalEnrolled= (
   token,
   clearFlag = false,
@@ -2265,6 +2303,185 @@ export const getMasterPDLOBMapping= (
   };
 };
 
+export const getMasterPDDualPlan= (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append("tableName", "PD_MASTER_DUAL_PLAN~masterPDDualPlan");
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterPDDualPlan];
+            //console.log(response);
+            dispatch({ type: "GET_DUAL_PLAN", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_DUAL_PLAN", payload: "" });
+    }
+  };
+};
+export const getMasterPDLIS= (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append("tableName", "PD_MASTER_LIS~masterPDLis");
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterPDLis];
+            //console.log(response);
+            dispatch({ type: "GET_LIS", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_LIS", payload: "" });
+    }
+  };
+};
+
+export const getMasterPDCommPref= (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append("tableName", "PD_MASTER_COMM_PREF~masterPDCommPref");
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterPDCommPref];
+            //console.log(response);
+            dispatch({ type: "GET_COMM_PREF", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_COMM_PREF", payload: "" });
+    }
+  };
+};
+
+export const getMasterPDRelationship= (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append("tableName", "PD_MASTER_RELATIONSHIP~masterPDRelationship");
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterPDRelationship];
+            //console.log(response);
+            dispatch({ type: "GET_RELATIONSHIP", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_RELATIONSHIP", payload: "" });
+    }
+  };
+};
+
+export const getMasterPDAuthType= (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append("tableName", "PD_MASTER_AUTH_TYPE~masterPDAuthType");
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterPDAuthType];
+            //console.log(response);
+            dispatch({ type: "GET_AUTH_TYPE", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_AUTH_TYPE", payload: "" });
+    }
+  };
+};
+  
 
 export const getMasterAddressType = (
   token,

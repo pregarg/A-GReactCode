@@ -18,19 +18,29 @@ export const useRepresentativeInformation = (renderType) => {
 
   const [representativeInformationValidationSchema, setRepresentativeInformationValidationSchema] =
       useState(Yup.object().shape({}));
+      const masterPDRelationshipSelector = useSelector(
+        (state) => state?.masterPDRelationship,
+      );
+      const masterPDAuthTypeSelector = useSelector(
+        (state) => state?.masterPDAuthType,
+      );
+      const [relationshipValues, setRelationshipValues] = useState([]);
+      const [authTypeValues, setAuthTypeValues] = useState([]);
 
-
-  useEffect(() => {
-    const kvMapper = (e) => ({
-      label: convertToCase(e),
-      value: convertToCase(e),
-    });
-    const mailToAddress = masterPDMailToAddressSelector?.[0] || [];
-    // setMailToAddressValues(
-    //     mailToAddress.map((e) => e.Mail_to_Address).map(kvMapper),
-    // );
-  }, []);
-
+      useEffect(() => {
+        const kvMapper = (e) => ({
+          label: convertToCase(e),
+          value: convertToCase(e),
+        });
+        const relationship = masterPDRelationshipSelector?.[0] || [];
+        setRelationshipValues(
+          relationship.map((e) => e.Relationship).map(kvMapper),
+        );
+        const authType = masterPDAuthTypeSelector?.[0] || [];
+        setAuthTypeValues(
+          authType.map((e) => e.Auth_Type).map(kvMapper),
+        );
+      }, []);
 
 
   useEffect(() => {
@@ -50,17 +60,17 @@ export const useRepresentativeInformation = (renderType) => {
         renderTypes: [RenderType.PROVIDER_DISPUTE],
       },
       {
-        type: "input",
+        type: "select",
         name: "Relationship",
         placeholder: "Relationship",
-        maxLength: 50,
+        values: relationshipValues,
         renderTypes: [RenderType.PROVIDER_DISPUTE],
       },
       {
-        type: "input",
+        type: "select",
         name: "Authorization_Type",
         placeholder: "Authorization Type",
-        maxLength: 50,
+        values: authTypeValues,
         renderTypes: [RenderType.PROVIDER_DISPUTE],
         validation:{}
       },

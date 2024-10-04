@@ -18,7 +18,10 @@ export const useProviderInformation = (renderType) => {
 
   const [providerInformationValidationSchema, setProviderInformationValidationSchema] =
       useState(Yup.object().shape({}));
-
+      const masterPDCommPrefSelector = useSelector(
+        (state) => state?.masterPDCommPref,
+      );
+      const [commPrefValues, setCommPrefValues] = useState([]);
 
   useEffect(() => {
     const kvMapper = (e) => ({
@@ -29,6 +32,10 @@ export const useProviderInformation = (renderType) => {
     // setMailToAddressValues(
     //     mailToAddress.map((e) => e.Mail_to_Address).map(kvMapper),
     // );
+    const commPref = masterPDCommPrefSelector?.[0] || [];
+      setCommPrefValues(
+        commPref.map((e) => e.Comm_Pref).map(kvMapper),
+      );
   }, []);
 
 
@@ -122,10 +129,10 @@ export const useProviderInformation = (renderType) => {
         validation:{}
       },
       {
-        type: "input",
+        type: "select",
         name: "Communication_Preference",
         placeholder: "Communication Preference",
-        maxLength: 50,
+        values: commPrefValues,
         renderTypes: [RenderType.PROVIDER_DISPUTE],
         validation:{}
       },

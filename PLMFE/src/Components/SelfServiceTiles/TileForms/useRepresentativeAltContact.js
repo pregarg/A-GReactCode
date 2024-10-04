@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { RenderType } from "./Constants";
+import useGetDBTables from "../../CustomHooks/useGetDBTables";
+import { useSelector } from "react-redux";
 
 export const useRepresentativeAltContact = (renderType) => {
+  const { convertToCase } = useGetDBTables();
 
   const [representativeAltFields, setRepresentativeAltFields] = useState([]);
   const [pd_RepresentativeAltRecord, setpdRepresentativeAltRecord] = useState({
@@ -11,6 +14,39 @@ export const useRepresentativeAltContact = (renderType) => {
 
   const [representativeAltContactValidationSchema, setRepresentativeAltContactValidationSchema] =
       useState(Yup.object().shape({}));
+      
+      const masterPDRelationshipSelector = useSelector(
+        (state) => state?.masterPDRelationship,
+      );
+      const masterPDAuthTypeSelector = useSelector(
+        (state) => state?.masterPDAuthType,
+      );
+      const masterPDCommPrefSelector = useSelector(
+        (state) => state?.masterPDCommPref,
+      );
+      const [relationshipValues, setRelationshipValues] = useState([]);
+      const [authTypeValues, setAuthTypeValues] = useState([]);
+    
+      const [commPrefValues, setCommPrefValues] = useState([]);
+
+      useEffect(() => {
+        const kvMapper = (e) => ({
+          label: convertToCase(e),
+          value: convertToCase(e),
+        });
+        const relationship = masterPDRelationshipSelector?.[0] || [];
+        setRelationshipValues(
+          relationship.map((e) => e.Relationship).map(kvMapper),
+        );
+        const authType = masterPDAuthTypeSelector?.[0] || [];
+        setAuthTypeValues(
+          authType.map((e) => e.Auth_Type).map(kvMapper),
+        );
+        const commPref = masterPDCommPrefSelector?.[0] || [];
+      setCommPrefValues(
+        commPref.map((e) => e.Comm_Pref).map(kvMapper),
+      );
+      }, []);
 
   useEffect(() => {
     const fields = [
@@ -30,17 +66,17 @@ export const useRepresentativeAltContact = (renderType) => {
       },
 
       {
-        type: "input",
+        type: "select",
         name: "Relationship",
         placeholder: "Relationship",
-        maxLength: 50,
+        values: relationshipValues,
         renderTypes: [RenderType.PROVIDER_DISPUTE],
       },
       {
-        type: "input",
+        type: "select",
         name: "Authorization_Type",
         placeholder: "Authorization Type",
-        maxLength: 50,
+        values: authTypeValues,
         renderTypes: [RenderType.PROVIDER_DISPUTE],
       },
 
@@ -101,10 +137,10 @@ export const useRepresentativeAltContact = (renderType) => {
         renderTypes: [ RenderType.PROVIDER_DISPUTE],
       },
       {
-        type: "input",
+        type: "select",
         name: "Communication_Preference",
         placeholder: "Communication Preference",
-        maxLength: 50,
+        values: commPrefValues,
         renderTypes: [ RenderType.PROVIDER_DISPUTE],
       },
     ].filter((e) => e.renderTypes.includes(renderType));

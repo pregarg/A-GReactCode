@@ -16,16 +16,10 @@ const ProviderMemberInformationAccordion = (props) => {
     props.ProvidermemberInformationData,
   );
 
-  const angDeceasedSelector = useSelector((state) => state?.masterAngDeceased);
-  const angGenderSelector = useSelector((state) => state?.masterAngGender);
-  const angDualSelector = useSelector((state) => state?.masterAngDualPlan);
-  const mailToAddSelector = useSelector(
-    (state) => state?.masterAngMailToAddress,
-  );
-  const angPrefSelector = useSelector(
-    (state) => state?.masterAngPreferredLanguage,
-  );
-  const commAngPrefSelector = useSelector((state) => state?.masterAngCommPref);
+  const pdLISSelector = useSelector((state) => state?.masterPDLis);
+  const pdPortalEnrolledSelector = useSelector((state) => state?.masterPDPortalEnrolled);
+  const pdDualSelector = useSelector((state) => state?.masterPDDualPlan);
+ 
   const token = useSelector((state) => state.auth.token);
   const [selectedCriteria, setSelectedCriteria] = useState();
   const [selectSearchValues, setSelectSearchValues] = useState();
@@ -307,45 +301,25 @@ const ProviderMemberInformationAccordion = (props) => {
     }
   };
 
-  const [deceasedValues, setDeceasedValues] = useState([]);
-  const [genderValues, setGenderValues] = useState([]);
+  const [lisValues, setLISValues] = useState([]);
+  const [portalEnrolledValues, setPortalEnrolledValues] = useState([]);
   const [dualPlanValues, setDualPlanValues] = useState([]);
-  const [mailToAddressValues, setMainToAddressValues] = useState([]);
-  const [preferredLanguageValues, setPreferredLanguageValues] = useState([]);
-  const [commPrefValues, setCommPrefValues] = useState([]);
-  const [specialNeedsValues] = useState([
-    { label: "Yes", value: "Yes" },
-    { label: "No", value: "No" },
-  ]);
+
 
   useEffect(() => {
     const kvMapper = (e) => ({
       label: convertToCase(e),
       value: convertToCase(e),
     });
-    const angDeceased = angDeceasedSelector?.[0] || [];
-    setDeceasedValues(angDeceased.map((e) => e.Deceased).map(kvMapper));
+    const pdLIS = pdLISSelector?.[0] || [];
+    setLISValues(pdLIS.map((e) => e.Provider_LIS).map(kvMapper));
 
-    const angGender = angGenderSelector?.[0] || [];
-    setGenderValues(angGender.map((e) => e.Gender).map(kvMapper));
+    const pdPortalEnrolled = pdPortalEnrolledSelector?.[0] || [];
+    setPortalEnrolledValues(pdPortalEnrolled.map((e) => e.Provider_Portal_Enrolled).map(kvMapper));
 
-    const angDual = angDualSelector?.[0] || [];
-    setDualPlanValues(angDual.map((e) => e.Dual_Plan).map(kvMapper));
+    const pdDual = pdDualSelector?.[0] || [];
+    setDualPlanValues(pdDual.map((e) => e.Provider_Dual_Plan).map(kvMapper));
 
-    const mailToAdd = mailToAddSelector?.[0] || [];
-    setMainToAddressValues(
-      [...new Set(mailToAdd.map((e) => convertToCase(e.Mail_to_Address)))].map(
-        kvMapper,
-      ),
-    );
-
-    const angPref = angPrefSelector?.[0] || [];
-    setPreferredLanguageValues(
-      angPref.map((e) => e.Preferred_Language).map(kvMapper),
-    );
-
-    const commAngPref = commAngPrefSelector?.[0] || [];
-    setCommPrefValues(commAngPref.map((e) => e.Comm_Pref).map(kvMapper));
   }, []);
 
   return (
@@ -423,13 +397,13 @@ const ProviderMemberInformationAccordion = (props) => {
             </div>
     
             <div className="row my-2">
-            {renderInputField("Provider_LIS", "LIS?", 50)}
+            {renderSelectField("Provider_LIS", "LIS?", lisValues)}
             {renderInputField(
                 "Provider_Preferred_Language",
                 "Preferred Language",
                 4000,
               )}
-              {/* {renderSelectField("Provider_Portal_Enrolled", "Portal Enrolled", 50)} */}
+              {renderSelectField("Provider_Portal_Enrolled", "Portal Enrolled", portalEnrolledValues)}
 
             </div>
             <div className="row my-2">

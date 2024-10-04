@@ -66,7 +66,31 @@ const RepresentativeAltContactAccordion = (props) => {
         />
       </div>
   );
-
+  const renderSelectField = (name, placeholder, options) => (
+    <div className="col-xs-6 col-md-4">
+      <FormikSelectField
+        name={name}
+        placeholder={placeholder}
+        data={representativeAltData}
+        options={options}
+        onChange={handleRepresentativeAltData}
+        displayErrors={props.shouldShowSubmitError}
+        disabled={
+          location.state.formView === "DashboardView" &&
+          (location.state.stageName === "Redirect Review" ||
+            location.state.stageName === "Documents Needed" ||
+            location.state.stageName === "Effectuate" ||
+            location.state.stageName === "Pending Effectuate" ||
+            location.state.stageName === "Resolve" ||
+            location.state.stageName === "Case Completed" ||
+            location.state.stageName === "Reopen" ||
+            location.state.stageName === "CaseArchived")
+        }
+        schema={props.representativeAltContactValidationSchema}
+        errors={props.representativeAltErrors}
+      />
+    </div>
+  );
 
 
   return (
@@ -100,7 +124,7 @@ const RepresentativeAltContactAccordion = (props) => {
 
                     {renderElements(
                         props.representativeAltFields,
-                        "",
+                        renderSelectField,
                         renderInputField,
                         "",
 
