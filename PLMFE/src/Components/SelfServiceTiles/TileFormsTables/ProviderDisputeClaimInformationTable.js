@@ -33,38 +33,25 @@ export default function ProviderDisputeClaimInformationTable({
 
   const { getGridJson, convertToCase } = useGetDBTables();
 
-  const [issueTypeValues, setissueTypeValues] = useState([]);
-  const [decisionValues, setdecisionValues] = useState([]);
-  const [decisionReasonValues, setdecisionReasonValues] = useState([]);
+  const [claimTypeValues, setClaimTypeValues] = useState([]);
+
 
   let prop = useLocation();
-  const masterPDIssueTypeSelector = useSelector(
-    (state) => state?.masterPDIssueType,
+  const masterPDClaimTypeSelector = useSelector(
+    (state) => state?.masterPDClaimType,
   );
-  const masterPDDecisionSelector = useSelector(
-    (state) => state?.masterPDDecision,
-  );
-  const masterPDDecisionReasonSelector = useSelector(
-    (state) => state?.masterPDDecisionReason,
-  );
+ 
 
 useEffect(() => {
     const kvMapper = (e) => ({
       label: convertToCase(e),
       value: convertToCase(e),
     });
-    const issueType = masterPDIssueTypeSelector?.[0] || [];
-    setissueTypeValues(
-        issueType.map((e) => e.Issue_Type).map(kvMapper),
+    const claimType = masterPDClaimTypeSelector?.[0] || [];
+    setClaimTypeValues(
+      claimType.map((e) => e.Claim_Type).map(kvMapper),
     );
-    const decision = masterPDDecisionSelector?.[0] || [];
-    setdecisionValues(
-        decision.map((e) => e.Decision).map(kvMapper),
-    );
-    const decisionReason =masterPDDecisionReasonSelector?.[0] || [];
-    setdecisionReasonValues(
-        decisionReason.map((e) => e.Decision_Reason).map(kvMapper),
-    );
+  
     
 }, []);
   
@@ -72,10 +59,10 @@ useEffect(() => {
   const tableFields = [
 			 "Issue_Number",
               "Claim_Number",
-              "Authorization Number",
+              "Authorization_Number",
               "Provider_Name",
               "Service_Start_Date",
-	          "Service_End_Date",
+	            "Service_End_Date",
               "Number_Of_Days_In_Span",
               "Post_Date",
               "Claim_Type",
@@ -221,19 +208,19 @@ useEffect(() => {
                 "Service End Date",
               )}
               {renderSimpleInputField("Number_Of_Days_In_Span", "Number Of Days In Span", 50, index)}
-              {renderSimpleSelectField("Post_Date", "Post Date", issueTypeValues, index)}
+              {renderSimpleDatePickerField("Post_Date", "Post Date","Post Date")}
              
           </div>
           <div className="row">
-            {renderSimpleSelectField("Claim_type", "Claim type", decisionValues)}
+            {renderSimpleSelectField("Claim_Type", "Claim type", claimTypeValues)}
             {renderSimpleInputField("Billed_Amount", "Billed AmountS)", 50, index)}
             {renderSimpleInputField("Allowed_Amount", "Allowed Amount", 50, index)}
             {renderSimpleInputField("CCT_Policy_Name", "CCT Policy Name", 50, index)}
            
           </div>
           <div className="row">
-          {renderSimpleDatePickerField("Procedure_Code", "Procedure Code or Diagnosis code", index)}
-          {renderSimpleInputField("Patient_Ref", "Patient Ref/Account",0, index)}
+          {renderSimpleDatePickerField("Procedure_Code", "Procedure Code or Diagnosis code", "Procedure Code or Diagnosis code")}
+          {renderSimpleInputField("Patient_Ref", "Patient Ref/Account",100, index)}
           {/* {renderSimpleSelectField("Provider_Account", "Provider Account", filedTimelyValues, index)} */}
           </div>
             

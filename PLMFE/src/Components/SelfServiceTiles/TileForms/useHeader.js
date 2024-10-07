@@ -900,6 +900,7 @@ export const useHeader = () => {
       authorizationInformationGrid,
     );
     const angDocNeededGrid = getGridDataValues(docNeededGrid);
+
     const angCaseHeader = trimJsonValues({ ...updatedCaseHeader });
     const angCaseTimelines = trimJsonValues({ ...caseTimelines });
     const angCaseInformation = trimJsonValues({ ...caseInformation });
@@ -1511,6 +1512,7 @@ export const useHeader = () => {
         
         // ------------------PROVIDER DISPUTES---------------------- 
         // setCaseHeader(data?.["pdCaseHeader"]?.[0] || {});
+        //location.state.lockStatus = data?.["mainTable"]?.[0]?.LockStatus
         setCaseTimelines(data?.["pdCaseTimelines"]?.[0] || {});
 
         setpdCaseInformation(data?.["pdCaseInformation"]?.[0] || {});
@@ -1972,7 +1974,7 @@ export const useHeader = () => {
     apiJson["ANG_Authorization_Information_Grid"] = updateAuthorizationArray;
     apiJson["ANG_DOCS_NEEDED"] = updateDocNeededArray;
 
-
+    
     apiJson["caseNumber"] = location.state.caseNumber;
     console.log("abcsssttttts",angCaseDecisionDetails);
     customAxios
@@ -2011,6 +2013,327 @@ export const useHeader = () => {
       });
   };
  
+  const pdsaveAndExit = async () => {
+    callProcRef.current = "callProc";
+
+    //const saveType = event.target.name === "saveAndSubmit" ? "SS" : "SE";
+    const saveType = "SS";
+
+    let apiJson = {};
+    const temp = localStorage.getItem('checkBox') == 'true' ?1:0;
+    const checkBoxData = {isChecked : temp};
+   	const pdCaseHeader = trimJsonValues({ ...caseHeader });
+	const pdCaseTimelines = trimJsonValues({ ...caseTimelines });
+	const pdCaseInformation = trimJsonValues({ ...pd_CaseInformation });
+	const pdClaimInformation = trimJsonValues({...checkBoxData});
+	const pdProviderInformation = trimJsonValues({ ...pd_ProviderInformation });
+	const pdProviderAddRecord = trimJsonValues({ ...pd_ProviderAddRecord });
+	const pdProviderAlt = trimJsonValues({ ...pd_ProviderAlt });
+	const pdMemberInformation = trimJsonValues({ ...ProvidermemberInformation });
+	const pdMemberAddRecord = trimJsonValues({ ...pd_MemberAddRecord });
+	const pdMemberAltInfo = trimJsonValues({ ...pd_MemberAltInfo });
+	const pdRepresentativeInformation = trimJsonValues({ ...pd_RepresentativeInformation });
+	const pdRepresentativeAddRecord = trimJsonValues({ ...pd_RepresentativeAddRecord });
+	const pdRepresentativeAltRecord = trimJsonValues({ ...pd_RepresentativeAltRecord });
+	const pdDecisionAddRecord = trimJsonValues({ ...pd_DecisionAddRecord });
+  console.log("pdCaseInformationGrid111",pdCaseInformationGrid)
+	const pdCaseInfoGrid = getGridDataValues(pdCaseInformationGrid);
+    const originalPdCaseInfoGrid = getGridDataValues(
+      formData["pdCaseInfoGrid"],
+    );
+
+    const pdClaimInfoGrid = getGridDataValues(pdClaimInformationGrid);
+    const originalPDClaimInfoGrid = getGridDataValues(
+      formData["pdClaimInfoGrid"],
+    );
+    console.log("ProviderauthorizationInformationGrid111",ProviderauthorizationInformationGrid)
+    const pdAuthorizationInformationGrid = getGridDataValues(ProviderauthorizationInformationGrid);
+    const originalPDAuthorizationInformationGrid = getGridDataValues(
+      formData["pdAuthorizationInformationGrid"],
+    );
+
+
+    apiJson["PD_CASE_HEADER"]= CompareJSON(
+      pdCaseHeader,
+      formData["pdCaseHeader"][0],
+    );
+    apiJson["PD_Case_Timelines"] = CompareJSON(
+      pdCaseTimelines,
+      formData["pdCaseTimelines"][0],
+    );
+    apiJson["PD_CASE_INFORMATION"] = CompareJSON(
+      pdCaseInformation,
+      formData["pdCaseInformation"][0],
+    );
+    apiJson["PD_Claim_Information"] = CompareJSON(
+      pdClaimInformation,
+      formData["pdClaimInformation"][0],
+    );
+   apiJson["PD_Provider_Information"] = CompareJSON(
+      pdProviderInformation,
+      formData["pdProviderInformation"][0],
+    );
+   apiJson["PD_Provider_Add_of_Records"] = CompareJSON(
+      pdProviderAddRecord,
+      formData["pdProviderAddRecord"][0],
+    );
+    apiJson["PD_Provider_Alternative_Contact_Info"] = CompareJSON(
+      pdProviderAlt,
+      formData["pdProviderAlt"][0],
+    );
+	    apiJson["PD_Member_Information"]= CompareJSON(
+      pdMemberInformation,
+      formData["pdMemberInformation"][0],
+    );
+    apiJson["PD_MEMBER_ADD_OF_RECORDS"] = CompareJSON(
+      pdMemberAddRecord,
+      formData["pdMemberAddRecord"][0],
+    );
+    apiJson["PD_MEMBER_ALTERNATIVE_CONTACT_INFO"] = CompareJSON(
+      pdMemberAltInfo,
+      formData["pdMemberAltInfo"][0],
+    );
+    apiJson["PD_Representative_Information"] = CompareJSON(
+      pdRepresentativeInformation,
+      formData["pdRepresentativeInformation"][0],
+    );
+   apiJson["PD_Representative_Add_of_Records"] = CompareJSON(
+      pdRepresentativeAddRecord,
+      formData["pdRepresentativeAddRecord"][0],
+    );
+   apiJson["PD_Representative_Alternative_Contact_Info"] = CompareJSON(
+      pdRepresentativeAltRecord,
+      formData["pdRepresentativeAltRecord"][0],
+    );
+    apiJson["PD_Decision"] = CompareJSON(
+      pdDecisionAddRecord,
+      formData["pdDecisionAddRecord"][0],
+    );
+
+
+    let updateCaseInfoArray = [];
+    if (
+      pdCaseInfoGrid.length > 0 ||
+      originalPdCaseInfoGrid.length > 0
+    ) {
+      const maxLength = Math.min(
+        pdCaseInfoGrid.length,
+        originalPdCaseInfoGrid.length,
+      );
+
+      // // Update existing rows
+      for (let i = 0; i < maxLength; i++) {
+        const element = pdCaseInfoGrid[i];
+
+        for (let j = 0; j < originalPdCaseInfoGrid.length; j++) {
+          const originalElement = originalPdCaseInfoGrid[j];
+          if (element.rowNumber === originalElement.rowNumber) {
+            updateCaseInfoArray.push({
+              caseNumber: element["caseNumber"],
+              rowNumber: element["rowNumber"],
+              ...CompareJSON(element, originalElement),
+            });
+            break;
+          }
+        }
+      }
+
+      // Add rows
+      for (let i = 0; i < pdCaseInfoGrid.length; i++) {
+        const angelement = pdCaseInfoGrid[i];
+        const index = originalPdCaseInfoGrid.findIndex(
+          (element) => angelement.rowNumber === element.rowNumber,
+        );
+
+        if (index === -1) {
+          if (!angelement.hasOwnProperty("caseNumber")) {
+            angelement.caseNumber = location.state.caseNumber;
+          }
+          updateCaseInfoArray.push({
+            operation: "I",
+            rowNumber: angelement["rowNumber"],
+            ...angelement,
+          });
+        }
+      }
+
+      // Delete rows
+      for (let i = 0; i < originalPdCaseInfoGrid.length; i++) {
+        const originalElement = originalPdCaseInfoGrid[i];
+        const index = pdCaseInfoGrid.findIndex(
+          (element) => originalElement.rowNumber === element.rowNumber,
+        );
+        if (index === -1) {
+          updateCaseInfoArray.push({
+            operation: "D",
+            caseNumber: location.state.caseNumber,
+            rowNumber: originalElement["rowNumber"],
+          });
+        }
+      }
+    }
+
+    let updateClaimArray = [];
+    if (
+      pdClaimInfoGrid.length > 0 ||
+      originalPDClaimInfoGrid.length > 0
+    ) {
+      const maxLength = Math.min(
+        pdClaimInfoGrid.length,
+        originalPDClaimInfoGrid.length,
+      );
+
+      // // Update existing rows
+      for (let i = 0; i < maxLength; i++) {
+        const element = pdClaimInfoGrid[i];
+
+        for (let j = 0; j < originalPDClaimInfoGrid.length; j++) {
+          const originalElement = originalPDClaimInfoGrid[j];
+          if (element.rowNumber === originalElement.rowNumber) {
+            updateClaimArray.push({
+              caseNumber: element["caseNumber"],
+              rowNumber: element["rowNumber"],
+              ...CompareJSON(element, originalElement),
+            });
+            break;
+          }
+        }
+      }
+
+      // Add rows
+      for (let i = 0; i < pdClaimInfoGrid.length; i++) {
+        const angelement = pdClaimInfoGrid[i];
+        const index = originalPDClaimInfoGrid.findIndex(
+          (element) => angelement.rowNumber === element.rowNumber,
+        );
+
+        if (index === -1) {
+          if (!angelement.hasOwnProperty("caseNumber")) {
+            angelement.caseNumber = location.state.caseNumber;
+          }
+          updateClaimArray.push({
+            operation: "I",
+            rowNumber: angelement["rowNumber"],
+            ...angelement,
+          });
+        }
+      }
+
+      // Delete rows
+      for (let i = 0; i < originalPDClaimInfoGrid.length; i++) {
+        const originalElement = originalPDClaimInfoGrid[i];
+        const index = pdClaimInfoGrid.findIndex(
+          (element) => originalElement.rowNumber === element.rowNumber,
+        );
+        if (index === -1) {
+          updateClaimArray.push({
+            operation: "D",
+            caseNumber: location.state.caseNumber,
+            rowNumber: originalElement["rowNumber"],
+          });
+        }
+      }
+    }
+
+    let updateAuthArray = [];
+    if (
+      pdAuthorizationInformationGrid.length > 0 ||
+      originalPDAuthorizationInformationGrid.length > 0
+    ) {
+      const maxLength = Math.min(
+        pdAuthorizationInformationGrid.length,
+        originalPDAuthorizationInformationGrid.length,
+      );
+
+      // // Update existing rows
+      for (let i = 0; i < maxLength; i++) {
+        const element = pdAuthorizationInformationGrid[i];
+
+        for (let j = 0; j < originalPDAuthorizationInformationGrid.length; j++) {
+          const originalElement = originalPDAuthorizationInformationGrid[j];
+          if (element.rowNumber === originalElement.rowNumber) {
+            updateAuthArray.push({
+              caseNumber: element["caseNumber"],
+              rowNumber: element["rowNumber"],
+              ...CompareJSON(element, originalElement),
+            });
+            break;
+          }
+        }
+      }
+
+      // Add rows
+      for (let i = 0; i < pdAuthorizationInformationGrid.length; i++) {
+        const angelement = pdAuthorizationInformationGrid[i];
+        const index = originalPDAuthorizationInformationGrid.findIndex(
+          (element) => angelement.rowNumber === element.rowNumber,
+        );
+
+        if (index === -1) {
+          if (!angelement.hasOwnProperty("caseNumber")) {
+            angelement.caseNumber = location.state.caseNumber;
+          }
+          updateAuthArray.push({
+            operation: "I",
+            rowNumber: angelement["rowNumber"],
+            ...angelement,
+          });
+        }
+      }
+
+      // Delete rows
+      for (let i = 0; i < originalPDAuthorizationInformationGrid.length; i++) {
+        const originalElement = originalPDAuthorizationInformationGrid[i];
+        const index = pdAuthorizationInformationGrid.findIndex(
+          (element) => originalElement.rowNumber === element.rowNumber,
+        );
+        if (index === -1) {
+          updateAuthArray.push({
+            operation: "D",
+            caseNumber: location.state.caseNumber,
+            rowNumber: originalElement["rowNumber"],
+          });
+        }
+      }
+    }
+    apiJson["PD_CASE_INFORMATION_GRID"] = updateCaseInfoArray;
+    apiJson["PD_Claim_Information_Grid"] = updateClaimArray;
+   // apiJson["PD_Authorization_Information"] = updateAuthArray;
+   console.log("location.state.caseNumberqqqqqqq",location.state.caseNumber)
+   apiJson["caseNumber"] = location.state.caseNumber;
+    customAxios
+      .post("/generic/update", apiJson, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        const apiStat = res.data.UpdateCase_Output.Status;
+
+        if (apiStat === -1) {
+          alert("Error in updating data");
+        }
+
+        if (apiStat === 0) {
+          updateDecision(location, saveType, "Provider Disputes");
+
+          let procData = {};
+          let procDataState = {};
+          procDataState.stageName = location.state.stageName;
+          procDataState.flowId = location.state.flowId;     
+          procDataState.decisionNotes = location.state.decisionNotes;
+          procDataState.caseNumber = location.state.caseNumber;
+          procDataState.decision = location.state.decision;
+          procDataState.decisionReason = location.state.decisionReason;
+          procDataState.userName = authSelector.userName || "system";
+          procDataState.formNames = "Provider Disputes";
+          procData.state = procDataState;
+
+          alert("Case updated successfully: " + location.state.caseNumber);
+          submitCase(procData, navigateHome);
+          navigateHome();
+        }
+      });
+  };
+
   return {
     caseTimelines,
     pd_MemberAddRecord,
@@ -2160,5 +2483,6 @@ export const useHeader = () => {
     pdClaimInformationGrid,
     ProviderClaimInformationGrid,
     setPDClaimInformationGrid,
+    pdsaveAndExit,
   };
 };

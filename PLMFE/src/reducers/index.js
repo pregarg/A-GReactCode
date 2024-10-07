@@ -959,6 +959,24 @@ const masterPDGoodCauseReasonReducer = (state = [], action) => {
   }
   return state;
 };
+const masterPDDocumentReducer = (state = [], action) => {
+  if (action.type === "GET_GOOD_DOCUMENT") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_DOCUMENT") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+const masterPDDecisionReducer = (state = [], action) => {
+  if (action.type === "GET_DECISION") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_DECISION") {
+    state = [];
+    return state;
+  }
+  return state;
+};
 
 const storeTableStateReducer = (
   state = {
@@ -1124,6 +1142,8 @@ export default combineReducers({
   masterPDRelationship:masterPDRelationshipReducer,
   masterPDAuthType:masterPDAuthTypeReducer,
   masterPDGoodCauseReason:masterPDGoodCauseReasonReducer,
+  masterPDDecision:masterPDDecisionReducer,
+  masterPDDocument:masterPDDocumentReducer,
   dashboardNavigationState: storeTableStateReducer,
   usersTable: usersReducer,
 });

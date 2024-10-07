@@ -76,7 +76,7 @@ export const useRepresentativeInformation = (renderType) => {
       },
       {
         type: "date",
-        name: "Authorization-Approved_Date",
+        name: "Authorization_Approved_Date",
         placeholder: "Authorization Approved Date",
         label: "Authorization Approved Date",
         renderTypes: [RenderType.PROVIDER_DISPUTE],

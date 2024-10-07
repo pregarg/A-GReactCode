@@ -178,7 +178,8 @@ const ProviderDisputes = () => {
     pdCaseInformationGrid,
     setPDCaseInformationGrid,
     pdClaimInformationGrid,
-    setPDClaimInformationGrid
+    setPDClaimInformationGrid,
+    pdsaveAndExit,
   } = useHeader();
 
   console.log("PD_location",location)
@@ -401,7 +402,7 @@ const ProviderDisputes = () => {
                   type="button"
                   className="btn btn-outline-primary btnStyle"
                   name="saveAndSubmit"
-                  onClick={saveAndExit}
+                  onClick={pdsaveAndExit}
                   style={{ float: "right", marginRight: "10px" }}
                   disabled={disableSaveAndExit}
                 >
@@ -411,7 +412,7 @@ const ProviderDisputes = () => {
                   type="button"
                   className="btn btn-outline-primary btnStyle"
                   name="saveAndExit"
-                  onClick={saveAndExit}
+                  onClick={pdsaveAndExit}
                   style={{ float: "right", marginRight: "10px" }}
                   disabled={disableSaveAndExit}
                 >
