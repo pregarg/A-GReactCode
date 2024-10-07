@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -13,7 +12,6 @@ import { FormikSelectField } from "../Common/FormikSelectField";
 import { renderElements, RenderType } from "./Constants";
 import TableComponent from "../../../../src/util/TableComponent";
 import { FormikCheckBoxField } from "../Common/FormikCheckBoxField";
-import ProviderDisputeClaimInformationTable from "../TileFormsTables/ProviderDisputeClaimInformationTable";
 import CaseHeader from "./CaseHeader";
 
 const PdProviderInformationAccordion = (props) => {
@@ -343,40 +341,7 @@ const PdProviderInformationAccordion = (props) => {
                     >
                       Provider Information Search
                     </button>
-                    {/*<div className="row my-2">*/}
-                    {/*  <div className="row my-2">*/}
-                    {/*    /!* {renderInputField("High_Dollar_Dispute", "High Dollar Dispute", 16, false, "High Dollar Dispute")} *!/*/}
 
-                    {/*    <label>*/}
-                    {/*      <input type="checkbox" checked={isCheckedBox} onChange={handleCheckBoxChangeNew}/>White Glove*/}
-                    {/*    </label>*/}
-                    {/*  </div>*/}
-                    {/*  <div className="col-xs-6 col-md-12">*/}
-                    {/*    /!*<ProviderDisputeClaimInformationTable*!/*/}
-                    {/*    /!*    ProviderclaimInformationGridData={ProviderclaimInformationGridData}*!/*/}
-                    {/*    /!*    validationSchema={*!/*/}
-                    {/*    /!*      props.providerInformationGridValidationSchema*!/*/}
-                    {/*    /!*    }*!/*/}
-                    {/*    /!*    addTableRows={addTableRows}*!/*/}
-                    {/*    /!*    deleteTableRows={deleteTableRows}*!/*/}
-                    {/*    /!*    handleGridSelectChange={handleGridSelectChange}*!/*/}
-                    {/*    /!*    handleGridDateChange={handleGridDateChange}*!/*/}
-                    {/*    /!*    handleGridFieldChange={handleGridFieldChange}*!/*/}
-                    {/*    /!*    gridFieldTempState={gridFieldTempState}*!/*/}
-                    {/*    /!*    editTableRows={editTableRows}*!/*/}
-                    {/*    /!*    gridRowsFinalSubmit={gridRowsFinalSubmit}*!/*/}
-                    {/*    /!*    //selectJson={selectValues}*!/*/}
-                    {/*    /!*    lockStatus={*!/*/}
-                    {/*    /!*      location.state.lockStatus !== undefined &&*!/*/}
-                    {/*    /!*      location.state.lockStatus !== ""*!/*/}
-                    {/*    /!*          ? location.state.lockStatus*!/*/}
-                    {/*    /!*          : "N"*!/*/}
-                    {/*    /!*    }*!/*/}
-                    {/*    /!*    fetchAutoPopulate={fetchAutoPopulate}*!/*/}
-                    {/*    /!*    transactionType={CaseHeader.displayName}*!/*/}
-                    {/*    /!*></ProviderDisputeClaimInformationTable>*!/*/}
-                    {/*  </div>*/}
-                    {/*</div>*/}
                     <div className="row my-2">
                       <div className="col-md-3 text-start">
                         <label>

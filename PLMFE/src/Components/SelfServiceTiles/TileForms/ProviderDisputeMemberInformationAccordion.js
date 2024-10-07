@@ -26,7 +26,6 @@ const ProviderMemberInformationAccordion = (props) => {
   const [selectedCriteria, setSelectedCriteria] = useState();
   const [selectSearchValues, setSelectSearchValues] = useState();
   const [responseData, setResponseData] = useState([]);
-  const [showProviderMemberSearch, setShowProviderMemberSearch] = useState(false);
   const { customAxios: axios } = useAxios();
   const [selectedAddress, setSelectedAddress] = useState([]);
   const [whiteGloveIndicator, setWhiteGloveIndicator] = useState(false);
@@ -183,8 +182,8 @@ const ProviderMemberInformationAccordion = (props) => {
     props.setMemberInformationData({ ...selectedAddress[0] });
   };
 
-  
-  
+
+
   const showMembers = async () => {
     let MemberID = selectSearchValues?.memberID;
     let MedicareID = selectSearchValues?.medicareID;
@@ -192,7 +191,7 @@ const ProviderMemberInformationAccordion = (props) => {
     let MemberFirstName = selectSearchValues?.memberFirstNameId;
     let MemberLastName = selectSearchValues?.memberLasstNameId;
     let DOB = selectSearchValues?.dateOfBirth;
-  
+
     // Check if at least one search parameter has a value
     if (
       MemberID ||
@@ -211,39 +210,39 @@ const ProviderMemberInformationAccordion = (props) => {
         Member_Last_Name: MemberLastName || "",
         Date_of_Birth: extractDate(DOB) || "",
       };
-  
+
       try {
         let res = await axios.post("/generic/callProcedure", getApiJson, {
           headers: { Authorization: `Bearer ${token}` },
         });
         console.log("Full API Response:", res.data); // Debugging the API response
-  
+
         // Access the first element of resApiData
         let resApiData = res.data.CallProcedure_Output?.data || [];
         console.log("procedure ka data", resApiData); // Check if data exists
-  
+
       if(resApiData[0].length === 0 )  {
        console.log("No data found for the member ID");
           alert("No data found");
-          return; 
+          return;
         }
-  
-        const respKeys = Object.keys(resApiData[0]); 
+
+        const respKeys = Object.keys(resApiData[0]);
         respKeys.forEach((k) => {
-          let apiResponse = resApiData[0][k]; 
+          let apiResponse = resApiData[0][k];
           console.log("apiResponse", apiResponse);
-          
+
           if (
             apiResponse?.hasOwnProperty("Date_of_Birth") &&
             typeof apiResponse.Date_of_Birth === "string"
           ) {
             const mad = new Date(getDatePartOnly(apiResponse.Date_of_Birth));
             apiResponse.Date_of_Birth = extractDate(mad);
-  
+
             console.log("dob-->", mad);
             console.log("dob2-->", extractDate(mad));
           }
-  
+
           if (
             apiResponse?.hasOwnProperty("Plan_Effective_Date") &&
             typeof apiResponse.Plan_Effective_Date === "string"
@@ -254,7 +253,7 @@ const ProviderMemberInformationAccordion = (props) => {
             apiResponse.Plan_Effective_Date = extractDate(mad);
             console.log("Plan Effective Date -->", apiResponse.Plan_Effective_Date);
           }
-  
+
           if (
             apiResponse?.hasOwnProperty("Plan_Expiration_Date") &&
             typeof apiResponse.Plan_Expiration_Date === "string"
@@ -266,9 +265,9 @@ const ProviderMemberInformationAccordion = (props) => {
             console.log("Plan Expiration Date -->", apiResponse.Plan_Expiration_Date);
           }
         });
-  
+
         setResponseData(resApiData);
-  
+
         const apiStat = res.data.CallProcedure_Output.Status;
         if (apiStat === -1) {
           alert("Error in fetching data");
@@ -362,17 +361,17 @@ const ProviderMemberInformationAccordion = (props) => {
               {renderInputField("Provider_Issue_Number", "Issue Number", 50)}
               {renderInputField("Provider_Member_ID", "Member ID", 50)}
               {renderInputField("Provider_Member_First_Name", "Member First Name", 50)}
-              
+
             </div>
             <div className="row my-2">
-            {renderInputField("Provider_Member_Last_Name", "Member Last Name", 60)}
+            {renderInputField("Provider_Member_Last_Name", "Member Last Name", 50)}
             {renderInputField("Provider_ContractPlan_ID", "Contract/ Plan ID", 50)}
             {renderInputField("Provider_Medicare_ID_HICN", "Medicare ID", 50)}
-              
-        
+
+
             </div>
             <div className="row my-2">
-            {renderInputField("Provider_Medicaid_ID", "Medicaid ID", 50)}
+            {renderInputField("Provider_Medicaid_ID", "Medicaid ID", 255)}
             {renderDatePicker(
                 "Provider_Plan_Effective_Date",
                 "Plan Effective Date",
@@ -380,31 +379,30 @@ const ProviderMemberInformationAccordion = (props) => {
               )}
               {renderInputField("Provider_Plan_Name", "Plan Name", 50)}
             </div>
-           
-           
+
+
             <div className="row my-2">
             {renderDatePicker(
                 "Provider_Date_of_Birth",
                 "DOB",
                 "Date of Birth",
               )}
-              {renderInputField("Plan_Type", "Plan Type", 100)}
-              {renderInputField("Plan_Code", "Plancode", 100)}
+              {renderInputField("Provider_Plan_Type", "Plan Type", 255)}
+              {renderInputField("Provider_Plan_Code", "Plan code", 255)}
             </div>
-           
+
             <div className="row my-2">
-              {renderInputField("Provider_Email_ID", "Email ID", 100)}
+              {renderInputField("Provider_Email_ID", "Email ID", 50)}
               {renderInputField("Provider_Phone_Number", "Phone Number", 50)}
               {renderSelectField("Provider_Dual_Plan", "Dual Plan", dualPlanValues)}
-              
+
             </div>
-    
+
             <div className="row my-2">
             {renderSelectField("Provider_LIS", "LIS?", lisValues)}
             {renderInputField(
                 "Provider_Preferred_Language",
-                "Preferred Language",
-                4000,
+                "Preferred Language",50
               )}
               {renderSelectField("Provider_Portal_Enrolled", "Portal Enrolled", portalEnrolledValues)}
 
@@ -437,3 +435,4 @@ const ProviderMemberInformationAccordion = (props) => {
   );
 };
 export default ProviderMemberInformationAccordion;
+

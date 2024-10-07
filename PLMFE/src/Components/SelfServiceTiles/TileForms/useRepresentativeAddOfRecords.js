@@ -43,14 +43,14 @@ export const useRepresentativeAddOfRecords = (renderType) => {
         type: "input",
         name: "Address_Line_1",
         placeholder: "Address Line 1",
-        maxLength: 50,
+        maxLength: 250,
         renderTypes: [RenderType.PROVIDER_DISPUTE],
       },
       {
         type: "input",
         name: "Address_Line_2",
         placeholder: "Address Line 2",
-        maxLength: 50,
+        maxLength: 250,
         renderTypes: [RenderType.PROVIDER_DISPUTE],
         validation:{}
       },
@@ -66,15 +66,15 @@ export const useRepresentativeAddOfRecords = (renderType) => {
         type: "input",
         name: "City",
         placeholder: "City",
-        maxLength: 30,
+        maxLength: 50,
         renderTypes: [RenderType.PROVIDER_DISPUTE],
         validation:{}
       },
       {
         type: "input",
-        name: "State_",
+        name: "State",
         placeholder: "State",
-        maxLength: 30,
+        maxLength: 50,
         renderTypes: [RenderType.PROVIDER_DISPUTE],
         validation:{}
       },
