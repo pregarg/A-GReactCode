@@ -400,7 +400,7 @@ const ProviderDisputeClaimInformation = (props) => {
 
   const claimSearchTableComponent = () => {
     let columnNames =
-        "Claim Number~Claim_Number,Claim Type~Claim_type,Authorization Number~Auth_Number,Service Start Date~Service_Start_Date,Service End Date~Service_End_Date,Service Span~ServiceSpan,Denial Date~Denial_Date,Denial Code~DenialCode,Denial Description~DenialDescription,Member ID~MemberID,Member First Name~MemberFirstName,Member Last Name~MemberLastName,Provider ID~ProviderID,Provider Name~ProviderName";
+        "Claim Number~Claim_Number,Claim Type~Claim_Type,Authorization Number~Auth_Number,Service Start Date~Service_Start_Date,Service End Date~Service_End_Date,Service Span~ServiceSpan,Denial Date~Denial_Date,Denial Code~DenialCode,Denial Description~DenialDescription,Member ID~MemberID,Member First Name~MemberFirstName,Member Last Name~MemberLastName,Provider ID~ProviderID,Provider Name~ProviderName";
     if (responseData.length > 0) {
       return (
           <>
@@ -534,18 +534,18 @@ const ProviderDisputeClaimInformation = (props) => {
     let tempInput = { ...gridFieldTempState };
     tempInput[fieldName] = selectedValue;
     setGridFieldTempState(tempInput);
-    if (
-      fieldName === "Service_Start_Date" ||
-      fieldName === "Service_End_Date"
-    ) {
-      const startDate = tempInput["Service_Start_Date"];
-      const endDate = tempInput["Service_End_Date"];
-      tempInput["Number_of_Days_in_Span"] = calculateDaysDifference(
-        startDate,
-        endDate,
-      );
-      setGridFieldTempState(tempInput);
-    }
+    // if (
+    //   fieldName === "Service_Start_Date" ||
+    //   fieldName === "Service_End_Date"
+    // ) {
+    //   const startDate = tempInput["Service_Start_Date"];
+    //   const endDate = tempInput["Service_End_Date"];
+    //   tempInput["Number_of_Days_In_Span"] = calculateDaysDifference(
+    //     startDate,
+    //     endDate,
+    //   );
+    //   setGridFieldTempState(tempInput);
+    // }
   };
   const calculateDaysDifference = (startDate, endDate) => {
     if (!startDate || !endDate) return null;

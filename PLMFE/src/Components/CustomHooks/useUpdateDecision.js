@@ -32,8 +32,8 @@ export default function useUpdateDecision() {
     const decsn =
       location.state.decision === undefined ? "" : location.state.decision;
     let procInput = {};
-    if (transactionType === "Appeals") {
-      procInput["DECISON_REASON"] = location.state.decisionReason
+    if (transactionType === "Appeals" || transactionType === "Provider Disputes" ) {
+      procInput["DECISION_REASON"] = location.state.decisionReason
         ? location.state.decisionReason
         : "";
     } /*procInput.input1 = "testing";

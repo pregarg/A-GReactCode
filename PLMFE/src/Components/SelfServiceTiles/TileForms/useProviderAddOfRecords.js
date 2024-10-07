@@ -72,7 +72,7 @@ export const useProviderAddOfRecords = (renderType) => {
       },
       {
         type: "input",
-        name: "State_",
+        name: "State",
         placeholder: "State",
         maxLength: 30,
         renderTypes: [RenderType.PROVIDER_DISPUTE],
