@@ -100,7 +100,7 @@ export const usePdCaseInformation = (renderType) => {
         {
             type: "select",
             name: "Line_Of_Business",
-            placeholder: "Line of Business",
+            placeholder: "Line Of Business",
             values: lineOfBusinessValues,
             renderTypes: [RenderType.PROVIDER_DISPUTE],        
           },
@@ -108,7 +108,7 @@ export const usePdCaseInformation = (renderType) => {
           type: "input",
           name: "LOB_Description",
           placeholder: "LOB Description",
-          maxLength: 4000,
+          maxLength: 255,
           renderTypes: [RenderType.PROVIDER_DISPUTE],
         },
         {

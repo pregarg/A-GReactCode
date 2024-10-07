@@ -1,4 +1,4 @@
-import React, { useState, useRef} from "react";
+import React, { useState, useRef, useEffect} from "react";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Formik, Form } from "formik";
@@ -334,7 +334,6 @@ const PdCaseInformationAccordion = (props) => {
       />
     </div>
   );
-
 
 
   return (

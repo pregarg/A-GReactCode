@@ -97,7 +97,7 @@ export const useProviderInformation = (renderType) => {
       },
       {
         type: "date",
-        name: "Provider_Par_Date ",
+        name: "Provider_Par_Date",
         placeholder: "Provider Par Date ",
         label: "Provider Par Date ",
         renderTypes: [RenderType.PROVIDER_DISPUTE],
@@ -138,7 +138,7 @@ export const useProviderInformation = (renderType) => {
       },
       {
         type: "input",
-        name: "Portal_Enrolled ",
+        name: "Portal_Enrolled",
         placeholder: "Portal Enrolled ",
         maxLength: 50,
         renderTypes: [RenderType.PROVIDER_DISPUTE],
