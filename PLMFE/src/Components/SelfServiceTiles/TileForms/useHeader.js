@@ -238,7 +238,7 @@ export const useHeader = () => {
     Provider_LIS: "",
     Provider_Portal_Enrolled: "",
     Provider_Current_Alert: "",
-    Provider_Next_alert: "",
+    Provider_Next_Alert: "",
     Provider_Plan_Type:"",
     Provider_Plan_Code:"",
     
@@ -1524,6 +1524,7 @@ export const useHeader = () => {
         
         setpdProviderInformation(data?.["pdProviderInformation"]?.[0] || {});
         setpdProviderAddRecord(data?.["pdProviderAddRecord"]?.[0] || {});
+        console.log('alt...', data?.["pdProviderAlt"]);
         setpdProviderAlt(data?.["pdProviderAlt"]?.[0] || {});
         
         setProviderMemberInformation(data?.["pdMemberInformation"]?.[0] || {});

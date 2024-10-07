@@ -34,7 +34,7 @@ export const useProviderAddOfRecords = (renderType) => {
     const fields = [
       {
         type: "select",
-        name: "Mail_to_Address",
+        name: "Mail_To_Address",
         placeholder: "Mail to Address?",
         values: mailToAddressValues,
         renderTypes: [RenderType.PROVIDER_DISPUTE],

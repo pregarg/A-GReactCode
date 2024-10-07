@@ -36,6 +36,7 @@ const PdProviderInformationAccordion = (props) => {
   const stageName = caseHeaderConfigData["StageName"];
   const [isCheckedBox, setIscheckedBox] = useState(false);
 
+
   // const [providerInformationData, setProviderInformationData] = useState(props.providerInformationData || {});
   const [providerInformationData, setProviderInformationData] = useState({
     ...props.providerInformationData,
@@ -301,6 +302,7 @@ const PdProviderInformationAccordion = (props) => {
         />
       </div>
   );
+  
   return (
       <Formik
           initialValues={props.providerInformationData}
@@ -347,7 +349,7 @@ const PdProviderInformationAccordion = (props) => {
                         <label>
                           <input
                               type="checkbox"
-                              checked={providerInformationData.isChecked === 1}  // 1 for checked, 0 for unchecked
+                              checked={providerInformationData.isChecked == 1}  // 1 for checked, 0 for unchecked
                               onChange={handleCheckBoxChangeNew}  // Handle change
                           />
                           White Glove

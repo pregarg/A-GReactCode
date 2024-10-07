@@ -66,7 +66,7 @@ export const usePdProviderAltContactInfo = (renderType) => {
       },
       {
         type: "input",
-        name: "Alternate_Fax_Number",
+        name: "Alternate_Fax_number",
         placeholder: "Alternate Fax Number",
         maxLength: 50,
         renderTypes: [RenderType.PROVIDER_DISPUTE],
