@@ -205,10 +205,10 @@ useEffect(() => {
             {renderSimpleDatePickerField(
                 "Service_End_Date",
                 "Service End Date",
-                "Service End Date",
+                index,
               )}
               {renderSimpleInputField("Number_Of_Days_In_Span", "Number Of Days In Span", 50, index)}
-              {renderSimpleDatePickerField("Post_Date", "Post Date","Post Date")}
+              {renderSimpleDatePickerField("Post_Date", "Post Date",index)}
              
           </div>
           <div className="row">
@@ -219,7 +219,7 @@ useEffect(() => {
            
           </div>
           <div className="row">
-          {renderSimpleDatePickerField("Procedure_Code", "Procedure Code or Diagnosis code", "Procedure Code or Diagnosis code")}
+          {renderSimpleInputField("Procedure_Code", "Procedure Code or Diagnosis code", 50, index)}
           {renderSimpleInputField("Patient_Ref", "Patient Ref/Account",100, index)}
           {/* {renderSimpleSelectField("Provider_Account", "Provider Account", filedTimelyValues, index)} */}
           </div>

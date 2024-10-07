@@ -239,6 +239,8 @@ export const useHeader = () => {
     Provider_Portal_Enrolled: "",
     Provider_Current_Alert: "",
     Provider_Next_alert: "",
+    Provider_Plan_Type:"",
+    Provider_Plan_Code:"",
     
   });
   const [PdProviderInformation, setPdProviderInformation] = useState({
@@ -817,7 +819,6 @@ export const useHeader = () => {
 
     const pdAuthorizationInformationGrid = getGridDataValues(ProviderauthorizationInformationGrid);
     console.log("Provider authorization information grid data  : ",ProviderauthorizationInformationGrid)
-    // console.log("Provider authorization information grid data ankit  : ",pdAuthorizationInformationGrid)
     apiJson["PD_Authorization_Information"] = pdAuthorizationInformationGrid;
 
     const pdDecisionAddRecord = trimJsonValues({ ...pd_DecisionAddRecord });

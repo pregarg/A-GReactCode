@@ -89,7 +89,7 @@ export const useProviderInformation = (renderType) => {
       },
       {
         type: "input",
-        name: "[Provider_Vendor_Specialty_Description",
+        name: "Provider_Vendor_Specialty_Description",
         placeholder: "Specialty Description",
         maxLength: 50,
         renderTypes: [RenderType.PROVIDER_DISPUTE],
@@ -186,7 +186,7 @@ export const useProviderInformation = (renderType) => {
       },
       {
         type: "input",
-        name: "Seq_Provider_ID",
+        name: "Sequential_Provider_ID",
         placeholder: "Seq Provider ID",
         maxLength: 50,
         renderTypes: [RenderType.PROVIDER_DISPUTE],
@@ -194,8 +194,8 @@ export const useProviderInformation = (renderType) => {
       },
       {
         type: "input",
-        name: "AHCCCS_Provider_ID",
-        placeholder: "AHCCCS Provider ID ",
+        name: "ACHHS_Provider_ID",
+        placeholder: "ACHHS Provider ID ",
         maxLength: 50,
         renderTypes: [RenderType.PROVIDER_DISPUTE],
         validation:{}
