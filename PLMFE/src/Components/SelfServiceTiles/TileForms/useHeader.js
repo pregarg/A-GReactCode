@@ -45,7 +45,9 @@ export const useHeader = () => {
    
   );
 
-  const {caseHeader, setCaseHeader, caseHeaderFields } =
+  const {caseHeader,
+     setCaseHeader,
+     caseHeaderFields } =
     useCaseHeader(renderType);
 
   const {
@@ -314,6 +316,7 @@ export const useHeader = () => {
     stages.includes(location.state?.stageName?.toLowerCase())
       ? Yup.string().notRequired()
       : Yup.string().required(errorMessage);
+
   const conditionalString = (dependsOn, valueEquals, validationMsg) =>
     Yup.string().when(dependsOn, {
       is: (value) => value === valueEquals,
@@ -772,13 +775,13 @@ export const useHeader = () => {
 
     const pdCaseHeader = trimJsonValues({ ...caseHeader });
     apiJson["PD_CASE_HEADER"] = pdCaseHeader;
-
+   
     const pdCaseTimelines = trimJsonValues({ ...caseTimelines });
     apiJson["PD_Case_Timelines"] = pdCaseTimelines;
-  
+    console.log("pd_CaseInformation11",pd_CaseInformation)
     const pdCaseInformation = trimJsonValues({ ...pd_CaseInformation });
     apiJson["PD_CASE_INFORMATION"] = pdCaseInformation;
-
+    
     const pdCaseInfoGrid = getGridDataValues(pdCaseInformationGrid);
     apiJson["PD_CASE_INFORMATION_GRID"] = pdCaseInfoGrid;
 
@@ -800,7 +803,7 @@ export const useHeader = () => {
     const pdMemberInformation = trimJsonValues({ ...ProvidermemberInformation });
     // console.log("Provider Member Information is : ", angProviderMemberInformation)
     apiJson["PD_Member_Information"] = pdMemberInformation;
-
+    console.log("pd_MemberAddRecord",pd_MemberAddRecord)
     const pdMemberAddRecord = trimJsonValues({ ...pd_MemberAddRecord });
     apiJson["PD_MEMBER_ADD_OF_RECORDS"] = pdMemberAddRecord;
 
@@ -1512,8 +1515,8 @@ export const useHeader = () => {
         // setcaseDecisionDetails(data?.["angCaseDecisionDetails"]?.[0] || {});
         
         // ------------------PROVIDER DISPUTES---------------------- 
-        // setCaseHeader(data?.["pdCaseHeader"]?.[0] || {});
-        //location.state.lockStatus = data?.["mainTable"]?.[0]?.LockStatus
+        //setCaseHeader(data?.["pdCaseHeader"]?.[0] || {});
+
         setCaseTimelines(data?.["pdCaseTimelines"]?.[0] || {});
 
         setpdCaseInformation(data?.["pdCaseInformation"]?.[0] || {});
@@ -1535,7 +1538,7 @@ export const useHeader = () => {
         setpdRepresentativeAltRecord(data?.["pdRepresentativeAltRecord"]?.[0] || {});
         setpdRepresentativeAddRecord(data?.["pdRepresentativeAddRecord"]?.[0] || {});
 
-        setProviderAuthorizationInformationGrid(data?.["pdAuthorizationInformationGrid"]?.[0] || {});
+        setProviderAuthorizationInformationGrid(data?.["pdAuthorizationInformationGrid"] || []);
 
         setpdDecisionAddRecord(data?.["pdDecisionAddRecord"]?.[0] || {});
 
@@ -2300,7 +2303,7 @@ export const useHeader = () => {
     }
     apiJson["PD_CASE_INFORMATION_GRID"] = updateCaseInfoArray;
     apiJson["PD_Claim_Information_Grid"] = updateClaimArray;
-   // apiJson["PD_Authorization_Information"] = updateAuthArray;
+    apiJson["PD_Authorization_Information"] = updateAuthArray;
    console.log("location.state.caseNumberqqqqqqq",location.state.caseNumber)
    apiJson["caseNumber"] = location.state.caseNumber;
     customAxios

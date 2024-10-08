@@ -10,6 +10,8 @@ import { useAxios } from "../../api/axios.hook";
 import DocumentViewer from "../../Components/CommonComponents/DocumentViewer";
 
 export default function DocumentSection(prop) {
+console.log("document prop", prop)
+
   const docClickedIndex = useRef();
 
   const selectRef = useRef(null);
@@ -66,7 +68,10 @@ export default function DocumentSection(prop) {
   const masterAngDocumentSelector = useSelector(
     (state) => state?.masterAngDocument,
   );
-  console.log("Document Masters Selector: ", masterAngDocumentSelector);
+  const masterPDDocumentSelector = useSelector(
+    (state) => state?.masterPDDocument,
+  );
+  console.log("Document Masters Selector: ", masterPDDocumentSelector);
 
   const [modalShow, setModalShow] = useState(false);
 
@@ -75,54 +80,88 @@ export default function DocumentSection(prop) {
   const [documentNameValues, setDocumentNameValues] = useState([]);
   const [documentData, setDocumentData] = useState([]);
 
+  // useEffect(() => {
+  //   const stageName = prop.stageName || prop.stageName.trim();
+  //   // if (mastersSelector.hasOwnProperty("masterAngDocument")) {
+  //   //   let documentOptions =
+  //   //     mastersSelector["masterAngDocument"].length === 0
+  //   //       ? []
+  //   //       : mastersSelector["masterAngDocument"][0];
+
+  //   if (masterAngDocumentSelector) {
+  //     let documentOptions =
+  //       masterAngDocumentSelector.length === 0
+  //         ? []
+  //         : masterAngDocumentSelector[0];
+
+  //     console.log("Document Section documentOptions: ", documentOptions);
+  //     console.log("Document Section stagename: ", stageName);
+  //     if (documentOptions.length > 0) {
+  //       documentOptions = documentOptions.filter(
+  //         (elem) =>
+  //           // elem.WORKSTEP_NAME.trim().toLowerCase() == stageName.trim().toLowerCase()
+  //           elem.WORKSTEP_NAME.toLowerCase() == stageName.toLowerCase(),
+  //       );
+  //       console.log(
+  //         "Document Section documentOptions after filter: ",
+  //         documentOptions,
+  //       );
+  //       let newDocumentValues = [];
+  //       documentOptions.forEach((element) => {
+  //         let sJson = {};
+  //         sJson.label = element.DOCUMENT_NAME;
+  //         sJson.value = element.DOCUMENT_NAME;
+  //         //console.log("DocumentSection sJSON: ", sJson);
+  //         // newDocumentValues = [...documentNameValues];
+  //         // console.log(
+  //         //   "Document Section newDocumentValues before: ",
+  //         //   newDocumentValues
+  //         // );
+  //         newDocumentValues.push(sJson);
+  //         // console.log(
+  //         //   "Document Section newDocumentValues after: ",
+  //         //   newDocumentValues
+  //         // );
+  //       });
+  //       setDocumentNameValues(newDocumentValues);
+  //     }
+  //   }
+  // }, []);
   useEffect(() => {
     const stageName = prop.stageName || prop.stageName.trim();
-    // if (mastersSelector.hasOwnProperty("masterAngDocument")) {
-    //   let documentOptions =
-    //     mastersSelector["masterAngDocument"].length === 0
-    //       ? []
-    //       : mastersSelector["masterAngDocument"][0];
-
-    if (masterAngDocumentSelector) {
-      let documentOptions =
-        masterAngDocumentSelector.length === 0
-          ? []
-          : masterAngDocumentSelector[0];
-
-      console.log("Document Section documentOptions: ", documentOptions);
-      console.log("Document Section stagename: ", stageName);
-      if (documentOptions.length > 0) {
-        documentOptions = documentOptions.filter(
-          (elem) =>
-            // elem.WORKSTEP_NAME.trim().toLowerCase() == stageName.trim().toLowerCase()
-            elem.WORKSTEP_NAME.toLowerCase() == stageName.toLowerCase(),
-        );
-        console.log(
-          "Document Section documentOptions after filter: ",
-          documentOptions,
-        );
-        let newDocumentValues = [];
-        documentOptions.forEach((element) => {
-          let sJson = {};
-          sJson.label = element.DOCUMENT_NAME;
-          sJson.value = element.DOCUMENT_NAME;
-          //console.log("DocumentSection sJSON: ", sJson);
-          // newDocumentValues = [...documentNameValues];
-          // console.log(
-          //   "Document Section newDocumentValues before: ",
-          //   newDocumentValues
-          // );
-          newDocumentValues.push(sJson);
-          // console.log(
-          //   "Document Section newDocumentValues after: ",
-          //   newDocumentValues
-          // );
-        });
-        setDocumentNameValues(newDocumentValues);
-      }
+    
+    let documentOptions = [];
+    
+    if (prop.displayName === "Appeals" && masterAngDocumentSelector) {
+      documentOptions = masterAngDocumentSelector.length === 0 ? [] : masterAngDocumentSelector[0];
+    } else if (prop.displayName === "Provider Disputes" && masterPDDocumentSelector) {
+      documentOptions = masterPDDocumentSelector.length === 0 ? [] : masterPDDocumentSelector[0];
     }
-  }, []);
-
+  
+    console.log("Document Section documentOptions: ", documentOptions);
+    console.log("Document Section stageName: ", stageName);
+  
+    if (documentOptions.length > 0) {
+      documentOptions = documentOptions.filter(
+        (elem) =>
+          elem.WORKSTEP_NAME.toLowerCase() === stageName.toLowerCase()
+      );
+  
+      console.log("Document Section documentOptions after filter: ", documentOptions);
+  
+      let newDocumentValues = [];
+      documentOptions.forEach((element) => {
+        let sJson = {
+          label: element.DOCUMENT_NAME,
+          value: element.DOCUMENT_NAME,
+        };
+        newDocumentValues.push(sJson);
+      });
+  
+      setDocumentNameValues(newDocumentValues);
+    }
+  }, [prop,masterAngDocumentSelector, masterPDDocumentSelector]);
+  
   const handleGridSelectChange = (index, selectedValue, documentName) => {
     //console.log("Inside handleGridSelectChange");
     let rowsInput = "";

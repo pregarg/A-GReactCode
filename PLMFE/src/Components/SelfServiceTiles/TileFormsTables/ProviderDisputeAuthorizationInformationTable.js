@@ -32,43 +32,69 @@ export default function AuthorizationInformationTable({
 
   const { convertToCase } = useGetDBTables();
 
-  const masterAngAuthServiceTypeSelector = useSelector(
-    (state) => state?.masterAngAuthServiceType,
-  );
+
 
   let prop = useLocation();
 
-  let authTypeDescriptionValues = [];
+  const masterPDAuthTypeSelector = useSelector(
+    (state) => state?.masterPDAuthType,
+  );
+
+  const masterPDAuthStatusSelector = useSelector(
+    (state) => state?.masterPDAuthStatus,
+  );
+  const masterPDcptDescriptionSelector = useSelector(
+    (state) => state?.masterPDcptDescription,
+  );
+
+  const masterPDDenialCodeAndReasonSelector = useSelector(
+    (state) => state?.masterPDDenialCodeAndReason,
+  );
+
+  const [authStatusValues, setAuthStatusValues] = useState([]);
+  const [authTypeValues, setAuthTypeValues] = useState([]);
+  const [cptDescriptionValues, setCptDescriptionValues] = useState([]);
+  const [denialCodeValues, setDenialCodeValues] = useState([]);
+  const [denialReasonValues, setDenialReasonValues] = useState([]);
 
   useEffect(() => {
-    if (masterAngAuthServiceTypeSelector) {
-      const authTypeDescriptionArray =
-        masterAngAuthServiceTypeSelector.length === 0
-          ? []
-          : masterAngAuthServiceTypeSelector[0];
+    const kvMapper = (e) => ({
+      label: convertToCase(e),
+      value: convertToCase(e),
+    });
+    const arr = masterPDDenialCodeAndReasonSelector?.[0] || [];
+    setDenialCodeValues(arr.map((e) => e.Denial_Code).map(kvMapper));
+    setDenialReasonValues(arr.map((e) => e.Denial_Code_Reason).map(kvMapper));
 
-      for (let i = 0; i < authTypeDescriptionArray.length; i++) {
-        authTypeDescriptionValues.push({
-          label: convertToCase(authTypeDescriptionArray[i].SERVICE_TYPE_DESC),
-          value: convertToCase(authTypeDescriptionArray[i].SERVICE_TYPE_DESC),
-        });
-      }
-    }
-  });
+    const authType = masterPDAuthTypeSelector?.[0] || [];
+    setAuthTypeValues(
+      authType.map((e) => e.Auth_Type).map(kvMapper),
+    );
 
+    const authStatus =masterPDAuthStatusSelector?.[0] || [];
+    setAuthStatusValues(
+      authStatus.map((e) => e.Auth_Status).map(kvMapper),
+    );
+
+    const cptDesc = masterPDcptDescriptionSelector?.[0] || [];
+    setCptDescriptionValues(cptDesc.map((e) => e.CPT_Descriptions).map(kvMapper));
+    }, []);
+
+    
   const tableFields = [
     "Issue_Number",
     "Auth_Number",
-    "Auth_Status",
-    "Provider_Name",
     "Authorization_Type",
-    "Auth_Type_Description",
+    "Provider_Name",
+    "Auth_Status",
     "Auth_Request_Date",
+    "Service_Start_Date",
     "Expiration_Date",
     "CPT_Descriptions",
-    "Service_Start_Date",
     "Denial_Code",
     "Denial_Reason",
+    "Auth_Type_Description",
+    
   ];
 
   const [validationErrors, setValidationErrors] = useState({});
@@ -193,25 +219,24 @@ export default function AuthorizationInformationTable({
             50,
             index,
           )}
-          {renderSimpleInputField("Auth_Status", "Auth Status", 50, index)}
+          {renderSimpleSelectField(
+            "Authorization_Type",
+            "Authorization Type",
+            authTypeValues,
+            index,
+          )}
           {renderSimpleInputField("Provider_Name", "Provider Name", 50, index)}
         </div>
         <div className="row">
-          {renderSimpleInputField(
-            "Authorization_Type",
-            "Authorization Type",
-            50,
-            index,
-          )}
-          {renderSimpleSelectField(
-            "Auth_Type_Description",
-            "Auth Type Description",
-            authTypeDescriptionValues,
-            index,
-          )}
+          {renderSimpleSelectField("Auth_Status", "Auth Status", authStatusValues, index)}
           {renderSimpleDatePickerField(
             "Auth_Request_Date",
             "Auth Request Date",
+            index,
+          )}
+          {renderSimpleDatePickerField(
+            "Service_Start_Date",
+            "Service Start Date",
             index,
           )}
           {renderSimpleDatePickerField(
@@ -221,19 +246,21 @@ export default function AuthorizationInformationTable({
           )}
         </div>
         <div className="row">
-          {renderSimpleInputField(
+          {renderSimpleSelectField(
             "CPT_Descriptions",
             "CPT Descriptions",
-            250,
+            cptDescriptionValues,
+            index,
+          )}     
+          {renderSimpleSelectField("Denial_Code", "Denial Code", denialCodeValues, index)}
+          {renderSimpleSelectField("Denial_Reason", "Denial Reason",denialReasonValues , index)}
+          {renderSimpleInputField(
+            "Auth_Type_Description",
+            "Auth Type Description",
+            4000,
             index,
           )}
-          {renderSimpleDatePickerField(
-            "Service_Start_Date",
-            "Service Start Date",
-            index,
-          )}
-          {renderSimpleInputField("Denial_Code", "Denial Code", 50, index)}
-          {renderSimpleInputField("Denial_Reason", "Denial Reason", 50, index)}
+          
         </div>
       </div>
     );

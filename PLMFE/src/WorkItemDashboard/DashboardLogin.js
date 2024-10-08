@@ -72,6 +72,8 @@ import {
   getMasterPDDualPlan,
   getMasterPDRelationship,
   getMasterPDAuthType,
+  getMasterPDAuthStatus,
+  getMasterPDcptDescription,
   getMasterPDDecision,
   getMasterPDDocuments,
   getMasterPDGoodCauseReason,
@@ -846,7 +848,23 @@ export default function DashboardLogin() {
       ),
     );
     dispatch(
+      getMasterPDAuthStatus(
+        loginToken,
+        false,
+        onMasterLoadFail,
+        onMasterLoadSuccess,
+      ),
+    );
+    dispatch(
       getMasterPDAuthType(
+        loginToken,
+        false,
+        onMasterLoadFail,
+        onMasterLoadSuccess,
+      ),
+    );
+    dispatch(
+      getMasterPDcptDescription(
         loginToken,
         false,
         onMasterLoadFail,
