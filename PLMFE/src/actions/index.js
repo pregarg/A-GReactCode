@@ -599,7 +599,7 @@ export const getMasterAngDecision = (
           if (res.data.Status === 0) {
             const respData = [...res.data.data.masterAngDecision];
             //console.log(response);
-            dispatch({ type: "GET_DECISION", payload: respData });
+            dispatch({ type: "GET_ANG_DECISION", payload: respData });
             if (onSuccess) {
               onSuccess(res);
             }
@@ -612,7 +612,7 @@ export const getMasterAngDecision = (
           }
         });
     } else if (clearFlag) {
-      dispatch({ type: "CLEAR_DECISION", payload: "" });
+      dispatch({ type: "CLEAR_ANG_DECISION", payload: "" });
     }
   };
 };
@@ -1434,8 +1434,8 @@ export const getMasterAngDocument = (
         .then((res) => {
           if (res.data.Status === 0) {
             const respData = [...res.data.data.masterAngDocument];
-            //console.log(response);
-            dispatch({ type: "GET_DOCUMENT", payload: respData });
+            console.log("respdata of master ang docuemnt",respData);
+            dispatch({ type: "GET_ANG_DOCUMENT", payload: respData });
             if (onSuccess) {
               onSuccess(res);
             }
@@ -1448,7 +1448,7 @@ export const getMasterAngDocument = (
           }
         });
     } else if (clearFlag) {
-      dispatch({ type: "CLEAR_DOCUMENT", payload: "" });
+      dispatch({ type: "CLEAR_ANG_DOCUMENT", payload: "" });
     }
   };
 };
@@ -2392,7 +2392,7 @@ export const getMasterPDCommPref= (
           if (res.data.Status === 0) {
             const respData = [...res.data.data.masterPDCommPref];
             //console.log(response);
-            dispatch({ type: "GET_COMM_PREF", payload: respData });
+            dispatch({ type: "GET_PD_COMM_PREF", payload: respData });
             if (onSuccess) {
               onSuccess(res);
             }
@@ -2405,7 +2405,7 @@ export const getMasterPDCommPref= (
           }
         });
     } else if (clearFlag) {
-      dispatch({ type: "CLEAR_COMM_PREF", payload: "" });
+      dispatch({ type: "CLEAR_PD_COMM_PREF", payload: "" });
     }
   };
 };
@@ -2428,7 +2428,7 @@ export const getMasterPDRelationship= (
           if (res.data.Status === 0) {
             const respData = [...res.data.data.masterPDRelationship];
             //console.log(response);
-            dispatch({ type: "GET_RELATIONSHIP", payload: respData });
+            dispatch({ type: "GET_PD_RELATIONSHIP", payload: respData });
             if (onSuccess) {
               onSuccess(res);
             }
@@ -2441,7 +2441,7 @@ export const getMasterPDRelationship= (
           }
         });
     } else if (clearFlag) {
-      dispatch({ type: "CLEAR_RELATIONSHIP", payload: "" });
+      dispatch({ type: "CLEAR_PD_RELATIONSHIP", payload: "" });
     }
   };
 };
@@ -2481,6 +2481,76 @@ export const getMasterPDAuthType= (
     }
   };
 };
+export const getMasterPDAuthStatus= (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append("tableName", "PD_MASTER_AUTH_STATUS~masterPDAuthStatus");
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterPDAuthStatus];
+            //console.log(response);
+            dispatch({ type: "GET_PD_AUTH_STATUS", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_PD_AUTH_STATUS", payload: "" });
+    }
+  };
+};
+export const getMasterPDcptDescription= (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append("tableName", "PD_MASTER_CPT_DESCRIPTION~masterPDcptDescription");
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterPDcptDescription];
+            //console.log(response);
+            dispatch({ type: "GET_PD_CPT_DESCRIPTION", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_PD_CPT_DESCRIPTION", payload: "" });
+    }
+  };
+};
 export const getMasterPDDecision= (
   token,
   clearFlag = false,
@@ -2499,7 +2569,7 @@ export const getMasterPDDecision= (
           if (res.data.Status === 0) {
             const respData = [...res.data.data.masterPDDecision];
             //console.log(response);
-            dispatch({ type: "GET_DECISION", payload: respData });
+            dispatch({ type: "GET_PD_DECISION", payload: respData });
             if (onSuccess) {
               onSuccess(res);
             }
@@ -2512,7 +2582,7 @@ export const getMasterPDDecision= (
           }
         });
     } else if (clearFlag) {
-      dispatch({ type: "CLEAR_DECISION", payload: "" });
+      dispatch({ type: "CLEAR_PD_DECISION", payload: "" });
     }
   };
 };
@@ -2535,7 +2605,7 @@ export const getMasterPDDocuments= (
           if (res.data.Status === 0) {
             const respData = [...res.data.data.masterPDDocument];
             //console.log(response);
-            dispatch({ type: "GET_DOCUMENT", payload: respData });
+            dispatch({ type: "GET_PD_DOCUMENT", payload: respData });
             if (onSuccess) {
               onSuccess(res);
             }
@@ -2548,7 +2618,7 @@ export const getMasterPDDocuments= (
           }
         });
     } else if (clearFlag) {
-      dispatch({ type: "CLEAR_DOCUMENT", payload: "" });
+      dispatch({ type: "CLEAR_PD_DOCUMENT", payload: "" });
     }
   };
 };

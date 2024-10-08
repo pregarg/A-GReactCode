@@ -175,13 +175,19 @@ export const usePdCaseInformation = (renderType) => {
             renderTypes: [RenderType.PROVIDER_DISPUTE],        
           },
       ].filter((e) => e.renderTypes.includes(renderType));
+console.log("case information fields",fields);
+console.log("case information",pd_CaseInformation);
 
     const caseInformationObject = fields.reduce((acc, field) => {
-        acc[field.name] = pd_CaseInformation[field.name];
+        if(pd_CaseInformation[field.name] !== undefined){
+          acc[field.name] = pd_CaseInformation[field.name];
+        }
+        
         return acc;
-      }, { caseNumber: pd_CaseInformation.caseNumber });
-   
+      }, { caseNumber: pd_CaseInformation['caseNumber'] });
+      console.log("case information caseInformationObject",caseInformationObject);
     setcaseInformationFields(fields);
+
     setpdCaseInformation(caseInformationObject);
     setPdcaseInformationValidationSchema(
       Yup.object().shape({

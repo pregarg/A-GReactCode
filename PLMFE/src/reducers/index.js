@@ -468,9 +468,9 @@ const masterAngLineNumberReducer = (state = [], action) => {
   return state;
 };
 const masterAngDecisionReducer = (state = [], action) => {
-  if (action.type === "GET_DECISION") {
+  if (action.type === "GET_ANG_DECISION") {
     return [action.payload];
-  } else if (action.type === "CLEAR_DECISION") {
+  } else if (action.type === "CLEAR_ANG_DECISION") {
     state = [];
     return state;
   }
@@ -647,9 +647,9 @@ const masterAngStUpExpeditedReducer = (state = [], action) => {
 };
 
 const masterAngDocumentReducer = (state = [], action) => {
-  if (action.type === "GET_DOCUMENT") {
+  if (action.type === "GET_ANG_DOCUMENT") {
     return [action.payload];
-  } else if (action.type === "CLEAR_DOCUMENT") {
+  } else if (action.type === "GET_ANG_DOCUMENT") {
     state = [];
     return state;
   }
@@ -915,9 +915,9 @@ const masterPDLisReducer = (state = [], action) => {
   return state;
 };
 const masterPDCommPrefReducer = (state = [], action) => {
-  if (action.type === "GET_COMM_PREF") {
+  if (action.type === "GET_PD_COMM_PREF") {
     return [action.payload];
-  } else if (action.type === "CLEAR_COMM_PREF") {
+  } else if (action.type === "CLEAR_PD_COMM_PREF") {
     state = [];
     return state;
   }
@@ -933,9 +933,9 @@ const masterPDCaseFillingMethodReducer = (state = [], action) => {
   return state;
 };
 const masterPDRelationshipReducer = (state = [], action) => {
-  if (action.type === "GET_RELATIONSHIP") {
+  if (action.type === "GET_PD_RELATIONSHIP") {
     return [action.payload];
-  } else if (action.type === "CLEAR_RELATIONSHIP") {
+  } else if (action.type === "CLEAR_PD_RELATIONSHIP") {
     state = [];
     return state;
   }
@@ -960,24 +960,41 @@ const masterPDGoodCauseReasonReducer = (state = [], action) => {
   return state;
 };
 const masterPDDocumentReducer = (state = [], action) => {
-  if (action.type === "GET_GOOD_DOCUMENT") {
+  if (action.type === "GET_PD_DOCUMENT") {
     return [action.payload];
-  } else if (action.type === "CLEAR_DOCUMENT") {
+  } else if (action.type === "CLEAR_PD_DOCUMENT") {
     state = [];
     return state;
   }
   return state;
 };
 const masterPDDecisionReducer = (state = [], action) => {
-  if (action.type === "GET_DECISION") {
+  if (action.type === "GET_PD_DECISION") {
     return [action.payload];
-  } else if (action.type === "CLEAR_DECISION") {
+  } else if (action.type === "CLEAR_PD_DECISION") {
     state = [];
     return state;
   }
   return state;
 };
-
+const masterPDAuthStatusReducer = (state = [], action) => {
+  if (action.type === "GET_PD_AUTH_STATUS") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_PD_AUTH_STATUS") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+const masterPDcptDescriptionReducer = (state = [], action) => {
+  if (action.type === "GET_PD_CPT_DESCRIPTION") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_PD_CPT_DESCRIPTION") {
+    state = [];
+    return state;
+  }
+  return state;
+};
 const storeTableStateReducer = (
   state = {
     data: [],
@@ -1144,6 +1161,8 @@ export default combineReducers({
   masterPDGoodCauseReason:masterPDGoodCauseReasonReducer,
   masterPDDecision:masterPDDecisionReducer,
   masterPDDocument:masterPDDocumentReducer,
+  masterPDAuthStatus:masterPDAuthStatusReducer,
+  masterPDcptDescription:masterPDcptDescriptionReducer,
   dashboardNavigationState: storeTableStateReducer,
   usersTable: usersReducer,
 });

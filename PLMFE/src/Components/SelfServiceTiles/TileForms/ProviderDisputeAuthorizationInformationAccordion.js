@@ -5,7 +5,7 @@ import { Field, ErrorMessage } from "formik";
 import Select, { components } from "react-select";
 import useGetDBTables from "../../CustomHooks/useGetDBTables";
 import CaseHeader from "./CaseHeader";
-import AuthorizationInformationTable from "../TileFormsTables/ProviderDisputeAuthorizationInformationTable";
+import ProviderDisputeAuthorizationInformationTable from "../TileFormsTables/ProviderDisputeAuthorizationInformationTable";
 import useUpdateDecision from "../../CustomHooks/useUpdateDecision";
 import AuthSearch from "../TileForms/AuthSearch";
 import { useAxios } from "../../../api/axios.hook";
@@ -651,7 +651,7 @@ const AuthorizationInformationAccordion = (props) => {
 
             <div className="row">
               <div className="col-xs-6 col-md-12">
-                <AuthorizationInformationTable
+                <ProviderDisputeAuthorizationInformationTable
                   authorizationInformationGridData={
                     authorizationInformationGridData
                   }
@@ -675,7 +675,7 @@ const AuthorizationInformationAccordion = (props) => {
                   }
                   fetchAutoPopulate={fetchAutoPopulate}
                   transactionType={CaseHeader.displayName}
-                ></AuthorizationInformationTable>
+                ></ProviderDisputeAuthorizationInformationTable>
               </div>
             </div>
             {showAuthSearch && (

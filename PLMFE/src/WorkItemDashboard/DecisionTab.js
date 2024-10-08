@@ -147,6 +147,7 @@ export default function DecisionTab(props) {
     }
     setDecisionState({ ...decisionState, [name]: selectedValue });
   };
+
   const handleSelectChangeReason = (selectedValue, evnt) => {
     const { name } = evnt;
     if (name === "decisionReason") {
@@ -534,7 +535,7 @@ export default function DecisionTab(props) {
       // Clear the value if necessary
       decisonRef.current.clearValue();
     }
-  
+   
     // Decision Dropdown logic based on formNames
     let decisionMaster = {};
     if (prop.state.formNames === "Appeals") {
@@ -548,7 +549,6 @@ export default function DecisionTab(props) {
         decisionMaster = mastersSelector["masterPDDecision"];
       }
     }
-  
     if (Array.isArray(decisionMaster)) {
       selectJson.decisionOptions = decisionMaster[0] || [];
   
@@ -1503,8 +1503,9 @@ export default function DecisionTab(props) {
                   </div> */}
 
                   <div className="row">
+                 
                     <div className="col-xs-12 col-md-4">
-                      <label>Decision *</label>
+                      <label>Decision</label>
                       <Select
                         styles={{
                           control: (provided) => ({
@@ -1526,10 +1527,10 @@ export default function DecisionTab(props) {
                         id="decisionDropdown"
                       />
                     </div>
-
+                  
                     {(prop.state.formNames === "Appeals" || prop.state.formNames === "Provider Disputes") &&(
                       <div className="col-xs-12 col-md-4">
-                        <label>Decision Reason *</label>
+                        <label>Decision Reason</label>
                         <Select
                           styles={{
                             control: (provided) => ({
@@ -1567,7 +1568,7 @@ export default function DecisionTab(props) {
                   </div>
                   <div className="row my-2">
                     <div className="col-xs-12">
-                      <label>Case Notes: *</label>
+                      <label>Case Notes:</label>
                       <textarea
                         onChange={handleLinearFieldChange}
                         value={
