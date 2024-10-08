@@ -54,6 +54,10 @@ export const usePdCaseInformation = (renderType) => {
     caseNumber: ""
   });
 
+  useEffect(() => {
+    console.log("pdCaseInformation :: "+ JSON.stringify(pd_CaseInformation) )
+  }, [pd_CaseInformation])
+
   const [pdCaseInformationValidationSchema, setPdcaseInformationValidationSchema] =
     useState(Yup.object().shape({}));
     useEffect(() => {
