@@ -34,8 +34,8 @@ export const useRepresentativeAddOfRecords = (renderType) => {
     const fields = [
       {
         type: "select",
-        name: "Mail_to_Address",
-        placeholder: "Mail to Address?",
+        name: "Mail_To_Address",
+        placeholder: "Mail To Address?",
         values: mailToAddressValues,
         renderTypes: [RenderType.PROVIDER_DISPUTE],
       },

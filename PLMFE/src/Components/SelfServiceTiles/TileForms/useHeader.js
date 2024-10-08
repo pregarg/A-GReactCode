@@ -302,8 +302,8 @@ export const useHeader = () => {
   });
 
   const [notes, setNotes] = useState({
-    Case_Notes: "",
-    Internal_Notes: "",
+    Provider_Case_Notes: "",
+    Provider_Internal_Notes: "",
   });
   const [claimInformationGrid, setClaimInformationGrid] = useState([]);
   const [ProviderClaimInformationGrid, setProviderClaimInformationGrid] = useState([]);
@@ -619,6 +619,11 @@ export const useHeader = () => {
       setProviderMemberInformationErrors,
     );
     validateSync(
+        notesValidationSchema,
+        notes,
+        setNotesErrors,
+    );
+    validateSync(
         PdProviderInformationValidationSchema,
         PdProviderInformation,
         setPdProviderInformationErrors,
@@ -826,6 +831,9 @@ export const useHeader = () => {
 
     const pdDecisionAddRecord = trimJsonValues({ ...pd_DecisionAddRecord });
     apiJson["PD_Decision"] = pdDecisionAddRecord;
+
+    const pdNotes = trimJsonValues({ ...notes });
+    apiJson["PD_Notes"] = pdNotes;
 
 
     apiJson["MainCaseTable"] = mainCaseReqBody;
@@ -1542,6 +1550,7 @@ export const useHeader = () => {
 
         setpdDecisionAddRecord(data?.["pdDecisionAddRecord"]?.[0] || {});
 
+        setNotes(data?.["pdNotes"]?.[0] || {});
 
         setFormData(_.cloneDeep(data));
 
@@ -2040,6 +2049,8 @@ export const useHeader = () => {
 	const pdRepresentativeInformation = trimJsonValues({ ...pd_RepresentativeInformation });
 	const pdRepresentativeAddRecord = trimJsonValues({ ...pd_RepresentativeAddRecord });
 	const pdRepresentativeAltRecord = trimJsonValues({ ...pd_RepresentativeAltRecord });
+
+    const pdNotes = trimJsonValues({ ...notes });
 	const pdDecisionAddRecord = trimJsonValues({ ...pd_DecisionAddRecord });
   console.log("pdCaseInformationGrid111",pdCaseInformationGrid)
 	const pdCaseInfoGrid = getGridDataValues(pdCaseInformationGrid);
@@ -2114,7 +2125,10 @@ export const useHeader = () => {
       pdDecisionAddRecord,
       formData["pdDecisionAddRecord"][0],
     );
-
+    apiJson["PD_Notes"] = CompareJSON(
+        pdNotes,
+        formData["pdNotes"][0],
+    );
 
     let updateCaseInfoArray = [];
     if (
@@ -2488,6 +2502,7 @@ export const useHeader = () => {
     pdClaimInformationGrid,
     ProviderClaimInformationGrid,
     setPDClaimInformationGrid,
+    setNotesErrors,
     pdsaveAndExit,
   };
 };
