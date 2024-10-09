@@ -135,7 +135,7 @@ const ProviderDisputeClaimInformation = (props) => {
   const [decisionReasonValues, setDecisionReasonValues] = useState([]);
   const [serviceTypeValues, setServiceTypeValues] = useState([]);
   const [processingStatusValues, setProcessingStatusValues] = useState([]);
-  const [isCheckedBox, setIscheckedBox] = useState(false);
+  const [isCheckedBox, setIscheckedBox] = useState(props.ProviderclaimInformation?.isChecked === '1');
 
   useEffect(() => {
     const kvMapper = (e) => ({
@@ -490,7 +490,7 @@ const ProviderDisputeClaimInformation = (props) => {
     }else{
       localStorage.setItem('checkBox','true');
     }
-    
+   
     setIscheckedBox(!isCheckedBox);
     props.setIscheckedBox(isCheckedBox);
     
