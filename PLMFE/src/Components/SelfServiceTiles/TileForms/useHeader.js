@@ -572,7 +572,7 @@ export const useHeader = () => {
   const [caseDecisionErrors, setcaseDecisionErrors] = useState([]);
   const validateSync = (schema, data, setErrors) => {
     try {
-      setErrors([]);
+     // setErrors([]);
       schema.validateSync(data, { abortEarly: false });
     } catch (errors) {
       const validationErrors = (errors.inner || []).reduce((acc, error) => {
@@ -2504,5 +2504,6 @@ export const useHeader = () => {
     setPDClaimInformationGrid,
     setNotesErrors,
     pdsaveAndExit,
+    ProviderclaimInformation
   };
 };

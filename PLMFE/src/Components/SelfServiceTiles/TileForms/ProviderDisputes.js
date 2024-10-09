@@ -221,7 +221,7 @@ const ProviderDisputes = () => {
               />
 
               <ProviderDisputeClaimInformation
-                ProviderclaimInformationData={ProviderclaimInformation}
+                ProviderclaimInformation={ProviderclaimInformation}
                 setProviderClaimInformationData={setProviderClaimInformation}
                 ProviderclaimInformationValidationSchema={ProviderclaimInformationValidationSchema}
                 ProviderclaimInformationGridRowValidationSchema={ProviderclaimInformationGridRowValidationSchema}

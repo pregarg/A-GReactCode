@@ -278,6 +278,7 @@ const PdCaseInformationAccordion = (props) => {
 
   const renderInputField = (name, placeholder, maxLength) => (
     <div className="col-xs-6 col-md-4">
+      {!Array.isArray(caseInformationData) && 
       <FormikInputField
         name={name}
         placeholder={placeholder}
@@ -306,10 +307,12 @@ const PdCaseInformationAccordion = (props) => {
         schema={props.pdCaseInformationValidationSchema}
         errors={props.pdCaseInformationErrors}
       />
+      }
     </div>
   );
   const renderSelectField = (name, placeholder, options) => (
     <div className="col-xs-6 col-md-4">
+       {!Array.isArray(caseInformationData) && 
       <FormikSelectField
         name={name}
         placeholder={placeholder}
@@ -331,7 +334,7 @@ const PdCaseInformationAccordion = (props) => {
         }
         schema={props.pdCaseInformationValidationSchema}
         errors={props.pdCaseInformationErrors}
-      />
+      />}
     </div>
   );
 
