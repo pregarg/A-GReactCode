@@ -2057,7 +2057,7 @@ export const useHeader = () => {
     const originalPdCaseInfoGrid = getGridDataValues(
       formData["pdCaseInfoGrid"],
     );
-
+   
     const pdClaimInfoGrid = getGridDataValues(pdClaimInformationGrid);
     const originalPDClaimInfoGrid = getGridDataValues(
       formData["pdClaimInfoGrid"],
