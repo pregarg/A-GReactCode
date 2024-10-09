@@ -357,7 +357,7 @@ const PdProviderInformationAccordion = (props) => {
                           handleClearProviderInformationSearch={handleClearProviderInformationSearch}
                           showProviderSearch={showProviderSearch}
                           showProviders={showProviders}
-                          ProviderSearchTableComponent={providerSearchTableComponent}
+                          providerSearchTableComponent={providerSearchTableComponent}
                           handleSelectedProviders={handleSelectedProvider}
 
                       />

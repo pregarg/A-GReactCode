@@ -179,7 +179,7 @@ const ProviderMemberInformationAccordion = (props) => {
     setSelectedCriteria([]);
     setSelectSearchValues([]);
     setResponseData([]);
-    props.setMemberInformationData({ ...selectedAddress[0] });
+    props.setProviderMemberInformationData({ ...selectedAddress[0] });
   };
 
 
@@ -241,17 +241,6 @@ const ProviderMemberInformationAccordion = (props) => {
 
             console.log("dob-->", mad);
             console.log("dob2-->", extractDate(mad));
-          }
-
-          if (
-            apiResponse?.hasOwnProperty("Plan_Effective_Date") &&
-            typeof apiResponse.Plan_Effective_Date === "string"
-          ) {
-            const mad = new Date(
-              getDatePartOnly(apiResponse.Plan_Effective_Date)
-            );
-            apiResponse.Plan_Effective_Date = extractDate(mad);
-            console.log("Plan Effective Date -->", apiResponse.Plan_Effective_Date);
           }
 
           if (

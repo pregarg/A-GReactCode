@@ -57,15 +57,15 @@ useEffect(() => {
   
 
   const tableFields = [
-			 "Issue_Number",
+			        "Issue_Number",
               "Claim_Number",
-              "Authorization_Number",
-              "Provider_Name",
+              "Auth_Number",
+              "ProviderName",
               "Service_Start_Date",
 	            "Service_End_Date",
-              "Number_Of_Days_In_Span",
+              "ServiceSpan",
               "Post_Date",
-              "Claim_Type",
+              "Claim_type",
               "Billed_Amount",
               "Allowed_Amount",
               "CCT_Policy_Name",
@@ -187,12 +187,12 @@ useEffect(() => {
           {renderSimpleInputField("Issue_Number", "Issue Number", 50, index)}
             {renderSimpleInputField("Claim_Number", "Claim Number", 16,index)}
               {renderSimpleInputField(
-                "Authorization_Number",
+                "Auth_Number",
                 "Authorization Number",
                 9,
                   index
               )}
-              {renderSimpleInputField("Provider_Name", "Provider Name", 50, index)}
+              {renderSimpleInputField("ProviderName", "Provider Name", 50, index)}
           
           </div>
           <div className="row">
@@ -207,12 +207,12 @@ useEffect(() => {
                 "Service End Date",
                 index,
               )}
-              {renderSimpleInputField("Number_Of_Days_In_Span", "Number Of Days In Span", 50, index)}
+              {renderSimpleInputField("ServiceSpan", "Number Of Days In Span", 50, index)}
               {renderSimpleDatePickerField("Post_Date", "Post Date",index)}
              
           </div>
           <div className="row">
-            {renderSimpleSelectField("Claim_Type", "Claim type", claimTypeValues)}
+            {renderSimpleSelectField("Claim_type", "Claim type", claimTypeValues)}
             {renderSimpleInputField("Billed_Amount", "Billed AmountS)", 50, index)}
             {renderSimpleInputField("Allowed_Amount", "Allowed Amount", 50, index)}
             {renderSimpleInputField("CCT_Policy_Name", "CCT Policy Name", 50, index)}

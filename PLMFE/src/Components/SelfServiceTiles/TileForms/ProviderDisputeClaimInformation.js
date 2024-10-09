@@ -44,29 +44,12 @@ const ProviderDisputeClaimInformation = (props) => {
     props.handleProviderClaimInformationGridData,
   );
 
-  const [providerInformationGridData, setProviderInformationGridData] =
-    useState(props.handleProviderInformationGridData);
-
   const [showClaimSearch, setShowClaimSearch] = useState(false);
-  const [showProviderSearch, setShowProviderSearch] = useState(false);
   const [gridFieldTempState, setGridFieldTempState] = useState({});
   const [responseData, setResponseData] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState([]);
 
-  // const masterAngProviderClaimTypeSelector = useSelector(
-  //   (state) => state?.masterAngProviderClaimType,
-  // );
- 
-  // const masterAngDecisionSelector = useSelector(
-  //   (state) => state?.masterAngDecision,
-  // );
 
-  // const masterAngAuthServiceTypeSelector = useSelector(
-  //   (state) => state?.masterAngAuthServiceType,
-  // );
-  // const masterAngProcessingStatusSelector = useSelector(
-  //   (state) => state?.masterAngProcessingStatus,
-  // );
 
   const caseHeaderConfigData = JSON.parse(
     process.env.REACT_APP_CASEHEADER_DETAILS || "{}",
@@ -87,12 +70,9 @@ const ProviderDisputeClaimInformation = (props) => {
   const handleShowClaimSearch = () => {
     setShowClaimSearch(true);
   };
-  const handleShowProviderSearch = () => {
-    setShowProviderSearch(true);
-  };
+
   const handleCloseSearch = () => {
     setShowClaimSearch(false);
-    setShowProviderSearch(false);
     setSelectedCriteria([]);
     setSelectSearchValues([]);
     setResponseData([]);
@@ -134,37 +114,8 @@ const ProviderDisputeClaimInformation = (props) => {
     setSelectSearchValues([]);
     setResponseData([]);
   };
-  // const handleSelectedProviders = (flag) => {
-  //   let rowNumber = getRowNumberForGrid(providerInformationGridData);
-  //   let addressToPopulate = [];
-  //   if (selectedAddress.length > 0) {
-  //     selectedAddress.map((elem) => {
-  //       if (elem?.isChecked) {
-  //         elem.rowNumber = rowNumber;
-  //         elem.operation = "I";
-  //         delete elem["isChecked"];
-  //         rowNumber++;
-  //         addressToPopulate.push(elem);
-  //       }
-  //     });
-  //   }
-  //
-  //   if (addressToPopulate.length > 0) {
-  //     setProviderInformationGridData([
-  //       ...providerInformationGridData,
-  //       ...addressToPopulate,
-  //     ]);
-  //     props.updateProviderInformationGridData([
-  //       ...providerInformationGridData,
-  //       ...addressToPopulate,
-  //     ]);
-  //   }
-  //
-  //   setShowProviderSearch(false);
-  //   setSelectedCriteria([]);
-  //   setSelectSearchValues([]);
-  //   setResponseData([]);
-  // };
+
+ 
   const handleCheckBoxChange = (event, ind) => {
     let jsn = responseData[ind];
     jsn.isChecked = event.target.checked;
@@ -344,6 +295,8 @@ const ProviderDisputeClaimInformation = (props) => {
           headers: { Authorization: `Bearer ${token}` },
         });
         let resApiData = res.data.CallProcedure_Output?.data || [];
+        console.log("abcsdd",res)
+        console.log("abcsddssssssss",resApiData)
         resApiData = resApiData?.length > 0 ? resApiData : [];
 
         if(resApiData[0].length === 0 )  {
@@ -400,110 +353,7 @@ const ProviderDisputeClaimInformation = (props) => {
 
   const claimSearchTableComponent = () => {
     let columnNames =
-        "Claim Number~Claim_Number,Claim Type~Claim_Type,Authorization Number~Auth_Number,Service Start Date~Service_Start_Date,Service End Date~Service_End_Date,Service Span~ServiceSpan,Denial Date~Denial_Date,Denial Code~DenialCode,Denial Description~DenialDescription,Member ID~MemberID,Member First Name~MemberFirstName,Member Last Name~MemberLastName,Provider ID~ProviderID,Provider Name~ProviderName";
-    if (responseData.length > 0) {
-      return (
-          <>
-            <TableComponent
-                columnName={columnNames}
-                rowValues={responseData}
-                showCheckBox={true}
-                handleCheckBoxChange={handleCheckBoxChange}
-                handleCheckBoxHeaderChange={handleCheckBoxHeaderChange}
-                CheckBoxInHeader={true}
-            />
-          </>
-      );
-    } else {
-      return <></>;
-    }
-  };
-
-  const showProviders = async () => {
-    let ProviderID = selectSearchValues?.providerID;
-    let NPI = selectSearchValues?.NPI;
-    let Taxid = selectSearchValues?.TaxID;
-    let ProviderFirstName =
-        selectSearchValues?.providerFirstName ||
-        selectSearchValues?.providerFirstName2;
-    let ProviderLastName =
-        selectSearchValues?.providerLastName ||
-        selectSearchValues?.providerLastName2;
-    let City = selectSearchValues?.city || selectSearchValues?.facilitycity;
-    let State =
-        selectSearchValues?.state ||
-        selectSearchValues?.state2 ||
-        selectSearchValues?.facilityState2;
-    let facilityName = selectSearchValues?.facilityName;
-
-    if (
-        ProviderID ||
-        NPI ||
-        Taxid ||
-        ProviderFirstName ||
-        ProviderLastName ||
-        City ||
-        State ||
-        facilityName
-    ) {
-      let getApiJson = {
-        option: "PROVIDERSEARCHDATA",
-        ProviderID: ProviderID || "",
-        NPI: NPI || "",
-        Taxid: Taxid || "",
-        ProviderFirstName: ProviderFirstName || "",
-        ProviderLastName: ProviderLastName || "",
-        City: City || "",
-        State: State || "",
-        facilityName: facilityName || "",
-      };
-
-      try {
-        let res = await axios.post("/generic/callProcedure", getApiJson, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-
-        let resApiData = res.data.CallProcedure_Output?.data || [];
-        resApiData = resApiData?.length > 0 ? resApiData : [];
-        if(resApiData[0].length === 0 )  {
-          console.log("No data found for the member ID");
-          alert("No data found");
-          return;
-        }
-        if (resApiData.length > 0) {
-          const respKeys = Object.keys(resApiData);
-          respKeys.forEach((k) => {
-            let apiResponse = resApiData[k];
-            if (
-                apiResponse.hasOwnProperty("Provider_Par_Date") &&
-                typeof apiResponse.Provider_Par_Date === "string"
-            ) {
-              const mad = new Date(
-                  getDatePartOnly(apiResponse.Provider_Par_Date),
-              );
-              apiResponse.Provider_Par_Date = extractDate(mad);
-            }
-          });
-
-          setResponseData(resApiData);
-        }
-        const apiStat = res.data.CallProcedure_Output.Status;
-        if (apiStat === -1) {
-          alert("Error in fetching data");
-        }
-      } catch (error) {
-        console.error("API Error:", error);
-        alert("Error in fetching data. Please try again later.");
-      }
-    } else {
-      alert("Please select at least one search value.");
-    }
-  };
-
-  const providerSearchTableComponent = () => {
-    let columnNames =
-        "Issue Number~Issue_Number,Provider ID~Provider_ID,Provider First Name~Provider_Name,Provider Last Name~Provider_Last_Name,TIN~Provider_TIN,Provider/Vendor Specialty~Provider_Vendor_Specialty,Provider Taxonomy~Provider_Taxonomy,NPI~NPI_ID,Phone~Phone_Number,Address Line 1~Address_Line_1,Address Line 2~Address_Line_2,Zip Code~Zip_Code,City~City,State~State,Participating Provider~Participating_Provider,Provider Par Date~Provider_Par_Date,Provider IPA~Provider_IPA,Vendor ID~Vendor_ID,Vendor Name~Vendor_Name,Provider Type~Provider_Type,Contact Name~Provider_Contact_Name,Contact Phone Number~Contact_Phone_Number,Contact Email Address~Contact_Email_Address";
-
+        "Claim Number~Claim_Number,Claim Type~Claim_type,Authorization Number~Auth_Number,Service Start Date~Service_Start_Date,Service End Date~Service_End_Date,Service Span~ServiceSpan,Denial Date~Denial_Date,Denial Code~DenialCode,Denial Description~DenialDescription,Member ID~MemberID,Member First Name~MemberFirstName,Member Last Name~MemberLastName,Provider ID~ProviderID,Provider Name~ProviderName";
     if (responseData.length > 0) {
       return (
           <>
@@ -646,66 +496,7 @@ const ProviderDisputeClaimInformation = (props) => {
     
   }
 
-  const renderInputField = (name, placeholder, maxLength, isCheckbox = false, label = "") => (
-    <div className="col-xs-6 col-md-4">
-      {isCheckbox ? (
-        <FormikCheckBoxField
-          name={name}
-          label={label} // Label for checkbox
-          data={ProviderclaimInformationData}
-          onChange={handleProviderClaimInformationData}
-          displayErrors={props.shouldShowSubmitError}
-          disabled={
-            location.state.formView === "DashboardView" &&
-            (((location.state.stageName === "Redirect Review" ||
-              location.state.stageName === "Documents Needed" ||
-              location.state.stageName === "Effectuate" ||
-              location.state.stageName === "Pending Effectuate") &&
-              (name === "Claim_Number" || name === "Authorization_Number")) ||
-              (location.state.stageName === "Research" &&
-                (name === "Payment_Method" ||
-                  name === "Payment_Number" ||
-                  name === "Effectuation_Notes" ||
-                  name === "Reason_Text")) ||
-              location.state.stageName === "Resolve" ||
-              location.state.stageName === "Case Completed" ||
-              location.state.stageName === "Reopen" ||
-              location.state.stageName === "CaseArchived")
-          }
-          errors={props.ProviderclaimInformationErrors}
-        />
-      ) : (
-        <FormikInputField
-          name={name}
-          placeholder={placeholder}
-          maxLength={maxLength}
-          data={ProviderclaimInformationData}
-          onChange={handleProviderClaimInformationData}
-          displayErrors={props.shouldShowSubmitError}
-          disabled={
-            location.state.formView === "DashboardView" &&
-            (((location.state.stageName === "Redirect Review" ||
-              location.state.stageName === "Documents Needed" ||
-              location.state.stageName === "Effectuate" ||
-              location.state.stageName === "Pending Effectuate") &&
-              (name === "Claim_Number" || name === "Authorization_Number")) ||
-              (location.state.stageName === "Research" &&
-                (name === "Payment_Method" ||
-                  name === "Payment_Number" ||
-                  name === "Effectuation_Notes" ||
-                  name === "Reason_Text")) ||
-              location.state.stageName === "Resolve" ||
-              location.state.stageName === "Case Completed" ||
-              location.state.stageName === "Reopen" ||
-              location.state.stageName === "CaseArchived")
-          }
-          persist={persistProviderClaimInformationData}
-          schema={props.ProviderclaimInformationValidationSchema}
-          errors={props.ProviderclaimInformationErrors}
-        />
-      )}
-    </div>
-  );
+
   
 
 
@@ -758,7 +549,7 @@ const ProviderDisputeClaimInformation = (props) => {
                 <ProviderDisputeClaimInformationTable
                   ProviderclaimInformationGridData={ProviderclaimInformationGridData}
                   validationSchema={
-                    props.providerInformationGridValidationSchema
+                    props.ProviderclaimInformationValidationSchema
                   }
                   addTableRows={addTableRows}
                   deleteTableRows={deleteTableRows}

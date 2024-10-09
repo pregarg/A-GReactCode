@@ -228,14 +228,10 @@ const ProviderDisputes = () => {
                 handleProviderClaimInformationGridData={pdClaimInformationGrid}
                 ProviderclaimInformationErrors={ProviderclaimInformationErrors}
                 shouldShowSubmitError={shouldShowSubmitError}
-                updateClaimInformationGridData={setPDClaimInformationGrid}
-                handleProviderInformationGridData={providerInformationGrid}
-                updateProviderInformationGridData={setPDClaimInformationGrid}
-                providerInformationGridValidationSchema={
-                  providerInformationGridValidationSchema
-                }
+                updateProviderClaimInformationGridData={setPDClaimInformationGrid}
                 setIscheckedBox = {setIscheckedBox}
               />
+              
               <PdProviderInformationAccordion
                   providerInformationData={pd_ProviderInformation}
                   setProviderInformationData={setpdProviderInformation}
