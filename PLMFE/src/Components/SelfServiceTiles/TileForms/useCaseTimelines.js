@@ -19,7 +19,7 @@ export const useCaseTimelines = (renderType) => {
   );
 
   const masterPDDepartmentSelector = useSelector(
-    (state) => state?.masterrPDDepartment,
+    (state) => state?.masterPDDepartment,
   );
   const masterPDNoOfClaimsSelector = useSelector(
     (state) => state?.masterPDNoOfClaims,
@@ -59,6 +59,7 @@ export const useCaseTimelines = (renderType) => {
     setCaseInComplianceValues(caseInCompliance.map((e) => e.Case_in_Compliance).map(kvMapper));
 
     const arr = masterPDDepartmentSelector?.[0] || [];
+    console.log("department values",arr)
     //const department = masterPDDepartmentSelector?.[0] || [];
     setDepartmentValues(arr.map((e) => e.Department).map(kvMapper),
     );

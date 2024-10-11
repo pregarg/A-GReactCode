@@ -1523,7 +1523,18 @@ export const useHeader = () => {
         // setcaseDecisionDetails(data?.["angCaseDecisionDetails"]?.[0] || {});
         
         // ------------------PROVIDER DISPUTES---------------------- 
-        //setCaseHeader(data?.["pdCaseHeader"]?.[0] || {});
+         const stageName = location.state.stageName;
+         const caseStatus = await getCaseStatus(stageName);
+         const caseReceivedDate = new Date(
+           data.pdCaseHeader[0]["Case_Received_Date#date"])
+         setCaseHeader((prevState) => ({
+              ...prevState,
+              ...(data?.["pdCaseHeader"]?.[0] || {}),
+              Case_Status: caseStatus || prevState.Case_Status,
+             // Original_Case_Received_Date:caseReceivedDate
+            }));
+      
+       // setCaseHeader(data?.["pdCaseHeader"]?.[0] || {});
 
         setCaseTimelines(data?.["pdCaseTimelines"]?.[0] || {});
 
@@ -1535,7 +1546,7 @@ export const useHeader = () => {
         
         setpdProviderInformation(data?.["pdProviderInformation"]?.[0] || {});
         setpdProviderAddRecord(data?.["pdProviderAddRecord"]?.[0] || {});
-        console.log('alt...', data?.["pdProviderAlt"]);
+       
         setpdProviderAlt(data?.["pdProviderAlt"]?.[0] || {});
         
         setProviderMemberInformation(data?.["pdMemberInformation"]?.[0] || {});
@@ -1545,7 +1556,7 @@ export const useHeader = () => {
         setpdRepresentativeInformation(data?.["pdRepresentativeInformation"]?.[0] || {});
         setpdRepresentativeAltRecord(data?.["pdRepresentativeAltRecord"]?.[0] || {});
         setpdRepresentativeAddRecord(data?.["pdRepresentativeAddRecord"]?.[0] || {});
-
+        console.log('altpdAuthorizationInformationGrid...', data?.["pdAuthorizationInformationGrid"]);
         setProviderAuthorizationInformationGrid(data?.["pdAuthorizationInformationGrid"] || []);
 
         setpdDecisionAddRecord(data?.["pdDecisionAddRecord"]?.[0] || {});

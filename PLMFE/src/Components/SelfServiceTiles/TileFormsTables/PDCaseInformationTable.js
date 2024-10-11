@@ -57,14 +57,15 @@ useEffect(() => {
     setissueTypeValues(
         issueType.map((e) => e.Issue_Type).map(kvMapper),
     );
-    const decision = masterPDDecisionSelector?.[0] || [];
-    setdecisionValues(
-        decision.map((e) => e.Decision).map(kvMapper),
-    );
-    const decisionReason =masterPDDecisionReasonSelector?.[0] || [];
-    setdecisionReasonValues(
-        decisionReason.map((e) => e.Decision_Reason).map(kvMapper),
-    );
+    const arr = masterPDDecisionSelector?.[0] || [];
+    //const decision = masterPDDecisionSelector?.[0] || [];
+    setdecisionValues(arr.map((e) => e.DECISION).map(kvMapper));
+    setdecisionReasonValues(arr.map((e) => e.DECISION_REASON).map(kvMapper));
+    
+    // const decisionReason =masterPDDecisionReasonSelector?.[0] || [];
+    // setdecisionReasonValues(
+    //     decisionReason.map((e) => e.Decision_Reason).map(kvMapper),
+    // );
     
 }, []);
   
