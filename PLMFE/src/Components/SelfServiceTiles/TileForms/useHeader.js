@@ -1070,14 +1070,31 @@ export const useHeader = () => {
     setMainCaseDetails(stageDetails);
   }, []);
 
+  // useEffect(() => {
+  //   console.log("abccc--->", location.state);
+  //   if (
+    
+  //     location.state.formView !== undefined &&
+  //     location.state.formView === "DashboardView" && location.state.formNames === "Appeals"
+  //   ) {
+  //     getAngCaseByCaseNumber();
+  //   }
+  //   else if ( location.state.formView !== undefined &&
+  //     location.state.formView === "DashboardView" && location.state.formNames === "Provider Disputes")
+  //     {
+  //       getPDCaseByCaseNumber();
+  //     }
+  // }, []);
+
   useEffect(() => {
-    if (
-      location.state.formView !== undefined &&
-      location.state.formView === "DashboardView"
-    ) {
-      getCaseByCaseNumber();
+    console.log("abccc--->", location.state);
+    if (location.state.formView !== undefined && location.state?.formView === "DashboardView") {
+      location.state.formNames === "Appeals"
+        ? getAngCaseByCaseNumber()
+        : location.state.formNames === "Provider Disputes" && getPDCaseByCaseNumber();
     }
   }, []);
+  
 
   const dispatch = useDispatch();
   const { customAxios } = useAxios();
@@ -1389,11 +1406,169 @@ export const useHeader = () => {
 
     return { dueDate, internalDate };
   }
-
-  const getCaseByCaseNumber = async () => {
+  const getAngCaseByCaseNumber = async () => {
     let daysLeft, hoursLeft, minutesLeft, secondsLeft;
     let getApiJson = {};
     getApiJson["tableNames"] = getTableDetails()["angTables"];
+    getApiJson["whereClause"] = { caseNumber: location.state.caseNumber };
+ 
+    try {
+      // Make API request
+      const res = await customAxios.post("/generic/get", getApiJson, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      const apiStat = res.data.Status;
+
+      // Handle API status errors
+      if (apiStat === -1) {
+        alert("Error in fetching case data.");
+        return;
+      }
+
+      if (apiStat === 0) {
+
+         const data = res.data.data;
+        // // Extract data
+        console.log(" data.angCaseHeader[0]", data.angCaseHeader[0])
+        const stageName = location.state.stageName;
+        const caseStatus = await getCaseStatus(stageName);
+        const caseReceivedDate = new Date(
+           data.angCaseHeader[0]["Case_Received_Date#date"],
+          // data.angCaseHeader[0]["Case_Received_Date"],
+
+        );
+
+        const caseInfo = data?.["angCaseInformation"]?.[0];
+        const keysToCheck = [
+          "Product",
+          "Product_State",
+          "Line_of_Business_LOB",
+        ];
+        const hasAnyValue = hasAnyNonEmptyValue(caseInfo, keysToCheck);
+
+        if (caseInfo && hasAnyValue) {
+          const caseLevelPriority = caseInfo.Case_Level_Priority;
+          const appealType = caseInfo.Appeal_Type;
+          const appellant_Type = caseInfo.Appellant_Type;
+          const { dueDate, internalDate } = calculateCaseDueDate(
+            caseReceivedDate,
+            caseLevelPriority,
+            appealType,
+            appellant_Type,
+          );
+          const currentDate = new Date();
+
+          const caseDueDateString = extractDate(dueDate);
+          const internalDueDateString = extractDate(internalDate);
+          const finalcaseReceivedDate = extractDate(caseReceivedDate);
+
+          const timeLeft = dueDate - currentDate;
+
+          daysLeft = Math.max(Math.floor(timeLeft / (1000 * 60 * 60 * 24)), 0);
+          hoursLeft = Math.max(
+            Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+            0,
+          );
+          minutesLeft = Math.max(
+            Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60)),
+            0,
+          );
+          secondsLeft = Math.max(
+            Math.floor((timeLeft % (1000 * 60)) / 1000),
+            0,
+          );
+
+          setCaseHeader((prevState) => ({
+            ...prevState,
+            ...(data?.["angCaseHeader"]?.[0] || {}),
+            Case_Received_Date: finalcaseReceivedDate,
+            Case_Status: caseStatus || prevState.Case_Status,
+            Case_Due_Date: caseDueDateString,
+            Internal_Due_Date: internalDueDateString,
+          }));
+        } else {
+          setCaseHeader((prevState) => ({
+            ...prevState,
+            ...(data?.["angCaseHeader"]?.[0] || {}),
+            Case_Status: caseStatus || prevState.Case_Status,
+          }));
+        }
+        // Calculate case aging
+        const timeDifference = currentDate - caseReceivedDate;
+        const caseAgingInDays = Math.floor(
+          timeDifference / (1000 * 60 * 60 * 24),
+        );
+        const complianceTime = `${daysLeft}d ${hoursLeft}h ${minutesLeft}m ${secondsLeft}s`;
+        console.log("complianceTime",complianceTime)
+        console.log("setCaseTimelines",setCaseTimelines)
+        // setCaseTimelines((prevState) => ({
+        //   ...prevState,
+        //   ...(data?.["angCaseTimelines"]?.[0] || {}),
+        //   Case_Aging: caseAgingInDays + " days",
+        //   Compliance_Time_Left_to_Finish: complianceTime + " remaining",
+        // }));
+        // console.log("data casetimelines",data?.["angCaseTimelines"])
+        // Update other state values
+
+         setCaseTimelines(data?.["angCaseTimelines"]?.[0] || {});
+
+        setCaseInformation(data?.["angCaseInformation"]?.[0] || {});
+        setClaimInformation(data?.["angClaimInformation"]?.[0] || {});
+        setClaimInformationGrid(data?.["angClaimInformationGrid"] || []);
+        setProviderInformationGrid(data?.["angProviderInformationGrid"] || []);
+        setMemberInformation(data?.["angMemberInformation"]?.[0] || {});
+        setProviderMemberInformation(data?.["angProviderMemberInformation"]?.[0] || {});
+        setPdProviderInformation(data?.["pdProviderInformation"]?.[0] || {});
+        setRepresentativeInformationGrid(
+          data?.["angRepresentativeInformationGrid"] || [],
+        );
+        setAuthorizationInformation(
+          data?.["angAuthorizationInformation"]?.[0] || {},
+        );
+        setAuthorizationInformationGrid(
+          data?.["angAuthorizationInformationGrid"] || [],
+        );
+        setDocNeededGrid(data?.["angDocNeededGrid"] || [] );
+        setExpeditedRequest(data?.["angExpeditedRequest"]?.[0] || {});
+        setNotes(data?.["angNotes"]?.[0] || {});
+
+      
+        setcaseDecision(data?.["angCaseDecision"]?.[0] || {});
+        setcaseDecisionDetails(data?.["angCaseDecisionDetails"]?.[0] || {});
+        
+        setFormData(_.cloneDeep(data));
+
+        // Update case data in caseData array
+        const caseIDToUpdate = data?.mainTable?.[0]?.CaseID;
+        const indexToUpdate = caseData.data.findIndex(
+          (item) => item?.CaseID === caseIDToUpdate,
+        );
+
+        if (indexToUpdate !== -1) {
+          caseData.data[indexToUpdate] = data?.mainTable?.[0];
+        }
+
+        // Update case information
+        const caseInfoProduct = data?.angCaseInformation?.[0]?.Product;
+        caseInformation["Product"] = caseInfoProduct;
+
+        // Dispatch action to update data
+        dispatch({
+          type: "UPDATE_DATA",
+          payload: {
+            data: caseData.data,
+          },
+        });
+      }
+    } catch (error) {
+      console.error("API request error:", error);
+    }
+  };
+  const getPDCaseByCaseNumber = async () => {
+   
+    let getApiJson = {};
+    getApiJson["tableNames"] = getTableDetails()["pdTables"];
     getApiJson["whereClause"] = { caseNumber: location.state.caseNumber };
     console.log("table name",getApiJson["tableNames"])
     console.log("whereClause",getApiJson["whereClause"])
@@ -1414,127 +1589,16 @@ export const useHeader = () => {
       if (apiStat === 0) {
 
          const data = res.data.data;
-        // // Extract data
-        // console.log(" data.angCaseHeader[0]", data.angCaseHeader[0])
-        // const stageName = location.state.stageName;
-        // const caseStatus = await getCaseStatus(stageName);
-        // const caseReceivedDate = new Date(
-        //    data.angCaseHeader[0]["Case_Received_Date#date"],
-        //   // data.angCaseHeader[0]["Case_Received_Date"],
-
-        // );
-
-        // const caseInfo = data?.["angCaseInformation"]?.[0];
-        // const keysToCheck = [
-        //   "Product",
-        //   "Product_State",
-        //   "Line_of_Business_LOB",
-        // ];
-        // const hasAnyValue = hasAnyNonEmptyValue(caseInfo, keysToCheck);
-
-        // if (caseInfo && hasAnyValue) {
-        //   const caseLevelPriority = caseInfo.Case_Level_Priority;
-        //   const appealType = caseInfo.Appeal_Type;
-        //   const appellant_Type = caseInfo.Appellant_Type;
-        //   const { dueDate, internalDate } = calculateCaseDueDate(
-        //     caseReceivedDate,
-        //     caseLevelPriority,
-        //     appealType,
-        //     appellant_Type,
-        //   );
-        //   const currentDate = new Date();
-
-        //   const caseDueDateString = extractDate(dueDate);
-        //   const internalDueDateString = extractDate(internalDate);
-        //   const finalcaseReceivedDate = extractDate(caseReceivedDate);
-
-        //   const timeLeft = dueDate - currentDate;
-
-        //   daysLeft = Math.max(Math.floor(timeLeft / (1000 * 60 * 60 * 24)), 0);
-        //   hoursLeft = Math.max(
-        //     Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-        //     0,
-        //   );
-        //   minutesLeft = Math.max(
-        //     Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60)),
-        //     0,
-        //   );
-        //   secondsLeft = Math.max(
-        //     Math.floor((timeLeft % (1000 * 60)) / 1000),
-        //     0,
-        //   );
-
-        //   setCaseHeader((prevState) => ({
-        //     ...prevState,
-        //     ...(data?.["angCaseHeader"]?.[0] || {}),
-        //     Case_Received_Date: finalcaseReceivedDate,
-        //     Case_Status: caseStatus || prevState.Case_Status,
-        //     Case_Due_Date: caseDueDateString,
-        //     Internal_Due_Date: internalDueDateString,
-        //   }));
-        // } else {
-        //   setCaseHeader((prevState) => ({
-        //     ...prevState,
-        //     ...(data?.["angCaseHeader"]?.[0] || {}),
-        //     Case_Status: caseStatus || prevState.Case_Status,
-        //   }));
-        // }
-        // // Calculate case aging
-        // const timeDifference = currentDate - caseReceivedDate;
-        // const caseAgingInDays = Math.floor(
-        //   timeDifference / (1000 * 60 * 60 * 24),
-        // );
-        // const complianceTime = `${daysLeft}d ${hoursLeft}h ${minutesLeft}m ${secondsLeft}s`;
-        // console.log("complianceTime",complianceTime)
-        // console.log("setCaseTimelines",setCaseTimelines)
-        // // setCaseTimelines((prevState) => ({
-        // //   ...prevState,
-        // //   ...(data?.["angCaseTimelines"]?.[0] || {}),
-        // //   Case_Aging: caseAgingInDays + " days",
-        // //   Compliance_Time_Left_to_Finish: complianceTime + " remaining",
-        // // }));
-        // // console.log("data casetimelines",data?.["angCaseTimelines"])
-        // // Update other state values
-
-        //  setCaseTimelines(data?.["angCaseTimelines"]?.[0] || {});
-
-        // setCaseInformation(data?.["angCaseInformation"]?.[0] || {});
-        // setClaimInformation(data?.["angClaimInformation"]?.[0] || {});
-        // setClaimInformationGrid(data?.["angClaimInformationGrid"] || []);
-        // setProviderInformationGrid(data?.["angProviderInformationGrid"] || []);
-        // setMemberInformation(data?.["angMemberInformation"]?.[0] || {});
-        // setProviderMemberInformation(data?.["angProviderMemberInformation"]?.[0] || {});
-        // setPdProviderInformation(data?.["pdProviderInformation"]?.[0] || {});
-        // setRepresentativeInformationGrid(
-        //   data?.["angRepresentativeInformationGrid"] || [],
-        // );
-        // setAuthorizationInformation(
-        //   data?.["angAuthorizationInformation"]?.[0] || {},
-        // );
-        // setAuthorizationInformationGrid(
-        //   data?.["angAuthorizationInformationGrid"] || [],
-        // );
-        // setDocNeededGrid(data?.["angDocNeededGrid"] || [] );
-        // setExpeditedRequest(data?.["angExpeditedRequest"]?.[0] || {});
-        // setNotes(data?.["angNotes"]?.[0] || {});
-
-      
-        // setcaseDecision(data?.["angCaseDecision"]?.[0] || {});
-        // setcaseDecisionDetails(data?.["angCaseDecisionDetails"]?.[0] || {});
-        
-        // ------------------PROVIDER DISPUTES---------------------- 
          const stageName = location.state.stageName;
          const caseStatus = await getCaseStatus(stageName);
-         const caseReceivedDate = new Date(
-           data.pdCaseHeader[0]["Case_Received_Date#date"])
-         setCaseHeader((prevState) => ({
-              ...prevState,
-              ...(data?.["pdCaseHeader"]?.[0] || {}),
-              Case_Status: caseStatus || prevState.Case_Status,
-             // Original_Case_Received_Date:caseReceivedDate
-            }));
+        //  setCaseHeader((prevState) => ({
+        //       ...prevState,
+        //       ...(data?.["pdCaseHeader"]?.[0] || {}),
+        //       Case_Status: caseStatus || prevState.Case_Status,
+       
+        //     }));
       
-       // setCaseHeader(data?.["pdCaseHeader"]?.[0] || {});
+        setCaseHeader(data?.["pdCaseHeader"]?.[0] || {});
 
         setCaseTimelines(data?.["pdCaseTimelines"]?.[0] || {});
 

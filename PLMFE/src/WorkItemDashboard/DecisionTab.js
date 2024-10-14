@@ -331,6 +331,9 @@ export default function DecisionTab(props) {
   const masterAngDocumentSelector = useSelector(
     (state) => state?.masterAngDocument,
   );
+  const masterPDDocumentSelector = useSelector(
+    (state) => state?.masterPDDocument,
+  );
 
   const [documentData, setDocumentData] = useState([]);
 
@@ -930,35 +933,15 @@ export default function DecisionTab(props) {
   const getNotUploadedDocTypes = (docArr) => {
     let selectJson = {};
     let documentNames = [];
-    // if (mastersSelector.hasOwnProperty("masterDocumentName")) {
-    //   let documentNameOptions =
-    //     mastersSelector["masterDocumentName"].length === 0
-    //       ? []
-    //       : mastersSelector["masterDocumentName"][0];
-    //   documentNameOptions
-    //     .filter((data) => data.FlowId == flowId)
-    //     .map((val) =>
-    //       documentNames.push({ value: val.DocumentName, label: val.DocumentName })
-    //     );
-    // }
-    // if (documentNames.length > 0 && docArr.length > 0) {
-    //   docArr.forEach((obj) => {
-    //     if (obj.documentType !== "Other Documents") {
-    //       const requiredIndex = documentNames.findIndex((el) => {
-    //         return el.value === obj.documentType;
-    //       });
-
-    //       if (requiredIndex !== -1) {
-    //         documentNames.splice(requiredIndex, 1);
-    //       }
-    //     }
-    //   });
-    // }
-
-    selectJson.docOptions =
-      masterAngDocumentSelector.length === 0
-        ? []
-        : masterAngDocumentSelector[0];
+    // selectJson.docOptions =
+    //   masterAngDocumentSelector.length === 0
+    //     ? []
+    //     : masterAngDocumentSelector[0];
+        if (prop.state.formNames ==="Appeals" && masterAngDocumentSelector) {
+          selectJson.docOptions  = masterAngDocumentSelector.length === 0 ? [] : masterAngDocumentSelector[0];
+        } else if (prop.state.formNames === "Provider Disputes" && masterPDDocumentSelector) {
+          selectJson.docOptions  = masterPDDocumentSelector.length === 0 ? [] : masterPDDocumentSelector[0];
+        }
 
     selectJson["docOptions"]
       .filter((data) => data.WORKSTEP_NAME.trim() == stageName.trim())
