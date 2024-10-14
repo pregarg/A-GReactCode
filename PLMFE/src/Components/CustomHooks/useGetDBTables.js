@@ -95,6 +95,9 @@ export default function useGetDBTables() {
         "ANG_DOCS_NEEDED~angDocNeededGrid",
         "ANG_Case_Decision~angCaseDecision",
         "ANG_Case_Decision_Details~angCaseDecisionDetails",
+      ],
+      angCaseStatusTable: ["ANG_MASTER_CASE_STATUS~angCaseStatus"],
+      pdTables: [
         "PD_CASE_HEADER~pdCaseHeader",
         "PD_Case_Timelines~pdCaseTimelines",
         "PD_CASE_INFORMATION~pdCaseInformation",
@@ -114,7 +117,6 @@ export default function useGetDBTables() {
         "PD_Authorization_Information~pdAuthorizationInformationGrid",
         "PD_Notes~pdNotes",
       ],
-      angCaseStatusTable: ["ANG_MASTER_CASE_STATUS~angCaseStatus"],
     };
     return tableJson;
   };
