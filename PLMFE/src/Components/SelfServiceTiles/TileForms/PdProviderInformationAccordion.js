@@ -171,7 +171,7 @@ const PdProviderInformationAccordion = (props) => {
     setResponseData([]);
   };
 
-  const handleSelectedProvider = () => {
+  const handleSelectedProviders = () => {
     setShowProviderSearch(false);
     setSelectedCriteria([]);
     setSelectSearchValues([]);
@@ -358,7 +358,7 @@ const PdProviderInformationAccordion = (props) => {
                           showProviderSearch={showProviderSearch}
                           showProviders={showProviders}
                           providerSearchTableComponent={providerSearchTableComponent}
-                          handleSelectedProviders={handleSelectedProvider}
+                          handleSelectedProviders={handleSelectedProviders}
 
                       />
                   )}

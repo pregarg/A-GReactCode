@@ -223,26 +223,27 @@ export const useHeader = () => {
     WhiteGloveCancelledReason: "",
   });
   const [ProvidermemberInformation, setProviderMemberInformation] = useState({
+    caseNumber: "",
     Provider_Issue_Number: "",
-    Provider_Member_ID: "",
-    Provider_Member_First_Name: "",
-    Provider_Member_Last_Name: "",
-    Provider_Medicare_ID_HICN: "",
+    Member_ID: "",
+    Member_First_Name: "",
+    Member_Last_Name: "",
+    Medicare_ID_HICN: "",
     Provider_Medicaid_ID: "",
-    Provider_ContractPlan_ID: "",
-    Provider_Plan_Effective_Date: undefined,
-    Provider_Plan_Name: "",
-    Provider_Date_of_Birth: undefined,
-    Provider_Email_ID: "",
-    Provider_Phone_Number: "",
-    Provider_Dual_Plan: "",
-    Provider_Preferred_Language: "",
+    ContractPlan_ID: "",
+    Plan_Effective_Date: undefined,
+    Plan_Name: "",
+    Date_of_Birth: undefined,
+    Email_ID: "",
+    Phone_Number: "",
+    Dual_Plan: "",
+    Preferred_Language: "",
     Provider_LIS: "",
     Provider_Portal_Enrolled: "",
     Provider_Current_Alert: "",
     Provider_Next_Alert: "",
     Provider_Plan_Type:"",
-    Provider_Plan_Code:"",
+    Plan_Code:"",
     
   });
   const [PdProviderInformation, setPdProviderInformation] = useState({
@@ -795,7 +796,7 @@ export const useHeader = () => {
 
     const pdClaimInfoGrid = getGridDataValues(pdClaimInformationGrid);
     apiJson["PD_Claim_Information_Grid"] = pdClaimInfoGrid;
-
+   
     const pdProviderInformation = trimJsonValues({ ...pd_ProviderInformation });
     apiJson["PD_Provider_Information"] = pdProviderInformation;
 
