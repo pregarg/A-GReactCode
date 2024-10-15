@@ -12,9 +12,9 @@ import { FormikSelectField } from "../Common/FormikSelectField";
 const ProviderMemberInformationAccordion = (props) => {
   const { convertToCase, extractDate, getDatePartOnly } = useGetDBTables();
 
-  const [ProvidermemberInformationData, setProviderMemberInformationData] = useState(
-    props.ProvidermemberInformationData,
-  );
+  const [ProvidermemberInformationData, setProviderMemberInformationData] = useState({
+    ...props.ProvidermemberInformationData,
+ });
 
 
   const pdLISSelector = useSelector((state) => state?.masterPDLis);
@@ -348,49 +348,49 @@ const ProviderMemberInformationAccordion = (props) => {
             </button>
             <div className="row my-2">
               {renderInputField("Provider_Issue_Number", "Issue Number", 50)}
-              {renderInputField("Provider_Member_ID", "Member ID", 50)}
-              {renderInputField("Provider_Member_First_Name", "Member First Name", 50)}
+              {renderInputField("Member_ID", "Member ID", 50)}
+              {renderInputField("Member_First_Name", "Member First Name", 50)}
 
             </div>
             <div className="row my-2">
-            {renderInputField("Provider_Member_Last_Name", "Member Last Name", 50)}
-            {renderInputField("Provider_ContractPlan_ID", "Contract/ Plan ID", 50)}
-            {renderInputField("Provider_Medicare_ID_HICN", "Medicare ID", 50)}
+            {renderInputField("Member_Last_Name", "Member Last Name", 50)}
+            {renderInputField("ContractPlan_ID", "Contract/ Plan ID", 50)}
+            {renderInputField("Medicare_ID_HICN", "Medicare ID", 50)}
 
 
             </div>
             <div className="row my-2">
             {renderInputField("Provider_Medicaid_ID", "Medicaid ID", 255)}
             {renderDatePicker(
-                "Provider_Plan_Effective_Date",
+                "Plan_Effective_Date",
                 "Plan Effective Date",
                 "Plan Effective Date",
               )}
-              {renderInputField("Provider_Plan_Name", "Plan Name", 50)}
+              {renderInputField("Plan_Name", "Plan Name", 50)}
             </div>
 
 
             <div className="row my-2">
             {renderDatePicker(
-                "Provider_Date_of_Birth",
+                "Date_of_Birth",
                 "DOB",
                 "Date of Birth",
               )}
               {renderInputField("Provider_Plan_Type", "Plan Type", 255)}
-              {renderInputField("Provider_Plan_Code", "Plan code", 255)}
+              {renderInputField("Plan_Code", "Plan code", 255)}
             </div>
 
             <div className="row my-2">
-              {renderInputField("Provider_Email_ID", "Email ID", 50)}
-              {renderInputField("Provider_Phone_Number", "Phone Number", 50)}
-              {renderSelectField("Provider_Dual_Plan", "Dual Plan", dualPlanValues)}
+              {renderInputField("Email_ID", "Email ID", 50)}
+              {renderInputField("Phone_Number", "Phone Number", 50)}
+              {renderSelectField("Dual_Plan", "Dual Plan", dualPlanValues)}
 
             </div>
 
             <div className="row my-2">
             {renderSelectField("Provider_LIS", "LIS?", lisValues)}
             {renderInputField(
-                "Provider_Preferred_Language",
+                "Preferred_Language",
                 "Preferred Language",50
               )}
               {renderSelectField("Provider_Portal_Enrolled", "Portal Enrolled", portalEnrolledValues)}

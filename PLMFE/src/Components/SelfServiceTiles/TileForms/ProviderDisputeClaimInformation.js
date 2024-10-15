@@ -129,50 +129,9 @@ const ProviderDisputeClaimInformation = (props) => {
     setSelectedAddress(updatedTableData);
   };
 
-  const [ProviderclaimTypeValues, setProviderClaimTypeValues] = useState([]);
-
-  const [decisionValues, setDecisionValues] = useState([]);
-  const [decisionReasonValues, setDecisionReasonValues] = useState([]);
-  const [serviceTypeValues, setServiceTypeValues] = useState([]);
-  const [processingStatusValues, setProcessingStatusValues] = useState([]);
+ 
   const [isCheckedBox, setIscheckedBox] = useState(props.ProviderclaimInformation?.isChecked === '1');
 
-  useEffect(() => {
-    const kvMapper = (e) => ({
-      label: convertToCase(e),
-      value: convertToCase(e),
-    });
-    // const ProviderclaimType = masterAngProviderClaimTypeSelector?.[0] || [];
-    // setProviderClaimTypeValues(
-    //   [...new Set(ProviderclaimType.map((e) => convertToCase(e.ProviderClaim_Type)))].map(
-    //     kvMapper,
-    //   ),
-    // );
-   
-    // const angDecision = masterAngDecisionSelector?.[0] || [];
-    // setDecisionValues(
-    //   [...new Set(angDecision.map((e) => convertToCase(e.DECISION)))].map(
-    //     kvMapper,
-    //   ),
-    // );
-    // setDecisionReasonValues(
-    //   [
-    //     ...new Set(angDecision.map((e) => convertToCase(e.DECISION_REASON))),
-    //   ].map(kvMapper),
-    // );
-
-    // const authServiceType = masterAngAuthServiceTypeSelector?.[0] || [];
-    // setServiceTypeValues(
-    //   authServiceType.map((e) => e.SERVICE_TYPE_DESC).map(kvMapper),
-    // );
-
-    // const procStatus = masterAngProcessingStatusSelector?.[0] || [];
-    // setProcessingStatusValues(
-    //   [
-    //     ...new Set(procStatus.map((e) => convertToCase(e.Processing_Status))),
-    //   ].map(kvMapper),
-    // );
-  }, []);
   const gridDataRef = useRef({});
 
   const addTableRows = (triggeredFormName) => {
