@@ -302,9 +302,13 @@ export const useHeader = () => {
     Decision_Letter_Date: undefined,
   });
 
-  const [notes, setNotes] = useState({
+  const [providerNotes, setProviderNotes] = useState({
     Provider_Case_Notes: "",
     Provider_Internal_Notes: "",
+  });
+  const [notes, setNotes] = useState({
+    Case_Notes: "",
+    Internal_Notes: "",
   });
   const [claimInformationGrid, setClaimInformationGrid] = useState([]);
   const [ProviderClaimInformationGrid, setProviderClaimInformationGrid] = useState([]);
@@ -470,6 +474,8 @@ export const useHeader = () => {
   const notesValidationSchema = Yup.object().shape({
     Case_Notes: Yup.string().required("Case Notes is mandatory"),
   });
+  const providerNotesValidationSchema = Yup.object().shape({
+  });
   const claimInformationGridRowValidationSchema = Yup.object().shape({
     /*Filed_Timely: Yup.string().required(
         "Filed Timely Address is mandatory",
@@ -561,6 +567,7 @@ export const useHeader = () => {
   const [memberAltErrors, setMemberAltErrorsErrors] = useState([]);
   const [expeditedRequestErrors, setExpeditedRequestErrors] = useState([]);
   const [notesErrors, setNotesErrors] = useState([]);
+  const [providerNotesErrors, setProviderNotesErrors] = useState([]);
   const [representativeAddErrors, setRepresentativeAddErrorsErrors] = useState([]);
   const [representativeInformationErrors, setRepresentativeInformationErrorsErrors] = useState([]);
   const [providerInformationErrors, setProviderInformationErrorsErrors] = useState([]);
@@ -623,9 +630,9 @@ export const useHeader = () => {
       setProviderMemberInformationErrors,
     );
     validateSync(
-        notesValidationSchema,
-        notes,
-        setNotesErrors
+        providerNotesValidationSchema,
+        providerNotes,
+        setProviderNotesErrors
     );
     validateSync(
         PdProviderInformationValidationSchema,
@@ -716,7 +723,8 @@ export const useHeader = () => {
     // ProviderauthorizationInformationGrid,
     caseDecisionDetails,
     caseDecision,
-     notes
+     notes,
+          providerNotes,
   ]);
 
   useEffect(() => {
@@ -729,6 +737,7 @@ export const useHeader = () => {
         ...providerClaimInformationErrors,
         ...memberInformationErrors,
         ...ProvidermemberInformationErrors,
+        ...providerNotesErrors,
         ...PdProviderInformationErrors,
         ...expeditedRequestErrors,
         ...caseDecisionDetailsErrors,
@@ -742,6 +751,7 @@ export const useHeader = () => {
     claimInformationErrors,
     providerClaimInformationErrors,
     memberInformationErrors,
+    providerNotesErrors,
     ProvidermemberInformationErrors,
     PdProviderInformationErrors,
     expeditedRequestErrors,
@@ -839,9 +849,8 @@ export const useHeader = () => {
     const pdDecisionAddRecord = trimJsonValues({ ...pd_DecisionAddRecord });
     apiJson["PD_Decision"] = pdDecisionAddRecord;
 
-    const pdNotes = trimJsonValues({ ...notes });
-    apiJson["PD_Notes"] = pdNotes;
-
+    const pNotes = trimJsonValues({ ...providerNotes });
+    apiJson["PD_Notes"] = pNotes;
 
     apiJson["MainCaseTable"] = mainCaseReqBody;
 
@@ -1541,6 +1550,7 @@ export const useHeader = () => {
         setExpeditedRequest(data?.["angExpeditedRequest"]?.[0] || {});
         setNotes(data?.["angNotes"]?.[0] || {});
 
+
       
         setcaseDecision(data?.["angCaseDecision"]?.[0] || {});
         setcaseDecisionDetails(data?.["angCaseDecisionDetails"]?.[0] || {});
@@ -1633,7 +1643,7 @@ export const useHeader = () => {
 
         setpdDecisionAddRecord(data?.["pdDecisionAddRecord"]?.[0] || {});
 
-        setNotes(data?.["pdNotes"]?.[0] || {});
+        setProviderNotes(data?.["pNotes"]?.[0] || {});
 
         setFormData(_.cloneDeep(data));
 
@@ -2133,7 +2143,7 @@ export const useHeader = () => {
 	const pdRepresentativeAddRecord = trimJsonValues({ ...pd_RepresentativeAddRecord });
 	const pdRepresentativeAltRecord = trimJsonValues({ ...pd_RepresentativeAltRecord });
 
-    const pdNotes = trimJsonValues({ ...notes });
+    const pNotes = trimJsonValues({ ...providerNotes });
 	const pdDecisionAddRecord = trimJsonValues({ ...pd_DecisionAddRecord });
   console.log("pdCaseInformationGrid111",pdCaseInformationGrid)
 	const pdCaseInfoGrid = getGridDataValues(pdCaseInformationGrid);
@@ -2209,8 +2219,8 @@ export const useHeader = () => {
       formData["pdDecisionAddRecord"][0],
     );
     apiJson["PD_Notes"] = CompareJSON(
-        pdNotes,
-        formData["pdNotes"][0],
+        pNotes,
+        formData["pNotes"][0],
     );
 
     let updateCaseInfoArray = [];
@@ -2497,6 +2507,10 @@ export const useHeader = () => {
     setExpeditedRequest,
     notes,
     setNotes,
+    providerNotes,
+    providerNotesValidationSchema,
+    setProviderNotes,
+    providerNotesErrors,
     expeditedRequestValidationSchema,
     location,
     navigateHome,

@@ -11,14 +11,10 @@ import ProviderDisputeClaimInformation from "./ProviderDisputeClaimInformation";
 import DecisionTab from "../../../WorkItemDashboard/DecisionTab";
 import CaseInformation from "../../../WorkItemDashboard/CaseInformation";
 import ProviderDisputeMemberInformationAccordion from "./ProviderDisputeMemberInformationAccordion";
-
-import NotesAccordion from "./ProviderDisputeNotesAccordion";
 import { FaBars } from "react-icons/fa";
 import ProviderDisputeAuthorizationInformationAccordion from "./ProviderDisputeAuthorizationInformationAccordion";
-
 import { useHeader } from "./useHeader";
 import DocumentSection from "../DocumentSection";
-
 import Member360 from "../TileForms/Member360";
 import Provider360 from "../TileForms/Provider360";
 import NotesHistory from "../TileForms/NotesHistory";
@@ -33,6 +29,7 @@ import PdProviderInformationAccordion from "../TileForms/PdProviderInformationAc
 import RepresentativeAltContactAccordion from "../TileForms/RepresentativeAltContactAccordion";
 import { RenderType } from "./Constants";
 import ProviderAddOfRecordsAccordion from "./ProviderAddOfRecordsAccordion";
+import ProviderNotesAccordion from "../TileForms/PdNotesAccordion";
 
 
 
@@ -82,6 +79,10 @@ const ProviderDisputes = () => {
     ProvidermemberInformation,
     ProvidermemberInformationValidationSchema,
     setProviderMemberInformation,
+    providerNotes,
+    providerNotesValidationSchema,
+    setProviderNotes,
+    providerNotesErrors,
     representativeInformationGrid,
     setRepresentativeInformationGrid,
     handleAuthorizationInformationChange,
@@ -343,12 +344,12 @@ const ProviderDisputes = () => {
                   shouldShowSubmitError={shouldShowSubmitError}
                   renderType={RenderType.PROVIDER_DISPUTE}
               />
-              <NotesAccordion
-                notesData={notes}
-                setNotesData={setNotes}
-                notesErrors={notesErrors}
-                notesValidationSchema={notesValidationSchema}
-                shouldShowSubmitError={shouldShowSubmitError}
+              <ProviderNotesAccordion
+                  providerNotesData={providerNotes}
+                  setProviderNotesData={setProviderNotes}
+                  providerNotesErrors={providerNotesErrors}
+                  providerNotesValidationSchema={providerNotesValidationSchema}
+                  shouldShowSubmitError={shouldShowSubmitError}
               />
                {location.state.formView === "DashboardHomeView" && (
                 <DocumentSection
