@@ -115,7 +115,7 @@ export default function useGetDBTables() {
         "PD_Representative_Alternative_Contact_Info~pdRepresentativeAltRecord",
         "PD_Decision~pdDecisionAddRecord",
         "PD_Authorization_Information~pdAuthorizationInformationGrid",
-        "PD_Notes~pdNotes",
+        "PD_Notes~pNotes",
       ],
     };
     return tableJson;
