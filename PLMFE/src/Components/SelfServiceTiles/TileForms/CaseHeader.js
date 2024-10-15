@@ -338,7 +338,10 @@ const CaseHeader = () => {
                   type="button"
                   className="btn btn-outline-primary btnStyle"
                   name="submit"
-                  onClick={submitData}
+                  onClick={() => {
+                    submitData()
+                  }}
+
                   style={{ float: "right", marginRight: "10px" }}
                 >
                   Submit

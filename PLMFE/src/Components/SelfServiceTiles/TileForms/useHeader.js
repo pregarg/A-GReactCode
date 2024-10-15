@@ -571,8 +571,11 @@ export const useHeader = () => {
   const [decisionAddErrors, setDecisionAddErrorsErrors] = useState([]);
   const [caseDecisionDetailsErrors, setcaseDecisionDetailsErrors] = useState([]);
   const [caseDecisionErrors, setcaseDecisionErrors] = useState([]);
-  const validateSync = (schema, data, setErrors) => {
+  const validateSync = (schema, data, setErrors, noReset) => {
     try {
+      if(!noReset) {
+        setErrors([]);
+      }
      // setErrors([]);
       schema.validateSync(data, { abortEarly: false });
     } catch (errors) {
@@ -622,7 +625,7 @@ export const useHeader = () => {
     validateSync(
         notesValidationSchema,
         notes,
-        setNotesErrors,
+        setNotesErrors
     );
     validateSync(
         PdProviderInformationValidationSchema,
@@ -639,6 +642,7 @@ export const useHeader = () => {
       pdCaseInformationValidationSchema,
       pd_CaseInformation,
       setpdCaseInformation,
+      true
     );
     validateSync(
       expeditedRequestValidationSchema,
@@ -712,9 +716,11 @@ export const useHeader = () => {
     // ProviderauthorizationInformationGrid,
     caseDecisionDetails,
     caseDecision,
+     notes
   ]);
 
   useEffect(() => {
+    // debugger;
     setHasSubmitError(
       Object.keys({
         ...caseTimelinesErrors,
@@ -888,6 +894,7 @@ export const useHeader = () => {
   
 
   const submitData = async () => {
+    // debugger;
     if (hasSubmitError) {
       setShowSubmitError(true);
       return;
