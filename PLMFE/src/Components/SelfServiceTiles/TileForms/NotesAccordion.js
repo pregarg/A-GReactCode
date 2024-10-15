@@ -18,9 +18,9 @@ const NotesAccordion = (props) => {
       ...notesData,
       [name]: typeof value === "string" ? convertToCase(value) : value,
     };
-    setNotesData(newData);
+    setNotesData({...newData});
     if (persist) {
-      props.setNotesData(newData);
+      props.setNotesData({...newData});
     }
   };
   const renderInputField = (name, placeholder, maxLength) => (

@@ -183,8 +183,6 @@ export const useCaseTimelines = (renderType) => {
           ),
         },
       },
-      
-     
       {
         type: "date",
         name: "WOL_Received_Date",
