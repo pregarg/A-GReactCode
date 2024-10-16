@@ -81,6 +81,9 @@ export const useCaseTimelines = (renderType) => {
           [RenderType.APPEALS]: Yup.date()
             .required("Case Received Date is mandatory")
             .max(new Date(), "Case Received  Date cannot be in future"),
+          [RenderType.PROVIDER_DISPUTE]: Yup.date()
+              .required("Case Received Date is mandatory")
+              .max(new Date(), "Case Received  Date cannot be in future"),
         },
       },
       {
@@ -181,6 +184,9 @@ export const useCaseTimelines = (renderType) => {
           [RenderType.APPEALS]: Yup.string().required(
             "Out of Compliance Reason is mandatory",
           ),
+          [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
+              "Out of Compliance Reason is mandatory",
+          ),
         },
       },
       {
@@ -214,7 +220,12 @@ export const useCaseTimelines = (renderType) => {
         name: "Department",
         placeholder: "Department",
         values: departmentValues,
-        renderTypes: [RenderType.PROVIDER_DISPUTE],        
+        renderTypes: [RenderType.PROVIDER_DISPUTE],
+        validation: {
+          [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
+              "Department is mandatory",
+          ),
+        },
       },
       {
         type: "input",
@@ -243,7 +254,12 @@ export const useCaseTimelines = (renderType) => {
         name: "Number_of_Claims_More_Than_10",
         placeholder: "Are number of claims more than 10",
         values: noOfClaimsValues,
-        renderTypes: [RenderType.PROVIDER_DISPUTE],        
+        renderTypes: [RenderType.PROVIDER_DISPUTE],
+        validation: {
+          [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
+              "Number_of_Claims is mandatory",
+          ),
+        },
       },
     ].filter((e) => e.renderTypes.includes(renderType));
 
