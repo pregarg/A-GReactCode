@@ -440,7 +440,7 @@ export const useHeader = () => {
     Members_Age: Yup.string().required("Members Age is mandatory"),
     Deceased: Yup.string().required("Deceased is mandatory"),
     Gender: Yup.string().required("Gender is mandatory"),
-    Dual_Plan: Yup.string().required("Dual Plan is mandatory"),
+    // Dual_Plan: Yup.string().required("Dual Plan is mandatory"),
     Preferred_Language: Yup.string().required(
       "Preferred Language is mandatory",
     ),
@@ -775,6 +775,10 @@ export const useHeader = () => {
   // }, [decisionTab]);
 
   const pdsubmitData = async () => {
+    if (hasSubmitError) {
+      setShowSubmitError(true);
+      return;
+    }
     console.log("providerDisputesConfigData",providerDisputesConfigData)
     const flowID = providerDisputesConfigData["FlowId"];
     const stageNAME = providerDisputesConfigData["StageName"];
@@ -1676,6 +1680,10 @@ export const useHeader = () => {
 
   //save and exit button
   const saveAndExit = async () => {
+    if (hasSubmitError) {
+      setShowSubmitError(true);
+      return;
+    }
     callProcRef.current = "callProc";
 
     //const saveType = event.target.name === "saveAndSubmit" ? "SS" : "SE";
