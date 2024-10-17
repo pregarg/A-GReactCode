@@ -396,11 +396,11 @@ const ProviderMemberInformationAccordion = (props) => {
               {renderSelectField("Provider_Portal_Enrolled", "Portal Enrolled", portalEnrolledValues)}
 
             </div>
-            <div className="row my-2">
-            {renderInputField("Provider_Current_Alert", "Current Alert", 50)}
-            {renderInputField("Provider_Next_Alert", "Next Alert", 50)}
+            {/*<div className="row my-2">*/}
+            {/*{renderInputField("Provider_Current_Alert", "Current Alert", 50)}*/}
+            {/*{renderInputField("Provider_Next_Alert", "Next Alert", 50)}*/}
 
-            </div>
+            {/*</div>*/}
           </div>
         </div>
         {showMemberSearch && (

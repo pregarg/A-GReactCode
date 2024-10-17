@@ -200,46 +200,46 @@ export const useProviderInformation = (renderType) => {
         renderTypes: [RenderType.PROVIDER_DISPUTE],
         validation:{}
       },
-      {
-        type: "input",
-        name: "Provider_Alert",
-        placeholder: "Provider Alert",
-        maxLength: 50,
-        renderTypes: [RenderType.PROVIDER_DISPUTE],
-        validation:{}
-      },
-      {
-        type: "input",
-        name: "Current_Alert",
-        placeholder: "Current Alert",
-        maxLength: 50,
-        renderTypes: [RenderType.PROVIDER_DISPUTE],
-        validation:{}
-      },
-      {
-        type: "input",
-        name: "Next_Alert",
-        placeholder: "Next Alert",
-        maxLength: 50,
-        renderTypes: [RenderType.PROVIDER_DISPUTE],
-        validation:{}
-      },
-      {
-        type: "input",
-        name: "Historical_Alert",
-        placeholder: "Historical Alert",
-        maxLength: 50,
-        renderTypes: [RenderType.PROVIDER_DISPUTE],
-        validation:{}
-      },
-      {
-        type: "input",
-        name: "Acknowledge_Alert",
-        placeholder: "Acknowledge Alert",
-        maxLength: 50,
-        renderTypes: [RenderType.PROVIDER_DISPUTE],
-        validation:{}
-      },
+      // {
+      //   type: "input",
+      //   name: "Provider_Alert",
+      //   placeholder: "Provider Alert",
+      //   maxLength: 50,
+      //   renderTypes: [RenderType.PROVIDER_DISPUTE],
+      //   validation:{}
+      // },
+      // {
+      //   type: "input",
+      //   name: "Current_Alert",
+      //   placeholder: "Current Alert",
+      //   maxLength: 50,
+      //   renderTypes: [RenderType.PROVIDER_DISPUTE],
+      //   validation:{}
+      // },
+      // {
+      //   type: "input",
+      //   name: "Next_Alert",
+      //   placeholder: "Next Alert",
+      //   maxLength: 50,
+      //   renderTypes: [RenderType.PROVIDER_DISPUTE],
+      //   validation:{}
+      // },
+      // {
+      //   type: "input",
+      //   name: "Historical_Alert",
+      //   placeholder: "Historical Alert",
+      //   maxLength: 50,
+      //   renderTypes: [RenderType.PROVIDER_DISPUTE],
+      //   validation:{}
+      // },
+      // {
+      //   type: "input",
+      //   name: "Acknowledge_Alert",
+      //   placeholder: "Acknowledge Alert",
+      //   maxLength: 50,
+      //   renderTypes: [RenderType.PROVIDER_DISPUTE],
+      //   validation:{}
+      // },
 
     ].filter((e) => e.renderTypes.includes(renderType));
 
