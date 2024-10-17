@@ -451,13 +451,13 @@ export const useHeader = () => {
     // Email_Address: Yup.string().required("Email Address is mandatory"),
     Medicaid_ID: Yup.string().required("Medicaid ID is mandatory"),
     Zip_Code: Yup.string().required("Zip code Address is mandatory"),
-    Plan_Effective_Date: Yup.string().required(
+    'Plan_Effective_Date#date': Yup.string().required(
       "Plan Effective Date Address is mandatory",
     ),
-    Plan_Expiration_Date: Yup.string().required(
+    "Plan_Expiration_Date#date": Yup.string().required(
       "Plan Expiration Date Address is mandatory",
     ),
-    Date_of_Birth: Yup.string().required("Date of Birth Address is mandatory"),
+    'Date_of_Birth#date': Yup.string().required("Date of Birth Address is mandatory"),
     Special_Need_Indicator: Yup.string().required(
       "Special Need Indicator Address is mandatory",
     ),
