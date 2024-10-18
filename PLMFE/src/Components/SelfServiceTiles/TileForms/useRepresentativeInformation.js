@@ -18,29 +18,29 @@ export const useRepresentativeInformation = (renderType) => {
 
   const [representativeInformationValidationSchema, setRepresentativeInformationValidationSchema] =
       useState(Yup.object().shape({}));
-      const masterPDRelationshipSelector = useSelector(
-        (state) => state?.masterPDRelationship,
-      );
-      const masterPDAuthTypeSelector = useSelector(
-        (state) => state?.masterPDAuthType,
-      );
-      const [relationshipValues, setRelationshipValues] = useState([]);
-      const [authTypeValues, setAuthTypeValues] = useState([]);
+  const masterPDRelationshipSelector = useSelector(
+      (state) => state?.masterPDRelationship,
+  );
+  const masterPDAuthTypeSelector = useSelector(
+      (state) => state?.masterPDAuthType,
+  );
+  const [relationshipValues, setRelationshipValues] = useState([]);
+  const [authTypeValues, setAuthTypeValues] = useState([]);
 
-      useEffect(() => {
-        const kvMapper = (e) => ({
-          label: convertToCase(e),
-          value: convertToCase(e),
-        });
-        const relationship = masterPDRelationshipSelector?.[0] || [];
-        setRelationshipValues(
-          relationship.map((e) => e.Relationship).map(kvMapper),
-        );
-        const authType = masterPDAuthTypeSelector?.[0] || [];
-        setAuthTypeValues(
-          authType.map((e) => e.Auth_Type).map(kvMapper),
-        );
-      }, []);
+  useEffect(() => {
+    const kvMapper = (e) => ({
+      label: convertToCase(e),
+      value: convertToCase(e),
+    });
+    const relationship = masterPDRelationshipSelector?.[0] || [];
+    setRelationshipValues(
+        relationship.map((e) => e.Relationship).map(kvMapper),
+    );
+    const authType = masterPDAuthTypeSelector?.[0] || [];
+    setAuthTypeValues(
+        authType.map((e) => e.Auth_Type).map(kvMapper),
+    );
+  }, []);
 
 
   useEffect(() => {
