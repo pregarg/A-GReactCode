@@ -451,13 +451,13 @@ export const useHeader = () => {
     // Email_Address: Yup.string().required("Email Address is mandatory"),
     Medicaid_ID: Yup.string().required("Medicaid ID is mandatory"),
     Zip_Code: Yup.string().required("Zip code Address is mandatory"),
-    Plan_Effective_Date: Yup.string().required(
-      "Plan Effective Date Address is mandatory",
-    ),
-    Plan_Expiration_Date: Yup.string().required(
-      "Plan Expiration Date Address is mandatory",
-    ),
-    Date_of_Birth: Yup.string().required("Date of Birth Address is mandatory"),
+   //  Plan_Effective_Date: Yup.string().required(
+   //    "Plan Effective Date Address is mandatory",
+   //  ),
+   //  Plan_Expiration_Date: Yup.string().required(
+   //    "Plan Expiration Date Address is mandatory",
+   //  ),
+   // Date_of_Birth: Yup.string().required("Date of Birth Address is mandatory"),
     Special_Need_Indicator: Yup.string().required(
       "Special Need Indicator Address is mandatory",
     ),
@@ -723,8 +723,8 @@ export const useHeader = () => {
     // ProviderauthorizationInformationGrid,
     caseDecisionDetails,
     caseDecision,
-     notes,
-          providerNotes,
+    notes,
+    providerNotes,
   ]);
 
   useEffect(() => {
@@ -774,8 +774,31 @@ export const useHeader = () => {
   //   setDisableSaveAndExit(!decisionTab?.Decision_Case_Notes?.trim())
   // }, [decisionTab]);
 
+  const checkForPDError = () => {
+    return Object.keys({
+      ...caseTimelinesErrors,
+      ...providerClaimInformationErrors,
+      ...ProvidermemberInformationErrors,
+      ...providerNotesErrors,
+      ...PdProviderInformationErrors,
+      ...pdCaseInformationErrors
+      })
+  }
+  const checkForAppealsError = () => {
+    return Object.keys({
+      ...caseTimelinesErrors,
+      ...caseInformationErrors,
+      ...claimInformationErrors,
+      ...memberInformationErrors,
+      ...expeditedRequestErrors,
+      ...caseDecisionDetailsErrors,
+      ...caseDecisionErrors,
+    })
+  }
+
   const pdsubmitData = async () => {
-    if (hasSubmitError) {
+
+    if (checkForPDError()?.length > 0) {
       setShowSubmitError(true);
       return;
     }
@@ -857,8 +880,8 @@ export const useHeader = () => {
     apiJson["PD_Notes"] = pNotes;
 
     apiJson["MainCaseTable"] = mainCaseReqBody;
-
-    const response = await customAxios.post("/generic/create", apiJson, {
+    const cleanedApiJson = removeDateInKeys(apiJson);
+    const response = await customAxios.post("/generic/create", cleanedApiJson, {
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -908,9 +931,10 @@ export const useHeader = () => {
 
   const submitData = async () => {
     // debugger;
-    if (hasSubmitError) {
+    if (checkForAppealsError()?.length > 0) {
       setShowSubmitError(true);
       return;
+
     }
     const currentUser = authSelector.userName || "system";
     const receivedDate = extractDate(currentDate);
@@ -981,8 +1005,8 @@ export const useHeader = () => {
     const stageName = caseHeaderConfigData["StageName"];
 
     apiJson["MainCaseTable"] = mainCaseReqBody;
-
-    const response = await customAxios.post("/generic/create", apiJson, {
+    const cleanedApiJson = removeDateInKeys(apiJson);
+    const response = await customAxios.post("/generic/create", cleanedApiJson, {
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -1455,7 +1479,7 @@ export const useHeader = () => {
         const stageName = location.state.stageName;
         const caseStatus = await getCaseStatus(stageName);
         const caseReceivedDate = new Date(
-           data.angCaseHeader[0]["Case_Received_Date#date"],
+          data.angCaseHeader[0]["Case_Received_Date#date"],
           // data.angCaseHeader[0]["Case_Received_Date"],
 
         );
@@ -2091,9 +2115,10 @@ export const useHeader = () => {
 
     
     apiJson["caseNumber"] = location.state.caseNumber;
-    console.log("abcsssttttts",angCaseDecisionDetails);
+    debugger;
+    const cleanedApiJson = removeDateInKeys(apiJson);
     customAxios
-      .post("/generic/update", apiJson, {
+      .post("/generic/update", cleanedApiJson, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -2127,7 +2152,23 @@ export const useHeader = () => {
         }
       });
   };
- 
+
+  const removeDateInKeys = (obj) => { 
+    if (typeof obj !== 'object' || obj === null) return obj; 
+    // Return if it's not an object 
+    // Check if the object is a Date 
+    if (obj instanceof Date) return obj; // Return date objects as-is
+    if (Array.isArray(obj)) 
+      { 
+        return obj.map(removeDateInKeys); // Recursively handle arrays
+       } 
+       
+       return Object.keys(obj).reduce((acc, key) => { // Create the new key by removing #date 
+        const newKey = key.replace('#date', ''); // Recursively call the function for nested objects 
+        acc[newKey] = removeDateInKeys(obj[key]); 
+        return acc; }, {}); 
+  }
+
   const pdsaveAndExit = async () => {
     callProcRef.current = "callProc";
 
@@ -2419,12 +2460,13 @@ export const useHeader = () => {
     apiJson["PD_CASE_INFORMATION_GRID"] = updateCaseInfoArray;
     apiJson["PD_Claim_Information_Grid"] = updateClaimArray;
     apiJson["PD_Authorization_Information"] = updateAuthArray;
-   console.log("location.state.caseNumberqqqqqqq",location.state.caseNumber)
-   apiJson["caseNumber"] = location.state.caseNumber;
+    console.log("location.state.caseNumberqqqqqqq", location.state.caseNumber)
+    apiJson["caseNumber"] = location.state.caseNumber;
+    const cleanedApiJson = removeDateInKeys(apiJson);
     customAxios
-      .post("/generic/update", apiJson, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+        .post("/generic/update", cleanedApiJson, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
       .then((res) => {
         const apiStat = res.data.UpdateCase_Output.Status;
 

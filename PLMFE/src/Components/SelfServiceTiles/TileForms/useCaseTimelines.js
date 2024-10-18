@@ -72,7 +72,7 @@ export const useCaseTimelines = (renderType) => {
     const fields = [
       {
         type: "date",
-        name: "Case_Received_Date",
+        name: "Case_Received_Date#date",
         placeholder: "Case Received Date",
         label: "Case Received Date",
         defaultValue: new Date(),
@@ -88,7 +88,7 @@ export const useCaseTimelines = (renderType) => {
       },
       {
         type: "date",
-        name: "AOR_Received_Date",
+        name: "AOR_Received_Date#date",
         placeholder: "AOR Received Date",
         label: "AOR Received Date",
         renderTypes: [RenderType.APPEALS, RenderType.PROVIDER_DISPUTE],
@@ -191,7 +191,7 @@ export const useCaseTimelines = (renderType) => {
       },
       {
         type: "date",
-        name: "WOL_Received_Date",
+        name: "WOL_Received_Date#date",
         placeholder: "WOL Received Date",
         label: "WOL Received Date",
         renderTypes: [RenderType.APPEALS],
