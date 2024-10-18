@@ -463,6 +463,10 @@ export const useHeader = () => {
     ),
   });
   const ProvidermemberInformationValidationSchema = Yup.object().shape({
+    Member_First_Name: Yup.string().required("Member First Name is mandatory"),
+    Member_Last_Name: Yup.string().required("Member Last Name is mandatory"),
+    Member_ID: Yup.string().required("Member_ID is mandatory"),
+    Provider_Issue_Number: Yup.string().required("Issue Number is mandatory"),
    
   });
   const PdProviderInformationValidationSchema = Yup.object().shape({
@@ -475,6 +479,7 @@ export const useHeader = () => {
     Case_Notes: Yup.string().required("Case Notes is mandatory"),
   });
   const providerNotesValidationSchema = Yup.object().shape({
+    Provider_Case_Notes: Yup.string().required("Case Notes is mandatory"),
   });
   const claimInformationGridRowValidationSchema = Yup.object().shape({
     /*Filed_Timely: Yup.string().required(
@@ -536,8 +541,12 @@ export const useHeader = () => {
       "Provider Contact Name is mandatory",
     ),
   });
-  const authorizationInformationGridValidationSchema = Yup.object().shape({});
-  const ProviderauthorizationInformationGridValidationSchema = Yup.object().shape({});
+  const authorizationInformationGridValidationSchema = Yup.object().shape({
+
+  });
+  const ProviderauthorizationInformationGridValidationSchema = Yup.object().shape({
+    Issue_Number: Yup.string().required("Issue Number is mandatory"),
+  });
   const docNeededGridValidationSchema = Yup.object().shape({});
   
   const representativeInformationGridValidationSchema = Yup.object().shape({
