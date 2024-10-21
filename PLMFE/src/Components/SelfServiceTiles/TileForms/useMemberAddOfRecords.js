@@ -39,6 +39,11 @@ export const useMemberAddOfRecords = (renderType) => {
           placeholder: "Issue Number",
           maxLength: 50,
           renderTypes: [RenderType.PROVIDER_DISPUTE],
+          validation: {
+            [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
+                "Issue Number is mandatory",
+            ),
+          },
         },
         {
           type: "select",

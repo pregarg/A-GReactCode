@@ -106,7 +106,12 @@ export const usePdCaseInformation = (renderType) => {
             name: "Line_Of_Business",
             placeholder: "Line Of Business",
             values: lineOfBusinessValues,
-            renderTypes: [RenderType.PROVIDER_DISPUTE],        
+            renderTypes: [RenderType.PROVIDER_DISPUTE],
+          // validation: {
+          //   [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
+          //       "LOB is mandatory",
+          //   ),
+          // },
           },
         {
           type: "input",

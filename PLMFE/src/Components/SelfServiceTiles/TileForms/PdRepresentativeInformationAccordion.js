@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Formik, Form } from "formik";
+import { Formik, Form ,Field } from "formik";
 import useGetDBTables from "../../CustomHooks/useGetDBTables";
 import "./Appeals.css";
 import { FormikInputField } from "../Common/FormikInputField";
@@ -18,7 +18,10 @@ const PdRepresentativeInformationAccordion = (props) => {
 
   const { convertToCase } = useGetDBTables();
 
-  const [representativeInformationData, setRepresentativeInformationData] = useState(props.representativeInformationData || {});
+  const [representativeInformationData, setRepresentativeInformationData] = useState({
+    ...props.representativeInformationData || {}, 
+    isChecked: props.representativeInformationData.isChecked ?? 0, // Initialize as 0 if unchecked or null
+    });
 
   const handleRepresentativeInformationData = (name, value, persist) => {
     const newData = {
@@ -32,6 +35,11 @@ const PdRepresentativeInformationAccordion = (props) => {
   };
   const persistRepresentativeInformationDataData = () => {
     props.setRepresentativeInformationData(representativeInformationData);
+  };
+
+  const handleCheckBoxChangeNew = (e) => {
+    const isCheckedValue = e.target.checked ? 1 : 0;
+    handleRepresentativeInformationData("isChecked", isCheckedValue, true); // Set 1 if checked, 0 if unchecked
   };
 
   const renderInputField = (name, placeholder, maxLength) => (
@@ -146,14 +154,39 @@ const PdRepresentativeInformationAccordion = (props) => {
                     aria-labelledby="panelsStayOpen-Timelines"
                 >
                   <div className="accordion-body">
+                    {/*<div className="form-check">*/}
+                    {/*  <Field*/}
+                    {/*      type="checkbox"*/}
+                    {/*      name="white_glove"*/}
+                    {/*      className="form-check-input"*/}
+                    {/*      checked={representativeInformationData.white_glove === 1}*/}
+                    {/*      onChange={(e) =>*/}
+                    {/*          handleRepresentativeInformationData("white_glove", e.target.checked ? 1 : 0, true)*/}
+                    {/*      }*/}
+                    {/*  />*/}
+                    {/*  <label className="form-check-label" htmlFor="white_glove">*/}
+                    {/*    White Glove*/}
+                    {/*  </label>*/}
+                    {/*</div>*/}
 
+                    <div className="row my-2">
+                      <div className="col-md-3 text-start">
+                        <label>
+                          <input
+                              type="checkbox"
+                              checked={representativeInformationData.isChecked == 1}  // 1 for checked, 0 for unchecked
+                            onChange={handleCheckBoxChangeNew}  // Handle change
+                          />
+                          White Glove
+                        </label>
+                      </div>
+                    </div>
                     {renderElements(
                         props.representativeInformationFields,
                         renderSelectField,
                         renderInputField,
-                        renderDatePicker ,
-                        "",
-
+                        renderDatePicker,
+                        ""
                     )}
                   </div>
                 </div>
