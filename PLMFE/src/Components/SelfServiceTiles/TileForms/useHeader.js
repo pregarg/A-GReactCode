@@ -1353,14 +1353,15 @@ export const useHeader = () => {
         if (dataKeyType === "object") {
           if (data[dataValue]) {
             if (data[dataValue].value) {
-              if (data[dataValue].value instanceof Date) {
+              if (data[dataValue].value instanceof Date) {   
                 dataObject[dataValue] = extractDate(data[dataValue].value);
               } else {
                 dataObject[dataValue] = data[dataValue].value;
               }
             } else if (data[dataValue].value === "") {
               dataObject[dataValue] = "";
-            } else {
+            }
+              else {
               if (data[dataValue] instanceof Date) {
                 //dataObject[dataValue] = data[dataValue].toLocaleDateString();
                 dataObject[dataValue] = extractDate(data[dataValue]);
@@ -1625,8 +1626,6 @@ export const useHeader = () => {
     let getApiJson = {};
     getApiJson["tableNames"] = getTableDetails()["pdTables"];
     getApiJson["whereClause"] = { caseNumber: location.state.caseNumber };
-    console.log("table name",getApiJson["tableNames"])
-    console.log("whereClause",getApiJson["whereClause"])
     try {
       // Make API request
       const res = await customAxios.post("/generic/get", getApiJson, {
@@ -1713,7 +1712,9 @@ export const useHeader = () => {
 
   //save and exit button
   const saveAndExit = async () => {
-    if (hasSubmitError) {
+    console.log("step0")
+    if (checkForAppealsError()?.length > 0) {
+   // if (hasSubmitError) {
       setShowSubmitError(true);
       return;
     }
@@ -1721,7 +1722,6 @@ export const useHeader = () => {
 
     //const saveType = event.target.name === "saveAndSubmit" ? "SS" : "SE";
     const saveType = "SS";
-
     let apiJson = {};
 
     const angCaseHeader = trimJsonValues({ ...caseHeader });
@@ -1802,6 +1802,8 @@ export const useHeader = () => {
     apiJson["ANG_Notes"] = CompareJSON(angNotes, formData["angNotes"][0]);
     apiJson["ANG_Case_Decision"] = CompareJSON(angCaseDecision, formData["angCaseDecision"][0]);
     apiJson["ANG_Case_Decision_Details"] = CompareJSON(angCaseDecisionDetails, formData["angCaseDecisionDetails"][0]);
+    console.log("step1",apiJson["ANG_Notes"] )
+    console.log("step3",angDocNeededGrid)
     
     
 
@@ -2122,9 +2124,9 @@ export const useHeader = () => {
     apiJson["ANG_Authorization_Information_Grid"] = updateAuthorizationArray;
     apiJson["ANG_DOCS_NEEDED"] = updateDocNeededArray;
 
-    
+  
     apiJson["caseNumber"] = location.state.caseNumber;
-    debugger;
+    // debugger;
     const cleanedApiJson = removeDateInKeys(apiJson);
     customAxios
       .post("/generic/update", cleanedApiJson, {
@@ -2660,6 +2662,7 @@ export const useHeader = () => {
     setPDClaimInformationGrid,
     setNotesErrors,
     pdsaveAndExit,
-    ProviderclaimInformation
+    ProviderclaimInformation,
+    
   };
 };

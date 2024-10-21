@@ -277,7 +277,7 @@ export const useCaseTimelines = (renderType) => {
           .filter((e) => e?.validation?.[renderType])
           .reduce((result, item) => {
             result[item.name] = item.validation[renderType];
-            debugger;
+           // debugger;
             return result;
           }, {}),
       }),
