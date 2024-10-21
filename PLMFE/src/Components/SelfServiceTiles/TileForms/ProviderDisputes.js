@@ -174,15 +174,20 @@ const ProviderDisputes = () => {
     pdClaimInformationGrid,
     setPDClaimInformationGrid,
     pdsaveAndExit,
+    
   } = useHeader();
- 
+  const providerDisputesConfigData = JSON.parse(
+    process.env.REACT_APP_PROVIDERDISPUTES_DETAILS || "{}",
+   
+  );
   console.log("PD_location",location)
 
   useEffect(() => {
     setRenderType(RenderType.PROVIDER_DISPUTE);
   }, []);
 
-  
+  const stage = location.state.stageName;
+  const stageName =providerDisputesConfigData["StageName"];
   const FormComponent = () => (
     <div
       className="accordion AddProviderLabel"
@@ -193,6 +198,10 @@ const ProviderDisputes = () => {
           <div className="row">
             <div className="col-xs-6" style={{ textAlign: "center" }}>
               <br />
+              {stageName !== "Start" || (stage === "Intake" || stage ==="Acknowledge"|| stage === "Research" ||stage === "Effectuate"
+                 || stage === "Bulk Effectuate" || stage === "Resolve" || stage ==="Case Completed"|| stage === "Reopen" || stage === "Documents Needed" 
+               || stage === "CaseArchived" || stage === "Resolution Letter Pending" || stage === "State Fair Hearing" 
+              ) &&(
               <CaseHeaderAccordion
                 handleOnChange={handleCaseHeaderChange}
                 handleData={caseHeader}
@@ -200,6 +209,7 @@ const ProviderDisputes = () => {
                 caseHeaderFields={caseHeaderFields}
                 renderType={RenderType.PROVIDER_DISPUTE}
               />
+              )}
               <CaseTimelinesAccordion
                 caseTimelinesData={caseTimelines}
                 setCaseTimelinesData={setCaseTimelines}

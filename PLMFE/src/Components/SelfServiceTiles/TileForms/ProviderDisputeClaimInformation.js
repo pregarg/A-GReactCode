@@ -3,19 +3,12 @@ import { useAxios } from "../../../api/axios.hook";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import useGetDBTables from "../../CustomHooks/useGetDBTables";
-import ProviderClaimInformationTable from "../TileFormsTables/ProviderDisputeClaimInformationTable";
 import CaseHeader from "./CaseHeader";
 import ProviderDisputeClaimInformationTable from "../TileFormsTables/ProviderDisputeClaimInformationTable";
 import TableComponent from "../../../../src/util/TableComponent";
 import ClaimSearch from "../TileForms/ClaimSearch";
-import ProviderSearch from "../TileForms/ProviderSearch";
-import ProviderDisputeClaimSearchNew from "../TileForms/ProviderSearch";
-
 import useUpdateDecision from "../../CustomHooks/useUpdateDecision";
-import { FormikInputField } from "../Common/FormikInputField";
-import { FormikDatePicker } from "../Common/FormikDatePicker";
-import { FormikSelectField } from "../Common/FormikSelectField";
-import { FormikCheckBoxField } from "../Common/FormikCheckBoxField";
+
 
 
 const ProviderDisputeClaimInformation = (props) => {
