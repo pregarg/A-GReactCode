@@ -39,6 +39,11 @@ export const useMemberAltContactInfo = (renderType) => {
           placeholder: "Issue Number",
           maxLength: 50,
           renderTypes: [RenderType.PROVIDER_DISPUTE],
+          validation: {
+            [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
+                "Issue Number is mandatory",
+            ),
+          },
         },
       
         {
@@ -47,6 +52,11 @@ export const useMemberAltContactInfo = (renderType) => {
           placeholder: "Address Line 1",
           maxLength: 50,
           renderTypes: [RenderType.PROVIDER_DISPUTE],
+          validation: {
+            [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
+                "Address_Line_1 is mandatory",
+            ),
+          },
         },
         {
           type: "input",
@@ -61,6 +71,11 @@ export const useMemberAltContactInfo = (renderType) => {
           placeholder: "Zip Code",
           maxLength: 30,
           renderTypes: [RenderType.PROVIDER_DISPUTE],
+          validation: {
+            [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
+                "Zip Code is mandatory",
+            ),
+          },
         },
         {
           type: "input",
@@ -68,6 +83,11 @@ export const useMemberAltContactInfo = (renderType) => {
           placeholder: "City",
           maxLength: 30,
           renderTypes: [ RenderType.PROVIDER_DISPUTE],
+          validation: {
+            [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
+                "City is mandatory",
+            ),
+          },
         },
         {
           type: "input",
@@ -75,6 +95,11 @@ export const useMemberAltContactInfo = (renderType) => {
           placeholder: "State",
           maxLength: 30,
           renderTypes: [RenderType.PROVIDER_DISPUTE],
+          validation: {
+            [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
+                "State is mandatory",
+            ),
+          },
         },
         {
             type: "input",
@@ -82,6 +107,11 @@ export const useMemberAltContactInfo = (renderType) => {
             placeholder: "Alternate Phone Number",
             maxLength: 50,
             renderTypes: [RenderType.PROVIDER_DISPUTE],
+          validation: {
+            [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
+                "Alternate Number is mandatory",
+            ),
+          },
           },
           {
             type: "input",
@@ -89,6 +119,11 @@ export const useMemberAltContactInfo = (renderType) => {
             placeholder: "Fax Number",
             maxLength: 30,
             renderTypes: [RenderType.PROVIDER_DISPUTE],
+            validation: {
+              [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
+                  "Fax Number is mandatory",
+              ),
+            },
           },
           {
             type: "input",

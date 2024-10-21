@@ -564,7 +564,7 @@ export const useHeader = () => {
   });
 
   const [caseTimelinesErrors, setCaseTimelinesErrors] = useState([]);
-  
+
   const [pdCaseInformationErrors, setPdCaseInformationErrors] = useState([]);
   const [caseInformationErrors, setCaseInformationErrors] = useState([]);
   const [claimInformationErrors, setClaimInformationErrors] = useState([]);
@@ -734,6 +734,11 @@ export const useHeader = () => {
     caseDecision,
     notes,
     providerNotes,
+    pd_ProviderAddRecord,
+    pd_MemberAddRecord,
+    pd_ProviderInformation,
+    pd_MemberAltInfo,
+    pd_CaseInformation,
   ]);
 
   useEffect(() => {
@@ -748,10 +753,13 @@ export const useHeader = () => {
         ...ProvidermemberInformationErrors,
         ...providerNotesErrors,
         ...PdProviderInformationErrors,
+        ...providerAddErrors,
+        ...memberAddErrors,
         ...expeditedRequestErrors,
         ...caseDecisionDetailsErrors,
         ...caseDecisionErrors,
         ...pdCaseInformationErrors,
+        ...memberAltErrors,
       }).length > 0,
     );
   }, [
@@ -767,6 +775,9 @@ export const useHeader = () => {
     caseDecisionDetailsErrors,
     caseDecisionErrors,
     pdCaseInformationErrors,
+    providerAddErrors,
+    memberAddErrors,
+    memberAltErrors
   ]);
   //const [disableSaveAndExit, setDisableSaveAndExit] = useState(true);
   const [authorizationInformation, setAuthorizationInformation] = useState({
@@ -790,7 +801,9 @@ export const useHeader = () => {
       ...ProvidermemberInformationErrors,
       ...providerNotesErrors,
       ...PdProviderInformationErrors,
-      ...pdCaseInformationErrors
+      ...pdCaseInformationErrors,
+      ...providerAddErrors,
+      ...memberAddErrors
       })
   }
   const checkForAppealsError = () => {

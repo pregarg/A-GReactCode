@@ -38,6 +38,11 @@ export const useProviderAddOfRecords = (renderType) => {
         placeholder: "Mail to Address?",
         values: mailToAddressValues,
         renderTypes: [RenderType.PROVIDER_DISPUTE],
+        validation: {
+          [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
+              "Mail to Address is mandatory",
+          ),
+        },
       },
       {
         type: "input",
@@ -45,6 +50,11 @@ export const useProviderAddOfRecords = (renderType) => {
         placeholder: "Address Line 1",
         maxLength: 50,
         renderTypes: [RenderType.PROVIDER_DISPUTE],
+        validation: {
+          [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
+              "Address Line 1 is mandatory",
+          ),
+        },
       },
       {
         type: "input",
@@ -60,7 +70,11 @@ export const useProviderAddOfRecords = (renderType) => {
         placeholder: "Zip Code",
         maxLength: 30,
         renderTypes: [RenderType.PROVIDER_DISPUTE],
-        validation:{}
+        validation: {
+          [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
+              "Zip Code is mandatory",
+          ),
+        },
       },
       {
         type: "input",
@@ -68,7 +82,11 @@ export const useProviderAddOfRecords = (renderType) => {
         placeholder: "City",
         maxLength: 30,
         renderTypes: [RenderType.PROVIDER_DISPUTE],
-        validation:{}
+        validation: {
+          [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
+              "City is mandatory",
+          ),
+        },
       },
       {
         type: "input",
@@ -76,7 +94,11 @@ export const useProviderAddOfRecords = (renderType) => {
         placeholder: "State",
         maxLength: 30,
         renderTypes: [RenderType.PROVIDER_DISPUTE],
-        validation:{}
+        validation: {
+          [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
+              "State is mandatory",
+          ),
+        },
       },
     ].filter((e) => e.renderTypes.includes(renderType));
 
