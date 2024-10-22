@@ -376,7 +376,13 @@ export const useHeader = () => {
     Appellant_Type: Yup.string().required("Appellant Type is mandatory"),
     Review_Type: Yup.string().required("Review Type is mandatory"),
   });
-  const providerclaimInformationValidationSchema = Yup.object().shape({});
+  const providerclaimInformationValidationSchema = Yup.object().shape({ });
+  const ProviderclaimInformationValidationGridSchema = Yup.object().shape({
+    Issue_Number: Yup.string().required("Issue Number is mandatory"),
+    Claim_Number:Yup.string().required("Claim_Number is mandatory"),
+    Claim_type:Yup.string().required("Claim Type is mandatory"),
+    Patient_Ref:Yup.string().required("Patient Ref is mandatory"),
+  });
   const claimInformationValidationSchema = Yup.object().shape({
     // Payment_Method: conditionalActivateOnStage(
     //   pair1,
@@ -451,13 +457,13 @@ export const useHeader = () => {
     // Email_Address: Yup.string().required("Email Address is mandatory"),
     Medicaid_ID: Yup.string().required("Medicaid ID is mandatory"),
     Zip_Code: Yup.string().required("Zip code Address is mandatory"),
-   //  Plan_Effective_Date: Yup.string().required(
+   //  "Plan_Effective_Date#date": Yup.string().required(
    //    "Plan Effective Date Address is mandatory",
    //  ),
-   //  Plan_Expiration_Date: Yup.string().required(
+   //  "Plan_Expiration_Date#date": Yup.string().required(
    //    "Plan Expiration Date Address is mandatory",
    //  ),
-   // Date_of_Birth: Yup.string().required("Date of Birth Address is mandatory"),
+   // "Date_of_Birth#date": Yup.string().required("Date of Birth Address is mandatory"),
     Special_Need_Indicator: Yup.string().required(
       "Special Need Indicator Address is mandatory",
     ),
@@ -657,8 +663,7 @@ export const useHeader = () => {
     validateSync(
       pdCaseInformationValidationSchema,
       pd_CaseInformation,
-      setpdCaseInformation,
-      true
+      setPdCaseInformationErrors
     );
     validateSync(
       expeditedRequestValidationSchema,
@@ -2554,6 +2559,7 @@ export const useHeader = () => {
     setProviderClaimInformation,
     claimInformationValidationSchema,
     providerclaimInformationValidationSchema,
+    ProviderclaimInformationValidationGridSchema,
     claimInformationGrid,
     setClaimInformationGrid,
     providerInformationGrid,

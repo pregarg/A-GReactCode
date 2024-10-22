@@ -107,11 +107,11 @@ export const usePdCaseInformation = (renderType) => {
             placeholder: "Line Of Business",
             values: lineOfBusinessValues,
             renderTypes: [RenderType.PROVIDER_DISPUTE],
-          // validation: {
-          //   [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
-          //       "LOB is mandatory",
-          //   ),
-          // },
+            validation: {
+              [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
+                "Line Of Business is mandatory",
+              ),
+            },
           },
         {
           type: "input",
@@ -125,21 +125,36 @@ export const usePdCaseInformation = (renderType) => {
             name: "Product_State",
             placeholder: "Product State",
             values: productStateValues,
-            renderTypes: [RenderType.PROVIDER_DISPUTE],        
+            renderTypes: [RenderType.PROVIDER_DISPUTE],
+          validation: {
+            [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
+                "Product State is mandatory",
+            ),
+          },
           },
           {
             type: "select",
             name: "Product",
             placeholder: "Product",
             values: productValues,
-            renderTypes: [RenderType.PROVIDER_DISPUTE],        
+            renderTypes: [RenderType.PROVIDER_DISPUTE],
+            validation: {
+              [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
+                  "Product is mandatory",
+              ),
+            },
           },
           {
             type: "select",
             name: "Issue_Level_Priority",
             placeholder: "Issue Level Priority",
             values: issueLevelPriorityValues,
-            renderTypes: [RenderType.PROVIDER_DISPUTE],        
+            renderTypes: [RenderType.PROVIDER_DISPUTE],
+            validation: {
+              [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
+                  "IssueLevelPriority is mandatory",
+              ),
+            },
           },
           {
             type: "select",
@@ -153,14 +168,24 @@ export const usePdCaseInformation = (renderType) => {
             name: "Complainant_Type",
             placeholder: "Complainant Type",
             values: complainantTypeValues,
-            renderTypes: [RenderType.PROVIDER_DISPUTE],        
+            renderTypes: [RenderType.PROVIDER_DISPUTE],
+            validation: {
+              [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
+                  "Complainant Type is mandatory",
+              ),
+            },
           },
           {
             type: "select",
             name: "Case_Filing_Method",
             placeholder: "Case Filing Method",
             values: caseFillingMethodValues,
-            renderTypes: [RenderType.PROVIDER_DISPUTE],        
+            renderTypes: [RenderType.PROVIDER_DISPUTE],
+            validation: {
+              [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
+                  "Case Filing Method is mandatory",
+              ),
+            },
           },
         {
           type: "input",
@@ -174,14 +199,24 @@ export const usePdCaseInformation = (renderType) => {
             name: "Complaint_Type",
             placeholder: "Complaint Type",
             values: complaintTypeValues,
-            renderTypes: [RenderType.PROVIDER_DISPUTE],        
+            renderTypes: [RenderType.PROVIDER_DISPUTE],
+          validation: {
+            [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
+                "Complaint Type is mandatory",
+            ),
+          },
           },
           {
             type: "select",
             name: "Sub_Issue_Level",
             placeholder: "Sub Issue Level",
             values: subIsuueLevelValues,
-            renderTypes: [RenderType.PROVIDER_DISPUTE],        
+            renderTypes: [RenderType.PROVIDER_DISPUTE],
+            validation: {
+              [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
+                  "Sub Issue Level is mandatory",
+              ),
+            },
           },
       ].filter((e) => e.renderTypes.includes(renderType));
 console.log("case information fields",fields);

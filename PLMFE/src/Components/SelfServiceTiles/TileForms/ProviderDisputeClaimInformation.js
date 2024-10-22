@@ -501,7 +501,7 @@ const ProviderDisputeClaimInformation = (props) => {
                 <ProviderDisputeClaimInformationTable
                   ProviderclaimInformationGridData={ProviderclaimInformationGridData}
                   validationSchema={
-                    props.ProviderclaimInformationValidationSchema
+                    props.authorizationInformationGridValidationSchema
                   }
                   addTableRows={addTableRows}
                   deleteTableRows={deleteTableRows}
