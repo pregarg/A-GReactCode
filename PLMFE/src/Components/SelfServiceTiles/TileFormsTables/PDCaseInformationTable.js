@@ -82,22 +82,22 @@ useEffect(() => {
   ];
 
   const [validationErrors, setValidationErrors] = useState({});
-  // useEffect(() => {
-  //   try {
-  //     setValidationErrors([]);
-  //     validationSchema.validateSync(gridFieldTempState, { abortEarly: false });
-  //   } catch (errors) {
-  //     const validationErrors = errors.inner.reduce((acc, error) => {
-  //       acc[error.path] = error.message;
-  //       return acc;
-  //     }, {});
-  //     console.log(
-  //       "errors were encountered in doc needed table",
-  //       validationErrors,
-  //     );
-  //     setValidationErrors(validationErrors);
-  //   }
-  // }, [gridFieldTempState]);
+  useEffect(() => {
+    try {
+      setValidationErrors([]);
+      validationSchema.validateSync(gridFieldTempState, { abortEarly: false });
+    } catch (errors) {
+      const validationErrors = errors.inner.reduce((acc, error) => {
+        acc[error.path] = error.message;
+        return acc;
+      }, {});
+      console.log(
+        "errors were encountered in doc needed table",
+        validationErrors,
+      );
+      setValidationErrors(validationErrors);
+    }
+  }, [gridFieldTempState]);
 
 
   const renderSimpleInputField = (name, label, maxLength, index) => {
