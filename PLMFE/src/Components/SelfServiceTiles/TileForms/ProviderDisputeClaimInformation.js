@@ -494,7 +494,7 @@ const ProviderDisputeClaimInformation = (props) => {
                {/* {renderInputField("High_Dollar_Dispute", "High Dollar Dispute", 16, false, "High Dollar Dispute")} */}
                
                <label>
-                <input type="checkbox" checked={isCheckedBox} onChange={handleCheckBoxChangeNew}/>High Dollar Dispute
+                <input type="checkbox" checked={isCheckedBox} onChange={handleCheckBoxChangeNew}/> High Dollar Dispute
                </label>
              </div>
               <div className="col-xs-6 col-md-12">

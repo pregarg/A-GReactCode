@@ -94,7 +94,7 @@ export const useCaseHeader = (renderType) => {
       {
         type: "none",
         name: "Original_Case_Received_Date",
-        placeholder: "Original case Received Date",
+        placeholder: "Original Case Received Date",
         renderTypes: [RenderType.PROVIDER_DISPUTE],
       },
       {
