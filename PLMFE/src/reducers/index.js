@@ -548,9 +548,9 @@ const masterAngParProviderReducer = (state = [], action) => {
 };
 
 const masterAngPortalEnrolledReducer = (state = [], action) => {
-  if (action.type === "GET_PORTAL_ENROLLED") {
+  if (action.type === "GET_ANG_PORTAL_ENROLLED") {
     return [action.payload];
-  } else if (action.type === "CLEAR_PORTAL_ENROLLED") {
+  } else if (action.type === "CLEAR_ANG_PORTAL_ENROLLED") {
     state = [];
     return state;
   }
@@ -805,9 +805,9 @@ const masterPDGrantGoodCauseReducer = (state = [], action) => {
   return state;
 };
 const masterPDPortalEnrolledReducer = (state = [], action) => {
-  if (action.type === "GET_PORTAL_ENROLLED") {
+  if (action.type === "GET_PD_PORTAL_ENROLLED") {
     return [action.payload];
-  } else if (action.type === "CLEAR_PORTAL_ENROLLED") {
+  } else if (action.type === "CLEAR_PD_PORTAL_ENROLLED") {
     state = [];
     return state;
   }

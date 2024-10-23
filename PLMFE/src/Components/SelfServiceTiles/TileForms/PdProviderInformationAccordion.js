@@ -195,7 +195,7 @@ const PdProviderInformationAccordion = (props) => {
 
   const handleCheckBoxChangeNew = (e) => {
     const isCheckedValue = e.target.checked ? 1 : 0;
-    handleProviderInformationData("isChecked", isCheckedValue, true); // Set 1 if checked, 0 if unchecked
+   handleProviderInformationData("isChecked", isCheckedValue, true); // Set 1 if checked, 0 if unchecked
   };
 
 

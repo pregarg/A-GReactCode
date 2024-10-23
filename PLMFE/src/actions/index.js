@@ -946,7 +946,7 @@ export const getMasterAngPortalEnrolled = (
           if (res.data.Status === 0) {
             const respData = [...res.data.data.masterAngPortalEnrolled];
             //console.log(response);
-            dispatch({ type: "GET_PORTAL_ENROLLED", payload: respData });
+            dispatch({ type: "GET_ANG_PORTAL_ENROLLED", payload: respData });
             if (onSuccess) {
               onSuccess(res);
             }
@@ -959,7 +959,7 @@ export const getMasterAngPortalEnrolled = (
           }
         });
     } else if (clearFlag) {
-      dispatch({ type: "CLEAR_PORTAL_ENROLLED", payload: "" });
+      dispatch({ type: "CLEAR_ANG_PORTAL_ENROLLED", payload: "" });
     }
   };
 };
@@ -1934,7 +1934,7 @@ export const getMasterPDPortalEnrolled= (
           if (res.data.Status === 0) {
             const respData = [...res.data.data.masterPDPortalEnrolled];
             //console.log(response);
-            dispatch({ type: "GET_PORTAL_ENROLLED", payload: respData });
+            dispatch({ type: "GET_PD_PORTAL_ENROLLED", payload: respData });
             if (onSuccess) {
               onSuccess(res);
             }
@@ -1947,7 +1947,7 @@ export const getMasterPDPortalEnrolled= (
           }
         });
     } else if (clearFlag) {
-      dispatch({ type: "CLEAR_PORTAL_ENROLLED", payload: "" });
+      dispatch({ type: "CLEAR_PD_PORTAL_ENROLLED", payload: "" });
     }
   };
 };
