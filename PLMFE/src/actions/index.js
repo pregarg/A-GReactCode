@@ -1054,7 +1054,7 @@ export const getMasterAngDualPlan = (
           if (res.data.Status === 0) {
             const respData = [...res.data.data.masterAngDualPlan];
             //console.log(response);
-            dispatch({ type: "GET_DUAL_PLAN", payload: respData });
+            dispatch({ type: "GET_ANG_DUAL_PLAN", payload: respData });
             if (onSuccess) {
               onSuccess(res);
             }
@@ -1067,7 +1067,7 @@ export const getMasterAngDualPlan = (
           }
         });
     } else if (clearFlag) {
-      dispatch({ type: "CLEAR_DUAL_PLAN", payload: "" });
+      dispatch({ type: "CLEAR_ANG_DUAL_PLAN", payload: "" });
     }
   };
 };
@@ -2321,7 +2321,7 @@ export const getMasterPDDualPlan= (
           if (res.data.Status === 0) {
             const respData = [...res.data.data.masterPDDualPlan];
             //console.log(response);
-            dispatch({ type: "GET_DUAL_PLAN", payload: respData });
+            dispatch({ type: "GET_PD_DUAL_PLAN", payload: respData });
             if (onSuccess) {
               onSuccess(res);
             }
@@ -2334,7 +2334,7 @@ export const getMasterPDDualPlan= (
           }
         });
     } else if (clearFlag) {
-      dispatch({ type: "CLEAR_DUAL_PLAN", payload: "" });
+      dispatch({ type: "CLEAR_PD_DUAL_PLAN", payload: "" });
     }
   };
 };
