@@ -388,7 +388,7 @@ const MemberInformationAccordion = (props) => {
             </div>
             <div className="row my-2">
               {renderDatePicker(
-                "Date_of_Birth",
+                "Date_of_Birth#date",
                 "Date of Birth",
                 "Date of Birth",
               )}
@@ -426,12 +426,12 @@ const MemberInformationAccordion = (props) => {
             <div className="row my-2">
               {renderInputField("Plan_Code", "Plan Code", 50)}
               {renderDatePicker(
-                "Plan_Effective_Date",
+                "Plan_Effective_Date#date",
                 "Plan Effective Date",
                 "Plan Effective Date",
               )}
               {renderDatePicker(
-                "Plan_Expiration_Date",
+                "Plan_Expiration_Date#date",
                 "Plan Expiration Date",
                 "Plan Expiration Date",
               )}

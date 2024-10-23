@@ -72,6 +72,7 @@ const ProviderDisputes = () => {
     ProviderclaimInformation,
     setProviderClaimInformation,
     ProviderclaimInformationValidationSchema,
+    ProviderclaimInformationValidationGridSchema,
     ProviderclaimInformationGrid,
     setProviderClaimInformationGrid,
     providerInformationGrid,
@@ -229,6 +230,9 @@ const ProviderDisputes = () => {
                 handlecaseInformationGridData={pdCaseInformationGrid}
                 updatecaseInformationGridData={setPDCaseInformationGrid}
                 renderType={RenderType.PROVIDER_DISPUTE}
+                authorizationInformationGridValidationSchema={
+                  ProviderauthorizationInformationGridValidationSchema
+                 }
               />
 
               <ProviderDisputeClaimInformation
@@ -241,6 +245,9 @@ const ProviderDisputes = () => {
                 shouldShowSubmitError={shouldShowSubmitError}
                 updateProviderClaimInformationGridData={setPDClaimInformationGrid}
                 setIscheckedBox = {setIscheckedBox}
+                authorizationInformationGridValidationSchema={
+                  ProviderclaimInformationValidationGridSchema
+                 }
               />
               
               <PdProviderInformationAccordion

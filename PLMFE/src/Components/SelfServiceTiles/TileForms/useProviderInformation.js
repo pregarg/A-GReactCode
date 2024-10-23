@@ -55,11 +55,11 @@ export const useProviderInformation = (renderType) => {
         placeholder: "Provider Name",
         maxLength: 50,
         renderTypes: [RenderType.PROVIDER_DISPUTE],
-        // validation: {
-        //   [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
-        //       "Provider Name is mandatory",
-        //   ),
-        // },
+        validation: {
+          [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
+              "Provider Name is mandatory",
+          ),
+        },
       },
       {
         type: "input",

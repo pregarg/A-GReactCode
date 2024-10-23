@@ -37,6 +37,10 @@ const PdCaseInformationAccordion = (props) => {
   const fetchAutoPopulate = useRef(false);
   const gridDataRef = useRef({});
 
+  useEffect(() => {
+console.log("props.caseInformationFields", props.caseInformationFields, props.caseInformationData)
+  }, [props.caseInformationFields, props.caseInformationData])
+
 
   const addTableRows = (triggeredFormName, index) => {
     let rowsInput = {};
@@ -390,6 +394,9 @@ const PdCaseInformationAccordion = (props) => {
                   // validationSchema={
                   //   props.docNeededGridValidationSchema
                   // }
+                  validationSchema={
+                    props.authorizationInformationGridValidationSchema
+                  }
                   lockStatus={
                     prop.state !== null &&
                     prop.state.lockStatus !== undefined &&
