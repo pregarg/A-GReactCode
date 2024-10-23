@@ -257,7 +257,7 @@ export const useCaseTimelines = (renderType) => {
         renderTypes: [RenderType.PROVIDER_DISPUTE],
         validation: {
           [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
-              "Number_of_Claims is mandatory",
+              "Number of Claims is mandatory",
           ),
         },
       },

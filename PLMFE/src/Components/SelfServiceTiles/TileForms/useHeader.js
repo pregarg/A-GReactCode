@@ -1555,7 +1555,6 @@ export const useHeader = () => {
                             "Add a pdCaseInfoGrid newJson: ",
                             newJson,
                           );
-                          console.log("abcdertfg",apiResponseArray)
                           apiResponseArray.push(newJson);
                           //setLicenseTableRowsData([...licenseTableRowsData,newJson]);
                         });
@@ -1569,7 +1568,6 @@ export const useHeader = () => {
                  "Add a pdCaseInfoGrid newJson: ",
                  newJson,
                );
-               console.log("abcdertfg",apiResponseArray)
                apiResponseArray.push(newJson);
                //setLicenseTableRowsData([...licenseTableRowsData,newJson]);
              });
@@ -1583,7 +1581,6 @@ export const useHeader = () => {
                    "Add a pdCaseInfoGrid newJson: ",
                    newJson,
                  );
-                 console.log("abcdertfg",apiResponseArray)
                  apiResponseArray.push(newJson);
                  
                });
@@ -1603,7 +1600,21 @@ export const useHeader = () => {
             });
             setAuthorizationInformationGrid(apiResponseArray);
             }
+            if (k === "angDocNeededGrid") {
+              let apiResponseArray = [];
+              data[k].forEach((js) => {
+                const newJson = convertToDateObj(js);
+                console.log(
+                  "Add a DocNeededGrid newJson: ",
+                  newJson,
+                );
+                apiResponseArray.push(newJson);
+                
+              });
+              setDocNeededGrid(apiResponseArray);
+              }
              })
+             
 
           setCaseHeader((prevState) => ({
             ...prevState,
@@ -1645,7 +1656,7 @@ export const useHeader = () => {
         // setAuthorizationInformationGrid(
         //   data?.["angAuthorizationInformationGrid"] || [],
         // );
-        setDocNeededGrid(data?.["angDocNeededGrid"] || [] );
+        // setDocNeededGrid(data?.["angDocNeededGrid"] || [] );
         setExpeditedRequest(data?.["angExpeditedRequest"]?.[0] || {});
         setNotes(data?.["angNotes"]?.[0] || {});
 

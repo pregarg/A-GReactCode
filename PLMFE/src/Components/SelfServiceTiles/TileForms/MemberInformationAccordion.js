@@ -18,6 +18,7 @@ const MemberInformationAccordion = (props) => {
 
   const angDeceasedSelector = useSelector((state) => state?.masterAngDeceased);
   const angGenderSelector = useSelector((state) => state?.masterAngGender);
+  
   const angDualSelector = useSelector((state) => state?.masterAngDualPlan);
   const mailToAddSelector = useSelector(
     (state) => state?.masterAngMailToAddress,
@@ -328,7 +329,7 @@ const MemberInformationAccordion = (props) => {
 
     const angGender = angGenderSelector?.[0] || [];
     setGenderValues(angGender.map((e) => e.Gender).map(kvMapper));
-
+    
     const angDual = angDualSelector?.[0] || [];
     setDualPlanValues(angDual.map((e) => e.Dual_Plan).map(kvMapper));
 

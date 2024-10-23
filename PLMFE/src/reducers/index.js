@@ -578,9 +578,9 @@ const masterAngGenderReducer = (state = [], action) => {
 };
 
 const masterAngDualPlanReducer = (state = [], action) => {
-  if (action.type === "GET_DUAL_PLAN") {
+  if (action.type === "GET_ANG_DUAL_PLAN") {
     return [action.payload];
-  } else if (action.type === "CLEAR_DUAL_PLAN") {
+  } else if (action.type === "CLEAR_ANG_DUAL_PLAN") {
     state = [];
     return state;
   }
@@ -897,9 +897,9 @@ const masterPDLineOfBusinessReducer = (state = [], action) => {
 };
 
 const masterPDDualPlanReducer = (state = [], action) => {
-  if (action.type === "GET_DUAL_PLAN") {
+  if (action.type === "GET_PD_DUAL_PLAN") {
     return [action.payload];
-  } else if (action.type === "CLEAR_DUAL_PLAN") {
+  } else if (action.type === "CLEAR_PD_DUAL_PLAN") {
     state = [];
     return state;
   }
