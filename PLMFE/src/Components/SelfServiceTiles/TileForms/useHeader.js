@@ -1555,6 +1555,7 @@ export const useHeader = () => {
                             "Add a pdCaseInfoGrid newJson: ",
                             newJson,
                           );
+
                           apiResponseArray.push(newJson);
                           //setLicenseTableRowsData([...licenseTableRowsData,newJson]);
                         });
@@ -1568,6 +1569,7 @@ export const useHeader = () => {
                  "Add a pdCaseInfoGrid newJson: ",
                  newJson,
                );
+
                apiResponseArray.push(newJson);
                //setLicenseTableRowsData([...licenseTableRowsData,newJson]);
              });
@@ -1581,6 +1583,7 @@ export const useHeader = () => {
                    "Add a pdCaseInfoGrid newJson: ",
                    newJson,
                  );
+
                  apiResponseArray.push(newJson);
                  
                });
@@ -1600,6 +1603,7 @@ export const useHeader = () => {
             });
             setAuthorizationInformationGrid(apiResponseArray);
             }
+
             if (k === "angDocNeededGrid") {
               let apiResponseArray = [];
               data[k].forEach((js) => {
@@ -1615,6 +1619,7 @@ export const useHeader = () => {
               }
              })
              
+
 
           setCaseHeader((prevState) => ({
             ...prevState,
@@ -1656,7 +1661,11 @@ export const useHeader = () => {
         // setAuthorizationInformationGrid(
         //   data?.["angAuthorizationInformationGrid"] || [],
         // );
+
         // setDocNeededGrid(data?.["angDocNeededGrid"] || [] );
+
+        setDocNeededGrid(data?.["angDocNeededGrid"] || [] );
+
         setExpeditedRequest(data?.["angExpeditedRequest"]?.[0] || {});
         setNotes(data?.["angNotes"]?.[0] || {});
 
