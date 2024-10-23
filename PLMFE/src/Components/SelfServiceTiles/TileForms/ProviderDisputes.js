@@ -352,7 +352,7 @@ const ProviderDisputes = () => {
                 renderType={RenderType.PROVIDER_DISPUTE}
                 
               />
-              <ProviderDecisionRecordsAccordion
+              {/* <ProviderDecisionRecordsAccordion
                   decisionAddData={pd_DecisionAddRecord}
                   setDecisionAddData={setpdDecisionAddRecord}
                   decisionAddOfRecordsValidationSchema={decisionAddOfRecordsValidationSchema}
@@ -360,7 +360,7 @@ const ProviderDisputes = () => {
                   decisionAddErrors={decisionAddErrors}
                   shouldShowSubmitError={shouldShowSubmitError}
                   renderType={RenderType.PROVIDER_DISPUTE}
-              />
+              /> */}
               <ProviderNotesAccordion
                   providerNotesData={providerNotes}
                   setProviderNotesData={setProviderNotes}
@@ -441,98 +441,6 @@ const ProviderDisputes = () => {
             )}
           </div>
         </div>
-        {
-          // <DropdownButton
-          //   id="dropdown-basic-button"
-          //   title="Dropdown button"
-          //   style={{
-          //     display: "flex",
-          //     justifyContent: "flex-end",
-          //     marginRight: "10px",
-          //   }}
-          // >
-          //   <Dropdown.Item
-          //     onClick={(event) => {
-          //       handleShowMember360(event);
-          //     }}
-          //   >
-          //     Member 360
-          //   </Dropdown.Item>
-          //   <Dropdown.Item
-          //     onClick={(event) => {
-          //       handleShowProvider360(event);
-          //     }}
-          //   >
-          //     Provider 360
-          //   </Dropdown.Item>
-          //   <Dropdown.Item
-          //     onClick={(event) => {
-          //       handleShowNotesHistory(event);
-          //     }}
-          //   >
-          //     Notes History
-          //   </Dropdown.Item>
-          // </DropdownButton>
-          <Dropdown>
-            <Dropdown.Toggle
-              id="dropdown-custom-components"
-              style={{
-                display: "flex",
-                justifyContent: "flex-end",
-                marginRight: "10px",
-                border: "none",
-                backgroundColor: "transparent",
-              }}
-            >
-              <FaBars size={24} />
-            </Dropdown.Toggle>
-
-            <Dropdown.Menu>
-              <Dropdown.Item
-                onClick={(event) => {
-                  handleShowMember360(event);
-                }}
-              >
-                Member 360
-              </Dropdown.Item>
-              <Dropdown.Item
-                onClick={(event) => {
-                  handleShowProvider360(event);
-                }}
-              >
-                Provider 360
-              </Dropdown.Item>
-              <Dropdown.Item
-                onClick={(event) => {
-                  handleShowNotesHistory(event);
-                }}
-              >
-                Notes History
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-        }
-        {showMember360 && (
-          <Member360
-            showMember360={showMember360}
-            handleCloseMember360={handleCloseMember360}
-            member360TableComponent={modalTableComponent}
-          />
-        )}
-        {showProvider360 && (
-          <Provider360
-            showProvider360={showProvider360}
-            handleCloseProvider360={handleCloseProvider360}
-            provider360TableComponent={modalTableComponent}
-          />
-        )}
-        {showNotesHistory && (
-          <NotesHistory
-            showNotesHistory={showNotesHistory}
-            handleCloseNotesHistory={handleCloseNotesHistory}
-            notesHistoryTableComponent={modalTableComponent}
-          />
-        )}
       </div>
       <div className="col-xs-12">
         <div className="container">

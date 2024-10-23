@@ -180,7 +180,7 @@ export const useHeader = () => {
     Denial_Date: undefined
   });
   const [ProviderclaimInformation, setProviderClaimInformation] = useState({
-    High_Dollar_Dispute : "",
+    isChecked : "",
   })
   const [memberInformation, setMemberInformation] = useState({
     caseNumber: "",
@@ -829,7 +829,7 @@ export const useHeader = () => {
       setShowSubmitError(true);
       return;
     }
-    console.log("providerDisputesConfigData",providerDisputesConfigData)
+   
     const flowID = providerDisputesConfigData["FlowId"];
     const stageNAME = providerDisputesConfigData["StageName"];
     
@@ -848,8 +848,15 @@ export const useHeader = () => {
 
     
     const checkBoxData = {isChecked : temp};
-
-    const pdCaseHeader = trimJsonValues({ ...caseHeader });
+    const currentUser = authSelector.userName || "system";
+    const receivedDate = extractDate(currentDate);
+    const updatedCaseHeader = {
+      ...caseHeader,
+      Case_Owner: currentUser,
+      Original_Case_Received_Date: receivedDate,
+    };
+    console.log("Original_Case_Received_Date",receivedDate)
+    const pdCaseHeader = trimJsonValues({ ...updatedCaseHeader });
     apiJson["PD_CASE_HEADER"] = pdCaseHeader;
    
     const pdCaseTimelines = trimJsonValues({ ...caseTimelines });
@@ -1142,22 +1149,6 @@ export const useHeader = () => {
     setMainCaseDetails(stageDetails);
   }, []);
 
-  // useEffect(() => {
-  //   console.log("abccc--->", location.state);
-  //   if (
-    
-  //     location.state.formView !== undefined &&
-  //     location.state.formView === "DashboardView" && location.state.formNames === "Appeals"
-  //   ) {
-  //     getAngCaseByCaseNumber();
-  //   }
-  //   else if ( location.state.formView !== undefined &&
-  //     location.state.formView === "DashboardView" && location.state.formNames === "Provider Disputes")
-  //     {
-  //       getPDCaseByCaseNumber();
-  //     }
-  // }, []);
-
   useEffect(() => {
     console.log("abccc--->", location.state);
     if (location.state.formView !== undefined && location.state?.formView === "DashboardView") {
@@ -1170,7 +1161,7 @@ export const useHeader = () => {
 
   const dispatch = useDispatch();
   const { customAxios } = useAxios();
-  const { trimJsonValues, extractDate, getTableDetails } = useGetDBTables();
+  const { trimJsonValues, extractDate, getTableDetails, getDatePartOnly } = useGetDBTables();
   const { submitCase, updateLockStatus, updateDecision, CompareJSON } =
     useUpdateDecision();
 
@@ -1500,8 +1491,10 @@ export const useHeader = () => {
       }
 
       if (apiStat === 0) {
-
-         const data = res.data.data;
+        const respKeys = Object.keys(res.data.data);
+        const data = res.data.data;
+       
+      
         // // Extract data
         console.log(" data.angCaseHeader[0]", data.angCaseHeader[0])
         const stageName = location.state.stageName;
@@ -1552,6 +1545,66 @@ export const useHeader = () => {
             0,
           );
 
+          respKeys.forEach((k) => {
+            console.log("k value-->",k)
+            if (k === "angClaimInformationGrid") {
+                        let apiResponseArray = [];
+                        data[k].forEach((js) => {
+                          const newJson = convertToDateObj(js);
+                          console.log(
+                            "Add a pdCaseInfoGrid newJson: ",
+                            newJson,
+                          );
+                          console.log("abcdertfg",apiResponseArray)
+                          apiResponseArray.push(newJson);
+                          //setLicenseTableRowsData([...licenseTableRowsData,newJson]);
+                        });
+                        setClaimInformationGrid(apiResponseArray);
+            }
+            if (k === "angProviderInformationGrid") {
+             let apiResponseArray = [];
+             data[k].forEach((js) => {
+               const newJson = convertToDateObj(js);
+               console.log(
+                 "Add a pdCaseInfoGrid newJson: ",
+                 newJson,
+               );
+               console.log("abcdertfg",apiResponseArray)
+               apiResponseArray.push(newJson);
+               //setLicenseTableRowsData([...licenseTableRowsData,newJson]);
+             });
+             setProviderInformationGrid(apiResponseArray);
+            }
+            if (k === "angRepresentativeInformationGrid") {
+               let apiResponseArray = [];
+               data[k].forEach((js) => {
+                 const newJson = convertToDateObj(js);
+                 console.log(
+                   "Add a pdCaseInfoGrid newJson: ",
+                   newJson,
+                 );
+                 console.log("abcdertfg",apiResponseArray)
+                 apiResponseArray.push(newJson);
+                 
+               });
+               setRepresentativeInformationGrid(apiResponseArray);
+            }
+           if (k === "angAuthorizationInformationGrid") {
+            let apiResponseArray = [];
+            data[k].forEach((js) => {
+              const newJson = convertToDateObj(js);
+              console.log(
+                "Add a pdCaseInfoGrid newJson: ",
+                newJson,
+              );
+              console.log("abcdertfg",apiResponseArray)
+              apiResponseArray.push(newJson);
+              
+            });
+            setAuthorizationInformationGrid(apiResponseArray);
+            }
+             })
+
           setCaseHeader((prevState) => ({
             ...prevState,
             ...(data?.["angCaseHeader"]?.[0] || {}),
@@ -1573,35 +1626,25 @@ export const useHeader = () => {
           timeDifference / (1000 * 60 * 60 * 24),
         );
         const complianceTime = `${daysLeft}d ${hoursLeft}h ${minutesLeft}m ${secondsLeft}s`;
-        console.log("complianceTime",complianceTime)
-        console.log("setCaseTimelines",setCaseTimelines)
-        // setCaseTimelines((prevState) => ({
-        //   ...prevState,
-        //   ...(data?.["angCaseTimelines"]?.[0] || {}),
-        //   Case_Aging: caseAgingInDays + " days",
-        //   Compliance_Time_Left_to_Finish: complianceTime + " remaining",
-        // }));
-        // console.log("data casetimelines",data?.["angCaseTimelines"])
-        // Update other state values
-
+      
          setCaseTimelines(data?.["angCaseTimelines"]?.[0] || {});
 
         setCaseInformation(data?.["angCaseInformation"]?.[0] || {});
         setClaimInformation(data?.["angClaimInformation"]?.[0] || {});
-        setClaimInformationGrid(data?.["angClaimInformationGrid"] || []);
-        setProviderInformationGrid(data?.["angProviderInformationGrid"] || []);
+        // setClaimInformationGrid(data?.["angClaimInformationGrid"] || []);
+        // setProviderInformationGrid(data?.["angProviderInformationGrid"] || []);
         setMemberInformation(data?.["angMemberInformation"]?.[0] || {});
         setProviderMemberInformation(data?.["angProviderMemberInformation"]?.[0] || {});
         setPdProviderInformation(data?.["pdProviderInformation"]?.[0] || {});
-        setRepresentativeInformationGrid(
-          data?.["angRepresentativeInformationGrid"] || [],
-        );
+        // setRepresentativeInformationGrid(
+        //   data?.["angRepresentativeInformationGrid"] || [],
+        // );
         setAuthorizationInformation(
           data?.["angAuthorizationInformation"]?.[0] || {},
         );
-        setAuthorizationInformationGrid(
-          data?.["angAuthorizationInformationGrid"] || [],
-        );
+        // setAuthorizationInformationGrid(
+        //   data?.["angAuthorizationInformationGrid"] || [],
+        // );
         setDocNeededGrid(data?.["angDocNeededGrid"] || [] );
         setExpeditedRequest(data?.["angExpeditedRequest"]?.[0] || {});
         setNotes(data?.["angNotes"]?.[0] || {});
@@ -1639,6 +1682,49 @@ export const useHeader = () => {
       console.error("API request error:", error);
     }
   };
+  const convertToDateObj = (jsonObj) => {
+    try {
+      const jsonKeys = Object.keys(jsonObj);
+      jsonKeys.forEach((elem) => {
+        if (elem.includes("#date")) {
+          const date = new Date(getDatePartOnly(jsonObj[elem]));
+          const oldKey = elem;
+          const newKey = elem.split("#")[0];
+          jsonObj = renameKey(jsonObj, oldKey, newKey);
+          jsonObj[newKey] = date;
+        }
+      });
+      //console.log("Converted JSON: ",jsonObj);
+      return jsonObj;
+    } catch (error) {
+      // Handle the error here
+      console.error("An error occurred convertToDateObj:", error);
+    }
+  };
+  const renameKey = (obj, oldKey, newKey) => {
+    try {
+      console.log(
+        "Inside rename key old key = ",
+        oldKey,
+        " new key = ",
+        newKey,
+      );
+      console.log(
+        "Inside rename key hasOwnProperty = ",
+        obj.hasOwnProperty(oldKey),
+      );
+      console.log("Inside rename key obj[oldKey] = ", obj[oldKey]);
+      console.log("Inside rename key obj[newKey] = ", obj[newKey]);
+      if (obj.hasOwnProperty(oldKey)) {
+        obj[newKey] = obj[oldKey];
+        delete obj[oldKey];
+      }
+      return obj;
+    } catch (error) {
+      // Handle the error here
+      console.error("An error occurred renameKey:", error);
+    }
+  };
   const getPDCaseByCaseNumber = async () => {
    
     let getApiJson = {};
@@ -1659,26 +1745,62 @@ export const useHeader = () => {
       }
 
       if (apiStat === 0) {
-
-         const data = res.data.data;
-         const stageName = location.state.stageName;
-         const caseStatus = await getCaseStatus(stageName);
-        //  setCaseHeader((prevState) => ({
-        //       ...prevState,
-        //       ...(data?.["pdCaseHeader"]?.[0] || {}),
-        //       Case_Status: caseStatus || prevState.Case_Status,
-       
-        //     }));
+        const respKeys = Object.keys(res.data.data);
+        const data = res.data.data;
+        respKeys.forEach((k) => {
+               if (k === "pdCaseInfoGrid") {
+                           let apiResponseArray = [];
+                           data[k].forEach((js) => {
+                             const newJson = convertToDateObj(js);
+                             console.log(
+                               "Add a pdCaseInfoGrid newJson: ",
+                               newJson,
+                             );
+                             console.log("abcdertfg",apiResponseArray)
+                             apiResponseArray.push(newJson);
+                             //setLicenseTableRowsData([...licenseTableRowsData,newJson]);
+                           });
+                           setPDCaseInformationGrid(apiResponseArray);
+               }
+               if (k === "pdClaimInfoGrid") {
+                let apiResponseArray = [];
+                data[k].forEach((js) => {
+                  const newJson = convertToDateObj(js);
+                  console.log(
+                    "Add a pdCaseInfoGrid newJson: ",
+                    newJson,
+                  );
+                  console.log("abcdertfg",apiResponseArray)
+                  apiResponseArray.push(newJson);
+                  //setLicenseTableRowsData([...licenseTableRowsData,newJson]);
+                });
+                setPDClaimInformationGrid(apiResponseArray);
+              }
+               if (k === "pdAuthorizationInformationGrid") {
+                  let apiResponseArray = [];
+                  data[k].forEach((js) => {
+                    const newJson = convertToDateObj(js);
+                    console.log(
+                      "Add a pdCaseInfoGrid newJson: ",
+                      newJson,
+                    );
+                    console.log("abcdertfg",apiResponseArray)
+                    apiResponseArray.push(newJson);
+                    
+                  });
+                  setProviderAuthorizationInformationGrid(apiResponseArray);
+              }
+                })
       
         setCaseHeader(data?.["pdCaseHeader"]?.[0] || {});
 
         setCaseTimelines(data?.["pdCaseTimelines"]?.[0] || {});
 
         setpdCaseInformation(data?.["pdCaseInformation"]?.[0] || {});
-        setPDCaseInformationGrid(data?.["pdCaseInfoGrid"] || []);
+        // setPDCaseInformationGrid(data?.["pdCaseInfoGrid"] || []);
         
         setProviderClaimInformation(data?.["pdClaimInformation"]?.[0] || {});
-        setPDClaimInformationGrid(data?.["pdClaimInfoGrid"] || []);
+        // setPDClaimInformationGrid(data?.["pdClaimInfoGrid"] || []);
         
         setpdProviderInformation(data?.["pdProviderInformation"]?.[0] || {});
         setpdProviderAddRecord(data?.["pdProviderAddRecord"]?.[0] || {});
@@ -1693,7 +1815,7 @@ export const useHeader = () => {
         setpdRepresentativeAltRecord(data?.["pdRepresentativeAltRecord"]?.[0] || {});
         setpdRepresentativeAddRecord(data?.["pdRepresentativeAddRecord"]?.[0] || {});
         console.log('altpdAuthorizationInformationGrid...', data?.["pdAuthorizationInformationGrid"]);
-        setProviderAuthorizationInformationGrid(data?.["pdAuthorizationInformationGrid"] || []);
+        // setProviderAuthorizationInformationGrid(data?.["pdAuthorizationInformationGrid"] || []);
 
         setpdDecisionAddRecord(data?.["pdDecisionAddRecord"]?.[0] || {});
 

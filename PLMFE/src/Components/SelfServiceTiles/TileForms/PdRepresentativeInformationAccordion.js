@@ -176,8 +176,8 @@ const PdRepresentativeInformationAccordion = (props) => {
                               type="checkbox"
                               checked={representativeInformationData.isChecked == 1}  // 1 for checked, 0 for unchecked
                             onChange={handleCheckBoxChangeNew}  // Handle change
-                          />
-                          White Glove
+                          />  White Glove
+                         
                         </label>
                       </div>
                     </div>
