@@ -79,8 +79,8 @@ export const useCaseTimelines = (renderType) => {
         renderTypes: [RenderType.APPEALS, RenderType.PROVIDER_DISPUTE],
         validation: {
           [RenderType.APPEALS]: Yup.date()
-            .required("Case Received Date is mandatory")
-            .max(new Date(), "Case Received  Date cannot be in future"),
+            .required("Case Received Date is mandatory"),
+            // .max(new Date(), "Case Received  Date cannot be in future"),
           [RenderType.PROVIDER_DISPUTE]: Yup.date()
               .required("Case Received Date is mandatory")
               .max(new Date(), "Case Received  Date cannot be in future"),
@@ -96,6 +96,8 @@ export const useCaseTimelines = (renderType) => {
           [RenderType.APPEALS]: Yup.date()
             .required("AOR Received Date is mandatory")
             .max(new Date(), "AOR Received Date cannot be in future"),
+          [RenderType.PROVIDER_DISPUTE]: Yup.date()
+              .max(new Date(), "AOR Received Date cannot be in future"),
         },
       },
       {

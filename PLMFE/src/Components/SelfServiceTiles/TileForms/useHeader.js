@@ -446,7 +446,7 @@ export const useHeader = () => {
     Members_Age: Yup.string().required("Members Age is mandatory"),
     Deceased: Yup.string().required("Deceased is mandatory"),
     Gender: Yup.string().required("Gender is mandatory"),
-    // Dual_Plan: Yup.string().required("Dual Plan is mandatory"),
+    Dual_Plan: Yup.string().required("Dual Plan is mandatory"),
     Preferred_Language: Yup.string().required(
       "Preferred Language is mandatory",
     ),
@@ -2341,6 +2341,10 @@ export const useHeader = () => {
   }
 
   const pdsaveAndExit = async () => {
+    if (checkForPDError()?.length > 0) {
+      setShowSubmitError(true);
+      return;
+    }
     callProcRef.current = "callProc";
 
     //const saveType = event.target.name === "saveAndSubmit" ? "SS" : "SE";

@@ -21,7 +21,11 @@ export const useProviderInformation = (renderType) => {
       const masterPDCommPrefSelector = useSelector(
         (state) => state?.masterPDCommPref,
       );
+  const masterPDPortalEnrolledSelector = useSelector(
+      (state) => state?.masterPDPortalEnrolled,
+  );
       const [commPrefValues, setCommPrefValues] = useState([]);
+  const [portalEnrolledValues, setPortalEnrolledValues] = useState([]);
 
   useEffect(() => {
     const kvMapper = (e) => ({
@@ -36,7 +40,13 @@ export const useProviderInformation = (renderType) => {
       setCommPrefValues(
         commPref.map((e) => e.Comm_Pref).map(kvMapper),
       );
+    const portalEnrolled = masterPDPortalEnrolledSelector?.[0] || [];
+    setPortalEnrolledValues(
+        portalEnrolled.map((e) => e.Provider_Portal_Enrolled).map(kvMapper),
+    );
+
   }, []);
+
 
 
 
@@ -142,10 +152,10 @@ export const useProviderInformation = (renderType) => {
         validation:{}
       },
       {
-        type: "input",
+        type: "select",
         name: "Portal_Enrolled",
         placeholder: "Portal Enrolled ",
-        maxLength: 50,
+        values: portalEnrolledValues,
         renderTypes: [RenderType.PROVIDER_DISPUTE],
         validation:{}
       },
