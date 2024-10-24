@@ -397,7 +397,7 @@ useEffect(() => {
         </table>
       </div>
       <GridModal
-        name="Case Information"
+        name="Claim Information"
         validationObject={isTouched}
         modalShow={modalShow}
         handleModalChange={handleModalChange}

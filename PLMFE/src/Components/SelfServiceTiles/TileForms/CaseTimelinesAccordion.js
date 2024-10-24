@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Formik, Form } from "formik";
 import useGetDBTables from "../../CustomHooks/useGetDBTables";
@@ -34,7 +34,7 @@ const CaseTimelinesAccordion = (props) => {
   const persistCaseTimelinesData = () => {
     props.setCaseTimelinesData(caseTimelinesData);
   };
-
+ 
   const renderInputField = (name, placeholder, maxLength) => (
     <div className="col-xs-6 col-md-4">
       <FormikInputField
@@ -120,6 +120,7 @@ const CaseTimelinesAccordion = (props) => {
       />
     </div>
   );
+  
 
   return (
     <Formik

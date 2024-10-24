@@ -935,8 +935,7 @@ export const getMasterAngPortalEnrolled = (
     if (!clearFlag) {
       const apiData = new FormData();
       apiData.append(
-        "tableName",
-        "ANG_MASTER_PORTAL_ENROLLED~masterAngPortalEnrolled",
+        "tableName","ANG_MASTER_PORTAL_ENROLLED~masterAngPortalEnrolled",
       );
       axios
         .post("/generic/get/masterTableData", apiData, {

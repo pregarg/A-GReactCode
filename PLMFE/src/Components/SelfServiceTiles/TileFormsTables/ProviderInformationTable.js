@@ -32,98 +32,73 @@ export default function ProviderInformationTable({
     process.env.REACT_APP_CASEHEADER_DETAILS || "{}",
   );
   const stageName = caseHeaderConfigData["StageName"];
+  const location = useLocation();
+
+  const [portalEnrolledValues, setPortalEnrolledValues] = useState([]);
+  const [commPrefValues, setCommPrefValuesValues] = useState([]);
+  const [mailToAddressValues, setMailToAddressValues] = useState([]);
+  const [providerTypeValues, setProviderTypeValues] = useState([]);
+  const [providerRoleValues, setProviderRoleValues] = useState([]);
+  const [participatingProviderValues, setParticipatingProviderValues] = useState([]);
+  
   const masterAngProviderTypeSelector = useSelector(
     (state) => state?.masterAngProviderType,
   );
   const masterAngCommPrefSelector = useSelector(
     (state) => state?.masterAngCommPref,
   );
+  
   const masterAngPortalEnrolledSelector = useSelector(
     (state) => state?.masterAngPortalEnrolled,
   );
+  console.log("masterAngPortalEnrolledSelector",masterAngPortalEnrolledSelector)
   const masterAngMailToAddressSelector = useSelector(
     (state) => state?.masterAngMailToAddress,
   );
 
-  const location = useLocation();
-  const providerTypeValues = [];
-  const commPrefValues = [];
-  const portalEnrolledValues = [];
-  const mailToAddressValues = [];
+  const masterAngParProviderSelector = useSelector(
+    (state) => state?.masterAngParProvider,
+  );
 
+  const masterAngProviderRoleSelector = useSelector(
+    (state) => state?.masterAngProviderRole,
+  );
+ 
   useEffect(() => {
-    if (masterAngProviderTypeSelector) {
-      const providerTypeArray =
-        masterAngProviderTypeSelector.length === 0
-          ? []
-          : masterAngProviderTypeSelector[0];
+    const kvMapper = (e) => ({
+      label: convertToCase(e),
+      value: convertToCase(e),
+    });
+    const portalEnrolled = masterAngPortalEnrolledSelector?.[0] || [];
+    setPortalEnrolledValues(
+      portalEnrolled.map((e) => e.Portal_Enrolled).map(kvMapper),
+    );
 
-      for (let i = 0; i < providerTypeArray.length; i++) {
-        providerTypeValues.push({
-          label: convertToCase(providerTypeArray[i].Provider_Type),
-          value: convertToCase(providerTypeArray[i].Provider_Type),
-        });
-      }
-    }
+    const providerType = masterAngProviderTypeSelector?.[0] || [];
+    setProviderTypeValues(
+      providerType.map((e) => e.Provider_Type).map(kvMapper),
+    );
 
-    if (masterAngCommPrefSelector) {
-      const commPrefArray =
-        masterAngCommPrefSelector.length === 0
-          ? []
-          : masterAngCommPrefSelector[0];
+    const commPref = masterAngCommPrefSelector?.[0] || [];
+    setCommPrefValuesValues(
+      commPref.map((e) => e.Comm_Pref).map(kvMapper),
+    );
 
-      for (let i = 0; i < commPrefArray.length; i++) {
-        commPrefValues.push({
-          label: convertToCase(commPrefArray[i].Comm_Pref),
-          value: convertToCase(commPrefArray[i].Comm_Pref),
-        });
-      }
-    }
+    const ParProvider = masterAngParProviderSelector?.[0] || [];
+    setParticipatingProviderValues(
+      ParProvider.map((e) => e.Par_Provider).map(kvMapper),
+    );
 
-    if (masterAngPortalEnrolledSelector) {
-      const portalEnrolledArray =
-        masterAngPortalEnrolledSelector.length === 0
-          ? []
-          : masterAngPortalEnrolledSelector[0];
-      const uniquePortalEnrolledValues = {};
-
-      for (let i = 0; i < portalEnrolledArray.length; i++) {
-        const portalEnrolled = convertToCase(
-          portalEnrolledArray[i].Portal_Enrolled,
-        );
-
-        if (!uniquePortalEnrolledValues[portalEnrolled]) {
-          uniquePortalEnrolledValues[portalEnrolled] = true;
-          portalEnrolledValues.push({
-            label: convertToCase(portalEnrolledArray[i].Portal_Enrolled),
-            value: convertToCase(portalEnrolledArray[i].Portal_Enrolled),
-          });
-        }
-      }
-    }
-
-    if (masterAngMailToAddressSelector) {
-      const mailToAddressArray =
-        masterAngMailToAddressSelector.length === 0
-          ? []
-          : masterAngMailToAddressSelector[0];
-      const uniqueMailToAddressValues = {};
-
-      for (let i = 0; i < mailToAddressArray.length; i++) {
-        const mailToAddress = convertToCase(
-          mailToAddressArray[i].Mail_to_Address,
-        );
-
-        if (!uniqueMailToAddressValues[mailToAddress]) {
-          uniqueMailToAddressValues[mailToAddress] = true;
-          mailToAddressValues.push({
-            label: convertToCase(mailToAddressArray[i].Mail_to_Address),
-            value: convertToCase(mailToAddressArray[i].Mail_to_Address),
-          });
-        }
-      }
-    }
-  });
+    const mailToAdd = masterAngMailToAddressSelector?.[0] || [];
+    setMailToAddressValues(
+      mailToAdd.map((e) => e.Mail_to_Address).map(kvMapper),
+    );
+    const providerRole = masterAngProviderRoleSelector?.[0] || [];
+    setProviderRoleValues(
+      providerRole.map((e) => e.Provider_Role).map(kvMapper),
+    );
+    
+}, []);
 
   const [validationErrors, setValidationErrors] = useState({});
   useEffect(() => {
@@ -282,10 +257,10 @@ export default function ProviderInformationTable({
               50,
               index,
             )}
-            {renderSimpleInputField(
+            {renderSimpleSelectField(
               "Participating_Provider",
               "Participating Provider",
-              50,
+              participatingProviderValues,
               index,
             )}
             {renderSimpleSelectField(
@@ -339,10 +314,10 @@ export default function ProviderInformationTable({
               50,
               index,
             )}
-            {renderSimpleInputField(
+            {renderSimpleSelectField(
               "Provider_Role",
               "Provider Role",
-              50,
+              providerRoleValues,
               index,
             )}
           </div>
