@@ -209,6 +209,7 @@ const ProviderDisputes = () => {
                 setCaseHeader={setCaseHeader}
                 caseHeaderFields={caseHeaderFields}
                 renderType={RenderType.PROVIDER_DISPUTE}
+                
               />
               )}
               <CaseTimelinesAccordion
@@ -219,6 +220,7 @@ const ProviderDisputes = () => {
                 shouldShowSubmitError={shouldShowSubmitError}
                 renderType={RenderType.PROVIDER_DISPUTE}
                 caseTimelinesFields={caseTimelinesFields}
+                ProviderclaimInformationGridData={pdClaimInformationGrid}
               />
               <PdCaseInformationAccordion
                 caseInformationData={pd_CaseInformation}
@@ -245,9 +247,8 @@ const ProviderDisputes = () => {
                 shouldShowSubmitError={shouldShowSubmitError}
                 updateProviderClaimInformationGridData={setPDClaimInformationGrid}
                 setIscheckedBox = {setIscheckedBox}
-                authorizationInformationGridValidationSchema={
-                  ProviderclaimInformationValidationGridSchema
-                 }
+                authorizationInformationGridValidationSchema={ProviderclaimInformationValidationGridSchema}
+               
               />
               
               <PdProviderInformationAccordion
