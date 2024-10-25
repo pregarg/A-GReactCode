@@ -80,10 +80,8 @@ export const useCaseTimelines = (renderType) => {
         validation: {
           [RenderType.APPEALS]: Yup.date()
             .required("Case Received Date is mandatory"),
-            // .max(new Date(), "Case Received  Date cannot be in future"),
           [RenderType.PROVIDER_DISPUTE]: Yup.date()
               .required("Case Received Date is mandatory")
-              .max(new Date(), "Case Received  Date cannot be in future"),
         },
       },
       {

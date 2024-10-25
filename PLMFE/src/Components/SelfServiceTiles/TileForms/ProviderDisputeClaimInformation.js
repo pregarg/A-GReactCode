@@ -458,7 +458,7 @@ const ProviderDisputeClaimInformation = (props) => {
     setIscheckedBox(!isCheckedBox);
     props.setIscheckedBox(isCheckedBox);
     const dt = props.ProviderclaimInformation
-    dt.isChecked = temp ? '1' : ''
+    dt.isChecked = temp === 'true' ? '1' : ''
     props.setProviderClaimInformationData({...dt});
     
   }

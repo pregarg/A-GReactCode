@@ -83,8 +83,14 @@ export const FormikSelectField = ({
   displayErrors,
 }) => {
   const wrapPlaceholder = (name, placeholder) => {
-    return `${placeholder}${errors?.[name] ? " *" : ""}`;
+    return (
+        <>
+          {placeholder}
+          {errors?.[name] ? <span className="required"> *</span> : ""}
+        </>
+    );
   };
+
   const { ValueContainer, Placeholder } = components;
   const CustomValueContainer = ({ children, ...props }) => {
     return (
@@ -98,6 +104,7 @@ export const FormikSelectField = ({
       </ValueContainer>
     );
   };
+
   return (
     <>
       <Field name={name}>
