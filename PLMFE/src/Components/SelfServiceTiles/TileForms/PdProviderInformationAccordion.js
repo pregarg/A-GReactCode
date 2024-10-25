@@ -176,9 +176,22 @@ const PdProviderInformationAccordion = (props) => {
     setSelectedCriteria([]);
     setSelectSearchValues([]);
     setResponseData([]);
+    console.log("provider selectedAddress--->", selectedAddress)
+    selectedAddress.forEach((address) => {
+      delete address.Address_Line_1;
+      delete address.City;
+      delete address.Contact_Email_Address;
+      delete address.Contact_Phone_Number;
+      delete address.Issue_Number;
+      delete address.Provider_Contact_Name;
+      delete address.Provider_Last_Name;
+      delete address.Provider_Taxonomy;
+      delete address.State;
+      delete address.Zip_Code;
+      delete address.isChecked;
+    });
     props.setProviderInformationData({ ...selectedAddress[0] });
   };
-
   const handleCheckBoxChange = (event, ind) => {
     let jsn = responseData[ind];
     jsn.isChecked = event.target.checked;
