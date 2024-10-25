@@ -34,7 +34,7 @@ const MemberInformationAccordion = (props) => {
   const [showMemberSearch, setShowMemberSearch] = useState(false);
   const { customAxios: axios } = useAxios();
   const [selectedAddress, setSelectedAddress] = useState([]);
-  const [whiteGloveIndicator, setWhiteGloveIndicator] = useState(false);
+  const [whiteGloveIndicator, setWhiteGloveIndicator] = useState(props.memberInformationData?.isChecked === '1');
   // const [whiteGloveReason, setWhiteGloveReason] = useState("");
   // const [whiteGloveCancelledReason, setWhiteGloveCancelledReason] = useState("");
   const [whiteGloveIndicatorInitialized, setWhiteGloveIndicatorInitialized] =
@@ -77,6 +77,8 @@ const MemberInformationAccordion = (props) => {
     const isChecked = e.target.checked;
     setWhiteGloveIndicator(isChecked);
     setWhiteGloveIndicatorInitialized(true);
+    memberInformationData.isChecked = isChecked ? '1': '';
+    props.setMemberInformationData({...memberInformationData});
     // if (isChecked) {
     //   setWhiteGloveCancelledReason("");
     // } else {
@@ -509,6 +511,7 @@ const MemberInformationAccordion = (props) => {
                   handleMemberInformationData(
                     "WhiteGloveReason",
                     e.target.value,
+                    true
                   );
                 }}
                 // onChange={
