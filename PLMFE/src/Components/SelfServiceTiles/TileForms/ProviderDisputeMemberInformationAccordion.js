@@ -179,6 +179,18 @@ const ProviderMemberInformationAccordion = (props) => {
     setSelectedCriteria([]);
     setSelectSearchValues([]);
     setResponseData([]);
+    console.log("member search selectedAddress--->", selectedAddress)
+    selectedAddress.forEach((address) => {
+      delete address.Action;
+      delete address.Address_Line_1;
+      delete address.Address_Line_2;
+      delete address.City;
+      delete address.County;
+      delete address.Plan_Expiration_Date;
+      delete address.State_;
+      delete address.Zip_Code;
+      delete address.isChecked;
+    });
     props.setProviderMemberInformationData({ ...selectedAddress[0] });
   };
 

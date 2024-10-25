@@ -83,13 +83,13 @@ export default function AuthorizationInformationTable({
     
   const tableFields = [
     "Issue_Number",
-    "Auth_Number",
+    "Authorization_Number",
     "Authorization_Type",
     "Provider_Name",
     "Auth_Status",
     "Auth_Request_Date",
     "Service_Start_Date",
-    "Expiration_Date",
+    "Auth_Expiration_Date",
     "CPT_Descriptions",
     "Denial_Code",
     "Denial_Reason",
@@ -214,7 +214,7 @@ export default function AuthorizationInformationTable({
         <div className="row">
           {renderSimpleInputField("Issue_Number", "Issue Number", 50, index)}
           {renderSimpleInputField(
-            "Auth_Number",
+            "Authorization_Number",
             "Auth Number",
             50,
             index,
@@ -240,7 +240,7 @@ export default function AuthorizationInformationTable({
             index,
           )}
           {renderSimpleDatePickerField(
-            "Expiration_Date",
+            "Auth_Expiration_Date",
             " Expiration Date",
             index,
           )}

@@ -106,6 +106,15 @@ const AuthorizationInformationAccordion = (props) => {
     }
 
     if (addressToPopulate.length > 0) {
+      console.log("auth search selectedAddress--->", addressToPopulate)
+      addressToPopulate.forEach((address) => {
+      delete address.Admit_Primary_From_Date;
+      delete address.Admit_Primary_To_Date;
+      delete address.From_Date;
+      delete address.Provider_ID;
+      delete address.Sequential_ID;
+      delete address.To_Date;
+    });
       setAuthorizationInformationGridData([
         ...authorizationInformationGridData,
         ...addressToPopulate,

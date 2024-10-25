@@ -80,6 +80,7 @@ const ProviderDisputeClaimInformation = (props) => {
 
   const handleSelectedAddress = () => {
     let rowNumber = getRowNumberForGrid(ProviderclaimInformationGridData);
+    console.log("claim search rowNumber", rowNumber)
     let addressToPopulate = [];
     if (selectedAddress.length > 0) {
       selectedAddress.map((elem) => {
@@ -92,8 +93,17 @@ const ProviderDisputeClaimInformation = (props) => {
         }
       });
     }
-
+ 
     if (addressToPopulate.length > 0) {
+      addressToPopulate.forEach((address) => {
+        delete address.DenialCode;
+        delete address.DenialDescription;
+        delete address.Denial_Date;
+        delete address.MemberFirstName;
+        delete address.MemberID;
+        delete address.MemberLastName;
+        delete address.ProviderID;
+      });
       setProviderClaimInformationGridData([
         ...ProviderclaimInformationGridData,
         ...addressToPopulate,

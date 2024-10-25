@@ -154,7 +154,8 @@ export default function ClaimInformationTable({
                ((prop.state.stageName === "Effectuate" ||
                 prop.state.stageName === "Pending Effectuate" || prop.state.stageName === "Resolve" ||
                 prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen") &&(name !== "Issue_Number"))||
-                prop.state.stageName === "CaseArchived"
+                prop.state.stageName === "CaseArchived" ||
+                prop.state.stageName === "Documents Needed"
                )
             
           }
@@ -221,7 +222,7 @@ export default function ClaimInformationTable({
                 || name ==="Payment_Date"|| name === "Payment_Mail_Postmark_Date")) || prop.state.stageName === "Effectuate" ||
                 prop.state.stageName === "Pending Effectuate" ||prop.state.stageName === "Resolve" ||
                 prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" ||
-              prop.state.stageName === "CaseArchived"
+              prop.state.stageName === "CaseArchived" || prop.state.stageName === "Documents Needed"
               )
           }
         />
