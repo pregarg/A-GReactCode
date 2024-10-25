@@ -192,6 +192,9 @@ export default function RepresentativeInformationTable({
             prop.state.formView === "DashboardView" &&
             (prop.state.stageName === "Redirect Review" ||
               prop.state.stageName === "Documents Needed" ||
+             ((prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen" 
+              || prop.state.stageName === "Effectuate" || prop.state.stageName === "Resolve") 
+             && name !== "Issue_Number") ||
               prop.state.stageName === "CaseArchived")
           }
         />

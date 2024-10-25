@@ -86,8 +86,7 @@ const CaseTimelinesAccordion = (props) => {
               location.state.stageName === "Case Completed" ||
               location.state.stageName === "Reopen" ||
               location.state.stageName === "CaseArchived") ||
-          (name === "Case_Received_Date" &&
-            location.state.stageName === "Documents Needed"))
+          (name === "Case_Received_Date#date" && location.state.stageName === "Documents Needed"))
         }
         schema={props.caseTimelinesValidationSchema}
         errors={props.caseTimelinesErrors}
