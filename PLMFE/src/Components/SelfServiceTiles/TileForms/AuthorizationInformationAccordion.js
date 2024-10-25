@@ -555,7 +555,6 @@ const AuthorizationInformationAccordion = (props) => {
                             const value = selectValue
                               ? selectValue.value
                               : null;
-                            console.log("Selected value1111:", value);
                             // setAuthorizationInformationData({ ...authorizationInformationData, 'Authorization_Decision': value });
                             props.handleOnChange(
                               value,

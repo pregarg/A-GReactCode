@@ -32,6 +32,7 @@ export default function AuthorizationInformationTable({
   const [isTouched, setIsTouched] = useState({});
 
   const { convertToCase } = useGetDBTables();
+  const location = useLocation();
 
   const masterAngAuthServiceTypeSelector = useSelector(
     (state) => state?.masterAngAuthServiceType,
@@ -91,31 +92,31 @@ export default function AuthorizationInformationTable({
   }, [gridFieldTempState]);
   const renderSimpleInputField = (name, label, maxLength, index) => {
     return (
-      <div className="col-xs-6 col-md-3">
-        <SimpleInputField
-          name={name}
-          label={label}
-          maxLength={maxLength}
-          data={gridFieldTempState}
-          onChange={(event) =>
-            handleGridFieldChange(
-              index,
-              event,
-              AuthorizationInformationTable.displayName,
-            )
-          }
-          validationErrors={validationErrors}
+        <div className="col-xs-6 col-md-3">
+          <SimpleInputField
+              name={name}
+              label={label}
+              maxLength={maxLength}
+              data={gridFieldTempState}
+              validationErrors={validationErrors}
+              onChange={(event) =>
+                  handleGridFieldChange(
+                      index,
+                      event,
+                      AuthorizationInformationTable.displayName,
+                  )
+              }
           disabled={
-            (prop.renderType === RenderType.APPEALS &&
-            prop.state.formView === "DashboardView" &&
-            (prop.state.stageName === "Redirect Review" ||
-              prop.state.stageName === "Documents Needed" ||
-              prop.state.stageName === "Effectuate" ||
-              prop.state.stageName === "Pending Effectuate" ||
-              prop.state.stageName === "Resolve" ||
-              prop.state.stageName === "Case Completed" ||
-              prop.state.stageName === "Reopen" ||
-              prop.state.stageName === "CaseArchived"))
+              (location.state.formView === "DashboardView" ||
+                  location.state.formView === "DashboardHomeView") &&
+            (location.state.stageName === "Redirect Review" ||
+                location.state.stageName === "Documents Needed" ||
+                location.state.stageName === "Effectuate" ||
+                location.state.stageName === "Pending Effectuate" ||
+                location.state.stageName === "Resolve" ||
+                location.state.stageName === "Case Completed" ||
+                location.state.stageName === "Reopen" ||
+                location.state.stageName === "CaseArchived")
           }
         />
       </div>
@@ -123,63 +124,66 @@ export default function AuthorizationInformationTable({
   };
   const renderSimpleSelectField = (name, label, options, index) => {
     return (
-      <div className="col-xs-6 col-md-3">
-        <SimpleSelectField
-          name={name}
-          label={label}
-          options={options}
-          data={gridFieldTempState}
-          onChange={(selectValue, event) =>
-            handleGridSelectChange(
-              index,
-              selectValue,
-              event,
-              AuthorizationInformationTable.displayName,
-            )
-          }
-          validationErrors={validationErrors}
-          disabled={(prop.renderType === RenderType.APPEALS &&
-            prop.state.formView === "DashboardView" &&
-            (prop.state.stageName === "Redirect Review" ||
-              prop.state.stageName === "Documents Needed" ||
-              prop.state.stageName === "Effectuate" ||
-              prop.state.stageName === "Pending Effectuate" ||
-              prop.state.stageName === "Resolve" ||
-              prop.state.stageName === "Case Completed" ||
-              prop.state.stageName === "Reopen" ||
-              prop.state.stageName === "CaseArchived"))
-          }
+        <div className="col-xs-6 col-md-3">
+          <SimpleSelectField
+              name={name}
+              label={label}
+              options={options}
+              data={gridFieldTempState}
+              validationErrors={validationErrors}
+              onChange={(selectValue, event) =>
+                  handleGridSelectChange(
+                      index,
+                      selectValue,
+                      event,
+                      AuthorizationInformationTable.displayName,
+                  )
+              }
+              disabled={
+                  (location.state.formView === "DashboardView" ||
+                      location.state.formView === "DashboardHomeView") &&
+                  (location.state.stageName === "Redirect Review" ||
+                      location.state.stageName === "Documents Needed" ||
+                      location.state.stageName === "Effectuate" ||
+                      location.state.stageName === "Pending Effectuate" ||
+                      location.state.stageName === "Resolve" ||
+                      location.state.stageName === "Case Completed" ||
+                      location.state.stageName === "Reopen" ||
+                      location.state.stageName === "CaseArchived")
+              }
         />
       </div>
     );
   };
   const renderSimpleDatePickerField = (name, label, index) => {
     return (
-      <div className="col-xs-6 col-md-3">
-        <SimpleDatePickerField
-          name={name}
-          label={label}
-          data={gridFieldTempState}
-          onChange={(selectValue) =>
-            handleGridDateChange(
-              index,
-              selectValue,
-              name,
-              AuthorizationInformationTable.displayName,
-            )
-          }
-          validationErrors={validationErrors}
-          disabled={(prop.renderType === RenderType.APPEALS &&
-            prop.state.formView === "DashboardView" &&
-            (prop.state.stageName === "Redirect Review" ||
-              prop.state.stageName === "Documents Needed" ||
-              prop.state.stageName === "Effectuate" ||
-              prop.state.stageName === "Pending Effectuate" ||
-              prop.state.stageName === "Resolve" ||
-              prop.state.stageName === "Case Completed" ||
-              prop.state.stageName === "Reopen" ||
-              prop.state.stageName === "CaseArchived"))
-          }
+        <div className="col-xs-6 col-md-3">
+          <SimpleDatePickerField
+              name={name}
+              label={label}
+              data={gridFieldTempState}
+              validationErrors={validationErrors}
+              onChange={(selectValue) =>
+                  handleGridDateChange(
+                      index,
+                      selectValue,
+                      name,
+                      AuthorizationInformationTable.displayName,
+                  )
+              }
+
+              disabled={
+                  (location.state.formView === "DashboardView" ||
+                      location.state.formView === "DashboardHomeView") &&
+                  (location.state.stageName === "Redirect Review" ||
+                      location.state.stageName === "Documents Needed" ||
+                      location.state.stageName === "Effectuate" ||
+                      location.state.stageName === "Pending Effectuate" ||
+                      location.state.stageName === "Resolve" ||
+                      location.state.stageName === "Case Completed" ||
+                      location.state.stageName === "Reopen" ||
+                      location.state.stageName === "CaseArchived")
+              }
         />
       </div>
     );
