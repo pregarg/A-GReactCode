@@ -304,9 +304,10 @@ export default function ClaimInformationTable({
               50,
               index,
             )}
-            {renderSimpleDatePickerField(
+            {renderSimpleInputField(
               "Number_of_Days_in_Span",
               "Number of Days in Span",
+              100000,
               index,
             )}
             {renderSimpleDatePickerField(

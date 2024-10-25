@@ -43,6 +43,8 @@ const ProviderDisputeClaimInformation = (props) => {
   const [selectedAddress, setSelectedAddress] = useState([]);
 
 
+  useEffect(() => {
+  }, [props.ProviderclaimInformation])
 
   const caseHeaderConfigData = JSON.parse(
     process.env.REACT_APP_CASEHEADER_DETAILS || "{}",
@@ -417,22 +419,22 @@ const ProviderDisputeClaimInformation = (props) => {
     return returnArray;
   };
 
-  const [ProviderclaimInformationData, setProviderClaimInformationData] = useState(
-    props.ProviderclaimInformationData || {},
-  );
-  const handleProviderClaimInformationData = (name, value, persist) => {
-    const newData = {
-      ...ProviderclaimInformationData,
-      [name]: typeof value === "string" ? convertToCase(value) : value,
-    };
-    setProviderClaimInformationData(newData);
-    if (persist) {
-      props.setProviderClaimInformationData(newData);
-    }
-  };
-  const persistProviderClaimInformationData = () => {
-    props.setProviderClaimInformationData(ProviderclaimInformationData);
-  };
+  // const [ProviderclaimInformationData, setProviderClaimInformationData] = useState(
+  //   props.ProviderclaimInformationData || {},
+  // );
+  // const handleProviderClaimInformationData = (name, value, persist) => {
+  //   const newData = {
+  //     ...ProviderclaimInformationData,
+  //     [name]: typeof value === "string" ? convertToCase(value) : value,
+  //   };
+  //   setProviderClaimInformationData(newData);
+  //   if (persist) {
+  //     props.setProviderClaimInformationData(newData);
+  //   }
+  // };
+  // const persistProviderClaimInformationData = () => {
+  //   props.setProviderClaimInformationData(ProviderclaimInformationData);
+  // };
 
   const handleCheckBoxChangeNew = () => {
     let temp = localStorage.getItem('checkBox');
@@ -445,6 +447,9 @@ const ProviderDisputeClaimInformation = (props) => {
    
     setIscheckedBox(!isCheckedBox);
     props.setIscheckedBox(isCheckedBox);
+    const dt = props.ProviderclaimInformation
+    dt.isChecked = temp ? '1' : ''
+    props.setProviderClaimInformationData({...dt});
     
   }
 
