@@ -382,6 +382,8 @@ export const useHeader = () => {
     Claim_Number:Yup.string().required("Claim_Number is mandatory"),
     Claim_type:Yup.string().required("Claim Type is mandatory"),
     Patient_Ref:Yup.string().required("Patient Ref is mandatory"),
+    Service_Start_Date:Yup.string().required("Start Date is mandatory"),
+    Service_End_Date:Yup.string().required("End Date is mandatory"),
   });
   const claimInformationValidationSchema = Yup.object().shape({
     // Payment_Method: conditionalActivateOnStage(
@@ -473,6 +475,7 @@ export const useHeader = () => {
     Member_Last_Name: Yup.string().required("Member Last Name is mandatory"),
     Member_ID: Yup.string().required("Member_ID is mandatory"),
     Provider_Issue_Number: Yup.string().required("Issue Number is mandatory"),
+    Plan_Name:Yup.string().required("Plan Name is mandatory"),
    
   });
   const PdProviderInformationValidationSchema = Yup.object().shape({
@@ -823,9 +826,24 @@ export const useHeader = () => {
     })
   }
 
+   
+
+  const checkForPdGridData = () => {
+    if (!pdClaimInformationGrid?.length || !pdCaseInformationGrid?.length || !ProviderauthorizationInformationGrid?.length) {
+      return true;
+    }
+    return false;
+  }
+
   const pdsubmitData = async () => {
 
+    if(checkForPdGridData()) {
+      alert("Please fill all mandatory field")
+      return;
+    }
+
     if (checkForPDError()?.length > 0) {
+      alert("Please fill all mandatory field")
       setShowSubmitError(true);
       return;
     }
@@ -960,16 +978,19 @@ export const useHeader = () => {
       submitCase(procData, navigateHome);
     }
   };
-  
-  
+
 
   const submitData = async () => {
     // debugger;
     if (checkForAppealsError()?.length > 0) {
+      alert("Please fill all mandatory field")
       setShowSubmitError(true);
       return;
 
     }
+
+
+
     const currentUser = authSelector.userName || "system";
     const receivedDate = extractDate(currentDate);
     const updatedCaseHeader = {
@@ -2341,10 +2362,16 @@ export const useHeader = () => {
   }
 
   const pdsaveAndExit = async () => {
+    if(checkForPdGridData()) {
+      alert("Please fill all mandatory field")
+      return;
+    }
     if (checkForPDError()?.length > 0) {
+      alert("Please fill all mandatory field")
       setShowSubmitError(true);
       return;
     }
+  
     callProcRef.current = "callProc";
 
     //const saveType = event.target.name === "saveAndSubmit" ? "SS" : "SE";
