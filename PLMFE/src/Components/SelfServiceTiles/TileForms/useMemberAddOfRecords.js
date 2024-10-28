@@ -51,6 +51,11 @@ export const useMemberAddOfRecords = (renderType) => {
           placeholder: "Mail to Address?",
           values: mailToAddressValues,
           renderTypes: [RenderType.PROVIDER_DISPUTE],
+          validation: {
+            [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
+                "Mail to Address is mandatory",
+            ),
+          },
         },
         {
           type: "input",

@@ -58,6 +58,11 @@ export const useProviderInformation = (renderType) => {
         placeholder: "Provider ID",
         maxLength: 50,
         renderTypes: [RenderType.PROVIDER_DISPUTE],
+        validation: {
+          [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
+              "Provider ID is mandatory",
+          ),
+        },
       },
       {
         type: "input",
@@ -77,6 +82,11 @@ export const useProviderInformation = (renderType) => {
         placeholder: "Provider TIN",
         maxLength: 50,
         renderTypes: [RenderType.PROVIDER_DISPUTE],
+        validation: {
+          [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
+              "Provider TIN is mandatory",
+          ),
+        },
       },
       {
         type: "input",
@@ -125,7 +135,11 @@ export const useProviderInformation = (renderType) => {
         placeholder: "Participating Provider",
         maxLength: 50,
         renderTypes: [RenderType.PROVIDER_DISPUTE],
-        validation:{}
+        validation: {
+          [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
+              "Participating Provider is mandatory",
+          ),
+        },
       },
       {
         type: "input",
@@ -133,7 +147,11 @@ export const useProviderInformation = (renderType) => {
         placeholder: "Vendor ID",
         maxLength: 50,
         renderTypes: [RenderType.PROVIDER_DISPUTE],
-        validation:{}
+        validation: {
+          [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
+              "Vendor ID is mandatory",
+          ),
+        },
       },
       {
         type: "input",

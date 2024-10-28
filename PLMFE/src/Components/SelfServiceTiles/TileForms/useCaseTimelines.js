@@ -95,6 +95,7 @@ export const useCaseTimelines = (renderType) => {
             .required("AOR Received Date is mandatory")
             .max(new Date(), "AOR Received Date cannot be in future"),
           [RenderType.PROVIDER_DISPUTE]: Yup.date()
+              .required("AOR Received Date is mandatory")
               .max(new Date(), "AOR Received Date cannot be in future"),
         },
       },
@@ -137,6 +138,9 @@ export const useCaseTimelines = (renderType) => {
           [RenderType.APPEALS]: Yup.string().required(
             "Case Acknowledgment Timely is mandatory",
           ),
+          [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
+              "Case Acknowledgment Timely is mandatory",
+          ),
         },
       },
       {
@@ -158,7 +162,12 @@ export const useCaseTimelines = (renderType) => {
         name: "Case_in_Compliance",
         placeholder: "Case in Compliance",
         values: caseInComplianceValues,
-        renderTypes: [RenderType.PROVIDER_DISPUTE],        
+        renderTypes: [RenderType.PROVIDER_DISPUTE],
+        validation: {
+          [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
+              "Case in Compliance is mandatory",
+          ),
+        },
       },
       {
         type: "input",
