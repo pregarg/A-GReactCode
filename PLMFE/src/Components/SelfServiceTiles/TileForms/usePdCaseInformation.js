@@ -67,13 +67,16 @@ export const usePdCaseInformation = (renderType) => {
         });
         const arr = masterPDLineOfBusinessSelector?.[0] || [];
         setLineOfBusinessValues(arr.map((e) => e.LOB).map(kvMapper));
-        setProductStateValues(arr.map((e) => e.State_).map(kvMapper));
+        const uniqueStates = Array.from(new Set(arr.map((e) => e.State_))).map(state => kvMapper(state));
+        setProductStateValues(uniqueStates);
+        //setProductStateValues(arr.map((e) => e.State_).map(kvMapper));
     
         const product = masterPDProductSelector?.[0] || [];
         setProductValues(
             product.map((e) => e.Product).map(kvMapper),
         );
-    
+      
+
         const issueLevelPriority =masterPDIssueLevelPrioritySelector?.[0] || [];
         setIssueLevelPriorityValues(
             issueLevelPriority.map((e) => e.Issue_Level).map(kvMapper),

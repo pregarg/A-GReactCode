@@ -179,6 +179,7 @@ const PdProviderInformationAccordion = (props) => {
     console.log("provider selectedAddress--->", selectedAddress)
     selectedAddress.forEach((address) => {
       delete address.Address_Line_1;
+      delete address.Address_Line_2;
       delete address.City;
       delete address.Contact_Email_Address;
       delete address.Contact_Phone_Number;

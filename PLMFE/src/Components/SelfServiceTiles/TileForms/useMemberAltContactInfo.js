@@ -54,7 +54,7 @@ export const useMemberAltContactInfo = (renderType) => {
           renderTypes: [RenderType.PROVIDER_DISPUTE],
           validation: {
             [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
-                "Address_Line_1 is mandatory",
+                "Address Line 1 is mandatory",
             ),
           },
         },

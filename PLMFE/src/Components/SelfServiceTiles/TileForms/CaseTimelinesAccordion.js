@@ -14,7 +14,11 @@ const CaseTimelinesAccordion = (props) => {
   const caseHeaderConfigData = JSON.parse(
     process.env.REACT_APP_CASEHEADER_DETAILS || "{}",
   );
-  const stageName = caseHeaderConfigData["StageName"];
+  const providerDisputeConfigData = JSON.parse(
+    process.env.REACT_APP_PROVIDERDISPUTES_DETAILS || "{}",
+  );
+  const appealsStageName = caseHeaderConfigData["StageName"];
+  const PDStageName = providerDisputeConfigData["StageName"];
 
   const { convertToCase } = useGetDBTables();
   const [caseTimelinesData, setCaseTimelinesData] = useState(
@@ -36,7 +40,9 @@ const CaseTimelinesAccordion = (props) => {
   };
  
   const renderInputField = (name, placeholder, maxLength) => (
+    
     <div className="col-xs-6 col-md-4">
+      
       <FormikInputField
         name={name}
         placeholder={placeholder}
@@ -44,11 +50,11 @@ const CaseTimelinesAccordion = (props) => {
         data={caseTimelinesData}
         onChange={handleCaseTimelinesData}
         displayErrors={props.shouldShowSubmitError}
-        disabled={
-          props.renderType === RenderType.APPEALS &&
+        disabled={ 
+          (props.renderType === RenderType.APPEALS) &&
           (location.state.formView === "DashboardView" ||
             location.state.formView === "DashboardHomeView") &&
-          ((stageName === "Start" && name !== "Acknowledgment_Timely") ||
+          ((appealsStageName === "Start" && name !== "Acknowledgment_Timely") ||
             location.state.stageName === "Intake" ||
             location.state.stageName === "Acknowledge" ||
             location.state.stageName === "Redirect Review" ||
@@ -67,6 +73,7 @@ const CaseTimelinesAccordion = (props) => {
       />
     </div>
   );
+
   const renderDatePicker = (name, placeholder, label) => (
     <div className="col-xs-6 col-md-4">
       <FormikDatePicker
@@ -121,6 +128,8 @@ const CaseTimelinesAccordion = (props) => {
   );
   
 
+
+  
   return (
     <Formik
       initialValues={props.caseTimelinesData}
