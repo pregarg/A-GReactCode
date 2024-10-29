@@ -1153,6 +1153,14 @@ export const useHeader = () => {
   });
   const [pdClaimInformationGrid, setPDClaimInformationGrid] = useState([]);
 
+  useEffect(() => {
+    console.log("pdClaimInformationGrid",pdClaimInformationGrid)
+    if(pdClaimInformationGrid?.length >= 10) {
+      caseTimelines['Number_of_Claims_More_Than_10'] = 'YES';
+      setCaseTimelines({...caseTimelines})
+    }
+  }, [pdClaimInformationGrid])
+
   const callProcRef = useRef(null);
 
   useEffect(() => {
