@@ -637,7 +637,7 @@ export default function ProviderInformationTable({
               <th scope="col">Address Line 2</th>
               <th scope="col">City</th>
               <th scope="col">State</th>
-              <th scope="col">Zip Code</th>43
+              <th scope="col">Zip Code</th>
               <th scope="col">Mail to Address</th>
               <th scope="col">Communication Preference</th>
             </tr>
