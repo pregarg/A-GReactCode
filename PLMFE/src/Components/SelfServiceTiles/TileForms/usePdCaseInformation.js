@@ -196,6 +196,11 @@ export const usePdCaseInformation = (renderType) => {
           placeholder: "Inbound Email ID",
           maxLength: 4000,
           renderTypes: [RenderType.PROVIDER_DISPUTE],
+          validation: {
+            [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
+                "Inbound Email ID is mandatory",
+            ),
+          },
         },
         {
             type: "select",

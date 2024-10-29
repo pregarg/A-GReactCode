@@ -544,9 +544,7 @@ const MemberInformationAccordion = (props) => {
                     e.target.value,
                   );
                 }}
-                disabled={
-                  whiteGloveIndicator || !whiteGloveIndicatorInitialized
-                }
+                disabled={!whiteGloveIndicator}
               />
               <label>White Glove Cancelled Reason</label>
               <div
