@@ -160,7 +160,7 @@ const ProviderDisputeClaimInformation = (props) => {
         const rows = [...ProviderclaimInformationGridData];
         rows.splice(index, 1);
         setProviderClaimInformationGridData(rows);
-        props.updateProviderClaimInformationGridData(rows);
+        props.updateProviderClaimInformationGridData([...rows]);
       }
     }
 
@@ -184,6 +184,7 @@ const ProviderDisputeClaimInformation = (props) => {
         if (!checkGridJsonLength(clonedJson)) {
           ProviderclaimInformationGridData[index] = clonedJson;
           setProviderClaimInformationGridData([...ProviderclaimInformationGridData]);
+         
         }
       }
 
@@ -223,6 +224,7 @@ const ProviderDisputeClaimInformation = (props) => {
         }
 
       }
+      props.updateProviderClaimInformationGridData([...ProviderclaimInformationGridData]);
     }
   };
 
