@@ -202,6 +202,18 @@ export const usePdCaseInformation = (renderType) => {
             ),
           },
         },
+      {
+        type: "input",
+        name: "OON_Provider",
+        placeholder: "OON Provider",
+        maxLength: 50,
+        renderTypes: [RenderType.PROVIDER_DISPUTE],
+        validation: {
+          [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
+              "OON Provider is mandatory",
+          ),
+        },
+      },
         {
             type: "select",
             name: "Complaint_Type",
