@@ -14,8 +14,22 @@ const ProviderMemberInformationAccordion = (props) => {
 
   const [ProvidermemberInformationData, setProviderMemberInformationData] = useState({
     ...props.ProvidermemberInformationData,
+    isChecked: props.ProvidermemberInformationData.isChecked ?? 0,
  });
-
+  const handleProvidermemberInformationData = (name, value, persist) => {
+    const newData = {
+      ...ProvidermemberInformationData,
+      [name]: typeof value === "string" ? convertToCase(value) : value,
+    };
+    setProviderMemberInformationData(newData);
+    if (persist) {
+      props.setProviderMemberInformationData(newData);
+    }
+  };
+  const handleCheckBoxChangeNew = (e) => {
+    const isCheckedValue = e.target.checked ? 1 : 0;
+    handleProvidermemberInformationData("isChecked", isCheckedValue, true); // Set 1 if checked, 0 if unchecked
+  };
 
   const pdLISSelector = useSelector((state) => state?.masterPDLis);
   const pdPortalEnrolledSelector = useSelector((state) => state?.masterPDPortalEnrolled);
@@ -358,6 +372,18 @@ const ProviderMemberInformationAccordion = (props) => {
             >
               Member Search
             </button>
+            <div className="row my-2">
+              <div className="col-md-3 text-start">
+                <label>
+                  <input
+                      type="checkbox"
+                      checked={ProvidermemberInformationData.isChecked == 1}  // 1 for checked, 0 for unchecked
+                      onChange={handleCheckBoxChangeNew}  // Handle change
+                  /> White Glove
+
+                </label>
+              </div>
+            </div>
             <div className="row my-2">
               {renderInputField("Provider_Issue_Number", "Issue Number", 50)}
               {renderInputField("Member_ID", "Member ID", 50)}
