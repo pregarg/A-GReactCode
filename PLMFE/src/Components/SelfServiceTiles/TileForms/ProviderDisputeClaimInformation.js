@@ -8,6 +8,7 @@ import ProviderDisputeClaimInformationTable from "../TileFormsTables/ProviderDis
 import TableComponent from "../../../../src/util/TableComponent";
 import ClaimSearch from "../TileForms/ClaimSearch";
 import useUpdateDecision from "../../CustomHooks/useUpdateDecision";
+import ProviderDisputeClaimInformationFilingTable from "../TileFormsTables/ProviderDisputeClaimInformationFilingTable";
 
 
 
@@ -37,8 +38,14 @@ const ProviderDisputeClaimInformation = (props) => {
     props.handleProviderClaimInformationGridData,
   );
 
+  const [ProviderclaimInformationFilingGridData, setProviderClaimInformationFilingGridData] = useState(
+    props.handleProviderClaimInformationFilingGridData,
+  );
+
   const [showClaimSearch, setShowClaimSearch] = useState(false);
   const [gridFieldTempState, setGridFieldTempState] = useState({});
+
+  const [filingGridFieldTempState, setFilingGridFieldTempState] = useState({});
   const [responseData, setResponseData] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState([]);
 
@@ -138,6 +145,7 @@ const ProviderDisputeClaimInformation = (props) => {
   const [isCheckedBox, setIscheckedBox] = useState(props.ProviderclaimInformation?.isChecked === '1');
 
   const gridDataRef = useRef({});
+  const filinggridDataRef = useRef({});
 
   const addTableRows = (triggeredFormName) => {
     console.log("abcdert",triggeredFormName)
@@ -147,6 +155,16 @@ const ProviderDisputeClaimInformation = (props) => {
       rowsInput.rowNumber = getRowNumberForGrid(ProviderclaimInformationGridData);
     }
     setGridFieldTempState(rowsInput);
+  };
+
+  const addFilingTableRows = (triggeredFormName) => {
+    console.log("abcdert",triggeredFormName)
+    let rowsInput = {};
+
+    if (triggeredFormName === "ProviderDisputeClaimInformationFilingTable") {
+      rowsInput.rowNumber = getRowNumberForGrid(ProviderclaimInformationFilingGridData);
+    }
+    setFilingGridFieldTempState(rowsInput);
   };
 
   const deleteTableRows = (index, triggeredFormName, operationValue) => {
@@ -166,6 +184,26 @@ const ProviderDisputeClaimInformation = (props) => {
 
     if (operationValue === "Edit") {
       setGridFieldTempState({});
+    }
+  };
+
+  const deleteFilingTableRows = (index, triggeredFormName, operationValue) => {
+    if (
+      operationValue !== "Edit" &&
+      (operationValue === "Add" || operationValue === "Force Delete")
+    ) {
+      gridRowsFinalSubmit(triggeredFormName, index, "Delete");
+
+      if (triggeredFormName === "ProviderDisputeClaimInformationFilingTable") {
+        const rows = [...ProviderclaimInformationFilingGridData];
+        rows.splice(index, 1);
+        setProviderClaimInformationFilingGridData(rows);
+        props.updateProviderClaimInformationFilingGridData([...rows]);
+      }
+    }
+
+    if (operationValue === "Edit") {
+      setFilingGridFieldTempState({});
     }
   };
   const gridRowsFinalSubmit = (triggeredFormName, index, operationType) => {
@@ -225,6 +263,66 @@ const ProviderDisputeClaimInformation = (props) => {
 
       }
       props.updateProviderClaimInformationGridData([...ProviderclaimInformationGridData]);
+    }
+  };
+
+  const filingGridRowsFinalSubmit = (triggeredFormName, index, operationType) => {
+    let clonedJson = { ...filingGridFieldTempState };
+    console.log("Cloned Json is : ", clonedJson)
+    console.log("Triggered Name : ", triggeredFormName)
+    if (Object.keys(filingGridFieldTempState).length !== 0) {
+      if (triggeredFormName === "ProviderDisputeClaimInformationFilingTable") {
+        console.log("abc",ProviderclaimInformationFilingGridData[index])
+        let indexJson = ProviderclaimInformationFilingGridData[index];
+
+        if (indexJson !== undefined && indexJson !== null) {
+          clonedJson = Object.assign(indexJson, filingGridFieldTempState);
+        }
+
+        if (!checkGridJsonLength(clonedJson)) {
+          ProviderclaimInformationFilingGridData[index] = clonedJson;
+          setProviderClaimInformationFilingGridData([...ProviderclaimInformationFilingGridData]);
+         
+        }
+      }
+
+      //Handling for data update/Delete/Insert inside grids.
+      if (tabRef.current === "DashboardView") {
+        let oprtn;
+        let gridRowJson = {};
+        if (operationType === "Add") {
+          oprtn = "I";
+        }
+
+        if (operationType === "Edit") {
+          oprtn = "U";
+        }
+
+        if (operationType === "Delete") {
+          oprtn = "D";
+        }
+        let gridRowArray = [];
+
+        if (triggeredFormName === "ProviderDisputeClaimInformationFilingTable") {
+          gridRowArray = filinggridDataRef.current.hasOwnProperty(
+            "ProviderDisputeClaimInformationFilingTable",
+          )
+            ? [...filinggridDataRef.current.ProviderDisputeClaimInformationFilingTable]
+            : [];
+          gridRowJson = { ...ProviderclaimInformationFilingGridData[index] };
+
+          if (Object.keys(gridRowJson).length !== 0) {
+            gridRowJson["operation"] = oprtn;
+
+            gridRowArray.push(trimJsonValues(gridRowJson));
+
+            filinggridDataRef.current.ProviderDisputeClaimInformationFilingTable =
+              getGridDataValues(gridRowArray);
+          }
+        }
+
+      }
+      props.updateProviderClaimInformationFilingGridData([...ProviderclaimInformationFilingGridData]);
     }
   };
 
@@ -346,6 +444,14 @@ const ProviderDisputeClaimInformation = (props) => {
     });
   };
 
+  const handleFilingGridSelectChange = (index, selectedValue, event) => {
+    const { name } = event;
+    setFilingGridFieldTempState({
+      ...filingGridFieldTempState,
+      [name]: (selectedValue?.value || selectedValue)?.toUpperCase(),
+    });
+  };
+
   const handleGridDateChange = (index, selectedValue, fieldName) => {
     let tempInput = { ...gridFieldTempState };
     tempInput[fieldName] = selectedValue;
@@ -378,6 +484,13 @@ const ProviderDisputeClaimInformation = (props) => {
     setGridFieldTempState(tempInput);
   };
 
+  const handleFilingGridFieldChange = (index, event) => {
+    let tempInput = { ...gridFieldTempState };
+    let { name, value } = event.target;
+    tempInput[name] = value.toUpperCase();
+    setFilingGridFieldTempState(tempInput);
+  };
+
   const editTableRows = (index, triggeredFormName) => {
     let rowInput = {};
 
@@ -389,6 +502,15 @@ const ProviderDisputeClaimInformation = (props) => {
     //   rowInput = providerInformationGridData[index];
     //   setGridFieldTempState(rowInput);
     // }
+  };
+
+  const editFilingTableRows = (index, triggeredFormName) => {
+    let rowInput = {};
+
+    if (triggeredFormName === "ProviderDisputeClaimInformationFilingTable") {
+      rowInput = ProviderclaimInformationFilingGridData[index];
+      setFilingGridFieldTempState(rowInput);
+    }
   };
 
 
@@ -539,6 +661,31 @@ const ProviderDisputeClaimInformation = (props) => {
                   transactionType={CaseHeader.displayName}
                 ></ProviderDisputeClaimInformationTable>
               </div>
+              <div className="col-xs-6 col-md-12">
+                <ProviderDisputeClaimInformationFilingTable
+                  ProviderclaimInformationFilingGridData={ProviderclaimInformationFilingGridData}
+                  validationSchema={
+                    props.authorizationInformationFilingGridValidationSchema
+                  }
+                  addTableRows={addFilingTableRows}
+                  deleteTableRows={deleteFilingTableRows}
+                  handleGridSelectChange={handleFilingGridSelectChange}
+                  handleGridFieldChange={handleFilingGridFieldChange}
+                  gridFieldTempState={filingGridFieldTempState}
+                  editTableRows={editFilingTableRows}
+                  gridRowsFinalSubmit={filingGridRowsFinalSubmit}
+                  //selectJson={selectValues}
+                  lockStatus={
+                    location.state.lockStatus !== undefined &&
+                    location.state.lockStatus !== ""
+                      ? location.state.lockStatus
+                      : "N"
+                  }
+                  fetchAutoPopulate={fetchAutoPopulate}
+                  transactionType={CaseHeader.displayName}
+                ></ProviderDisputeClaimInformationFilingTable>
+              </div>
+              
             </div>
             <div>
               {showClaimSearch && (
