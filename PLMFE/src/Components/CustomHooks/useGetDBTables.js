@@ -104,6 +104,7 @@ export default function useGetDBTables() {
         "PD_CASE_INFORMATION_GRID~pdCaseInfoGrid",
         "PD_Claim_Information~pdClaimInformation",
         "PD_Claim_Information_Grid~pdClaimInfoGrid",
+        "PD_Claim_Information_Grid2~pdClaimInfoFilingGrid",
         "PD_Member_Information~pdMemberInformation",
         "PD_MEMBER_ADD_OF_RECORDS~pdMemberAddRecord",
         "PD_MEMBER_ALTERNATIVE_CONTACT_INFO~pdMemberAltInfo", 
