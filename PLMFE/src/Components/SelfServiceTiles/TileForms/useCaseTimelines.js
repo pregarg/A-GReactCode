@@ -264,6 +264,7 @@ export const useCaseTimelines = (renderType) => {
         placeholder: "Are number of claims more than 10",
         values: noOfClaimsValues,
         renderTypes: [RenderType.PROVIDER_DISPUTE],
+        defaultValue: "NO",
         validation: {
           [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
               "Number of Claims is mandatory",
