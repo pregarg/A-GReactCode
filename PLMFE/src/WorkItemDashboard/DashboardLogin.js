@@ -49,6 +49,7 @@ import {
   getMasterPDCaseInCompliance,
   getMasterPDTimeFrameExtended,
   getMasterPDDepartment,
+  getMasterPDOONProvider,
   getMasterPDNoOfClaims,
   getMasterPDMailToAddress,
   getMasterPDIntakeDecision,
@@ -665,6 +666,14 @@ export default function DashboardLogin() {
     );
     dispatch(
       getMasterPDDepartment(
+        loginToken,
+        false,
+        onMasterLoadFail,
+        onMasterLoadSuccess,
+      ),
+    );
+    dispatch(
+      getMasterPDOONProvider(
         loginToken,
         false,
         onMasterLoadFail,
