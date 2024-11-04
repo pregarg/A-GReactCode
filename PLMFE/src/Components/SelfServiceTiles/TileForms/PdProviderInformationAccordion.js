@@ -223,21 +223,12 @@ const PdProviderInformationAccordion = (props) => {
             onChange={handleProviderInformationData}
             displayErrors={props.shouldShowSubmitError}
             disabled={
-                props.renderType === RenderType.APPEALS &&
-                (location.state.formView === "DashboardView" ||
-                    location.state.formView === "DashboardHomeView") &&
-                ((stageName === "Start" && name !== "Acknowledgment_Timely") ||
-                    location.state.stageName === "Intake" ||
-                    location.state.stageName === "Acknowledge" ||
-                    location.state.stageName === "Redirect Review" ||
-                    location.state.stageName === "Documents Needed" ||
-                    location.state.stageName === "Research" ||
-                    location.state.stageName === "Effectuate" ||
-                    location.state.stageName === "Pending Effectuate" ||
-                    location.state.stageName === "Resolve" ||
+                location.state.formView === "DashboardView" &&
+                (
                     location.state.stageName === "Case Completed" ||
-                    location.state.stageName === "Reopen" ||
                     location.state.stageName === "CaseArchived")
+
+
             }
             persist={persistProviderInformationDataData}
             schema={props.providerInformationValidationSchema}
@@ -255,16 +246,12 @@ const PdProviderInformationAccordion = (props) => {
             onChange={handleProviderInformationData}
             displayErrors={props.shouldShowSubmitError}
             disabled={
-                props.renderType === RenderType.APPEALS &&
                 location.state.formView === "DashboardView" &&
-                (location.state.stageName === "Redirect Review" ||
-                    location.state.stageName === "Documents Needed" ||
-                    location.state.stageName === "Effectuate" ||
-                    location.state.stageName === "Pending Effectuate" ||
-                    location.state.stageName === "Resolve" ||
+                (
                     location.state.stageName === "Case Completed" ||
-                    location.state.stageName === "Reopen" ||
                     location.state.stageName === "CaseArchived")
+
+
             }
             schema={props.providerInformationValidationSchema}
             errors={props.providerInformationErrors}
@@ -282,14 +269,11 @@ const PdProviderInformationAccordion = (props) => {
             onChange={handleProviderInformationData}
             disabled={
                 location.state.formView === "DashboardView" &&
-                (location.state.stageName === "Redirect Review" ||
-                    location.state.stageName === "Documents Needed" ||
-                    location.state.stageName === "Effectuate" ||
-                    location.state.stageName === "Pending Effectuate" ||
-                    location.state.stageName === "Resolve" ||
+                (
                     location.state.stageName === "Case Completed" ||
-                    location.state.stageName === "Reopen" ||
                     location.state.stageName === "CaseArchived")
+
+
             }
             displayErrors={props.shouldShowSubmitError}
             schema={props.providerInformationValidationSchema}

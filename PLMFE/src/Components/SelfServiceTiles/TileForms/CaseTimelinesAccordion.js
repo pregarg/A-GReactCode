@@ -51,7 +51,7 @@ const CaseTimelinesAccordion = (props) => {
         onChange={handleCaseTimelinesData}
         displayErrors={props.shouldShowSubmitError}
         disabled={ 
-          (props.renderType === RenderType.APPEALS) &&
+          (props.renderType === RenderType.APPEALS) && RenderType.PROVIDER_DISPUTE&&
           (location.state.formView === "DashboardView" ||
             location.state.formView === "DashboardHomeView") &&
           ((appealsStageName === "Start" && name !== "Acknowledgment_Timely") ||
@@ -84,7 +84,7 @@ const CaseTimelinesAccordion = (props) => {
         onChange={handleCaseTimelinesData}
         displayErrors={props.shouldShowSubmitError}
         disabled={
-          (props.renderType === RenderType.APPEALS &&
+          (props.renderType === RenderType.APPEALS && RenderType.PROVIDER_DISPUTE&&
             location.state.formView === "DashboardView" &&
             (location.state.stageName === "Redirect Review" ||
               location.state.stageName === "Effectuate" ||
@@ -110,7 +110,7 @@ const CaseTimelinesAccordion = (props) => {
         onChange={handleCaseTimelinesData}
         displayErrors={props.shouldShowSubmitError}
         disabled={
-          props.renderType === RenderType.APPEALS &&
+          props.renderType === RenderType.APPEALS && RenderType.PROVIDER_DISPUTE&&
           location.state.formView === "DashboardView" &&
           (location.state.stageName === "Redirect Review" ||
             location.state.stageName === "Documents Needed" ||

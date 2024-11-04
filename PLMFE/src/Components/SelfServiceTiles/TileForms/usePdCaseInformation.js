@@ -214,11 +214,11 @@ export const usePdCaseInformation = (renderType) => {
         placeholder: "OON Provider",
         values: oonProviderValues,
         renderTypes: [RenderType.PROVIDER_DISPUTE],
-        validation: {
-          [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
-              "OON Provider is mandatory",
-          ),
-        },
+        // // validation: {
+        // //   [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
+        // //       "OON Provider is mandatory",
+        //   ),
+        // },
       },
         {
             type: "select",

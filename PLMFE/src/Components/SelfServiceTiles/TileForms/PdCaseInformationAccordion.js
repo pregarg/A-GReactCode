@@ -290,22 +290,28 @@ console.log("props.caseInformationFields", props.caseInformationFields, props.ca
         data={caseInformationData}
         onChange={handlecaseInformationData}
         displayErrors={props.shouldShowSubmitError}
+        // disabled={
+        //   props.renderType === RenderType.APPEALS &&
+        //   (location.state.formView === "DashboardView" ||
+        //     location.state.formView === "DashboardHomeView") &&
+        //   ((stageName === "Start" && name !== "Acknowledgment_Timely") ||
+        //     location.state.stageName === "Intake" ||
+        //     location.state.stageName === "Acknowledge" ||
+        //     location.state.stageName === "Redirect Review" ||
+        //     location.state.stageName === "Documents Needed" ||
+        //     location.state.stageName === "Research" ||
+        //     location.state.stageName === "Effectuate" ||
+        //     location.state.stageName === "Pending Effectuate" ||
+        //     location.state.stageName === "Resolve" ||
+        //     location.state.stageName === "Case Completed" ||
+        //     location.state.stageName === "Reopen" ||
+        //     location.state.stageName === "CaseArchived")
+        // }
         disabled={
-          props.renderType === RenderType.APPEALS &&
-          (location.state.formView === "DashboardView" ||
-            location.state.formView === "DashboardHomeView") &&
-          ((stageName === "Start" && name !== "Acknowledgment_Timely") ||
-            location.state.stageName === "Intake" ||
-            location.state.stageName === "Acknowledge" ||
-            location.state.stageName === "Redirect Review" ||
-            location.state.stageName === "Documents Needed" ||
-            location.state.stageName === "Research" ||
-            location.state.stageName === "Effectuate" ||
-            location.state.stageName === "Pending Effectuate" ||
-            location.state.stageName === "Resolve" ||
-            location.state.stageName === "Case Completed" ||
-            location.state.stageName === "Reopen" ||
-            location.state.stageName === "CaseArchived")
+          (prop.state.formView === "DashboardView" &&
+              (
+                  prop.state.stageName === "Case Completed" ||
+                  prop.state.stageName === "CaseArchived"))
         }
         persist={persistcaseInformationDataData}
         schema={props.pdCaseInformationValidationSchema}
@@ -325,16 +331,10 @@ console.log("props.caseInformationFields", props.caseInformationFields, props.ca
         onChange={handlecaseInformationData}
         displayErrors={props.shouldShowSubmitError}
         disabled={
-          props.renderType === RenderType.APPEALS &&
-          location.state.formView === "DashboardView" &&
-          (location.state.stageName === "Redirect Review" ||
-            location.state.stageName === "Documents Needed" ||
-            location.state.stageName === "Effectuate" ||
-            location.state.stageName === "Pending Effectuate" ||
-            location.state.stageName === "Resolve" ||
-            location.state.stageName === "Case Completed" ||
-            location.state.stageName === "Reopen" ||
-            location.state.stageName === "CaseArchived")
+          (prop.state.formView === "DashboardView" &&
+              (
+                  prop.state.stageName === "Case Completed" ||
+                  prop.state.stageName === "CaseArchived"))
         }
         schema={props.pdCaseInformationValidationSchema}
         errors={props.pdCaseInformationErrors}
