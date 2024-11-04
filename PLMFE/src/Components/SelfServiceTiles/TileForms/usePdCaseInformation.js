@@ -38,6 +38,9 @@ export const usePdCaseInformation = (renderType) => {
   const masterPDSubIsuueLevelSelector = useSelector(
     (state) => state?.masterPDSubIssueLevel,
   );
+  const masterPDOONProviderSelector = useSelector(
+    (state) => state?.masterPDOONProvider,
+  );
 
   const [lineOfBusinessValues, setLineOfBusinessValues] = useState([]);
   const [productStateValues, setProductStateValues] = useState([]);
@@ -48,7 +51,8 @@ export const usePdCaseInformation = (renderType) => {
   const [caseFillingMethodValues, setCaseFillingMethodValues] = useState([]);
   const [complaintTypeValues, setComplaintTypeValues] = useState([]);
   const [subIsuueLevelValues, setSubIsuueLevelValues] = useState([]);
-  
+  const [oonProviderValues, setOonProviderValues] = useState([]);
+
   const [caseInformationFields, setcaseInformationFields] = useState([]);
   const [pd_CaseInformation, setpdCaseInformation] = useState({
     caseNumber: ""
@@ -96,9 +100,11 @@ export const usePdCaseInformation = (renderType) => {
         );
 
         const arr1 = masterPDSubIsuueLevelSelector?.[0] || [];
-        // setLineOfBusinessValues(arr.map((e) => e.LOB).map(kvMapper));
-        // const subIsuueLevel = masterPDSubIsuueLevelSelector?.[0] || [];
         setSubIsuueLevelValues(arr1.map((e) => e.Review_Type).map(kvMapper),);
+
+        const oonProvider = masterPDOONProviderSelector?.[0] || [];
+        setOonProviderValues(oonProvider.map((e) => e.OON_PROVIDER).map(kvMapper),
+        );
         }, []);
 
 
@@ -203,10 +209,10 @@ export const usePdCaseInformation = (renderType) => {
           },
         },
       {
-        type: "input",
-        name: "OON_Provider",
+        type: "select",
+        name: "OON_PROVIDER",
         placeholder: "OON Provider",
-        maxLength: 50,
+        values: oonProviderValues,
         renderTypes: [RenderType.PROVIDER_DISPUTE],
         validation: {
           [RenderType.PROVIDER_DISPUTE]: Yup.string().required(

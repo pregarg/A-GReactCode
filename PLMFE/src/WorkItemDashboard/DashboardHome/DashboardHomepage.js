@@ -858,6 +858,7 @@ export default function DashboardHomepage() {
   };
 
   const filterTableData = (caseStat, renderFlag, gridName) => {
+    console.log("1234567890111",gridName)
     // console.log("Inside filterTable: ",caseStat);
     // console.log("Inside filterTable renderFlag: ",renderFlag);
     // console.log("Inside filterTable gridName: ",gridName);
@@ -875,8 +876,6 @@ export default function DashboardHomepage() {
     if (gridName === "ProviderDisputes") {
       filteringTableData(provContChartRef.current, caseStat);
     }
-    
-    
 
   };
 
@@ -899,6 +898,11 @@ export default function DashboardHomepage() {
     }
   };
   //Legal Entity Name~OrganizationName,
+  console.log("tableData 1234",tableData)
+  // if(tableData[0].TransactionType === "Provider Disputes"){
+  //   const columnNames ="";
+  //    columnNames = "Case#~CaseNumber,Transaction Type~TransactionType,Stage Name~StageName, States~Field2";
+  // }
   const columnNames =
     "Case#~CaseNumber,Transaction Type~TransactionType,NPI~NpiId,First Name~FirstName,Last Name~LastName,Legal Entity Name~LegalEntityName,Status~CaseStatus,Stage Name~StageName, States~Field2";
   const tdData = () => {

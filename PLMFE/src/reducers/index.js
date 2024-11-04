@@ -995,6 +995,15 @@ const masterPDcptDescriptionReducer = (state = [], action) => {
   }
   return state;
 };
+const masterPDOONProviderReducer = (state = [], action) => {
+  if (action.type === "GET_PD_OON_PROVIDER") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_PD_OON_PROVIDER") {
+    state = [];
+    return state;
+  }
+  return state;
+};
 const storeTableStateReducer = (
   state = {
     data: [],
@@ -1163,6 +1172,7 @@ export default combineReducers({
   masterPDDocument:masterPDDocumentReducer,
   masterPDAuthStatus:masterPDAuthStatusReducer,
   masterPDcptDescription:masterPDcptDescriptionReducer,
+  masterPDOONProvider:masterPDOONProviderReducer,
   dashboardNavigationState: storeTableStateReducer,
   usersTable: usersReducer,
 });
