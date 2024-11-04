@@ -26,6 +26,14 @@
   .claimTable-container{
     overflow: auto;
   }
+  .claimTable-header{
+    text-align: center;
+    background-color: red;
+    width: 100%;
+    font-size: 16px;
+    color: white;
+    margin: 15px 0;
+  }
 
 #ClaimInformationTable th,#ProviderInformationTable th{
     width: 150px;

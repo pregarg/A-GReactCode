@@ -63,6 +63,7 @@ const ProviderDisputes = () => {
     setProviderClaimInformation,
     ProviderclaimInformationValidationSchema,
     ProviderclaimInformationValidationGridSchema,
+    ProviderclaimInformationValidationFilingGridSchema,
     ProvidermemberInformation,
     ProvidermemberInformationValidationSchema,
     setProviderMemberInformation,
@@ -126,6 +127,8 @@ const ProviderDisputes = () => {
     setPDCaseInformationGrid,
     pdClaimInformationGrid,
     setPDClaimInformationGrid,
+    pdClaimInformationFilingGrid,
+    setPDClaimInformationFilingGrid,
     pdsaveAndExit,
     
   } = useHeader();
@@ -195,11 +198,14 @@ const ProviderDisputes = () => {
                 ProviderclaimInformationValidationSchema={ProviderclaimInformationValidationSchema}
                 ProviderclaimInformationGridRowValidationSchema={ProviderclaimInformationGridRowValidationSchema}
                 handleProviderClaimInformationGridData={pdClaimInformationGrid}
+                handleProviderClaimInformationFilingGridData={pdClaimInformationFilingGrid}
                 ProviderclaimInformationErrors={ProviderclaimInformationErrors}
                 shouldShowSubmitError={shouldShowSubmitError}
                 updateProviderClaimInformationGridData={setPDClaimInformationGrid}
+                updateProviderClaimInformationFilingGridData={setPDClaimInformationFilingGrid}
                 setIscheckedBox = {setIscheckedBox}
                 authorizationInformationGridValidationSchema={ProviderclaimInformationValidationGridSchema}
+                authorizationInformationFilingGridValidationSchema={ProviderclaimInformationValidationFilingGridSchema}
                
               />
               

@@ -385,6 +385,9 @@ export const useHeader = () => {
     Service_Start_Date:Yup.string().required("Start Date is mandatory"),
     Service_End_Date:Yup.string().required("End Date is mandatory"),
   });
+  const ProviderclaimInformationValidationFilingGridSchema = Yup.object().shape({
+    Issue_Number: Yup.string().required("Issue Number is mandatory"),
+  });
   const claimInformationValidationSchema = Yup.object().shape({
     // Payment_Method: conditionalActivateOnStage(
     //   pair1,
@@ -891,6 +894,9 @@ export const useHeader = () => {
 
     const pdClaimInfoGrid = getGridDataValues(pdClaimInformationGrid);
     apiJson["PD_Claim_Information_Grid"] = pdClaimInfoGrid;
+
+    const pdClaimInfoFilingGrid = getGridDataValues(pdClaimInformationFilingGrid);
+    apiJson["PD_Claim_Information_Grid2"] = pdClaimInfoFilingGrid;
    
     const pdProviderInformation = trimJsonValues({ ...pd_ProviderInformation });
     apiJson["PD_Provider_Information"] = pdProviderInformation;
@@ -1152,6 +1158,8 @@ export const useHeader = () => {
     caseStatus: "",
   });
   const [pdClaimInformationGrid, setPDClaimInformationGrid] = useState([]);
+  const [pdClaimInformationFilingGrid, setPDClaimInformationFilingGrid] = useState([]);
+
 
   useEffect(() => {
     console.log("pdClaimInformationGrid",pdClaimInformationGrid)
@@ -1825,6 +1833,22 @@ export const useHeader = () => {
                 });
                 setPDClaimInformationGrid(apiResponseArray);
               }
+
+              if (k === "pdClaimInformationFilingGrid") {
+                let apiResponseArray = [];
+                data[k].forEach((js) => {
+                  const newJson = convertToDateObj(js);
+                  console.log(
+                    "Add a pdClaimInformationFilingGrid newJson: ",
+                    newJson,
+                  );
+                  console.log("abcdertfg",apiResponseArray)
+                  apiResponseArray.push(newJson);
+                  //setLicenseTableRowsData([...licenseTableRowsData,newJson]);
+                });
+                setPDClaimInformationFilingGrid(apiResponseArray);
+              }
+
                if (k === "pdAuthorizationInformationGrid") {
                   let apiResponseArray = [];
                   data[k].forEach((js) => {
@@ -2411,9 +2435,17 @@ export const useHeader = () => {
     );
    
     const pdClaimInfoGrid = getGridDataValues(pdClaimInformationGrid);
+    const pdClaimInfoFilingGrid = getGridDataValues(pdClaimInformationFilingGrid);
+    
     const originalPDClaimInfoGrid = getGridDataValues(
       formData["pdClaimInfoGrid"],
     );
+
+    const originalPDClaimInfoFilingGrid = getGridDataValues(
+      formData["pdClaimInfoFilingGrid"],
+    );
+
+
     console.log("ProviderauthorizationInformationGrid111",ProviderauthorizationInformationGrid)
     const pdAuthorizationInformationGrid = getGridDataValues(ProviderauthorizationInformationGrid);
     const originalPDAuthorizationInformationGrid = getGridDataValues(
@@ -2545,6 +2577,7 @@ export const useHeader = () => {
     }
 
     let updateClaimArray = [];
+    let updateClaimArrayFiling = [];
     if (
       pdClaimInfoGrid.length > 0 ||
       originalPDClaimInfoGrid.length > 0
@@ -2598,6 +2631,67 @@ export const useHeader = () => {
         );
         if (index === -1) {
           updateClaimArray.push({
+            operation: "D",
+            caseNumber: location.state.caseNumber,
+            rowNumber: originalElement["rowNumber"],
+          });
+        }
+      }
+    }
+
+    if (
+      pdClaimInfoFilingGrid.length > 0 ||
+      originalPDClaimInfoFilingGrid.length > 0
+    ) {
+      const maxLength = Math.min(
+        pdClaimInfoFilingGrid.length,
+        originalPDClaimInfoFilingGrid.length,
+      );
+
+      // // Update existing rows
+      for (let i = 0; i < maxLength; i++) {
+        const element = pdClaimInfoFilingGrid[i];
+
+        for (let j = 0; j < originalPDClaimInfoFilingGrid.length; j++) {
+          const originalElement = originalPDClaimInfoFilingGrid[j];
+          if (element.rowNumber === originalElement.rowNumber) {
+            updateClaimArrayFiling.push({
+              caseNumber: element["caseNumber"],
+              rowNumber: element["rowNumber"],
+              ...CompareJSON(element, originalElement),
+            });
+            break;
+          }
+        }
+      }
+
+      // Add rows
+      for (let i = 0; i < pdClaimInfoFilingGrid.length; i++) {
+        const angelement = pdClaimInfoFilingGrid[i];
+        const index = originalPDClaimInfoFilingGrid.findIndex(
+          (element) => angelement.rowNumber === element.rowNumber,
+        );
+
+        if (index === -1) {
+          if (!angelement.hasOwnProperty("caseNumber")) {
+            angelement.caseNumber = location.state.caseNumber;
+          }
+          updateClaimArrayFiling.push({
+            operation: "I",
+            rowNumber: angelement["rowNumber"],
+            ...angelement,
+          });
+        }
+      }
+
+      // Delete rows
+      for (let i = 0; i < originalPDClaimInfoFilingGrid.length; i++) {
+        const originalElement = originalPDClaimInfoFilingGrid[i];
+        const index = pdClaimInfoFilingGrid.findIndex(
+          (element) => originalElement.rowNumber === element.rowNumber,
+        );
+        if (index === -1) {
+          updateClaimArrayFiling.push({
             operation: "D",
             caseNumber: location.state.caseNumber,
             rowNumber: originalElement["rowNumber"],
@@ -2669,6 +2763,7 @@ export const useHeader = () => {
     }
     apiJson["PD_CASE_INFORMATION_GRID"] = updateCaseInfoArray;
     apiJson["PD_Claim_Information_Grid"] = updateClaimArray;
+    apiJson["PD_Claim_Information_Grid2"] = updateClaimArrayFiling;
     apiJson["PD_Authorization_Information"] = updateAuthArray;
     console.log("location.state.caseNumberqqqqqqq", location.state.caseNumber)
     apiJson["caseNumber"] = location.state.caseNumber;
@@ -2741,6 +2836,7 @@ export const useHeader = () => {
     claimInformationValidationSchema,
     providerclaimInformationValidationSchema,
     ProviderclaimInformationValidationGridSchema,
+    ProviderclaimInformationValidationFilingGridSchema,
     claimInformationGrid,
     setClaimInformationGrid,
     providerInformationGrid,
@@ -2860,6 +2956,8 @@ export const useHeader = () => {
     pdClaimInformationGrid,
     ProviderClaimInformationGrid,
     setPDClaimInformationGrid,
+    pdClaimInformationFilingGrid,
+    setPDClaimInformationFilingGrid,
     setNotesErrors,
     pdsaveAndExit,
     ProviderclaimInformation,
