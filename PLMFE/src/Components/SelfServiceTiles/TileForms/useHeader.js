@@ -402,7 +402,7 @@ export const useHeader = () => {
       pair2,
       "Service Type is mandatory",
     ),*/
-    Reason_Text: conditionalString(
+    /*Reason_Text: conditionalString(
       "Processing_Status",
       "NOT ADJUSTED",
       "Reason Text is mandatory",
@@ -425,7 +425,7 @@ export const useHeader = () => {
     ),
     Payment_Mail_Date_Postmark: Yup.date().required(
       "Payment Mail Date Postmark is mandatory",
-    ),*/,
+    ),*/
   });
   const memberInformationValidationSchema = Yup.object().shape({
     Email_ID: conditionalString(
@@ -443,7 +443,7 @@ export const useHeader = () => {
     ContractPlan_ID: Yup.string().required("Contract Plan ID is mandatory"),
     Plan_Code: Yup.string().required("Plan Code is mandatory"),
     Member_IPA: Yup.string().required("Member IPA is mandatory"),
-    //PBP: Yup.string().required("PBP is mandatory"),
+    PBP: Yup.string().required("PBP is mandatory"),
     Primary_Care_Physician_PCP: Yup.string().required(
       "Primary Care Physician PCP is mandatory",
     ),
@@ -459,7 +459,6 @@ export const useHeader = () => {
     Address_Line_1: Yup.string().required("Address Line 1 is mandatory"),
     City: Yup.string().required("City is mandatory"),
     State_: Yup.string().required("State is mandatory"),
-    // Email_Address: Yup.string().required("Email Address is mandatory"),
     Medicaid_ID: Yup.string().required("Medicaid ID is mandatory"),
     Zip_Code: Yup.string().required("Zip code Address is mandatory"),
     "Plan_Effective_Date#date": Yup.string().required(
@@ -1833,8 +1832,7 @@ export const useHeader = () => {
                 });
                 setPDClaimInformationGrid(apiResponseArray);
               }
-
-              if (k === "pdClaimInformationFilingGrid") {
+              if (k === "pdClaimInfoFilingGrid") {
                 let apiResponseArray = [];
                 data[k].forEach((js) => {
                   const newJson = convertToDateObj(js);
@@ -1928,6 +1926,7 @@ export const useHeader = () => {
     console.log("step0")
     if (checkForAppealsError()?.length > 0) {
    // if (hasSubmitError) {
+      alert("Please fill all mandatory field")
       setShowSubmitError(true);
       return;
     }

@@ -45,21 +45,12 @@ const MemberAddOfRecordsAccordion = (props) => {
         onChange={handleMemberAddData}
         displayErrors={props.shouldShowSubmitError}
         disabled={
-          props.renderType === RenderType.APPEALS &&
-          (location.state.formView === "DashboardView" ||
-            location.state.formView === "DashboardHomeView") &&
-          ((stageName === "Start" && name !== "Acknowledgment_Timely") ||
-            location.state.stageName === "Intake" ||
-            location.state.stageName === "Acknowledge" ||
-            location.state.stageName === "Redirect Review" ||
-            location.state.stageName === "Documents Needed" ||
-            location.state.stageName === "Research" ||
-            location.state.stageName === "Effectuate" ||
-            location.state.stageName === "Pending Effectuate" ||
-            location.state.stageName === "Resolve" ||
-            location.state.stageName === "Case Completed" ||
-            location.state.stageName === "Reopen" ||
-            location.state.stageName === "CaseArchived")
+            location.state.formView === "DashboardView" &&
+            (
+                location.state.stageName === "Case Completed" ||
+                location.state.stageName === "CaseArchived")
+
+
         }
         persist={persistMemberAddDataData}
         schema={props.memberAddOfRecordsValidationSchema}
@@ -78,16 +69,12 @@ const MemberAddOfRecordsAccordion = (props) => {
         onChange={handleMemberAddData}
         displayErrors={props.shouldShowSubmitError}
         disabled={
-          props.renderType === RenderType.APPEALS &&
-          location.state.formView === "DashboardView" &&
-          (location.state.stageName === "Redirect Review" ||
-            location.state.stageName === "Documents Needed" ||
-            location.state.stageName === "Effectuate" ||
-            location.state.stageName === "Pending Effectuate" ||
-            location.state.stageName === "Resolve" ||
-            location.state.stageName === "Case Completed" ||
-            location.state.stageName === "Reopen" ||
-            location.state.stageName === "CaseArchived")
+            location.state.formView === "DashboardView" &&
+            (
+                location.state.stageName === "Case Completed" ||
+                location.state.stageName === "CaseArchived")
+
+
         }
         schema={props.memberAddOfRecordsValidationSchema}
         errors={props.memberAddErrors}

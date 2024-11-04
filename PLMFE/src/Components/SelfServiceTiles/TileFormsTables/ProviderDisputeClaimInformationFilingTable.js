@@ -39,6 +39,7 @@ export default function ProviderDisputeClaimInformationFilingTable({
 
   const { convertToCase } = useGetDBTables();
 
+  let prop = useLocation();
 
   useEffect(() => {
   }, []);
@@ -85,6 +86,13 @@ export default function ProviderDisputeClaimInformationFilingTable({
               event,
               ProviderDisputeClaimInformationFilingTable.displayName,
             )
+
+          }
+          disabled={
+            (prop.state.formView === "DashboardView" &&
+                (
+                    prop.state.stageName === "Case Completed" ||
+                    prop.state.stageName === "CaseArchived"))
           }
         />
       </div>
@@ -99,6 +107,18 @@ export default function ProviderDisputeClaimInformationFilingTable({
           options={options}
           data={gridFieldTempState}
           validationErrors={validationErrors}
+
+          disabled={
+            (prop.state.formView === "DashboardView" &&
+                (((prop.state.stageName === "Intake" || prop.state.stageName === "Acknowledge" || prop.state.stageName === "Research"  || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen"
+                            || prop.state.stageName === "Effectuate" || prop.state.stageName === "Resolve"
+                            || prop.state.stageName === "Reopen")
+                        && name === "Filed_Timely") ||
+                    ((( prop.state.stageName === "Effectuate")
+                            && name !== "Filed_Timely") ||
+                    prop.state.stageName === "Case Completed" ||
+                    prop.state.stageName === "CaseArchived")))
+          }
           onChange={(selectValue, event) =>
             handleGridSelectChange(
               index,

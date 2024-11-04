@@ -117,14 +117,12 @@ useEffect(() => {
               PDCaseInformationTable.displayName,
             )
           }
-          // disabled={
-          //   (prop.state.formView === "DashboardView" &&
-          //     (prop.state.stageName === "Redirect Review" ||
-          //       prop.state.stageName === "Effectuate" ||
-          //       prop.state.stageName === "Pending Effectuate" ||   
-          //       prop.state.stageName === "Case Completed" ||
-          //       prop.state.stageName === "CaseArchived"))   
-          // }
+          disabled={
+            (prop.state.formView === "DashboardView" &&
+                (
+                    prop.state.stageName === "Case Completed" ||
+                    prop.state.stageName === "CaseArchived"))
+          }
         />
       </div>
     );
@@ -146,14 +144,12 @@ useEffect(() => {
               PDCaseInformationTable.displayName,
             )
           }
-          // disabled={
-          //       prop.state.formView === "DashboardView" &&
-          //     (prop.state.stageName === "Redirect Review" ||
-          //       prop.state.stageName === "Effectuate" ||
-          //       prop.state.stageName === "Pending Effectuate" ||   
-          //       prop.state.stageName === "Case Completed" ||
-          //       prop.state.stageName === "CaseArchived")  
-          // }
+          disabled={
+            (prop.state.formView === "DashboardView" &&
+                (
+                    prop.state.stageName === "Case Completed" ||
+                    prop.state.stageName === "CaseArchived"))
+          }
         />
       </div>
     );
@@ -174,14 +170,12 @@ useEffect(() => {
               PDCaseInformationTable.displayName,
             )
           }
-          // disabled={
-          //   prop.state.formView === "DashboardView" &&
-          //     (prop.state.stageName === "Redirect Review" ||
-          //       prop.state.stageName === "Effectuate" ||
-          //       prop.state.stageName === "Pending Effectuate" ||   
-          //       prop.state.stageName === "Case Completed" ||
-          //       prop.state.stageName === "CaseArchived")  
-          // }
+          disabled={
+            (prop.state.formView === "DashboardView" &&
+                (
+                    prop.state.stageName === "Case Completed" ||
+                    prop.state.stageName === "CaseArchived"))
+          }
         />
       </div>
     );

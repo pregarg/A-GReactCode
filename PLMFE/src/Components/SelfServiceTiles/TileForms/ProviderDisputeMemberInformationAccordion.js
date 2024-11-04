@@ -8,6 +8,7 @@ import { useAxios } from "../../../api/axios.hook";
 import { FormikInputField } from "../Common/FormikInputField";
 import { FormikDatePicker } from "../Common/FormikDatePicker";
 import { FormikSelectField } from "../Common/FormikSelectField";
+import {RenderType} from "./Constants";
 
 const ProviderMemberInformationAccordion = (props) => {
   const { convertToCase, extractDate, getDatePartOnly } = useGetDBTables();
@@ -100,7 +101,14 @@ const ProviderMemberInformationAccordion = (props) => {
         maxLength={maxLength}
         data={ProvidermemberInformationData}
         onChange={handleProviderMemberInformationData}
-        disabled={invalidInputState}
+        disabled={
+            location.state.formView === "DashboardView" &&
+            (
+                location.state.stageName === "Case Completed" ||
+                location.state.stageName === "CaseArchived")
+
+
+        }
         persist={persistProviderMemberInformationData}
         // schema={props.ProvidermemberInformationValidationSchema}
         displayErrors={props.shouldShowSubmitError}
@@ -117,15 +125,12 @@ const ProviderMemberInformationAccordion = (props) => {
         label={label}
         onChange={handleProviderMemberInformationData}
         disabled={
-          location.state.formView === "DashboardView" &&
-          (location.state.stageName === "Redirect Review" ||
-            location.state.stageName === "Documents Needed" ||
-            location.state.stageName === "Effectuate" ||
-            location.state.stageName === "Pending Effectuate" ||
-            location.state.stageName === "Resolve" ||
-            location.state.stageName === "Case Completed" ||
-            location.state.stageName === "Reopen" ||
-            location.state.stageName === "CaseArchived")
+            location.state.formView === "DashboardView" &&
+            (
+                location.state.stageName === "Case Completed" ||
+                location.state.stageName === "CaseArchived")
+
+
         }
         displayErrors={props.shouldShowSubmitError}
         // schema={props.ProvidermemberInformationValidationSchema}
@@ -143,15 +148,12 @@ const ProviderMemberInformationAccordion = (props) => {
         onChange={handleProviderMemberInformationData}
         displayErrors={props.shouldShowSubmitError}
         disabled={
-          location.state.formView === "DashboardView" &&
-          (location.state.stageName === "Redirect Review" ||
-            location.state.stageName === "Documents Needed" ||
-            location.state.stageName === "Effectuate" ||
-            location.state.stageName === "Pending Effectuate" ||
-            location.state.stageName === "Resolve" ||
-            location.state.stageName === "Case Completed" ||
-            location.state.stageName === "Reopen" ||
-            location.state.stageName === "CaseArchived")
+            location.state.formView === "DashboardView" &&
+            (
+                location.state.stageName === "Case Completed" ||
+                location.state.stageName === "CaseArchived")
+
+
         }
         // schema={props.ProvidermemberInformationValidationSchema}
         errors={props.ProvidermemberInformationErrors}
