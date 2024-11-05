@@ -78,12 +78,12 @@ export default function GridModal(show) {
             onClick={() => {
               show.handleModalChange(false);
               setModalState(false);
-              show.deleteTableRows(
-                show.dataIndex,
-                show.gridName,
-                show.operationValue,
-              );
-              show.decreaseDataIndex();
+              // show.deleteTableRows(
+              //   show.dataIndex,
+              //   show.gridName,
+              //   show.operationValue,
+              // );
+              // show.decreaseDataIndex();
             }}
             style={{ float: "left" }}
           >

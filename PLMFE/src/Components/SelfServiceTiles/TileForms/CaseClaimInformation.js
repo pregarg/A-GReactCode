@@ -649,10 +649,16 @@ const CaseClaimInformation = (props) => {
       ...claimInformationData,
       [name]: typeof value === "string" ? convertToCase(value) : value,
     };
+    
     setClaimInformationData(newData);
+    if(name === 'Claim_Number') {
+      props.caseInformationData['Claim_Number'] =  typeof value === "string" ? convertToCase(value) : value;
+   //   props.setCaseInformationData({...props.caseInformationData})
+    }
     if (persist) {
       props.setClaimInformationData(newData);
     }
+    
   };
   const persistClaimInformationData = () => {
     props.setClaimInformationData(claimInformationData);
