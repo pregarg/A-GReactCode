@@ -598,9 +598,20 @@ export default function DashboardHomepage() {
       .then((res) => {
         console.log("Get data Response: ", res);
         if (res.data.Status === 0) {
-          const respData = [...res.data.data.mainTable];
+          const respData = [...res.data.data.mainTable]; 
+          const processedData = respData.map(item => {
+            const createdDate = item["Createddatetime#date"];
+            if (createdDate) {
+              item["Createddatetime"] = new Date(createdDate).toISOString().split('T')[0];
+            } else {
+              item["Createddatetime"] = null;
+            }
+            return item; 
+          });
+
+          // Now set the processed data to state
+          console.log("Processed Data: ", processedData);
           console.log("respData1: ", respData);
-          console.log("stdpra2", respData);
           setTableData(respData);
           //setTableData(filterHomePageTable(respData));
         }
@@ -876,6 +887,8 @@ export default function DashboardHomepage() {
     if (gridName === "ProviderDisputes") {
       filteringTableData(provContChartRef.current, caseStat);
     }
+    
+    
 
   };
 
@@ -898,14 +911,36 @@ export default function DashboardHomepage() {
     }
   };
   //Legal Entity Name~OrganizationName,
-  console.log("tableData 1234",tableData)
-  // if(tableData[0].TransactionType === "Provider Disputes"){
-  //   const columnNames ="";
-  //    columnNames = "Case#~CaseNumber,Transaction Type~TransactionType,Stage Name~StageName, States~Field2";
-  // }
-  const columnNames =
-    "Case#~CaseNumber,Transaction Type~TransactionType,NPI~NpiId,First Name~FirstName,Last Name~LastName,Legal Entity Name~LegalEntityName,Status~CaseStatus,Stage Name~StageName, States~Field2";
-  const tdData = () => {
+
+  console.log("tableData",tableData)
+  const filterTableColumnName =(tableData) =>{
+    console.log("tableData 1234",tableData)
+    if (!tableData || tableData.length === 0 || !tableData[0].TransactionType) {
+      return "Case#~CaseNumber,Transaction Type~TransactionType,Stage Name~StageName";
+    }
+    const transactionType = tableData[0].TransactionType;
+    let columnNames ="";
+    if (transactionType === "Provider Disputes" || transactionType === "Appeals") {   
+      console.log("table transactiontype",transactionType)
+      columnNames = "Case#~CaseNumber,Transaction Type~TransactionType,Stage Name~StageName,Previous Stage~PreviousStage,Case Received Date~Createddatetime#date,Decision~Decision";
+  
+    }
+    else 
+    {
+      columnNames =
+    "Case#~CaseNumber,Transaction Type~TransactionType,NPI~NpiId,First Name~FirstName,Last Name~LastName,Legal Entity Name~LegalEntityName,Status~CaseStatus,Stage Name~StageName,States~Field2";
+    }
+    return columnNames; 
+  };
+ 
+  const columnNames = filterTableColumnName(tableData);
+  console.log("columnNames111",columnNames);
+
+  // const columnNames =
+  //   "Case#~CaseNumber,Transaction Type~TransactionType,NPI~NpiId,First Name~FirstName,Last Name~LastName,Legal Entity Name~LegalEntityName,Status~CaseStatus,Stage Name~StageName, States~Field2";
+  
+  
+    const tdData = () => {
     if (tableData.length > 0) {
       console.log("Table Data: ", tableData);
       return tableData.map((data, index) => {
