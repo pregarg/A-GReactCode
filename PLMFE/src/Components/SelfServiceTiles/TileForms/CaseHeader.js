@@ -178,6 +178,8 @@ const CaseHeader = () => {
               <CaseClaimInformation
                 claimInformationData={claimInformation}
                 setClaimInformationData={setClaimInformation}
+                caseInformationData={caseInformation}
+                setCaseInformationData={setCaseInformation}
                 claimInformationValidationSchema={
                   claimInformationValidationSchema
                 }

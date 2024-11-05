@@ -508,34 +508,34 @@ export const useHeader = () => {
     ),*/
   });
   const providerInformationGridValidationSchema = Yup.object().shape({
-    // Point_of_Contact: Yup.string().required("Point of Contact is mandatory"),
-    // Sequential_Provider_ID: Yup.string().required(
-    //    "Sequential Provider ID is mandatory",
-    // ),
-    // Provider_Name: Yup.string().required("Provider Name is mandatory"),
-    // Provider_TIN: Yup.string().required("Provider TIN is mandatory"),
-    // Participating_Provider: Yup.string().required(
-    //   "Participating Provider is mandatory",
-    // ),
-    // Provider_Type: Yup.string().required("Provider Type is mandatory"),
-    // Provider_Vendor_Specialty: Yup.string().required(
-    //    "Provider Vendor Specialty is mandatory",
-    // ),
-    // Mail_to_Address: Yup.string().required("Mail to Address is mandatory"),
-    // Address_Line_1: Yup.string().required("Address Line 1 is mandatory"),
-    // City: Yup.string().required("City is mandatory"),
-    // State: Yup.string().required("State is mandatory"),
-    // Zip_Code: Yup.string().required("Zip Code is mandatory"),
-    // Provider_ID: Yup.string().required("Provider ID is mandatory"),
-    // NPI_ID: Yup.string().required("NPI ID is mandatory"),
-    // Par_Provider_Start_Date: Yup.string().required(
-    //    "Par Provider Start Date is mandatory",
-    // ),
-    // Par_Provider_End_Date: Yup.string().required(
-    //   "Par Provider End Date is mandatory",
-    // ),
-    // Vendor_ID: Yup.string().required("Vendor ID is mandatory"),
-    // Vendor_Name: Yup.string().required("Vendor_Name is mandatory"),
+    Point_of_Contact: Yup.string().required("Point of Contact is mandatory"),
+    Sequential_Provider_ID: Yup.string().required(
+       "Sequential Provider ID is mandatory",
+    ),
+    Provider_Name: Yup.string().required("Provider Name is mandatory"),
+    Provider_TIN: Yup.string().required("Provider TIN is mandatory"),
+    Participating_Provider: Yup.string().required(
+      "Participating Provider is mandatory",
+    ),
+    Provider_Type: Yup.string().required("Provider Type is mandatory"),
+    Provider_Vendor_Specialty: Yup.string().required(
+       "Provider Vendor Specialty is mandatory",
+    ),
+    Mail_to_Address: Yup.string().required("Mail to Address is mandatory"),
+    Address_Line_1: Yup.string().required("Address Line 1 is mandatory"),
+    City: Yup.string().required("City is mandatory"),
+    State: Yup.string().required("State is mandatory"),
+    Zip_Code: Yup.string().required("Zip Code is mandatory"),
+    Provider_ID: Yup.string().required("Provider ID is mandatory"),
+    NPI_ID: Yup.string().required("NPI ID is mandatory"),
+    Par_Provider_Start_Date: Yup.string().required(
+       "Par Provider Start Date is mandatory",
+    ),
+    Par_Provider_End_Date: Yup.string().required(
+      "Par Provider End Date is mandatory",
+    ),
+    Vendor_ID: Yup.string().required("Vendor ID is mandatory"),
+    Vendor_Name: Yup.string().required("Vendor_Name is mandatory"),
     Email_Address: conditionalString(
       "Communication_Preference",
       "EMAIL",
@@ -831,7 +831,7 @@ export const useHeader = () => {
    
 
   const checkForPdGridData = () => {
-    if (!pdClaimInformationGrid?.length || !pdCaseInformationGrid?.length || !ProviderauthorizationInformationGrid?.length) {
+    if (!pdClaimInformationGrid?.length || !pdCaseInformationGrid?.length || !ProviderauthorizationInformationGrid?.length || !pdClaimInformationFilingGrid?.length) {
       return true;
     }
     return false;
@@ -983,10 +983,19 @@ export const useHeader = () => {
       submitCase(procData, navigateHome);
     }
   };
-
+  const checkForAppealsGridData = () => {
+    if (!providerInformationGrid?.length ) {
+      return true;
+    }
+    return false;
+  }
 
   const submitData = async () => {
     // debugger;
+    if(checkForAppealsGridData()) {
+      alert("Please fill all mandatory field")
+      return;
+    }
     if (checkForAppealsError()?.length > 0) {
       alert("Please fill all mandatory field")
       setShowSubmitError(true);
