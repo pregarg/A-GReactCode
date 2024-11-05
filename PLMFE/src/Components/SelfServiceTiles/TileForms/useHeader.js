@@ -1679,7 +1679,13 @@ export const useHeader = () => {
         );
         const complianceTime = `${daysLeft}d ${hoursLeft}h ${minutesLeft}m ${secondsLeft}s`;
       
-         setCaseTimelines(data?.["angCaseTimelines"]?.[0] || {});
+      //  setCaseTimelines(data?.["angCaseTimelines"]?.[0] || {});
+       setCaseTimelines((prevState) => ({
+        ...prevState,
+        ...(data?.["angCaseTimelines"]?.[0] || {}),
+        Case_Aging: caseAgingInDays + " days",
+       Compliance_Time_Left_to_Finish: complianceTime + " remaining",
+      }));
 
         setCaseInformation(data?.["angCaseInformation"]?.[0] || {});
         setClaimInformation(data?.["angClaimInformation"]?.[0] || {});
