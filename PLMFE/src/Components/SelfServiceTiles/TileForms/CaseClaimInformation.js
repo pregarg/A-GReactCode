@@ -649,12 +649,28 @@ const CaseClaimInformation = (props) => {
       ...claimInformationData,
       [name]: typeof value === "string" ? convertToCase(value) : value,
     };
-    
+    if(name === 'Service_End_Date' && claimInformationData['Service_Start_Date'] && value) {
+      const startDate = new Date(claimInformationData['Service_Start_Date']);
+      const endDate = new Date(value);
+      if(endDate<startDate) {
+        alert('service end date can not be greater than service start date');
+        return;
+      }
+    }
+    if(name === 'Service_Start_Date' && claimInformationData['Service_End_Date'] && value) {
+      const startDate = new Date(value);
+      const endDate = new Date(claimInformationData['Service_End_Date']);
+      if(endDate<startDate) {
+        alert('service end date can not be greater than service start date');
+        return;
+      }
+    }
     setClaimInformationData(newData);
     if(name === 'Claim_Number') {
       props.caseInformationData['Claim_Number'] =  typeof value === "string" ? convertToCase(value) : value;
    //   props.setCaseInformationData({...props.caseInformationData})
     }
+    
     if (persist) {
       props.setClaimInformationData(newData);
     }

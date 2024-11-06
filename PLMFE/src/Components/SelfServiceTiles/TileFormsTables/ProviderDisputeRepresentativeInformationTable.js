@@ -182,7 +182,7 @@ export default function RepresentativeInformationTable({
             prop.state.formView === "DashboardView" &&
             (prop.state.stageName === "Redirect Review" ||
               prop.state.stageName === "Documents Needed" ||
-              prop.state.stageName === "CaseArchived")
+              prop.state.stageName === "Case Archived")
           }
         />
       </div>
@@ -214,7 +214,7 @@ export default function RepresentativeInformationTable({
               prop.state.stageName === "Resolve" ||
               prop.state.stageName === "Case Completed" ||
               prop.state.stageName === "Reopen" ||
-              prop.state.stageName === "CaseArchived")
+              prop.state.stageName === "Case Archived")
           }
         />
       </div>
@@ -245,7 +245,7 @@ export default function RepresentativeInformationTable({
               prop.state.stageName === "Resolve" ||
               prop.state.stageName === "Case Completed" ||
               prop.state.stageName === "Reopen" ||
-              prop.state.stageName === "CaseArchived")
+              prop.state.stageName === "Case Archived")
           }
         />
       </div>

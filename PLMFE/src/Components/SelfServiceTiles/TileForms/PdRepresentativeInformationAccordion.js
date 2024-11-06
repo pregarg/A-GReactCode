@@ -55,7 +55,7 @@ const PdRepresentativeInformationAccordion = (props) => {
                 location.state.formView === "DashboardView" &&
                 (
                     location.state.stageName === "Case Completed" ||
-                    location.state.stageName === "CaseArchived")
+                    location.state.stageName === "Case Archived")
 
 
             }
@@ -78,7 +78,7 @@ const PdRepresentativeInformationAccordion = (props) => {
                 location.state.formView === "DashboardView" &&
                 (
                     location.state.stageName === "Case Completed" ||
-                    location.state.stageName === "CaseArchived")
+                    location.state.stageName === "Case Archived")
 
 
             }
@@ -100,7 +100,7 @@ const PdRepresentativeInformationAccordion = (props) => {
                 location.state.formView === "DashboardView" &&
                 (
                     location.state.stageName === "Case Completed" ||
-                    location.state.stageName === "CaseArchived")
+                    location.state.stageName === "Case Archived")
 
 
             }

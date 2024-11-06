@@ -115,7 +115,7 @@ export default function ProviderDisputeClaimInformationFilingTable({
                             || prop.state.stageName === "Reopen")
                         && name === "Filed_Timely") ||
                     ((( prop.state.stageName === "Effectuate")
-                            && name !== "Filed_Timely") ||
+                            && name === "Grant_Good_Cause"|| name === "Good_Cause_Reason" ) ||
                     prop.state.stageName === "Case Completed" ||
                     prop.state.stageName === "CaseArchived")))
           }

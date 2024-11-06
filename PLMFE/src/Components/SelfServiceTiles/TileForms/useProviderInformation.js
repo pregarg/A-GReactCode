@@ -226,6 +226,7 @@ export const useProviderInformation = (renderType) => {
         validation:{}
       },
       {
+
         type: "input",
         name: "ACHHS_Provider_ID",
         placeholder: "ACHHS Provider ID ",
