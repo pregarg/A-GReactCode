@@ -63,7 +63,7 @@ const ProviderMemberInformationAccordion = (props) => {
           location.state.stageName === "Resolve" ||
           location.state.stageName === "Case Completed" ||
           location.state.stageName === "Reopen" ||
-          location.state.stageName === "CaseArchived"),
+          location.state.stageName === "Case Archived"),
     );
   }, [location]);
 
@@ -105,7 +105,7 @@ const ProviderMemberInformationAccordion = (props) => {
             location.state.formView === "DashboardView" &&
             (
                 location.state.stageName === "Case Completed" ||
-                location.state.stageName === "CaseArchived")
+                location.state.stageName === "Case Archived")
 
 
         }
@@ -128,7 +128,7 @@ const ProviderMemberInformationAccordion = (props) => {
             location.state.formView === "DashboardView" &&
             (
                 location.state.stageName === "Case Completed" ||
-                location.state.stageName === "CaseArchived")
+                location.state.stageName === "Case Archived")
 
 
         }
@@ -151,7 +151,7 @@ const ProviderMemberInformationAccordion = (props) => {
             location.state.formView === "DashboardView" &&
             (
                 location.state.stageName === "Case Completed" ||
-                location.state.stageName === "CaseArchived")
+                location.state.stageName === "Case Archived")
 
 
         }
@@ -367,9 +367,8 @@ const ProviderMemberInformationAccordion = (props) => {
               className="btn btn-outline-primary"
               onClick={(event) => handleShowMemberSearch(event)}
               disabled={
-                location.state.stageName === "Redirect Review" ||
-                location.state.stageName === "Documents Needed" ||
-                location.state.stageName === "CaseArchived"
+                location.state.stageName === "Case Completed" ||
+                location.state.stageName === "Case Archived"
               }
             >
               Member Search

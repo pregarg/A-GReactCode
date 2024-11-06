@@ -491,9 +491,8 @@ const AuthorizationInformationAccordion = (props) => {
               className="btn btn-outline-primary"
               onClick={(event) => handleShowAuthSearch(event)}
               disabled={
-                prop.state.stageName === "Redirect Review" ||
-                prop.state.stageName === "Documents Needed" ||
-                prop.state.stageName === "CaseArchived"
+                prop.state.stageName === "Case Completed" ||
+                prop.state.stageName === "Case Archived"
               }
             >
               Auth Search
@@ -506,7 +505,7 @@ const AuthorizationInformationAccordion = (props) => {
                 prop.state.stageName === "Case Completed" ||
                 prop.state.stageName === "Reopen" ||
                 prop.state.stageName === "Research" ||
-                prop.state.stageName === "CaseArchived") && (
+                prop.state.stageName === "Case Archived") && (
                 <div className="col-xs-6 col-md-4">
                   <Field name="authdecision">
                     {({ field, meta }) => (
@@ -550,7 +549,7 @@ const AuthorizationInformationAccordion = (props) => {
                               prop.state.stageName === "Pending Effectuate" ||
                               prop.state.stageName === "Resolve" ||
                               prop.state.stageName === "Case Completed" ||
-                              prop.state.stageName === "CaseArchived")
+                              prop.state.stageName === "Case Archived")
                               ? true
                               : false
                           }
@@ -586,7 +585,7 @@ const AuthorizationInformationAccordion = (props) => {
                 prop.state.stageName === "Case Completed" ||
                 prop.state.stageName === "Reopen" ||
                 prop.state.stageName === "Research" ||
-                prop.state.stageName === "CaseArchived") && (
+                prop.state.stageName === "Case Archived") && (
                 <div className="col-xs-6 col-md-4">
                   <Field name="authdecisionreason">
                     {({ field, meta }) => (

@@ -59,7 +59,7 @@ const DecisionAddOfRecordsAccordion = (props) => {
             location.state.stageName === "Resolve" ||
             location.state.stageName === "Case Completed" ||
             location.state.stageName === "Reopen" ||
-            location.state.stageName === "CaseArchived")
+            location.state.stageName === "Case Archived")
         }
         persist={persistDecisionAddDataData}
         schema={props.decisionAddOfRecordsValidationSchema}
@@ -87,7 +87,7 @@ const DecisionAddOfRecordsAccordion = (props) => {
             location.state.stageName === "Resolve" ||
             location.state.stageName === "Case Completed" ||
             location.state.stageName === "Reopen" ||
-            location.state.stageName === "CaseArchived")
+            location.state.stageName === "Case Archived")
         }
         schema={props.decisionAddOfRecordsValidationSchema}
         errors={props.decisionAddErrors}

@@ -48,7 +48,7 @@ const MemberAddOfRecordsAccordion = (props) => {
             location.state.formView === "DashboardView" &&
             (
                 location.state.stageName === "Case Completed" ||
-                location.state.stageName === "CaseArchived")
+                location.state.stageName === "Case Archived")
 
 
         }
@@ -72,7 +72,7 @@ const MemberAddOfRecordsAccordion = (props) => {
             location.state.formView === "DashboardView" &&
             (
                 location.state.stageName === "Case Completed" ||
-                location.state.stageName === "CaseArchived")
+                location.state.stageName === "Case Archived")
 
 
         }

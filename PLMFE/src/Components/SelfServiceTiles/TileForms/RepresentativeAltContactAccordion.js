@@ -47,7 +47,7 @@ const RepresentativeAltContactAccordion = (props) => {
                 location.state.formView === "DashboardView" &&
                 (
                     location.state.stageName === "Case Completed" ||
-                    location.state.stageName === "CaseArchived")
+                    location.state.stageName === "Case Archived")
 
 
             }
@@ -70,7 +70,7 @@ const RepresentativeAltContactAccordion = (props) => {
             location.state.formView === "DashboardView" &&
             (
                 location.state.stageName === "Case Completed" ||
-                location.state.stageName === "CaseArchived")
+                location.state.stageName === "Case Archived")
 
 
         }
