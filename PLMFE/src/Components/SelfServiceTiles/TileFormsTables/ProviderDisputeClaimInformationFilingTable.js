@@ -16,6 +16,7 @@ const fieldValues = [{
 }]
 
 export default function ProviderDisputeClaimInformationFilingTable({
+
   ProviderclaimInformationFilingGridData,
   deleteTableRows,
   handleGridSelectChange,
@@ -40,6 +41,8 @@ export default function ProviderDisputeClaimInformationFilingTable({
   const { convertToCase } = useGetDBTables();
 
   let prop = useLocation();
+  console.log("ProviderDisputeClaimInformationFilingTable prop.state.stageName",prop.state.stageName) 
+  console.log(" prop.state.formView", prop.state.formView) 
 
   useEffect(() => {
   }, []);
@@ -70,7 +73,10 @@ export default function ProviderDisputeClaimInformationFilingTable({
     }
   }, [gridFieldTempState]);
 
-
+  const providerDisputeConfigData = JSON.parse(
+    process.env.REACT_APP_PROVIDERDISPUTES_DETAILS || "{}",
+  );
+  const PDStageName = providerDisputeConfigData["StageName"];
   const renderSimpleInputField = (name, label, maxLength, index) => {
     return (
       <div className="col-xs-6 col-md-3">
@@ -118,7 +124,9 @@ export default function ProviderDisputeClaimInformationFilingTable({
                             && name === "Grant_Good_Cause"|| name === "Good_Cause_Reason" ) ||
                     prop.state.stageName === "Case Completed" ||
                     prop.state.stageName === "CaseArchived")))
+
           }
+          
           onChange={(selectValue, event) =>
             handleGridSelectChange(
               index,

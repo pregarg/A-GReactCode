@@ -840,7 +840,7 @@ export const useHeader = () => {
   const pdsubmitData = async () => {
 
     if(checkForPdGridData()) {
-      alert("Please fill all mandatory field")
+      alert("Please fill all mandatory grid data")
       return;
     }
 
@@ -1171,7 +1171,7 @@ export const useHeader = () => {
 
   useEffect(() => {
     console.log("pdClaimInformationGrid",pdClaimInformationGrid)
-    if(pdClaimInformationGrid?.length >= 10) {
+    if(pdClaimInformationGrid?.length > 10) {
       caseTimelines['Number_of_Claims_More_Than_10'] = 'YES';
       setCaseTimelines({...caseTimelines})
     }

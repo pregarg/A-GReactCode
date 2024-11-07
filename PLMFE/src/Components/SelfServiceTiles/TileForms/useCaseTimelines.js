@@ -161,6 +161,7 @@ export const useCaseTimelines = (renderType) => {
         type: "select",
         name: "Case_in_Compliance",
         placeholder: "Case in Compliance",
+        defaultValue: "NO",
         values: caseInComplianceValues,
         renderTypes: [RenderType.PROVIDER_DISPUTE],
         validation: {
