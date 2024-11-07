@@ -8,7 +8,6 @@ const ProviderNotesAccordion = (props) => {
   const location = useLocation();
   const [providerNotesData, setProviderNotesData] = useState(props.providerNotesData);
   const [invalidInputState, setInvalidInputState] = useState(false);
-
   const persistProviderNotesInformationData = () => {
     props.setProviderNotesData(providerNotesData);
   };
@@ -31,7 +30,14 @@ const ProviderNotesAccordion = (props) => {
             maxLength={maxLength}
             data={providerNotesData}
             onChange={handleProviderNotesRequestData}
-            disabled={location.state.stageName === "CaseArchived"}
+            disabled={
+                location.state.formView === "DashboardView" &&
+                (
+                    location.state.stageName === "Case Completed" ||
+                    location.state.stageName === "Case Archived")
+
+
+            }
             persist={persistProviderNotesInformationData}
             schema={props.providerNotesValidationSchema}
             displayErrors={props.shouldShowSubmitError}

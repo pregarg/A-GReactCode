@@ -431,9 +431,8 @@ const RepresentativeInformationAccordion = (props) => {
               className="btn btn-outline-primary"
               onClick={(event) => handleshowRepresentativeSearch(event)}
               disabled={
-                prop.state.stageName === "Redirect Review" ||
-                prop.state.stageName === "Documents Needed" ||
-                prop.state.stageName === "CaseArchived"
+                prop.state.stageName === "Case Completed" ||
+                prop.state.stageName === "Case Archived"
               }
             >
               Representative Search

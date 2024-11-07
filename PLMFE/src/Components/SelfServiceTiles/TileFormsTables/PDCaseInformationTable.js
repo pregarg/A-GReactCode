@@ -120,8 +120,14 @@ useEffect(() => {
           disabled={
             (prop.state.formView === "DashboardView" &&
                 (
+                    ((prop.state.stageName === "Intake" || prop.state.stageName === "Acknowledge" )
+                        && (name ==="Claim_Number"|| name ==="Decision_Summary")) ||
+                    ((prop.state.stageName === "Resolved" )
+                        && (name ==="Issue_Number" || name ==="Claim_Number"|| name ==="Decision_Summary" || name ==="Issue_Description")) ||
+                    (( prop.state.stageName === "Effectuate")
+                            && name === "Decision_Summary") ||
                     prop.state.stageName === "Case Completed" ||
-                    prop.state.stageName === "CaseArchived"))
+                    prop.state.stageName === "Case Archived"))
           }
         />
       </div>
@@ -147,8 +153,13 @@ useEffect(() => {
           disabled={
             (prop.state.formView === "DashboardView" &&
                 (
+                    ((prop.state.stageName === "Intake" || prop.state.stageName === "Acknowledge" || prop.state.stageName === "Effectuate")
+                        && (name ==="Decision" || name ==="Decision_Reason")) ||
+                    ((prop.state.stageName === "Resolved" )
+                        && (name ==="Decision" || name ==="Decision_Reason" || name ==="Issue_Type")) ||
+
                     prop.state.stageName === "Case Completed" ||
-                    prop.state.stageName === "CaseArchived"))
+                    prop.state.stageName === "Case Archived"))
           }
         />
       </div>
@@ -173,8 +184,10 @@ useEffect(() => {
           disabled={
             (prop.state.formView === "DashboardView" &&
                 (
+                    ((prop.state.stageName === "Resolved" || prop.state.stageName === "Intake" || prop.state.stageName === "Acknowledge" ||prop.state.stageName === "Effectuate" )
+                        && (name ==="Decision_Time_Date")) ||
                     prop.state.stageName === "Case Completed" ||
-                    prop.state.stageName === "CaseArchived"))
+                    prop.state.stageName === "Case Archived"))
           }
         />
       </div>

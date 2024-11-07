@@ -47,7 +47,7 @@ const MemberAltContactInfoAccordion = (props) => {
                 location.state.formView === "DashboardView" &&
                 (
                     location.state.stageName === "Case Completed" ||
-                    location.state.stageName === "CaseArchived")
+                    location.state.stageName === "Case Archived")
 
 
             }
@@ -71,7 +71,7 @@ const MemberAltContactInfoAccordion = (props) => {
             location.state.formView === "DashboardView" &&
             (
                 location.state.stageName === "Case Completed" ||
-                location.state.stageName === "CaseArchived")
+                location.state.stageName === "Case Archived")
         }
         schema={props.memberAltValidationSchema}
         errors={props.memberAltErrors}

@@ -310,8 +310,11 @@ console.log("props.caseInformationFields", props.caseInformationFields, props.ca
         disabled={
           (prop.state.formView === "DashboardView" &&
               (
+
+                  ((prop.state.stageName === "Research" || prop.state.stageName === "Resolved" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Intake" || prop.state.stageName === "Acknowledge" )
+                      && (name ==="LOB_Description")) ||
                   prop.state.stageName === "Case Completed" ||
-                  prop.state.stageName === "CaseArchived"))
+                  prop.state.stageName === "Case Archived"))
         }
         persist={persistcaseInformationDataData}
         schema={props.pdCaseInformationValidationSchema}
@@ -333,8 +336,12 @@ console.log("props.caseInformationFields", props.caseInformationFields, props.ca
         disabled={
           (prop.state.formView === "DashboardView" &&
               (
+                  ((prop.state.stageName === "Resolved")
+                      && (name ==="Line_Of_Business"|| name === "Product" || name === "OON_Provider")) ||
+                  (( prop.state.stageName === "Effectuate")
+                      && name === "Product" || name ==="Line_Of_Business") ||
                   prop.state.stageName === "Case Completed" ||
-                  prop.state.stageName === "CaseArchived"))
+                  prop.state.stageName === "Case Archived"))
         }
         schema={props.pdCaseInformationValidationSchema}
         errors={props.pdCaseInformationErrors}
