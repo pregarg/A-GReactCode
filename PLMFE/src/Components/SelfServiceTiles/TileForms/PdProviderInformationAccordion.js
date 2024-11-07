@@ -225,8 +225,12 @@ const PdProviderInformationAccordion = (props) => {
             disabled={
                 location.state.formView === "DashboardView" &&
                 (
+                    ((location.state.stageName === "Intake" || location.state.stageName === "Acknowledge" || location.state.stageName === "Research")
+                        && (name ==="ACHHS_Provider_ID"|| name === "Provider_Vendor_Specialty_Description")) ||
+                    ((location.state.stageName === "Reopen")
+                        && (name ==="Sequential_Provider_ID")) ||
                     location.state.stageName === "Case Completed" ||
-                    location.state.stageName === "CaseArchived")
+                    location.state.stageName === "Case Archived")
 
 
             }
@@ -249,7 +253,7 @@ const PdProviderInformationAccordion = (props) => {
                 location.state.formView === "DashboardView" &&
                 (
                     location.state.stageName === "Case Completed" ||
-                    location.state.stageName === "CaseArchived")
+                    location.state.stageName === "Case Archived")
 
 
             }
@@ -271,7 +275,7 @@ const PdProviderInformationAccordion = (props) => {
                 location.state.formView === "DashboardView" &&
                 (
                     location.state.stageName === "Case Completed" ||
-                    location.state.stageName === "CaseArchived")
+                    location.state.stageName === "Case Archived")
 
 
             }
@@ -315,8 +319,7 @@ const PdProviderInformationAccordion = (props) => {
                         className="btn btn-outline-primary"
                         onClick={(event) => handleShowProviderSearch(event)}
                         disabled={
-                            location.state.stageName === "Redirect Review" ||
-                            location.state.stageName === "Documents Needed" ||
+                            location.state.stageName === "Case Completed" ||
                             location.state.stageName === "CaseArchived"
                         }
                     >

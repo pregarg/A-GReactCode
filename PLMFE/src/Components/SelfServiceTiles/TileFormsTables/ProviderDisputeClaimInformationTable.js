@@ -111,9 +111,12 @@ useEffect(() => {
           }
           disabled={
             (prop.state.formView === "DashboardView" &&
-              (
+                (((( prop.state.stageName === "Effectuate"||prop.state.stageName === "Resolved" ||prop.state.stageName === "Reopen" )
+                        && name === "ServiceSpan") ||
+                    (( prop.state.stageName === "Reopen" )
+                        && (name === "CCT_Policy_Name" ||name === "Procedure_Code" ||name === "Patient_Ref"  )||
                 prop.state.stageName === "Case Completed" ||
-                prop.state.stageName === "CaseArchived"))
+                prop.state.stageName === "Case Archived"))))
           }
         />
       </div>
@@ -138,10 +141,9 @@ useEffect(() => {
           }
           disabled={
             (prop.state.formView === "DashboardView" &&
-                (((( prop.state.stageName === "Effectuate")
-                        && name !== "ServiceSpan") ||
+                ((
                     prop.state.stageName === "Case Completed" ||
-                    prop.state.stageName === "CaseArchived")))
+                    prop.state.stageName === "Case Archived")))
           }
         />
       </div>
@@ -167,7 +169,7 @@ useEffect(() => {
             (prop.state.formView === "DashboardView" &&
                 (
                     prop.state.stageName === "Case Completed" ||
-                    prop.state.stageName === "CaseArchived"))
+                    prop.state.stageName === "Case Archived"))
           }
         />
       </div>

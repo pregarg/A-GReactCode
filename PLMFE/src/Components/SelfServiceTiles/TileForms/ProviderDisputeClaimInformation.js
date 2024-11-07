@@ -587,10 +587,6 @@ const ProviderDisputeClaimInformation = (props) => {
     
   }
 
-
-  
-
-
   return (
     <div>
       
@@ -621,8 +617,7 @@ const ProviderDisputeClaimInformation = (props) => {
               className="btn btn-outline-primary"
               onClick={(event) => handleShowClaimSearch(event)}
               disabled={
-                location.state.stageName === "Redirect Review" ||
-                location.state.stageName === "Documents Needed" ||
+                location.state.stageName === "Case Completed" ||
                 location.state.stageName === "CaseArchived"
               }
             >

@@ -139,7 +139,7 @@ export default function AuthorizationInformationTable({
               prop.state.stageName === "Resolve" ||
               prop.state.stageName === "Case Completed" ||
               prop.state.stageName === "Reopen" ||
-              prop.state.stageName === "CaseArchived")
+              prop.state.stageName === "Case Archived")
           }
         />
       </div>
@@ -171,7 +171,7 @@ export default function AuthorizationInformationTable({
               prop.state.stageName === "Resolve" ||
               prop.state.stageName === "Case Completed" ||
               prop.state.stageName === "Reopen" ||
-              prop.state.stageName === "CaseArchived")
+              prop.state.stageName === "Case Archived")
           }
         />
       </div>
@@ -202,7 +202,7 @@ export default function AuthorizationInformationTable({
               prop.state.stageName === "Resolve" ||
               prop.state.stageName === "Case Completed" ||
               prop.state.stageName === "Reopen" ||
-              prop.state.stageName === "CaseArchived")
+              prop.state.stageName === "Case Archived")
           }
         />
       </div>
