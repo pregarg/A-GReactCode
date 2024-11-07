@@ -138,9 +138,9 @@ export const useCaseTimelines = (renderType) => {
           [RenderType.APPEALS]: Yup.string().required(
             "Case Acknowledgment Timely is mandatory",
           ),
-          [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
-              "Case Acknowledgment Timely is mandatory",
-          ),
+          // [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
+          //     "Case Acknowledgment Timely is mandatory",
+          // ),
         },
       },
       {

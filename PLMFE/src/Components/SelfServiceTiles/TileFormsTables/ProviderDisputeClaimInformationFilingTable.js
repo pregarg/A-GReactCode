@@ -41,8 +41,6 @@ export default function ProviderDisputeClaimInformationFilingTable({
   const { convertToCase } = useGetDBTables();
 
   let prop = useLocation();
-  console.log("ProviderDisputeClaimInformationFilingTable prop.state.stageName",prop.state.stageName) 
-  console.log(" prop.state.formView", prop.state.formView) 
 
   useEffect(() => {
   }, []);
@@ -115,15 +113,16 @@ export default function ProviderDisputeClaimInformationFilingTable({
           validationErrors={validationErrors}
 
           disabled={
-            (prop.state.formView === "DashboardView" &&
-                (((prop.state.stageName === "Intake" || prop.state.stageName === "Acknowledge" || prop.state.stageName === "Research"  || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen"
-                            || prop.state.stageName === "Effectuate" || prop.state.stageName === "Resolve"
+            (prop.state.formView === "DashboardView" ||
+                prop.state.formView === "DashboardHomeView") &&
+                (((PDStageName === "Start" || prop.state.stageName === "Intake" || prop.state.stageName === "Acknowledge" || prop.state.stageName === "Research"  || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen"
+                            || prop.state.stageName === "Effectuate"|| prop.state.stageName === "Bulk Effectuate" || prop.state.stageName === "Resolve"
                             || prop.state.stageName === "Reopen")
                         && name === "Filed_Timely") ||
                     ((( prop.state.stageName === "Effectuate")
                             && name === "Grant_Good_Cause"|| name === "Good_Cause_Reason" ) ||
                     prop.state.stageName === "Case Completed" ||
-                    prop.state.stageName === "CaseArchived")))
+                    prop.state.stageName === "CaseArchived"))
 
           }
           

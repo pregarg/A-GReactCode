@@ -111,7 +111,7 @@ useEffect(() => {
           }
           disabled={
             (prop.state.formView === "DashboardView" &&
-                (((( prop.state.stageName === "Effectuate"||prop.state.stageName === "Resolved" ||prop.state.stageName === "Reopen" )
+                (((( prop.state.stageName === "Effectuate"||prop.state.stageName === "Bulk Effectuate"||prop.state.stageName === "Resolved" ||prop.state.stageName === "Reopen" )
                         && name === "ServiceSpan") ||
                     (( prop.state.stageName === "Reopen" )
                         && (name === "CCT_Policy_Name" ||name === "Procedure_Code" ||name === "Patient_Ref"  )||

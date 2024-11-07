@@ -63,11 +63,31 @@ const MemberInformationAccordion = (props) => {
       ...memberInformationData,
       [name]: typeof value === "string" ? convertToCase(value) : value,
     };
+    if(name === 'Plan_Expiration_Date' && memberInformationData['Plan_Effective_Date'] && value) {
+      const effectiveDate = new Date(memberInformationData['Plan_Effective_Date']);
+      const expirationDate = new Date(value);
+      if(expirationDate<effectiveDate) {
+        alert('Plan Expiration Date can not be greater than Plan Effective Date');
+        return;
+      }
+    }
+    if(name === 'Plan_Effective_Date' && memberInformationData['Plan_Expiration_Date'] && value) {
+      const effectiveDate = new Date(value);
+      const expirationDate = new Date(memberInformationData['Plan_Expiration_Date']);
+      if(expirationDate<effectiveDate) {
+        alert('Plan Expiration Date can not be greater than Plan Effective Date');
+        return;
+      }
+    }
+
     setMemberInformationData(newData);
     if (persist) {
       props.setMemberInformationData(newData);
     }
   };
+
+
+
 
   const persistMemberInformationData = () => {
     props.setMemberInformationData(memberInformationData);
@@ -511,7 +531,7 @@ const MemberInformationAccordion = (props) => {
                   handleMemberInformationData(
                     "WhiteGloveReason",
                     e.target.value,
-                    true
+                    false
                   );
                 }}
                 // onChange={
