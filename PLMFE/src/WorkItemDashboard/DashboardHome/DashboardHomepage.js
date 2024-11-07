@@ -1946,59 +1946,71 @@ export default function DashboardHomepage() {
             width: `calc(100% - ${drawerWidth}px)`,
           }}
         >
-          {page === "cards" && (
-            <Grid container spacing={2} padding={1.5}>
-              {advancedSearchState && (
-                <AdvancedSearchModal
-                  showModal={advancedSearchState}
-                  setShowModal={setAdvancedSearchState}
-                  setTableValues={setTableData}
-                  setTableRows={getAllCases}
-                />
-              )}
+        {page === "cards" && (
+  <Grid container spacing={2} padding={1.5} direction="row">
+    {advancedSearchState && (
+      <AdvancedSearchModal
+        showModal={advancedSearchState}
+        setShowModal={setAdvancedSearchState}
+        setTableValues={setTableData}
+        setTableRows={getAllCases}
+      />
+    )}
 
-              <Grid item md={6}>
-                <div
-                  className="card"
-                  style={{
-                    height: "auto",
-                    borderTop: "5px solid var(--text)",
-                  }}
-                >
-                  <div className="card-body">
-                    <div className="card-title" style={{ textAlign: "left" }}>
-                      Appeal Cases
-                    </div>
-                    <div className="card-text my-2">
-                      {provChartData.Appealing.length > 0 && (
-                        <DashboardBarChart
-                          gridData={provChartData.Appealing}
-                          gridName={"Appealing"}
-                          dashboardTableData={getDashboardTableData}
-                          isRender={donutRender}
-                        ></DashboardBarChart>
-                      )}
-                    </div>
-                  </div>
-                  <div className="card-body">
-                    <div className="card-title" style={{ textAlign: "left" }}>
-                      Provider Disputes Cases
-                    </div>
-                    <div className="card-text my-2">
-                      {provChartData.ProviderDisputes.length > 0 && (
-                        <DashboardBarChart
-                          gridData={provChartData.ProviderDisputes}
-                          gridName={"ProviderDisputes"}
-                          dashboardTableData={getDashboardTableData}
-                          isRender={donutRender}
-                        ></DashboardBarChart>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </Grid>
-            </Grid>
-          )}
+    <Grid item md={6}>
+      <div
+        className="card"
+        style={{
+          height: "auto",
+          borderTop: "5px solid var(--text)",
+        }}
+      >
+        <div className="card-body">
+          <div className="card-title" style={{ textAlign: "left" }}>
+            Appeal Cases
+          </div>
+          <div className="card-text my-2">
+            {provChartData.Appealing.length > 0 && (
+              <DashboardBarChart
+                gridData={provChartData.Appealing}
+                gridName={"Appealing"}
+                dashboardTableData={getDashboardTableData}
+                isRender={donutRender}
+              ></DashboardBarChart>
+            )}
+          </div>
+        </div>
+      </div>
+    </Grid>
+
+    <Grid item md={6}>
+      <div
+        className="card"
+        style={{
+          height: "auto",
+          borderTop: "5px solid var(--text)",
+        }}
+      >
+        <div className="card-body">
+          <div className="card-title" style={{ textAlign: "left" }}>
+            Provider Disputes Cases
+          </div>
+          <div className="card-text my-2">
+            {provChartData.ProviderDisputes.length > 0 && (
+              <DashboardBarChart
+                gridData={provChartData.ProviderDisputes}
+                gridName={"ProviderDisputes"}
+                dashboardTableData={getDashboardTableData}
+                isRender={donutRender}
+              ></DashboardBarChart>
+            )}
+          </div>
+        </div>
+      </div>
+    </Grid>
+  </Grid>
+)}
+
           <div style={{ marginBottom: "30px" }}>
             {page === "listUsers" ? (
               <ListUsers page={page} setPage={setPage} />
