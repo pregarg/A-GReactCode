@@ -36,7 +36,7 @@ export default function PDCaseInformationTable({
   const [issueTypeValues, setissueTypeValues] = useState([]);
   const [decisionValues, setdecisionValues] = useState([]);
   const [decisionReasonValues, setdecisionReasonValues] = useState([]);
-
+  const location = useLocation();
   let prop = useLocation();
   const masterPDIssueTypeSelector = useSelector(
     (state) => state?.masterPDIssueType,
@@ -99,7 +99,10 @@ useEffect(() => {
       setValidationErrors(validationErrors);
     }
   }, [gridFieldTempState]);
-
+  const providerDisputeConfigData = JSON.parse(
+      process.env.REACT_APP_PROVIDERDISPUTES_DETAILS || "{}",
+  );
+  const PDStageName = providerDisputeConfigData["StageName"];
 
   const renderSimpleInputField = (name, label, maxLength, index) => {
     return (
@@ -118,16 +121,17 @@ useEffect(() => {
             )
           }
           disabled={
-            (prop.state.formView === "DashboardView" &&
+            (location.state.formView === "DashboardView" ||
+                location.state.formView === "DashboardHomeView") &&
                 (
-                    ((prop.state.stageName === "Intake" || prop.state.stageName === "Acknowledge" )
+                    ((PDStageName === "Start" || location.state.stageName === "Intake" || location.state.stageName === "Acknowledge" )
                         && (name ==="Claim_Number"|| name ==="Decision_Summary")) ||
-                    ((prop.state.stageName === "Resolved" )
+                    ((location.state.stageName === "Resolved" )
                         && (name ==="Issue_Number" || name ==="Claim_Number"|| name ==="Decision_Summary" || name ==="Issue_Description")) ||
-                    (( prop.state.stageName === "Effectuate")
+                    (( location.state.stageName === "Effectuate"||location.state.stageName === "Bulk Effectuate")
                             && name === "Decision_Summary") ||
-                    prop.state.stageName === "Case Completed" ||
-                    prop.state.stageName === "Case Archived"))
+                    location.state.stageName === "Case Completed" ||
+                    location.state.stageName === "Case Archived")
           }
         />
       </div>
@@ -151,15 +155,16 @@ useEffect(() => {
             )
           }
           disabled={
-            (prop.state.formView === "DashboardView" &&
+              (location.state.formView === "DashboardView" ||
+                  location.state.formView === "DashboardHomeView") &&
                 (
-                    ((prop.state.stageName === "Intake" || prop.state.stageName === "Acknowledge" || prop.state.stageName === "Effectuate")
+                    ((PDStageName === "Start"|| location.state.stageName === "Intake" || location.state.stageName === "Acknowledge" || location.state.stageName === "Effectuate"||location.state.stageName === "Bulk Effectuate")
                         && (name ==="Decision" || name ==="Decision_Reason")) ||
                     ((prop.state.stageName === "Resolved" )
                         && (name ==="Decision" || name ==="Decision_Reason" || name ==="Issue_Type")) ||
 
-                    prop.state.stageName === "Case Completed" ||
-                    prop.state.stageName === "Case Archived"))
+                    location.state.stageName === "Case Completed" ||
+                    location.state.stageName === "Case Archived")
           }
         />
       </div>
@@ -182,12 +187,13 @@ useEffect(() => {
             )
           }
           disabled={
-            (prop.state.formView === "DashboardView" &&
+              (location.state.formView === "DashboardView" ||
+                  location.state.formView === "DashboardHomeView") &&
                 (
-                    ((prop.state.stageName === "Resolved" || prop.state.stageName === "Intake" || prop.state.stageName === "Acknowledge" ||prop.state.stageName === "Effectuate" )
+                    ((PDStageName === "Start"|| location.state.stageName === "Resolved" || location.state.stageName === "Intake" || location.state.stageName === "Acknowledge" ||location.state.stageName === "Effectuate" ||location.state.stageName === "Bulk Effectuate" )
                         && (name ==="Decision_Time_Date")) ||
-                    prop.state.stageName === "Case Completed" ||
-                    prop.state.stageName === "Case Archived"))
+                    location.state.stageName === "Case Completed" ||
+                    location.state.stageName === "Case Archived")
           }
         />
       </div>

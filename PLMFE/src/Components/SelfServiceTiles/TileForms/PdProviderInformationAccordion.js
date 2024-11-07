@@ -212,7 +212,10 @@ const PdProviderInformationAccordion = (props) => {
    handleProviderInformationData("isChecked", isCheckedValue, true); // Set 1 if checked, 0 if unchecked
   };
 
-
+  const providerDisputeConfigData = JSON.parse(
+      process.env.REACT_APP_PROVIDERDISPUTES_DETAILS || "{}",
+  );
+  const PDStageName = providerDisputeConfigData["StageName"];
   const renderInputField = (name, placeholder, maxLength) => (
       <div className="col-xs-6 col-md-4">
         <FormikInputField
@@ -223,11 +226,13 @@ const PdProviderInformationAccordion = (props) => {
             onChange={handleProviderInformationData}
             displayErrors={props.shouldShowSubmitError}
             disabled={
-                location.state.formView === "DashboardView" &&
+                (location.state.formView === "DashboardView" ||
+                    location.state.formView === "DashboardHomeView") &&
                 (
-                    ((location.state.stageName === "Intake" || location.state.stageName === "Acknowledge" || location.state.stageName === "Research")
+                    ((PDStageName === "Start" ||location.state.stageName === "Intake" || location.state.stageName === "Acknowledge" || location.state.stageName === "Research")
                         && (name ==="ACHHS_Provider_ID"|| name === "Provider_Vendor_Specialty_Description")) ||
-                    ((location.state.stageName === "Reopen")
+                    ((location.state.stageName === "Reopen"||location.state.stageName === "Effectuate" ||
+              location.state.stageName === "Bulk Effectuate")
                         && (name ==="Sequential_Provider_ID")) ||
                     location.state.stageName === "Case Completed" ||
                     location.state.stageName === "Case Archived")

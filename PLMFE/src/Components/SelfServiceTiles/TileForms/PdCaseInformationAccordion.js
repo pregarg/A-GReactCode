@@ -279,6 +279,10 @@ console.log("props.caseInformationFields", props.caseInformationFields, props.ca
   const persistcaseInformationDataData = () => {
     props.setcaseInformationData(caseInformationData);
   };
+  const providerDisputeConfigData = JSON.parse(
+      process.env.REACT_APP_PROVIDERDISPUTES_DETAILS || "{}",
+  );
+  const PDStageName = providerDisputeConfigData["StageName"];
 
   const renderInputField = (name, placeholder, maxLength) => (
     <div className="col-xs-6 col-md-4">
@@ -290,31 +294,19 @@ console.log("props.caseInformationFields", props.caseInformationFields, props.ca
         data={caseInformationData}
         onChange={handlecaseInformationData}
         displayErrors={props.shouldShowSubmitError}
-        // disabled={
-        //   props.renderType === RenderType.APPEALS &&
-        //   (location.state.formView === "DashboardView" ||
-        //     location.state.formView === "DashboardHomeView") &&
-        //   ((stageName === "Start" && name !== "Acknowledgment_Timely") ||
-        //     location.state.stageName === "Intake" ||
-        //     location.state.stageName === "Acknowledge" ||
-        //     location.state.stageName === "Redirect Review" ||
-        //     location.state.stageName === "Documents Needed" ||
-        //     location.state.stageName === "Research" ||
-        //     location.state.stageName === "Effectuate" ||
-        //     location.state.stageName === "Pending Effectuate" ||
-        //     location.state.stageName === "Resolve" ||
-        //     location.state.stageName === "Case Completed" ||
-        //     location.state.stageName === "Reopen" ||
-        //     location.state.stageName === "CaseArchived")
-        // }
         disabled={
-          (prop.state.formView === "DashboardView" &&
-              (
-
-                  ((prop.state.stageName === "Research" || prop.state.stageName === "Resolved" || prop.state.stageName === "Effectuate" || prop.state.stageName === "Intake" || prop.state.stageName === "Acknowledge" )
-                      && (name ==="LOB_Description")) ||
-                  prop.state.stageName === "Case Completed" ||
-                  prop.state.stageName === "Case Archived"))
+            (location.state.formView === "DashboardView" ||
+                location.state.formView === "DashboardHomeView") &&
+            (((PDStageName === "Start" ||
+                        location.state.stageName === "Intake" ||
+                        location.state.stageName === "Acknowledge"||
+                    location.state.stageName === "Research" ||
+                    location.state.stageName === "Resolve" ||
+                    location.state.stageName === "Effectuate" ||
+                    location.state.stageName === "Bulk Effectuate" ) &&
+                    (name === "LOB_Description")) ||
+                location.state.stageName === "Case Completed" ||
+                location.state.stageName === "CaseArchived")
         }
         persist={persistcaseInformationDataData}
         schema={props.pdCaseInformationValidationSchema}
@@ -337,8 +329,8 @@ console.log("props.caseInformationFields", props.caseInformationFields, props.ca
           (prop.state.formView === "DashboardView" &&
               (
                   ((prop.state.stageName === "Resolved")
-                      && (name ==="Line_Of_Business"|| name === "Product" || name === "OON_Provider")) ||
-                  (( prop.state.stageName === "Effectuate")
+                      && ( name ==="Line_Of_Business"|| name === "Product" || name === "OON_Provider")) ||
+                  (( prop.state.stageName === "Effectuate" || prop.state.stageName === " Bulk Effectuate")
                       && name === "Product" || name ==="Line_Of_Business") ||
                   prop.state.stageName === "Case Completed" ||
                   prop.state.stageName === "Case Archived"))
