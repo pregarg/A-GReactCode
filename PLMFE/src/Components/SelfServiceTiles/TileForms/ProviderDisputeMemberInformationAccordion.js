@@ -102,11 +102,11 @@ const ProviderMemberInformationAccordion = (props) => {
         data={ProvidermemberInformationData}
         onChange={handleProviderMemberInformationData}
         disabled={
-            location.state.formView === "DashboardView" &&
+           (location.state.formView === "DashboardView" ||
+            location.state.formView === "DashboardHomeView") &&
             (
                 location.state.stageName === "Case Completed" ||
                 location.state.stageName === "CaseArchived")
-
 
         }
         persist={persistProviderMemberInformationData}

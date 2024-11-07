@@ -39,40 +39,68 @@ const CaseTimelinesAccordion = (props) => {
     props.setCaseTimelinesData(caseTimelinesData);
   };
  
-  const renderInputField = (name, placeholder, maxLength) => (
-    
-    <div className="col-xs-6 col-md-4">
-      
-      <FormikInputField
-        name={name}
-        placeholder={placeholder}
-        maxLength={maxLength}
-        data={caseTimelinesData}
-        onChange={handleCaseTimelinesData}
-        displayErrors={props.shouldShowSubmitError}
-        disabled={ 
-          (props.renderType === RenderType.APPEALS) && RenderType.PROVIDER_DISPUTE&&
-          (location.state.formView === "DashboardView" ||
-            location.state.formView === "DashboardHomeView") &&
-          ((appealsStageName === "Start" && name !== "Acknowledgment_Timely") ||
-            location.state.stageName === "Intake" ||
-            location.state.stageName === "Acknowledge" ||
-            location.state.stageName === "Redirect Review" ||
-            location.state.stageName === "Documents Needed" ||
-            location.state.stageName === "Research" ||
-            location.state.stageName === "Effectuate" ||
-            location.state.stageName === "Pending Effectuate" ||
-            location.state.stageName === "Resolve" ||
-            location.state.stageName === "Case Completed" ||
-            location.state.stageName === "Reopen" ||
-            location.state.stageName === "CaseArchived")
-        }
-        persist={persistCaseTimelinesData}
-        schema={props.caseTimelinesValidationSchema}
-        errors={props.caseTimelinesErrors}
-      />
-    </div>
-  );
+  const renderInputField = (name, placeholder, maxLength) => {
+    const isDashboardView = 
+      location.state.formView === "DashboardView" || 
+      location.state.formView === "DashboardHomeView";
+  
+    const isAppealsDisabled = 
+      props.renderType === RenderType.APPEALS && 
+      isDashboardView && 
+      (
+        (appealsStageName === "Start" && name !== "Acknowledgment_Timely") ||
+        [
+          "Intake",
+          "Acknowledge",
+          "Redirect Review",
+          "Documents Needed",
+          "Research",
+          "Effectuate",
+          "Pending Effectuate",
+          "Resolve",
+          "Case Completed",
+          "Reopen",
+          "CaseArchived"
+        ].includes(location.state.stageName)
+      );
+  
+    const isProviderDisputeDisabled = 
+      props.renderType === RenderType.PROVIDER_DISPUTE && 
+      isDashboardView && 
+      (
+        (PDStageName === "Start") ||
+        [
+          "Intake",
+          "Acknowledge",
+          "Documents Needed",
+          "Research",
+          "Effectuate",
+          "Resolve",
+          "Case Completed",
+          "Reopen",
+          "CaseArchived"
+        ].includes(location.state.stageName)
+      );
+  
+    const disabled = isAppealsDisabled || isProviderDisputeDisabled;
+  
+    return (
+      <div className="col-xs-6 col-md-4">
+        <FormikInputField
+          name={name}
+          placeholder={placeholder}
+          maxLength={maxLength}
+          data={caseTimelinesData}
+          onChange={handleCaseTimelinesData}
+          displayErrors={props.shouldShowSubmitError}
+          disabled={disabled}
+          persist={persistCaseTimelinesData}
+          schema={props.caseTimelinesValidationSchema}
+          errors={props.caseTimelinesErrors}
+        />
+      </div>
+    );
+  };
 
   const renderDatePicker = (name, placeholder, label) => (
     <div className="col-xs-6 col-md-4">
@@ -100,34 +128,63 @@ const CaseTimelinesAccordion = (props) => {
       />
     </div>
   );
-  const renderSelectField = (name, placeholder, options) => (
-    <div className="col-xs-6 col-md-4">
-      <FormikSelectField
-        name={name}
-        placeholder={placeholder}
-        data={caseTimelinesData}
-        options={options}
-        onChange={handleCaseTimelinesData}
-        displayErrors={props.shouldShowSubmitError}
-        disabled={
-          props.renderType === RenderType.APPEALS && RenderType.PROVIDER_DISPUTE&&
-          location.state.formView === "DashboardView" &&
-          (location.state.stageName === "Redirect Review" ||
-            location.state.stageName === "Documents Needed" ||
-            location.state.stageName === "Effectuate" ||
-            location.state.stageName === "Pending Effectuate" ||
-            location.state.stageName === "Resolve" ||
-            location.state.stageName === "Case Completed" ||
-            location.state.stageName === "Reopen" ||
-            location.state.stageName === "CaseArchived")
-        }
-        schema={props.caseTimelinesValidationSchema}
-        errors={props.caseTimelinesErrors}
-      />
-    </div>
-  );
+  const renderSelectField = (name, placeholder, options) => {
+    const isDashboardView = 
+      location.state.formView === "DashboardView" || 
+      location.state.formView === "DashboardHomeView";
   
-
+    const isAppealsDisabled = 
+      props.renderType === RenderType.APPEALS &&
+      isDashboardView &&
+      (
+        location.state.stageName === "Redirect Review" ||
+        location.state.stageName === "Documents Needed" ||
+        location.state.stageName === "Effectuate" ||
+        location.state.stageName === "Pending Effectuate" ||
+        location.state.stageName === "Resolve" ||
+        location.state.stageName === "Case Completed" ||
+        location.state.stageName === "Reopen" ||
+        location.state.stageName === "CaseArchived"
+      );
+  
+    const isProviderDisputeDisabled = 
+      props.renderType === RenderType.PROVIDER_DISPUTE &&
+      isDashboardView &&
+      (
+        (name === "Timeframe_Extended" || name === "Case_in_Compliance") && 
+        (
+          PDStageName === "Start" || 
+          location.state.stageName === "Intake" ||
+          location.state.stageName === "Acknowledge" ||
+          location.state.stageName === "Effectuate" ||
+          location.state.stageName === "Bulk Effectuate" ||
+          location.state.stageName === "Documents Needed" ||
+          location.state.stageName === "Resolve" ||
+          location.state.stageName === "Case Completed" ||
+          location.state.stageName === "Reopen" ||
+          location.state.stageName === "CaseArchived"
+        )
+      );
+  
+    const disabled = isAppealsDisabled || isProviderDisputeDisabled;
+  
+    return (
+      <div className="col-xs-6 col-md-4">
+        <FormikSelectField
+          name={name}
+          placeholder={placeholder}
+          data={caseTimelinesData}
+          options={options}
+          onChange={handleCaseTimelinesData}
+          displayErrors={props.shouldShowSubmitError}
+          disabled={disabled}
+          schema={props.caseTimelinesValidationSchema}
+          errors={props.caseTimelinesErrors}
+        />
+      </div>
+    );
+  };
+  
 
   
   return (
