@@ -24,6 +24,7 @@ export default function GridModal(show) {
               color: "var(--white-shade)",
               fontSize: "var(--font-size-large)",
               fontWeight: 600,
+              height: 12,
             }}
           >
             {show.name ? show.name : ""}

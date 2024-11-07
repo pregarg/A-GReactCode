@@ -165,7 +165,7 @@ const PdProviderInformationAccordion = (props) => {
       return <></>;
     }
   };
-  const handleClearProviderInformationSearch = () => {
+  const handleClearSearch = () => {
     setSelectSearchValues([]);
     setSelectedCriteria([]);
     setResponseData([]);
@@ -354,7 +354,7 @@ const PdProviderInformationAccordion = (props) => {
                           setSelectSearchValues={setSelectSearchValues}
                           responseData={responseData}
                           setResponseData={setResponseData}
-                          handleClearProviderInformationSearch={handleClearProviderInformationSearch}
+                          handleClearSearch={handleClearSearch}
                           showProviderSearch={showProviderSearch}
                           showProviders={showProviders}
                           providerSearchTableComponent={providerSearchTableComponent}

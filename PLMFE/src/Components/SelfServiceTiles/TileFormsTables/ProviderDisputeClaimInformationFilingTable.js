@@ -115,15 +115,21 @@ export default function ProviderDisputeClaimInformationFilingTable({
           validationErrors={validationErrors}
 
           disabled={
-            (prop.state.formView === "DashboardView" &&
-                (((prop.state.stageName === "Intake" || prop.state.stageName === "Acknowledge" || prop.state.stageName === "Research"  || prop.state.stageName === "Case Completed" || prop.state.stageName === "Reopen"
-                            || prop.state.stageName === "Effectuate" || prop.state.stageName === "Resolve"
-                            || prop.state.stageName === "Reopen")
-                        && name === "Filed_Timely") ||
-                    ((( prop.state.stageName === "Effectuate")
-                            && name === "Grant_Good_Cause"|| name === "Good_Cause_Reason" ) ||
-                    prop.state.stageName === "Case Completed" ||
-                    prop.state.stageName === "CaseArchived")))
+            (prop.state.formView === "DashboardView" || 
+            ( PDStageName === "Start" ||
+              [
+                "Intake", "Acknowledge", "Documents Needed", 
+                "Research", "Effectuate", "Bulk Effectuate", 
+                "Resolution Letter Pending", "Resolved", "Case Completed", 
+                "Reopen", "State Fair Hearing", "CaseArchived"
+              ].includes(prop.state.stageName) && name === "Filed_Timely"
+            )) ||
+            (
+              [
+                "Effectuate", "Bulk Effectuate", "Case Completed", "CaseArchived"
+              ].includes(prop.state.stageName) && 
+              (name === "Grant_Good_Cause" || name === "Good_Cause_Reason")
+            )
           }
           
           onChange={(selectValue, event) =>

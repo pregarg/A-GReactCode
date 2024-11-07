@@ -445,7 +445,7 @@ export default function ProviderSearch(modalProps) {
             id="closeButton"
             style={{ float: "right", marginLeft: "10px" }}
             onClick={() => {
-              modalProps.handleClearProviderInformationSearch(false);
+              modalProps.handleClearSearch(false);
             }}
           >
             Clear

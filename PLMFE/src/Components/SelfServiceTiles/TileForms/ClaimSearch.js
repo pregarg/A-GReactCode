@@ -294,7 +294,7 @@ export default function ClaimSearch(modalProps) {
             id="closeButton"
             style={{ float: "right", marginLeft: "10px" }}
             onClick={() => {
-              modalProps.handleClearClaimSearch(false);
+              modalProps.handleClearSearch(false);
             }}
           >
             Clear

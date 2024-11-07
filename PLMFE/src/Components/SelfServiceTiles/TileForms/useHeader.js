@@ -993,7 +993,7 @@ export const useHeader = () => {
   const submitData = async () => {
     // debugger;
     if(checkForAppealsGridData()) {
-      alert("Please fill all mandatory field")
+      alert("Please fill all mandatory grid data")
       return;
     }
     if (checkForAppealsError()?.length > 0) {
