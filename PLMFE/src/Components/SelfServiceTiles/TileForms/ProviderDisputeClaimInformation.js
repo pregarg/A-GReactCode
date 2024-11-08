@@ -437,6 +437,7 @@ const ProviderDisputeClaimInformation = (props) => {
   };
 
   const handleGridSelectChange = (index, selectedValue, event) => {
+
     const { name } = event;
     setGridFieldTempState({
       ...gridFieldTempState,
@@ -453,6 +454,22 @@ const ProviderDisputeClaimInformation = (props) => {
   };
 
   const handleGridDateChange = (index, selectedValue, fieldName) => {
+    if(fieldName ===  'Service_End_Date' && gridFieldTempState['Service_Start_Date'] && selectedValue) {
+      const startDate = new Date(gridFieldTempState['Service_Start_Date']);
+      const endDate = new Date(selectedValue);
+      if(endDate<startDate) {
+        alert('Service end Date can not be greater than Service start Date');
+        return;
+      }
+    }
+    if(fieldName === 'Service_Start_Date' && gridFieldTempState['Service_End_Date'] && selectedValue) {
+      const startDate = new Date(selectedValue);
+      const endDate = new Date(gridFieldTempState['Service_End_Date']);
+      if(endDate<startDate) {
+        alert('Service end Date can not be greater than Service start Date');
+        return;
+      }
+    }
     let tempInput = { ...gridFieldTempState };
     tempInput[fieldName] = selectedValue;
     setGridFieldTempState(tempInput);
@@ -478,6 +495,7 @@ const ProviderDisputeClaimInformation = (props) => {
   };
 
   const handleGridFieldChange = (index, event) => {
+
     let tempInput = { ...gridFieldTempState };
     let { name, value } = event.target;
     tempInput[name] = value.toUpperCase();

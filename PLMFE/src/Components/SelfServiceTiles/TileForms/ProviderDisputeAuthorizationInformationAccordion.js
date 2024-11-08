@@ -178,9 +178,37 @@ const AuthorizationInformationAccordion = (props) => {
   };
 
   const handleGridDateChange = (index, selectedValue, fieldName) => {
+    if(fieldName ===  'Auth_Expiration_Date' && gridFieldTempState['Auth_Request_Date'] && selectedValue) {
+      const selectedDate = new Date(gridFieldTempState['Auth_Request_Date']);
+      const expirationDate = new Date(selectedValue);
+      if(expirationDate<selectedDate) {
+        alert('Expiration Date can not be greater than Request Date');
+        return;
+      }
+    }
+    if(fieldName === 'Auth_Request_Date' && gridFieldTempState['Auth_Expiration_Date'] && selectedValue) {
+      const selectedDate = new Date(selectedValue);
+      const expirationDate = new Date(gridFieldTempState['Auth_Expiration_Date']);
+      if(expirationDate<selectedDate) {
+        alert(' Expiration Date can not be greater than Request Date');
+        return;
+      }
+    }
+    if (fieldName === 'Service_Start_Date' && gridFieldTempState['Auth_Request_Date'] && gridFieldTempState['Auth_Expiration_Date'] && selectedValue) {
+      const requestDate = new Date(gridFieldTempState['Auth_Request_Date']);
+      const expirationDate = new Date(gridFieldTempState['Auth_Expiration_Date']);
+      const serviceStartDate = new Date(selectedValue);
+
+      if (serviceStartDate < requestDate || serviceStartDate > expirationDate) {
+        alert('Service Start Date must be between Request Date and Expiration Date');
+        return;
+      }
+    }
+
     let tempInput = { ...gridFieldTempState };
     tempInput[fieldName] = selectedValue;
     setGridFieldTempState(tempInput);
+
   };
 
   const handleGridFieldChange = (index, event) => {
