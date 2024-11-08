@@ -89,27 +89,100 @@ const DocsNeededAccordion = (props) => {
     fieldName,
     triggeredFormName,
   ) => {
+    if(fieldName ===  'Received_Date' && gridFieldTempState['Request_Date'] && selectedValue) {
+      const requestDate = new Date(gridFieldTempState['Request_Date']);
+      const receivedDate = new Date(selectedValue);
+      if(receivedDate<requestDate) {
+        alert('Request Date can not be greater than Received Date');
+        return;
+      }
+    }
+    if(fieldName === 'Request_Date' && gridFieldTempState['Received_Date'] && selectedValue) {
+      const requestDate = new Date(selectedValue);
+      const receivedDate = new Date(gridFieldTempState['Received_Date']);
+      if(receivedDate<requestDate) {
+        alert('Request Date can not be greater than Received Date');
+        return;
+      }
+    }
+    if(fieldName ===  'Due_Date' && gridFieldTempState['Request_Date'] && selectedValue) {
+      const requestDate = new Date(gridFieldTempState['Request_Date']);
+      const dueDate = new Date(selectedValue);
+      if(dueDate<requestDate) {
+        alert('Request Date can not be greater than Due Date');
+        return;
+      }
+    }
+    if(fieldName === 'Request_Date' && gridFieldTempState['Due_Date'] && selectedValue) {
+      const requestDate = new Date(selectedValue);
+      const dueDate = new Date(gridFieldTempState['Due_Date']);
+      if(dueDate<requestDate) {
+        alert('Request Date can not be greater than Due Date');
+        return;
+      }
+    }
+    if(fieldName ===  'Follow_Up2_Date' && gridFieldTempState['Follow_Up1_Date'] && selectedValue) {
+      const followup1Date = new Date(gridFieldTempState['Follow_Up1_Date']);
+      const followup2Date = new Date(selectedValue);
+      if(followup2Date<followup1Date) {
+        alert('First Follow up date can not be greater than second follow up date');
+        return;
+      }
+    }
+    if(fieldName === 'Follow_Up1_Date' && gridFieldTempState['Follow_Up2_Date'] && selectedValue) {
+      const followup1Date = new Date(selectedValue);
+      const followup2Date = new Date(gridFieldTempState['Follow_Up2_Date']);
+      if(followup2Date<followup1Date) {
+        alert('First Follow up date can not be greater than second follow up date');
+        return;
+      }
+    }
+    if (fieldName === 'Follow_Up1_Date' && gridFieldTempState['Request_Date'] && gridFieldTempState['Received_Date'] && selectedValue) {
+      const requestDate = new Date(gridFieldTempState['Request_Date']);
+      const receivedDate = new Date(gridFieldTempState['Received_Date']);
+      const followup1Date = new Date(selectedValue);
+
+      if (followup1Date < requestDate || followup1Date > receivedDate) {
+        alert('First Followup Date must be between Request Date and Received Date');
+        return;
+      }
+    }
+
+    // New validation to ensure Follow_Up2_Date is between Request_Date and Received_Date
+    if (fieldName === 'Follow_Up2_Date' && gridFieldTempState['Request_Date'] && gridFieldTempState['Received_Date'] && selectedValue) {
+      const requestDate = new Date(gridFieldTempState['Request_Date']);
+      const receivedDate = new Date(gridFieldTempState['Received_Date']);
+      const followup2Date = new Date(selectedValue);
+
+      if (followup2Date < requestDate || followup2Date > receivedDate) {
+        alert('Second Followup date must be between Request Date and Received Date');
+        return;
+      }
+    }
+
+
     let tempInput = { ...gridFieldTempState };
     tempInput[fieldName] = selectedValue;
     console.log("tempInput:",tempInput);
     setGridFieldTempState(tempInput);
+
   };
 
   const handleGridFieldChange = (index, evnt, triggeredFormName) => {
-    console.log("Inside handleGridFieldChange: ", triggeredFormName);
+
     //let rowsInput = "";
 
     let tempInput = { ...gridFieldTempState };
     let { name, value } = evnt.target;
-    console.log("Inside handleGridFieldChange: ", value, tempInput);
+
 
     tempInput[name] = value.toUpperCase();
     setGridFieldTempState(tempInput);
-    console.log("gridFieldTempState", gridFieldTempState);
+
   };
 
   const editTableRows = (index, triggeredFormName) => {
-    console.log("Inside Representative editTableRows: ", triggeredFormName);
+
     let rowInput = {};
 
     if (triggeredFormName === "DocNeededTable") {

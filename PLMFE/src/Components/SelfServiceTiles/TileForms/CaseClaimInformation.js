@@ -490,6 +490,38 @@ const CaseClaimInformation = (props) => {
       );
       setGridFieldTempState(tempInput);
     }
+    if(fieldName ===  'Service_End_Date' && gridFieldTempState['Service_Start_Date'] && selectedValue) {
+      const startDate = new Date(gridFieldTempState['Service_Start_Date']);
+      const endDate = new Date(selectedValue);
+      if(endDate<startDate) {
+        alert('Service end Date can not be greater than Service start Date');
+        return;
+      }
+    }
+    if(fieldName === 'Service_Start_Date' && gridFieldTempState['Service_End_Date'] && selectedValue) {
+      const startDate = new Date(selectedValue);
+      const endDate = new Date(gridFieldTempState['Service_End_Date']);
+      if(endDate<startDate) {
+        alert('Service end Date can not be greater than Service start Date');
+        return;
+      }
+    }
+    if(fieldName ===  'Par_Provider_End_Date' && gridFieldTempState['Par_Provider_Start_Date'] && selectedValue) {
+      const startDate = new Date(gridFieldTempState['Par_Provider_Start_Date']);
+      const endDate = new Date(selectedValue);
+      if(endDate<startDate) {
+        alert('End Date can not be greater than  Start Date');
+        return;
+      }
+    }
+    if(fieldName === 'Par_Provider_Start_Date' && gridFieldTempState['Par_Provider_End_Date'] && selectedValue) {
+      const startDate = new Date(selectedValue);
+      const endDate = new Date(gridFieldTempState['Par_Provider_End_Date']);
+      if(endDate<startDate) {
+        alert('End Date can not be greater than  Start Date');
+        return;
+      }
+    }
   };
   const calculateDaysDifference = (startDate, endDate) => {
     if (!startDate || !endDate) return null;
@@ -665,6 +697,7 @@ const CaseClaimInformation = (props) => {
         return;
       }
     }
+
     setClaimInformationData(newData);
     if(name === 'Claim_Number') {
       props.caseInformationData['Claim_Number'] =  typeof value === "string" ? convertToCase(value) : value;

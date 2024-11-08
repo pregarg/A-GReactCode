@@ -172,6 +172,22 @@ const AuthorizationInformationAccordion = (props) => {
   };
 
   const handleGridDateChange = (index, selectedValue, fieldName) => {
+    if(fieldName ===  'Auth_Expiration_Date' && gridFieldTempState['Auth_Request_Date'] && selectedValue) {
+      const requestDate = new Date(gridFieldTempState['Auth_Request_Date']);
+      const expirationDate = new Date(selectedValue);
+      if(expirationDate<requestDate) {
+        alert('Auth Request Date can not be greater than Auth Expiration Date');
+        return;
+      }
+    }
+    if(fieldName === 'Auth_Request_Date' && gridFieldTempState['Auth_Expiration_Date'] && selectedValue) {
+      const requestDate = new Date(selectedValue);
+      const expirationDate = new Date(gridFieldTempState['Auth_Expiration_Date']);
+      if(expirationDate<requestDate) {
+        alert('Auth Request Date can not be greater than Auth Expiration Date');
+        return;
+      }
+    }
     let tempInput = { ...gridFieldTempState };
     tempInput[fieldName] = selectedValue;
     setGridFieldTempState(tempInput);
