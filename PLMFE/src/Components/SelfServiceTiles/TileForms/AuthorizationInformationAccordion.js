@@ -34,6 +34,8 @@ const AuthorizationInformationAccordion = (props) => {
 
   const { ValueContainer, Placeholder } = components;
 
+  const [whiteGloveIndicator, setWhiteGloveIndicator] = useState(props.handleData?.isChecked === '1');
+
   const [authorizationInformationData, setAuthorizationInformationData] =
     useState(props.handleData);
 
@@ -312,6 +314,31 @@ const AuthorizationInformationAccordion = (props) => {
     );
     
 }, []);
+
+const handleAuthInformationData = (name, value, persist) => {
+  const newData = {
+    ...authorizationInformationData,
+    [name]: typeof value === "string" ? convertToCase(value) : value,
+  };
+ 
+
+  setAuthorizationInformationData(newData);
+  if (persist) {
+    props.setAuthorizationInformation(newData);
+  }
+};
+
+const handleWhiteGloveChange = (e) => {
+  const isChecked = e.target.checked;
+  setWhiteGloveIndicator(isChecked);
+  authorizationInformationData.isChecked = isChecked ? '1': '';
+  props.setAuthorizationInformation({...authorizationInformationData});
+  // if (isChecked) {
+  //   setWhiteGloveCancelledReason("");
+  // } else {
+  //   setWhiteGloveReason("");
+  // }
+};
   // const authorizationDecisionValues = [
   //   { value: "APPROVED", label: "APPROVED" },
   //   { value: "DENIED", label: "DENIED" },
@@ -692,6 +719,87 @@ const AuthorizationInformationAccordion = (props) => {
                   />
                 </div>
               )}
+            </div>
+
+            <div className="row">
+
+              <div
+                className="col-xs-6 col-md-4"
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={whiteGloveIndicator}
+                    onChange={handleWhiteGloveChange}
+                    disabled={""}
+                    style={{ marginRight: "8px" }}
+                  />
+                  White Glove Indicator?
+                </label>
+              </div>
+            </div>
+
+            <div className="form-floating">
+              <input
+                id="WhiteGloveReason"
+                name="WhiteGloveReason"
+                maxLength="4000"
+                type="text"
+                className="form-control"
+                placeholder="White Glove Reason"
+                // value={whiteGloveReason}
+                value={authorizationInformationData.WhiteGloveReason || ""}
+                onChange={(e) => {
+                  console.log("Input value:", e.target.value);
+                  handleAuthInformationData(
+                    "WhiteGloveReason",
+                    e.target.value,
+                    true
+                  );
+                }}
+                // onChange={
+                //   (e) => { console.log("Input value:", e.target.value)
+                //      setWhiteGloveReason(e.target.value)}}
+
+                disabled={!whiteGloveIndicator}
+              />
+              <label>White Glove Reason</label>
+              <div
+                className="invalid-feedback"
+                style={{ display: "block" }}
+              ></div>
+            </div>
+
+            <div className="form-floating">
+              <input
+                id="WhiteGloveCancelledReason"
+                name="WhiteGloveCancelledReason"
+                maxLength="4000"
+                type="text"
+                className="form-control"
+                placeholder="White Glove Cancelled Reason"
+                value={authorizationInformationData.WhiteGloveCancelledReason || ""}
+                // onChange={(e) => setWhiteGloveCancelledReason(e.target.value)}
+                onChange={(e) => {
+                  console.log("Input value:", e.target.value);
+                  handleAuthInformationData(
+                    "WhiteGloveCancelledReason",
+                    e.target.value,
+                    true
+                  );
+                }}
+                disabled={whiteGloveIndicator}
+              />
+              <label>White Glove Cancelled Reason</label>
+              <div
+                className="invalid-feedback"
+                style={{ display: "block" }}
+              ></div>
             </div>
 
             <div className="row">

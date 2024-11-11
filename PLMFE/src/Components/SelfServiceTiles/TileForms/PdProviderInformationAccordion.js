@@ -230,7 +230,7 @@ const PdProviderInformationAccordion = (props) => {
                     location.state.formView === "DashboardHomeView") &&
                 (
                     ((PDStageName === "Start" ||location.state.stageName === "Intake" || location.state.stageName === "Acknowledge" || location.state.stageName === "Research")
-                        && (name ==="ACHHS_Provider_ID"|| name === "Provider_Vendor_Specialty_Description")) ||
+                        && (name ==="ACHHS_Provider_ID"|| name === "Provider_Vendor_Specialty_Description"||location.state.stageName === "Reopen"||location.state.stageName === "Resolve")) ||
                     ((location.state.stageName === "Reopen"||location.state.stageName === "Effectuate" ||
               location.state.stageName === "Bulk Effectuate")
                         && (name ==="Sequential_Provider_ID")) ||

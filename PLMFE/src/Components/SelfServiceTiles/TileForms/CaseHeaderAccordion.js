@@ -28,7 +28,10 @@ const CaseHeaderAccordion = (props) => {
               {chunk.map((el) => (
                 <div className="col-xs-6 col-md-4 case-field-wrapper">
                   <span>{el.placeholder}: </span>
-                  <span>{convertToCase(caseHeaderData?.[el?.name])}</span>
+                  {el.name === 'White_Glove_Indicator' ? 
+                  props.memberInformationData.isChecked === '1' || 
+                  props.authorizationInformation.isChecked === '1' ? <span className="required">its Urgent</span> : <span></span>
+                  : <span>{convertToCase(caseHeaderData?.[el?.name])}</span>}
                 </div>
               ))}
             </div>

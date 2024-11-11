@@ -817,6 +817,8 @@ export const useHeader = () => {
       })
   }
   const checkForAppealsError = () => {
+  
+    console.log(memberInformation.isChecked)
     return Object.keys({
       ...caseTimelinesErrors,
       ...caseInformationErrors,
@@ -992,16 +994,32 @@ export const useHeader = () => {
 
   const submitData = async () => {
     // debugger;
+    if(memberInformation.isChecked === '1') {
+      if(!memberInformation.WhiteGloveReason) {
+        alert("Member Information section White glove reason need to be filled")
+        return;
+      }
+    }
+    if(authorizationInformation.isChecked === '1') {
+      if(!authorizationInformation.WhiteGloveReason) {
+        alert(" Authorization Information Section White glove reason need to be filled")
+        return;
+      }
+    }
+
     if(checkForAppealsGridData()) {
       alert("Please fill all mandatory grid data")
       return;
     }
+
     if (checkForAppealsError()?.length > 0) {
       alert("Please fill all mandatory field")
       setShowSubmitError(true);
       return;
 
     }
+
+   
 
 
 
@@ -1939,6 +1957,18 @@ export const useHeader = () => {
   //save and exit button
   const saveAndExit = async () => {
     console.log("step0")
+    if(memberInformation.isChecked === '1') {
+      if(!memberInformation.WhiteGloveReason) {
+        alert("White glove reason need to be filled")
+        return;
+      }
+    }
+    if(authorizationInformation.isChecked === '1') {
+      if(!authorizationInformation.WhiteGloveReason) {
+        alert(" authorizationInformation - White glove reason need to be filled")
+        return;
+      }
+    }
     if (checkForAppealsError()?.length > 0) {
    // if (hasSubmitError) {
       alert("Please fill all mandatory field")

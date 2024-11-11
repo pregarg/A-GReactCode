@@ -64,6 +64,7 @@ const CaseHeader = () => {
     representativeInformationGrid,
     setRepresentativeInformationGrid,
     handleAuthorizationInformationChange,
+    handleRepresentativeInformationChange,
     authorizationInformation,
     setAuthorizationInformation,
     authorizationInformationGrid,
@@ -154,6 +155,8 @@ const CaseHeader = () => {
                 handleData={caseHeader}
                 setCaseHeader={setCaseHeader}
                 caseHeaderFields={caseHeaderFields}
+                memberInformationData={memberInformation}
+                authorizationInformation={authorizationInformation}
               />
               )} 
               <CaseTimelinesAccordion
@@ -219,6 +222,7 @@ const CaseHeader = () => {
               <AuthorizationInformationAccordion
                 handleOnChange={handleAuthorizationInformationChange}
                 handleData={authorizationInformation}
+                setAuthorizationInformation={setAuthorizationInformation}
                 handleAuthorizationInformationGridData={
                   authorizationInformationGrid
                 }
