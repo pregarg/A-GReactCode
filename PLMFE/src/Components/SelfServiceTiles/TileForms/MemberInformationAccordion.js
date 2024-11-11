@@ -531,7 +531,7 @@ const MemberInformationAccordion = (props) => {
                   handleMemberInformationData(
                     "WhiteGloveReason",
                     e.target.value,
-                    false
+                    true
                   );
                 }}
                 // onChange={

@@ -236,10 +236,10 @@ export default function ClaimInformationTable({
         <div className="Container AddProviderLabel AddModalLabel">
           <div className="row">
             {renderSimpleInputField("Issue_Number", "Issue Number", 50, index)}
-            {renderSimpleSelectField(
+            {renderSimpleInputField(
               "Line_Number",
               "Line Number",
-              lineNumberOptions,
+                17,
               index,
             )}
             {renderSimpleInputField(
