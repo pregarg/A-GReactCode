@@ -22,13 +22,130 @@ export default function AuthSearch(modalProps) {
     });
   };
 
+  // const handleDateChange = (date, name) => {
+  //   console.log("service_start_date-->", date, name);
+  //   modalProps.setSelectSearchValues({
+  //     ...modalProps.selectSearchValues,
+  //     [name]: date,
+  //   });
+  // };
+
   const handleDateChange = (date, name) => {
-    console.log("service_start_date-->", date, name);
+    console.log(name, "changed to", date);
+  
+    if (!date) {
+      modalProps.setSelectSearchValues({
+        ...modalProps.selectSearchValues,
+        [name]: date,
+      });
+      return;
+    }
+  
+    const selectedCriteria = modalProps.selectedCriteria;
+    console.log("Selected Criteria:", selectedCriteria);
+  
+    let startDate, endDate, startDate2, endDate2;
+  
+    if (selectedCriteria === "provider") {
+      startDate = modalProps.selectSearchValues?.fromDate;
+      endDate = modalProps.selectSearchValues?.toDate;
+    } else if (selectedCriteria === "provider2") {
+      startDate2 = modalProps.selectSearchValues?.admitPrimaryFromDate;
+      endDate2 = modalProps.selectSearchValues?.admitPrimaryToDate;
+    } else if (selectedCriteria === "sequentialID") {
+      startDate = modalProps.selectSearchValues?.fromDate2;
+      endDate = modalProps.selectSearchValues?.toDate2;
+    } else if (selectedCriteria === "sequential2") {
+      startDate2 = modalProps.selectSearchValues?.admitPrimaryFromDate2;
+      endDate2 = modalProps.selectSearchValues?.admitPrimaryToDate2;
+    }
+  
+    console.log("startDate:", startDate); 
+    console.log("endDate:", endDate); 
+    console.log("startDate2:", startDate2); 
+    console.log("endDate2:", endDate2);
+  
+    if (selectedCriteria === "provider") {
+      if (name === "fromDate" && endDate) {
+        const fromDate = new Date(date);
+        const toDate = new Date(endDate);
+        if (fromDate > toDate) {
+          alert("From Date cannot be later than To Date.");
+          return;
+        }
+      } else if (name === "toDate" && startDate) {
+        const fromDate = new Date(startDate);
+        const toDate = new Date(date);
+        if (toDate < fromDate) {
+          alert("To Date cannot be earlier than From Date.");
+          return;
+        }
+      }
+    }
+  
+    if (selectedCriteria === "sequentialID") {
+      if (name === "fromDate2" && endDate2) {
+        const fromDate = new Date(date);
+        const toDate = new Date(endDate2);
+        if (fromDate > toDate) {
+          alert("From Date 2 cannot be later than To Date 2.");
+          return;
+        }
+      } else if (name === "toDate2" && startDate2) {
+        const toDate = new Date(date);
+        const fromDate = new Date(startDate2);
+        if (toDate < fromDate) {
+          alert("To Date 2 cannot be earlier than From Date 2.");
+          return;
+        }
+      }
+    }
+  
+    if (selectedCriteria === "provider2") {
+      if (name === "admitPrimaryFromDate" && endDate2) {
+        const endDateCheck = new Date(endDate2);
+        const startDateCheck = new Date(date);
+        if (startDateCheck > endDateCheck) {
+          alert("Admit Primary From Date cannot be later than Admit Primary To Date.");
+          return;
+        }
+      } else if (name === "admitPrimaryToDate" && startDate2) {
+        const startDateCheck = new Date(startDate2);
+        const endDateCheck = new Date(date);
+        if (endDateCheck < startDateCheck) {
+          alert("Admit Primary To Date cannot be earlier than Admit Primary From Date.");
+          return;
+        }
+      }
+    }
+  
+    if (selectedCriteria === "sequential2") {
+      if (name === "admitPrimaryFromDate2" && endDate2) {
+        const endDateCheck = new Date(endDate2);
+        const startDateCheck = new Date(date);
+        if (startDateCheck > endDateCheck) {
+          alert("Admit Primary From Date 2 cannot be later than Admit Primary To Date 2.");
+          return;
+        }
+      } else if (name === "admitPrimaryToDate2" && startDate2) {
+        const startDateCheck = new Date(startDate2);
+        const endDateCheck = new Date(date);
+        if (endDateCheck < startDateCheck) {
+          alert("Admit Primary To Date 2 cannot be earlier than Admit Primary From Date 2.");
+          return;
+        }
+      }
+    }
+  
     modalProps.setSelectSearchValues({
       ...modalProps.selectSearchValues,
       [name]: date,
     });
   };
+  
+  
+  
+  
 
   const RenderDatePickerfromDate = (props) => (
     <div className="form-floating">

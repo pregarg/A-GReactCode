@@ -79,7 +79,7 @@ const ProviderDisputeClaimInformation = (props) => {
     setSelectSearchValues([]);
     setResponseData([]);
   };
-  const handleClearClaimSearch = () => {
+  const handleClearSearch  = () => {
     setSelectSearchValues([]);
     setSelectedCriteria([]);
     setResponseData([]);
@@ -712,7 +712,7 @@ const ProviderDisputeClaimInformation = (props) => {
                       claimSearchTableComponent={claimSearchTableComponent}
                       responseData={responseData}
                       setResponseData={setResponseData}
-                      handleClearClaimSearch={handleClearClaimSearch}
+                      handleClearSearch ={handleClearSearch }
                       showClaimSearch={showClaimSearch}
                       handleSelectedAddress={handleSelectedAddress}
                   />

@@ -23,13 +23,54 @@ export default function ClaimSearch(modalProps) {
   };
 
   const handleDateChange = (date, name) => {
-    console.log("service_start_date-->", date, name);
+    console.log(name, "changed to", date);
+    if (!date) {
+      modalProps.setSelectSearchValues({
+        ...modalProps.selectSearchValues,
+        [name]: date,
+      });
+      return; 
+    }
+    const serviceStartDate = modalProps.selectSearchValues?.Service_Start_Date;
+    const serviceEndDate = modalProps.selectSearchValues?.Service_End_Date;
+    const serviceStartDate2 = modalProps.selectSearchValues?.Service_Start_Date2;
+    const serviceEndDate2 = modalProps.selectSearchValues?.Service_End_Date2;
+    const newDate = new Date(date);
+
+    if (name === "Service_End_Date" && serviceStartDate) {
+      const startDate = new Date(serviceStartDate);
+      if (newDate < startDate) {
+        alert("Service End Date cannot be earlier than Service Start Date.");
+        return;
+      }
+    } else if (name === "Service_Start_Date" && serviceEndDate) {
+      const endDate = new Date(serviceEndDate);
+      if (newDate > endDate) {
+        alert("Service Start Date cannot be later than Service End Date.");
+        return;
+      }
+    }
+  
+    if (name === "Service_End_Date2" && serviceStartDate2) {
+      const startDate2 = new Date(serviceStartDate2);
+      if (newDate < startDate2) {
+        alert("Service End Date cannot be earlier than Service Start Date.");
+        return;
+      }
+    } else if (name === "Service_Start_Date2" && serviceEndDate2) {
+      const endDate2 = new Date(serviceEndDate2);
+      if (newDate > endDate2) {
+        alert("Service Start Date cannot be later than Service End Date.");
+        return;
+      }
+    }
     modalProps.setSelectSearchValues({
       ...modalProps.selectSearchValues,
       [name]: date,
     });
   };
-
+  
+ 
   const RenderDatePickerServiceStartDate = (props) => (
     <div className="form-floating">
       <input {...props} placeholder="Service Start Date" />
