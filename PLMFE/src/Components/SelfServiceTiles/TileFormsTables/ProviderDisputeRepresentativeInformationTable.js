@@ -267,13 +267,13 @@ export default function RepresentativeInformationTable({
           )}
         </div>
 
-        <div className="row">
+        <div className="row mt-3">
           {renderSimpleInputField("Current_Alert", "Current Alert", 50, index)}
           {renderSimpleInputField("Next_Alert", "Next_Alert", 50, index)}
           {renderSimpleInputField("Historical_Alert", "Historical Alert", 50, index)}
           {renderSimpleInputField("Acknowledge_Alert", "Acknowledge Alert", 50, index)}
         </div>
-        <div className="row">
+        <div className="row mt-3">
           {renderSimpleDatePickerField(
             "Authorization_Approved_Date",
             "Authorization Approved Date",
