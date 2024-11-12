@@ -89,6 +89,7 @@ export default function useGetDBTables() {
         "ANG_Member_Information~angMemberInformation",
         "ANG_Representative_Information_Grid~angRepresentativeInformationGrid",
         "ANG_Authorization_Information~angAuthorizationInformation",
+        "Ang_ProviderInformation~angProviderInformationAppeals",
         "ANG_Authorization_Information_Grid~angAuthorizationInformationGrid",
         "ANG_Expedited_Request~angExpeditedRequest",
         "ANG_Notes~angNotes",

@@ -192,7 +192,7 @@ useEffect(() => {
               {renderSimpleInputField("ProviderName", "Provider Name", 50, index)}
           
           </div>
-          <div className="row">
+          <div className="row mt-3">
                {renderSimpleDatePickerField(
                 "Service_Start_Date",
                 "Service Start Date",
@@ -208,14 +208,14 @@ useEffect(() => {
               {renderSimpleDatePickerField("Post_Date", "Post Date",index)}
              
           </div>
-          <div className="row">
+          <div className="row mt-3">
             {renderSimpleSelectField("Claim_type", "Claim type", claimTypeValues)}
             {renderSimpleInputField("Billed_Amount", "Billed AmountS)", 50, index)}
             {renderSimpleInputField("Allowed_Amount", "Allowed Amount", 50, index)}
             {renderSimpleInputField("CCT_Policy_Name", "CCT Policy Name", 50, index)}
            
           </div>
-          <div className="row">
+          <div className="row mt-3">
           {renderSimpleInputField("Procedure_Code", "Procedure Code or Diagnosis code", 50, index)}
           {renderSimpleInputField("Patient_Ref", "Patient Ref/Account",100, index)}
           {/* {renderSimpleSelectField("Provider_Account", "Provider Account", filedTimelyValues, index)} */}

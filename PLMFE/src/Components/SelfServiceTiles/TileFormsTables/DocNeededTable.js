@@ -309,7 +309,7 @@ useEffect(() => {
           )}
          
         </div>
-        <div className="row">
+        <div className="row mt-3">
           {renderSimpleInputField("Requested_By", "Requested By", 50, index)}
           {renderSimpleDatePickerField(
             "Request_Date",
@@ -327,7 +327,7 @@ useEffect(() => {
             index,
           )}
         </div>
-        <div className="row">
+        <div className="row mt-3">
           {renderSimpleDatePickerField(
             "Due_Date",
             "Due Date",

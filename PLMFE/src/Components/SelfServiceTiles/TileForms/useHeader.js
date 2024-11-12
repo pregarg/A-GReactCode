@@ -276,6 +276,10 @@ export const useHeader = () => {
 
   });
 
+  const [ProviderInformationAppeals, setProviderInformationAppeals] = useState({
+     isChecked : "",
+  })
+
   // const [providerDisputeAuthorizationInformation, setProviderDisputeAuthorizationInformation] = useState({
   //   Issue_Number: "",
   //   Auth_Number: "",
@@ -733,6 +737,7 @@ export const useHeader = () => {
     caseInformation,
     claimInformation,
     ProviderclaimInformation,
+    ProviderInformationAppeals,
     memberInformation,
     ProvidermemberInformation,
     PdProviderInformation,
@@ -817,8 +822,7 @@ export const useHeader = () => {
       })
   }
   const checkForAppealsError = () => {
-  
-    console.log(memberInformation.isChecked)
+
     return Object.keys({
       ...caseTimelinesErrors,
       ...caseInformationErrors,
@@ -1019,10 +1023,6 @@ export const useHeader = () => {
 
     }
 
-   
-
-
-
     const currentUser = authSelector.userName || "system";
     const receivedDate = extractDate(currentDate);
     const updatedCaseHeader = {
@@ -1058,6 +1058,11 @@ export const useHeader = () => {
       ...authorizationInformation,
     });
 
+
+    const angProviderInformationAppeals = trimJsonValues({
+      ...ProviderInformationAppeals,
+    });
+
     const angExpeditedRequest = trimJsonValues({ ...expeditedRequest });
     const angNotes = trimJsonValues({ ...notes });
    
@@ -1075,6 +1080,7 @@ export const useHeader = () => {
     apiJson["ANG_Representative_Information_Grid"] =
       angRepresentativeInformationGrid;
     apiJson["ANG_Authorization_Information"] = angAuthorizationInformation;
+    apiJson["Ang_ProviderInformation"]= angProviderInformationAppeals;
     apiJson["ANG_Authorization_Information_Grid"] =
         angAuthorizationInformationGrid;
     apiJson["ANG_DOCS_NEEDED"] = angDocNeededGrid;
@@ -1236,7 +1242,9 @@ export const useHeader = () => {
   const handleAuthorizationInformationChange = (value, name) => {
     setAuthorizationInformation({ ...authorizationInformation, [name]: value });
   };
-
+  const handleProviderInformationAppealsChange = (value, name) => {
+    setProviderInformationAppeals({ ...ProviderInformationAppeals, [name]: value });
+  };
 
   const handleShowMember360 = () => {
     setShowMember360(true);
@@ -1727,6 +1735,10 @@ export const useHeader = () => {
         setAuthorizationInformation(
           data?.["angAuthorizationInformation"]?.[0] || {},
         );
+        setProviderInformationAppeals(
+          data?.["angProviderInformationAppeals"]?.[0] || {}
+        );
+
         // setAuthorizationInformationGrid(
         //   data?.["angAuthorizationInformationGrid"] || [],
         // );
@@ -1904,6 +1916,8 @@ export const useHeader = () => {
         // setPDCaseInformationGrid(data?.["pdCaseInfoGrid"] || []);
         
         setProviderClaimInformation(data?.["pdClaimInformation"]?.[0] || {});
+
+        setProviderInformationAppeals(data?.["providerInformationAppeals"]?.[0] || {})
         // setPDClaimInformationGrid(data?.["pdClaimInfoGrid"] || []);
         
         setpdProviderInformation(data?.["pdProviderInformation"]?.[0] || {});
@@ -1969,6 +1983,12 @@ export const useHeader = () => {
         return;
       }
     }
+    if(ProviderInformationAppeals.isChecked === '1') {
+      if(!ProviderInformationAppeals.WhiteGloveReason) {
+        alert(" ProviderInformationAppeals - White glove reason need to be filled")
+        return;
+      }
+    }
     if (checkForAppealsError()?.length > 0) {
    // if (hasSubmitError) {
       alert("Please fill all mandatory field")
@@ -1988,6 +2008,9 @@ export const useHeader = () => {
     const angMemberInformation = trimJsonValues({ ...memberInformation });
     const angAuthorizationInformation = trimJsonValues({
       ...authorizationInformation,
+    });
+    const angProviderInformationAppeals = trimJsonValues({
+      ...ProviderInformationAppeals,
     });
     const angExpeditedRequest = trimJsonValues({ ...expeditedRequest });
     const angNotes = trimJsonValues({ ...notes });
@@ -2052,6 +2075,11 @@ export const useHeader = () => {
       angAuthorizationInformation,
       formData["angAuthorizationInformation"][0],
     );
+    apiJson["Ang_ProviderInformation"] = CompareJSON(
+      angProviderInformationAppeals,
+      formData["angProviderInformationAppeals"][0],
+    );
+    
     apiJson["ANG_Expedited_Request"] = CompareJSON(
       angExpeditedRequest,
       formData["angExpeditedRequest"][0],
@@ -2877,6 +2905,7 @@ export const useHeader = () => {
     claimInformation,
     setClaimInformation,
     setProviderClaimInformation,
+    setProviderInformationAppeals,
     claimInformationValidationSchema,
     providerclaimInformationValidationSchema,
     ProviderclaimInformationValidationGridSchema,
@@ -2898,6 +2927,7 @@ export const useHeader = () => {
     representativeInformationGrid,
     setRepresentativeInformationGrid,
     handleAuthorizationInformationChange,
+    handleProviderInformationAppealsChange,
     authorizationInformation,
     setAuthorizationInformation,
     authorizationInformationGrid,
@@ -3005,6 +3035,6 @@ export const useHeader = () => {
     setNotesErrors,
     pdsaveAndExit,
     ProviderclaimInformation,
-    
+    ProviderInformationAppeals,
   };
 };

@@ -279,7 +279,7 @@ export default function RepresentativeInformationTable({
             index,
           )}
         </div>
-        <div className="row">
+        <div className="row mt-4">
           {renderSimpleSelectField(
             "AOR_Type",
             "AOR Type",
@@ -303,7 +303,7 @@ export default function RepresentativeInformationTable({
             index,
           )}
         </div>
-        <div className="row">
+        <div className="row mt-4">
           {renderSimpleSelectField(
             "Mail_to_Address",
             "Mail To Address",
@@ -314,7 +314,7 @@ export default function RepresentativeInformationTable({
           {renderSimpleInputField("Phone_Number", "Phone Number", 50, index)}
           {renderSimpleInputField("Fax_Number", "Fax Number", 50, index)}
         </div>
-        <div className="row">
+        <div className="row mt-4">
           {renderSimpleDatePickerField(
             "Authorization_Approved_Date",
             "Authorization Approved Date",
@@ -333,7 +333,7 @@ export default function RepresentativeInformationTable({
           )}
           {renderSimpleInputField("Notes", "Notes", 50, index)}
         </div>
-        <div className="row">
+        <div className="row mt-4">
           {renderSimpleInputField(
             "Address_Line_1",
             "Address Line 1",
@@ -349,7 +349,7 @@ export default function RepresentativeInformationTable({
           {renderSimpleInputField("City", "City", 50, index)}
           {renderSimpleInputField("State_", "State", 50, index)}
         </div>
-        <div className="row">
+        <div className="row mt-4">
           {renderSimpleInputField("County", "County", 50, index)}
           {renderSimpleInputField("Zip_Code", "Zip Code", 50, index)}
         </div>

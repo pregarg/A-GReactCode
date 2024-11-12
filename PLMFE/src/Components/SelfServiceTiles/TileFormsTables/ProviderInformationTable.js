@@ -239,7 +239,7 @@ export default function ProviderInformationTable({
               index,
             )}
           </div>
-          <div className="row">
+          <div className="row mt-3">
             {renderSimpleInputField("Provider_TIN", "Provider TIN", 50, index)}
             {renderSimpleInputField(
               "State_Provider_ID",
@@ -250,7 +250,7 @@ export default function ProviderInformationTable({
             {renderSimpleInputField("Medicare_ID", "Medicare ID", 50, index)}
             {renderSimpleInputField("Medicaid_ID", "Medicaid ID", 50, index)}
           </div>
-          <div className="row">
+          <div className="row mt-3">
             {renderSimpleInputField(
               "PR_Representative",
               "PR Representative",
@@ -295,10 +295,10 @@ export default function ProviderInformationTable({
             )}
             {renderSimpleInputField("Provider_IPA", "Provider IPA", 50, index)}
           </div>
-          <div className="row">
+          <div className="row mt-3">
             {renderSimpleInputField(
               "Provider_Vendor_Specialty",
-              "Provider Vendor Specialty",
+              "Provider VendorSpecialty",
               50,
               index,
             )}
@@ -321,7 +321,7 @@ export default function ProviderInformationTable({
               index,
             )}
           </div>
-          <div className="row">
+          <div className="row mt-3">
             {renderSimpleInputField(
               "Email_Address",
               "Email Address",
@@ -342,13 +342,13 @@ export default function ProviderInformationTable({
             )}
             {renderSimpleInputField("Provider_ID", "Provider ID", 50, index)}
           </div>
-          <div className="row">
+          <div className="row mt-3">
             {renderSimpleInputField("NPI_ID", "NPI ID", 50, index)}
             {renderSimpleInputField("Vendor_ID", "Vendor ID", 50, index)}
             {renderSimpleInputField("Vendor_Name", "Vendor Name", 50, index)}
             {renderSimpleInputField("Phone_Number", "Phone Number", 50, index)}
           </div>
-          <div className="row">
+          <div className="row mt-3">
             {renderSimpleInputField("Fax_Number", "Fax Number", 50, index)}
             {renderSimpleDatePickerField(
               "Par_Provider_Start_Date",
@@ -366,7 +366,7 @@ export default function ProviderInformationTable({
               index,
             )}
           </div>
-          <div className="row">
+          <div className="row mt-3">
             {renderSimpleInputField(
               "Address_Line_1",
               "Address Line 1",
@@ -382,7 +382,7 @@ export default function ProviderInformationTable({
             {renderSimpleInputField("City", "City", 50, index)}
             {renderSimpleInputField("State", "State", 50, index)}
           </div>
-          <div className="row"> 
+          <div className="row mt-3">
             {renderSimpleInputField("Zip_Code", "Zip Code", 50, index)}
             {renderSimpleSelectField(
               "Mail_to_Address",

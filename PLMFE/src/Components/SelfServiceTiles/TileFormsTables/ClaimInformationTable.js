@@ -255,7 +255,7 @@ export default function ClaimInformationTable({
               index,
             )}
           </div>
-          <div className="row">
+          <div className="row mt-3">
             {renderSimpleInputField(
               "Procedure_Diagnosis_Code_2",
               "Procedure / Diagnosis Code 2",
@@ -276,7 +276,7 @@ export default function ClaimInformationTable({
               index,
             )}
           </div>
-          <div className="row">
+          <div className="row mt-3">
             {renderSimpleSelectField(
               "Filed_Timely",
               "Filed Timely",
@@ -292,7 +292,7 @@ export default function ClaimInformationTable({
             {renderSimpleInputField("DenialCode", "Denial Code", 50, index)}
             {renderSimpleDatePickerField("Denial_Date", "Denial Date", index)}
           </div>
-          <div className="row">
+          <div className="row mt-3">
             {renderSimpleInputField(
               "Good_Cause_Reason",
               "Good Cause Reason",
@@ -317,7 +317,7 @@ export default function ClaimInformationTable({
               index,
             )}
           </div>
-          <div className="row">
+          <div className="row mt-3">
             {renderSimpleDatePickerField(
               "Service_End_Date",
               "Service End Date",
@@ -342,7 +342,7 @@ export default function ClaimInformationTable({
               index,
             )}
           </div>
-          <div className="row">
+          <div className="row mt-3">
             {renderSimpleInputField(
               "Billed_Amount",
               "Billed Amount",
@@ -363,14 +363,14 @@ export default function ClaimInformationTable({
             )}
             {renderSimpleInputField("Claim_Number", "Claim Number", 50, index)}
           </div>
-          <div className="row">
+          <div className="row mt-3">
             {renderSimpleInputField("ProviderID", "Provider ID", 50, index)}
             {renderSimpleInputField("ServiceSpan", "Service Span", 50, index)}
             {renderSimpleInputField("MemberID", "Member ID", 50, index)}
             {renderSimpleInputField("ProviderName", "Provider Name", 50, index)}
             
           </div>
-          <div className="row">
+          <div className="row mt-3">
             {shouldHideFields &&
               renderSimpleInputField(
                 "Payment_Number",

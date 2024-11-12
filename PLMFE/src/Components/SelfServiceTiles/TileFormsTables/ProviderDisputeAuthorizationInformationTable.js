@@ -211,7 +211,7 @@ export default function AuthorizationInformationTable({
   const tdDataReplica = (index) => {
     return (
       <div className="Container AddProviderLabel AddModalLabel">
-        <div className="row">
+        <div className="row ">
           {renderSimpleInputField("Issue_Number", "Issue Number", 50, index)}
           {renderSimpleInputField(
             "Authorization_Number",
@@ -227,7 +227,7 @@ export default function AuthorizationInformationTable({
           )}
           {renderSimpleInputField("Provider_Name", "Provider Name", 50, index)}
         </div>
-        <div className="row">
+        <div className="row mt-3">
           {renderSimpleSelectField("Auth_Status", "Auth Status", authStatusValues, index)}
           {renderSimpleDatePickerField(
             "Auth_Request_Date",
@@ -245,7 +245,7 @@ export default function AuthorizationInformationTable({
             index,
           )}
         </div>
-        <div className="row">
+        <div className="row mt-3">
           {renderSimpleSelectField(
             "CPT_Descriptions",
             "CPT Descriptions",

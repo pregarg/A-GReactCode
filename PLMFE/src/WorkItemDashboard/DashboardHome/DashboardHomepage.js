@@ -305,6 +305,10 @@ export default function DashboardHomepage() {
     if (data?.data?.length > 0) {
       setisNavigated(true);
       console.log("stdpra1", data.data);
+      data.data?.forEach(element => {
+        element['Createddatetime#date'] =  element['Createddatetime#date']?.split('T')[0]
+        
+      });
       setTableData(data.data);
 
       if (data.caseSubmitted) {
@@ -612,6 +616,10 @@ export default function DashboardHomepage() {
           // Now set the processed data to state
           console.log("Processed Data: ", processedData);
           console.log("respData1: ", respData);
+          respData?.forEach(element => {
+            element['Createddatetime#date'] =  element['Createddatetime#date']?.split('T')[0]
+            
+          });
           setTableData(respData);
           //setTableData(filterHomePageTable(respData));
         }
@@ -652,6 +660,10 @@ export default function DashboardHomepage() {
         if (res.Status === 0) {
           const respData = [...res.data];
           console.log("stdpra3", respData);
+          respData?.forEach(element => {
+            element['Createddatetime#date'] =  element['Createddatetime#date']?.split('T')[0]
+            
+          });
           setTableData(respData);
         }
       })
@@ -717,6 +729,10 @@ export default function DashboardHomepage() {
           const respData = [...res.data.data.mainTable];
           printConsole("closedCasesFilter respData: ", respData);
           console.log("stdpra4", filterHomePageTable(respData));
+          respData?.forEach(element => {
+            element['Createddatetime#date'] =  element['Createddatetime#date']?.split('T')[0]
+            
+          });
           setTableData(filterHomePageTable(respData));
         }
       })
@@ -897,6 +913,10 @@ export default function DashboardHomepage() {
     if (caseStat === "All Cases") {
       //console.log("Inside filterTable not allCases before: ",initialTableData);
       console.log("stdpra5", tableArr);
+      tableArr?.forEach(element => {
+        element['Createddatetime#date'] =  element['Createddatetime#date']?.split('T')[0]
+        
+      });
       setTableData(tableArr);
     }
     if (caseStat !== "All Cases") {
@@ -906,6 +926,10 @@ export default function DashboardHomepage() {
       );
       //console.log("Inside filterTable not allCases after: ",filteredArray);
       console.log("stdpra6", filteredArray);
+      filteredArray?.forEach(element => {
+        element['Createddatetime#date'] =  element['Createddatetime#date']?.split('T')[0]
+        
+      });
       setTableData(filteredArray);
       //console.log("Inside filterTable state: ",tableData);
     }
