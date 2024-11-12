@@ -30,7 +30,7 @@ const CaseHeaderAccordion = (props) => {
                   <span>{el.placeholder}: </span>
                   {el.name === 'White_Glove_Indicator' ? 
                   props.memberInformationData.isChecked === '1' || 
-                  props.authorizationInformation.isChecked === '1' ? <span className="required">its Urgent</span> : <span></span>
+                  props.authorizationInformation.isChecked === '1' ? <span className="required">Its Urgent</span> : <span></span>
                   : <span>{convertToCase(caseHeaderData?.[el?.name])}</span>}
                 </div>
               ))}
