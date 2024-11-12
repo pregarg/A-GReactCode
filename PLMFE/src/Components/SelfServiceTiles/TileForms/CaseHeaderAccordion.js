@@ -6,39 +6,43 @@ import { chunkArray, RenderType } from "./Constants";
 const CaseHeaderAccordion = (props) => {
   const { convertToCase } = useGetDBTables();
 
-  const [caseHeaderData, _] = useState(props.handleData);
+  const [caseHeaderData] = useState(props.handleData);
 
   return (
-    <div className="accordion-item" id="caseHeader">
-      <h2 className="accordion-header" id="panelsStayOpen-Header">
-        <button
-          className="accordion-button accordionButtonStyle no-arrow"
-          type="button"
+      <div className="accordion-item" id="caseHeader">
+        <h2 className="accordion-header" id="panelsStayOpen-Header">
+          <button
+              className="accordion-button accordionButtonStyle no-arrow"
+              type="button"
+          >
+            Case Header
+          </button>
+        </h2>
+        <div
+            className="accordion-collapse show"
+            aria-labelledby="panelsStayOpen-Header"
         >
-          Case Header
-        </button>
-      </h2>
-      <div
-        className="accordion-collapse show"
-        aria-labelledby="panelsStayOpen-Header"
-      >
-        <div className="accordion-body">
-          {chunkArray(props.caseHeaderFields, 3).map((chunk) => (
-            <div className="row">
-              {chunk.map((el) => (
-                <div className="col-xs-6 col-md-4 case-field-wrapper">
-                  <span>{el.placeholder}: </span>
-                  {el.name === 'White_Glove_Indicator' ? 
-                  props.memberInformationData.isChecked === '1' || 
-                  props.authorizationInformation.isChecked === '1' ? <span className="required">Its Urgent</span> : <span></span>
-                  : <span>{convertToCase(caseHeaderData?.[el?.name])}</span>}
+          <div className="accordion-body">
+            {chunkArray(props.caseHeaderFields, 3).map((chunk, chunkIndex) => (
+                <div className="row" key={chunkIndex}>
+                  {chunk.map((el, elIndex) => (
+                      <div className="col-xs-6 col-md-4 case-field-wrapper" key={elIndex}>
+                        <span>{el.placeholder}: </span>
+                        {el.name === 'White_Glove_Indicator' ? (
+                            props.memberInformationData?.isChecked === '1' ||
+                            props.authorizationInformation?.isChecked === '1'
+                                ? <span className="required">It's Urgent</span>
+                                : <span></span>
+                        ) : (
+                            <span>{convertToCase(caseHeaderData?.[el?.name])}</span>
+                        )}
+                      </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
-    </div>
   );
 };
 

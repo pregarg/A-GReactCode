@@ -14,6 +14,7 @@ import { FormikInputField } from "../Common/FormikInputField";
 import { FormikDatePicker } from "../Common/FormikDatePicker";
 import { FormikSelectField } from "../Common/FormikSelectField";
 
+
 const CaseClaimInformation = (props) => {
   const {
     convertToCase,
@@ -28,6 +29,11 @@ const CaseClaimInformation = (props) => {
   const [selectedCriteria, setSelectedCriteria] = useState();
 
   const [selectSearchValues, setSelectSearchValues] = useState();
+
+  const [whiteGloveIndicator, setWhiteGloveIndicator] = useState(props.ProviderInformationAppeals?.isChecked === '1');
+
+  const [providerInformationAppealsData, setProviderInformationAppealsData] =
+  useState(props.ProviderInformationAppeals);
 
   const tabRef = useRef("HomeView");
   const location = useLocation();
@@ -363,6 +369,32 @@ const CaseClaimInformation = (props) => {
     }
   };
 
+  const handleWhiteGloveChange = (e) => {
+    const isChecked = e.target.checked;
+    setWhiteGloveIndicator(isChecked);
+    providerInformationAppealsData.isChecked = isChecked ? '1': '';
+    props.setProviderInformationAppeals({...providerInformationAppealsData});
+    // if (isChecked) {
+    //   setWhiteGloveCancelledReason("");
+    // } else {
+    //   setWhiteGloveReason("");
+    // }
+  };
+
+  
+const handleProviderInformationAppealsData = (name, value, persist) => {
+  const newData = {
+    ...providerInformationAppealsData,
+    [name]: typeof value === "string" ? convertToCase(value) : value,
+  };
+ 
+
+  setProviderInformationAppealsData(newData);
+  if (persist) {
+    props.setProviderInformationAppeals(newData);
+  }
+};
+
   const showProviders = async () => {
     let ProviderID = selectSearchValues?.providerID;
     let NPI = selectSearchValues?.NPI;
@@ -477,7 +509,7 @@ const CaseClaimInformation = (props) => {
   const handleGridDateChange = (index, selectedValue, fieldName) => {
     let tempInput = { ...gridFieldTempState };
     tempInput[fieldName] = selectedValue;
-    setGridFieldTempState(tempInput);
+   
     if (
       fieldName === "Service_Start_Date" ||
       fieldName === "Service_End_Date"
@@ -488,7 +520,6 @@ const CaseClaimInformation = (props) => {
         startDate,
         endDate,
       );
-      setGridFieldTempState(tempInput);
     }
     if(fieldName ===  'Service_End_Date' && gridFieldTempState['Service_Start_Date'] && selectedValue) {
       const startDate = new Date(gridFieldTempState['Service_Start_Date']);
@@ -522,6 +553,7 @@ const CaseClaimInformation = (props) => {
         return;
       }
     }
+    setGridFieldTempState(tempInput);
   };
   const calculateDaysDifference = (startDate, endDate) => {
     if (!startDate || !endDate) return null;
@@ -1029,6 +1061,87 @@ const CaseClaimInformation = (props) => {
             >
               Provider Search
             </button>
+
+            <div className="row">
+
+<div
+  className="col-xs-6 col-md-3"
+  style={{
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  }}
+>
+  <label>
+    <input
+      type="checkbox"
+      checked={whiteGloveIndicator}
+      onChange={handleWhiteGloveChange}
+      disabled={""}
+      style={{ marginRight: "8px" }}
+    />
+    White Glove Indicator?
+  </label>
+</div>
+</div>
+
+<div className="form-floating">
+<input
+  id="WhiteGloveReason"
+  name="WhiteGloveReason"
+  maxLength="4000"
+  type="text"
+  className="form-control"
+  placeholder="White Glove Reason"
+  // value={whiteGloveReason}
+  value={providerInformationAppealsData.WhiteGloveReason || ""}
+  onChange={(e) => {
+    console.log("Input value:", e.target.value);
+    handleProviderInformationAppealsData(
+      "WhiteGloveReason",
+      e.target.value,
+      true
+    );
+  }}
+  // onChange={
+  //   (e) => { console.log("Input value:", e.target.value)
+  //      setWhiteGloveReason(e.target.value)}}
+
+  disabled={!whiteGloveIndicator}
+/>
+<label>White Glove Reason</label>
+<div
+  className="invalid-feedback"
+  style={{ display: "block" }}
+></div>
+</div>
+
+<div className="form-floating">
+<input
+  id="WhiteGloveCancelledReason"
+  name="WhiteGloveCancelledReason"
+  maxLength="4000"
+  type="text"
+  className="form-control"
+  placeholder="White Glove Cancelled Reason"
+  value={providerInformationAppealsData.WhiteGloveCancelledReason || ""}
+  // onChange={(e) => setWhiteGloveCancelledReason(e.target.value)}
+  onChange={(e) => {
+    console.log("Input value:", e.target.value);
+    handleProviderInformationAppealsData(
+      "WhiteGloveCancelledReason",
+      e.target.value,
+      true
+    );
+  }}
+  disabled={whiteGloveIndicator}
+/>
+<label>White Glove Cancelled Reason</label>
+<div
+  className="invalid-feedback"
+  style={{ display: "block" }}
+></div>
+</div>
             <div className="row my-2">
               <div className="col-xs-6 col-md-12">
                 <ProviderInformationTable

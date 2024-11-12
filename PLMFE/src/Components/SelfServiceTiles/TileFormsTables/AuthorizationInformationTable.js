@@ -203,7 +203,7 @@ export default function AuthorizationInformationTable({
           {renderSimpleInputField("Auth_Status", "Auth Status", 50, index)}
           {renderSimpleInputField("Provider_Name", "Provider Name", 50, index)}
         </div>
-        <div className="row">
+        <div className="row mt-3">
           {renderSimpleInputField(
             "Authorization_Type",
             "Authorization Type",
@@ -227,7 +227,7 @@ export default function AuthorizationInformationTable({
             index,
           )}
         </div>
-        <div className="row">
+        <div className="row mt-3">
           {renderSimpleInputField(
             "CPT_Descriptions",
             "CPT Descriptions",
