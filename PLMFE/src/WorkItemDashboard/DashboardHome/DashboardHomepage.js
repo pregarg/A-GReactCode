@@ -922,7 +922,7 @@ export default function DashboardHomepage() {
     let columnNames ="";
     if (transactionType === "Provider Disputes" || transactionType === "Appeals") {   
       console.log("table transactiontype",transactionType)
-      columnNames = "Case#~CaseNumber,Transaction Type~TransactionType,Stage Name~StageName,Previous Stage~PreviousStage,Case Received Date~Createddatetime#date,Decision~Decision";
+      columnNames = "Case#~CaseNumber,Transaction Type~TransactionType,Stage Name~StageName,Previous Stage~PreviousStage,Case Received Date~Createddatetime#date";
   
     }
     else 

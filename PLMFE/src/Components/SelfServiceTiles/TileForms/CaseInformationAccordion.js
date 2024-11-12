@@ -98,16 +98,17 @@ const CaseInformationAccordion = (props) => {
   }, []);
 
   useEffect(() => {
-    const { Product, Product_State, Line_of_Business_LOB } =
-      caseInformationData;
-    if (
-      Product === "MEDICAID" &&
-      Product_State === "NC" &&
-      Line_of_Business_LOB === "NCD"
-    ) {
+    const { Product, Product_State, Line_of_Business_LOB } = caseInformationData;
+
+    if (Product === "MEDICAID" && Product_State === "NC" && Line_of_Business_LOB === "NCD") {
       setCaseInformationData((prevData) => ({
         ...prevData,
         LOB_Description: "NORTH CAROLINA MEDICAID",
+      }));
+    } else if (Product === "MEDICARE" && Product_State === "CA" && Line_of_Business_LOB === "RMR") {
+      setCaseInformationData((prevData) => ({
+        ...prevData,
+        LOB_Description: "CALIFORNIA DSNP/ CALIFORNIA MEDICARE",
       }));
     }
   }, [
@@ -115,6 +116,9 @@ const CaseInformationAccordion = (props) => {
     caseInformationData.Product_State,
     caseInformationData.Line_of_Business_LOB,
   ]);
+
+  
+  
 
   const handleCaseInformationData = (name, value, persist) => {
     const newData = {
@@ -220,21 +224,22 @@ const CaseInformationAccordion = (props) => {
       >
         <div className="accordion-body">
           <div className="row my-2">
-            {renderSelectField(
-              "Line_of_Business_LOB",
-              "Line of Business",
-              lobValues,
-            )}
+            {renderSelectField("Product", "Product", productValues)}
              {renderSelectField(
               "Product_State",
               "Product State",
               productStateValues,
             )}
-            {renderInputField("LOB_Description", "LOB Description", 300)}
+            {renderSelectField(
+              "Line_of_Business_LOB",
+              "Line of Business",
+              lobValues,
+            )}
+            
            
           </div>
           <div className="row my-2">
-            {renderSelectField("Product", "Product", productValues)}
+            {renderInputField("LOB_Description", "LOB Description", 300)}
             {renderSelectField("Product_Type", "Product Type", productTypeValues
             //  [{ label: "USER", value: "USER" },]
               )}
