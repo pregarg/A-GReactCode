@@ -64,6 +64,7 @@ const CaseHeader = () => {
     representativeInformationGrid,
     setRepresentativeInformationGrid,
     handleAuthorizationInformationChange,
+    handleProviderInformationAppealsChange,
     handleRepresentativeInformationChange,
     authorizationInformation,
     setAuthorizationInformation,
@@ -127,6 +128,8 @@ const CaseHeader = () => {
     caseDecisionDetailsFields,
     setRenderType,
     caseHeaderFields,
+    ProviderInformationAppeals,
+    setProviderInformationAppeals
   } = useHeader();
 
   console.log("PD_location",location)
@@ -179,6 +182,10 @@ const CaseHeader = () => {
                 onExpeditedPriorityChange={handleExpeditedPriorityChange}
               />
               <CaseClaimInformation
+                ProviderInformationAppeals={ProviderInformationAppeals}
+                setProviderInformationAppeals={setProviderInformationAppeals}
+                handleOnChange={handleProviderInformationAppealsChange}
+                handleData={ProviderInformationAppeals}
                 claimInformationData={claimInformation}
                 setClaimInformationData={setClaimInformation}
                 caseInformationData={caseInformation}
