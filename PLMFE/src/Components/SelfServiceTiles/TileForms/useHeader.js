@@ -23,6 +23,16 @@ import {usePdProviderAltContactInfo} from "./usePdProviderAltContactInfo";
 
 import {useRepresentativeInformation} from "./useRepresentativeInformation";
 import {useProviderInformation} from "./useProviderInformation";
+export function convertDateFormatMonthDayYear(inputDateStr) {
+  const date = new Date(inputDateStr);
+  if (isNaN(date)) {
+    return "Invalid date";
+  }
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  const year = String(date.getFullYear());
+  return `${month}/${day}/${year}`;
+}
 
 
 export const useHeader = () => {

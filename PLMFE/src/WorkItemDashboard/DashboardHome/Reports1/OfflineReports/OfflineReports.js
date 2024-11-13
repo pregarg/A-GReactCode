@@ -52,6 +52,7 @@ export default function OfflineReports(props) {
     const minutes = String(date.getMinutes()).padStart(2, "0");
     return `${month}:${day}:${year} ${hours}:${minutes}`;
   }
+ 
   const handleCellClick = (params) => {
     setShowLoader(true);
     setShowReport({
