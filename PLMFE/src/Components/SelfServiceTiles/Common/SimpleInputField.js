@@ -16,7 +16,7 @@ export const SimpleInputField = ({
       <label htmlFor={name}>
         <strong>
           {label}
-          {validationErrors?.[name] ? " *" : ""}
+          {validationErrors?.[name] ? <span style={{color: "red"}}>*</span> : ""}
         </strong>
       </label>
       <input
