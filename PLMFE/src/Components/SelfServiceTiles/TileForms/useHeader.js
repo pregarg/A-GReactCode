@@ -1000,13 +1000,13 @@ export const useHeader = () => {
     // debugger;
     if(memberInformation.isChecked === '1') {
       if(!memberInformation.WhiteGloveReason) {
-        alert("Member Information section White glove reason need to be filled")
+        alert("Please enter a White Glove Reason in the Member Information section to proceed.")
         return;
       }
     }
     if(authorizationInformation.isChecked === '1') {
       if(!authorizationInformation.WhiteGloveReason) {
-        alert(" Authorization Information Section White glove reason need to be filled")
+        alert("Please enter a White Glove Reason in the Authorization Information section to proceed.")
         return;
       }
     }

@@ -251,6 +251,7 @@ const MemberInformationAccordion = (props) => {
       if(resApiData[0].length === 0 )  {
        console.log("No data found for the member ID");
           alert("No data found");
+          setResponseData([])
           return; 
         }
   

@@ -237,6 +237,7 @@ const RepresentativeInformationAccordion = (props) => {
         if(resApiData[0].length === 0 )  {
           console.log("No data found for the member ID");
              alert("No data found");
+             setResponseData([])
              return; 
            }
         if (resApiData.length > 0) {
