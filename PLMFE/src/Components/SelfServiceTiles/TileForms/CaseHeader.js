@@ -160,6 +160,7 @@ const CaseHeader = () => {
                 caseHeaderFields={caseHeaderFields}
                 memberInformationData={memberInformation}
                 authorizationInformation={authorizationInformation}
+                ProviderInformationAppeals={ProviderInformationAppeals}
               />
               )} 
               <CaseTimelinesAccordion

@@ -841,6 +841,7 @@ export const useHeader = () => {
       ...expeditedRequestErrors,
       ...caseDecisionDetailsErrors,
       ...caseDecisionErrors,
+      ...notesErrors
     })
   }
 
