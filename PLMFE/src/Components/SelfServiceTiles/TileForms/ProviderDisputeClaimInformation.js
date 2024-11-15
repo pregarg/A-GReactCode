@@ -473,18 +473,18 @@ const ProviderDisputeClaimInformation = (props) => {
     let tempInput = { ...gridFieldTempState };
     tempInput[fieldName] = selectedValue;
     setGridFieldTempState(tempInput);
-    // if (
-    //   fieldName === "Service_Start_Date" ||
-    //   fieldName === "Service_End_Date"
-    // ) {
-    //   const startDate = tempInput["Service_Start_Date"];
-    //   const endDate = tempInput["Service_End_Date"];
-    //   tempInput["Number_of_Days_In_Span"] = calculateDaysDifference(
-    //     startDate,
-    //     endDate,
-    //   );
-    //   setGridFieldTempState(tempInput);
-    // }pd
+    if (
+      fieldName === "Service_Start_Date" ||
+      fieldName === "Service_End_Date"
+    ) {
+      const startDate = tempInput["Service_Start_Date"];
+      const endDate = tempInput["Service_End_Date"];
+      tempInput["ServiceSpan"] = calculateDaysDifference(
+        startDate,
+        endDate,
+      );
+      setGridFieldTempState(tempInput);
+    }
   };
   const calculateDaysDifference = (startDate, endDate) => {
     if (!startDate || !endDate) return null;
