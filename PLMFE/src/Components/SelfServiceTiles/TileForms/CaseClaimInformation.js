@@ -395,6 +395,28 @@ const handleProviderInformationAppealsData = (name, value, persist) => {
     props.setProviderInformationAppeals(newData);
   }
 };
+// Local state update without backend interaction
+  const handleLocalStateUpdate = (name, value) => {
+    setProviderInformationAppealsData((prevState) => ({
+      ...prevState,
+      [name]: value.toUpperCase(),
+    }));
+  };
+
+// Save data to backend only on blur
+  const handleProviderInformationBlur = (e) => {
+    const scrollPosition = window.scrollY; // Save current scroll position
+
+    const { name, value } = e.target;
+    const updatedData = {
+      ...providerInformationAppealsData,
+      [name]: value.toUpperCase(),
+    };
+
+    props.setProviderInformationAppeals(updatedData);// Backend update
+    window.scrollTo(0, scrollPosition); // Restore scroll position
+  };
+
 
   const showProviders = async () => {
     let ProviderID = selectSearchValues?.providerID;
@@ -1097,14 +1119,15 @@ const handleProviderInformationAppealsData = (name, value, persist) => {
   placeholder="White Glove Reason"
   // value={whiteGloveReason}
   value={providerInformationAppealsData.WhiteGloveReason || ""}
-  onChange={(e) => {
-    console.log("Input value:", e.target.value);
-    handleProviderInformationAppealsData(
-      "WhiteGloveReason",
-      e.target.value,
-      true
-    );
-  }}
+  // onChange={(e) => {
+  //   handleProviderInformationAppealsData(
+  //     "WhiteGloveReason",
+  //     e.target.value,
+  //     true
+  //   );
+  // }}
+  onBlur={(e) => handleProviderInformationBlur(e)}
+  onChange={(e) => handleLocalStateUpdate(e.target.name, e.target.value)}
   // onChange={
   //   (e) => { console.log("Input value:", e.target.value)
   //      setWhiteGloveReason(e.target.value)}}
@@ -1128,14 +1151,16 @@ const handleProviderInformationAppealsData = (name, value, persist) => {
   placeholder="White Glove Cancelled Reason"
   value={providerInformationAppealsData.WhiteGloveCancelledReason || ""}
   // onChange={(e) => setWhiteGloveCancelledReason(e.target.value)}
-  onChange={(e) => {
-    console.log("Input value:", e.target.value);
-    handleProviderInformationAppealsData(
-      "WhiteGloveCancelledReason",
-      e.target.value,
-      true
-    );
-  }}
+  // onChange={(e) => {
+  //   console.log("Input value:", e.target.value);
+  //   handleProviderInformationAppealsData(
+  //     "WhiteGloveCancelledReason",
+  //     e.target.value,
+  //     true
+  //   );
+  // }}
+  onBlur={(e) => handleProviderInformationBlur(e)}
+  onChange={(e) => handleLocalStateUpdate(e.target.name, e.target.value)}
   disabled={whiteGloveIndicator}
 />
 <label>White Glove Cancelled Reason</label>

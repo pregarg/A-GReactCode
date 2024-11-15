@@ -327,6 +327,28 @@ const handleAuthInformationData = (name, value, persist) => {
     props.setAuthorizationInformation(newData);
   }
 };
+// Local state update without backend interaction
+  const handleLocalStateUpdate = (name, value) => {
+    setAuthorizationInformationData((prevState) => ({
+      ...prevState,
+      [name]: value.toUpperCase(),
+    }));
+  };
+
+// Save data to backend only on blur
+  const handleAuthInformationBlur = (e) => {
+    const scrollPosition = window.scrollY; // Save current scroll position
+
+    const { name, value } = e.target;
+    const updatedData = {
+      ...authorizationInformationData,
+      [name]: value.toUpperCase(),
+    };
+
+    props.setAuthorizationInformation(updatedData); // Backend update
+    window.scrollTo(0, scrollPosition); // Restore scroll position
+  };
+
 
 const handleWhiteGloveChange = (e) => {
   const isChecked = e.target.checked;
@@ -755,18 +777,19 @@ const handleWhiteGloveChange = (e) => {
                 placeholder="White Glove Reason"
                 // value={whiteGloveReason}
                 value={authorizationInformationData.WhiteGloveReason || ""}
-                onChange={(e) => {
-                  console.log("Input value:", e.target.value);
-                  handleAuthInformationData(
-                    "WhiteGloveReason",
-                    e.target.value,
-                    true
-                  );
-                }}
+                // onChange={(e) => {
+                //   console.log("Input value:", e.target.value);
+                //   handleAuthInformationData(
+                //     "WhiteGloveReason",
+                //     e.target.value,
+                //     true
+                //   );
+                // }}
                 // onChange={
                 //   (e) => { console.log("Input value:", e.target.value)
                 //      setWhiteGloveReason(e.target.value)}}
-
+                onBlur={(e) => handleAuthInformationBlur(e)}
+                onChange={(e) => handleLocalStateUpdate(e.target.name, e.target.value)}
                 disabled={!whiteGloveIndicator}
               />
               <label>White Glove Reason</label>
@@ -786,14 +809,9 @@ const handleWhiteGloveChange = (e) => {
                 placeholder="White Glove Cancelled Reason"
                 value={authorizationInformationData.WhiteGloveCancelledReason || ""}
                 // onChange={(e) => setWhiteGloveCancelledReason(e.target.value)}
-                onChange={(e) => {
-                  console.log("Input value:", e.target.value);
-                  handleAuthInformationData(
-                    "WhiteGloveCancelledReason",
-                    e.target.value,
-                    true
-                  );
-                }}
+
+                onBlur={(e) => handleAuthInformationBlur(e)}
+                onChange={(e) => handleLocalStateUpdate(e.target.name, e.target.value)}
                 disabled={whiteGloveIndicator}
               />
               <label>White Glove Cancelled Reason</label>
