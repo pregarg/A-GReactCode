@@ -66,6 +66,7 @@ import { IoIosArrowBack } from "react-icons/io";
 import { MdViewModule } from "react-icons/md";
 import { styled } from "@mui/material/styles";
 import ContractingSearch from "./Globalsearch/ContractingSearch";
+import { convertDateFormatMonthDayYear } from "../../Components/SelfServiceTiles/TileForms/useHeader";
 
 const drawerWidth = 243;
 
@@ -306,7 +307,7 @@ export default function DashboardHomepage() {
       setisNavigated(true);
       console.log("stdpra1", data.data);
       data.data?.forEach(element => {
-        element['Createddatetime#date'] =  element['Createddatetime#date']?.split('T')[0]
+        element['Createddatetime#date'] = convertDateFormatMonthDayYear(element['Createddatetime#date']?.split('T')[0])
         
       });
       setTableData(data.data);
@@ -319,6 +320,13 @@ export default function DashboardHomepage() {
     mastersSelector["masterStageRights"],
     mastersSelector["masterModuleRights"],
   ]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      getDashboardTableData("Intake", "3")
+    }, 2000);
+
+  }, [])
 
   const setAsPerModuleRights = () => {
     //let getApiJson = {};
@@ -617,7 +625,7 @@ export default function DashboardHomepage() {
           console.log("Processed Data: ", processedData);
           console.log("respData1: ", respData);
           respData?.forEach(element => {
-            element['Createddatetime#date'] =  element['Createddatetime#date']?.split('T')[0]
+            element['Createddatetime#date'] =  convertDateFormatMonthDayYear(element['Createddatetime#date']?.split('T')[0])
             
           });
           setTableData(respData);
@@ -661,7 +669,7 @@ export default function DashboardHomepage() {
           const respData = [...res.data];
           console.log("stdpra3", respData);
           respData?.forEach(element => {
-            element['Createddatetime#date'] =  element['Createddatetime#date']?.split('T')[0]
+            element['Createddatetime#date'] =  convertDateFormatMonthDayYear(element['Createddatetime#date']?.split('T')[0])
             
           });
           setTableData(respData);
@@ -730,7 +738,7 @@ export default function DashboardHomepage() {
           printConsole("closedCasesFilter respData: ", respData);
           console.log("stdpra4", filterHomePageTable(respData));
           respData?.forEach(element => {
-            element['Createddatetime#date'] =  element['Createddatetime#date']?.split('T')[0]
+            element['Createddatetime#date'] =  convertDateFormatMonthDayYear(element['Createddatetime#date']?.split('T')[0])
             
           });
           setTableData(filterHomePageTable(respData));
@@ -914,7 +922,7 @@ export default function DashboardHomepage() {
       //console.log("Inside filterTable not allCases before: ",initialTableData);
       console.log("stdpra5", tableArr);
       tableArr?.forEach(element => {
-        element['Createddatetime#date'] =  element['Createddatetime#date']?.split('T')[0]
+        element['Createddatetime#date'] =  convertDateFormatMonthDayYear(element['Createddatetime#date']?.split('T')[0])
         
       });
       setTableData(tableArr);
@@ -927,7 +935,7 @@ export default function DashboardHomepage() {
       //console.log("Inside filterTable not allCases after: ",filteredArray);
       console.log("stdpra6", filteredArray);
       filteredArray?.forEach(element => {
-        element['Createddatetime#date'] =  element['Createddatetime#date']?.split('T')[0]
+        element['Createddatetime#date'] =  convertDateFormatMonthDayYear(element['Createddatetime#date']?.split('T')[0])
         
       });
       setTableData(filteredArray);

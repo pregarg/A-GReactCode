@@ -57,6 +57,28 @@ const MemberInformationAccordion = (props) => {
           location.state.stageName === "CaseArchived"),
     );
   }, [location]);
+  // Local state update without backend interaction
+  const handleLocalStateUpdate = (name, value) => {
+    setMemberInformationData((prevState) => ({
+      ...prevState,
+      [name]: value.toUpperCase(),
+    }));
+  };
+
+// Save data to backend only on blur
+  const handleMemInformationBlur = (e) => {
+    const scrollPosition = window.scrollY; // Save current scroll position
+
+    const { name, value } = e.target;
+    const updatedData = {
+      ...memberInformationData,
+      [name]: value.toUpperCase(),
+    };
+
+    props.setMemberInformationData(updatedData); // Backend update
+    window.scrollTo(0, scrollPosition); // Restore scroll position
+  };
+
 
   const handleMemberInformationData = (name, value, persist) => {
     const newData = {
@@ -527,14 +549,15 @@ const MemberInformationAccordion = (props) => {
                 placeholder="White Glove Reason"
                 // value={whiteGloveReason}
                 value={memberInformationData.WhiteGloveReason || ""}
-                onChange={(e) => {
-                  console.log("Input value:", e.target.value);
-                  handleMemberInformationData(
-                    "WhiteGloveReason",
-                    e.target.value,
-                    true
-                  );
-                }}
+                // onChange={(e) => {
+                //   handleMemberInformationData(
+                //     "WhiteGloveReason",
+                //     e.target.value,
+                //     true
+                //   );
+                // }}
+                onBlur={(e) => handleMemInformationBlur(e)}
+                onChange={(e) => handleLocalStateUpdate(e.target.name, e.target.value)}
                 // onChange={
                 //   (e) => { console.log("Input value:", e.target.value)
                 //      setWhiteGloveReason(e.target.value)}}
@@ -558,13 +581,15 @@ const MemberInformationAccordion = (props) => {
                 placeholder="White Glove Cancelled Reason"
                 value={memberInformationData.WhiteGloveCancelledReason || ""}
                 // onChange={(e) => setWhiteGloveCancelledReason(e.target.value)}
-                onChange={(e) => {
-                  console.log("Input value:", e.target.value);
-                  handleMemberInformationData(
-                    "WhiteGloveCancelledReason",
-                    e.target.value,
-                  );
-                }}
+                // onChange={(e) => {
+                //   console.log("Input value:", e.target.value);
+                //   handleMemberInformationData(
+                //     "WhiteGloveCancelledReason",
+                //     e.target.value,
+                //   );
+                // }}
+                onBlur={(e) => handleMemInformationBlur(e)}
+                onChange={(e) => handleLocalStateUpdate(e.target.name, e.target.value)}
                 disabled={whiteGloveIndicator}
               />
               <label>White Glove Cancelled Reason</label>
