@@ -301,7 +301,10 @@ const CaseInformationAccordion = (props) => {
               </div>
             </div>
           </div> */}
-          <div className="case Collobaration">
+
+          
+          {/*commented for now as all links are disabled at every WS
+           <div className="case Collobaration">
             <p className="collobarationheader">Case Collaboration</p>
             <div className="row my-2">
               <div className="col-xs-6 col-md-4">
@@ -326,7 +329,7 @@ const CaseInformationAccordion = (props) => {
                 )}
               </div>
             </div>
-          </div>
+          </div> */}
 
         </div>
       </div>

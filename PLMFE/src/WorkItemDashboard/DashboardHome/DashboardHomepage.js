@@ -945,6 +945,7 @@ export default function DashboardHomepage() {
   //Legal Entity Name~OrganizationName,
 
   console.log("tableData",tableData)
+
   const filterTableColumnName =(tableData) =>{
     console.log("tableData 1234",tableData)
     if (!tableData || tableData.length === 0 || !tableData[0].TransactionType) {
@@ -954,8 +955,7 @@ export default function DashboardHomepage() {
     let columnNames ="";
     if (transactionType === "Provider Disputes" || transactionType === "Appeals") {   
       console.log("table transactiontype",transactionType)
-      columnNames = "Case#~CaseNumber,Transaction Type~TransactionType,Stage Name~StageName,Previous Stage~PreviousStage,Case Received Date~Createddatetime#date";
-  
+      columnNames = "Case#~CaseNumber,Transaction Type~TransactionType,Current Stage~StageName,Previous Stage~PreviousStage,Case Received Date~Createddatetime#date";
     }
     else 
     {

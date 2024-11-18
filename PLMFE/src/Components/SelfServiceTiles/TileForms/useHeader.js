@@ -1980,8 +1980,10 @@ export const useHeader = () => {
   };
 
   //save and exit button
-  const saveAndExit = async () => {
-    console.log("step0")
+  const saveAndExit = async (event) => {
+    callProcRef.current = "callProc";
+    const saveType = event.target.name === "saveAndSubmit" ? "SS" : "SE";
+    if (saveType === "SS"){
     if(memberInformation.isChecked === '1') {
       if(!memberInformation.WhiteGloveReason) {
         alert("White glove reason need to be filled")
@@ -2006,10 +2008,12 @@ export const useHeader = () => {
       setShowSubmitError(true);
       return;
     }
-    callProcRef.current = "callProc";
+  }
+  
 
-    //const saveType = event.target.name === "saveAndSubmit" ? "SS" : "SE";
-    const saveType = "SS";
+  
+    // let saveType = callProcRef.current === "callProc" ? "SS" : "SE";
+    //const saveType = "SS";
     let apiJson = {};
 
     const angCaseHeader = trimJsonValues({ ...caseHeader });
@@ -2433,32 +2437,78 @@ export const useHeader = () => {
 
         if (apiStat === -1) {
           alert("Error in updating data");
+          return;
         }
-
         if (apiStat === 0) {
-          updateDecision(location, saveType, "Appeals");
-
-          let procData = {};
-          let procDataState = {};
-          procDataState.stageName = location.state.stageName;
-          procDataState.flowId = location.state.flowId;
-          // procDataState.decisionNotes = decisionTab.Authorization_Case_Notes;
-          procDataState.decisionNotes = location.state.decisionNotes;
-          procDataState.caseNumber = location.state.caseNumber;
-          // procDataState.decision = decisionTab.Authorization_Decision;
-          // procDataState.decisionReason = decisionTab.Authorization_Decision_Reason;
-          procDataState.decision = location.state.decision;
-          procDataState.decisionReason = location.state.decisionReason;
-          procDataState.userName = authSelector.userName || "system";
-          procDataState.formNames = "Appeals";
-          procData.state = procDataState;
-
-          alert("Case updated successfully: " + location.state.caseNumber);
-          submitCase(procData, navigateHome);
-          navigateHome();
+          if (saveType === "SE") {
+            alert("Case data updated successfully");  
+            setTimeout(() => {
+              getAngCaseByCaseNumber(); 
+            }, 500);
+            navigateHome();
+          }
+  
+          if (saveType === "SS") {
+            alert("Case updated successfully: " + location.state.caseNumber);
+            updateDecision(location, saveType, "Appeals");
+  
+            let procData = {
+              state: {
+                stageName: location.state.stageName,
+                flowId: location.state.flowId,
+                decisionNotes: location.state.decisionNotes,
+                caseNumber: location.state.caseNumber,
+                decision: location.state.decision,
+                decisionReason: location.state.decisionReason,
+                userName: authSelector.userName || "system",
+                formNames: "Appeals",
+              },
+            };
+            console.log("procDATA for submitcase",procData)
+            submitCase(procData, navigateHome);
+            navigateHome();
+          }
         }
+      })
+      .catch((err) => {
+        console.error("Error occurred while saving data:", err);
+        alert("Error occurred while saving data");
       });
   };
+
+  //       if (apiStat === 0) {
+  //         alert("Case data updated successfully");
+  //         updateDecision(location, saveType, "Appeals");
+
+  //         let procData = {};
+  //         let procDataState = {};
+  //         procDataState.stageName = location.state.stageName;
+  //         procDataState.flowId = location.state.flowId;
+  //         // procDataState.decisionNotes = decisionTab.Authorization_Case_Notes;
+  //         procDataState.decisionNotes = location.state.decisionNotes;
+  //         procDataState.caseNumber = location.state.caseNumber;
+  //         // procDataState.decision = decisionTab.Authorization_Decision;
+  //         // procDataState.decisionReason = decisionTab.Authorization_Decision_Reason;
+  //         procDataState.decision = location.state.decision;
+  //         procDataState.decisionReason = location.state.decisionReason;
+  //         procDataState.userName = authSelector.userName || "system";
+  //         procDataState.formNames = "Appeals";
+  //         procData.state = procDataState;
+  //         console.log("procDATA for submitcase",procData)
+  //         if(saveType === "SS"){
+  //         alert("Case updated successfully: " + location.state.caseNumber);
+  //         submitCase(procData, navigateHome);
+  //         navigateHome();
+  //         }
+  //         if (saveType === "SE") {
+  //           setTimeout(() => {
+  //             getAngCaseByCaseNumber();
+  //           }, 500);
+  //           navigateHome();
+  //         }
+  //       }
+  //     });
+  // };
 
   const removeDateInKeys = (obj) => { 
     if (typeof obj !== 'object' || obj === null) return obj; 
