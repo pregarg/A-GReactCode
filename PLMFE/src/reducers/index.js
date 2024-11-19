@@ -430,9 +430,9 @@ const masterAngCaseLevelPriorityReducer = (state = [], action) => {
 };
 
 const masterAngIssueLevelReducer = (state = [], action) => {
-  if (action.type === "GET_ISSUE_LEVEL") {
+  if (action.type === "GET_ANG_ISSUE_LEVEL") {
     return [action.payload];
-  } else if (action.type === "CLEAR_ISSUE_LEVEL") {
+  } else if (action.type === "CLEAR_ANG_ISSUE_LEVEL") {
     state = [];
     return state;
   }
@@ -877,9 +877,9 @@ const masterPDIssueLevelNumReducer = (state = [], action) => {
   return state;
 };
 const masterPDIssueLevelPriorityReducer = (state = [], action) => {
-  if (action.type === "GET_ISSUE_LEVEL") {
+  if (action.type === "GET_PD_ISSUE_LEVEL") {
     return [action.payload];
-  } else if (action.type === "CLEAR_ISSUE_LEVEL") {
+  } else if (action.type === "CLEAR_PD_ISSUE_LEVEL") {
     state = [];
     return state;
   }
