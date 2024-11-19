@@ -2526,9 +2526,13 @@ export const useHeader = () => {
         return acc; }, {}); 
   }
 
-  const pdsaveAndExit = async () => {
+  const pdsaveAndExit = async (event) => {
+    callProcRef.current = "callProc";
+    const saveType = event.target.name === "saveAndSubmit" ? "SS" : "SE";
+    // const saveType = "SS";
+    if(saveType === "SS"){
     if(checkForPdGridData()) {
-      alert("Please fill all mandatory field")
+      alert("Please fill all mandatory grid field")
       return;
     }
     if (checkForPDError()?.length > 0) {
@@ -2536,11 +2540,7 @@ export const useHeader = () => {
       setShowSubmitError(true);
       return;
     }
-  
-    callProcRef.current = "callProc";
-
-    //const saveType = event.target.name === "saveAndSubmit" ? "SS" : "SE";
-    const saveType = "SS";
+  }
 
     let apiJson = {};
     const temp = localStorage.getItem('checkBox') == 'true' ?1:0;
@@ -2911,28 +2911,43 @@ export const useHeader = () => {
         if (apiStat === -1) {
           alert("Error in updating data");
         }
-
         if (apiStat === 0) {
-          updateDecision(location, saveType, "Provider Disputes");
-
-          let procData = {};
-          let procDataState = {};
-          procDataState.stageName = location.state.stageName;
-          procDataState.flowId = location.state.flowId;     
-          procDataState.decisionNotes = location.state.decisionNotes;
-          procDataState.caseNumber = location.state.caseNumber;
-          procDataState.decision = location.state.decision;
-          procDataState.decisionReason = location.state.decisionReason;
-          procDataState.userName = authSelector.userName || "system";
-          procDataState.formNames = "Provider Disputes";
-          procData.state = procDataState;
-
-          alert("Case updated successfully: " + location.state.caseNumber);
-          submitCase(procData, navigateHome);
-          navigateHome();
+          if (saveType === "SE") {
+            alert("Case data updated successfully");  
+            setTimeout(() => {
+              getPDCaseByCaseNumber(); 
+            }, 500);
+            navigateHome();
+          }
+  
+          if (saveType === "SS") {
+            alert("Case updated successfully: " + location.state.caseNumber);
+            updateDecision(location, saveType, "Provider Disputes");
+  
+            let procData = {
+              state: {
+                stageName: location.state.stageName,
+                flowId: location.state.flowId,
+                decisionNotes: location.state.decisionNotes,
+                caseNumber: location.state.caseNumber,
+                decision: location.state.decision,
+                decisionReason: location.state.decisionReason,
+                userName: authSelector.userName || "system",
+                formNames: "Provider Disputes",
+              },
+            };
+            console.log("procDATA for submitcase",procData)
+            submitCase(procData, navigateHome);
+            navigateHome();
+          }
         }
+      })
+      .catch((err) => {
+        console.error("Error occurred while saving data:", err);
+        alert("Error occurred while saving data");
       });
   };
+
 
   return {
     caseTimelines,

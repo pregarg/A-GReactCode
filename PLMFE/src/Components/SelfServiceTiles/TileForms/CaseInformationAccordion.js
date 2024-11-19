@@ -84,13 +84,13 @@ const CaseInformationAccordion = (props) => {
     );
 
     const issueLevel = issueLevelSelector?.[0] || [];
+    console.log("issueLevel",issueLevel)
     setIssueLevelValues(issueLevel.map((e) => e.Issue_Level).map(kvMapper));
 
     const masterAng = masterAngSelector?.[0] || [];
     setReviewTypeValues(masterAng.map((e) => e.Review_Type).map(kvMapper));
 
     const productType = productTypeSelector?.[0] || [];
-    console.log("productType",productType)
     setProductTypeValues(productType.map((e) => e.Product_Type).map(kvMapper));
 
     const denialType = denialTypeSelector?.[0] || [];

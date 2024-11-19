@@ -457,7 +457,7 @@ export const getMasterAngIssueLevel = (
           if (res.data.Status === 0) {
             const respData = [...res.data.data.masterAngIssueLevel];
             //console.log(response);
-            dispatch({ type: "GET_ISSUE_LEVEL", payload: respData });
+            dispatch({ type: "GET_ANG_ISSUE_LEVEL", payload: respData });
             if (onSuccess) {
               onSuccess(res);
             }
@@ -470,7 +470,7 @@ export const getMasterAngIssueLevel = (
           }
         });
     } else if (clearFlag) {
-      dispatch({ type: "CLEAR_ISSUE_LEVEL", payload: "" });
+      dispatch({ type: "CLEAR_ANG_ISSUE_LEVEL", payload: "" });
     }
   };
 };
@@ -2179,7 +2179,7 @@ export const getMasterPDIssueLevelPriority= (
           if (res.data.Status === 0) {
             const respData = [...res.data.data.masterPDIssueLevelPriority];
             //console.log(response);
-            dispatch({ type: "GET_ISSUE_LEVEL", payload: respData });
+            dispatch({ type: "GET_PD_ISSUE_LEVEL", payload: respData });
             if (onSuccess) {
               onSuccess(res);
             }
@@ -2192,7 +2192,7 @@ export const getMasterPDIssueLevelPriority= (
           }
         });
     } else if (clearFlag) {
-      dispatch({ type: "CLEAR_ISSUE_LEVEL", payload: "" });
+      dispatch({ type: "CLEAR_PD_ISSUE_LEVEL", payload: "" });
     }
   };
 };
