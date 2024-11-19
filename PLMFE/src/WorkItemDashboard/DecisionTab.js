@@ -34,7 +34,7 @@ export default function DecisionTab(props) {
     Version: false,
     HistoryModal: false,
   });
-
+  const [errors, setErrors] = useState({});
   const { printConsole, disableAllElements, changeColorOfSelect } =
     useUpdateDecision();
 
@@ -114,15 +114,18 @@ export default function DecisionTab(props) {
   const handleSelectChange = (selectedValue, evnt) => {
     const { name } = evnt;
     if (name === "decision") {
+
       prop.state.decision = selectedValue?.value;
       decisonReasonRef.current.clearValue();
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        decision: !selectedValue?.value, // Set error if empty
+      }));
     }
     if (prop.state.formNames === "Appeals") {
-      console.log("check1", prop.state.formNames);
+
       if (selectedValue?.value) {
-        console.log("check2", selectedValue?.value);
         if (decisionReasonArray[stageName]) {
-          console.log("check3", decisionReasonArray[stageName]);
           setReasonSelectValues([
             ...decisionReasonArray[stageName][selectedValue?.value],
           ]);
@@ -152,8 +155,13 @@ export default function DecisionTab(props) {
     const { name } = evnt;
     if (name === "decisionReason") {
       prop.state.decisionReason = selectedValue?.value;
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        decisionReason: !selectedValue?.value, // Set error if empty
+      }));
     }
   };
+
 
   const handleLinearFieldChange = (evt) => {
     const value = evt.target.value;
@@ -1509,6 +1517,9 @@ export default function DecisionTab(props) {
                         name="decision"
                         id="decisionDropdown"
                       />
+                      {errors.decision && (
+                          <span className="error-text">Decision is required.</span>
+                      )}
                     </div>
                   
                     {(prop.state.formNames === "Appeals" || prop.state.formNames === "Provider Disputes") &&(
@@ -1534,6 +1545,9 @@ export default function DecisionTab(props) {
                           ref={decisonReasonRef}
                           id="decisionReasonDropdown"
                         />
+                        {errors.decisionReason && (
+                            <span className="error-text">Decision Reason is required.</span>
+                        )}
                       </div>
                     )}
 

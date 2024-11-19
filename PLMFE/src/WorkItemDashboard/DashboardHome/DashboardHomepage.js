@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import healthCareLogo from "../../Images/healthCareLogo.png";
 import lockIcon from "../../Images/unlock.png";
@@ -138,6 +138,7 @@ export default function DashboardHomepage() {
   const [advancedSearchState, setAdvancedSearchState] = useState(false);
 
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   const { getTableDetails } = useGetDBTables();
 
@@ -322,11 +323,63 @@ export default function DashboardHomepage() {
   ]);
 
   useEffect(() => {
-    setTimeout(() => {
-      getDashboardTableData("Intake", "3")
-    }, 2000);
+    console.log("searchParams", searchParams.get('type'))
+    const param = searchParams.get('type');
+    const paramMap = {
+      intake: {
+        label: 'Intake',
+        flowId: '3'
+      },
+      acknowledge: {
+        label: 'Acknowledge',
+        flowId: '3'
+      },
+      caseCompleted: {
+        label: 'Case Completed',
+        flowId: '3'
+      },
+      caseArchived: {
+        label: 'Case Archived',
+        flowId: '3'
+      },
+      documentsNeeded: {
+        label: 'Documents Needed',
+        flowId: '3'
+      },
+      effectuate: {
+        label: 'Effectuate',
+        flowId: '3'
+      },
+      network: {
+        label: 'Network',
+        flowId: '3'
+      },
+      redirectReview: {
+        label: 'Redirect Review',
+        flowId: '3'
+      },
+      reopen: {
+        label: 'Reopen',
+        flowId: '3'
+      },
+      research: {
+        label: 'Research',
+        flowId: '3'
+      },
+      resolve: {
+        label: 'Resolve',
+        flowId: '3'
+      },
+      start: {
+        label: 'Start',
+        flowId: '3'
+      }
+    }
+    if(param) {
+      getDashboardTableData(paramMap[param]?.label, paramMap[param]?.flowId)
+    }
 
-  }, [])
+  }, [searchParams])
 
   const setAsPerModuleRights = () => {
     //let getApiJson = {};

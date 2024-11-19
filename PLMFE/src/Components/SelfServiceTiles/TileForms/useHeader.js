@@ -2008,6 +2008,14 @@ export const useHeader = () => {
       setShowSubmitError(true);
       return;
     }
+      if (!location.state.decision) {
+        alert("Decision is mandatory. Please select a Decision.");
+        return;
+      }
+      if (!location.state.decisionReason) {
+        alert("Decision Reason is mandatory. Please select a Decision Reason.");
+        return;
+      }
   }
   
 
@@ -2540,6 +2548,15 @@ export const useHeader = () => {
       setShowSubmitError(true);
       return;
     }
+      if (!location.state.decision) {
+        alert("Decision is mandatory. Please select a Decision.");
+        return;
+      }
+      if (!location.state.decisionReason) {
+        alert("Decision Reason is mandatory. Please select a Decision Reason.");
+        return;
+      }
+
   }
 
     let apiJson = {};

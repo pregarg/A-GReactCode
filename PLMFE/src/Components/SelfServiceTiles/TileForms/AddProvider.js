@@ -5763,9 +5763,9 @@ export default function AddProvider() {
                               licenseType: checkDataAvailable(
                                 apiResponse.ProviderLicense.LicenseType,
                               ),
-                              stateAbbreviation: checkDataAvailable(
-                                apiResponse.ProviderLicense.State,
-                              ),
+                              // stateAbbreviation: checkDataAvailable(
+                              //   apiResponse.ProviderLicense.State,
+                              // ),
                               expirationDate: checkDataAvailable(
                                 apiResponse.ProviderLicense.ExpirationDate,
                               )
