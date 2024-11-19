@@ -39,7 +39,11 @@ $border-light-gray: 0.0625rem solid $color-super-light-gray; */
     justify-content: center;
     justify-items: center;
 }
-
+.error-text {
+    color: red;
+    font-size: 0.8em;
+    margin-top: 4px;
+}
 .searchContainer{
     padding: 20px;
     background-color: var(--primary-dark);
