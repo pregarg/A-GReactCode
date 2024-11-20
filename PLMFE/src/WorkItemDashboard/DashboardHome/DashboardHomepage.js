@@ -67,8 +67,11 @@ import { MdViewModule } from "react-icons/md";
 import { styled } from "@mui/material/styles";
 import ContractingSearch from "./Globalsearch/ContractingSearch";
 import { convertDateFormatMonthDayYear } from "../../Components/SelfServiceTiles/TileForms/useHeader";
+import { paramMap } from "../../Components/SelfServiceTiles/TileForms/Constants";
 
 const drawerWidth = 243;
+
+
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -325,58 +328,9 @@ export default function DashboardHomepage() {
   useEffect(() => {
     console.log("searchParams", searchParams.get('type'))
     const param = searchParams.get('type');
-    const paramMap = {
-      intake: {
-        label: 'Intake',
-        flowId: '3'
-      },
-      acknowledge: {
-        label: 'Acknowledge',
-        flowId: '3'
-      },
-      caseCompleted: {
-        label: 'Case Completed',
-        flowId: '3'
-      },
-      caseArchived: {
-        label: 'Case Archived',
-        flowId: '3'
-      },
-      documentsNeeded: {
-        label: 'Documents Needed',
-        flowId: '3'
-      },
-      effectuate: {
-        label: 'Effectuate',
-        flowId: '3'
-      },
-      network: {
-        label: 'Network',
-        flowId: '3'
-      },
-      redirectReview: {
-        label: 'Redirect Review',
-        flowId: '3'
-      },
-      reopen: {
-        label: 'Reopen',
-        flowId: '3'
-      },
-      research: {
-        label: 'Research',
-        flowId: '3'
-      },
-      resolve: {
-        label: 'Resolve',
-        flowId: '3'
-      },
-      start: {
-        label: 'Start',
-        flowId: '3'
-      }
-    }
+    const flowId = searchParams.get('flowId');
     if(param) {
-      getDashboardTableData(paramMap[param]?.label, paramMap[param]?.flowId)
+      getDashboardTableData(paramMap[param]?.label, flowId)
     }
 
   }, [searchParams])

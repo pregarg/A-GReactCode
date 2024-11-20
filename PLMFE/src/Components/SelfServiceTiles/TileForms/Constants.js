@@ -38,3 +38,58 @@ export const renderElements = (
     </div>
   ));
 };
+
+export const paramMap = {
+  intake: {
+    label: 'Intake',
+    flowId: '3'
+  },
+  acknowledge: {
+    label: 'Acknowledge',
+    flowId: '3'
+  },
+  caseCompleted: {
+    label: 'Case Completed',
+    flowId: '3'
+  },
+  caseArchived: {
+    label: 'CaseArchived',
+    flowId: '3'
+  },
+  documentsNeeded: {
+    label: 'Documents Needed',
+    flowId: '3'
+  },
+  effectuate: {
+    label: 'Effectuate',
+    flowId: '3'
+  },
+  network: {
+    label: 'Network',
+    flowId: '3'
+  },
+  redirectReview: {
+    label: 'Redirect Review',
+    flowId: '3'
+  },
+  reopen: {
+    label: 'Reopen',
+    flowId: '3'
+  },
+  research: {
+    label: 'Research',
+    flowId: '3'
+  },
+  resolve: {
+    label: 'Resolve',
+    flowId: '3'
+  },
+  start: {
+    label: 'Start',
+    flowId: '3'
+  },
+  bulkEffectuate: {
+    label: 'Bulk Effectuate',
+    flowId: '3'
+  }
+}

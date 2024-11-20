@@ -1157,7 +1157,8 @@ export const useHeader = () => {
 
   const navigate = useNavigate();
   const navigateHome = async () => {
-    navigate("/DashboardLogin/Home", { replace: true });
+    console.log(caseHeader)
+    navigate(`/DashboardLogin/Home?type=research`, { replace: true });
     if (location.state.formView === "DashboardView") {
       const promise = new Promise((resolve, reject) => {
         resolve(updateLockStatus("N", location.state.caseNumber, 0, ""));
@@ -1166,7 +1167,7 @@ export const useHeader = () => {
       await promise
         .then(() => {
           setTimeout(() => {
-            navigate("/DashboardLogin/Home", { replace: true });
+            navigate(`/DashboardLogin/Home?type=research`, { replace: true });
           }, 1000);
         })
         .catch((err) => {
@@ -2453,7 +2454,10 @@ export const useHeader = () => {
             setTimeout(() => {
               getAngCaseByCaseNumber(); 
             }, 500);
-            navigateHome();
+            setTimeout(() => {
+              navigateHome();
+            }, 1000);
+            
           }
   
           if (saveType === "SS") {

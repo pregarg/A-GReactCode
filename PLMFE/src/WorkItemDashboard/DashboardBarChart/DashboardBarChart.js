@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
+import { useNavigate } from "react-router-dom";
+import { paramMap } from "../../Components/SelfServiceTiles/TileForms/Constants";
 
 export default function DashboardBarChart(prop) {
   const colors = [
@@ -14,6 +16,8 @@ export default function DashboardBarChart(prop) {
     "#227442",
     "#045D5D",
   ];
+
+  const navigate = useNavigate();
 
   const [chartState, setChartState] = useState({
     series: [
@@ -34,7 +38,14 @@ export default function DashboardBarChart(prop) {
             if (clickedIndex !== -1) {
               const stageName = prop.gridData[clickedIndex]["STAGENAME"];
               const flowId = prop.gridData[clickedIndex]["FLOWID"];
-              prop.dashboardTableData(stageName, flowId);
+
+              const paramKeys = Object.keys(paramMap);
+             const paramKey = paramKeys.find(key => paramMap[key].label?.trim()?.toLowerCase() === stageName?.trim()?.toLowerCase());
+             if(paramKey) {
+              navigate(`/DashboardLogin/Home?type=${paramKey}&flowId=${flowId}`, { replace: true });
+             }
+
+             // prop.dashboardTableData(stageName, flowId);
             }
           },
           xAxisLabelClick: function (event, chartContext, config) {
@@ -42,7 +53,12 @@ export default function DashboardBarChart(prop) {
             if (clickedIndex !== -1) {
               const stageName = prop.gridData[clickedIndex]["STAGENAME"];
               const flowId = prop.gridData[clickedIndex]["FLOWID"];
-              prop.dashboardTableData(stageName, flowId);
+              const paramKeys = Object.keys(paramMap);
+              const paramKey = paramKeys.find(key => paramMap[key].label?.trim()?.toLowerCase() === stageName?.trim()?.toLowerCase());
+              if(paramKey) {
+               navigate(`/DashboardLogin/Home?type=${paramKey}&flowId=${flowId}`, { replace: true });
+              }
+            //  prop.dashboardTableData(stageName, flowId);
             }
           },
         },
