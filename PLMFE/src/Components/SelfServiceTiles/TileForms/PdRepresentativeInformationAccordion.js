@@ -30,7 +30,8 @@ const PdRepresentativeInformationAccordion = (props) => {
     };
     setRepresentativeInformationData(newData);
     if (persist) {
-      props.setRepresentativeInformationData(newData);
+      props.setRepresentativeInformationData({...newData});
+
     }
   };
 

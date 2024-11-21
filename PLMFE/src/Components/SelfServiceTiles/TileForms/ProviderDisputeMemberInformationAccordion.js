@@ -74,7 +74,7 @@ const ProviderMemberInformationAccordion = (props) => {
     };
     setProviderMemberInformationData(newData);
     if (persist) {
-      props.setProviderMemberInformationData(newData);
+      props.setProviderMemberInformationData({...newData});
     }
   };
 

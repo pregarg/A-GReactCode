@@ -164,7 +164,9 @@ const ProviderDisputes = () => {
                 setCaseHeader={setCaseHeader}
                 caseHeaderFields={caseHeaderFields}
                 renderType={RenderType.PROVIDER_DISPUTE}
-                
+                pd_ProviderInformation={pd_ProviderInformation}
+                ProvidermemberInformation={ProvidermemberInformation}
+                pd_RepresentativeInformation={pd_RepresentativeInformation}
               />
               )}
               <CaseTimelinesAccordion
