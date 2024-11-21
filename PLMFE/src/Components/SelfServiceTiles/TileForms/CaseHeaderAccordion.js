@@ -31,7 +31,11 @@ const CaseHeaderAccordion = (props) => {
                         {el.name === 'White_Glove_Indicator' ? (
                             props.memberInformationData?.isChecked === '1' ||
                             props.ProviderInformationAppeals?.isChecked==='1' ||
-                            props.authorizationInformation?.isChecked === '1'
+                            props.authorizationInformation?.isChecked === '1' || 
+                            props.pd_ProviderInformation?.isChecked?.toString() === '1' ||
+                            props.ProvidermemberInformation?.isChecked?.toString() === '1' ||
+                            props.pd_RepresentativeInformation?.isChecked?.toString() === '1'
+                            
                                 ? <span className="required">It's Urgent</span>
                                 : <span></span>
                         ) : (

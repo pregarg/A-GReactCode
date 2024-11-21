@@ -47,7 +47,7 @@ const PdProviderInformationAccordion = (props) => {
     };
     setProviderInformationData(newData);
     if (persist) {
-      props.setProviderInformationData(newData);
+      props.setProviderInformationData({...newData});
     }
   };
   const persistProviderInformationDataData = () => {
