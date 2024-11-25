@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import * as Yup from "yup";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useAxios } from "../../../api/axios.hook";
 import useGetDBTables from "../../CustomHooks/useGetDBTables";
@@ -185,6 +185,7 @@ export const useHeader = () => {
     Payment_Mail_Date_Postmark: undefined,
     Reason_Text: "",
     Service_Type: "",
+    Service_Type_Desc:"",
     Service_Start_Date: undefined,
     Service_End_Date: undefined,
     Denial_Date: undefined
@@ -327,6 +328,7 @@ export const useHeader = () => {
   const [claimInformationGrid, setClaimInformationGrid] = useState([]);
   const [ProviderClaimInformationGrid, setProviderClaimInformationGrid] = useState([]);
   const [providerInformationGrid, setProviderInformationGrid] = useState([]);
+  const [searchParams] = useSearchParams();
   const [authorizationInformationGrid, setAuthorizationInformationGrid] =
     useState([]);
     const [ProviderauthorizationInformationGrid,setProviderAuthorizationInformationGrid] = useState([]);
@@ -335,6 +337,12 @@ export const useHeader = () => {
     stages.includes(location.state?.stageName?.toLowerCase())
       ? Yup.string().notRequired()
       : Yup.string().required(errorMessage);
+
+  const conditionalActivateOnStage2 = (stages, errorMessage) => 
+    Yup.string().required(errorMessage)
+    // stages.includes(searchParams.get('type'))
+    //   ? Yup.string().required(errorMessage)
+    //   : Yup.string().notRequired();
 
   const conditionalString = (dependsOn, valueEquals, validationMsg) =>
     Yup.string().when(dependsOn, {
@@ -440,7 +448,17 @@ export const useHeader = () => {
     Payment_Mail_Date_Postmark: Yup.date().required(
       "Payment Mail Date Postmark is mandatory",
     ),*/
+
+    Service_Type: conditionalActivateOnStage2(
+      ['research'],
+      "Service Type is mandatory",
+    ),
+    Service_Type_Desc: conditionalActivateOnStage2(
+      ['start'],
+      "Service Type Desc is mandatory",
+    ),
   });
+
   const memberInformationValidationSchema = Yup.object().shape({
     Email_ID: conditionalString(
       "Communication_Preference",
@@ -549,7 +567,7 @@ export const useHeader = () => {
       "Par Provider End Date is mandatory",
     ),
     Vendor_ID: Yup.string().required("Vendor ID is mandatory"),
-    Vendor_Name: Yup.string().required("Vendor_Name is mandatory"),
+    Vendor_Name: Yup.string().required("Vendor Name is mandatory"),
     Email_Address: conditionalString(
       "Communication_Preference",
       "EMAIL",
@@ -857,7 +875,7 @@ export const useHeader = () => {
   const pdsubmitData = async () => {
 
     if(checkForPdGridData()) {
-      alert("Please fill all mandatory grid data")
+      alert("Please fill all mandatory data")
       return;
     }
 
@@ -883,10 +901,11 @@ export const useHeader = () => {
     localStorage.setItem('checkBox','false');
     console.log("type of temp is : ", temp)
 
-    
+
     const checkBoxData = {isChecked : temp};
     const currentUser = authSelector.userName || "system";
     const receivedDate = extractDate(currentDate);
+
     const updatedCaseHeader = {
       ...caseHeader,
       Case_Owner: currentUser,
@@ -1023,7 +1042,7 @@ export const useHeader = () => {
     }
 
     if(checkForAppealsGridData()) {
-      alert("Please fill all mandatory grid data")
+      alert("Please fill all mandatory data")
       return;
     }
 
