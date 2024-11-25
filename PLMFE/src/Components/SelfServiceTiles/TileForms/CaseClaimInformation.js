@@ -988,19 +988,22 @@ const handleProviderInformationAppealsData = (name, value, persist) => {
                     "Payment Mail Date Postmark",
                   )}
                 </>
-              {shouldHideFields &&
-                location.state.stageName !== "Research" &&
-                renderSelectField(
+               {renderSelectField(
                   "Service_Type",
                   "Service Type",
                   serviceTypeValues,
                 )}
+                 {renderInputField(
+                "Service_Type_Desc",
+                "Service Type Description",
+                "Service Type Description",
+              )}
             </div>
             {/* <div className="row my-2">
-              {renderDatePicker(
-                "Denied_As_Of_Date ",
-                "Denied As Of Date ",
-                "Denied As Of Date",
+              {renderInputField(
+                "Service_Type_Desc",
+                "Service Type Description",
+                "Service Type Description",
               )}
             </div> */}
 
