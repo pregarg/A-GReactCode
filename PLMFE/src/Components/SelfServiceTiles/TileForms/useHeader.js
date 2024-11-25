@@ -880,7 +880,7 @@ export const useHeader = () => {
     }
 
     if (checkForPDError()?.length > 0) {
-      alert("Please fill all mandatory field")
+      alert("Please fill all mandatory fields")
       setShowSubmitError(true);
       return;
     }
@@ -1047,7 +1047,7 @@ export const useHeader = () => {
     }
 
     if (checkForAppealsError()?.length > 0) {
-      alert("Please fill all mandatory field")
+      alert("Please fill all mandatory fields")
       setShowSubmitError(true);
       return;
 
@@ -2024,7 +2024,7 @@ export const useHeader = () => {
     }
     if (checkForAppealsError()?.length > 0) {
    // if (hasSubmitError) {
-      alert("Please fill all mandatory field")
+      alert("Please fill all mandatory fields")
       setShowSubmitError(true);
       return;
     }
@@ -2563,11 +2563,11 @@ export const useHeader = () => {
     // const saveType = "SS";
     if(saveType === "SS"){
     if(checkForPdGridData()) {
-      alert("Please fill all mandatory grid field")
+      alert("Please fill all mandatory fields")
       return;
     }
     if (checkForPDError()?.length > 0) {
-      alert("Please fill all mandatory field")
+      alert("Please fill all mandatory fields")
       setShowSubmitError(true);
       return;
     }
