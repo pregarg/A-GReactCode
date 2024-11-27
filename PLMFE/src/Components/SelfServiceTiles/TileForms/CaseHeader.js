@@ -16,6 +16,7 @@ import ExpeditedRequestAccordion from "./ExpeditedRequestAccordion";
 import NotesAccordion from "./NotesAccordion";
 import DocsNeededAccordion from "./DocsNeededAccordion";
 import WrittenCommAccordion from "./WrittenCommAccordion";
+import VerbalCommAccordion from "./VerbalCommAccordion";
 import CaseDecisionDetailsAccordion from "./CaseDecisionDetailsAccordion";
 import CaseDecisionAccordion from "./CaseDecisionAccordion";
 import { FaBars } from "react-icons/fa";
@@ -86,8 +87,11 @@ const CaseHeader = () => {
     setDocNeededGrid,
     docNeededGridValidationSchema,
     writtenCommGrid,
+    verbalCommGrid,
     setWrittenCommGrid,
+    setVerbalCommGrid,
     writtenCommGridValidationSchema,
+    verbalCommGridValidationSchema,
     caseDecision,
     caseDecisionValidationSchema,
     setcaseDecision,
@@ -296,6 +300,11 @@ const CaseHeader = () => {
                 handleWrittenCommGridData={writtenCommGrid}
                 updateWrittenCommGridData={setWrittenCommGrid}
                 writtenCommGridValidationSchema={writtenCommGridValidationSchema}
+              />
+               <VerbalCommAccordion
+                handleVerbalCommGridData={verbalCommGrid}
+                updateVerbalCommGridData={setVerbalCommGrid}
+                VerbalCommGridValidationSchema={verbalCommGridValidationSchema}
               />
               {location.state.formView === "DashboardHomeView" && (
                 <DocumentSection
