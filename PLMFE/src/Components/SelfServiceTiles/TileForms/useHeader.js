@@ -592,6 +592,7 @@ export const useHeader = () => {
   });
   const docNeededGridValidationSchema = Yup.object().shape({});
   const writtenCommGridValidationSchema = Yup.object().shape({});
+  const verbalCommGridValidationSchema = Yup.object().shape({});
   const representativeInformationGridValidationSchema = Yup.object().shape({
     // Communication_Preference: Yup.string().required("Communication Preference is mandatory"),
     Email_Address: conditionalString(
@@ -1075,6 +1076,7 @@ export const useHeader = () => {
     );
     const angDocNeededGrid = getGridDataValues(docNeededGrid);
     const angWrittenCommGrid = getGridDataValues(writtenCommGrid);
+    const angVerbalCommGrid = getGridDataValues(verbalCommGrid);
 
     const angCaseHeader = trimJsonValues({ ...updatedCaseHeader });
     const angCaseTimelines = trimJsonValues({ ...caseTimelines });
@@ -1116,6 +1118,7 @@ export const useHeader = () => {
         angAuthorizationInformationGrid;
     apiJson["ANG_DOCS_NEEDED"] = angDocNeededGrid;
     apiJson["ANG_WRITTEN_COMM_GRID"] = angWrittenCommGrid;
+    apiJson["ANG_VERBAL_COMM_GRID"] = angVerbalCommGrid;
     apiJson["ANG_Expedited_Request"] = angExpeditedRequest;
     apiJson["ANG_Notes"] = angNotes;
     apiJson["ANG_Case_Decision"] = angCaseDecision;
@@ -1215,6 +1218,7 @@ export const useHeader = () => {
 
     const [docNeededGrid, setDocNeededGrid] = useState([]);
     const [writtenCommGrid, setWrittenCommGrid] = useState([]);
+    const [verbalCommGrid, setVerbalCommGrid] = useState([]);
     const [pdCaseInformationGrid, setPDCaseInformationGrid] = useState([]);
   const [mainCaseDetails, setMainCaseDetails] = useState({
     flowId: 0,
@@ -1735,6 +1739,19 @@ export const useHeader = () => {
                 });
                 setWrittenCommGrid(apiResponseArray);
                 }
+                if (k === "angVerbalCommGrid") {
+                  let apiResponseArray = [];
+                  data[k].forEach((js) => {
+                    const newJson = convertToDateObj(js);
+                    console.log(
+                      "Add a VerbalComm newJson: ",
+                      newJson,
+                    );
+                    apiResponseArray.push(newJson);
+                    
+                  });
+                  setVerbalCommGrid(apiResponseArray);
+                  }
              })
              
 
@@ -1794,6 +1811,7 @@ export const useHeader = () => {
 
         setDocNeededGrid(data?.["angDocNeededGrid"] || [] );
         setWrittenCommGrid(data?.["angWrittenCommGrid"] || [] );
+        setVerbalCommGrid(data?.["angVerbalCommGrid"] || [] );
         setExpeditedRequest(data?.["angExpeditedRequest"]?.[0] || {});
         setNotes(data?.["angNotes"]?.[0] || {});
 
@@ -2113,8 +2131,17 @@ export const useHeader = () => {
     const angWrittenCommGrid = getGridDataValues(
       writtenCommGrid,
     );
-    const originalWrittenComm = getGridDataValues(
+
+    const angVerbalCommGrid = getGridDataValues(
+      verbalCommGrid,
+    );
+
+    const originalWrittenCommGrid = getGridDataValues(
       formData["angWrittenCommGrid"], 
+    );
+
+    const originalVerbalCommGrid = getGridDataValues(
+      formData["angVerbalCommGrid"], 
     );
 
     apiJson["ANG_Case_Header"] = CompareJSON(
@@ -2145,7 +2172,14 @@ export const useHeader = () => {
       angProviderInformationAppeals,
       formData["angProviderInformationAppeals"][0],
     );
-    
+    apiJson["ANG_VERBAL_COMM_GRID"] = CompareJSON(
+        angVerbalCommGrid,
+        formData["angVerbalCommGrid"][0],
+    );
+    // apiJson["ANG_WRITTEN_COMM_GRID"] = CompareJSON(
+    //     angWrittenCommGrid,
+    //     formData["angWrittenCommGrid"][0],
+    // );
     apiJson["ANG_Expedited_Request"] = CompareJSON(
       angExpeditedRequest,
       formData["angExpeditedRequest"][0],
@@ -2471,19 +2505,19 @@ export const useHeader = () => {
     let updateWrittenCommArray = [];
     if (
       angWrittenCommGrid.length > 0 ||
-      originaWrittenCommGrid.length > 0
+      originalWrittenCommGrid.length > 0
     ) {
       const maxLength = Math.min(
         angWrittenCommGrid.length,
-        originaWrittenCommGrid.length,
+        originalWrittenCommGrid.length,
       );
 
       // // Update existing rows
       for (let i = 0; i < maxLength; i++) {
         const element = angWrittenCommGrid[i];
 
-        for (let j = 0; j < originaWrittenCommGrid.length; j++) {
-          const originalElement = originaWrittenCommGrid[j];
+        for (let j = 0; j < originalWrittenCommGrid.length; j++) {
+          const originalElement = originalWrittenCommGrid[j];
           if (element.rowNumber === originalElement.rowNumber) {
             updateWrittenCommArray.push({
               caseNumber: element["caseNumber"],
@@ -2498,7 +2532,7 @@ export const useHeader = () => {
       // Add rows
       for (let i = 0; i < angWrittenCommGrid.length; i++) {
         const angelement = angWrittenCommGrid[i];
-        const index = originaWrittenCommGrid.findIndex(
+        const index = originalWrittenCommGrid.findIndex(
           (element) => angelement.rowNumber === element.rowNumber,
         );
 
@@ -2515,8 +2549,8 @@ export const useHeader = () => {
       }
 
       // Delete rows
-      for (let i = 0; i < originaWrittenCommGrid.length; i++) {
-        const originalElement = originaWrittenCommGrid[i];
+      for (let i = 0; i < originalWrittenCommGrid.length; i++) {
+        const originalElement = originalWrittenCommGrid[i];
         const index = angWrittenCommGrid.findIndex(
           (element) => originalElement.rowNumber === element.rowNumber,
         );
@@ -2530,13 +2564,76 @@ export const useHeader = () => {
       }
     }
 
+    let updateVerbalCommArray = [];
+    if (
+      angVerbalCommGrid.length > 0 ||
+      originalVerbalCommGrid.length > 0
+    ) {
+      const maxLength = Math.min(
+        angVerbalCommGrid.length,
+        originalVerbalCommGrid.length,
+      );
+
+      // // Update existing rows
+      for (let i = 0; i < maxLength; i++) {
+        const element = angVerbalCommGrid[i];
+
+        for (let j = 0; j < originalVerbalCommGrid.length; j++) {
+          const originalElement = originalVerbalCommGrid[j];
+          if (element.rowNumber === originalElement.rowNumber) {
+            updateVerbalCommArray.push({
+              caseNumber: element["caseNumber"],
+              rowNumber: element["rowNumber"],
+              ...CompareJSON(element, originalElement),
+            });
+            break;
+          }
+        }
+      }
+
+      // Add rows
+      for (let i = 0; i < angVerbalCommGrid.length; i++) {
+        const angelement = angVerbalCommGrid[i];
+        const index = originalVerbalCommGrid.findIndex(
+          (element) => angelement.rowNumber === element.rowNumber,
+        );
+
+        if (index === -1) {
+          if (!angelement.hasOwnProperty("caseNumber")) {
+            angelement.caseNumber = location.state.caseNumber;
+          }
+          updateVerbalCommArray.push({
+            operation: "I",
+            rowNumber: angelement["rowNumber"],
+            ...angelement,
+          });
+        }
+      }
+
+      // Delete rows
+      for (let i = 0; i < originalVerbalCommGrid.length; i++) {
+        const originalElement = originalVerbalCommGrid[i];
+        const index = angVerbalCommGrid.findIndex(
+          (element) => originalElement.rowNumber === element.rowNumber,
+        );
+        if (index === -1) {
+          updateVerbalCommArray.push({
+            operation: "D",
+            caseNumber: location.state.caseNumber,
+            rowNumber: originalElement["rowNumber"],
+          });
+        }
+      }
+    }
+
     apiJson["ANG_Claim_Information_Grid"] = updateClaimArray;
     apiJson["ANG_Provider_Information_Grid"] = updateProviderArray;
     apiJson["ANG_Representative_Information_Grid"] = updateRepresentativeArray;
     apiJson["ANG_Authorization_Information_Grid"] = updateAuthorizationArray;
     apiJson["ANG_DOCS_NEEDED"] = updateDocNeededArray;
+    // apiJson["ANG_WRITTEN_COMM_GRID"] = updateWrittenCommArray;
+    // apiJson["ANG_VERBAL_COMM_GRID"] = updateVerbalCommArray;
 
-  
     apiJson["caseNumber"] = location.state.caseNumber;
     // debugger;
     const cleanedApiJson = removeDateInKeys(apiJson);
@@ -3209,8 +3306,11 @@ export const useHeader = () => {
     docNeededGrid,
     setDocNeededGrid,
     writtenCommGrid,
+    verbalCommGrid,
     setWrittenCommGrid,
+    setVerbalCommGrid,
     writtenCommGridValidationSchema,
+    verbalCommGridValidationSchema,
     docNeededGridValidationSchema, 
     caseDecision,
     caseDecisionValidationSchema,
