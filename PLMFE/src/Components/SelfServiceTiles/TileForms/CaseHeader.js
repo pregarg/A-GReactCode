@@ -15,6 +15,7 @@ import AuthorizationInformationAccordion from "./AuthorizationInformationAccordi
 import ExpeditedRequestAccordion from "./ExpeditedRequestAccordion";
 import NotesAccordion from "./NotesAccordion";
 import DocsNeededAccordion from "./DocsNeededAccordion";
+import WrittenCommAccordion from "./WrittenCommAccordion";
 import CaseDecisionDetailsAccordion from "./CaseDecisionDetailsAccordion";
 import CaseDecisionAccordion from "./CaseDecisionAccordion";
 import { FaBars } from "react-icons/fa";
@@ -84,6 +85,9 @@ const CaseHeader = () => {
     docNeededGrid,
     setDocNeededGrid,
     docNeededGridValidationSchema,
+    writtenCommGrid,
+    setWrittenCommGrid,
+    writtenCommGridValidationSchema,
     caseDecision,
     caseDecisionValidationSchema,
     setcaseDecision,
@@ -288,7 +292,11 @@ const CaseHeader = () => {
                 notesValidationSchema={notesValidationSchema}
                 shouldShowSubmitError={shouldShowSubmitError}
               />
-
+               <WrittenCommAccordion
+                handleWrittenCommGridData={writtenCommGrid}
+                updateWrittenCommGridData={setWrittenCommGrid}
+                writtenCommGridValidationSchema={writtenCommGridValidationSchema}
+              />
               {location.state.formView === "DashboardHomeView" && (
                 <DocumentSection
                   fileDataRef={documentSectionDataRef.current}

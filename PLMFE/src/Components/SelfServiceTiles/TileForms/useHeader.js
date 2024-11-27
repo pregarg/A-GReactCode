@@ -591,7 +591,7 @@ export const useHeader = () => {
     Issue_Number: Yup.string().required("Issue Number is mandatory"),
   });
   const docNeededGridValidationSchema = Yup.object().shape({});
-  
+  const writtenCommGridValidationSchema = Yup.object().shape({});
   const representativeInformationGridValidationSchema = Yup.object().shape({
     // Communication_Preference: Yup.string().required("Communication Preference is mandatory"),
     Email_Address: conditionalString(
@@ -1074,6 +1074,7 @@ export const useHeader = () => {
       authorizationInformationGrid,
     );
     const angDocNeededGrid = getGridDataValues(docNeededGrid);
+    const angWrittenCommGrid = getGridDataValues(writtenCommGrid);
 
     const angCaseHeader = trimJsonValues({ ...updatedCaseHeader });
     const angCaseTimelines = trimJsonValues({ ...caseTimelines });
@@ -1114,6 +1115,7 @@ export const useHeader = () => {
     apiJson["ANG_Authorization_Information_Grid"] =
         angAuthorizationInformationGrid;
     apiJson["ANG_DOCS_NEEDED"] = angDocNeededGrid;
+    apiJson["ANG_WRITTEN_COMM_GRID"] = angWrittenCommGrid;
     apiJson["ANG_Expedited_Request"] = angExpeditedRequest;
     apiJson["ANG_Notes"] = angNotes;
     apiJson["ANG_Case_Decision"] = angCaseDecision;
@@ -1212,6 +1214,7 @@ export const useHeader = () => {
     useState([]);
 
     const [docNeededGrid, setDocNeededGrid] = useState([]);
+    const [writtenCommGrid, setWrittenCommGrid] = useState([]);
     const [pdCaseInformationGrid, setPDCaseInformationGrid] = useState([]);
   const [mainCaseDetails, setMainCaseDetails] = useState({
     flowId: 0,
@@ -1719,6 +1722,19 @@ export const useHeader = () => {
               });
               setDocNeededGrid(apiResponseArray);
               }
+              if (k === "angWrittenCommGrid") {
+                let apiResponseArray = [];
+                data[k].forEach((js) => {
+                  const newJson = convertToDateObj(js);
+                  console.log(
+                    "Add a WrittenComm newJson: ",
+                    newJson,
+                  );
+                  apiResponseArray.push(newJson);
+                  
+                });
+                setWrittenCommGrid(apiResponseArray);
+                }
              })
              
 
@@ -1777,7 +1793,7 @@ export const useHeader = () => {
         // setDocNeededGrid(data?.["angDocNeededGrid"] || [] );
 
         setDocNeededGrid(data?.["angDocNeededGrid"] || [] );
-
+        setWrittenCommGrid(data?.["angWrittenCommGrid"] || [] );
         setExpeditedRequest(data?.["angExpeditedRequest"]?.[0] || {});
         setNotes(data?.["angNotes"]?.[0] || {});
 
@@ -2094,6 +2110,13 @@ export const useHeader = () => {
       formData["angDocNeededGrid"], 
     );
 
+    const angWrittenCommGrid = getGridDataValues(
+      writtenCommGrid,
+    );
+    const originalWrittenComm = getGridDataValues(
+      formData["angWrittenCommGrid"], 
+    );
+
     apiJson["ANG_Case_Header"] = CompareJSON(
       angCaseHeader,
       formData["angCaseHeader"][0],
@@ -2131,7 +2154,7 @@ export const useHeader = () => {
     apiJson["ANG_Case_Decision"] = CompareJSON(angCaseDecision, formData["angCaseDecision"][0]);
     apiJson["ANG_Case_Decision_Details"] = CompareJSON(angCaseDecisionDetails, formData["angCaseDecisionDetails"][0]);
     console.log("step1",apiJson["ANG_Notes"] )
-    console.log("step3",angDocNeededGrid)
+    
     
     
 
@@ -2438,6 +2461,67 @@ export const useHeader = () => {
         );
         if (index === -1) {
           updateAuthorizationArray.push({
+            operation: "D",
+            caseNumber: location.state.caseNumber,
+            rowNumber: originalElement["rowNumber"],
+          });
+        }
+      }
+    }
+    let updateWrittenCommArray = [];
+    if (
+      angWrittenCommGrid.length > 0 ||
+      originaWrittenCommGrid.length > 0
+    ) {
+      const maxLength = Math.min(
+        angWrittenCommGrid.length,
+        originaWrittenCommGrid.length,
+      );
+
+      // // Update existing rows
+      for (let i = 0; i < maxLength; i++) {
+        const element = angWrittenCommGrid[i];
+
+        for (let j = 0; j < originaWrittenCommGrid.length; j++) {
+          const originalElement = originaWrittenCommGrid[j];
+          if (element.rowNumber === originalElement.rowNumber) {
+            updateWrittenCommArray.push({
+              caseNumber: element["caseNumber"],
+              rowNumber: element["rowNumber"],
+              ...CompareJSON(element, originalElement),
+            });
+            break;
+          }
+        }
+      }
+
+      // Add rows
+      for (let i = 0; i < angWrittenCommGrid.length; i++) {
+        const angelement = angWrittenCommGrid[i];
+        const index = originaWrittenCommGrid.findIndex(
+          (element) => angelement.rowNumber === element.rowNumber,
+        );
+
+        if (index === -1) {
+          if (!angelement.hasOwnProperty("caseNumber")) {
+            angelement.caseNumber = location.state.caseNumber;
+          }
+          updateWrittenCommArray.push({
+            operation: "I",
+            rowNumber: angelement["rowNumber"],
+            ...angelement,
+          });
+        }
+      }
+
+      // Delete rows
+      for (let i = 0; i < originaWrittenCommGrid.length; i++) {
+        const originalElement = originaWrittenCommGrid[i];
+        const index = angWrittenCommGrid.findIndex(
+          (element) => originalElement.rowNumber === element.rowNumber,
+        );
+        if (index === -1) {
+          updateWrittenCommArray.push({
             operation: "D",
             caseNumber: location.state.caseNumber,
             rowNumber: originalElement["rowNumber"],
@@ -3124,6 +3208,9 @@ export const useHeader = () => {
     caseHeaderFields,
     docNeededGrid,
     setDocNeededGrid,
+    writtenCommGrid,
+    setWrittenCommGrid,
+    writtenCommGridValidationSchema,
     docNeededGridValidationSchema, 
     caseDecision,
     caseDecisionValidationSchema,
