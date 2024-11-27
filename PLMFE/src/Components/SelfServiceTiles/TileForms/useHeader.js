@@ -2172,10 +2172,10 @@ export const useHeader = () => {
       angProviderInformationAppeals,
       formData["angProviderInformationAppeals"][0],
     );
-    apiJson["ANG_VERBAL_COMM_GRID"] = CompareJSON(
-        angVerbalCommGrid,
-        formData["angVerbalCommGrid"][0],
-    );
+    // apiJson["ANG_VERBAL_COMM_GRID"] = CompareJSON(
+    //     angVerbalCommGrid,
+    //     formData["angVerbalCommGrid"][0],
+    // );
     // apiJson["ANG_WRITTEN_COMM_GRID"] = CompareJSON(
     //     angWrittenCommGrid,
     //     formData["angWrittenCommGrid"][0],
