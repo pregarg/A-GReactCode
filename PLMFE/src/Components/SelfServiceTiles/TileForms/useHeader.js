@@ -2630,6 +2630,8 @@ export const useHeader = () => {
     apiJson["ANG_Provider_Information_Grid"] = updateProviderArray;
     apiJson["ANG_Representative_Information_Grid"] = updateRepresentativeArray;
     apiJson["ANG_Authorization_Information_Grid"] = updateAuthorizationArray;
+    apiJson["ANG_WRITTEN_COMM_GRID"] = updateWrittenCommArray;
+    apiJson["ANG_VERBAL_COMM_GRID"] = updateVerbalCommArray;
     apiJson["ANG_DOCS_NEEDED"] = updateDocNeededArray;
     // apiJson["ANG_WRITTEN_COMM_GRID"] = updateWrittenCommArray;
     // apiJson["ANG_VERBAL_COMM_GRID"] = updateVerbalCommArray;
