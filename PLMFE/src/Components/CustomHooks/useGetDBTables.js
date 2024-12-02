@@ -96,8 +96,8 @@ export default function useGetDBTables() {
         "ANG_DOCS_NEEDED~angDocNeededGrid",
         "ANG_Case_Decision~angCaseDecision",
         "ANG_Case_Decision_Details~angCaseDecisionDetails",
-        // "ANG_VERBAL_COMM_GRID~angVerbalCommGrid",
-        // "ANG_WRITTEN_COMM_GRID~angWrittenCommGrid",
+        "ANG_VERBAL_COMM_GRID~angVerbalCommGrid",
+        "ANG_WRITTEN_COMM_GRID~angWrittenCommGrid",
       ],
       angCaseStatusTable: ["ANG_MASTER_CASE_STATUS~angCaseStatus"],
       pdTables: [

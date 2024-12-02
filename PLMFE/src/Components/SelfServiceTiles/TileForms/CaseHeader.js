@@ -295,17 +295,22 @@ const CaseHeader = () => {
                 notesErrors={notesErrors}
                 notesValidationSchema={notesValidationSchema}
                 shouldShowSubmitError={shouldShowSubmitError}
-              />
+              /> {stageName !== "Start" || ( stage === "CaseArchived"||stage === "Acknowledge"|| stage === "Redirect Review" || stage === "Documents Needed"
+                || stage === "Research" ||stage === "Effectuate" || stage === "Pending Effectuate"
+                || stage === "Resolve" || stage ==="Case Completed"|| stage === "Reopen") &&(
                <WrittenCommAccordion
                 handleWrittenCommGridData={writtenCommGrid}
                 updateWrittenCommGridData={setWrittenCommGrid}
                 writtenCommGridValidationSchema={writtenCommGridValidationSchema}
-              />
+              /> )}
+              {stageName !== "Start" || ( stage === "CaseArchived"||stage === "Acknowledge"|| stage === "Redirect Review" || stage === "Documents Needed"
+                  || stage === "Research" ||stage === "Effectuate" || stage === "Pending Effectuate"
+                  || stage === "Resolve" || stage ==="Case Completed"|| stage === "Reopen") &&(
                <VerbalCommAccordion
                 handleVerbalCommGridData={verbalCommGrid}
                 updateVerbalCommGridData={setVerbalCommGrid}
                 VerbalCommGridValidationSchema={verbalCommGridValidationSchema}
-              />
+              />)}
               {location.state.formView === "DashboardHomeView" && (
                 <DocumentSection
                   fileDataRef={documentSectionDataRef.current}
