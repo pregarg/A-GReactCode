@@ -253,7 +253,7 @@ export default function useGetDBTables() {
       month = month < 10 ? "0" + month : month;
       const year = dateVal.getFullYear();
 
-      retDate = `${year}-${month}-${day}`;
+      retDate = `${month}-${day}-${year}`;
     }
     return retDate;
   };

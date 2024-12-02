@@ -1056,6 +1056,7 @@ export const useHeader = () => {
 
     const currentUser = authSelector.userName || "system";
     const receivedDate = extractDate(currentDate);
+    
     const updatedCaseHeader = {
       ...caseHeader,
       Case_Owner: currentUser,
@@ -1970,6 +1971,13 @@ export const useHeader = () => {
                     
                   });
                   setProviderAuthorizationInformationGrid(apiResponseArray);
+              }
+              if(k === 'pdCaseHeader') {
+                data[k].forEach((js) => {
+                  js['Original_Case_Received_Date#date'] = extractDate(new Date(js['Original_Case_Received_Date#date'] ))
+                
+                });
+               
               }
                 })
       
