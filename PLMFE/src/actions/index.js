@@ -1526,7 +1526,216 @@ export const getMasterAngAORType = (
     }
   };
 };
-
+export const getMasterAngLetterTriggerType = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append("tableName", "ANG_MASTER_LETTER_TRIGGER_TYPE~masterAngLetterTriggerType");
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterAngLetterTriggerType];
+            //console.log(response);
+            dispatch({ type: "GET_ANG_LETTER_TRIGGER_TYPE", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_ANG_LETTER_TRIGGER_TYPE", payload: "" });
+    }
+  };
+};
+export const getMasterAngStatus = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append("tableName", "ANG_MASTER_STATUS~masterAngStatus");
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterAngStatus];
+            //console.log(response);
+            dispatch({ type: "GET_ANG_STATUS", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_ANG_STATUS", payload: "" });
+    }
+  };
+};
+export const getMasterAngCommType = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append("tableName", "ANG_MASTER_COMMUNICATION_TYPE~masterAngCommType");
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterAngCommType];
+            //console.log(response);
+            dispatch({ type: "GET_ANG_COMMUNICATION_TYPE", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_ANG_COMMUNICATION_TYPE", payload: "" });
+    }
+  };
+};
+export const getMasterAngCommWith = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append("tableName", "ANG_MASTER_COMMUNICATION_WITH~masterAngCommWith");
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterAngCommWith];
+            //console.log(response);
+            dispatch({ type: "GET_ANG_COMMUNICATION_WITH", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_ANG_COMMUNICATION_WITH", payload: "" });
+    }
+  };
+};
+export const getMasterAngPurposeOfOutreach = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append("tableName", "ANG_MASTER_PURPOSEOFOUTREACH~masterAngPurposeOfOutreach");
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterAngPurposeOfOutreach];
+            //console.log(response);
+            dispatch({ type: "GET_ANG_PURPOSEOFOUTREACH", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_ANG_PURPOSEOFOUTREACH", payload: "" });
+    }
+  };
+};
+export const getMasterAngMailingMethod = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append("tableName", "ANG_MASTER_MAILING_METHOD~masterAngMailingMethod");
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterAngMailingMethod];
+            //console.log(response);
+            dispatch({ type: "GET_ANG_MAILING_METHOD", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_ANG_MAILING_METHOD", payload: "" });
+    }
+  };
+};
 export const getMasterPDTimeFrameExtended = (
   token,
   clearFlag = false,
