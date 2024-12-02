@@ -46,6 +46,12 @@ import {
   getMasterAngDocument,
   getMasterAngRelationship,
   getMasterAngAORType,
+  getMasterAngStatus,
+  getMasterAngCommWith,
+  getMasterAngCommType,
+  getMasterAngPurposeOfOutreach,
+  getMasterAngMailingMethod,
+  getMasterAngLetterTriggerType,
   getMasterPDCaseInCompliance,
   getMasterPDTimeFrameExtended,
   getMasterPDDepartment,
@@ -648,6 +654,55 @@ export default function DashboardLogin() {
         onMasterLoadSuccess,
       ),
     );
+    dispatch(
+      getMasterAngStatus(
+        loginToken,
+        false,
+        onMasterLoadFail,
+        onMasterLoadSuccess,
+      ),
+    );
+    dispatch(
+      getMasterAngCommType(
+        loginToken,
+        false,
+        onMasterLoadFail,
+        onMasterLoadSuccess,
+      ),
+    );
+    dispatch(
+      getMasterAngCommWith(
+        loginToken,
+        false,
+        onMasterLoadFail,
+        onMasterLoadSuccess,
+      ),
+    );
+    dispatch(
+      getMasterAngPurposeOfOutreach(
+        loginToken,
+        false,
+        onMasterLoadFail,
+        onMasterLoadSuccess,
+      ),
+    );
+    dispatch(
+      getMasterAngMailingMethod(
+        loginToken,
+        false,
+        onMasterLoadFail,
+        onMasterLoadSuccess,
+      ),
+    );
+    dispatch(
+      getMasterAngLetterTriggerType(
+        loginToken,
+        false,
+        onMasterLoadFail,
+        onMasterLoadSuccess,
+      ),
+    );
+    
     dispatch(
       getMasterPDTimeFrameExtended(
         loginToken,

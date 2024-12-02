@@ -42,21 +42,21 @@ export default function VerbalCommTable({
   const [memberProviderListValues, setmemberProviderListValues] = useState([]);
 
   let prop = useLocation();
-  const masterAngLetterTriggerSelector = useSelector(
-    (state) => state?.masterAngLetterTrigger,
+  const masterAngPurposeOfOutreachSelector = useSelector(
+    (state) => state?.masterAngPurposeOfOutreach,
   );
   const masterAngCommunicationTypeSelector = useSelector(
-    (state) => state?.masterAngCommunicationType,
+    (state) => state?.masterAngCommType,
   );
-  const masterAngNameDescriptionSelector = useSelector(
-    (state) => state?.masterAngNameDescription,
+  const masterAngStatusSelector = useSelector(
+    (state) => state?.masterAngStatus,
   );
 
   const masterAngMailingMethodSelector = useSelector(
     (state) => state?.masterAngMailingMethod,
   );
   const masterAngCommunicationWithSelector = useSelector(
-    (state) => state?.masterAngCommunicationWith,
+    (state) => state?.masterAngCommWith,
   );
   const masterAngMemberProviderListSelector = useSelector(
     (state) => state?.masterAngMemberProviderList,
@@ -67,26 +67,26 @@ useEffect(() => {
       label: convertToCase(e),
       value: convertToCase(e),
     });
-    // const letterTrigger = masterAngLetterTriggerSelector?.[0] || [];
-    // setletterTriggerTypeValues(
-    //     letterTrigger.map((e) => e.Doc_Needed).map(kvMapper),
-    // );
+    const purposeOfOutreach = masterAngPurposeOfOutreachSelector?.[0] || [];
+    setpurposeOutreachValues(
+      purposeOfOutreach.map((e) => e.Purpose_of_Outreach).map(kvMapper),
+    );
     const communicationType = masterAngCommunicationTypeSelector?.[0] || [];
     setcommunicationTypeValues(
-        communicationType.map((e) => e.Requested_From).map(kvMapper),
+        communicationType.map((e) => e.Communication_Type).map(kvMapper),
     );
-    // const nameDescription =masterAngNameDescriptionSelector?.[0] || [];
-    // setnameDescriptionValues(
-    //     nameDescription.map((e) => e.Needed_By).map(kvMapper),
-    // );
+    const status =masterAngStatusSelector?.[0] || [];
+    setstatusValues(
+      status.map((e) => e.Status).map(kvMapper),
+    );
 
     // const mailingMethod = masterAngMailingMethodSelector?.[0] || [];
     // setletterTriggerTypeValues(
     //     mailingMethod.map((e) => e.Doc_Needed).map(kvMapper),
     // );
     const communicationWith = masterAngCommunicationWithSelector?.[0] || [];
-    setcommunicationTypeValues(
-        communicationWith.map((e) => e.Requested_From).map(kvMapper),
+    setcommunicationWithValues(
+        communicationWith.map((e) => e.Communication_With).map(kvMapper),
     );
     // const memberProviderList =masterAngMemberProviderListSelector?.[0] || [];
     // setnameDescriptionValues(

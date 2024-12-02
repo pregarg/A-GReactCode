@@ -43,10 +43,10 @@ export default function WrittenCommTable({
 
   let prop = useLocation();
   const masterAngLetterTriggerSelector = useSelector(
-    (state) => state?.masterAngLetterTrigger,
+    (state) => state?.masterAngLetterTriggerType,
   );
   const masterAngCommunicationTypeSelector = useSelector(
-    (state) => state?.masterAngCommunicationType,
+    (state) => state?.masterAngCommType,
   );
   const masterAngNameDescriptionSelector = useSelector(
     (state) => state?.masterAngNameDescription,
@@ -56,7 +56,7 @@ export default function WrittenCommTable({
     (state) => state?.masterAngMailingMethod,
   );
   const masterAngCommunicationWithSelector = useSelector(
-    (state) => state?.masterAngCommunicationWith,
+    (state) => state?.masterAngCommWith,
   );
   const masterAngMemberProviderListSelector = useSelector(
     (state) => state?.masterAngMemberProviderList,
@@ -69,11 +69,11 @@ useEffect(() => {
     });
     const letterTrigger = masterAngLetterTriggerSelector?.[0] || [];
     setletterTriggerTypeValues(
-        letterTrigger.map((e) => e.Doc_Needed).map(kvMapper),
+        letterTrigger.map((e) => e.Letter_Trigger_Type).map(kvMapper),
     );
     const communicationType = masterAngCommunicationTypeSelector?.[0] || [];
     setcommunicationTypeValues(
-        communicationType.map((e) => e.Requested_From).map(kvMapper),
+        communicationType.map((e) => e.Communication_Type).map(kvMapper),
     );
     const nameDescription =masterAngNameDescriptionSelector?.[0] || [];
     setnameDescriptionValues(
@@ -81,12 +81,12 @@ useEffect(() => {
     );
 
     const mailingMethod = masterAngMailingMethodSelector?.[0] || [];
-    setletterTriggerTypeValues(
-        mailingMethod.map((e) => e.Doc_Needed).map(kvMapper),
+    setmailingMethodValues(
+        mailingMethod.map((e) => e.Mailing_Method).map(kvMapper),
     );
     const communicationWith = masterAngCommunicationWithSelector?.[0] || [];
-    setcommunicationTypeValues(
-        communicationWith.map((e) => e.Requested_From).map(kvMapper),
+    setcommunicationWithValues(
+        communicationWith.map((e) => e.Communication_With).map(kvMapper),
     );
     const memberProviderList =masterAngMemberProviderListSelector?.[0] || [];
     setnameDescriptionValues(

@@ -713,6 +713,61 @@ const masterAngAuthDecisionReducer = (state = [], action) => {
   }
   return state;
 };
+const masterAngStatusReducer = (state = [], action) => {
+  if (action.type === "GET_ANG_STATUS") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_ANG_STATUS") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+const masterAngCommTypeReducer = (state = [], action) => {
+  if (action.type === "GET_ANG_COMMUNICATION_TYPE") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_ANG_COMMUNICATION_TYPE") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+const masterAngCommWithReducer = (state = [], action) => {
+  if (action.type === "GET_ANG_COMMUNICATION_WITH") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_ANG_COMMUNICATION_WITH") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+const masterAngPurposeOfOutreachReducer = (state = [], action) => {
+  if (action.type === "GET_ANG_PURPOSEOFOUTREACH") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_ANG_PURPOSEOFOUTREACH") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+const masterAngMailingMethodReducer = (state = [], action) => {
+  if (action.type === "GET_ANG_MAILING_METHOD") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_ANG_MAILING_METHOD") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+const masterAngLetterTriggerTypeReducer = (state = [], action) => {
+  if (action.type === "GET_ANG_LETTER_TRIGGER_TYPE") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_ANG_LETTER_TRIGGER_TYPE") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+
 
 const masterPDTimeFrameExtendedReducer = (state = [], action) => {
   if (action.type === "GET_TIMEFRAME_EXTENDED") {
@@ -1140,6 +1195,12 @@ export default combineReducers({
   masterAngRelationship: masterAngRelationshipReducer,
   masterAngAORType: masterAngAORTypeReducer,
   masterAngAuthDecision:masterAngAuthDecisionReducer,
+  masterAngStatus:masterAngStatusReducer,
+  masterAngCommType:masterAngCommTypeReducer,
+  masterAngCommWith:masterAngCommWithReducer,
+  masterAngPurposeOfOutreach:masterAngPurposeOfOutreachReducer,
+  masterAngMailingMethod:masterAngMailingMethodReducer,
+  masterAngLetterTriggerType:masterAngLetterTriggerTypeReducer,
 
   masterPDTimeFrameExtended:masterPDTimeFrameExtendedReducer,
   masterPDCaseInCompliance:masterPDCaseInComplianceReducer,
