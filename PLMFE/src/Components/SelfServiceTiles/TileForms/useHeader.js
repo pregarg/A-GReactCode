@@ -1183,7 +1183,9 @@ export const useHeader = () => {
   const navigate = useNavigate();
   const navigateHome = async () => {
     console.log(caseHeader)
-    navigate(`/DashboardLogin/Home?type=research`, { replace: true });
+   const type =  localStorage.getItem('type')
+   const flowId = localStorage.getItem('flowId')
+    navigate(`/DashboardLogin/Home?type=${type}&flowId=${flowId}`, { replace: true });
     if (location.state.formView === "DashboardView") {
       const promise = new Promise((resolve, reject) => {
         resolve(updateLockStatus("N", location.state.caseNumber, 0, ""));
@@ -1192,7 +1194,9 @@ export const useHeader = () => {
       await promise
         .then(() => {
           setTimeout(() => {
-            navigate(`/DashboardLogin/Home?type=research`, { replace: true });
+            const type =  localStorage.getItem('type')
+            const flowId = localStorage.getItem('flowId')
+            navigate(`/DashboardLogin/Home?type=${type}&flowId=${flowId}`, { replace: true });
           }, 1000);
         })
         .catch((err) => {
