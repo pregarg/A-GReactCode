@@ -330,7 +330,10 @@ export default function DashboardHomepage() {
     const param = searchParams.get('type');
     const flowId = searchParams.get('flowId');
     if(param) {
-      getDashboardTableData(paramMap[param]?.label, flowId)
+      setTimeout(() => {
+        getDashboardTableData(paramMap[param]?.label, flowId) 
+      }, 500);
+  
     }
 
   }, [searchParams])

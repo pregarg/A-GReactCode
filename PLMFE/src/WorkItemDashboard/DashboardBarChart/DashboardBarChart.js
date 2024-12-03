@@ -19,6 +19,11 @@ export default function DashboardBarChart(prop) {
 
   const navigate = useNavigate();
 
+  const saveParamsToStorage = (type, flowId) => {
+    localStorage.setItem('type', type)
+    localStorage.setItem('flowId', flowId)
+  }
+
   const [chartState, setChartState] = useState({
     series: [
       {
@@ -42,6 +47,7 @@ export default function DashboardBarChart(prop) {
               const paramKeys = Object.keys(paramMap);
              const paramKey = paramKeys.find(key => paramMap[key].label?.trim()?.toLowerCase() === stageName?.trim()?.toLowerCase());
              if(paramKey) {
+              saveParamsToStorage(paramKey, flowId);
               navigate(`/DashboardLogin/Home?type=${paramKey}&flowId=${flowId}`, { replace: true });
              }
 
@@ -56,6 +62,7 @@ export default function DashboardBarChart(prop) {
               const paramKeys = Object.keys(paramMap);
               const paramKey = paramKeys.find(key => paramMap[key].label?.trim()?.toLowerCase() === stageName?.trim()?.toLowerCase());
               if(paramKey) {
+                saveParamsToStorage(paramKey, flowId);
                navigate(`/DashboardLogin/Home?type=${paramKey}&flowId=${flowId}`, { replace: true });
               }
             //  prop.dashboardTableData(stageName, flowId);
