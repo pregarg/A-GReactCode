@@ -299,6 +299,7 @@ const CaseHeader = () => {
                 || stage === "Research" ||stage === "Effectuate" || stage === "Pending Effectuate"
                 || stage === "Resolve" || stage ==="Case Completed"|| stage === "Reopen") &&(
                <WrittenCommAccordion
+               memberInformation={memberInformation}
                 handleWrittenCommGridData={writtenCommGrid}
                 updateWrittenCommGridData={setWrittenCommGrid}
                 writtenCommGridValidationSchema={writtenCommGridValidationSchema}
