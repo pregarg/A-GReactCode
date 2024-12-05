@@ -32,6 +32,16 @@ const WrittenCommAccordion = (props) => {
 
   const gridDataRef = useRef({});
 
+  useEffect(()=> {
+    if(props.memberInformation && writtenCommGridData?.length > 0) {
+      writtenCommGridData.forEach(dt => {
+        dt.Member_Provider_List = props.memberInformation.Member_First_Name + ' ' + props.memberInformation.Member_Last_Name
+      })
+      setWrittenCommGridData([...writtenCommGridData])
+    }
+
+  }, [props.handleWrittenCommGridData, writtenCommGridData])
+
   const addTableRows = (triggeredFormName, index) => {
     let rowsInput = {};
     console.log("triggeredFormName DOC NEEDED",triggeredFormName)
