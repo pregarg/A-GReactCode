@@ -20,15 +20,21 @@ export default function WrittenCommTable({
   editTableRows,
   gridFieldTempState,
   validationSchema,
+  providerInformationGrid,
+  setGridFieldTempState,
+  memberInformation
 }) {
   WrittenCommTable.displayName = "WrittenCommTable";
 
   const [dataIndex, setDataIndex] = useState();
+
   const [validationErrors, setValidationErrors] = useState({});
 
   const [operationValue, setOperationValue] = useState("");
 
   const [modalShow, setModalShow] = useState(false);
+  const [providerSelected, setProviderSelected] = useState(false);
+  const [memberSelected, setMemberSelected] = useState(false);
 
   const [isTouched, setIsTouched] = useState({});
 
@@ -61,6 +67,48 @@ export default function WrittenCommTable({
   const masterAngMemberProviderListSelector = useSelector(
     (state) => state?.masterAngMemberProviderList,
   );
+
+
+  useEffect(() => {
+    if(memberSelected) {
+      let tempInput = { ...gridFieldTempState };
+    
+      //providerInformationGrid
+      tempInput['Member_Provider_List'] =  memberInformation.Member_First_Name + ' ' + memberInformation.Member_Last_Name;
+      setGridFieldTempState(tempInput);
+    } else {
+
+      if(providerSelected) {
+        let tempInput = { ...gridFieldTempState };
+        console.log(providerInformationGrid)
+      
+        const provisingRow = providerInformationGrid.find(pg => pg.Provider_Type === 'PROVISIONING')
+      let providerName = ''
+        if(provisingRow) {
+      providerName = provisingRow['Provider_Name']
+      
+        } else {
+          if(providerInformationGrid?.length > 0) {
+            providerName = providerInformationGrid?.[0]?.['Provider_Name']
+      
+          }
+      
+        }
+      
+        //providerInformationGrid
+        tempInput['Member_Provider_List'] = providerName;
+        setGridFieldTempState(tempInput);
+      }  else {
+      
+      let tempInput = { ...gridFieldTempState };
+    
+    
+      tempInput['Member_Provider_List'] = '';
+      setGridFieldTempState(tempInput);
+    }
+  }
+      }, [memberSelected, providerSelected])
+  
  
 useEffect(() => {
     const kvMapper = (e) => ({
@@ -151,13 +199,23 @@ useEffect(() => {
           options={options}
           data={gridFieldTempState}
           validationErrors={validationErrors}
-          onChange={(selectValue, event) =>
+          onChange={(selectValue, event) => {
+            setProviderSelected(false)
+            setMemberSelected(false)
+            if(selectValue === 'PROVIDER' && event.name ==='Communication_With') {
+              setProviderSelected(true)
+            }
+            if(selectValue === 'MEMBER' && event.name ==='Communication_With') {
+              setMemberSelected(true)
+            }
             handleGridSelectChange(
               index,
               selectValue,
               event,
               WrittenCommTable.displayName,
             )
+          }
+           
           }
         //   disabled={
         //         prop.state.formView === "DashboardView" &&
@@ -201,6 +259,7 @@ useEffect(() => {
   };
 
   const tdDataReplica = (index) => {
+
     return (
       <div className="Container AddProviderLabel AddModalLabel">
         <div className="row">
@@ -213,18 +272,146 @@ useEffect(() => {
           {renderSimpleSelectField(
             "Communication_Type",
             "CommunicationType",
-            communicationTypeValues,
+            [{
+              label: 'NOTICE OF IRE OVERTURN',
+              value: 'NOTICE OF IRE OVERTURN'
+             }, {
+              label: 'APPEAL AUTOFORWARD LETTER',
+              value: 'APPEAL AUTOFORWARD LETTER'
+             }, {
+              label: 'NON PAR DISMISSAL',
+              value: 'NON PAR DISMISSAL'
+             },
+             {
+              label: 'NON PAR DENIAL LETTER',
+              value: 'NON PAR DENIAL LETTER'
+             }, {
+              label: 'NON PAR MEDICAL RECORDS REQUEST',
+              value: 'NON PAR MEDICAL RECORDS REQUEST'
+             },
+             {
+              label: 'NON PAR WOL REQUEST',
+              value: 'NON PAR WOL REQUEST'
+             }, {
+              label: 'APPOINTMENT OF REPRESENTATIVE',
+              value: 'APPOINTMENT OF REPRESENTATIVE'
+             }, {
+              label: 'APPEAL ACKNOWLEDGEMENT LETTER',
+              value: 'APPEAL ACKNOWLEDGEMENT LETTER'
+             },
+             {
+              label: 'AOR REQUEST FORM_POA_EOE',
+              value: 'AOR REQUEST FORM_POA_EOE'
+             }, {
+              label: 'NON PAR AOR and WOL REQUEST LETTER',
+              value: 'NON PAR AOR and WOL REQUEST LETTER'
+             },
+             {
+              label: 'APPEAL DISMISSAL LETTER',
+              value: 'APPEAL DISMISSAL LETTER'
+             },
+             {
+              label: 'APPEAL UPHOLD LETTER',
+              value: 'APPEAL UPHOLD LETTER'
+             }, {
+              label: 'APPEAL OVERTURN LETTER',
+              value: 'APPEAL OVERTURN LETTER'
+             }, {
+              label: 'PAR PROVIDER APPROVAL',
+              value: 'PAR PROVIDER APPROVAL'
+             },
+             {
+              label: 'PAR CORRESPONDENCE LETTER',
+              value: 'PAR CORRESPONDENCE LETTER'
+             }, 
+             {
+              label: 'NON PAR APPROVAL',
+              value: 'NON PAR APPROVAL'
+             },
+             {
+              label: 'NON PAR CORRESPONDENCE LETTER',
+              value: 'NON PAR CORRESPONDENCE LETTER'
+             },
+             {
+               label: 'CORRESPONDENCE',
+              value: 'CORRESPONDENCE'
+             }, 
+             ],
             index,
           )}
            {renderSimpleSelectField(
             "Name_Description",
             "Name & Description",
-            nameDescriptionValues,
+            [{
+              label: 'NOTICE OF IRE OVERTURN',
+              value: 'NOTICE OF IRE OVERTURN'
+             }, {
+              label: 'APPEAL AUTOFORWARD LETTER',
+              value: 'APPEAL AUTOFORWARD LETTER'
+             }, {
+              label: 'NON PAR DISMISSAL',
+              value: 'NON PAR DISMISSAL'
+             },
+             {
+              label: 'NON PAR DENIAL LETTER',
+              value: 'NON PAR DENIAL LETTER'
+             }, {
+              label: 'NON PAR MEDICAL RECORDS REQUEST',
+              value: 'NON PAR MEDICAL RECORDS REQUEST'
+             },
+             {
+              label: 'NON PAR WOL REQUEST',
+              value: 'NON PAR WOL REQUEST'
+             }, {
+              label: 'APPOINTMENT OF REPRESENTATIVE',
+              value: 'APPOINTMENT OF REPRESENTATIVE'
+             }, {
+              label: 'APPEAL ACKNOWLEDGEMENT LETTER',
+              value: 'APPEAL ACKNOWLEDGEMENT LETTER'
+             },
+             {
+              label: 'AOR REQUEST FORM_POA_EOE',
+              value: 'AOR REQUEST FORM_POA_EOE'
+             }, {
+              label: 'NON PAR AOR and WOL REQUEST LETTER',
+              value: 'NON PAR AOR and WOL REQUEST LETTER'
+             },
+             {
+              label: 'APPEAL DISMISSAL LETTER',
+              value: 'APPEAL DISMISSAL LETTER'
+             },
+             {
+              label: 'APPEAL UPHOLD LETTER',
+              value: 'APPEAL UPHOLD LETTER'
+             }, {
+              label: 'APPEAL OVERTURN LETTER',
+              value: 'APPEAL OVERTURN LETTER'
+             }, {
+              label: 'PAR PROVIDER APPROVAL',
+              value: 'PAR PROVIDER APPROVAL'
+             },
+             {
+              label: 'PAR CORRESPONDENCE LETTER',
+              value: 'PAR CORRESPONDENCE LETTER'
+             }, 
+             {
+              label: 'NON PAR APPROVAL',
+              value: 'NON PAR APPROVAL'
+             },
+             {
+              label: 'NON PAR CORRESPONDENCE LETTER',
+              value: 'NON PAR CORRESPONDENCE LETTER'
+             },
+             {
+               label: 'CORRESPONDENCE',
+              value: 'CORRESPONDENCE'
+             }, 
+             ],
             index,
           )}
            {renderSimpleSelectField(
             "Mailing_Method",
-            "Mailing_Method",
+            "Mailing Method",
             mailingMethodValues,
             index,
           )}
@@ -239,10 +426,10 @@ useEffect(() => {
             communicationWithValues,
             index,
           )}
-           {renderSimpleSelectField(
+           {renderSimpleInputField(
             "Member_Provider_List",
             "Member/Provider List",
-            memberProviderListValues,
+            4000,
             index,
           )}
           {renderSimpleDatePickerField(

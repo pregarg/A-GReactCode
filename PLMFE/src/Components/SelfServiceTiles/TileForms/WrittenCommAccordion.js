@@ -288,12 +288,15 @@ const WrittenCommAccordion = (props) => {
             <div className="row my-2">
               <div className="col-xs-6 col-md-12">
                 <WrittenCommTable
+                memberInformation={props.memberInformation}
+                providerInformationGrid={props.providerInformationGrid}
                   writtenCommGridData={writtenCommGridData}
                   addTableRows={addTableRows}
                   deleteTableRows={deleteTableRows}
                   handleGridSelectChange={handleGridSelectChange}
                   handleGridDateChange={handleGridDateChange}
                   handleGridFieldChange={handleGridFieldChange}
+                  setGridFieldTempState={setGridFieldTempState}
                   gridFieldTempState={gridFieldTempState}
                   editTableRows={editTableRows}
                   gridRowsFinalSubmit={gridRowsFinalSubmit}
