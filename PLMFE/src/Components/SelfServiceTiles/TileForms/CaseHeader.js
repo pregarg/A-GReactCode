@@ -311,7 +311,7 @@ const CaseHeader = () => {
                <VerbalCommAccordion
                 handleVerbalCommGridData={verbalCommGrid}
                 updateVerbalCommGridData={setVerbalCommGrid}
-                VerbalCommGridValidationSchema={verbalCommGridValidationSchema}
+                verbalCommGridValidationSchema={verbalCommGridValidationSchema}
               />)}
               {location.state.formView === "DashboardHomeView" && (
                 <DocumentSection
