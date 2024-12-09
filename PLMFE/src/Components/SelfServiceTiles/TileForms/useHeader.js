@@ -591,8 +591,18 @@ export const useHeader = () => {
     Issue_Number: Yup.string().required("Issue Number is mandatory"),
   });
   const docNeededGridValidationSchema = Yup.object().shape({});
-  const writtenCommGridValidationSchema = Yup.object().shape({});
-  const verbalCommGridValidationSchema = Yup.object().shape({});
+  const writtenCommGridValidationSchema = Yup.object().shape({
+    Communication_Type: Yup.string().required("Communication Type is mandatory"),
+    Name_Description:Yup.string().required("Name & Description is mandatory"),
+    Mail_Tracking_Number:Yup.string().required("Mail Tracking Number is mandatory"),
+    Communication_Request_Date:Yup.string().required("Communication Request Date is mandatory"),
+  });
+  const verbalCommGridValidationSchema = Yup.object().shape({
+    Communication_Type: Yup.string().required("Communication Type is mandatory"),
+    Purpose_of_Outreach: Yup.string().required("Purpose of Outreach is mandatory"),
+    Outreach_Date_Time: Yup.string().required("Outreach Date Time is mandatory"),
+    Status: Yup.string().required("Status is mandatory"),
+  });
   const representativeInformationGridValidationSchema = Yup.object().shape({
     // Communication_Preference: Yup.string().required("Communication Preference is mandatory"),
     Email_Address: conditionalString(
@@ -802,6 +812,7 @@ export const useHeader = () => {
         ...expeditedRequestErrors,
         ...caseDecisionDetailsErrors,
         ...caseDecisionErrors,
+        ...notesErrors,
         ...pdCaseInformationErrors,
         ...memberAltErrors,
       }).length > 0,
@@ -813,6 +824,7 @@ export const useHeader = () => {
     providerClaimInformationErrors,
     memberInformationErrors,
     providerNotesErrors,
+    notesErrors,
     ProvidermemberInformationErrors,
     PdProviderInformationErrors,
     expeditedRequestErrors,

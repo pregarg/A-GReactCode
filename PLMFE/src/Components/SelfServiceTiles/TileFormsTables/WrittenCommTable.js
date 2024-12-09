@@ -142,6 +142,23 @@ useEffect(() => {
     );
     
 }, []);
+
+useEffect(() => {
+  try {
+    setValidationErrors([]);
+    validationSchema.validateSync(gridFieldTempState, { abortEarly: false });
+  } catch (errors) {
+    const validationErrors = errors.inner.reduce((acc, error) => {
+      acc[error.path] = error.message;
+      return acc;
+    }, {});
+    console.log(
+      "errors were encountered in writtern communication table",
+      validationErrors,
+    );
+    setValidationErrors(validationErrors);
+  }
+}, [gridFieldTempState]);
   
 
   const tableFields = [
@@ -624,7 +641,7 @@ useEffect(() => {
         </table>
       </div>
       <GridModal
-        name="Documents Needed"
+        name="Written Communication"
         validationObject={isTouched}
         modalShow={modalShow}
         handleModalChange={handleModalChange}

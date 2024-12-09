@@ -61,6 +61,23 @@ export default function VerbalCommTable({
   const masterAngMemberProviderListSelector = useSelector(
     (state) => state?.masterAngMemberProviderList,
   );
+
+  useEffect(() => {
+    try {
+      setValidationErrors([]);
+      validationSchema.validateSync(gridFieldTempState, { abortEarly: false });
+    } catch (errors) {
+      const validationErrors = errors.inner?.reduce((acc, error) => {
+        acc[error.path] = error.message;
+        return acc;
+      }, {});
+      console.log(
+        "errors were encountered in verbal communication table",
+        validationErrors,
+      );
+      setValidationErrors(validationErrors);
+    }
+  }, [gridFieldTempState]);
  
 useEffect(() => {
     const kvMapper = (e) => ({
@@ -418,7 +435,7 @@ useEffect(() => {
         </table>
       </div>
       <GridModal
-        name="Documents Needed"
+        name="Verbal Communication"
         validationObject={isTouched}
         modalShow={modalShow}
         handleModalChange={handleModalChange}
