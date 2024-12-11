@@ -24,12 +24,15 @@ import PdProviderInformationAccordion from "../TileForms/PdProviderInformationAc
 import RepresentativeAltContactAccordion from "../TileForms/RepresentativeAltContactAccordion";
 import { RenderType } from "./Constants";
 import ProviderAddOfRecordsAccordion from "./ProviderAddOfRecordsAccordion";
+import ProviderRedirectToAccordion from "./ProviderRedirectToAccordion";
 import ProviderNotesAccordion from "../TileForms/PdNotesAccordion";
+import ReviewAccordion from "../TileForms/ReviewAccordion";
+import CaseResolutionAccordion from "./CaseResolutionAccordion";
 
 
 
 const ProviderDisputes = () => {
-  
+
   ProviderDisputes.displayName = "Provider Disputes";
   const providerDisputeConfigData = JSON.parse(
     process.env.REACT_APP_PROVIDERDISPUTES_DETAILS,
@@ -43,6 +46,7 @@ const ProviderDisputes = () => {
     pd_ProviderInformation,
     pd_RepresentativeAltRecord,
     pd_ProviderAddRecord,
+    pd_ProviderRedirectTo,
     pd_ProviderAlt,
     pd_MemberAltInfo,
     caseTimelinesValidationSchema,
@@ -54,6 +58,7 @@ const ProviderDisputes = () => {
     setpdProviderInformation,
     setpdRepresentativeAltRecord,
     setpdProviderAddRecord,
+    setpdProviderRedirectTo,
     setpdProviderAlt,
     setpdMemberAltInfo,
     handleCaseHeaderChange,
@@ -66,11 +71,19 @@ const ProviderDisputes = () => {
     ProviderclaimInformationValidationFilingGridSchema,
     ProvidermemberInformation,
     ProvidermemberInformationValidationSchema,
+    caseResolutionValidationSchema,
+    caseResolutionErrors,
+    caseResolution,
+    setCaseResolution,
     setProviderMemberInformation,
     providerNotes,
     providerNotesValidationSchema,
     setProviderNotes,
     providerNotesErrors,
+    providerReview,
+    setProviderReview,
+    reviewValidationSchema,
+    reviewErrors,
     handleAuthorizationInformationChange,
     authorizationInformation,
     ProviderauthorizationInformationGrid,
@@ -81,6 +94,7 @@ const ProviderDisputes = () => {
     providerInformationErrors,
     representativeAltErrors,
     providerAddErrors,
+    providerRedirectToErrors,
     providerAltErrors,
     memberAltErrors,
     location,
@@ -100,12 +114,14 @@ const ProviderDisputes = () => {
     ProviderclaimInformationGridRowValidationSchema,
     setIscheckedBox,
     ProviderauthorizationInformationGridValidationSchema,
+    ProviderCaseResolutionGridGridValidationSchema,
     memberAddOfRecordsValidationSchema,
     representativeAddOfRecordsValidationSchema,
     representativeInformationValidationSchema,
     providerInformationValidationSchema,
     representativeAltContactValidationSchema,
     providerAddOfRecordsValidationSchema,
+    providerRedirectToValidationSchema,
     providerAltValidationSchema,
     caseTimelinesFields,
     memberAddRecordFields,
@@ -114,6 +130,7 @@ const ProviderDisputes = () => {
     providerInformationFields,
     representativeAltFields,
     providerAddRecordFields,
+    providerRedirectToFields,
     providerAltFields,
     memberAltFields,
     setRenderType,
@@ -130,26 +147,26 @@ const ProviderDisputes = () => {
     pdClaimInformationFilingGrid,
     setPDClaimInformationFilingGrid,
     pdsaveAndExit,
-    
+
   } = useHeader();
   const providerDisputesConfigData = JSON.parse(
     process.env.REACT_APP_PROVIDERDISPUTES_DETAILS || "{}",
-   
+
   );
-  console.log("PD_location",location)
+  console.log("PD_location", location)
 
   useEffect(() => {
     setRenderType(RenderType.PROVIDER_DISPUTE);
   }, []);
 
   const stage = location.state.stageName;
-  const stageName =providerDisputesConfigData["StageName"];
+  const stageName = providerDisputesConfigData["StageName"];
   const FormComponent = () => (
     <div
       className="accordion AddProviderLabel"
       id="accordionPanelsStayOpenExample"
     >
-      <Formik initialValues={{}} onSubmit={() => {}}>
+      <Formik initialValues={{}} onSubmit={() => { }}>
         <div className="container">
           <div className="row">
             <div className="col-xs-6" style={{ textAlign: "center" }}>
@@ -191,7 +208,7 @@ const ProviderDisputes = () => {
                 renderType={RenderType.PROVIDER_DISPUTE}
                 authorizationInformationGridValidationSchema={
                   ProviderauthorizationInformationGridValidationSchema
-                 }
+                }
               />
 
               <ProviderDisputeClaimInformation
@@ -208,39 +225,39 @@ const ProviderDisputes = () => {
                 setIscheckedBox = {setIscheckedBox}
                 authorizationInformationGridValidationSchema={ProviderclaimInformationValidationGridSchema}
                 authorizationInformationFilingGridValidationSchema={ProviderclaimInformationValidationFilingGridSchema}
-               
+
               />
-              
+
               <PdProviderInformationAccordion
-                  providerInformationData={pd_ProviderInformation}
-                  setProviderInformationData={setpdProviderInformation}
-                  providerInformationValidationSchema={providerInformationValidationSchema}
-                  providerInformationFields={providerInformationFields}
-                  providerInformationErrors={providerInformationErrors}
-                  shouldShowSubmitError={shouldShowSubmitError}
-                  setIscheckedBox = {setIscheckedBox}
-                  renderType={RenderType.PROVIDER_DISPUTE}
+                providerInformationData={pd_ProviderInformation}
+                setProviderInformationData={setpdProviderInformation}
+                providerInformationValidationSchema={providerInformationValidationSchema}
+                providerInformationFields={providerInformationFields}
+                providerInformationErrors={providerInformationErrors}
+                shouldShowSubmitError={shouldShowSubmitError}
+                setIscheckedBox={setIscheckedBox}
+                renderType={RenderType.PROVIDER_DISPUTE}
 
               />
               <ProviderAddOfRecordsAccordion
-                  providerAddData={pd_ProviderAddRecord}
-                  setProviderAddData={setpdProviderAddRecord}
-                  providerAddOfRecordsValidationSchema={providerAddOfRecordsValidationSchema}
-                  providerAddRecordFields={providerAddRecordFields}
-                  providerAddErrors={providerAddErrors}
-                  shouldShowSubmitError={shouldShowSubmitError}
-                  renderType={RenderType.PROVIDER_DISPUTE}
+                providerAddData={pd_ProviderAddRecord}
+                setProviderAddData={setpdProviderAddRecord}
+                providerAddOfRecordsValidationSchema={providerAddOfRecordsValidationSchema}
+                providerAddRecordFields={providerAddRecordFields}
+                providerAddErrors={providerAddErrors}
+                shouldShowSubmitError={shouldShowSubmitError}
+                renderType={RenderType.PROVIDER_DISPUTE}
               />
               <PdProviderAltContactAccordion
-                  providerAltData={pd_ProviderAlt}
-                  setProviderAltData={setpdProviderAlt}
-                  providerAltValidationSchema={providerAltValidationSchema}
-                  providerAltFields={providerAltFields}
-                  providerAltErrors={providerAltErrors}
-                  shouldShowSubmitError={shouldShowSubmitError}
-                  renderType={RenderType.PROVIDER_DISPUTE}
+                providerAltData={pd_ProviderAlt}
+                setProviderAltData={setpdProviderAlt}
+                providerAltValidationSchema={providerAltValidationSchema}
+                providerAltFields={providerAltFields}
+                providerAltErrors={providerAltErrors}
+                shouldShowSubmitError={shouldShowSubmitError}
+                renderType={RenderType.PROVIDER_DISPUTE}
               />
-              
+
               <ProviderDisputeMemberInformationAccordion
                 ProvidermemberInformationData={ProvidermemberInformation}
                 setProviderMemberInformationData={setProviderMemberInformation}
@@ -251,50 +268,50 @@ const ProviderDisputes = () => {
                 shouldShowSubmitError={shouldShowSubmitError}
               />
               <MemberAddOfRecordsAccordion
-                  memberAddData={pd_MemberAddRecord}
-                  setMemberAddData={setpdMemberAddRecord}
-                  memberAddOfRecordsValidationSchema={memberAddOfRecordsValidationSchema}
-                  memberAddRecordFields={memberAddRecordFields}
-                  memberAddErrors={memberAddErrors}
-                  shouldShowSubmitError={shouldShowSubmitError}
-                  renderType={RenderType.PROVIDER_DISPUTE}
+                memberAddData={pd_MemberAddRecord}
+                setMemberAddData={setpdMemberAddRecord}
+                memberAddOfRecordsValidationSchema={memberAddOfRecordsValidationSchema}
+                memberAddRecordFields={memberAddRecordFields}
+                memberAddErrors={memberAddErrors}
+                shouldShowSubmitError={shouldShowSubmitError}
+                renderType={RenderType.PROVIDER_DISPUTE}
               />
               <MemberAltContactInfoAccordion
-                  memberAltData={pd_MemberAltInfo}
-                  setMemberAltData={setpdMemberAltInfo}
-                  memberAltValidationSchema={memberAltValidationSchema}
-                  memberAltFields={memberAltFields}
-                  memberAltErrors={memberAltErrors}
-                  shouldShowSubmitError={shouldShowSubmitError}
-                  renderType={RenderType.PROVIDER_DISPUTE}
+                memberAltData={pd_MemberAltInfo}
+                setMemberAltData={setpdMemberAltInfo}
+                memberAltValidationSchema={memberAltValidationSchema}
+                memberAltFields={memberAltFields}
+                memberAltErrors={memberAltErrors}
+                shouldShowSubmitError={shouldShowSubmitError}
+                renderType={RenderType.PROVIDER_DISPUTE}
               />
 
               <PdRepresentativeInformationAccordion
-                  representativeInformationData={pd_RepresentativeInformation}
-                  setRepresentativeInformationData={setpdRepresentativeInformation}
-                  representativeInformationValidationSchema={representativeInformationValidationSchema}
-                  representativeInformationFields={representativeInformationFields}
-                  representativeInformationErrors={representativeInformationErrors}
-                  shouldShowSubmitError={shouldShowSubmitError}
-                  renderType={RenderType.PROVIDER_DISPUTE}
+                representativeInformationData={pd_RepresentativeInformation}
+                setRepresentativeInformationData={setpdRepresentativeInformation}
+                representativeInformationValidationSchema={representativeInformationValidationSchema}
+                representativeInformationFields={representativeInformationFields}
+                representativeInformationErrors={representativeInformationErrors}
+                shouldShowSubmitError={shouldShowSubmitError}
+                renderType={RenderType.PROVIDER_DISPUTE}
               />
               <RepresentativeAddRecordsAccordion
-                  representativeAddData={pd_RepresentativeAddRecord}
-                  setRepresentativeAddData={setpdRepresentativeAddRecord}
-                  representativeAddOfRecordsValidationSchema={representativeAddOfRecordsValidationSchema}
-                  representativeAddRecordFields={representativeAddRecordFields}
-                  representativeAddErrors={representativeAddErrors}
-                  shouldShowSubmitError={shouldShowSubmitError}
-                  renderType={RenderType.PROVIDER_DISPUTE}
+                representativeAddData={pd_RepresentativeAddRecord}
+                setRepresentativeAddData={setpdRepresentativeAddRecord}
+                representativeAddOfRecordsValidationSchema={representativeAddOfRecordsValidationSchema}
+                representativeAddRecordFields={representativeAddRecordFields}
+                representativeAddErrors={representativeAddErrors}
+                shouldShowSubmitError={shouldShowSubmitError}
+                renderType={RenderType.PROVIDER_DISPUTE}
               />
               <RepresentativeAltContactAccordion
-                  representativeAltData={pd_RepresentativeAltRecord}
-                  setRepresentativeAltData={setpdRepresentativeAltRecord}
-                  representativeAltContactValidationSchema={representativeAltContactValidationSchema}
-                  representativeAltFields={representativeAltFields}
-                  representativeAltErrors={representativeAltErrors}
-                  shouldShowSubmitError={shouldShowSubmitError}
-                  renderType={RenderType.PROVIDER_DISPUTE}
+                representativeAltData={pd_RepresentativeAltRecord}
+                setRepresentativeAltData={setpdRepresentativeAltRecord}
+                representativeAltContactValidationSchema={representativeAltContactValidationSchema}
+                representativeAltFields={representativeAltFields}
+                representativeAltErrors={representativeAltErrors}
+                shouldShowSubmitError={shouldShowSubmitError}
+                renderType={RenderType.PROVIDER_DISPUTE}
               />
 
               <ProviderDisputeAuthorizationInformationAccordion
@@ -308,10 +325,10 @@ const ProviderDisputes = () => {
                   setProviderAuthorizationInformationGrid
                 }
                 authorizationInformationGridValidationSchema={
-                 ProviderauthorizationInformationGridValidationSchema
+                  ProviderauthorizationInformationGridValidationSchema
                 }
                 renderType={RenderType.PROVIDER_DISPUTE}
-                
+
               />
               {/* <ProviderDecisionRecordsAccordion
                   decisionAddData={pd_DecisionAddRecord}
@@ -323,20 +340,57 @@ const ProviderDisputes = () => {
                   renderType={RenderType.PROVIDER_DISPUTE}
               /> */}
               <ProviderNotesAccordion
-                  providerNotesData={providerNotes}
-                  setProviderNotesData={setProviderNotes}
-                  providerNotesErrors={providerNotesErrors}
-                  providerNotesValidationSchema={providerNotesValidationSchema}
+                providerNotesData={providerNotes}
+                setProviderNotesData={setProviderNotes}
+                providerNotesErrors={providerNotesErrors}
+                providerNotesValidationSchema={providerNotesValidationSchema}
+                shouldShowSubmitError={shouldShowSubmitError}
+              />
+              <ReviewAccordion
+                reviewData={providerReview}
+                setReviewData={setProviderReview}
+                reviewErrors={reviewErrors}
+                reviewValidationSchema={reviewValidationSchema}
+                shouldShowSubmitError={shouldShowSubmitError}
+              />
+              <ProviderRedirectToAccordion
+                providerRedirectToData={pd_ProviderRedirectTo}
+                setProviderRedirectToData={setpdProviderRedirectTo}
+                providerRedirectToValidationSchema={providerRedirectToValidationSchema}
+                providerRedirectToFields={providerRedirectToFields}
+                providerRedirectToErrors={providerRedirectToErrors}
+                shouldShowSubmitError={shouldShowSubmitError}
+                renderType={RenderType.PROVIDER_DISPUTE}
+              />
+              <CaseResolutionAccordion
+                  caseResolutionData={caseResolution}
+                  setCaseResolutionData={setCaseResolution}
+                  caseResolutionErrors={caseResolutionErrors}
+                  caseResolutionValidationSchema={caseResolutionValidationSchema}
                   shouldShowSubmitError={shouldShowSubmitError}
               />
-               {location.state.formView === "DashboardHomeView" && (
+               {/* <CaseResolutionAccordion
+              handleCaseResolutionGridData={{} }
+              updateCaseResolutionnGridData={() =>{} }
+              caseResolutionGridValidationSchema={
+                ProviderCaseResolutionGridGridValidationSchema
+              }
+                providerCaseResolutionData={pd_ProviderRedirectTo}
+                setProviderCaseResolutionData={setpdProviderRedirectTo}
+                providerCaseResolutionValidationSchema={providerRedirectToValidationSchema}
+                providerCaseResolutionFields={providerRedirectToFields}
+                providerCaseResolutionErrors={providerRedirectToErrors}
+                shouldShowSubmitError={shouldShowSubmitError}
+                renderType={RenderType.PROVIDER_DISPUTE}
+              />  */}
+              {location.state.formView === "DashboardHomeView" && (
                 <DocumentSection
                   fileDataRef={documentSectionDataRef.current}
                   displayName={ProviderDisputes.displayName}
                   stageName={providerDisputeConfigData["StageName"]}
                 />
               )}
-             
+
             </div>
           </div>
         </div>
@@ -421,7 +475,7 @@ const ProviderDisputes = () => {
                   <DecisionTab
                     lockStatus={
                       location.state.lockStatus === undefined ||
-                      location.state.lockStatus === ""
+                        location.state.lockStatus === ""
                         ? "N"
                         : location.state.lockStatus
                     }

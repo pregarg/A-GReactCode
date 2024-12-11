@@ -152,16 +152,16 @@ const WrittenCommAccordion = (props) => {
           writtenCommGridData[index] = clonedJson;
           setWrittenCommGridData(writtenCommGridData);
         }
-        props.updateWrittenCommGridData (
-          writtenCommGridData.slice(0, -1),
-        );
-        setTimeout(
-          () =>
-            props.updateWrittenCommGridData(
-              writtenCommGridData,
-            ),
-          500,
-        );
+        // props.updateWrittenCommGridData (
+        //   writtenCommGridData.slice(0, -1),
+        // );
+        // setTimeout(
+        //   () =>
+        //     props.updateWrittenCommGridData(
+        //       writtenCommGridData,
+        //     ),
+        //   500,
+        // );
       }
 
       //Handling for data update/Delete/Insert inside grids.

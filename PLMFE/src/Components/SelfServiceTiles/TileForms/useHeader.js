@@ -20,7 +20,7 @@ import { useRepresentativeAddOfRecords } from "./useRepresentativeAddOfRecords";
 import { usePdCaseInformation } from "./usePdCaseInformation.js";
 import { useRepresentativeAltContact } from "./useRepresentativeAltContact";
 import {usePdProviderAltContactInfo} from "./usePdProviderAltContactInfo";
-
+import { useProviderRedirectTo } from "./useProviderRedirectTo";
 import {useRepresentativeInformation} from "./useRepresentativeInformation";
 import {useProviderInformation} from "./useProviderInformation";
 export function convertDateFormatMonthDayYear(inputDateStr) {
@@ -146,6 +146,12 @@ export const useHeader = () => {
     caseDecisionDetailsFields,
   } = useCaseDecisionDetail(renderType);
 
+  const {
+    providerRedirectToFields,
+    pd_ProviderRedirectTo,
+    providerRedirectToValidationSchema,
+    setpdProviderRedirectTo,
+  } = useProviderRedirectTo(renderType);
   const [caseInformation, setCaseInformation] = useState({
     caseNumber: "",
     Appeal_Type: "",
@@ -321,6 +327,18 @@ export const useHeader = () => {
     Provider_Case_Notes: "",
     Provider_Internal_Notes: "",
   });
+  const [caseResolution, setCaseResolution] = useState({
+    Letter_Clause: "",
+    Resolution_Communication_text_to_Complainant: "",
+  });
+  const [providerReview, setProviderReview] = useState({
+    Oral_Acknowledgement_Due_Date: "",
+    Oral_Acknowledgement_Date: "",
+    Written_Acknowledgement_Due_Date: "",
+    Written_Acknowledgement_Date: "",
+    Acknowledgement_Notes: "",
+  });
+
   const [notes, setNotes] = useState({
     Case_Notes: "",
     Internal_Notes: "",
@@ -521,8 +539,14 @@ export const useHeader = () => {
   const notesValidationSchema = Yup.object().shape({
     Case_Notes: Yup.string().required("Case Notes is mandatory"),
   });
+  const caseResolutionValidationSchema = Yup.object().shape({
+
+  });
   const providerNotesValidationSchema = Yup.object().shape({
     Provider_Case_Notes: Yup.string().required("Case Notes is mandatory"),
+  });
+  const reviewValidationSchema = Yup.object().shape({
+
   });
   const claimInformationGridRowValidationSchema = Yup.object().shape({
     /*Filed_Timely: Yup.string().required(
@@ -630,6 +654,8 @@ export const useHeader = () => {
   const [memberAltErrors, setMemberAltErrorsErrors] = useState([]);
   const [expeditedRequestErrors, setExpeditedRequestErrors] = useState([]);
   const [notesErrors, setNotesErrors] = useState([]);
+  const [reviewErrors, setReviewErrors] = useState([]);
+  const [caseResolutionErrors, setCaseResolutionErrors] = useState([]);
   const [providerNotesErrors, setProviderNotesErrors] = useState([]);
   const [representativeAddErrors, setRepresentativeAddErrorsErrors] = useState([]);
   const [representativeInformationErrors, setRepresentativeInformationErrorsErrors] = useState([]);
@@ -637,6 +663,7 @@ export const useHeader = () => {
   const [representativeAltErrors, setRepresentativeAltErrorsErrors] = useState([]);
   const [memberAddErrors, setMemberAddErrorsErrors] = useState([]);
   const [providerAddErrors, setProviderAddErrorsErrors] = useState([]);
+  const [providerRedirectToErrors, setProviderRedirectToErrorsErrors] = useState([]);
   const [providerAltErrors, setProviderAltErrorsErrors] = useState([]);
   const [decisionAddErrors, setDecisionAddErrorsErrors] = useState([]);
   const [caseDecisionDetailsErrors, setcaseDecisionDetailsErrors] = useState([]);
@@ -729,6 +756,8 @@ export const useHeader = () => {
       setcaseDecisionErrors
     );
     validateSync(notesValidationSchema, notes, setNotesErrors);
+    validateSync(caseResolutionValidationSchema, caseResolution , setCaseResolutionErrors);
+    validateSync(reviewValidationSchema, providerReview , setReviewErrors);
     validateSync(
       memberAddOfRecordsValidationSchema,
       pd_MemberAddRecord,
@@ -764,6 +793,11 @@ export const useHeader = () => {
         pd_ProviderAddRecord,
         setProviderAddErrorsErrors,
     );
+    validateSync(
+        providerRedirectToValidationSchema,
+        pd_ProviderRedirectTo,
+        setProviderRedirectToErrorsErrors,
+    );
 
     validateSync(
         providerAltValidationSchema,
@@ -788,7 +822,10 @@ export const useHeader = () => {
     caseDecision,
     notes,
     providerNotes,
+    providerReview,
+      caseResolution,
     pd_ProviderAddRecord,
+    pd_ProviderRedirectTo,
     pd_MemberAddRecord,
     pd_ProviderInformation,
     pd_MemberAltInfo,
@@ -808,6 +845,7 @@ export const useHeader = () => {
         ...providerNotesErrors,
         ...PdProviderInformationErrors,
         ...providerAddErrors,
+        ...providerRedirectToErrors,
         ...memberAddErrors,
         ...expeditedRequestErrors,
         ...caseDecisionDetailsErrors,
@@ -815,6 +853,8 @@ export const useHeader = () => {
         ...notesErrors,
         ...pdCaseInformationErrors,
         ...memberAltErrors,
+        ...reviewErrors,
+        ...caseResolutionErrors,
       }).length > 0,
     );
   }, [
@@ -832,8 +872,11 @@ export const useHeader = () => {
     caseDecisionErrors,
     pdCaseInformationErrors,
     providerAddErrors,
+    providerRedirectToErrors,
     memberAddErrors,
-    memberAltErrors
+    memberAltErrors,
+      reviewErrors,
+      caseResolutionErrors,
   ]);
   //const [disableSaveAndExit, setDisableSaveAndExit] = useState(true);
   const [authorizationInformation, setAuthorizationInformation] = useState({
@@ -859,7 +902,10 @@ export const useHeader = () => {
       ...PdProviderInformationErrors,
       ...pdCaseInformationErrors,
       ...providerAddErrors,
-      ...memberAddErrors
+      ...providerRedirectToErrors,
+      ...memberAddErrors,
+          ...reviewErrors,
+      ...caseResolutionErrors
       })
   }
   const checkForAppealsError = () => {
@@ -984,6 +1030,17 @@ export const useHeader = () => {
 
     const pNotes = trimJsonValues({ ...providerNotes });
     apiJson["PD_Notes"] = pNotes;
+
+
+    const pdReview = trimJsonValues({ ...providerReview });
+    apiJson["PD_Review"] = pdReview;
+
+    const pdCaseResolution = trimJsonValues({ ...caseResolution });
+    apiJson["PD_Case_Resolution"] = pdCaseResolution ;
+
+
+    const pdProviderRedirectTo = trimJsonValues({ ...pd_ProviderRedirectTo });
+    apiJson["PD_Redirect_To"] = pdProviderRedirectTo;
 
     apiJson["MainCaseTable"] = mainCaseReqBody;
     const cleanedApiJson = removeDateInKeys(apiJson);
@@ -2017,7 +2074,7 @@ export const useHeader = () => {
         setProviderMemberInformation(data?.["pdMemberInformation"]?.[0] || {});
         setpdMemberAddRecord(data?.["pdMemberAddRecord"]?.[0] || {});
         setpdMemberAltInfo(data?.["pdMemberAltInfo"]?.[0] || {});
-        
+        setpdProviderRedirectTo(data?.["pdProviderRedirectTo"]?.[0] || {});
         setpdRepresentativeInformation(data?.["pdRepresentativeInformation"]?.[0] || {});
         setpdRepresentativeAltRecord(data?.["pdRepresentativeAltRecord"]?.[0] || {});
         setpdRepresentativeAddRecord(data?.["pdRepresentativeAddRecord"]?.[0] || {});
@@ -2027,6 +2084,8 @@ export const useHeader = () => {
         setpdDecisionAddRecord(data?.["pdDecisionAddRecord"]?.[0] || {});
 
         setProviderNotes(data?.["pNotes"]?.[0] || {});
+        setProviderReview(data?.["pdReview"]?.[0] || {});
+        setCaseResolution(data?.["pdCaseResolution"]?.[0] || {});
 
         setFormData(_.cloneDeep(data));
 
@@ -2790,9 +2849,7 @@ export const useHeader = () => {
   }
 
     let apiJson = {};
-    const temp = localStorage.getItem('checkBox') == 'true' ?1:0;
-    const checkBoxData = {isChecked : temp};
-   	const pdCaseHeader = trimJsonValues({ ...caseHeader });
+    const temp = localStorage.getItem('checkBox') == 'true' ?1:0;const checkBoxData = {isChecked : temp};const pdCaseHeader = trimJsonValues({ ...caseHeader });
 	const pdCaseTimelines = trimJsonValues({ ...caseTimelines });
 	const pdCaseInformation = trimJsonValues({ ...pd_CaseInformation });
 	const pdClaimInformation = trimJsonValues({...checkBoxData});
@@ -2805,8 +2862,11 @@ export const useHeader = () => {
 	const pdRepresentativeInformation = trimJsonValues({ ...pd_RepresentativeInformation });
 	const pdRepresentativeAddRecord = trimJsonValues({ ...pd_RepresentativeAddRecord });
 	const pdRepresentativeAltRecord = trimJsonValues({ ...pd_RepresentativeAltRecord });
+  const pdProviderRedirectTo = trimJsonValues({ ...pd_ProviderRedirectTo });
 
     const pNotes = trimJsonValues({ ...providerNotes });
+    const pdReview = trimJsonValues({ ...providerReview });
+    const pdCaseResolution = trimJsonValues({ ...caseResolution});
 	const pdDecisionAddRecord = trimJsonValues({ ...pd_DecisionAddRecord });
   console.log("pdCaseInformationGrid111",pdCaseInformationGrid)
 	const pdCaseInfoGrid = getGridDataValues(pdCaseInformationGrid);
@@ -2892,6 +2952,18 @@ export const useHeader = () => {
     apiJson["PD_Notes"] = CompareJSON(
         pNotes,
         formData["pNotes"][0],
+    );
+    apiJson["PD_Review"] = CompareJSON(
+        pdReview,
+        formData["pdReview"][0],
+    );
+    apiJson["PD_Case_Resolution"] = CompareJSON(
+        pdCaseResolution,
+        formData["pdCaseResolution"][0],
+    );
+    apiJson["PD_Redirect_To"] = CompareJSON(
+        pdProviderRedirectTo,
+        formData["pdProviderRedirectTo"][0],
     );
 
     let updateCaseInfoArray = [];
@@ -3205,6 +3277,7 @@ export const useHeader = () => {
     pd_RepresentativeAltRecord,
     pd_DecisionAddRecord,
     pd_ProviderAddRecord,
+    pd_ProviderRedirectTo,
     pd_ProviderAlt,
     pd_MemberAltInfo,
     caseTimelinesValidationSchema,
@@ -3216,6 +3289,7 @@ export const useHeader = () => {
     setpdRepresentativeAltRecord,
     setpdDecisionAddRecord,
     setpdProviderAddRecord,
+    setpdProviderRedirectTo,
     setpdProviderAlt,
     setpdMemberAltInfo,
     handleCaseHeaderChange,
@@ -3262,6 +3336,14 @@ export const useHeader = () => {
     notes,
     setNotes,
     providerNotes,
+    providerReview,
+    setProviderReview,
+    reviewValidationSchema,
+    reviewErrors,
+    caseResolutionValidationSchema,
+    caseResolutionErrors,
+    caseResolution,
+    setCaseResolution,
     providerNotesValidationSchema,
     setProviderNotes,
     providerNotesErrors,
@@ -3303,6 +3385,7 @@ export const useHeader = () => {
     representativeAltErrors,
     decisionAddErrors,
     providerAddErrors,
+    providerRedirectToErrors,
     providerAltErrors,
     notesValidationSchema,
     claimInformationGridRowValidationSchema,
@@ -3316,6 +3399,7 @@ export const useHeader = () => {
     providerInformationValidationSchema,
     decisionAddOfRecordsValidationSchema,
     providerAddOfRecordsValidationSchema,
+    providerRedirectToValidationSchema,
     providerAltValidationSchema,
     caseTimelinesFields,
     memberAddRecordFields,
@@ -3325,6 +3409,7 @@ export const useHeader = () => {
     representativeAltFields,
     decisionAddRecordFields,
     providerAddRecordFields,
+    providerRedirectToFields,
     providerAltFields,
     memberAltFields,
     setRenderType,
