@@ -6,7 +6,7 @@ import { useLocation } from "react-router-dom";
 import { SimpleInputField } from "../Common/SimpleInputField";
 import { SimpleSelectField } from "../Common/SimpleSelectField";
 import { SimpleDatePickerField } from "../Common/SimpleDatePickerField";
-
+import axios from 'axios';
 export default function WrittenCommTable({
   writtenCommGridData,
   deleteTableRows,
@@ -46,6 +46,63 @@ export default function WrittenCommTable({
   const [mailingMethodValues, setmailingMethodValues] = useState([]);
   const [communicationWithValues, setcommunicationWithValues] = useState([]);
   const [memberProviderListValues, setmemberProviderListValues] = useState([]);
+  const [uploadedFile, setUploadedFile] = useState(null);
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      console.log("File uploaded:", file);
+      setUploadedFile(file);
+      saveFileLocally(file); // Save the file locally for persistence
+    }
+  };
+
+  const handleSubmit = async () => {
+    const formData = new FormData();
+
+    // Loop through form fields and append them
+    for (let key in gridFieldTempState) {
+      if (gridFieldTempState[key] instanceof File) {
+        formData.append(key, gridFieldTempState[key]); // Append file
+      } else {
+        formData.append(key, gridFieldTempState[key]); // Append other fields
+      }
+    }
+
+    try {
+      const response = await axios.post('/api/save-data', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data', // For file uploads
+        },
+      });
+      console.log("Success:", response.data);
+    } catch (error) {
+      console.error("Error uploading:", error);
+    }
+  };
+
+
+// Function to save the file in localStorage
+  const saveFileLocally = (file) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const base64 = reader.result; // Convert file to Base64 string
+      localStorage.setItem('uploadedFile', base64); // Save Base64 string to localStorage
+      console.log("File saved locally.");
+    };
+    reader.readAsDataURL(file); // Read file as data URL
+  };
+
+// Function to fetch the file from localStorage
+  const fetchFileLocally = () => {
+    const base64 = localStorage.getItem('uploadedFile');
+    if (base64) {
+      console.log("File fetched successfully:", base64);
+      return base64;
+    } else {
+      console.log("No file found in storage.");
+      return null;
+    }
+  };
 
   let prop = useLocation();
   const masterAngLetterTriggerSelector = useSelector(
@@ -278,213 +335,226 @@ useEffect(() => {
   const tdDataReplica = (index) => {
 
     return (
-      <div className="Container AddProviderLabel AddModalLabel">
-        <div className="row">
-        {renderSimpleSelectField(
-            "Letter_Trigger_Type",
-            "Letter Trigger Type",
-            letterTriggerTypeValues,
-            index,
-          )}
-          {renderSimpleSelectField(
-            "Communication_Type",
-            "CommunicationType",
-            [{
-              label: 'NOTICE OF IRE OVERTURN',
-              value: 'NOTICE OF IRE OVERTURN'
-             }, {
-              label: 'APPEAL AUTOFORWARD LETTER',
-              value: 'APPEAL AUTOFORWARD LETTER'
-             }, {
-              label: 'NON PAR DISMISSAL',
-              value: 'NON PAR DISMISSAL'
-             },
-             {
-              label: 'NON PAR DENIAL LETTER',
-              value: 'NON PAR DENIAL LETTER'
-             }, {
-              label: 'NON PAR MEDICAL RECORDS REQUEST',
-              value: 'NON PAR MEDICAL RECORDS REQUEST'
-             },
-             {
-              label: 'NON PAR WOL REQUEST',
-              value: 'NON PAR WOL REQUEST'
-             }, {
-              label: 'APPOINTMENT OF REPRESENTATIVE',
-              value: 'APPOINTMENT OF REPRESENTATIVE'
-             }, {
-              label: 'APPEAL ACKNOWLEDGEMENT LETTER',
-              value: 'APPEAL ACKNOWLEDGEMENT LETTER'
-             },
-             {
-              label: 'AOR REQUEST FORM_POA_EOE',
-              value: 'AOR REQUEST FORM_POA_EOE'
-             }, {
-              label: 'NON PAR AOR and WOL REQUEST LETTER',
-              value: 'NON PAR AOR and WOL REQUEST LETTER'
-             },
-             {
-              label: 'APPEAL DISMISSAL LETTER',
-              value: 'APPEAL DISMISSAL LETTER'
-             },
-             {
-              label: 'APPEAL UPHOLD LETTER',
-              value: 'APPEAL UPHOLD LETTER'
-             }, {
-              label: 'APPEAL OVERTURN LETTER',
-              value: 'APPEAL OVERTURN LETTER'
-             }, {
-              label: 'PAR PROVIDER APPROVAL',
-              value: 'PAR PROVIDER APPROVAL'
-             },
-             {
-              label: 'PAR CORRESPONDENCE LETTER',
-              value: 'PAR CORRESPONDENCE LETTER'
-             }, 
-             {
-              label: 'NON PAR APPROVAL',
-              value: 'NON PAR APPROVAL'
-             },
-             {
-              label: 'NON PAR CORRESPONDENCE LETTER',
-              value: 'NON PAR CORRESPONDENCE LETTER'
-             },
-             {
-               label: 'CORRESPONDENCE',
-              value: 'CORRESPONDENCE'
-             }, 
-             ],
-            index,
-          )}
-           {renderSimpleSelectField(
-            "Name_Description",
-            "Name & Description",
-            [{
-              label: 'NOTICE OF IRE OVERTURN',
-              value: 'NOTICE OF IRE OVERTURN'
-             }, {
-              label: 'APPEAL AUTOFORWARD LETTER',
-              value: 'APPEAL AUTOFORWARD LETTER'
-             }, {
-              label: 'NON PAR DISMISSAL',
-              value: 'NON PAR DISMISSAL'
-             },
-             {
-              label: 'NON PAR DENIAL LETTER',
-              value: 'NON PAR DENIAL LETTER'
-             }, {
-              label: 'NON PAR MEDICAL RECORDS REQUEST',
-              value: 'NON PAR MEDICAL RECORDS REQUEST'
-             },
-             {
-              label: 'NON PAR WOL REQUEST',
-              value: 'NON PAR WOL REQUEST'
-             }, {
-              label: 'APPOINTMENT OF REPRESENTATIVE',
-              value: 'APPOINTMENT OF REPRESENTATIVE'
-             }, {
-              label: 'APPEAL ACKNOWLEDGEMENT LETTER',
-              value: 'APPEAL ACKNOWLEDGEMENT LETTER'
-             },
-             {
-              label: 'AOR REQUEST FORM_POA_EOE',
-              value: 'AOR REQUEST FORM_POA_EOE'
-             }, {
-              label: 'NON PAR AOR and WOL REQUEST LETTER',
-              value: 'NON PAR AOR and WOL REQUEST LETTER'
-             },
-             {
-              label: 'APPEAL DISMISSAL LETTER',
-              value: 'APPEAL DISMISSAL LETTER'
-             },
-             {
-              label: 'APPEAL UPHOLD LETTER',
-              value: 'APPEAL UPHOLD LETTER'
-             }, {
-              label: 'APPEAL OVERTURN LETTER',
-              value: 'APPEAL OVERTURN LETTER'
-             }, {
-              label: 'PAR PROVIDER APPROVAL',
-              value: 'PAR PROVIDER APPROVAL'
-             },
-             {
-              label: 'PAR CORRESPONDENCE LETTER',
-              value: 'PAR CORRESPONDENCE LETTER'
-             }, 
-             {
-              label: 'NON PAR APPROVAL',
-              value: 'NON PAR APPROVAL'
-             },
-             {
-              label: 'NON PAR CORRESPONDENCE LETTER',
-              value: 'NON PAR CORRESPONDENCE LETTER'
-             },
-             {
-               label: 'CORRESPONDENCE',
-              value: 'CORRESPONDENCE'
-             }, 
-             ],
-            index,
-          )}
-           {renderSimpleSelectField(
-            "Mailing_Method",
-            "Mailing Method",
-            mailingMethodValues,
-            index,
-          )}
-          
-         
+        <div className="Container AddProviderLabel AddModalLabel">
+          <div className="row">
+            {renderSimpleSelectField(
+                "Letter_Trigger_Type",
+                "Letter Trigger Type",
+                letterTriggerTypeValues,
+                index,
+            )}
+            {renderSimpleSelectField(
+                "Communication_Type",
+                "CommunicationType",
+                [{
+                  label: 'NOTICE OF IRE OVERTURN',
+                  value: 'NOTICE OF IRE OVERTURN'
+                }, {
+                  label: 'APPEAL AUTOFORWARD LETTER',
+                  value: 'APPEAL AUTOFORWARD LETTER'
+                }, {
+                  label: 'NON PAR DISMISSAL',
+                  value: 'NON PAR DISMISSAL'
+                },
+                  {
+                    label: 'NON PAR DENIAL LETTER',
+                    value: 'NON PAR DENIAL LETTER'
+                  }, {
+                  label: 'NON PAR MEDICAL RECORDS REQUEST',
+                  value: 'NON PAR MEDICAL RECORDS REQUEST'
+                },
+                  {
+                    label: 'NON PAR WOL REQUEST',
+                    value: 'NON PAR WOL REQUEST'
+                  }, {
+                  label: 'APPOINTMENT OF REPRESENTATIVE',
+                  value: 'APPOINTMENT OF REPRESENTATIVE'
+                }, {
+                  label: 'APPEAL ACKNOWLEDGEMENT LETTER',
+                  value: 'APPEAL ACKNOWLEDGEMENT LETTER'
+                },
+                  {
+                    label: 'AOR REQUEST FORM_POA_EOE',
+                    value: 'AOR REQUEST FORM_POA_EOE'
+                  }, {
+                  label: 'NON PAR AOR and WOL REQUEST LETTER',
+                  value: 'NON PAR AOR and WOL REQUEST LETTER'
+                },
+                  {
+                    label: 'APPEAL DISMISSAL LETTER',
+                    value: 'APPEAL DISMISSAL LETTER'
+                  },
+                  {
+                    label: 'APPEAL UPHOLD LETTER',
+                    value: 'APPEAL UPHOLD LETTER'
+                  }, {
+                  label: 'APPEAL OVERTURN LETTER',
+                  value: 'APPEAL OVERTURN LETTER'
+                }, {
+                  label: 'PAR PROVIDER APPROVAL',
+                  value: 'PAR PROVIDER APPROVAL'
+                },
+                  {
+                    label: 'PAR CORRESPONDENCE LETTER',
+                    value: 'PAR CORRESPONDENCE LETTER'
+                  },
+                  {
+                    label: 'NON PAR APPROVAL',
+                    value: 'NON PAR APPROVAL'
+                  },
+                  {
+                    label: 'NON PAR CORRESPONDENCE LETTER',
+                    value: 'NON PAR CORRESPONDENCE LETTER'
+                  },
+                  {
+                    label: 'CORRESPONDENCE',
+                    value: 'CORRESPONDENCE'
+                  },
+                ],
+                index,
+            )}
+            {renderSimpleSelectField(
+                "Name_Description",
+                "Name & Description",
+                [{
+                  label: 'NOTICE OF IRE OVERTURN',
+                  value: 'NOTICE OF IRE OVERTURN'
+                }, {
+                  label: 'APPEAL AUTOFORWARD LETTER',
+                  value: 'APPEAL AUTOFORWARD LETTER'
+                }, {
+                  label: 'NON PAR DISMISSAL',
+                  value: 'NON PAR DISMISSAL'
+                },
+                  {
+                    label: 'NON PAR DENIAL LETTER',
+                    value: 'NON PAR DENIAL LETTER'
+                  }, {
+                  label: 'NON PAR MEDICAL RECORDS REQUEST',
+                  value: 'NON PAR MEDICAL RECORDS REQUEST'
+                },
+                  {
+                    label: 'NON PAR WOL REQUEST',
+                    value: 'NON PAR WOL REQUEST'
+                  }, {
+                  label: 'APPOINTMENT OF REPRESENTATIVE',
+                  value: 'APPOINTMENT OF REPRESENTATIVE'
+                }, {
+                  label: 'APPEAL ACKNOWLEDGEMENT LETTER',
+                  value: 'APPEAL ACKNOWLEDGEMENT LETTER'
+                },
+                  {
+                    label: 'AOR REQUEST FORM_POA_EOE',
+                    value: 'AOR REQUEST FORM_POA_EOE'
+                  }, {
+                  label: 'NON PAR AOR and WOL REQUEST LETTER',
+                  value: 'NON PAR AOR and WOL REQUEST LETTER'
+                },
+                  {
+                    label: 'APPEAL DISMISSAL LETTER',
+                    value: 'APPEAL DISMISSAL LETTER'
+                  },
+                  {
+                    label: 'APPEAL UPHOLD LETTER',
+                    value: 'APPEAL UPHOLD LETTER'
+                  }, {
+                  label: 'APPEAL OVERTURN LETTER',
+                  value: 'APPEAL OVERTURN LETTER'
+                }, {
+                  label: 'PAR PROVIDER APPROVAL',
+                  value: 'PAR PROVIDER APPROVAL'
+                },
+                  {
+                    label: 'PAR CORRESPONDENCE LETTER',
+                    value: 'PAR CORRESPONDENCE LETTER'
+                  },
+                  {
+                    label: 'NON PAR APPROVAL',
+                    value: 'NON PAR APPROVAL'
+                  },
+                  {
+                    label: 'NON PAR CORRESPONDENCE LETTER',
+                    value: 'NON PAR CORRESPONDENCE LETTER'
+                  },
+                  {
+                    label: 'CORRESPONDENCE',
+                    value: 'CORRESPONDENCE'
+                  },
+                ],
+                index,
+            )}
+            {renderSimpleSelectField(
+                "Mailing_Method",
+                "Mailing Method",
+                mailingMethodValues,
+                index,
+            )}
+
+
+          </div>
+          <div className="row mt-3">
+            {renderSimpleInputField("Mail_Tracking_Number", "Mail Tracking Number", 50, index)}
+            {renderSimpleSelectField(
+                "Communication_With",
+                "Communication With",
+                communicationWithValues,
+                index,
+            )}
+            {renderSimpleInputField(
+                "Member_Provider_List",
+                "Member/Provider List",
+                4000,
+                index,
+            )}
+            {renderSimpleDatePickerField(
+                "Communication_Request_Date",
+                "Communication Request Date",
+                index,
+            )}
+          </div>
+          <div className="row mt-3">
+            {renderSimpleDatePickerField(
+                "Communication_Sent_Date_Time",
+                "Communication Sent Date Time",
+                index,
+            )}
+            {renderSimpleInputField("Communication_Logs", "Communication Logs", 4000, index)}
+            {renderSimpleInputField("External_Source_ID", "External Source ID", 4000, index)}
+            {renderSimpleInputField("CCM_Status", "CCMStatus", 4000, index)}
+
+          </div>
+          <div className="row mt-3">
+            {renderSimpleInputField("Generated_By", "Generated By", 4000, index)}
+            <div className="col-xs-6 col-md-3">
+              <label htmlFor="fileUpload" className="font-weight-bold">
+                Upload File</label>
+              <input
+                  type="file"
+                  id="fileUpload"
+                  name="uploadedFile"
+                  accept=".pdf,.docx,.txt,.jpg,.png" // You can customize the accepted file types
+                  onChange={handleFileUpload} // Trigger file handling function
+              />
+            </div>
+          </div>
+
         </div>
-        <div className="row mt-3">
-          {renderSimpleInputField("Mail_Tracking_Number", "Mail Tracking Number", 50, index)}
-          {renderSimpleSelectField(
-            "Communication_With",
-            "Communication With",
-            communicationWithValues,
-            index,
-          )}
-           {renderSimpleInputField(
-            "Member_Provider_List",
-            "Member/Provider List",
-            4000,
-            index,
-          )}
-          {renderSimpleDatePickerField(
-            "Communication_Request_Date",
-            "Communication Request Date",
-            index,
-          )}
-        </div>
-        <div className="row mt-3">
-          {renderSimpleDatePickerField(
-            "Communication_Sent_Date_Time",
-            "Communication Sent Date Time",
-            index,
-          )}
-          {renderSimpleInputField("Communication_Logs", "Communication Logs", 4000, index)}
-          {renderSimpleInputField("External_Source_ID", "External Source ID", 4000, index)}
-          {renderSimpleInputField("CCM_Status", "CCMStatus", 4000, index)}
-          
-        </div>
-        <div className="row mt-3">
-        {renderSimpleInputField("Generated_By", "Generated By", 4000, index)}
-        </div>
-      </div>
-    );
+    )
+        ;
   };
 
   const tdData = () => {
-    console.log("writtenCommGridData",writtenCommGridData)
+    console.log("writtenCommGridData", writtenCommGridData)
     if (
-      writtenCommGridData !== undefined &&
-      writtenCommGridData.length > 0
+        writtenCommGridData !== undefined &&
+        writtenCommGridData.length > 0
     ) {
       return writtenCommGridData.map((data, index) => {
         return (
-          <tr
-            key={index}
-            className={
-              data.DataSource === "CredentialingApi" ? "CredentialingApi" : ""
+            <tr
+                key={index}
+                className={
+                  data.DataSource === "CredentialingApi" ? "CredentialingApi" : ""
             }
           >
             {lockStatus === "N" && (
