@@ -96,7 +96,28 @@ const CaseResolutionAccordion = (props) => {
               {renderSelectField(
                   "Letter_Clause",
                   "Letter Clause ",
-              )}
+                  [{
+                    label: 'Denied for timely filing',
+                    value: 'Denied for timely filing'
+                  }, {
+                    label: 'Incomplete information ',
+                    value: 'Incomplete information '
+                  }, {
+                    label: 'Incorrect code submitted',
+                    value: 'Incorrect code submitted'
+                  },
+                    {
+                      label: 'Billed with inappropriate place of service',
+                      value: 'Billed with inappropriate place of service      '
+                    }, {
+                    label: 'Claim already paid',
+                    value: 'Claim already paid  '
+                  }, {
+                    label: 'Claim appears to have been altered. Resubmit an original claim',
+                    value: 'Claim appears to have been altered. Resubmit an original claim'
+                  },
+                  ],
+                   )}
               {renderInputField("Resolution_Communication_text_to_Complainant", "Resolution Communication text to Complainant", 4000)}
             </div>
           </div>

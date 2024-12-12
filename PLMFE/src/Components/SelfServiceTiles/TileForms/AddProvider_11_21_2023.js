@@ -4997,16 +4997,16 @@ export default function AddProvider() {
                                   license: checkDataAvailable(
                                     data.LicenseNumber,
                                   ),
-                                  stateAbbreviation: checkDataAvailable(
-                                    data.State,
-                                  ),
+                                  // stateAbbreviation: checkDataAvailable(
+                                  //   data.State,
+                                  // ),
                                   type: "",
                                   licenseType: checkDataAvailable(
                                     data.LicenseType,
                                   ),
-                                  stateAbbreviation: checkDataAvailable(
-                                    data.State,
-                                  ),
+                                  // stateAbbreviation: checkDataAvailable(
+                                  //   data.State,
+                                  // ),
                                   expirationDate: checkDataAvailable(
                                     data.ExpirationDate,
                                   )
@@ -5024,16 +5024,16 @@ export default function AddProvider() {
                               license: checkDataAvailable(
                                 apiResponse.ProviderLicense.LicenseNumber,
                               ),
-                              stateAbbreviation: checkDataAvailable(
-                                apiResponse.ProviderLicense.State,
-                              ),
+                              // stateAbbreviation: checkDataAvailable(
+                              //   apiResponse.ProviderLicense.State,
+                              // ),
                               type: "",
                               licenseType: checkDataAvailable(
                                 apiResponse.ProviderLicense.LicenseType,
                               ),
-                              stateAbbreviation: checkDataAvailable(
-                                apiResponse.ProviderLicense.State,
-                              ),
+                              // stateAbbreviation: checkDataAvailable(
+                              //   apiResponse.ProviderLicense.State,
+                              // ),
                               expirationDate: checkDataAvailable(
                                 apiResponse.ProviderLicense.ExpirationDate,
                               )
