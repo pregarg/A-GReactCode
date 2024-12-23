@@ -161,39 +161,21 @@ const RepresentativeInformationAccordion = (props) => {
     triggeredFormName,
   ) => {
     if(fieldName ===  'AOR_Expiration_Date' && gridFieldTempState['AOR_Approved_Date'] && selectedValue) {
-      const effectiveDate = new Date(gridFieldTempState['AOR_Approved_Date']);
+      const approvedDate = new Date(gridFieldTempState['AOR_Approved_Date']);
       const expirationDate = new Date(selectedValue);
-      if(expirationDate<effectiveDate) {
-        alert('Plan Expiration Date can not be greater than Plan Effective Date');
+      if(expirationDate<approvedDate) {
+        alert('ARO Expiration Date can not be greater than ARO approved Date');
         return;
       }
     }
     if(fieldName === 'AOR_Approved_Date' && gridFieldTempState['AOR_Expiration_Date'] && selectedValue) {
-      const effectiveDate = new Date(selectedValue);
-      const expirationDate = new Date(gridFieldTempState['AOR_Expiration_Date']);
-      if(expirationDate<effectiveDate) {
-        alert('Plan Expiration Date can not be greater than Plan Effective Date');
-        return;
-      }
-    }
-    if(fieldName ===  'Authorization_Expiration_Date' && gridFieldTempState['Authorization_Approved_Date'] && selectedValue) {
-      const approvedDate = new Date(gridFieldTempState['Authorization_Approved_Date']);
-      const expirationDate = new Date(selectedValue);
-      if(expirationDate<approvedDate) {
-        alert('Expiration Date can not be greater than approved Date');
-        return;
-      }
-    }
-    if(fieldName === 'Authorization_Approved_Date' && gridFieldTempState['Authorization_Expiration_Date'] && selectedValue) {
       const approvedDate = new Date(selectedValue);
-      const expirationDate = new Date(gridFieldTempState['Authorization_Expiration_Datee']);
+      const expirationDate = new Date(gridFieldTempState['AOR_Expiration_Date']);
       if(expirationDate<approvedDate) {
-        alert(' Expiration Date can not be greater than approved Date');
+        alert('ARO Expiration Date can not be greater than ARO approved Date');
         return;
       }
     }
-
-
     let tempInput = { ...gridFieldTempState };
     tempInput[fieldName] = selectedValue;
     setGridFieldTempState(tempInput);
@@ -237,7 +219,6 @@ const RepresentativeInformationAccordion = (props) => {
         if(resApiData[0].length === 0 )  {
           console.log("No data found for the member ID");
              alert("No data found");
-             setResponseData([])
              return; 
            }
         if (resApiData.length > 0) {
