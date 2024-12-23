@@ -39,6 +39,7 @@ const PdProviderInformationAccordion = (props) => {
   const [providerInformationData, setProviderInformationData] = useState({
     ...props.providerInformationData,
     isChecked: props.providerInformationData.isChecked ?? 0, // Initialize as 0 if unchecked or null
+    ACHHS_Provider_ID: 123
   });
   const handleProviderInformationData = (name, value, persist) => {
     const newData = {

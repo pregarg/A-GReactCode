@@ -576,7 +576,7 @@ export default function AddProvider() {
     console.log(taxDescValues);
     if (taxDescValues && taxDescValues.length) {
       const desc = taxDescValues.find((val) => {
-        return val.taxonomycode.trim() == data.trim();
+        return val.taxonomycode?.trim() == data?.trim();
       });
       if (desc && desc.taxonomydesc) {
         return desc.taxonomydesc;
@@ -599,7 +599,7 @@ export default function AddProvider() {
     if (specialityValues && specialityValues.length) {
       const desc = specialityValues.find((val) => {
         //console.log("checkSubSpeciality find val------------------->" ,val);
-        return val.speciality.trim() == inpJson.speciality.trim();
+        return val.speciality?.trim() == inpJson.speciality?.trim();
       });
       printConsole("Inside checkSubSpeciality function found json: ", desc);
       if (desc) {
@@ -912,7 +912,7 @@ export default function AddProvider() {
         NpiId:
           values.caqhNpiId !== undefined
             ? typeof values.caqhNpiId === "string"
-              ? values.caqhNpiId.trim()
+              ? values.caqhNpiId?.trim()
               : values.caqhNpiId
             : "",
         FlowId: credentialingConfigData["FlowId"],
@@ -920,7 +920,7 @@ export default function AddProvider() {
         ContractId: apiTestState.contractId?.value || "",
         LegalEntityName:
           values.organizationName !== undefined
-            ? values.organizationName.trim()
+            ? values.organizationName?.trim()
             : "",
       };
 
@@ -4941,7 +4941,7 @@ export default function AddProvider() {
         let isDecisionDiscard = true;
         const dec =
           prop.state.decision !== undefined
-            ? prop.state.decision.toUpperCase().trim()
+            ? prop.state.decision.toUpperCase()?.trim()
             : "";
 
         if (callProcRef.current === "callProc" && dec === "") {
@@ -6958,7 +6958,7 @@ export default function AddProvider() {
           token,
           "HealthPlan",
           masterUserName,
-          orgValue.trim(),
+          orgValue?.trim(),
         );
         printConsole(
           "Inside getDashboardData provContLinkData Data before promise resolve: ",
@@ -7366,10 +7366,10 @@ export default function AddProvider() {
                                   onClick={(event) =>
                                     getData(
                                       event,
-                                      values.caqhId.trim(),
+                                      values.caqhId?.trim(),
                                       values.ssn,
                                       values.organizationName !== undefined
-                                        ? values.organizationName.trim()
+                                        ? values.organizationName?.trim()
                                         : "",
                                       apiTestState.contractId,
                                     )
