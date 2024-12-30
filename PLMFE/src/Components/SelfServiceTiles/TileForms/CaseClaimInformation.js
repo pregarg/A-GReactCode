@@ -1095,7 +1095,7 @@ const handleProviderInformationAppealsData = (name, value, persist) => {
   className="col-xs-6 col-md-3"
   style={{
     display: "flex",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
   }}
 >
