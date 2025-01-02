@@ -28,30 +28,6 @@ console.log("document prop", prop)
 
   let restrictedFileTypes = ["xls", "eps", "sql", "xlsx", "docx"];
 
-  // const customStyles: StylesConfig = {
-  //   control: (provided: Record<string, unknown>, state: any) => ({
-  //     ...provided,
-  //     height: 52,
-  //     border: state.isFocused ? "1px solid #ff8b67" : "1px solid #cccccc",
-  //     boxShadow: state.isFocused ? "0px 0px 6px #ff8b67" : "none",
-  //     // "&": {
-  //     //   border: "1px solid #cccccc",
-  //     //   boxShadow: "none"
-  //     // },
-  //     // "&:hover": {
-  //     //   border: "1px solid #ff8b67",
-  //     //   boxShadow: "0px 0px 6px #ff8b67"
-  //     // }
-  //     // "&:focus": {
-  //     //   border: "1px solid #ff8b67",
-  //     //   boxShadow: "0px 0px 6px #ff8b67"
-  //     // },
-  //     // "&:acitve": {
-  //     //   border: "1px solid #ff8b67",
-  //     //   boxShadow: "0px 0px 6px #ff8b67"
-  //     // }
-  //   }),
-  // };
   const customStyles = {
     menu: (provided) => ({
       ...provided,
@@ -62,9 +38,6 @@ console.log("document prop", prop)
       zIndex: 1000, // Set z-index for the control if needed
     }),
   };
-  // const mastersSelector = useSelector((masters) => masters);
-  // console.log("Document Masters Selector: ", mastersSelector);
-
   const masterAngDocumentSelector = useSelector(
     (state) => state?.masterAngDocument,
   );
@@ -80,53 +53,7 @@ console.log("document prop", prop)
   const [documentNameValues, setDocumentNameValues] = useState([]);
   const [documentData, setDocumentData] = useState([]);
 
-  // useEffect(() => {
-  //   const stageName = prop.stageName || prop.stageName.trim();
-  //   // if (mastersSelector.hasOwnProperty("masterAngDocument")) {
-  //   //   let documentOptions =
-  //   //     mastersSelector["masterAngDocument"].length === 0
-  //   //       ? []
-  //   //       : mastersSelector["masterAngDocument"][0];
-
-  //   if (masterAngDocumentSelector) {
-  //     let documentOptions =
-  //       masterAngDocumentSelector.length === 0
-  //         ? []
-  //         : masterAngDocumentSelector[0];
-
-  //     console.log("Document Section documentOptions: ", documentOptions);
-  //     console.log("Document Section stagename: ", stageName);
-  //     if (documentOptions.length > 0) {
-  //       documentOptions = documentOptions.filter(
-  //         (elem) =>
-  //           // elem.WORKSTEP_NAME.trim().toLowerCase() == stageName.trim().toLowerCase()
-  //           elem.WORKSTEP_NAME.toLowerCase() == stageName.toLowerCase(),
-  //       );
-  //       console.log(
-  //         "Document Section documentOptions after filter: ",
-  //         documentOptions,
-  //       );
-  //       let newDocumentValues = [];
-  //       documentOptions.forEach((element) => {
-  //         let sJson = {};
-  //         sJson.label = element.DOCUMENT_NAME;
-  //         sJson.value = element.DOCUMENT_NAME;
-  //         //console.log("DocumentSection sJSON: ", sJson);
-  //         // newDocumentValues = [...documentNameValues];
-  //         // console.log(
-  //         //   "Document Section newDocumentValues before: ",
-  //         //   newDocumentValues
-  //         // );
-  //         newDocumentValues.push(sJson);
-  //         // console.log(
-  //         //   "Document Section newDocumentValues after: ",
-  //         //   newDocumentValues
-  //         // );
-  //       });
-  //       setDocumentNameValues(newDocumentValues);
-  //     }
-  //   }
-  // }, []);
+  
   useEffect(() => {
     const stageName = prop.stageName || prop.stageName.trim();
     
@@ -163,19 +90,13 @@ console.log("document prop", prop)
   }, [prop,masterAngDocumentSelector, masterPDDocumentSelector]);
   
   const handleGridSelectChange = (index, selectedValue, documentName) => {
-    //console.log("Inside handleGridSelectChange");
     let rowsInput = "";
     const { name } = documentName;
     rowsInput = [...documentData];
-    //console.log("Inside handle slect change rowsInput: ", rowsInput);
     rowsInput[index][name] = {
       label: selectedValue.value,
       value: selectedValue.value,
     };
-    // console.log(
-    //   "rowsInput inside handleGridSelectChange",
-    //   rowsInput[index][name]
-    // );
     setDocumentData(rowsInput);
 
     console.log("documentData handleGridSelectChange", documentData);
@@ -185,7 +106,6 @@ console.log("document prop", prop)
     printConsole("Inside uploadFile index: ", index);
     printConsole("File Upload State: ", paramData);
     printConsole("File State: ", fileState);
-    //console.log("Document data file name: ",fileState.selectedFile.name);
     let fileJson = {};
     let selectedFile = null;
     fileState.forEach((el) => {
@@ -202,7 +122,6 @@ console.log("document prop", prop)
       prop.fileDataRef[index] !== undefined
         ? (prop.fileDataRef[index] = fileJson)
         : prop.fileDataRef.push(fileJson);
-      //prop.fileDataRef.push(fileJson);
       modifyDocumentValues(fileJson.documentType, "remove");
       let docJson = documentData[index];
       docJson.docStatus = "Uploaded";
@@ -215,27 +134,7 @@ console.log("document prop", prop)
       alert("Please first select document to upload.");
     }
 
-    /*if(fileState.selectedFile !== null){
-            const fileData = new FormData();
-            //const caseId = Number(prop.state.caseNumber);
-            const documentType = paramData[index].documentType;
-            fileData.append('file', fileState.selectedFile);
-            fileData.append('caseNumber', caseId);
-            fileData.append('docType', documentType);
-            console.log("File Upload Data: ",fileData)
-            fileUpDownAxios.post("/uploadFile",fileData).then((res) => {
-                console.log("api response: ",res.data);
-                if(res.data.fileName !== "Failed"){
-                    alert("File Uploaded Successfully");
-                    docFunction();
-                    setFileState({selectedFile:null});
-                    handleModalShowHide(false);
-                }
-                if(res.data.fileName === "Failed"){
-                    alert("Error in uploading file");
-                }
-            });
-        }*/
+    
   };
 
   const checkIfDocNameExists = (docName) => {
@@ -262,12 +161,8 @@ console.log("document prop", prop)
           newDocValue = [...documentNameValues];
           const newJson = {};
           newJson.label = docValue;
-          //console.log('Inside modifyDocumentValues after label push json: ',newJson);
           newJson.value = docValue;
-          //console.log('Inside modifyDocumentValues before push json: ',newJson);
-          //console.log('Inside modifyDocumentValues before push: ',newDocValue);
           newDocValue.push(newJson);
-          //console.log('Inside modifyDocumentValues after push: ',newDocValue);
           setDocumentNameValues(newDocValue);
         }
       }
@@ -308,28 +203,7 @@ console.log("document prop", prop)
     }
   };
 
-  //   if (evnt.target.files[0] === undefined) {
-  //     setFileState([...fileState, { selectedFile: null, fileIndex: index }]);
-  //   }
 
-  //   if (evnt.target.files[0] !== undefined) {
-  //     if (
-  //       documentData[index].documentType === "Draft Contract" ||
-  //       documentData[index].documentType === "Final Contract"
-  //     ) {
-  //       const fileExt = evnt.target.files[0].name.split(".").pop();
-  //       if (fileExt !== "docx" && fileExt !== "doc") {
-  //         alert("Only docx or doc file type supported.");
-  //         evnt.target.value = null;
-  //         return;
-  //       }
-  //     }
-  //     setFileState([
-  //       ...fileState,
-  //       { selectedFile: evnt.target.files[0], fileIndex: index },
-  //     ]);
-  //   }
-  // };
 
   const handleFileUpload = (evnt, index) => {
     if (evnt.target.files[0] === undefined) {

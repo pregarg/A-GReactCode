@@ -79,6 +79,7 @@ const AuthorizationInformationAccordion = (props) => {
     setSelectSearchValues([]);
     setSelectedCriteria([]);
     setResponseData([]);
+    setSelectedAddress([]);
   };
   const handleCheckBoxChange = (event, ind) => {
     let jsn = responseData[ind];
@@ -864,6 +865,7 @@ const handleWhiteGloveChange = (e) => {
                 handleClearAuthSearch={handleClearAuthSearch}
                 showAuthSearch={showAuthSearch}
                 handleSelectedAuth={handleSelectedAuth}
+                setSelectedAddress={setSelectedAddress}
               />
             )}
           </div>

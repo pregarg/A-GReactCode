@@ -147,6 +147,7 @@ const ProviderDisputes = () => {
     pdClaimInformationFilingGrid,
     setPDClaimInformationFilingGrid,
     pdsaveAndExit,
+    scrollToTop
 
   } = useHeader();
   const providerDisputesConfigData = JSON.parse(
@@ -154,7 +155,7 @@ const ProviderDisputes = () => {
 
   );
   console.log("PD_location", location)
-
+ 
   useEffect(() => {
     setRenderType(RenderType.PROVIDER_DISPUTE);
   }, []);
@@ -413,6 +414,19 @@ const ProviderDisputes = () => {
               style={{ float: "left", marginLeft: "10px" }}
             >
               Go To Home
+            </button>
+            <button
+                      onClick={scrollToTop}
+                      className="btn btn-outline-primary btnStyle"
+                      style={{
+                        position: 'fixed',
+                        bottom: '20px',
+                        right: '20px',
+                       // padding: '10px 20px',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      ↑
             </button>
             <label id="tileFormLabel" className="HeadingStyle">
               Provider Disputes

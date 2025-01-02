@@ -51,6 +51,7 @@ const RepresentativeInformationAccordion = (props) => {
     setSelectSearchValues([]);
     setSelectedCriteria([]);
     setResponseData([]);
+    setSelectedAddress([]);
   };
   const handleCheckBoxChange = (event, ind) => {
     let jsn = responseData[ind];
@@ -95,6 +96,7 @@ const RepresentativeInformationAccordion = (props) => {
     setSelectedCriteria([]);
     setSelectSearchValues([]);
     setResponseData([]);
+    setSelectedAddress([]);
   };
 
   const tabRef = useRef("HomeView");
@@ -499,6 +501,7 @@ const RepresentativeInformationAccordion = (props) => {
               handleClearRepresentativeSearch={handleClearRepresentativeSearch}
               showRepresentativeSearch={showRepresentativeSearch}
               handleSelectedRepresentatives={handleSelectedRepresentatives}
+              setSelectedAddress={setSelectedAddress}
             />
           )}
         </div>

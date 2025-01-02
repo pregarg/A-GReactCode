@@ -170,6 +170,7 @@ const PdProviderInformationAccordion = (props) => {
     setSelectSearchValues([]);
     setSelectedCriteria([]);
     setResponseData([]);
+    setSelectedAddress([]);
   };
 
   const handleSelectedProviders = () => {
@@ -365,6 +366,7 @@ const PdProviderInformationAccordion = (props) => {
                           showProviders={showProviders}
                           providerSearchTableComponent={providerSearchTableComponent}
                           handleSelectedProviders={handleSelectedProviders}
+                          setSelectedAddress={setSelectedAddress}
 
                       />
                   )}

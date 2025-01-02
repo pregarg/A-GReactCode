@@ -11,6 +11,7 @@ export default function ClaimSearch(modalProps) {
     modalProps.setSelectedCriteria(event.target.value);
     modalProps.setSelectSearchValues({});
     modalProps.setResponseData([]);
+    modalProps.setSelectedAddress([]);
   };
 
   const handleCriteriaChangeValue = (evnt) => {
