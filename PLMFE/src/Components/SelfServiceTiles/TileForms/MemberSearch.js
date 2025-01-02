@@ -8,6 +8,7 @@ export default function MemberSearch(modalProps) {
     modalProps.setSelectedCriteria(event.target.value);
     modalProps.setSelectSearchValues({});
     modalProps.setResponseData([]);
+    modalProps.setSelectedAddress([]);
   };
 
   const handleCriteriaChangeValue = (evnt) => {
@@ -55,7 +56,7 @@ export default function MemberSearch(modalProps) {
         <Modal.Body>
           <div className="row my-2">
             <div className="col-12">
-              <div className="form-check">
+            <div className="form-check form-check-inline">
                 <input
                   className="form-check-input"
                   type="radio"
@@ -66,8 +67,7 @@ export default function MemberSearch(modalProps) {
                   onChange={(event) => handleCriteriaChange(event)}
                 />
 
-                <div className="row my-2">
-                  <div className="col-xs-12 col-md-3">
+                
                     <div className="form-floating mb-2">
                       <input
                         type="text"
@@ -80,12 +80,11 @@ export default function MemberSearch(modalProps) {
                         disabled={modalProps.selectedCriteria !== "memberID"}
                       />
                       <label htmlFor="memberIDVal">Member ID</label>
-                    </div>
-                  </div>
+                   
                 </div>
               </div>
 
-              <div className="form-check">
+              <div className="form-check form-check-inline">
                 <input
                   className="form-check-input"
                   type="radio"
@@ -96,8 +95,7 @@ export default function MemberSearch(modalProps) {
                   onChange={(event) => handleCriteriaChange(event)}
                 />
 
-                <div className="row my-2">
-                  <div className="col-xs-12 col-md-3">
+                
                     <div className="form-floating mb-2">
                       <input
                         type="text"
@@ -111,11 +109,10 @@ export default function MemberSearch(modalProps) {
                       />
                       <label htmlFor="medicareIDVal">Medicare ID</label>
                     </div>
-                  </div>
-                </div>
+                 
               </div>
 
-              <div className="form-check">
+              <div className="form-check form-check-inline">
                 <input
                   className="form-check-input"
                   type="radio"
@@ -126,8 +123,7 @@ export default function MemberSearch(modalProps) {
                   onChange={(event) => handleCriteriaChange(event)}
                 />
 
-                <div className="row my-2">
-                  <div className="col-xs-12 col-md-3">
+                
                     <div className="form-floating mb-2">
                       <input
                         type="text"
@@ -141,8 +137,6 @@ export default function MemberSearch(modalProps) {
                       />
                       <label htmlFor="medicaidIDVal">Medicaid ID</label>
                     </div>
-                  </div>
-                </div>
               </div>
 
               <div className="form-check">

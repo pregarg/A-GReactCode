@@ -668,6 +668,7 @@ export const useHeader = () => {
   const [decisionAddErrors, setDecisionAddErrorsErrors] = useState([]);
   const [caseDecisionDetailsErrors, setcaseDecisionDetailsErrors] = useState([]);
   const [caseDecisionErrors, setcaseDecisionErrors] = useState([]);
+  
   const validateSync = (schema, data, setErrors, noReset) => {
     try {
       if(!noReset) {
@@ -3267,6 +3268,9 @@ export const useHeader = () => {
       });
   };
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return {
     caseTimelines,
@@ -3450,5 +3454,6 @@ export const useHeader = () => {
     pdsaveAndExit,
     ProviderclaimInformation,
     ProviderInformationAppeals,
+    scrollToTop
   };
 };

@@ -79,6 +79,7 @@ const AuthorizationInformationAccordion = (props) => {
     setSelectSearchValues([]);
     setSelectedCriteria([]);
     setResponseData([]);
+    setSelectedAddress([]);
   };
   const handleCheckBoxChange = (event, ind) => {
     let jsn = responseData[ind];
@@ -750,7 +751,7 @@ const handleWhiteGloveChange = (e) => {
                 className="col-xs-6 col-md-3"
                 style={{
                   display: "flex",
-                  justifyContent: "center",
+                  justifyContent: "flex-start",
                   alignItems: "center",
                 }}
               >
@@ -864,6 +865,7 @@ const handleWhiteGloveChange = (e) => {
                 handleClearAuthSearch={handleClearAuthSearch}
                 showAuthSearch={showAuthSearch}
                 handleSelectedAuth={handleSelectedAuth}
+                setSelectedAddress={setSelectedAddress}
               />
             )}
           </div>

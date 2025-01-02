@@ -7,6 +7,7 @@ export default function ProviderSearch(modalProps) {
     modalProps.setSelectedCriteria(event.target.value);
     modalProps.setSelectSearchValues({});
     modalProps.setResponseData([]);
+    modalProps.setSelectedAddress([]);
   };
 
   const handleCriteriaChangeValue = (evnt) => {
@@ -41,7 +42,9 @@ export default function ProviderSearch(modalProps) {
         <Modal.Body>
           <div className="row my-2">
             <div className="col-12">
-              <div className="form-check">
+            
+            
+              <div className="form-check form-check-inline">
                 <input
                   className="form-check-input"
                   type="radio"
@@ -51,26 +54,22 @@ export default function ProviderSearch(modalProps) {
                   checked={modalProps.selectedCriteria === "ProviderID"}
                   onChange={(event) => handleCriteriaChange(event)}
                 />
-
-                <div className="row my-2">
-                  <div className="col-xs-12 col-md-3">
-                    <div className="form-floating mb-3">
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="ProviderIDVal"
-                        placeholder="Provider ID"
-                        name="providerID"
-                        value={modalProps.selectSearchValues?.providerID || ""}
-                        onChange={(event) => handleCriteriaChangeValue(event)}
-                        disabled={modalProps.selectedCriteria !== "ProviderID"}
-                      />
-                      <label htmlFor="ProviderIDVal">Provider ID</label>
-                    </div>
-                  </div>
+                <div className="form-floating mb-3">
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="ProviderIDVal"
+                    placeholder="Provider ID"
+                    name="providerID"
+                    value={modalProps.selectSearchValues?.providerID || ""}
+                    onChange={(event) => handleCriteriaChangeValue(event)}
+                    disabled={modalProps.selectedCriteria !== "ProviderID"}
+                  />
+                  <label htmlFor="ProviderIDVal">Provider ID</label>
                 </div>
               </div>
-              <div className="form-check">
+        
+              <div className="form-check form-check-inline ms-3">
                 <input
                   className="form-check-input"
                   type="radio"
@@ -80,26 +79,22 @@ export default function ProviderSearch(modalProps) {
                   checked={modalProps.selectedCriteria === "NPI"}
                   onChange={(event) => handleCriteriaChange(event)}
                 />
-
-                <div className="row my-2">
-                  <div className="col-xs-12 col-md-3">
-                    <div className="form-floating mb-3">
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="NPIDVal"
-                        placeholder="NPI"
-                        name="NPI"
-                        value={modalProps.selectSearchValues?.NPI || ""}
-                        onChange={(event) => handleCriteriaChangeValue(event)}
-                        disabled={modalProps.selectedCriteria !== "NPI"}
-                      />
-                      <label htmlFor="NPIDVal">NPI</label>
-                    </div>
-                  </div>
+                <div className="form-floating mb-3">
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="NPIDVal"
+                    placeholder="NPI"
+                    name="NPI"
+                    value={modalProps.selectSearchValues?.NPI || ""}
+                    onChange={(event) => handleCriteriaChangeValue(event)}
+                    disabled={modalProps.selectedCriteria !== "NPI"}
+                  />
+                  <label htmlFor="NPIDVal">NPI</label>
                 </div>
               </div>
-              <div className="form-check">
+
+              <div className="form-check form-check-inline ms-3">
                 <input
                   className="form-check-input"
                   type="radio"
@@ -109,25 +104,22 @@ export default function ProviderSearch(modalProps) {
                   checked={modalProps.selectedCriteria === "TAXID"}
                   onChange={(event) => handleCriteriaChange(event)}
                 />
-
-                <div className="row my-2">
-                  <div className="col-xs-12 col-md-3">
-                    <div className="form-floating mb-3">
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="TAXIDVal"
-                        placeholder="Tax ID"
-                        name="TaxID"
-                        value={modalProps.selectSearchValues?.TaxID || ""}
-                        onChange={(event) => handleCriteriaChangeValue(event)}
-                        disabled={modalProps.selectedCriteria !== "TAXID"}
-                      />
-                      <label htmlFor="TAXIDVal">Tax ID</label>
-                    </div>
-                  </div>
+                <div className="form-floating mb-3">
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="TAXIDVal"
+                    placeholder="Tax ID"
+                    name="TaxID"
+                    value={modalProps.selectSearchValues?.TaxID || ""}
+                    onChange={(event) => handleCriteriaChangeValue(event)}
+                    disabled={modalProps.selectedCriteria !== "TAXID"}
+                  />
+                  <label htmlFor="TAXIDVal">Tax ID</label>
                 </div>
               </div>
+
+
               <div className="form-check">
                 <input
                   className="form-check-input"

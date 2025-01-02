@@ -176,6 +176,7 @@ const ProviderMemberInformationAccordion = (props) => {
     setSelectSearchValues([]);
     setSelectedCriteria([]);
     setResponseData([]);
+    setSelectedAddress([]);
   };
   const handleCheckBoxChange = (event, ind) => {
     let jsn = responseData[ind];
@@ -456,6 +457,7 @@ const ProviderMemberInformationAccordion = (props) => {
             showMembers={showMembers}
             memberSearchTableComponent={memberSearchTableComponent}
             handleSelectedMembers={handleSelectedMembers}
+            setSelectedAddress={setSelectedAddress}
           />
         )}
       </div>

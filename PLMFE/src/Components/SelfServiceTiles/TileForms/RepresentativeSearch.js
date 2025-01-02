@@ -11,6 +11,7 @@ export default function RepresentativeSearch(modalProps) {
     modalProps.setSelectedCriteria(event.target.value);
     modalProps.setSelectSearchValues({});
     modalProps.setResponseData([]);
+    modalProps.setSelectedAddress([]);
   };
 
   const handleCriteriaChangeValue = (evnt) => {
@@ -60,7 +61,7 @@ export default function RepresentativeSearch(modalProps) {
         <Modal.Body>
           <div className="row my-2">
             <div className="col-12">
-              <div className="form-check">
+            <div className="form-check form-check-inline">
                 <input
                   className="form-check-input"
                   type="radio"
@@ -70,8 +71,7 @@ export default function RepresentativeSearch(modalProps) {
                   checked={modalProps.selectedCriteria === "SequentialMember"}
                   onChange={(event) => handleCriteriaChange(event)}
                 />
-                <div className="row my-2">
-                  <div className="col-xs-12 col-md-3">
+                
                     <div className="form-floating mb-2">
                       <input
                         type="text"
@@ -91,12 +91,11 @@ export default function RepresentativeSearch(modalProps) {
                       <label htmlFor="SequentialMemberIDVal">
                         Sequential Member ID
                       </label>
-                    </div>
-                  </div>
+                   
                 </div>
               </div>
 
-              <div className="form-check">
+              <div className="form-check form-check-inline">
                 <input
                   className="form-check-input"
                   type="radio"
@@ -106,8 +105,7 @@ export default function RepresentativeSearch(modalProps) {
                   checked={modalProps.selectedCriteria === "searchType"}
                   onChange={(event) => handleCriteriaChange(event)}
                 />
-                <div className="row my-2">
-                  <div className="col-xs-12 col-md-3">
+                
                     <div className="form-floating mb-2">
                       <input
                         type="text"
@@ -122,11 +120,10 @@ export default function RepresentativeSearch(modalProps) {
                         disabled={modalProps.selectedCriteria !== "searchType"}
                       />
                       <label htmlFor="searchTypeIDVal">Search Type</label>
-                    </div>
-                  </div>
+                
                 </div>
               </div>
-              <div className="form-check">
+              <div className="form-check form-check-inline">
                 <input
                   className="form-check-input"
                   type="radio"
@@ -136,8 +133,7 @@ export default function RepresentativeSearch(modalProps) {
                   checked={modalProps.selectedCriteria === "fordate"}
                   onChange={(event) => handleCriteriaChange(event)}
                 />
-                <div className="row my-2">
-                  <div className="col-xs-12 col-md-3">
+                
                     <div className="form-floating mb-2">
                       <ReactDatePicker
                         id="fordateID"
@@ -159,12 +155,11 @@ export default function RepresentativeSearch(modalProps) {
                         style={{ position: "relative", zIndex: "999" }}
                         customInput={<RenderDatePickerforDate />}
                       />
-                    </div>
-                  </div>
+                   
                 </div>
               </div>
 
-              <div className="form-check">
+              <div className="form-check form-check-inline">
                 <input
                   className="form-check-input"
                   type="radio"
@@ -174,8 +169,7 @@ export default function RepresentativeSearch(modalProps) {
                   checked={modalProps.selectedCriteria === "AddressType"}
                   onChange={(event) => handleCriteriaChange(event)}
                 />
-                <div className="row my-2">
-                  <div className="col-xs-12 col-md-3">
+                
                     <div className="form-floating mb-2">
                       <input
                         type="text"
@@ -190,8 +184,7 @@ export default function RepresentativeSearch(modalProps) {
                         disabled={modalProps.selectedCriteria !== "AddressType"}
                       />
                       <label htmlFor="AddressTypeIDVal">Address Type</label>
-                    </div>
-                  </div>
+                   
                 </div>
               </div>
             </div>

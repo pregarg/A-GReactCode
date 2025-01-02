@@ -78,11 +78,13 @@ const ProviderDisputeClaimInformation = (props) => {
     setSelectedCriteria([]);
     setSelectSearchValues([]);
     setResponseData([]);
+   
   };
   const handleClearSearch  = () => {
     setSelectSearchValues([]);
     setSelectedCriteria([]);
     setResponseData([]);
+    setSelectedAddress([]);
   };
 
   const handleSelectedAddress = () => {
@@ -715,6 +717,7 @@ const ProviderDisputeClaimInformation = (props) => {
                       handleClearSearch ={handleClearSearch }
                       showClaimSearch={showClaimSearch}
                       handleSelectedAddress={handleSelectedAddress}
+                      setSelectedAddress={setSelectedAddress}
                   />
               )}
             </div>

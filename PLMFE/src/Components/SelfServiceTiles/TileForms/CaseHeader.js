@@ -42,7 +42,6 @@ const CaseHeader = () => {
       Expedited_Upgrade_Date_Time: date,
     }));
   };
-  
   const {
     caseTimelines,
     caseTimelinesValidationSchema,
@@ -137,7 +136,8 @@ const CaseHeader = () => {
     setRenderType,
     caseHeaderFields,
     ProviderInformationAppeals,
-    setProviderInformationAppeals
+    setProviderInformationAppeals,
+    scrollToTop
   } = useHeader();
 
   console.log("PD_location",location)
@@ -343,6 +343,21 @@ const CaseHeader = () => {
             >
               Go To Home
             </button>
+                   <button
+                      onClick={() => {
+                        scrollToTop()
+                      }}
+                      className="btn btn-outline-primary btnStyle"
+                      style={{
+                        position: 'fixed',
+                        bottom: '20px',
+                        right: '20px',
+                       // padding: '10px 20px',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      ↑
+                    </button>
             <label id="tileFormLabel" className="HeadingStyle">
               Appeals
             </label>
@@ -384,6 +399,7 @@ const CaseHeader = () => {
                 >
                   Submit
                 </button>
+               
               </>
             )}
           </div>

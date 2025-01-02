@@ -103,6 +103,7 @@ const CaseClaimInformation = (props) => {
     setSelectSearchValues([]);
     setSelectedCriteria([]);
     setResponseData([]);
+    setSelectedAddress([]);
   };
   const handleSelectedAddress = () => {
     let rowNumber = getRowNumberForGrid(claimInformationGridData);
@@ -159,6 +160,10 @@ const CaseClaimInformation = (props) => {
         ...providerInformationGridData,
         ...addressToPopulate,
       ]);
+      
+    }
+    else {
+      alert("Please select at least one row.");
     }
 
     setShowProviderSearch(false);
@@ -1049,6 +1054,7 @@ const handleProviderInformationAppealsData = (name, value, persist) => {
                 handleClearSearch={handleClearSearch}
                 showClaimSearch={showClaimSearch}
                 handleSelectedAddress={handleSelectedAddress}
+                setSelectedAddress={setSelectedAddress}
               />
             )}
           </div>
@@ -1095,7 +1101,7 @@ const handleProviderInformationAppealsData = (name, value, persist) => {
   className="col-xs-6 col-md-3"
   style={{
     display: "flex",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
   }}
 >
@@ -1214,6 +1220,7 @@ const handleProviderInformationAppealsData = (name, value, persist) => {
                   responseData={responseData}
                   setResponseData={setResponseData}
                   handleSelectedProviders={handleSelectedProviders}
+                  setSelectedAddress={setSelectedAddress}
                 />
               )}
             </div>
