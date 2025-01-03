@@ -164,6 +164,7 @@ const CaseClaimInformation = (props) => {
     }
     else {
       alert("Please select at least one row.");
+      return;
     }
 
     setShowProviderSearch(false);
