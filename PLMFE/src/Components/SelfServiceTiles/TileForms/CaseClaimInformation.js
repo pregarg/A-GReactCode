@@ -130,6 +130,10 @@ const CaseClaimInformation = (props) => {
         ...addressToPopulate,
       ]);
     }
+    else {
+      alert("Please select at least one row.");
+      return;
+    }
 
     setShowClaimSearch(false);
     setSelectedCriteria([]);

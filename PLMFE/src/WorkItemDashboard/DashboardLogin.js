@@ -25,6 +25,7 @@ import {
   getMasterAngAuthServiceType,
   getMasterAngProcessingStatus,
   getMasterAngFiledTimely,
+  getMasterAngClaimStatus,
   getMasterAngGrantGoodCause,
   getMasterAngProviderRole,
   getMasterAngProviderType,
@@ -480,6 +481,14 @@ export default function DashboardLogin() {
     );
     dispatch(
       getMasterAngFiledTimely(
+        loginToken,
+        false,
+        onMasterLoadFail,
+        onMasterLoadSuccess,
+      ),
+    );
+    dispatch(
+      getMasterAngClaimStatus(
         loginToken,
         false,
         onMasterLoadFail,
