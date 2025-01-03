@@ -37,8 +37,8 @@ export default function ClaimInformationTable({
   const masterAngFiledTimelySelector = useSelector(
     (state) => state?.masterAngFiledTimely,
   );
-  const masterAngLineNumberSelector = useSelector(
-    (state) => state?.masterAngLineNumber,
+  const masterAngClaimStatusSelector = useSelector(
+    (state) => state?.masterAngClaimStatus,
   );
   const masterAngGrantGoodCauseSelector = useSelector(
     (state) => state?.masterAngGrantGoodCause,
@@ -60,7 +60,7 @@ export default function ClaimInformationTable({
   const shouldHideFields = !excludedStages.includes(
     prop.state.stageName || claimStageName,
   );
-   let lineNumberOptions = [];
+   let claimStatusOptions = [];
   let filedTimelyValues = [];
   let grantGoodCauseValues = [];
 
@@ -98,16 +98,17 @@ export default function ClaimInformationTable({
       }
     }
 
-    if (masterAngLineNumberSelector) {
-      const lineNumberArray =
-      masterAngLineNumberSelector.length === 0
+    if (masterAngClaimStatusSelector) {
+      const claimStatusArray =
+      masterAngClaimStatusSelector.length === 0
           ? []
-          : masterAngLineNumberSelector[0];
+          : masterAngClaimStatusSelector.length === 0
+[0];
 
-      for (let i = 0; i < lineNumberArray.length; i++) {
-        lineNumberOptions.push({
-          label: convertToCase(lineNumberArray[i].Line_Number),
-          value: convertToCase(lineNumberArray[i].Line_Number),
+      for (let i = 0; i < claimStatusArray.length; i++) {
+        claimStatusOptions.push({
+          label: convertToCase(claimStatusArray[i].Claim_Status),
+          value: convertToCase(claimStatusArray[i].Claim_Status),
         });
       }
     }
@@ -268,7 +269,7 @@ export default function ClaimInformationTable({
               50,
               index,
             )}
-            {renderSimpleDatePickerField("Claim_Status", "Claim Status", index)}
+            {renderSimpleSelectField("Claim_Status", "Claim Status",claimStatusOptions, index)}
             {renderSimpleInputField(
               "Patient_Ref_Account_Number",
               "Patient Ref / Account Number",

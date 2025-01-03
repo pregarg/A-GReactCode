@@ -768,6 +768,45 @@ export const getMasterAngFiledTimely = (
     }
   };
 };
+export const getMasterAngClaimStatus = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append(
+        "tableName",
+        "ANG_MASTER_CLAIM_STATUS~masterAngClaimStatus",
+      );
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterAngClaimStatus];
+            //console.log(response);
+            dispatch({ type: "GET_ANG_CLAIM_STATUS", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_ANG_CLAIM_STATUS", payload: "" });
+    }
+  };
+};
+
 
 export const getMasterAngGrantGoodCause = (
   token,

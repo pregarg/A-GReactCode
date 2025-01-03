@@ -506,6 +506,15 @@ const masterAngFiledTimelyReducer = (state = [], action) => {
   }
   return state;
 };
+const masterAngClaimStatusReducer = (state = [], action) => {
+  if (action.type === "GET_ANG_CLAIM_STATUS") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_ANG_CLAIM_STATUS") {
+    state = [];
+    return state;
+  }
+  return state;
+};
 
 const masterAngGrantGoodCauseReducer = (state = [], action) => {
   if (action.type === "GET_GRANT_GOOD_CAUSE") {
@@ -1174,6 +1183,7 @@ export default combineReducers({
   masterAngAuthServiceType: masterAngAuthServiceTypeReducer,
   masterAngProcessingStatus: masterAngProcessingStatusReducer,
   masterAngFiledTimely: masterAngFiledTimelyReducer,
+  masterAngClaimStatus: masterAngClaimStatusReducer,
   masterAngGrantGoodCause: masterAngGrantGoodCauseReducer,
   masterAngProviderRole: masterAngProviderRoleReducer,
   masterAngProviderType: masterAngProviderTypeReducer,
