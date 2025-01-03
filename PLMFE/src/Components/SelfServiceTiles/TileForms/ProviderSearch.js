@@ -13,10 +13,7 @@ export default function ProviderSearch(modalProps) {
   const handleCriteriaChangeValue = (evnt) => {
     const { name, value } = evnt.target;
     console.log("event---->", name, value);
-    modalProps.setSelectSearchValues({
-      ...modalProps.selectSearchValues,
-      [name]: value,
-    });
+    modalProps.setSelectSearchValues({...modalProps.selectSearchValues,[name]: value,});
   };
 
   return (

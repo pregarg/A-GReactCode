@@ -91,6 +91,10 @@ const RepresentativeInformationAccordion = (props) => {
         ...addressToPopulate,
       ]);
     }
+    else {
+      alert("Please select at least one row.");
+      return;
+    }
 
     setshowRepresentativeSearch(false);
     setSelectedCriteria([]);

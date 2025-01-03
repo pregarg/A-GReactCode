@@ -119,6 +119,10 @@ const AuthorizationInformationAccordion = (props) => {
         ...addressToPopulate,
       ]);
     }
+    else {
+      alert("Please select at least one row.");
+      return;
+    }
 
     setShowAuthSearch(false);
     setSelectedCriteria([]);
