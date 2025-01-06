@@ -935,7 +935,7 @@ export const useHeader = () => {
   const pdsubmitData = async () => {
 
     if(checkForPdGridData()) {
-      alert("Please fill all mandatory data")
+      alert("Please fill all mandatory grid data")
       return;
     }
 
@@ -1092,6 +1092,7 @@ export const useHeader = () => {
   };
   const checkForAppealsGridData = () => {
     if (!providerInformationGrid?.length ) {
+      console.log(providerInformationGrid.data,"prerndataaaaa")
       return true;
     }
     return false;
@@ -1099,6 +1100,12 @@ export const useHeader = () => {
 
   const submitData = async () => {
     // debugger;
+    if(ProviderclaimInformation.isChecked === '1') {
+      if(!ProviderclaimInformation.WhiteGloveReason) {
+        alert("Please enter a White Glove Reason in the Provider Information section to proceed.")
+        return;
+      }
+    }
     if(memberInformation.isChecked === '1') {
       if(!memberInformation.WhiteGloveReason) {
         alert("Please enter a White Glove Reason in the Member Information section to proceed.")
@@ -1113,7 +1120,7 @@ export const useHeader = () => {
     }
 
     if(checkForAppealsGridData()) {
-      alert("Please fill all mandatory data")
+      alert("Please fill all mandatory grid data")
       return;
     }
 
@@ -1522,12 +1529,17 @@ export const useHeader = () => {
 
       if (resApiData.length > 0) {
         const respKeys = Object.keys(resApiData);
-        setResponseData((responseData) => [resApiData[0], ...responseData]);
+        setResponseData((responseData) => [...resApiData, ...responseData]);
+        console.log("prerna12309090", responseData)
+      }
+      else {
+        alert ("No Data Found!")
+        return;
       }
 
       const apiStat = res.data.CallProcedure_Output.Status;
       if (apiStat === -1) {
-        alert("Error in fetching data");
+        alert("Error in fetching data"); 
       }
     } catch (error) {
       console.error("API Error:", error);
@@ -2830,7 +2842,7 @@ export const useHeader = () => {
     // const saveType = "SS";
     if(saveType === "SS"){
     if(checkForPdGridData()) {
-      alert("Please fill all mandatory fields")
+      alert("Please fill all mandatory grid data")
       return;
     }
     if (checkForPDError()?.length > 0) {
