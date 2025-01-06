@@ -112,6 +112,8 @@ export default function ClaimInformationTable({
         });
       }
     }
+console.log("claimStatusOptions--->",claimStatusOptions)
+    
 
     if (masterAngGrantGoodCauseSelector) {
       const grantGoodCauseArray =
@@ -127,6 +129,7 @@ export default function ClaimInformationTable({
       }
     }
   });
+  
 
   const renderSimpleInputField = (name, label, maxLength, index) => {
     return (
