@@ -658,7 +658,7 @@ const masterAngStUpExpeditedReducer = (state = [], action) => {
 const masterAngDocumentReducer = (state = [], action) => {
   if (action.type === "GET_ANG_DOCUMENT") {
     return [action.payload];
-  } else if (action.type === "GET_ANG_DOCUMENT") {
+  } else if (action.type === "CLEAR_ANG_DOCUMENT") {
     state = [];
     return state;
   }

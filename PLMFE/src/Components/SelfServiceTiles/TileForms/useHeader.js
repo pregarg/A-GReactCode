@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useAxios } from "../../../api/axios.hook";
 import useGetDBTables from "../../CustomHooks/useGetDBTables";
 import useUpdateDecision from "../../CustomHooks/useUpdateDecision";
+import useFormikValidation from "../../CustomHooks/useFormikValidation";
 import _ from "lodash";
 
 import TableComponent from "../../../../src/util/TableComponent";
@@ -390,6 +391,8 @@ export const useHeader = () => {
     "documents needed",
     "research",
   ];
+
+  const { checkErrorsAndFocusOnFields} = useFormikValidation();
   const caseInformationValidationSchema = Yup.object().shape({
     Line_of_Business_LOB: Yup.string().required(
       "Line of Business is mandatory",
@@ -1098,7 +1101,7 @@ export const useHeader = () => {
     return false;
   }
 
-  const submitData = async () => {
+  const submitData = async () => { 
     // debugger;
     if(ProviderclaimInformation.isChecked === '1') {
       if(!ProviderclaimInformation.WhiteGloveReason) {
@@ -1118,17 +1121,23 @@ export const useHeader = () => {
         return;
       }
     }
+  const appealErrors = checkForAppealsError();
+  if (appealErrors.length > 0) {
+    alert("Please fill all mandatory fields");
+    setShowSubmitError(true);
+   
+    // checkErrorsAndFocusOnFields(
+    //   appealErrors, 
+    //   setFieldTouched, 
+    //   handleSubmit, 
+    //   evnt
+    // );
+    return;  
+  }
 
     if(checkForAppealsGridData()) {
       alert("Please fill all mandatory grid data")
       return;
-    }
-
-    if (checkForAppealsError()?.length > 0) {
-      alert("Please fill all mandatory fields")
-      setShowSubmitError(true);
-      return;
-
     }
 
     const currentUser = authSelector.userName || "system";
@@ -1256,6 +1265,7 @@ export const useHeader = () => {
       submitCase(procData, navigateHome);
     }
   };
+  
 
   const navigate = useNavigate();
   const navigateHome = async () => {
@@ -1534,6 +1544,9 @@ export const useHeader = () => {
       }
       else {
         alert ("No Data Found!")
+        handleCloseMember360();
+        handleCloseProvider360();
+        handleCloseNotesHistory();
         return;
       }
 
