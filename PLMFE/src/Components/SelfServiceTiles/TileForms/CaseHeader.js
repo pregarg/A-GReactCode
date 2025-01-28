@@ -137,7 +137,8 @@ const CaseHeader = () => {
     caseHeaderFields,
     ProviderInformationAppeals,
     setProviderInformationAppeals,
-    scrollToTop
+    scrollToTop,
+    auditLogs
   } = useHeader();
 
   console.log("PD_location",location)
@@ -524,6 +525,7 @@ const CaseHeader = () => {
                     updateDecisionTabData={setDecisionTab}
                     delegatedVal={apiTestState?.delegated}
                     buttonClicked={callProcRef.current}
+                    auditLogs={auditLogs}
                   ></DecisionTab>
                 </Tab>
               </Tabs>

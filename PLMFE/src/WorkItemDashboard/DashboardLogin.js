@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { signIn } from "../actions";
+import { signIn, signInOtp } from "../actions";
 import dashboardLoginPageLogo from "../Images/DashboardLoginBackground.png";
 
 import "./DashboardLogin.css";
@@ -137,10 +137,21 @@ const initialState = {
   },
 };
 
+const initialOtpState = {
+  otp: {
+    value: "",
+    required: true,
+    isInvalid: false,
+  }
+};
+
 export default function DashboardLogin() {
   const [loginState, setLoginState] = useState(initialState);
+  const [loginOtpState, setLoginOtpState] = useState(initialOtpState);
   const [showPassword, setShowPassword] = React.useState(false);
   const navigate = useNavigate();
+  const [otpSuccess, setOptSuccess]  = useState(false)
+  const [otpMessage, setOtpMessage]  = useState('')
   const { updateLockStatus } = useUpdateDecision();
   const Swal = useSwalWrapper();
 
@@ -155,9 +166,10 @@ export default function DashboardLogin() {
   };
 
   const onLoginFail = (response) => {
+    console.log(response)
     Swal.fire({
       icon: "error",
-      title: "Username or Password do not match",
+      title: response.response.data.message || "Username or Password do not match",
     });
     /*Need to comment below code when the login issue is resolved on selfservice portal */
   };
@@ -390,7 +402,7 @@ export default function DashboardLogin() {
         onMasterLoadSuccess,
       ),
     );
-    
+
     dispatch(
       getMasterAngAppellantDesc(
         loginToken,
@@ -711,7 +723,7 @@ export default function DashboardLogin() {
         onMasterLoadSuccess,
       ),
     );
-    
+
     dispatch(
       getMasterPDTimeFrameExtended(
         loginToken,
@@ -973,6 +985,17 @@ export default function DashboardLogin() {
     );
     navigate("/DashboardLogin/Home", { replace: true });
   };
+
+  const onLoginSuccessOtp = (resp) => {
+    console.log(resp)
+    if(resp.data === "OTP sent successfully" && resp.status ===200) {
+      setOptSuccess(true)
+    } else {
+      setOptSuccess(false)
+    }
+  }
+
+  
   // till here
   const navigateHome = () => {
     //if(isFormValid){
@@ -980,6 +1003,22 @@ export default function DashboardLogin() {
       signIn(
         loginState.userName.value,
         loginState.password.value,
+        false,
+        onLoginFail,
+        onLoginSuccessOtp,
+        "DashboardLogin",
+      ),
+    );
+    //}
+  };
+
+  const navigateHomeOtp = () => {
+    //if(isFormValid){
+    dispatch(
+      signInOtp(
+        loginState.userName.value,
+        loginState.password.value,
+        loginOtpState.otp.value,
         false,
         onLoginFail,
         onLoginSuccess,
@@ -1003,6 +1042,50 @@ export default function DashboardLogin() {
       };
     });
   };
+
+  const updateOtpFormHandler = (value, field) => {
+    setLoginOtpState((prevState) => {
+      return {
+        ...prevState,
+        [field]: {
+          ...prevState[field],
+          value: value,
+          isInvalid: false,
+        },
+      };
+    });
+  };
+
+
+
+  const loginOtpHandler = (e) => {
+    e.preventDefault();
+    let formValidState = true;
+    const keys = Object.keys(loginOtpState);
+    for (let i = 0; i < keys.length; i++) {
+      if (loginOtpState[keys[i]].required) {
+        if (
+          !loginOtpState[keys[i]].value ||
+          loginOtpState[keys[i]].value.trim().length == 0
+        ) {
+          formValidState = false;
+          setLoginOtpState((prevState) => {
+            return {
+              ...prevState,
+              [keys[i]]: {
+                ...prevState[keys[i]],
+                isInvalid: true,
+              },
+            };
+          });
+        }
+      }
+    }
+    if (formValidState) {
+      navigateHomeOtp();
+    }
+  };
+
 
   const loginHandler = (e) => {
     e.preventDefault();
@@ -1033,6 +1116,12 @@ export default function DashboardLogin() {
   };
 
   const handleKeypress = (e) => {
+    if (e.charCode === 13) {
+      loginHandler(e);
+    }
+  };
+
+  const handleKeypressOtp = (e) => {
     if (e.charCode === 13) {
       loginHandler(e);
     }
@@ -1086,7 +1175,9 @@ export default function DashboardLogin() {
               <div className="card-title" style={{ textAlign: "center" }}>
                 <span className="LoginHeading">Login</span>
               </div>
+           
               <div className="card-text">
+              {!otpSuccess &&
                 <form>
                   <TextField
                     fullWidth
@@ -1149,10 +1240,65 @@ export default function DashboardLogin() {
                     type="button"
                     onClick={loginHandler}
                   >
-                    Login
+                    Send OTP
                   </button>
+
                 </form>
+}
+
+                {otpSuccess &&
+
+              <form>
+              <TextField
+                                        variant="outlined"
+                                        error={loginOtpState.otp.isInvalid === true}
+                                        fullWidth
+                                        margin="normal"
+                                        label="OTP"
+                                        type={"text"}
+                                        name="otp"
+                                        onChange={(e) => {
+                                          updateOtpFormHandler(e.target.value, "otp");
+                                        }}
+                                        onKeyPress={(e) => handleKeypressOtp(e)}
+                                        helperText={
+                                          loginOtpState.otp.isInvalid === true &&
+                                          "OTP is required"
+                                        }
+                                      />
+                  <div className="d-flex gap-2" style={{ minHeight: "2rem" }}>
+
+                  <button
+                    id="dashboarLoginButton"
+                    className="btn btn-primary"
+                    type="button"
+                    onClick={loginOtpHandler}
+                  >
+                   Login
+                  </button>
+
+                  <button
+                    id="dashboarLoginButton"
+                    className="btn btn-primary"
+                    type="button"
+                    onClick={loginHandler}
+                  >
+                   Resend
+                  </button>
+                  </div>
+
+
+
+
+
+
+
+                </form>
+              }
+
               </div>
+
+
             </CardContent>
           </Card>
         </Grid>

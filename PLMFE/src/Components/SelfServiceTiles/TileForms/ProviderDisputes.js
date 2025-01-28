@@ -147,7 +147,8 @@ const ProviderDisputes = () => {
     pdClaimInformationFilingGrid,
     setPDClaimInformationFilingGrid,
     pdsaveAndExit,
-    scrollToTop
+    scrollToTop,
+    auditLogs
 
   } = useHeader();
   const providerDisputesConfigData = JSON.parse(
@@ -498,6 +499,7 @@ const ProviderDisputes = () => {
                     updateDecisionTabData={setDecisionTab}
                     delegatedVal={apiTestState?.delegated}
                     buttonClicked={callProcRef.current}
+                    auditLogs={auditLogs}
                   ></DecisionTab>
                 </Tab>
               </Tabs>

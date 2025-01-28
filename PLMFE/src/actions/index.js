@@ -73,10 +73,47 @@ export const signIn = (
   return async (dispatch) => {
     if (!clearFlag) {
       axios
+        .post("/otp/send-otp", {
+          userName: userName.toLowerCase(),
+          password: password,
+          loginPortal: Page,
+        })
+        .then((response) => {
+          console.log(response);
+         // dispatch({ type: SIGN_IN, payload: response });
+          if (onSuccess) {
+            onSuccess(response);
+          }
+        })
+        .catch((error) => {
+          console.log("contracting Error", error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: CLEAR_SIGN_IN, payload: "" });
+    }
+  };
+};
+
+export const signInOtp = (
+  userName,
+  password,
+  otp,
+  clearFlag = false,
+  onError,
+  onSuccess,
+  Page,
+) => {
+  return async (dispatch) => {
+    if (!clearFlag) {
+      axios
         .post("/auth/login", {
           userName: userName.toLowerCase(),
           password: password,
           loginPortal: Page,
+          otp: otp
         })
         .then((response) => {
           console.log(response);

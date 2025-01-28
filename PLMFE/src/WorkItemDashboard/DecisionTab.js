@@ -19,6 +19,8 @@ import DecisionHistoryModal from "./DashboardModals/DecisionHistoryModal";
 import DocumentViewer from "../Components/CommonComponents/DocumentViewer";
 import { GrView } from "react-icons/gr";
 import useSwalWrapper from "../Components/SweetAlearts/hooks";
+import AuditLogsModal from "./DashboardModals/AuditLogsModal";
+
 import {
   FormControl,
   FormControlLabel,
@@ -34,6 +36,12 @@ export default function DecisionTab(props) {
     Version: false,
     HistoryModal: false,
   });
+
+  const [payloadData, setPayloadData] = useState(null);
+
+  const [auditLogsGrid, setAuditLogsGrid] = useState(props.auditLogs || []);
+
+
   const [errors, setErrors] = useState({});
   const { printConsole, disableAllElements, changeColorOfSelect } =
     useUpdateDecision();
@@ -61,6 +69,25 @@ export default function DecisionTab(props) {
   });
   const Swal = useSwalWrapper();
   const docClickedIndex = useRef({});
+  const fetchAuditLogsData = () => {
+
+    const getApiJson = {
+      tableNames: "auditLogsTable",
+      whereClause: { caseId: props.caseId },
+      constraints: { "order~By": "actionDate DESC" },
+    };
+    customAxios
+      .post("/generic/get", getApiJson, {
+        headers: { Authorization: `Bearer ${props.token}` },
+      })
+      .then((res) => {
+        if (res.data.Status === 0) {
+          setAuditLogsGrid(res.data.data.auditLogsTable || []);
+        }
+      })
+      .catch((err) => console.error("Error fetching Audit Logs:", err));
+  };
+
 
   const { fileUpDownAxios } = useAxios();
   const { downloadFile } = useCallApi();
@@ -539,14 +566,14 @@ export default function DecisionTab(props) {
     let selectJson = {};
     let mappedObject = {};
     let decisionOptions = [];
-  
+
     console.log("stageName--->", stageName);
-  
+
     if (decisonRef.current !== null) {
       // Clear the value if necessary
       decisonRef.current.clearValue();
     }
-   
+
     // Decision Dropdown logic based on formNames
     let decisionMaster = {};
     if (prop.state.formNames === "Appeals") {
@@ -562,7 +589,7 @@ export default function DecisionTab(props) {
     }
     if (Array.isArray(decisionMaster)) {
       selectJson.decisionOptions = decisionMaster[0] || [];
-  
+
       if (Array.isArray(selectJson.decisionOptions)) {
         // Filter and map decisionOptions based on the WORKSTEP
         selectJson.decisionOptions
@@ -581,7 +608,7 @@ export default function DecisionTab(props) {
               });
             }
           });
-  
+
         // Map decisions and reasons into mappedObject
         selectJson.decisionOptions
           .filter((data) => data.WORKSTEP.toLowerCase() === stageName.toLowerCase())
@@ -589,14 +616,14 @@ export default function DecisionTab(props) {
             let stageName = val.WORKSTEP;
             let decision = val.DECISION;
             let decisionReason = val.DECISION_REASON;
-  
+
             if (!mappedObject[stageName]) {
               mappedObject[stageName] = {};
             }
             if (!mappedObject[stageName][decision]) {
               mappedObject[stageName][decision] = [];
             }
-  
+
             mappedObject[stageName][decision].push({
               value: decisionReason,
               label: decisionReason,
@@ -606,19 +633,19 @@ export default function DecisionTab(props) {
         console.error("selectJson.decisionOptions is not an array");
       }
     }
-  
+
     console.log("decision options", decisionOptions);
     console.log("mapped object", mappedObject);
-  
+
     // Update state after processing
     setTimeout(() => {
       setSelectValues(decisionOptions);
       setDecisionReasonArray(mappedObject);
       console.log("logger selectValues ", selectValues);
     }, 1000);
-  
+
   }, [mastersSelector, prop, stageName]);
-  
+
   const openDecisionModal = (index) => {
     let docIndexJson = { ...docClickedIndex.current };
     docIndexJson.Decision = index;
@@ -671,6 +698,48 @@ export default function DecisionTab(props) {
         );
       });
     }
+  };
+  const openAuditLogsModal = (index, payload) => {
+    setPayloadData(payload)
+    let docIndexJson = { ...docClickedIndex.current };
+    docIndexJson.AuditLogs = index;
+
+    docClickedIndex.current = docIndexJson;
+    setModalShow({ ...modalShow, AuditLogsModal: true });
+  };
+
+  useEffect(() => {
+    console.log("auditLogs", props.auditLogs)
+  }, [props])
+
+  const auditLogsData = () => {
+    return (
+      <table className="table table-bordered tableLayout">
+        <thead>
+          <tr className="tableRowStyle tableHeaderColor">
+            <th scope="col">User Name</th>
+            <th scope="col">Workstep Name</th>
+            <th scope="col">Action Date</th>
+            <th scope="col">View Data</th>
+          </tr>
+        </thead>
+        <tbody>
+          {props.auditLogs?.map((data, index) => (
+            <tr
+              key={index}
+
+            >
+              <td>{data.username}</td>
+              <td>{data.stageName}</td>
+              <td>{formatDecHistDate(data['actionDate#date'])}</td>
+              <td><a className="link-tag" onClick={() => {
+                openAuditLogsModal(index, JSON.parse(data.payloadData || '{}'));
+              }}>View Details</a></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
   };
 
   const formatDecHistDate = (dateObj) => {
@@ -869,7 +938,7 @@ export default function DecisionTab(props) {
                 ) : (
                   <td>
                     {"organizationName" in data &&
-                    data.organizationName.value !== undefined
+                      data.organizationName.value !== undefined
                       ? data.organizationName.value
                       : data.organizationName}
                   </td>
@@ -877,7 +946,7 @@ export default function DecisionTab(props) {
 
                 <td>
                   {"createdDateTime" in data &&
-                  data.createdDateTime.value !== undefined
+                    data.createdDateTime.value !== undefined
                     ? formatDecHistDate(data.createdDateTime.value)
                     : formatDecHistDate(data.createdDateTime)}
                 </td>
@@ -945,11 +1014,11 @@ export default function DecisionTab(props) {
     //   masterAngDocumentSelector.length === 0
     //     ? []
     //     : masterAngDocumentSelector[0];
-        if (prop.state.formNames ==="Appeals" && masterAngDocumentSelector) {
-          selectJson.docOptions  = masterAngDocumentSelector.length === 0 ? [] : masterAngDocumentSelector[0];
-        } else if (prop.state.formNames === "Provider Disputes" && masterPDDocumentSelector) {
-          selectJson.docOptions  = masterPDDocumentSelector.length === 0 ? [] : masterPDDocumentSelector[0];
-        }
+    if (prop.state.formNames === "Appeals" && masterAngDocumentSelector) {
+      selectJson.docOptions = masterAngDocumentSelector.length === 0 ? [] : masterAngDocumentSelector[0];
+    } else if (prop.state.formNames === "Provider Disputes" && masterPDDocumentSelector) {
+      selectJson.docOptions = masterPDDocumentSelector.length === 0 ? [] : masterPDDocumentSelector[0];
+    }
 
     selectJson["docOptions"]
       .filter((data) => data.WORKSTEP_NAME.trim() == stageName.trim())
@@ -1030,8 +1099,8 @@ export default function DecisionTab(props) {
               <td>{data.sno === undefined ? "Manual" : data.source}</td>
               <td>
                 {data.documentType !== undefined &&
-                data.documentType === "Other Documents" &&
-                data.documentName !== undefined ? (
+                  data.documentType === "Other Documents" &&
+                  data.documentName !== undefined ? (
                   ""
                 ) : (
                   <img
@@ -1104,7 +1173,7 @@ export default function DecisionTab(props) {
     <>
       <Modal
         show={showLoader}
-        onHide={() => {}}
+        onHide={() => { }}
         backdrop="static"
         keyboard={false}
         size="sm"
@@ -1122,8 +1191,8 @@ export default function DecisionTab(props) {
             {
               // (flowId == 1 &&
               prop.state.stageName !== undefined &&
-              (prop.state.stageName == "Network" ||
-                prop.state.stageName == "Cred Specialist") ? (
+                (prop.state.stageName == "Network" ||
+                  prop.state.stageName == "Cred Specialist") ? (
                 <div className="accordion-item disableElements">
                   <h2
                     className="accordion-header"
@@ -1165,7 +1234,7 @@ export default function DecisionTab(props) {
 
                             {prop.state.formNames.toLowerCase() ===
                               "add a provider" ||
-                            prop.state.formNames.toLowerCase() ===
+                              prop.state.formNames.toLowerCase() ===
                               "add a provider" ? (
                               <th style={{ width: "19%" }} scope="col">
                                 Legal Entity Name
@@ -1175,7 +1244,7 @@ export default function DecisionTab(props) {
                             )}
                             {prop.state.formNames.toLowerCase() ===
                               "provider contracting" ||
-                            prop.state.formNames.toLowerCase() ===
+                              prop.state.formNames.toLowerCase() ===
                               "facility/ancillary/health systems contracting" ? (
                               <th style={{ width: "19%" }} scope="col">
                                 Legal Entity Name
@@ -1185,7 +1254,7 @@ export default function DecisionTab(props) {
                             )}
                             {prop.state.formNames.toLowerCase() ===
                               "add a facility" ||
-                            prop.state.formNames.toLowerCase() ===
+                              prop.state.formNames.toLowerCase() ===
                               "add an ancillary" ? (
                               <th style={{ width: "19%" }} scope="col">
                                 DBA Name
@@ -1194,7 +1263,7 @@ export default function DecisionTab(props) {
                               ""
                             )}
                             {prop.state.formNames.toLowerCase() === "appeals" ||
-                            prop.state.formNames.toLowerCase() === "appeals" ? (
+                              prop.state.formNames.toLowerCase() === "appeals" ? (
                               <th style={{ width: "19%" }} scope="col">
                                 DBA Name
                               </th>
@@ -1221,12 +1290,12 @@ export default function DecisionTab(props) {
                                     control={
                                       <Radio
                                         size="small"
-                                        /* onClick={(event) =>
-                                          props.handleActionSelectChange(
-                                            event.target?.name,
-                                            event?.target?.value
-                                          )
-                                        }*/
+                                      /* onClick={(event) =>
+                                        props.handleActionSelectChange(
+                                          event.target?.name,
+                                          event?.target?.value
+                                        )
+                                      }*/
                                       />
                                     }
                                     label={
@@ -1245,12 +1314,12 @@ export default function DecisionTab(props) {
                                     control={
                                       <Radio
                                         size="small"
-                                        /* onClick={(event) =>
-                                          props.handleActionSelectChange(
-                                            event?.target?.name,
-                                            event?.target?.value
-                                          )
-                                        } */
+                                      /* onClick={(event) =>
+                                        props.handleActionSelectChange(
+                                          event?.target?.name,
+                                          event?.target?.value
+                                        )
+                                      } */
                                       />
                                     }
                                     label={
@@ -1280,8 +1349,8 @@ export default function DecisionTab(props) {
             }
 
             {flowId == 1 &&
-            prop.state.stageName !== undefined &&
-            prop.state.stageName !== "Pending Provider" ? (
+              prop.state.stageName !== undefined &&
+              prop.state.stageName !== "Pending Provider" ? (
               <div className="accordion-item disableElements">
                 <h2
                   className="accordion-header"
@@ -1305,8 +1374,8 @@ export default function DecisionTab(props) {
                 >
                   <div className="accordion-body">
                     {flowId == 1 &&
-                    prop.state.stageName !== undefined &&
-                    prop.state.stageName === "Network" ? (
+                      prop.state.stageName !== undefined &&
+                      prop.state.stageName === "Network" ? (
                       <div className="row my-2">
                         <div className="col-sm mx-1">
                           <button
@@ -1337,8 +1406,8 @@ export default function DecisionTab(props) {
                       <div />
                     )}
                     {flowId == 1 &&
-                    prop.state.stageName !== undefined &&
-                    prop.state.stageName !== "Network" ? (
+                      prop.state.stageName !== undefined &&
+                      prop.state.stageName !== "Network" ? (
                       <div>
                         <div className="row my-2">
                           {/* <div className="col-sm mx-1">
@@ -1494,7 +1563,7 @@ export default function DecisionTab(props) {
                   </div> */}
 
                   <div className="row">
-                 
+
                     <div className="col-xs-12 col-md-4">
                       <label>Decision</label>
                       <Select
@@ -1518,11 +1587,11 @@ export default function DecisionTab(props) {
                         id="decisionDropdown"
                       />
                       {errors.decision && (
-                          <span className="error-text">Decision is required.</span>
+                        <span className="error-text">Decision is required.</span>
                       )}
                     </div>
-                  
-                    {(prop.state.formNames === "Appeals" || prop.state.formNames === "Provider Disputes") &&(
+
+                    {(prop.state.formNames === "Appeals" || prop.state.formNames === "Provider Disputes") && (
                       <div className="col-xs-12 col-md-4">
                         <label>Decision Reason</label>
                         <Select
@@ -1546,7 +1615,7 @@ export default function DecisionTab(props) {
                           id="decisionReasonDropdown"
                         />
                         {errors.decisionReason && (
-                            <span className="error-text">Decision Reason is required.</span>
+                          <span className="error-text">Decision Reason is required.</span>
                         )}
                       </div>
                     )}
@@ -1570,7 +1639,7 @@ export default function DecisionTab(props) {
                         onChange={handleLinearFieldChange}
                         value={
                           "decisionNotes" in decisionState &&
-                          decisionState.decisionNotes?.value !== undefined
+                            decisionState.decisionNotes?.value !== undefined
                             ? convertToCase(decisionState?.decisionNotes?.value)
                             : convertToCase(decisionState?.decisionNotes)
                         }
@@ -1655,6 +1724,7 @@ export default function DecisionTab(props) {
             </div>
 
             <div className="accordion-item">
+
               <h2
                 className="accordion-header"
                 id="panelsStayOpen-headingDecHistory"
@@ -1684,6 +1754,32 @@ export default function DecisionTab(props) {
                 </div>
               </div>
             </div>
+            <div className="accordion-item">
+              <h2 className="accordion-header" id="panelsStayOpen-headingAuditLogs">
+                <button
+                  className="accordion-button accordionButtonStyle disableElements"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#panelsStayOpen-collapseAuditLogs"
+                  aria-expanded="true"
+                  aria-controls="panelsStayOpen-collapseAuditLogs"
+                >
+                  Audit History
+                </button>
+              </h2>
+              <div
+                id="panelsStayOpen-collapseAuditLogs"
+                className="accordion-collapse collapse"
+                aria-labelledby="panelsStayOpen-headingAuditLogs"
+              >
+                <div className="accordion-body">
+                  <div className="row my-2">
+                    <div className="col-xs-6 col-md-12">{auditLogsData()}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
         {modalShow.FileUpload && (
@@ -1717,6 +1813,16 @@ export default function DecisionTab(props) {
             clickedIndex={docClickedIndex.current.Decision}
             formatDecHistDate={formatDecHistDate}
           ></DecisionHistoryModal>
+        )}
+        {modalShow.AuditLogsModal && (
+          <AuditLogsModal
+            auditLogs={props.auditLogs}
+            modalShow={modalShow}
+            setModalShow={setModalShow}
+            auditLogsGrid={auditLogsGrid}
+            clickedIndex={docClickedIndex.current.AuditLogs}
+            payloadData={payloadData}
+          />
         )}
         {docViewDialog.open && (
           <DocumentViewer

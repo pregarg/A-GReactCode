@@ -47,3 +47,7 @@ table td {
   --font-size-large-2: 22px;
   --font-size-extra-large: 24px;
 }
+
+.otp-message {
+  color: red
+}

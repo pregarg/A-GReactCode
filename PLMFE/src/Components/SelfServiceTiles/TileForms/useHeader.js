@@ -23,6 +23,7 @@ import {usePdProviderAltContactInfo} from "./usePdProviderAltContactInfo";
 import { useProviderRedirectTo } from "./useProviderRedirectTo";
 import {useRepresentativeInformation} from "./useRepresentativeInformation";
 import {useProviderInformation} from "./useProviderInformation";
+import { useAuditLog } from "./useAuditLog.js";
 export function convertDateFormatMonthDayYear(inputDateStr) {
   const date = new Date(inputDateStr);
   if (isNaN(date)) {
@@ -60,6 +61,8 @@ export const useHeader = () => {
      caseHeaderFields } =
     useCaseHeader(renderType);
 
+  const [auditLogs, setAuditLogs] = useState([]);
+  
   const {
     caseTimelinesFields,
     caseTimelines,
@@ -1088,6 +1091,7 @@ export const useHeader = () => {
       );
       console.log("proc data pd", procData)
       submitCase(procData, navigateHome);
+      await createAuditLog('4', '40', 'Start', response.data["CreateCase_Output"]["CaseNo"], currentUser, cleanedApiJson, 'I', token)
     }
   };
   const checkForAppealsGridData = () => {
@@ -1254,6 +1258,7 @@ export const useHeader = () => {
           response.data["CreateCase_Output"]["CaseNo"],
       );
       submitCase(procData, navigateHome);
+      await createAuditLog('4', '40', 'Start', response.data["CreateCase_Output"]["CaseNo"], currentUser, cleanedApiJson, 'I', token) 
     }
   };
 
@@ -1342,14 +1347,15 @@ export const useHeader = () => {
     console.log("abccc--->", location.state);
     if (location.state.formView !== undefined && location.state?.formView === "DashboardView") {
       location.state.formNames === "Appeals"
-        ? getAngCaseByCaseNumber()
-        : location.state.formNames === "Provider Disputes" && getPDCaseByCaseNumber();
+        ? getAngCaseByCaseNumber(true)
+        : location.state.formNames === "Provider Disputes" && getPDCaseByCaseNumber(true);
     }
   }, []);
   
 
   const dispatch = useDispatch();
   const { customAxios } = useAxios();
+  const { getCaseLogHistory, createAuditLog } = useAuditLog();
   const { trimJsonValues, extractDate, getTableDetails, getDatePartOnly } = useGetDBTables();
   const { submitCase, updateLockStatus, updateDecision, CompareJSON } =
     useUpdateDecision();
@@ -1666,7 +1672,7 @@ export const useHeader = () => {
 
     return { dueDate, internalDate };
   }
-  const getAngCaseByCaseNumber = async () => {
+  const getAngCaseByCaseNumber = async (callAuditLog) => {
     let daysLeft, hoursLeft, minutesLeft, secondsLeft;
     let getApiJson = {};
     getApiJson["tableNames"] = getTableDetails()["angTables"];
@@ -1695,6 +1701,12 @@ export const useHeader = () => {
         console.log(" data.angCaseHeader[0]", data.angCaseHeader[0])
         const stageName = location.state.stageName;
         const caseStatus = await getCaseStatus(stageName);
+        const tableNames = getTableDetails()["auditLogTable"];
+        if (callAuditLog) {
+          const logs = await getCaseLogHistory(location.state.caseNumber, token, tableNames);
+          setAuditLogs(logs)
+        }
+        
         const caseReceivedDate = new Date(
           data.angCaseHeader[0]["Case_Received_Date#date"],
           // data.angCaseHeader[0]["Case_Received_Date"],
@@ -1978,7 +1990,7 @@ export const useHeader = () => {
       console.error("An error occurred renameKey:", error);
     }
   };
-  const getPDCaseByCaseNumber = async () => {
+  const getPDCaseByCaseNumber = async (callAuditLog) => {
    
     let getApiJson = {};
     getApiJson["tableNames"] = getTableDetails()["pdTables"];
@@ -1990,6 +2002,14 @@ export const useHeader = () => {
       });
 
       const apiStat = res.data.Status;
+      const stageName = location.state.stageName;
+      const tableNames = getTableDetails()["auditLogTable"];
+      if(callAuditLog) {
+        const logs = await getCaseLogHistory(location.state.caseNumber, token, tableNames);
+        console.log(logs)
+        setAuditLogs(logs)
+      }
+     
 
       // Handle API status errors
       if (apiStat === -1) {
@@ -2344,7 +2364,7 @@ export const useHeader = () => {
           updateClaimArray.push({
             operation: "D",
             caseNumber: location.state.caseNumber,
-            rowNumber: originalElement["rowNumber"],
+            ...originalElement
           });
         }
       }
@@ -2406,7 +2426,7 @@ export const useHeader = () => {
           updateProviderArray.push({
             operation: "D",
             caseNumber: location.state.caseNumber,
-            rowNumber: originalElement["rowNumber"],
+            ...originalElement
           });
         }
       }
@@ -2468,7 +2488,7 @@ export const useHeader = () => {
           updateRepresentativeArray.push({
             operation: "D",
             caseNumber: location.state.caseNumber,
-            rowNumber: originalElement["rowNumber"],
+            ...originalElement
           });
         }
       }
@@ -2530,7 +2550,7 @@ export const useHeader = () => {
           updateDocNeededArray.push({
             operation: "D",
             caseNumber: location.state.caseNumber,
-            rowNumber: originalElement["rowNumber"],
+            ...originalElement
           });
         }
       }
@@ -2593,7 +2613,7 @@ export const useHeader = () => {
           updateAuthorizationArray.push({
             operation: "D",
             caseNumber: location.state.caseNumber,
-            rowNumber: originalElement["rowNumber"],
+            ...originalElement
           });
         }
       }
@@ -2654,7 +2674,7 @@ export const useHeader = () => {
           updateWrittenCommArray.push({
             operation: "D",
             caseNumber: location.state.caseNumber,
-            rowNumber: originalElement["rowNumber"],
+            ...originalElement
           });
         }
       }
@@ -2716,7 +2736,7 @@ export const useHeader = () => {
           updateVerbalCommArray.push({
             operation: "D",
             caseNumber: location.state.caseNumber,
-            rowNumber: originalElement["rowNumber"],
+            ...originalElement
           });
         }
       }
@@ -2733,13 +2753,14 @@ export const useHeader = () => {
     // apiJson["ANG_VERBAL_COMM_GRID"] = updateVerbalCommArray;
 
     apiJson["caseNumber"] = location.state.caseNumber;
+    apiJson["userName"] = location.state.userName;
     // debugger;
     const cleanedApiJson = removeDateInKeys(apiJson);
     customAxios
       .post("/generic/update", cleanedApiJson, {
         headers: { Authorization: `Bearer ${token}` },
       })
-      .then((res) => {
+      .then(async (res) => {
         const apiStat = res.data.UpdateCase_Output.Status;
 
         if (apiStat === -1) {
@@ -2750,7 +2771,10 @@ export const useHeader = () => {
           if (saveType === "SE") {
             alert("Case data updated successfully");  
             setTimeout(() => {
-              getAngCaseByCaseNumber(); 
+         
+                getAngCaseByCaseNumber(false); 
+            
+              
             }, 500);
             setTimeout(() => {
               navigateHome();
@@ -2776,8 +2800,16 @@ export const useHeader = () => {
             };
             console.log("procDATA for submitcase",procData)
             submitCase(procData, navigateHome);
+            await createAuditLog(location.state.flowId, '40', location.state?.stageName?.toLowerCase(),
+            location.state.caseNumber, location.state.userName, cleanedApiJson, 'U', token)
+          
             navigateHome();
           }
+
+          await createAuditLog(location.state.flowId, '40', location.state?.stageName?.toLowerCase(),
+            location.state.caseNumber, location.state.userName, cleanedApiJson, 'U', token)
+
+         
         }
       })
       .catch((err) => {
@@ -3035,7 +3067,7 @@ export const useHeader = () => {
           updateCaseInfoArray.push({
             operation: "D",
             caseNumber: location.state.caseNumber,
-            rowNumber: originalElement["rowNumber"],
+            ...originalElement
           });
         }
       }
@@ -3098,7 +3130,7 @@ export const useHeader = () => {
           updateClaimArray.push({
             operation: "D",
             caseNumber: location.state.caseNumber,
-            rowNumber: originalElement["rowNumber"],
+            ...originalElement
           });
         }
       }
@@ -3159,7 +3191,7 @@ export const useHeader = () => {
           updateClaimArrayFiling.push({
             operation: "D",
             caseNumber: location.state.caseNumber,
-            rowNumber: originalElement["rowNumber"],
+            ...originalElement
           });
         }
       }
@@ -3221,7 +3253,7 @@ export const useHeader = () => {
           updateAuthArray.push({
             operation: "D",
             caseNumber: location.state.caseNumber,
-            rowNumber: originalElement["rowNumber"],
+            ...originalElement
           });
         }
       }
@@ -3232,12 +3264,13 @@ export const useHeader = () => {
     apiJson["PD_Authorization_Information"] = updateAuthArray;
     console.log("location.state.caseNumberqqqqqqq", location.state.caseNumber)
     apiJson["caseNumber"] = location.state.caseNumber;
+    apiJson["userName"] = location.state.userName;
     const cleanedApiJson = removeDateInKeys(apiJson);
     customAxios
         .post("/generic/update", cleanedApiJson, {
           headers: { Authorization: `Bearer ${token}` },
         })
-      .then((res) => {
+      .then(async (res) => {
         const apiStat = res.data.UpdateCase_Output.Status;
 
         if (apiStat === -1) {
@@ -3247,7 +3280,7 @@ export const useHeader = () => {
           if (saveType === "SE") {
             alert("Case data updated successfully");  
             setTimeout(() => {
-              getPDCaseByCaseNumber(); 
+              getPDCaseByCaseNumber(false); 
             }, 500);
             navigateHome();
           }
@@ -3272,6 +3305,8 @@ export const useHeader = () => {
             submitCase(procData, navigateHome);
             navigateHome();
           }
+          await createAuditLog(location.state.flowId, '40', location.state?.stageName?.toLowerCase(),
+          location.state.caseNumber, location.state.userName, cleanedApiJson, 'U', token)
         }
       })
       .catch((err) => {
@@ -3466,6 +3501,7 @@ export const useHeader = () => {
     pdsaveAndExit,
     ProviderclaimInformation,
     ProviderInformationAppeals,
-    scrollToTop
+    scrollToTop,
+    auditLogs
   };
 };

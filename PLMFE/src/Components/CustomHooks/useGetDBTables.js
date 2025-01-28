@@ -124,6 +124,7 @@ export default function useGetDBTables() {
         "PD_Authorization_Information~pdAuthorizationInformationGrid",
         "PD_Notes~pNotes",
       ],
+      auditLogTable: ["AuditLog~auditLog"]
     };
     return tableJson;
   };

@@ -4356,6 +4356,7 @@ export default function AddProvider() {
         headers: { Authorization: `Bearer ${token}` },
       });
 
+
       console.log("Data saved successfully: ", response);
 
       // Handle the response from the create endpoint.
