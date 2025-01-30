@@ -730,7 +730,7 @@ export default function DecisionTab(props) {
 
             >
               <td>{data.username}</td>
-              <td>{data.stageName}</td>
+              <td class="text-capitalize">{data.stageName}</td>
               <td>{formatDecHistDate(data['actionDate#date'])}</td>
               <td><a className="link-tag" onClick={() => {
                 openAuditLogsModal(index, JSON.parse(data.payloadData || '{}'));

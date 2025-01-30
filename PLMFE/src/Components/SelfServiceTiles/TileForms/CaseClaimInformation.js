@@ -630,6 +630,7 @@ const handleProviderInformationAppealsData = (name, value, persist) => {
         if (!checkGridJsonLength(clonedJson)) {
           claimInformationGridData[index] = clonedJson;
           setClaimInformationGridData([...claimInformationGridData]);
+          props.updateClaimInformationGridData([...claimInformationGridData])
         }
       }
       if (triggeredFormName === "ProviderInformationTable") {
@@ -642,7 +643,7 @@ const handleProviderInformationAppealsData = (name, value, persist) => {
         if (!checkGridJsonLength(clonedJson)) {
           providerInformationGridData[index] = clonedJson;
           setProviderInformationGridData([...providerInformationGridData]);
-          //  props.updateProviderInformationGridData([...providerInformationGridData]);
+          props.updateProviderInformationGridData([...providerInformationGridData]);
         }
       }
 

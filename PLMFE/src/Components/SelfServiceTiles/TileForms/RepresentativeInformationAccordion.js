@@ -325,6 +325,9 @@ const RepresentativeInformationAccordion = (props) => {
           setRepresentativeInformationGridData([
             ...representativeInformationGridData,
           ]);
+          props.updateRepresentativeInformationGridData([
+            ...representativeInformationGridData
+          ]);
         }
       }
 
