@@ -40,6 +40,7 @@ export default function ClaimInformationTable({
   const masterAngClaimStatusSelector = useSelector(
     (state) => state?.masterAngClaimStatus,
   );
+  
   const masterAngGrantGoodCauseSelector = useSelector(
     (state) => state?.masterAngGrantGoodCause,
   );
@@ -99,21 +100,19 @@ export default function ClaimInformationTable({
     }
 
     if (masterAngClaimStatusSelector) {
+      console.log("masterAngClaimStatusSelector--->",masterAngClaimStatusSelector)
       const claimStatusArray =
       masterAngClaimStatusSelector.length === 0
           ? []
-          : masterAngClaimStatusSelector.length === 0
-[0];
+          : masterAngClaimStatusSelector[0];
 
       for (let i = 0; i < claimStatusArray.length; i++) {
         claimStatusOptions.push({
-          label: convertToCase(claimStatusArray[i].Claim_Status),
-          value: convertToCase(claimStatusArray[i].Claim_Status),
+          label: convertToCase(claimStatusArray[i].CLAIM_STATUS),
+          value: convertToCase(claimStatusArray[i].CLAIM_STATUS),
         });
       }
     }
-console.log("claimStatusOptions--->",claimStatusOptions)
-    
 
     if (masterAngGrantGoodCauseSelector) {
       const grantGoodCauseArray =

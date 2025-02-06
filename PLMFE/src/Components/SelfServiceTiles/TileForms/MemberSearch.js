@@ -79,7 +79,9 @@ export default function MemberSearch(modalProps) {
                       value={modalProps.selectSearchValues?.memberID || ""}
                       onChange={(event) => handleCriteriaChangeValue(event)}
                       disabled={modalProps.selectedCriteria !== "memberID"}
-                      
+                      style={{
+                        width: "120%"
+                      }}
                     />
                     <label htmlFor="memberIDVal">Member ID</label>
                   </div>
@@ -107,6 +109,9 @@ export default function MemberSearch(modalProps) {
                       value={modalProps.selectSearchValues?.medicareID || ""}
                       onChange={(event) => handleCriteriaChangeValue(event)}
                       disabled={modalProps.selectedCriteria !== "medicareID"}
+                      style={{
+                        width: "117%"
+                      }}
                     />
                     <label htmlFor="medicareIDVal">Medicare ID</label>
                   </div>
@@ -134,6 +139,9 @@ export default function MemberSearch(modalProps) {
                       value={modalProps.selectSearchValues?.medicaidID || ""}
                       onChange={(event) => handleCriteriaChangeValue(event)}
                       disabled={modalProps.selectedCriteria !== "medicaidID"}
+                      style={{
+                        width: "116%"
+                      }}
                     />
                     <label htmlFor="medicaidIDVal">Medicaid ID</label>
                   </div>

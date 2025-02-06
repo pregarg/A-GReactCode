@@ -52,7 +52,7 @@ import {
   getMasterAngCommType,
   getMasterAngPurposeOfOutreach,
   getMasterAngMailingMethod,
-  getMasterAngLetterTriggerType,
+  getMasterAngWrittenCommType,
   getMasterPDCaseInCompliance,
   getMasterPDTimeFrameExtended,
   getMasterPDDepartment,
@@ -716,7 +716,7 @@ export default function DashboardLogin() {
       ),
     );
     dispatch(
-      getMasterAngLetterTriggerType(
+      getMasterAngWrittenCommType(
         loginToken,
         false,
         onMasterLoadFail,

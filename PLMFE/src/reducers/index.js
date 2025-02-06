@@ -658,7 +658,7 @@ const masterAngStUpExpeditedReducer = (state = [], action) => {
 const masterAngDocumentReducer = (state = [], action) => {
   if (action.type === "GET_ANG_DOCUMENT") {
     return [action.payload];
-  } else if (action.type === "GET_ANG_DOCUMENT") {
+  } else if (action.type === "CLEAR_ANG_DOCUMENT") {
     state = [];
     return state;
   }
@@ -767,10 +767,10 @@ const masterAngMailingMethodReducer = (state = [], action) => {
   }
   return state;
 };
-const masterAngLetterTriggerTypeReducer = (state = [], action) => {
-  if (action.type === "GET_ANG_LETTER_TRIGGER_TYPE") {
+const masterAngWrittenCommTypeReducer = (state = [], action) => {
+  if (action.type === "GET_ANG_WRITTEN_COMMUNICATION_TYPE") {
     return [action.payload];
-  } else if (action.type === "CLEAR_ANG_LETTER_TRIGGER_TYPE") {
+  } else if (action.type === "CLEAR_ANG_WRITTEN_COMMUNICATION_TYPE") {
     state = [];
     return state;
   }
@@ -1210,7 +1210,7 @@ export default combineReducers({
   masterAngCommWith:masterAngCommWithReducer,
   masterAngPurposeOfOutreach:masterAngPurposeOfOutreachReducer,
   masterAngMailingMethod:masterAngMailingMethodReducer,
-  masterAngLetterTriggerType:masterAngLetterTriggerTypeReducer,
+  masterAngWrittenCommType:masterAngWrittenCommTypeReducer,
 
   masterPDTimeFrameExtended:masterPDTimeFrameExtendedReducer,
   masterPDCaseInCompliance:masterPDCaseInComplianceReducer,

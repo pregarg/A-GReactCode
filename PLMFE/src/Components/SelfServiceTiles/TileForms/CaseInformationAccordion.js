@@ -7,11 +7,12 @@ import { FormikInputField } from "../Common/FormikInputField";
 import { FormikSelectField } from "../Common/FormikSelectField";
 
 const CaseInformationAccordion = (props) => {
-  console.log("props.renderType",props.renderType)
+
   const { convertToCase } = useGetDBTables();
   const [caseInformationData, setCaseInformationData] = useState(
     props.caseInformationData,
   );
+  console.log("props.renderType",caseInformationData)
   const masterAngLOBMappingSelector = useSelector(
     (state) => state?.masterAngLOBMapping,
   );
@@ -48,21 +49,50 @@ const CaseInformationAccordion = (props) => {
   const [reviewTypeValues, setReviewTypeValues] = useState([]);
   const [productValues, setProductValues] = useState([]);
   const [productStateValues, setProductStateValues] = useState([]);
-
+  const [lobDescriptionValues, setLobDescriptionValues] = useState([]);
   const [productTypeValues, setProductTypeValues] = useState([]);
   const [denialTypeValues, setDenialTypeValues] = useState([]);
- 
 
+ 
   useEffect(() => {
+    // Define kvMapper function inside useEffect to map data
     const kvMapper = (e) => ({
       label: convertToCase(e),
       value: convertToCase(e),
     });
-    const arr = masterAngLOBMappingSelector?.[0] || [];
-    setLobValues(arr.map((e) => e.LOB).map(kvMapper));
-    setProductValues(arr.map((e) => e.Product).map(kvMapper));
-    setProductStateValues(arr.map((e) => e.State).map(kvMapper));
-
+  
+    const productTable = masterAngLOBMappingSelector?.[0] || [];
+    const medicareData = productTable.filter((e) => e.Product === "MEDICARE");
+    const medicaidData = productTable.filter((e) => e.Product === "MEDICAID");
+  
+    // Set Product dropdown based on Medicare/Medicaid
+    setProductValues([
+      ...medicareData,
+      ...medicaidData,
+    ].map((e) => e.Product).map(kvMapper));
+  
+    // Populate LOB and Product State dropdowns based on selected Product
+    if (caseInformationData.Product === "MEDICARE") {
+      setLobValues(medicareData.map((e) => e.LOB).map(kvMapper));
+      setProductStateValues(medicareData.map((e) => e.State).map(kvMapper));
+    } else if (caseInformationData.Product === "MEDICAID") {
+      setLobValues(medicaidData.map((e) => e.LOB).map(kvMapper));
+      setProductStateValues(medicaidData.map((e) => e.State).map(kvMapper));
+    }
+    if (
+      caseInformationData.Product &&
+      caseInformationData.Product_State &&
+      caseInformationData.Line_of_Business_LOB
+    ) {
+      setLobDescriptionValues(
+        getLOBDescription(
+          caseInformationData.Product,
+          caseInformationData.Product_State,
+          caseInformationData.Line_of_Business_LOB
+        )
+      );
+    }
+  
     const appellantDesc = appellantDescSelector?.[0] || [];
     setAppellantDescValues(
       [
@@ -97,44 +127,115 @@ const CaseInformationAccordion = (props) => {
     setDenialTypeValues(denialType.map((e) => e.Denial_Type).map(kvMapper));
   }, []);
 
-  useEffect(() => {
-    const { Product, Product_State, Line_of_Business_LOB } = caseInformationData;
-
-    if (Product === "MEDICAID" && Product_State === "NC" && Line_of_Business_LOB === "NCD") {
-      setCaseInformationData((prevData) => ({
-        ...prevData,
-        LOB_Description: "NORTH CAROLINA MEDICAID",
-      }));
-    } else if (Product === "MEDICARE" && Product_State === "CA" && Line_of_Business_LOB === "RMR") {
-      setCaseInformationData((prevData) => ({
-        ...prevData,
-        LOB_Description: "CALIFORNIA DSNP/ CALIFORNIA MEDICARE",
-      }));
-    }
-  }, [
-    caseInformationData.Product,
-    caseInformationData.Product_State,
-    caseInformationData.Line_of_Business_LOB,
-  ]);
 
   
-  
-
   const handleCaseInformationData = (name, value, persist) => {
+    const kvMapper = (e) => ({
+      label: convertToCase(e),
+      value: convertToCase(e),
+    });
+  
     const newData = {
       ...caseInformationData,
       [name]: typeof value === "string" ? convertToCase(value) : value,
     };
-    setCaseInformationData(newData);
+  
+    if (name === "Product") {
+      setLobValues([]);
+      setProductStateValues([]);
+      setLobDescriptionValues('');
+      const productData = masterAngLOBMappingSelector?.[0]?.filter((e) => e.Product === value);
+      setLobValues(productData.map((e) => e.LOB).map(kvMapper));
+      setProductStateValues(productData.map((e) => e.State).map(kvMapper));
 
+      setLobDescriptionValues('');
+      newData.Product_State = '';
+      newData.Line_of_Business_LOB = '';
+    }
+  
+    // Only update LOB Description when Product, Product State, and LOB are all selected
+    if (
+      newData.Product &&
+      newData.Product_State &&
+      newData.Line_of_Business_LOB
+    ) {
+      newData.LOB_Description = getLOBDescription(
+        newData.Product,
+        newData.Product_State,
+        newData.Line_of_Business_LOB
+      );
+    } else {
+      // If any of the values is missing, clear the LOB Description
+      newData.LOB_Description = '';
+    }
+  
+    setCaseInformationData(newData);
+  
+    // Handle Expedited Priority
     if (name === "Case_Level_Priority" && value === "EXPEDITED") {
       props.onExpeditedPriorityChange(new Date());
     }
-
+  
     if (persist) {
       props.setCaseInformationData(newData);
     }
   };
+  
+  const getLOBDescription = (product, state, lob) => {
+    const productTable = masterAngLOBMappingSelector?.[0] || [];
+    const selectedProduct = productTable.find(
+      (e) => e.Product === product && e.State === state && e.LOB === lob
+    );
+    return selectedProduct ? selectedProduct.LOB_Description : '';
+  };
+  
+  
+
+
+  // const handleCaseInformationData = (name, value, persist) => {
+  //   const newData = {
+  //     ...caseInformationData,
+  //     [name]: typeof value === "string" ? convertToCase(value) : value,
+  //   };
+  //   if (name === "Product") {
+  //     const selectedProduct = masterAngLOBMappingSelector?.[0]?.find(e => e.Product === value);
+  //     if (selectedProduct) {
+        
+  //       newData.Line_of_Business_LOB = selectedProduct.LOB;
+  //       newData.Product_State = selectedProduct.State;
+  //       newData.LOB_Description = selectedProduct.LOB_Description;
+  //     }
+  //   }
+  //   setCaseInformationData(newData);
+  
+  //   if (name === "Case_Level_Priority" && value === "EXPEDITED") {
+  //     props.onExpeditedPriorityChange(new Date());
+  //   }
+  
+  //   if (persist) {
+  //     props.setCaseInformationData(newData);
+  //   }
+  // };
+  
+  
+  
+
+  // const handleCaseInformationData = (name, value, persist) => {
+  //   const newData = {
+  //     ...caseInformationData,
+  //     [name]: typeof value === "string" ? convertToCase(value) : value,
+  //   };
+  //   setCaseInformationData(newData);
+
+  //   if (name === "Case_Level_Priority" && value === "EXPEDITED") {
+  //     props.onExpeditedPriorityChange(new Date());
+  //   }
+
+  //   if (persist) {
+  //     props.setCaseInformationData(newData);
+  //   }
+  // };
+  
   const persistCaseInformationData = () => {
     props.setCaseInformationData(caseInformationData);
   };

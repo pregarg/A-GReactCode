@@ -50,6 +50,7 @@ export default function ProviderSearch(modalProps) {
                   value="ProviderID"
                   checked={modalProps.selectedCriteria === "ProviderID"}
                   onChange={(event) => handleCriteriaChange(event)}
+                  
                 />
                 <div className="form-floating mb-3">
                   <input
@@ -61,12 +62,15 @@ export default function ProviderSearch(modalProps) {
                     value={modalProps.selectSearchValues?.providerID || ""}
                     onChange={(event) => handleCriteriaChangeValue(event)}
                     disabled={modalProps.selectedCriteria !== "ProviderID"}
+                    style={{
+                      width: "120%"
+                    }}
                   />
                   <label htmlFor="ProviderIDVal">Provider ID</label>
                 </div>
               </div>
         
-              <div className="form-check form-check-inline ms-3">
+              <div className="form-check form-check-inline ms-5">
                 <input
                   className="form-check-input"
                   type="radio"
@@ -86,12 +90,15 @@ export default function ProviderSearch(modalProps) {
                     value={modalProps.selectSearchValues?.NPI || ""}
                     onChange={(event) => handleCriteriaChangeValue(event)}
                     disabled={modalProps.selectedCriteria !== "NPI"}
+                    style={{
+                      width: "116%"
+                    }}
                   />
                   <label htmlFor="NPIDVal">NPI</label>
                 </div>
               </div>
 
-              <div className="form-check form-check-inline ms-3">
+              <div className="form-check form-check-inline ms-5">
                 <input
                   className="form-check-input"
                   type="radio"
@@ -111,6 +118,9 @@ export default function ProviderSearch(modalProps) {
                     value={modalProps.selectSearchValues?.TaxID || ""}
                     onChange={(event) => handleCriteriaChangeValue(event)}
                     disabled={modalProps.selectedCriteria !== "TAXID"}
+                    style={{
+                      width: "120%"
+                    }}
                   />
                   <label htmlFor="TAXIDVal">Tax ID</label>
                 </div>

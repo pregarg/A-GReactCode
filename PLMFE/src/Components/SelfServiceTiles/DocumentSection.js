@@ -44,7 +44,8 @@ console.log("document prop", prop)
   const masterPDDocumentSelector = useSelector(
     (state) => state?.masterPDDocument,
   );
-  console.log("Document Masters Selector: ", masterPDDocumentSelector);
+  console.log("Document Masters Selector: APPEALS", masterAngDocumentSelector);
+  console.log("Document Masters Selector:", masterPDDocumentSelector);
 
   const [modalShow, setModalShow] = useState(false);
 
@@ -60,14 +61,13 @@ console.log("document prop", prop)
     let documentOptions = [];
     
     if (prop.displayName === "Appeals" && masterAngDocumentSelector) {
+      
       documentOptions = masterAngDocumentSelector.length === 0 ? [] : masterAngDocumentSelector[0];
+      console.log("Document Section Appeals documentOptions: ", documentOptions);
     } else if (prop.displayName === "Provider Disputes" && masterPDDocumentSelector) {
       documentOptions = masterPDDocumentSelector.length === 0 ? [] : masterPDDocumentSelector[0];
+      console.log("Document Section documentOptions: ", documentOptions);
     }
-  
-    console.log("Document Section documentOptions: ", documentOptions);
-    console.log("Document Section stageName: ", stageName);
-  
     if (documentOptions.length > 0) {
       documentOptions = documentOptions.filter(
         (elem) =>
@@ -260,6 +260,8 @@ console.log("document prop", prop)
     prop.fileDataRef.splice(index, 1);
     setDocumentData(tempRows);
   };
+
+  
   const handleSelectItemPos = () => {
     let ItemPosition = document.getElementById("documentType")?.offsetTop;
     if (ItemPosition > 2200 && documentNameValues.length > 1) {

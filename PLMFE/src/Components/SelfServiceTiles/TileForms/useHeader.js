@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useAxios } from "../../../api/axios.hook";
 import useGetDBTables from "../../CustomHooks/useGetDBTables";
 import useUpdateDecision from "../../CustomHooks/useUpdateDecision";
+import useFormikValidation from "../../CustomHooks/useFormikValidation";
 import _ from "lodash";
 
 import TableComponent from "../../../../src/util/TableComponent";
@@ -50,6 +51,8 @@ export const useHeader = () => {
   const { fileUpDownAxios } = useAxios();
   let documentSectionDataRef = useRef([]);
   const authSelector = useSelector((state) => state.auth);
+  console.log("authSelector--->",authSelector)
+  
 
   const providerDisputesConfigData = JSON.parse(
     process.env.REACT_APP_PROVIDERDISPUTES_DETAILS || "{}",
@@ -393,6 +396,8 @@ export const useHeader = () => {
     "documents needed",
     "research",
   ];
+
+  const { checkErrorsAndFocusOnFields} = useFormikValidation();
   const caseInformationValidationSchema = Yup.object().shape({
     Line_of_Business_LOB: Yup.string().required(
       "Line of Business is mandatory",
@@ -621,8 +626,8 @@ export const useHeader = () => {
   const writtenCommGridValidationSchema = Yup.object().shape({
     Communication_Type: Yup.string().required("Communication Type is mandatory"),
     Name_Description:Yup.string().required("Name & Description is mandatory"),
-    Mail_Tracking_Number:Yup.string().required("Mail Tracking Number is mandatory"),
-    Communication_Request_Date:Yup.string().required("Communication Request Date is mandatory"),
+    //Mail_Tracking_Number:Yup.string().required("Mail Tracking Number is mandatory"),
+    //Communication_Request_Date:Yup.string().required("Communication Request Date is mandatory"),
   });
   const verbalCommGridValidationSchema = Yup.object().shape({
     Communication_Type: Yup.string().required("Communication Type is mandatory"),
@@ -1102,7 +1107,7 @@ export const useHeader = () => {
     return false;
   }
 
-  const submitData = async () => {
+  const submitData = async () => { 
     // debugger;
     if(ProviderclaimInformation.isChecked === '1') {
       if(!ProviderclaimInformation.WhiteGloveReason) {
@@ -1122,17 +1127,24 @@ export const useHeader = () => {
         return;
       }
     }
+  const appealErrors = checkForAppealsError();
+  if (appealErrors.length > 0) {
+    alert("Please fill all mandatory fields");
+    setShowSubmitError(true);
+   
+    // checkErrorsAndFocusOnFields(
+    //   appealErrors, 
+    //   setFieldTouched, 
+
+    //   handleSubmit, 
+    //   evnt
+    // );
+    return;  
+  }
 
     if(checkForAppealsGridData()) {
       alert("Please fill all mandatory grid data")
       return;
-    }
-
-    if (checkForAppealsError()?.length > 0) {
-      alert("Please fill all mandatory fields")
-      setShowSubmitError(true);
-      return;
-
     }
 
     const currentUser = authSelector.userName || "system";
@@ -1261,6 +1273,7 @@ export const useHeader = () => {
       await createAuditLog('4', '40', 'Start', response.data["CreateCase_Output"]["CaseNo"], currentUser, cleanedApiJson, 'I', token) 
     }
   };
+  
 
   const navigate = useNavigate();
   const navigateHome = async () => {
@@ -1540,6 +1553,9 @@ export const useHeader = () => {
       }
       else {
         alert ("No Data Found!")
+        handleCloseMember360();
+        handleCloseProvider360();
+        handleCloseNotesHistory();
         return;
       }
 

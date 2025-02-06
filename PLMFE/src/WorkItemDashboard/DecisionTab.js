@@ -877,7 +877,6 @@ export default function DecisionTab(props) {
   }
 
   //Commented by Harshit on 06/10/2023 as it is a redundant code.
-
   const callESignOperationApi = (esignOption) => {
     let esignApiJson = {
       caseNumber: Number(prop.state.caseNumber),
