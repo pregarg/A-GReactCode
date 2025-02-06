@@ -133,6 +133,11 @@ const WrittenCommAccordion = (props) => {
     console.log("Inside gridRowsFinalSubmit with view: ", tabRef);
 
     let clonedJson = { ...gridFieldTempState };
+    clonedJson = {
+      ...clonedJson,
+      Generated_By: props.handleData.Case_Owner || '',
+      Communication_Request_Date : props.handleData.Case_Received_Date || ''
+    }
 
     console.log("Inside gridRowsFinalSubmit clonedJson value1: ", clonedJson);
 
@@ -312,6 +317,7 @@ const WrittenCommAccordion = (props) => {
                   }
                   fetchAutoPopulate={fetchAutoPopulate}
                   transactionType={CaseHeader.displayName}
+                  props={props}
                 ></WrittenCommTable>
               </div>
             </div>

@@ -6,6 +6,9 @@ import { useLocation } from "react-router-dom";
 import { SimpleInputField } from "../Common/SimpleInputField";
 import { SimpleSelectField } from "../Common/SimpleSelectField";
 import { SimpleDatePickerField } from "../Common/SimpleDatePickerField";
+import { useAxios } from "../../../api/axios.hook";
+import ReactDatePicker from "react-datepicker";
+
 import axios from 'axios';
 export default function WrittenCommTable({
   writtenCommGridData,
@@ -22,7 +25,8 @@ export default function WrittenCommTable({
   validationSchema,
   providerInformationGrid,
   setGridFieldTempState,
-  memberInformation
+  memberInformation,
+  props
 }) {
   WrittenCommTable.displayName = "WrittenCommTable";
 
@@ -40,73 +44,36 @@ export default function WrittenCommTable({
 
   const { getGridJson, convertToCase } = useGetDBTables();
 
-  const [letterTriggerTypeValues, setletterTriggerTypeValues] = useState([]);
+  const [writtenCommTypeValues, setwrittenCommTypeValues] = useState([]);
   const [communicationTypeValues, setcommunicationTypeValues] = useState([]);
   const [nameDescriptionValues, setnameDescriptionValues] = useState([]);
   const [mailingMethodValues, setmailingMethodValues] = useState([]);
   const [communicationWithValues, setcommunicationWithValues] = useState([]);
   const [memberProviderListValues, setmemberProviderListValues] = useState([]);
-//  const [uploadedFile, setUploadedFile] = useState(null);
-//  const handleFileUpload = (event) => {
-//    const file = event.target.files[0];
-//    if (file) {
-//      console.log("File uploaded:", file);
-//      setUploadedFile(file);
-//      saveFileLocally(file); // Save the file locally for persistence
-//    }
-//  };
-//
-//  const handleSubmit = async () => {
-//    const formData = new FormData();
-//
-//    // Loop through form fields and append them
-//    for (let key in gridFieldTempState) {
-//      if (gridFieldTempState[key] instanceof File) {
-//        formData.append(key, gridFieldTempState[key]); // Append file
-//      } else {
-//        formData.append(key, gridFieldTempState[key]); // Append other fields
-//      }
-//    }
-//
-//    try {
-//      const response = await axios.post('/api/save-data', formData, {
-//        headers: {
-//          'Content-Type': 'multipart/form-data', // For file uploads
-//        },
-//      });
-//      console.log("Success:", response.data);
-//    } catch (error) {
-//      console.error("Error uploading:", error);
-//    }
-//  };
-//
-//
-//// Function to save the file in localStorage
-//  const saveFileLocally = (file) => {
-//    const reader = new FileReader();
-//    reader.onload = () => {
-//      const base64 = reader.result; // Convert file to Base64 string
-//      localStorage.setItem('uploadedFile', base64); // Save Base64 string to localStorage
-//      console.log("File saved locally.");
-//    };
-//    reader.readAsDataURL(file); // Read file as data URL
-//  };
-//
-//// Function to fetch the file from localStorage
-//  const fetchFileLocally = () => {
-//    const base64 = localStorage.getItem('uploadedFile');
-//    if (base64) {
-//      console.log("File fetched successfully:", base64);
-//      return base64;
-//    } else {
-//      console.log("No file found in storage.");
-//      return null;
-//    }
-//  };
+  const [showLoader, setShowLoader] = useState(false);
 
+  const token = useSelector((state) => state.auth.token);
+  const { customAxios } = useAxios();
+  const { esignAxios } = useAxios();
   let prop = useLocation();
-  const masterAngLetterTriggerSelector = useSelector(
-    (state) => state?.masterAngLetterTriggerType,
+  console.log("8527504487-->",prop)
+  console.log("9910514170-->",props)
+  const [caseInformationData, setCaseInformationData] = useState(
+    props.caseInformationData,
+  );
+
+  console.log("caseheder inside written comm--->", props.handleData.Case_Received_Date   );
+  console.log("caseInformationData inside written comm--->",  props.caseInformationData);
+  console.log("caseTimelinesData inside written comm--->", props.caseTimelinesData.Case_Received_Date );
+  console.log("claimInformationData inside written comm--->", props.handleClaimInformationGridData);
+  console.log("authinformation inside written comm--->", props.handleAuthorizationInformationGridData
+  );
+  const authSelector = useSelector((state) => state.auth);
+  console.log("authSelector123--->",authSelector)
+  
+
+  const masterAngWrittenCommTypeSelector = useSelector(
+    (state) => state?.masterAngWrittenCommType,
   );
   const masterAngCommunicationTypeSelector = useSelector(
     (state) => state?.masterAngCommType,
@@ -172,9 +139,9 @@ useEffect(() => {
       label: convertToCase(e),
       value: convertToCase(e),
     });
-    const letterTrigger = masterAngLetterTriggerSelector?.[0] || [];
-    setletterTriggerTypeValues(
-        letterTrigger.map((e) => e.Letter_Trigger_Type).map(kvMapper),
+    const writtenCommType = masterAngWrittenCommTypeSelector?.[0] || [];
+    setwrittenCommTypeValues(
+      writtenCommType.map((e) => e.Written_Comm_Type).map(kvMapper),
     );
     const communicationType = masterAngCommunicationTypeSelector?.[0] || [];
     setcommunicationTypeValues(
@@ -200,6 +167,112 @@ useEffect(() => {
     
 }, []);
 
+
+const callESignOperationApi = (esignOption) => {
+  let condition4 = props.caseInformationData.Appellant_Type; 
+  console.log("condition4--->", condition4)
+  if (props.caseInformationData.Product === 'MEDICAID') {
+      condition4 = props.caseInformationData.Line_of_Business_LOB; 
+  }
+  let esignApiJson = {
+    caseNumber: Number(prop.state.caseNumber),
+    transType: prop.state.formNames,
+    condition1: props.caseInformationData.Product,
+    condition2: props.caseInformationData.Appeal_Type,
+    condition3: prop.state.formNames,
+    condition4: condition4,
+    userId: Number(authSelector.userId),
+    option: esignOption,
+  };
+
+  console.log("esign api json ", esignApiJson);
+  setShowLoader(true);
+
+  const missingFields = [];
+  if(props.caseInformationData.Appeal_Type === 'PRE-SERVICE'){
+  if (!props.caseInformationData.Appellant_Type) missingFields.push("Appellant Type");
+  if (!props.caseInformationData.Product) missingFields.push("Product");
+  if (!props.claimInformationData.Service_Type) missingFields.push("Service Type");
+  if (!props.caseInformationData.Issue_Description) missingFields.push("Issue Description");
+  if (!props.memberInformation.Member_First_Name) missingFields.push("Member First Name");
+  if (!props.memberInformation.Member_ID) missingFields.push("Member ID");
+  if (!props.memberInformation.Address_Line_1) missingFields.push("Address Line 1");
+  if (!props.memberInformation.Address_Line_2) missingFields.push("Address Line 2");
+  if (!props.memberInformation.City) missingFields.push("City");
+  if (!props.memberInformation.State_) missingFields.push("State");
+  if (!props.memberInformation.Zip_Code) missingFields.push("Zip Code");
+  if (!props.memberInformation.Plan_Name) missingFields.push("Plan Name");
+  if (!props.handleAuthorizationInformationGridData[0]?.Service_Start_Date) missingFields.push("Auth Service Start Date");
+  if (!props.handleAuthorizationInformationGridData[0]?.Auth_Expiration_Date) missingFields.push("Auth Expiration Date");
+  }
+   else if (props.caseInformationData.Appeal_Type === 'RETRO')
+  {
+    if (!props.caseInformationData.Appellant_Type) missingFields.push("Appellant Type");
+    if (!props.caseInformationData.Product) missingFields.push("Product");
+    if (!props.claimInformationData.Service_Type) missingFields.push("Service Type");
+    if (!props.caseInformationData.Issue_Description) missingFields.push("Issue Description");
+    if (!props.memberInformation.Member_First_Name) missingFields.push("Member First Name");
+    if (!props.memberInformation.Member_ID) missingFields.push("Member ID");
+    if (!props.memberInformation.Address_Line_1) missingFields.push("Address Line 1");
+    if (!props.memberInformation.Address_Line_2) missingFields.push("Address Line 2");
+    if (!props.memberInformation.City) missingFields.push("City");
+    if (!props.memberInformation.State_) missingFields.push("State");
+    if (!props.memberInformation.Zip_Code) missingFields.push("Zip Code");
+    if (!props.memberInformation.Plan_Name) missingFields.push("Plan Name");
+    if (!props.handleClaimInformationGridData[0]?.Service_Start_Date) missingFields.push("Claim Service Start Date");
+  }
+
+  if (missingFields.length > 0) {
+    alert(`Please fill in the mandatory fields: ${missingFields.join(", ")}. \nSave the form and then regenerate the letter.`);
+     setShowLoader(false);
+  } else {
+    esignAxios.post("/esignOperations", esignApiJson).then((res) => {
+      console.log("esign rep-->", res);
+      setShowLoader(false);
+
+      const result = res.data.split("~");
+      console.log("result value from /esign api", result);
+
+      if (result[0].includes("Letter Generated Successfully")) {
+        alert(result[0]);
+        generateTemplate(prop);
+      } else {
+        alert("Error in generating letter");
+      }
+    }).catch((error) => {
+      // Catch any errors from the API request
+      console.error("Error calling /esignOperations:", error);
+      alert("An error occurred while processing the request");
+      setShowLoader(false);
+    });
+  }
+};
+ const generateTemplate = (prop) => {
+  console.log("generateTemplate", prop);
+  let procInput = {};
+  procInput.option = "SENDMAIL";
+  procInput.Type = prop.state.stageName;
+  procInput.CaseNumber = prop.state.caseNumber;
+  procInput.UserName = prop.state.userName;
+  
+ 
+  console.log("SEND MAIL Input", procInput);
+  customAxios
+    .post("/generic/callProcedure", procInput, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((res) => {
+      console.log("SEND MAIL Proc output: ", res);
+      if (res.status === 200) {
+        console.log("SEND MAIL Proc executed successully");
+      }
+    })
+    .catch((err) => {
+      console.log("Caught in update SEND MAIL api call: ", err.message);
+      alert("Error occured in SEND MAIL proc");
+    });
+};
+
 useEffect(() => {
   try {
     setValidationErrors([]);
@@ -219,23 +292,23 @@ useEffect(() => {
   
 
   const tableFields = [
-    "Letter_Trigger_Type",
+    //"Letter_Trigger_Type",
     "Communication_Type",
     "Name_Description",
     "Mailing_Method",
-    "Mail_Tracking_Number",
-    "Communication_With",
-    "Member_Provider_List",
+    // "Mail_Tracking_Number",
+    // "Communication_With",
+    // "Member_Provider_List",
     "Communication_Request_Date",
     "Communication_Sent_Date_Time",
     "Communication_Logs",
-    "External_Source_ID",
+    //"External_Source_ID",
     // "CCM_Status",
     "Generated_By",
   ];
 
 
-
+ 
   const renderSimpleInputField = (name, label, maxLength, index) => {
     return (
       <div className="col-xs-6 col-md-3">
@@ -252,14 +325,6 @@ useEffect(() => {
               WrittenCommTable.displayName,
             )
           }
-        //   disabled={
-        //     (prop.state.formView === "DashboardView" &&
-        //       (prop.state.stageName === "Redirect Review" ||
-        //         prop.state.stageName === "Effectuate" ||
-        //         prop.state.stageName === "Pending Effectuate" ||   
-        //         prop.state.stageName === "Case Completed" ||
-        //         prop.state.stageName === "CaseArchived"))   
-        //   }
         />
       </div>
     );
@@ -291,14 +356,6 @@ useEffect(() => {
           }
            
           }
-        //   disabled={
-        //         prop.state.formView === "DashboardView" &&
-        //       (prop.state.stageName === "Redirect Review" ||
-        //         prop.state.stageName === "Effectuate" ||
-        //         prop.state.stageName === "Pending Effectuate" ||   
-        //         prop.state.stageName === "Case Completed" ||
-        //         prop.state.stageName === "CaseArchived")  
-        //   }
         />
       </div>
     );
@@ -319,14 +376,7 @@ useEffect(() => {
               WrittenCommTable.displayName,
             )
           }
-        //   disabled={
-        //     prop.state.formView === "DashboardView" &&
-        //       (prop.state.stageName === "Redirect Review" ||
-        //         prop.state.stageName === "Effectuate" ||
-        //         prop.state.stageName === "Pending Effectuate" ||   
-        //         prop.state.stageName === "Case Completed" ||
-        //         prop.state.stageName === "CaseArchived")  
-        //   }
+  
         />
       </div>
     );
@@ -337,85 +387,25 @@ useEffect(() => {
     return (
         <div className="Container AddProviderLabel AddModalLabel">
           <div className="row">
-            {renderSimpleSelectField(
+            {/* {renderSimpleSelectField(
                 "Letter_Trigger_Type",
                 "Letter Trigger Type",
                 letterTriggerTypeValues,
                 index,
-            )}
+            )} */}
             {renderSimpleSelectField(
                 "Communication_Type",
                 "CommunicationType",
-                communicationTypeValues,
+                writtenCommTypeValues,
                 index,
             )}
             {renderSimpleSelectField(
                 "Name_Description",
                 "Name & Description",
                 [{
-                  label: 'NOTICE OF IRE OVERTURN',
-                  value: 'NOTICE OF IRE OVERTURN'
-                }, {
-                  label: 'APPEAL AUTOFORWARD LETTER',
-                  value: 'APPEAL AUTOFORWARD LETTER'
-                }, {
-                  label: 'NON PAR DISMISSAL',
-                  value: 'NON PAR DISMISSAL'
-                },
-                  {
-                    label: 'NON PAR DENIAL LETTER',
-                    value: 'NON PAR DENIAL LETTER'
-                  }, {
-                  label: 'NON PAR MEDICAL RECORDS REQUEST',
-                  value: 'NON PAR MEDICAL RECORDS REQUEST'
-                },
-                  {
-                    label: 'NON PAR WOL REQUEST',
-                    value: 'NON PAR WOL REQUEST'
-                  }, {
-                  label: 'APPOINTMENT OF REPRESENTATIVE',
-                  value: 'APPOINTMENT OF REPRESENTATIVE'
-                }, {
-                  label: 'APPEAL ACKNOWLEDGEMENT LETTER',
-                  value: 'APPEAL ACKNOWLEDGEMENT LETTER'
-                },
-                  {
-                    label: 'AOR REQUEST FORM_POA_EOE',
-                    value: 'AOR REQUEST FORM_POA_EOE'
-                  }, {
-                  label: 'NON PAR AOR and WOL REQUEST LETTER',
-                  value: 'NON PAR AOR and WOL REQUEST LETTER'
-                },
-                  {
-                    label: 'APPEAL DISMISSAL LETTER',
-                    value: 'APPEAL DISMISSAL LETTER'
-                  },
-                  {
-                    label: 'APPEAL UPHOLD LETTER',
-                    value: 'APPEAL UPHOLD LETTER'
-                  }, {
-                  label: 'APPEAL OVERTURN LETTER',
-                  value: 'APPEAL OVERTURN LETTER'
-                }, {
-                  label: 'PAR PROVIDER APPROVAL',
-                  value: 'PAR PROVIDER APPROVAL'
-                },
-                  {
-                    label: 'PAR CORRESPONDENCE LETTER',
-                    value: 'PAR CORRESPONDENCE LETTER'
-                  },
-                  {
-                    label: 'NON PAR APPROVAL',
-                    value: 'NON PAR APPROVAL'
-                  },
-                  {
-                    label: 'NON PAR CORRESPONDENCE LETTER',
-                    value: 'NON PAR CORRESPONDENCE LETTER'
-                  },
-                  {
-                    label: 'CORRESPONDENCE',
-                    value: 'CORRESPONDENCE'
-                  },
+                  label: 'ACKNOWLEDGEMENT LETTER',
+                  value: 'ACKNOWLEDGEMENT LETTER'
+                }
                 ],
                 index,
             )}
@@ -425,10 +415,32 @@ useEffect(() => {
                 mailingMethodValues,
                 index,
             )}
-
+            {/* {renderSimpleInputField("Generated_By", "Generated By", 4000, index,"test value")} */}
+            <div className="col-xs-6 col-md-3">
+            <label htmlFor="Generated_By">
+            <strong>Generated By</strong>
+            </label>
+            <input
+              type="text"
+              data={gridFieldTempState}
+              id="Generated_By"
+              name="Generated_By"
+              className="form-control"
+              maxLength={4000}
+              Value =  {props.handleData.Case_Owner || ""}
+              onChange={(event) =>
+                handleGridFieldChange(
+                  index,
+                  event,
+                  WrittenCommTable.displayName,
+                )
+              }
+              disabled={true} 
+            />
+          </div>
 
           </div>
-          <div className="row mt-3">
+          {/* <div className="row mt-3">
             {renderSimpleInputField("Mail_Tracking_Number", "Mail Tracking Number", 50, index)}
             {renderSimpleSelectField(
                 "Communication_With",
@@ -444,23 +456,66 @@ useEffect(() => {
             )}
             {renderSimpleInputField("External_Source_ID", "External Source ID", 4000, index)}
            
-          </div>
+          </div> */}
           <div className="row mt-3">
             {renderSimpleDatePickerField(
                 "Communication_Sent_Date_Time",
                 "Communication Sent Date Time",
                 index,
             )}
-             {renderSimpleDatePickerField(
-                "Communication_Request_Date",
-                "Communication Request Date",
-                index,
-            )}
-            {renderSimpleInputField("Communication_Logs", "Communication Logs", 4000, index)}
-            {/* {renderSimpleInputField("CCM_Status", "CCMStatus", 4000, index)} */}
-            {renderSimpleInputField("Generated_By", "Generated By", 4000, index)}
-
+            <div className="col-xs-6 col-md-3">
+          <label htmlFor="Communication_Request_Date">
+            <strong>Communication Request Date</strong>
+          </label>
+          <div className="form-floating">
+            <ReactDatePicker
+              className="form-control example-custom-input-modal"
+              selected={
+                props.handleData.Case_Received_Date
+                  ? new Date(props.handleData.Case_Received_Date)
+                  : null
+              }
+              name="Communication_Request_Date"
+              onChange={(date) => console.log("Date selected:", date)}
+              peekNextMonth
+              showMonthDropdown
+              onKeyDown={(e) => e.preventDefault()}
+              showYearDropdown
+              dropdownMode="select"
+              dateFormat="MM/dd/yyyy"
+              id="Communication_Request_Date"
+              disabled={true} 
+            />
           </div>
+        </div>
+        <div className="col-md-4">
+        <div style={{ width: '270%' }}>
+            {renderSimpleInputField("Communication_Logs", "Communication Logs", 4000, index , '')}
+            </div>
+            </div>
+            </div>
+
+
+          <div className="row mt-3" style={{ display: 'flex', justifyContent: 'center' }}>
+          <button
+            className="btn btn-outline-primary btnStyle"
+            onClick={() => {
+              console.log('Button clicked for row:', index);
+               callESignOperationApi("Generate Document"); 
+              //generateTemplate(prop);
+            }}
+            style={{
+              width: '200px', 
+              height: '40px', 
+              textAlign: 'center', 
+            }}
+          >
+            Generate Letter
+          </button>
+        </div>
+
+            
+          
           {/* <div className="row mt-3">
                  {renderSimpleInputField("Generated_By", "Generated By", 4000, index)}
                  </div> */}

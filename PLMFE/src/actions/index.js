@@ -1565,7 +1565,7 @@ export const getMasterAngAORType = (
     }
   };
 };
-export const getMasterAngLetterTriggerType = (
+export const getMasterAngWrittenCommType = (
   token,
   clearFlag = false,
   onError,
@@ -1574,16 +1574,16 @@ export const getMasterAngLetterTriggerType = (
   return (dispatch) => {
     if (!clearFlag) {
       const apiData = new FormData();
-      apiData.append("tableName", "ANG_MASTER_LETTER_TRIGGER_TYPE~masterAngLetterTriggerType");
+      apiData.append("tableName", "ANG_MASTER_WRITTEN_COMMUNICATION_TYPE~masterAngWrittenCommType");
       axios
         .post("/generic/get/masterTableData", apiData, {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((res) => {
           if (res.data.Status === 0) {
-            const respData = [...res.data.data.masterAngLetterTriggerType];
+            const respData = [...res.data.data.masterAngWrittenCommType];
             //console.log(response);
-            dispatch({ type: "GET_ANG_LETTER_TRIGGER_TYPE", payload: respData });
+            dispatch({ type: "GET_ANG_WRITTEN_COMMUNICATION_TYPE", payload: respData });
             if (onSuccess) {
               onSuccess(res);
             }
@@ -1596,7 +1596,7 @@ export const getMasterAngLetterTriggerType = (
           }
         });
     } else if (clearFlag) {
-      dispatch({ type: "CLEAR_ANG_LETTER_TRIGGER_TYPE", payload: "" });
+      dispatch({ type: "CLEAR_ANG_WRITTEN_COMMUNICATION_TYPE", payload: "" });
     }
   };
 };

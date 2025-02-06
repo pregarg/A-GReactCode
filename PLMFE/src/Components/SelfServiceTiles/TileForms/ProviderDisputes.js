@@ -412,6 +412,7 @@ const ProviderDisputes = () => {
               className="btn btn-outline-primary btnStyle"
               onClick={(event) => navigateHome(event)}
               style={{ float: "left", marginLeft: "10px" }}
+              
             >
               Go To Home
             </button>

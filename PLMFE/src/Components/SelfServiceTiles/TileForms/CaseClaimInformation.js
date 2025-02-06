@@ -194,6 +194,7 @@ const CaseClaimInformation = (props) => {
   const [decisionValues, setDecisionValues] = useState([]);
   const [decisionReasonValues, setDecisionReasonValues] = useState([]);
   const [serviceTypeValues, setServiceTypeValues] = useState([]);
+  const [serviceTypeDescValues, setServiceTypeDescValues] = useState([])
   const [processingStatusValues, setProcessingStatusValues] = useState([]);
 
   useEffect(() => {
@@ -222,7 +223,11 @@ const CaseClaimInformation = (props) => {
 
     const authServiceType = masterAngAuthServiceTypeSelector?.[0] || [];
     setServiceTypeValues(
-      authServiceType.map((e) => e.SERVICE_TYPE_DESC).map(kvMapper),
+      authServiceType.map((e) => e.SERVICE_TYPE_CODE).map(kvMapper),
+    );
+    const serviceTypeDesc = masterAngAuthServiceTypeSelector?.[0] || [];
+    setServiceTypeDescValues(
+      serviceTypeDesc.map((e) => e.SERVICE_TYPE_DESC).map(kvMapper),
     );
 
     const procStatus = masterAngProcessingStatusSelector?.[0] || [];
@@ -1003,10 +1008,10 @@ const handleProviderInformationAppealsData = (name, value, persist) => {
                   "Service Type",
                   serviceTypeValues,
                 )}
-                 {renderInputField(
+                {renderSelectField(
                 "Service_Type_Desc",
                 "Service Type Description",
-                "Service Type Description",
+                serviceTypeDescValues,
               )}
             </div>
             {/* <div className="row my-2">

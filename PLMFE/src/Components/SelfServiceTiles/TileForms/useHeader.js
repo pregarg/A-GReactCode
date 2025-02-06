@@ -50,6 +50,8 @@ export const useHeader = () => {
   const { fileUpDownAxios } = useAxios();
   let documentSectionDataRef = useRef([]);
   const authSelector = useSelector((state) => state.auth);
+  console.log("authSelector--->",authSelector)
+  
 
   const providerDisputesConfigData = JSON.parse(
     process.env.REACT_APP_PROVIDERDISPUTES_DETAILS || "{}",
@@ -621,8 +623,8 @@ export const useHeader = () => {
   const writtenCommGridValidationSchema = Yup.object().shape({
     Communication_Type: Yup.string().required("Communication Type is mandatory"),
     Name_Description:Yup.string().required("Name & Description is mandatory"),
-    Mail_Tracking_Number:Yup.string().required("Mail Tracking Number is mandatory"),
-    Communication_Request_Date:Yup.string().required("Communication Request Date is mandatory"),
+    //Mail_Tracking_Number:Yup.string().required("Mail Tracking Number is mandatory"),
+    //Communication_Request_Date:Yup.string().required("Communication Request Date is mandatory"),
   });
   const verbalCommGridValidationSchema = Yup.object().shape({
     Communication_Type: Yup.string().required("Communication Type is mandatory"),
@@ -1129,6 +1131,7 @@ export const useHeader = () => {
     // checkErrorsAndFocusOnFields(
     //   appealErrors, 
     //   setFieldTouched, 
+
     //   handleSubmit, 
     //   evnt
     // );
