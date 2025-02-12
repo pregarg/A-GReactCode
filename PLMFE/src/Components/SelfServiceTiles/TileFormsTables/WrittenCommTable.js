@@ -8,6 +8,7 @@ import { SimpleSelectField } from "../Common/SimpleSelectField";
 import { SimpleDatePickerField } from "../Common/SimpleDatePickerField";
 import { useAxios } from "../../../api/axios.hook";
 import ReactDatePicker from "react-datepicker";
+import {useHeader}  from "../TileForms/useHeader.js";
 
 import axios from 'axios';
 export default function WrittenCommTable({
@@ -26,8 +27,10 @@ export default function WrittenCommTable({
   providerInformationGrid,
   setGridFieldTempState,
   memberInformation,
-  props
+  props,
+  // saveAndExit
 }) {
+  console.log("writtenCommGridData", writtenCommGridData)
   WrittenCommTable.displayName = "WrittenCommTable";
 
   const [dataIndex, setDataIndex] = useState();
@@ -43,7 +46,8 @@ export default function WrittenCommTable({
   const [isTouched, setIsTouched] = useState({});
 
   const { getGridJson, convertToCase } = useGetDBTables();
-
+ 
+ 
   const [writtenCommTypeValues, setwrittenCommTypeValues] = useState([]);
   const [communicationTypeValues, setcommunicationTypeValues] = useState([]);
   const [nameDescriptionValues, setnameDescriptionValues] = useState([]);
@@ -56,18 +60,18 @@ export default function WrittenCommTable({
   const { customAxios } = useAxios();
   const { esignAxios } = useAxios();
   let prop = useLocation();
-  console.log("8527504487-->",prop)
-  console.log("9910514170-->",props)
-  const [caseInformationData, setCaseInformationData] = useState(
-    props.caseInformationData,
-  );
+  // console.log("8527504487-->",prop)
+  // console.log("9910514170-->",props)
+  // const [caseInformationData, setCaseInformationData] = useState(
+  //   props.caseInformationData,
+  // );
 
-  console.log("caseheder inside written comm--->", props.handleData.Case_Received_Date   );
-  console.log("caseInformationData inside written comm--->",  props.caseInformationData);
-  console.log("caseTimelinesData inside written comm--->", props.caseTimelinesData.Case_Received_Date );
-  console.log("claimInformationData inside written comm--->", props.handleClaimInformationGridData);
-  console.log("authinformation inside written comm--->", props.handleAuthorizationInformationGridData
-  );
+  // console.log("caseheder inside written comm--->", props.handleData.Case_Received_Date   );
+  // console.log("caseInformationData inside written comm--->",  props.caseInformationData);
+  // console.log("caseTimelinesData inside written comm--->", props.caseTimelinesData.Case_Received_Date );
+  // console.log("claimInformationData inside written comm--->", props.handleClaimInformationGridData);
+  // console.log("authinformation inside written comm--->", props.handleAuthorizationInformationGridData
+  // );
   const authSelector = useSelector((state) => state.auth);
   console.log("authSelector123--->",authSelector)
   
@@ -93,45 +97,45 @@ export default function WrittenCommTable({
   );
 
 
-  useEffect(() => {
-    if(memberSelected) {
-      let tempInput = { ...gridFieldTempState };
+  // useEffect(() => {
+  //   if(memberSelected) {
+  //     let tempInput = { ...gridFieldTempState };
     
-      //providerInformationGrid
-      tempInput['Member_Provider_List'] =  memberInformation.Member_First_Name + ' ' + memberInformation.Member_Last_Name;
-      setGridFieldTempState(tempInput);
-    } else {
+  //     //providerInformationGrid
+  //     tempInput['Member_Provider_List'] =  memberInformation.Member_First_Name + ' ' + memberInformation.Member_Last_Name;
+  //     setGridFieldTempState(tempInput);
+  //   } else {
 
-      if(providerSelected) {
-        let tempInput = { ...gridFieldTempState };
-        console.log(providerInformationGrid)
+  //     if(providerSelected) {
+  //       let tempInput = { ...gridFieldTempState };
+  //       console.log(providerInformationGrid)
       
-        const provisingRow = providerInformationGrid.find(pg => pg.Provider_Type === 'PROVISIONING')
-      let providerName = ''
-        if(provisingRow) {
-      providerName = provisingRow['Provider_Name']
+  //       const provisingRow = providerInformationGrid.find(pg => pg.Provider_Type === 'PROVISIONING')
+  //     let providerName = ''
+  //       if(provisingRow) {
+  //     providerName = provisingRow['Provider_Name']
       
-        } else {
-          if(providerInformationGrid?.length > 0) {
-            providerName = providerInformationGrid?.[0]?.['Provider_Name']
+  //       } else {
+  //         if(providerInformationGrid?.length > 0) {
+  //           providerName = providerInformationGrid?.[0]?.['Provider_Name']
       
-          }
+  //         }
       
-        }
+  //       }
       
-        //providerInformationGrid
-        tempInput['Member_Provider_List'] = providerName;
-        setGridFieldTempState(tempInput);
-      }  else {
+  //       //providerInformationGrid
+  //       tempInput['Member_Provider_List'] = providerName;
+  //       setGridFieldTempState(tempInput);
+  //     }  else {
       
-      let tempInput = { ...gridFieldTempState };
+  //     let tempInput = { ...gridFieldTempState };
     
     
-      tempInput['Member_Provider_List'] = '';
-      setGridFieldTempState(tempInput);
-    }
-  }
-      }, [memberSelected, providerSelected])
+  //     tempInput['Member_Provider_List'] = '';
+  //     setGridFieldTempState(tempInput);
+  //   }
+  // }
+  //     }, [memberSelected, providerSelected])
   
  
 useEffect(() => {
@@ -143,32 +147,34 @@ useEffect(() => {
     setwrittenCommTypeValues(
       writtenCommType.map((e) => e.Written_Comm_Type).map(kvMapper),
     );
-    const communicationType = masterAngCommunicationTypeSelector?.[0] || [];
-    setcommunicationTypeValues(
-        communicationType.map((e) => e.Communication_Type).map(kvMapper),
-    );
-    const nameDescription =masterAngNameDescriptionSelector?.[0] || [];
-    setnameDescriptionValues(
-        nameDescription.map((e) => e.Needed_By).map(kvMapper),
-    );
+    // const communicationType = masterAngCommunicationTypeSelector?.[0] || [];
+    // setcommunicationTypeValues(
+    //     communicationType.map((e) => e.Communication_Type).map(kvMapper),
+    // );
+    // const nameDescription =masterAngNameDescriptionSelector?.[0] || [];
+    // setnameDescriptionValues(
+    //     nameDescription.map((e) => e.Needed_By).map(kvMapper),
+    // );
 
     const mailingMethod = masterAngMailingMethodSelector?.[0] || [];
     setmailingMethodValues(
         mailingMethod.map((e) => e.Mailing_Method).map(kvMapper),
     );
-    const communicationWith = masterAngCommunicationWithSelector?.[0] || [];
-    setcommunicationWithValues(
-        communicationWith.map((e) => e.Communication_With).map(kvMapper),
-    );
-    const memberProviderList =masterAngMemberProviderListSelector?.[0] || [];
-    setnameDescriptionValues(
-        memberProviderList.map((e) => e.Needed_By).map(kvMapper),
-    );
+    // const communicationWith = masterAngCommunicationWithSelector?.[0] || [];
+    // setcommunicationWithValues(
+    //     communicationWith.map((e) => e.Communication_With).map(kvMapper),
+    // );
+    // const memberProviderList =masterAngMemberProviderListSelector?.[0] || [];
+    // setnameDescriptionValues(
+    //     memberProviderList.map((e) => e.Needed_By).map(kvMapper),
+    // );
     
 }, []);
 
 
 const callESignOperationApi = (esignOption) => {
+  const event = { target: { name: "saveAndExit" }};
+  //saveAndExit(event);
   let condition4 = props.caseInformationData.Appellant_Type; 
   console.log("condition4--->", condition4)
   if (props.caseInformationData.Product === 'MEDICAID') {
@@ -234,11 +240,16 @@ const callESignOperationApi = (esignOption) => {
       console.log("result value from /esign api", result);
 
       if (result[0].includes("Letter Generated Successfully")) {
+        if (props.memberInformation.Email_ID === ""){
+          alert ("Member Email is not present")
+          return;
+        }
+        generateTemplate(prop); 
         alert(result[0]);
-        generateTemplate(prop);
       } else {
         alert("Error in generating letter");
       }
+     // gridRowsFinalSubmit("WrittenCommTable",index,"Add")
     }).catch((error) => {
       // Catch any errors from the API request
       console.error("Error calling /esignOperations:", error);
@@ -248,6 +259,8 @@ const callESignOperationApi = (esignOption) => {
   }
 };
  const generateTemplate = (prop) => {
+
+
   console.log("generateTemplate", prop);
   let procInput = {};
   procInput.option = "SENDMAIL";
@@ -329,6 +342,7 @@ useEffect(() => {
       </div>
     );
   };
+ 
   const renderSimpleSelectField = (name, label, options, index) => {
     return (
       <div className="col-xs-6 col-md-3">
@@ -382,6 +396,9 @@ useEffect(() => {
     );
   };
 
+    const isButtonDisabled = () => {
+      return !gridFieldTempState.Communication_Type || !gridFieldTempState.Name_Description;
+    };
   const tdDataReplica = (index) => {
 
     return (
@@ -395,7 +412,7 @@ useEffect(() => {
             )} */}
             {renderSimpleSelectField(
                 "Communication_Type",
-                "CommunicationType",
+                "Communication Type",
                 writtenCommTypeValues,
                 index,
             )}
@@ -415,7 +432,7 @@ useEffect(() => {
                 mailingMethodValues,
                 index,
             )}
-            {/* {renderSimpleInputField("Generated_By", "Generated By", 4000, index,"test value")} */}
+            {/* {renderSimpleInputField("Generated_By", "Generated By", 4000, index)} */}
             <div className="col-xs-6 col-md-3">
             <label htmlFor="Generated_By">
             <strong>Generated By</strong>
@@ -435,7 +452,7 @@ useEffect(() => {
                   WrittenCommTable.displayName,
                 )
               }
-              disabled={true} 
+            
             />
           </div>
 
@@ -463,7 +480,12 @@ useEffect(() => {
                 "Communication Sent Date Time",
                 index,
             )}
-            <div className="col-xs-6 col-md-3">
+                {renderSimpleDatePickerField(
+                "Communication_Request_Date",
+                "Communication Request Date Time",
+                index,
+            )}
+            {/* <div className="col-xs-6 col-md-3">
           <label htmlFor="Communication_Request_Date">
             <strong>Communication Request Date</strong>
           </label>
@@ -487,7 +509,7 @@ useEffect(() => {
               disabled={true} 
             />
           </div>
-        </div>
+        </div> */}
         <div className="col-md-4">
         <div style={{ width: '270%' }}>
             {renderSimpleInputField("Communication_Logs", "Communication Logs", 4000, index , '')}
@@ -509,6 +531,7 @@ useEffect(() => {
               height: '40px', 
               textAlign: 'center', 
             }}
+            disabled={isButtonDisabled()}
           >
             Generate Letter
           </button>
@@ -524,7 +547,6 @@ useEffect(() => {
            };
 
   const tdData = () => {
-    console.log("writtenCommGridData", writtenCommGridData)
     if (
         writtenCommGridData !== undefined &&
         writtenCommGridData.length > 0
@@ -704,6 +726,7 @@ useEffect(() => {
         gridRowsFinalSubmit={gridRowsFinalSubmit}
         lockStatus={lockStatus}
         validationErrors={validationErrors}
+       
       ></GridModal>
     </>
   );

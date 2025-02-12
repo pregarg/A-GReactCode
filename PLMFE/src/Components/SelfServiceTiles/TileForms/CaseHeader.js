@@ -313,6 +313,7 @@ const CaseHeader = () => {
                 handleWrittenCommGridData={writtenCommGrid}
                 updateWrittenCommGridData={setWrittenCommGrid}
                 writtenCommGridValidationSchema={writtenCommGridValidationSchema}
+                saveAndExit={saveAndExit}
               /> )}
               {stageName !== "Start" || ( stage === "CaseArchived"||stage === "Acknowledge"|| stage === "Redirect Review" || stage === "Documents Needed"
                   || stage === "Research" ||stage === "Effectuate" || stage === "Pending Effectuate"

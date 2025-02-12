@@ -34,7 +34,7 @@ const VerbalCommAccordion = (props) => {
 
   const addTableRows = (triggeredFormName, index) => {
     let rowsInput = {};
-    console.log("triggeredFormName DOC NEEDED",triggeredFormName)
+    console.log("triggeredFormName-->",triggeredFormName)
     if (triggeredFormName === "VerbalCommTable") {
       rowsInput.rowNumber = getRowNumberForGrid(
         verbalCommGridData,
