@@ -7,6 +7,7 @@ import CaseHeader from "./CaseHeader";
 import WrittenCommTable from "../TileFormsTables/WrittenCommTable";
 import useUpdateDecision from "../../CustomHooks/useUpdateDecision";
 import { useAxios } from "../../../api/axios.hook";
+import { useHeader } from "./useHeader.js";
 
 
 const WrittenCommAccordion = (props) => {
@@ -18,7 +19,8 @@ const WrittenCommAccordion = (props) => {
     getDatePartOnly,
     acceptNumbersOnly,
   } = useGetDBTables();
-
+  
+  //const {saveAndExit} = useHeader();
   const { getRowNumberForGrid } = useUpdateDecision();
 
   const [writtenCommGridData,setWrittenCommGridData,] = useState(props.handleWrittenCommGridData);
@@ -32,19 +34,19 @@ const WrittenCommAccordion = (props) => {
 
   const gridDataRef = useRef({});
 
-  useEffect(()=> {
-    if(props.memberInformation && writtenCommGridData?.length > 0) {
-      writtenCommGridData.forEach(dt => {
-        dt.Member_Provider_List = props.memberInformation.Member_First_Name + ' ' + props.memberInformation.Member_Last_Name
-      })
-      setWrittenCommGridData([...writtenCommGridData])
-    }
+  // useEffect(()=> {
+  //   if(props.memberInformation && writtenCommGridData?.length > 0) {
+  //     writtenCommGridData.forEach(dt => {
+  //       dt.Member_Provider_List = props.memberInformation.Member_First_Name + ' ' + props.memberInformation.Member_Last_Name
+  //     })
+  //     setWrittenCommGridData([...writtenCommGridData])
+  //   }
 
-  }, [props.handleWrittenCommGridData, writtenCommGridData])
+  // }, [props.handleWrittenCommGridData, writtenCommGridData])
 
   const addTableRows = (triggeredFormName, index) => {
     let rowsInput = {};
-    console.log("triggeredFormName DOC NEEDED",triggeredFormName)
+    console.log("triggeredFormName-->",triggeredFormName)
     if (triggeredFormName === "WrittenCommTable") {
       rowsInput.rowNumber = getRowNumberForGrid(
         writtenCommGridData,
@@ -81,6 +83,7 @@ const WrittenCommAccordion = (props) => {
   };
 
   const handleGridSelectChange = (
+    
     index,
     selectedValue,
     event,
@@ -128,47 +131,41 @@ const WrittenCommAccordion = (props) => {
       setGridFieldTempState(rowInput);
     }
   };
-
   const gridRowsFinalSubmit = (triggeredFormName, index, operationType) => {
-    console.log("Inside gridRowsFinalSubmit with view: ", tabRef);
-
+ 
+    console.log("Inside gridRowsFinalSubmit of written comm with view: ", tabRef);
     let clonedJson = { ...gridFieldTempState };
-    clonedJson = {
+        clonedJson = {
       ...clonedJson,
       Generated_By: props.handleData.Case_Owner || '',
-      Communication_Request_Date : props.handleData.Case_Received_Date || ''
+      //Communication_Request_Date : props.handleData.Case_Received_Date || ''
     }
-
-    console.log("Inside gridRowsFinalSubmit clonedJson value1: ", clonedJson);
-
+    console.log("Inside gridRowsFinalSubmit  of written comm clonedJson value1: ", clonedJson);
     if (Object.keys(gridFieldTempState).length !== 0) {
       if (triggeredFormName === "WrittenCommTable") {
         console.log("abc",writtenCommGridData[index])
         let indexJson = writtenCommGridData[index];
-
         if (indexJson !== undefined && indexJson !== null) {
           clonedJson = Object.assign(indexJson, gridFieldTempState);
           console.log("Inside gridRowsFinalSubmit clonedJson value: ",clonedJson,);
         }
-
         if (!checkGridJsonLength(clonedJson)) {
           console.log("Inside gridRowsFinalSubmit clonedJson if value: ", clonedJson,
           );
           writtenCommGridData[index] = clonedJson;
           setWrittenCommGridData(writtenCommGridData);
         }
-        // props.updateWrittenCommGridData (
-        //   writtenCommGridData.slice(0, -1),
-        // );
-        // setTimeout(
-        //   () =>
-        //     props.updateWrittenCommGridData(
-        //       writtenCommGridData,
-        //     ),
-        //   500,
-        // );
+        props.updateWrittenCommGridData (
+          writtenCommGridData.slice(0, -1),
+        );
+        setTimeout(
+          () =>
+            props.updateWrittenCommGridData(
+              writtenCommGridData,
+            ),
+          500,
+        );
       }
-
       //Handling for data update/Delete/Insert inside grids.
       if (tabRef.current === "DashboardView") {
         //let gridRow = getGridDataArray(triggeredFormName);
@@ -180,16 +177,13 @@ const WrittenCommAccordion = (props) => {
         if (operationType === "Add") {
           oprtn = "I";
         }
-
         if (operationType === "Edit") {
           oprtn = "U";
         }
-
         if (operationType === "Delete") {
           oprtn = "D";
         }
         let gridRowArray = [];
-
         if (triggeredFormName === "WrittenCommTable") {
           console.log("WrittenCommTable---->");
           gridRowArray = gridDataRef.current.hasOwnProperty(
@@ -198,12 +192,9 @@ const WrittenCommAccordion = (props) => {
             ? [...gridDataRef.current.WrittenCommTable]
             : [];
           gridRowJson = { ...writtenCommGridData[index] };
-
           if (Object.keys(gridRowJson).length !== 0) {
             gridRowJson["operation"] = oprtn;
-
             gridRowArray.push(trimJsonValues(gridRowJson));
-
             gridDataRef.current.WrittenCommTable =
               getGridDataValues(gridRowArray);
           }
@@ -211,6 +202,85 @@ const WrittenCommAccordion = (props) => {
       }
     }
   };
+
+
+  //   console.log("Inside gridRowsFinalSubmit with view: ", tabRef);
+
+  //   let clonedJson = { ...gridFieldTempState };
+   
+
+  //   console.log("Inside gridRowsFinalSubmit clonedJson value1: ", clonedJson);
+
+  //   if (Object.keys(gridFieldTempState).length !== 0) {
+  //     if (triggeredFormName === "WrittenCommTable") {
+  //       console.log("abc",writtenCommGridData[index])
+  //       let indexJson = writtenCommGridData[index];
+
+  //       if (indexJson !== undefined && indexJson !== null) {
+  //         clonedJson = Object.assign(indexJson, gridFieldTempState);
+  //         console.log("Inside gridRowsFinalSubmit clonedJson value: ",clonedJson,);
+  //       }
+
+  //       if (!checkGridJsonLength(clonedJson)) {
+  //         console.log("Inside gridRowsFinalSubmit clonedJson if value: ", clonedJson,
+  //         );
+  //         writtenCommGridData[index] = clonedJson;
+  //         setWrittenCommGridData(writtenCommGridData);
+  //       }
+  //       props.updateWrittenCommGridData (
+  //         writtenCommGridData.slice(0, -1),
+  //       );
+  //       setTimeout(
+  //         () =>
+  //           props.updateWrittenCommGridData(
+  //             writtenCommGridData,
+  //           ),
+  //         500,
+  //       );
+  //     }
+
+  //     //Handling for data update/Delete/Insert inside grids.
+  //     if (tabRef.current === "DashboardView") {
+  //       //let gridRow = getGridDataArray(triggeredFormName);
+  //       //console.log('gridRowsFinalSubmit gridRow: ',gridRow);
+  //       let oprtn;
+  //       let gridRowJson = {};
+  //       //alert('Operation type: ',operationType);
+  //       console.log("Operation type: ", operationType);
+  //       if (operationType === "Add") {
+  //         oprtn = "I";
+  //       }
+
+  //       if (operationType === "Edit") {
+  //         oprtn = "U";
+  //       }
+
+  //       if (operationType === "Delete") {
+  //         oprtn = "D";
+  //       }
+  //       let gridRowArray = [];
+
+  //       if (triggeredFormName === "WrittenCommTable") {
+  //         console.log("WrittenCommTable---->");
+  //         gridRowArray = gridDataRef.current.hasOwnProperty(
+  //           "WrittenCommTable",
+  //         )
+  //           ? [...gridDataRef.current.WrittenCommTable]
+  //           : [];
+  //         gridRowJson = { ...writtenCommGridData[index] };
+
+  //         if (Object.keys(gridRowJson).length !== 0) {
+  //           gridRowJson["operation"] = oprtn;
+
+  //           gridRowArray.push(trimJsonValues(gridRowJson));
+
+  //           gridDataRef.current.WrittenCommTable =
+  //             getGridDataValues(gridRowArray);
+  //         }
+  //       }
+  //     }
+  //   }
+  // };
 
   const getGridDataValues = (tableData) => {
     //var headers = document.getElementById(tableId).headers;
@@ -318,6 +388,7 @@ const WrittenCommAccordion = (props) => {
                   fetchAutoPopulate={fetchAutoPopulate}
                   transactionType={CaseHeader.displayName}
                   props={props}
+                  // saveAndExit={saveAndExit}
                 ></WrittenCommTable>
               </div>
             </div>

@@ -1918,14 +1918,8 @@ export const useHeader = () => {
           data?.["angProviderInformationAppeals"]?.[0] || {}
         );
 
-        // setAuthorizationInformationGrid(
-        //   data?.["angAuthorizationInformationGrid"] || [],
-        // );
-
-        // setDocNeededGrid(data?.["angDocNeededGrid"] || [] );
-
         setDocNeededGrid(data?.["angDocNeededGrid"] || [] );
-        setWrittenCommGrid(data?.["angWrittenCommGrid"] || [] );
+         setWrittenCommGrid(data?.["angWrittenCommGrid"] || [] );
         setVerbalCommGrid(data?.["angVerbalCommGrid"] || [] );
         setExpeditedRequest(data?.["angExpeditedRequest"]?.[0] || {});
         setNotes(data?.["angNotes"]?.[0] || {});
@@ -1994,8 +1988,6 @@ export const useHeader = () => {
         "Inside rename key hasOwnProperty = ",
         obj.hasOwnProperty(oldKey),
       );
-      console.log("Inside rename key obj[oldKey] = ", obj[oldKey]);
-      console.log("Inside rename key obj[newKey] = ", obj[newKey]);
       if (obj.hasOwnProperty(oldKey)) {
         obj[newKey] = obj[oldKey];
         delete obj[oldKey];
@@ -2304,14 +2296,7 @@ export const useHeader = () => {
       angProviderInformationAppeals,
       formData["angProviderInformationAppeals"][0],
     );
-    // apiJson["ANG_VERBAL_COMM_GRID"] = CompareJSON(
-    //     angVerbalCommGrid,
-    //     formData["angVerbalCommGrid"][0],
-    // );
-    // apiJson["ANG_WRITTEN_COMM_GRID"] = CompareJSON(
-    //     angWrittenCommGrid,
-    //     formData["angWrittenCommGrid"][0],
-    // );
+
     apiJson["ANG_Expedited_Request"] = CompareJSON(
       angExpeditedRequest,
       formData["angExpeditedRequest"][0],
