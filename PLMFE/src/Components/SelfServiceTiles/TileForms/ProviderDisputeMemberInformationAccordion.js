@@ -218,8 +218,8 @@ const ProviderMemberInformationAccordion = (props) => {
     let MedicareID = selectSearchValues?.medicareID;
     let MedicaidID = selectSearchValues?.medicaidID;
     let MemberFirstName = selectSearchValues?.memberFirstNameId;
-    let MemberLastName = selectSearchValues?.memberLasstNameId;
-    let DOB = selectSearchValues?.dateOfBirth;
+    let MemberLastName = selectSearchValues?.memberLastNameId;
+    let DOB = selectSearchValues?.Date_Of_Birth;
 
     // Check if at least one search parameter has a value
     if (
@@ -272,16 +272,7 @@ const ProviderMemberInformationAccordion = (props) => {
             console.log("dob2-->", extractDate(mad));
           }
 
-          if (
-            apiResponse?.hasOwnProperty("Plan_Expiration_Date") &&
-            typeof apiResponse.Plan_Expiration_Date === "string"
-          ) {
-            const mad = new Date(
-              getDatePartOnly(apiResponse.Plan_Expiration_Date)
-            );
-            apiResponse.Plan_Expiration_Date = extractDate(mad);
-            console.log("Plan Expiration Date -->", apiResponse.Plan_Expiration_Date);
-          }
+         
         });
 
         setResponseData(resApiData);

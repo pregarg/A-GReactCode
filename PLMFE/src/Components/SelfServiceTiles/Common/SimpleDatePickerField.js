@@ -9,6 +9,14 @@ export const SimpleDatePickerField = ({
   onChange,
   validationErrors,
 }) => {
+  const handleDateChange = (selectedDate) => {
+    if (selectedDate) {
+      const currentTime = new Date();
+      selectedDate.setHours(currentTime.getHours(), currentTime.getMinutes(), currentTime.getSeconds());
+      onChange(selectedDate);
+    }
+  };
+
   return (
     <>
       <label htmlFor={name}>
@@ -27,14 +35,15 @@ export const SimpleDatePickerField = ({
                 ? new Date(data[name])
                 : null
           }
-          name="Auth_Request_Date"
-          onChange={onChange}
+          name={name}
+          onChange={handleDateChange}
           peekNextMonth
           showMonthDropdown
-          onKeyDown={(e) => e.preventDefault()}
           showYearDropdown
+          //showTimeSelect  // ✅ Enables time selection
+          timeFormat="h:mm aa"  
+          dateFormat="MM/dd/yyyy h:mma" 
           dropdownMode="select"
-          dateFormat="MM/dd/yyyy"
           id={name}
           disabled={disabled}
         />

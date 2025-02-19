@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export const FormikDatePicker = ({
   name,
@@ -14,10 +15,10 @@ export const FormikDatePicker = ({
 }) => {
   const wrapPlaceholder = (name, placeholder) => {
     return (
-        <>
-          {placeholder}
-          {errors?.[name] ? <span className="required"> *</span> : ""}
-        </>
+      <>
+        {placeholder}
+        {errors?.[name] ? <span className="required"> *</span> : ""}
+      </>
     );
   };
 
@@ -36,8 +37,22 @@ export const FormikDatePicker = ({
   const dateValue = data[name + "#date"]
     ? new Date(data[name + "#date"])
     : data[name]
-      ? new Date(data[name])
-      : undefined;
+    ? new Date(data[name])
+    : undefined;
+
+  const handleDateChange = (selectedDate) => {
+    if (selectedDate) {
+      // Retain the selected date but update time to current time
+      const currentTime = new Date();
+      selectedDate.setHours(currentTime.getHours(), currentTime.getMinutes(), currentTime.getSeconds());
+      
+      onChange(name, selectedDate, true);
+      console.log("name--->",name)
+      console.log("selected date-->",selectedDate)
+    
+    }
+  };
+
   return (
     <div>
       <ReactDatePicker
@@ -45,14 +60,16 @@ export const FormikDatePicker = ({
         className="form-control example-custom-input-provider"
         selected={dateValue}
         name={name}
-        dateFormat="MM/dd/yyyy"
-        onSelect={(date) => onChange(name, date, true)}
-        onChange={(date) => onChange(name, date, true)}
+        dateFormat="MM/dd/yyyy h:mm aa"
+        timeFormat="h:mm aa"
+        // onSelect={(date) => onChange(name, date, true)}
+        // onChange={(date) => onChange(name, date, true)}
+         onChange={handleDateChange}
         peekNextMonth
         showMonthDropdown
         showYearDropdown
         isClearable
-        onKeyDown={(e) => e.preventDefault()}
+        onKeyDown={(e) => e.preventDefault()} 
         dropdownMode="select"
         style={{
           position: "relative",
@@ -62,10 +79,7 @@ export const FormikDatePicker = ({
         disabled={disabled}
       />
       {errors[name] && displayErrors && (
-        <div
-          className="invalid-feedback"
-          style={{ display: "block", fontSize: "12px" }}
-        >
+        <div className="invalid-feedback" style={{ display: "block", fontSize: "12px" }}>
           {errors[name]}
         </div>
       )}

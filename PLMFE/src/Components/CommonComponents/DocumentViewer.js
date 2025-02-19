@@ -1,7 +1,7 @@
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 import { Dialog, DialogContent, DialogTitle } from "@mui/material";
 import React from "react";
-import { useEffect, memo } from "react";
+import { useEffect,memo, useMemo  } from "react";
 import { IoClose } from "react-icons/io5";
 import Swal from "sweetalert2";
 
@@ -11,21 +11,22 @@ const DocumentViewer = memo(function DocumentViewer({
   dialogViewData,
 }) {
   const { url, fileType, fileName } = dialogViewData;
-  const newDocs = {
-    uri: url,
-    fileType,
-    fileName,
-  };
+  console.log("dialogViewData--->" ,dialogViewData)
+  // const newDocs = {
+  //   uri: url,
+  //   fileType,
+  //   fileName,
+  // };
 
-  const docs = [newDocs];
+  const docs = useMemo(() => [{ uri: url, fileType, fileName }], [url, fileType, fileName]);
   const restrictedFileTypes = [
     "xls",
     "eps",
     "sql",
     "xlsx",
-    "docx",
     "xml",
     "jar",
+    "docx"
   ];
 
   useEffect(() => {
@@ -60,7 +61,7 @@ const DocumentViewer = memo(function DocumentViewer({
             csvDelimiter: ",", // "," as default,
             pdfZoom: {
               defaultZoom: 1.1, // 1 as default,
-              zoomJump: 0.2, // 0.1 as default,
+              zoomJump: 0.1, // 0.1 as default,
             },
             pdfVerticalScrollByDefault: true, // false as default
           }}

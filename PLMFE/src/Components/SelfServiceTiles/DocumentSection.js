@@ -206,6 +206,7 @@ console.log("document prop", prop)
 
 
   const handleFileUpload = (evnt, index) => {
+    console.log("abc")
     if (evnt.target.files[0] === undefined) {
       setFileState([...fileState, { selectedFile: null, fileIndex: index }]);
     }
@@ -216,6 +217,7 @@ console.log("document prop", prop)
         documentData[index].documentType === "Final Contract"
       ) {
         const fileExt = evnt.target.files[0].name.split(".").pop();
+        console.log("fileExt--->", fileExt)
         if (fileExt !== "docx" && fileExt !== "doc") {
           alert("Only docx or doc file type supported.");
           evnt.target.value = null;
@@ -224,6 +226,7 @@ console.log("document prop", prop)
       }
 
       const file = evnt.target.files[0];
+      console.log("abc--->",file)
       const objectUrl = URL.createObjectURL(file);
       console.log("object url--->", objectUrl);
       setFileState([...fileState, { selectedFile: file, fileIndex: index }]);
@@ -338,7 +341,9 @@ console.log("document prop", prop)
                     fileType: data.documentName.split(".").pop(),
                   });
                 }}
-              ></i>
+              >
+                
+              </i>
             )}
           </td>
         </tr>

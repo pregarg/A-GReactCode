@@ -147,7 +147,7 @@ export default function ProviderDisputeClaimInformationFilingTable({
             {renderSimpleInputField("Issue_Number", "Issue Number", 50, index)}
             {renderSimpleSelectField("Filed_Timely", "Filed Timely", [...fieldValues], index)}
             {renderSimpleSelectField("Grant_Good_Cause", "Grant Good Cause", [...fieldValues], index)}
-            {renderSimpleSelectField("Good_Cause_Reason", "Good_Cause_Reason", [...fieldValues], index)}
+            {renderSimpleSelectField("Good_Cause_Reason", "Good Cause Reason", [...fieldValues], index)}
           </div>
 
 

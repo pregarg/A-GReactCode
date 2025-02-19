@@ -22,14 +22,13 @@ import CaseDecisionAccordion from "./CaseDecisionAccordion";
 import { FaBars } from "react-icons/fa";
 
 import RepresentativeInformationAccordion from "./RepresentativeInformationAccordion";
-import { useHeader } from "./useHeader";
 import DocumentSection from "../DocumentSection";
 import { useLocation } from "react-router-dom";
 import Member360 from "../TileForms/Member360";
 import Provider360 from "../TileForms/Provider360";
 import NotesHistory from "../TileForms/NotesHistory";
 import { RenderType } from "./Constants";
-
+import useHeader from "./useHeader";
 const CaseHeader = () => {
   CaseHeader.displayName = "Appeals";
   const caseHeaderConfigData = JSON.parse(

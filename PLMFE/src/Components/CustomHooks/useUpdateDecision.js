@@ -93,7 +93,7 @@ export default function useUpdateDecision() {
   };
 
   const getRowNumberForGrid = (tableArray) => {
-    if (tableArray.length > 0) {
+    if (tableArray?.length > 0) {
       const rowNumbers = tableArray.map((item) => {
         let rn = isJSONType(item?.rowNumber);
         return rn;
@@ -421,7 +421,6 @@ export default function useUpdateDecision() {
   };
 
   const changeColorOfSelect = (prop, View) => {
-    console.log("network prop ", prop);
     let lockStat = "N";
     if (prop.state === null) {
       lockStat = "Y";
