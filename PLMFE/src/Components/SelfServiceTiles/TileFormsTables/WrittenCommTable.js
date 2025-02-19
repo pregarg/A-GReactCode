@@ -8,9 +8,10 @@ import { SimpleSelectField } from "../Common/SimpleSelectField";
 import { SimpleDatePickerField } from "../Common/SimpleDatePickerField";
 import { useAxios } from "../../../api/axios.hook";
 import ReactDatePicker from "react-datepicker";
-import {useHeader}  from "../TileForms/useHeader.js";
-
+import DocumentViewer from "../../CommonComponents/DocumentViewer.js"
+import useSwalWrapper from "../../../Components/SweetAlearts/hooks";
 import axios from 'axios';
+
 export default function WrittenCommTable({
   writtenCommGridData,
   deleteTableRows,
@@ -27,13 +28,14 @@ export default function WrittenCommTable({
   providerInformationGrid,
   setGridFieldTempState,
   memberInformation,
-  props,
-  // saveAndExit
+  // saveAndExit,
+  props
 }) {
-  console.log("writtenCommGridData", writtenCommGridData)
+  console.log("writtenCommGridData", props)
+  console.log("savenExit--->", props.saveAndExit)
   WrittenCommTable.displayName = "WrittenCommTable";
-
   const [dataIndex, setDataIndex] = useState();
+  const { customAxios, fileUpDownAxios } = useAxios();
 
   const [validationErrors, setValidationErrors] = useState({});
 
@@ -45,7 +47,7 @@ export default function WrittenCommTable({
 
   const [isTouched, setIsTouched] = useState({});
 
-  const { getGridJson, convertToCase } = useGetDBTables();
+  const { getGridJson,getTableDetails, convertToCase } = useGetDBTables();
  
  
   const [writtenCommTypeValues, setwrittenCommTypeValues] = useState([]);
@@ -55,11 +57,19 @@ export default function WrittenCommTable({
   const [communicationWithValues, setcommunicationWithValues] = useState([]);
   const [memberProviderListValues, setmemberProviderListValues] = useState([]);
   const [showLoader, setShowLoader] = useState(false);
+  
 
   const token = useSelector((state) => state.auth.token);
-  const { customAxios } = useAxios();
   const { esignAxios } = useAxios();
   let prop = useLocation();
+  console.log("prop value--> ", prop)
+  const Swal = useSwalWrapper();
+  const [docViewDialog, setDocViewDialog] = useState({
+    open: false,
+    url: "",
+    fileName: "",
+    fileType: "",
+  });
   // console.log("8527504487-->",prop)
   // console.log("9910514170-->",props)
   // const [caseInformationData, setCaseInformationData] = useState(
@@ -170,11 +180,91 @@ useEffect(() => {
     // );
     
 }, []);
+const getLetterStatus = async () => {
+  let getApiJson = {};
+  getApiJson["tableNames"] = getTableDetails()["LetterStatusTable"];
+  getApiJson["whereClause"] = { CaseNumber: prop.state.caseNumber };
 
+  try {
+    const res = await customAxios.post("/generic/get", getApiJson, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const apiState = res.data.data.docuSignData;
+    console.log("letter data-->", apiState);
+
+    if (!apiState || apiState.length === 0) {
+      alert("No letter data found.");
+      return null;
+    }
+    const sortedData = apiState.sort((a, b) => b.SNO - a.SNO);
+    const lastLetterData = sortedData[0];
+    // const lastLetterData = apiState[apiState.length - 1];
+    console.log("Last letter data: ", lastLetterData);
+    const caseNumber = lastLetterData.CaseNumber
+    const documentName = lastLetterData.outputFileName;
+    const docUploadPath = "C:/Harshit Sharma/WorkitemDocuments/" +prop.state.caseNumber + "/Draft Contract/" +documentName;
+    const documentType = lastLetterData.outputFileName.split(".").pop()
+    console.log("fileType--->",documentType);
+    console.log("fileName--->",documentName);
+    return { caseNumber,documentName, docUploadPath, documentType};
+
+  } catch (error) {
+    console.error("API request error:", error);
+    alert("An error occurred while fetching case status.");
+    return null;
+  }
+};
+
+let restrictedFileTypes = ["xls", "eps", "sql", "xlsx", "docx"];
+const downloadedfileBlob = (index, letterData) => {
+  const { caseNumber, documentType, documentName, docUploadPath } = letterData;
+  if (!caseNumber && !documentType && !documentName) {
+    Swal.fire({
+      icon: "error",
+      title: "Please Upload The File First",
+    });
+    return;
+  }
+  const caseId = Number(prop.state.caseNumber) ?? 0; 
+  const fileData = new FormData();
+  if (docUploadPath !== undefined) {
+    fileData.append("downloadFilePath", docUploadPath);
+  }
+  fileData.append("caseNumber", caseId);
+  fileData.append("docType", documentType);
+  fileData.append("docName", documentName);
+
+  fileUpDownAxios
+    .post("/downloadFile", fileData, { responseType: "blob" })
+    .then((response) => {
+      console.log("URL--->",response)
+      const docName = documentName;
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const lastIndex = docName.lastIndexOf(".");
+      const fileType = docName.slice(lastIndex + 1);
+      if (restrictedFileTypes.includes(fileType)) {
+        Swal.fire({
+          icon: "error",
+          title: "This FileType Is Not Visible In The Browser",
+        });
+        return;
+      }
+
+      setDocViewDialog({
+        ...docViewDialog,
+        open: true,
+        fileName: documentName,
+        fileType: fileType,
+        url: url,
+      });
+    })
+    .catch((err) => {
+      console.log("Caught in download file: ", err);
+      alert("Failed to download File");
+    });
+};
 
 const callESignOperationApi = (esignOption) => {
-  const event = { target: { name: "saveAndExit" }};
-  //saveAndExit(event);
   let condition4 = props.caseInformationData.Appellant_Type; 
   console.log("condition4--->", condition4)
   if (props.caseInformationData.Product === 'MEDICAID') {
@@ -238,14 +328,21 @@ const callESignOperationApi = (esignOption) => {
 
       const result = res.data.split("~");
       console.log("result value from /esign api", result);
+    
 
       if (result[0].includes("Letter Generated Successfully")) {
+        const dateString = result[0]; // "Letter Generated Successfully 02/13/2025 13:39:03"
+        const time = dateString.split(" ")[dateString.split(" ").length - 1];
+    
+        console.log("Extracted time:", time);
         if (props.memberInformation.Email_ID === ""){
           alert ("Member Email is not present")
           return;
         }
+        //gridRowsFinalSubmit()
         generateTemplate(prop); 
         alert(result[0]);
+
       } else {
         alert("Error in generating letter");
       }
@@ -291,7 +388,7 @@ useEffect(() => {
     setValidationErrors([]);
     validationSchema.validateSync(gridFieldTempState, { abortEarly: false });
   } catch (errors) {
-    const validationErrors = errors.inner.reduce((acc, error) => {
+    const validationErrors = errors.inner?.reduce((acc, error) => {
       acc[error.path] = error.message;
       return acc;
     }, {});
@@ -318,6 +415,7 @@ useEffect(() => {
     //"External_Source_ID",
     // "CCM_Status",
     "Generated_By",
+    "View"
   ];
 
 
@@ -389,15 +487,14 @@ useEffect(() => {
               name,
               WrittenCommTable.displayName,
             )
-          }
-  
+          }  
         />
       </div>
     );
   };
 
     const isButtonDisabled = () => {
-      return !gridFieldTempState.Communication_Type || !gridFieldTempState.Name_Description;
+      return !gridFieldTempState.Communication_Type || !gridFieldTempState.Name_Description || !gridFieldTempState.Communication_Sent_Date_Time;
     };
   const tdDataReplica = (index) => {
 
@@ -444,7 +541,7 @@ useEffect(() => {
               name="Generated_By"
               className="form-control"
               maxLength={4000}
-              Value =  {props.handleData.Case_Owner || ""}
+              Value =  {props.handleData?.Case_Owner || ""}
               onChange={(event) =>
                 handleGridFieldChange(
                   index,
@@ -452,6 +549,7 @@ useEffect(() => {
                   WrittenCommTable.displayName,
                 )
               }
+              disabled ={true}
             
             />
           </div>
@@ -479,13 +577,14 @@ useEffect(() => {
                 "Communication_Sent_Date_Time",
                 "Communication Sent Date Time",
                 index,
+                ""
             )}
-                {renderSimpleDatePickerField(
+                {/* {renderSimpleDatePickerField(
                 "Communication_Request_Date",
                 "Communication Request Date Time",
                 index,
-            )}
-            {/* <div className="col-xs-6 col-md-3">
+            )} */}
+            <div className="col-xs-6 col-md-3">
           <label htmlFor="Communication_Request_Date">
             <strong>Communication Request Date</strong>
           </label>
@@ -494,7 +593,8 @@ useEffect(() => {
               className="form-control example-custom-input-modal"
               selected={
                 props.handleData.Case_Received_Date
-                  ? new Date(props.handleData.Case_Received_Date)
+                  ? new Date
+                  //(props.handleData.Case_Received_Date)
                   : null
               }
               name="Communication_Request_Date"
@@ -504,12 +604,12 @@ useEffect(() => {
               onKeyDown={(e) => e.preventDefault()}
               showYearDropdown
               dropdownMode="select"
-              dateFormat="MM/dd/yyyy"
+              dateFormat="MM/dd/yyyy h:mm"
               id="Communication_Request_Date"
-              disabled={true} 
+              disabled = {false}
             />
           </div>
-        </div> */}
+        </div>
         <div className="col-md-4">
         <div style={{ width: '270%' }}>
             {renderSimpleInputField("Communication_Logs", "Communication Logs", 4000, index , '')}
@@ -521,11 +621,29 @@ useEffect(() => {
           <div className="row mt-3" style={{ display: 'flex', justifyContent: 'center' }}>
           <button
             className="btn btn-outline-primary btnStyle"
-            onClick={() => {
-              console.log('Button clicked for row:', index);
-               callESignOperationApi("Generate Document"); 
-              //generateTemplate(prop);
+            onClick={async () => {
+              console.log("Button clicked for row:", operationValue);
+              gridRowsFinalSubmit("WrittenCommTable",index,operationValue);
+
+              if (typeof props.saveAndExit === "function") {
+                const event = { target: { name: "saveAndExit" } };
+          
+                try {
+                  let res = await props.saveAndExit(event); // Ensure this completes before proceeding
+                  console.log("Save and Exit completed, now calling eSign API...",res);
+                } catch (error) {
+                  console.error("Error in saveAndExit:", error);
+                  return; // Stop execution if saveAndExit fails
+                }
+              } else {
+                console.error("saveAndExit is not a function!");
+                return;
+              }
+            
+              callESignOperationApi("Generate Document");
+              
             }}
+            
             style={{
               width: '200px', 
               height: '40px', 
@@ -546,83 +664,68 @@ useEffect(() => {
              );
            };
 
-  const tdData = () => {
-    if (
-        writtenCommGridData !== undefined &&
-        writtenCommGridData.length > 0
-    ) {
-      return writtenCommGridData.map((data, index) => {
-        return (
-            <tr
+
+
+           const tdData = () => {
+            if (!writtenCommGridData || writtenCommGridData.length === 0) return null;
+          
+            return writtenCommGridData.map((data, index) => (
+              <tr
                 key={index}
-                className={
-                  data.DataSource === "CredentialingApi" ? "CredentialingApi" : ""
-            }
-          >
-            {lockStatus === "N" && (
-              <>
-                <td>
-                  <span
-                    style={{
-                      display: "flex",
-                    }}
-                  >
-                    <button
-                      className="deleteBtn"
-                      style={{ width: "75%", float: "left" }}
-                      onClick={() => {
-                        deleteTableRows(
-                          index,
-                          WrittenCommTable.displayName,
-                          "Force Delete",
-                        );
-                        handleOperationValue("Force Delete");
-                        decreaseDataIndex();
-                      }}
-                    >
-                      <i className="fa fa-trash"></i>
-                    </button>
+                className={data.DataSource === "CredentialingApi" ? "CredentialingApi" : ""}
+              >
+                {/* Lock Status Check */}
+                {lockStatus === "N" && (
+                  <td>
+                    <div style={{ display: "flex", justifyContent: "space-between" }}>
+                      <button
+                        className="deleteBtn"
+                        style={{ width: "48%" }}
+                        onClick={() => {
+                          deleteTableRows(index, WrittenCommTable.displayName, "Force Delete");
+                          handleOperationValue("Force Delete");
+                          decreaseDataIndex();
+                        }}
+                      >
+                        <i className="fa fa-trash"></i>
+                      </button>
+                      <button
+                        className="editBtn"
+                        style={{ width: "48%" }}
+                        type="button"
+                        onClick={() => {
+                          editTableRows(index, WrittenCommTable.displayName);
+                          handleModalChange(true);
+                          handleDataIndex(index);
+                          handleOperationValue("Edit");
+                        }}
+                      >
+                        <i className="fa fa-edit"></i>
+                      </button>
+                    </div>
+                  </td>
+                )}
+          
+                {lockStatus === "V" && (
+                  <td>
                     <button
                       className="editBtn"
-                      style={{ width: "75%", float: "right" }}
+                      style={{ float: "right" }}
                       type="button"
                       onClick={() => {
-                        editTableRows(
-                          index,
-                          WrittenCommTable.displayName,
-                        );
                         handleModalChange(true);
                         handleDataIndex(index);
                         handleOperationValue("Edit");
                       }}
                     >
-                      <i className="fa fa-edit"></i>
+                      <i className="fa fa-eye"></i>
                     </button>
-                  </span>
-                </td>
-              </>
-            )}
-            {lockStatus === "V" && (
-              <td>
-                <div>
-                  <button
-                    className="editBtn"
-                    style={{ float: "right" }}
-                    type="button"
-                    onClick={() => {
-                      handleModalChange(true);
-                      handleDataIndex(index);
-                      handleOperationValue("Edit");
-                    }}
-                  >
-                    <i className="fa fa-eye"></i>
-                  </button>
-                </div>
-              </td>
-            )}
+                  </td>
+                )}
+          
 
-            {tableFields.map((e) => (
-              <td className="tableData">
+          {tableFields.map((e, fieldIndex) => (
+              <td className="tableData" key={fieldIndex}>
                 {e.endsWith("_Date")
                   ? data?.[e]?.value
                     ? formatDate(data[e].value)
@@ -630,13 +733,30 @@ useEffect(() => {
                   : data?.[e]?.value
                     ? convertToCase(data[e].value)
                     : convertToCase(data[e])}
+
+                {e.endsWith("View") && (
+                  <button
+                    className="viewBtn"
+                    type="button"
+                    onClick={async () => {
+                      const letterData = await getLetterStatus();
+                      console.log("Letter data --->", letterData);
+                      if (letterData) {
+                        downloadedfileBlob(null, letterData);
+                      } else {
+                        alert("Error fetching the document data.");
+                      }
+                    }}
+                  >
+                    <i className="fa fa-eye"></i>
+                  </button>
+                )}
               </td>
             ))}
-          </tr>
-        );
-      });
-    }
-  };
+              </tr>
+            ));
+          };
+          
 
   const formatDate = (dateObj) => {
     if (dateObj) {
@@ -695,7 +815,7 @@ useEffect(() => {
                     onClick={() => {
                       addTableRows(WrittenCommTable.displayName);
                       handleModalChange(true);
-                      handleDataIndex(writtenCommGridData.length);
+                      handleDataIndex(writtenCommGridData?.length);
                       handleOperationValue("Add");
                     }}
                   >
@@ -728,6 +848,15 @@ useEffect(() => {
         validationErrors={validationErrors}
        
       ></GridModal>
+       {docViewDialog.open && (
+          <DocumentViewer
+            open={docViewDialog.open}
+            close={() =>
+              setDocViewDialog({ ...docViewDialog, open: false, url: "" })
+            }
+            dialogViewData={docViewDialog}
+          />
+        )}
     </>
   );
 }

@@ -7,10 +7,11 @@ import CaseHeader from "./CaseHeader";
 import WrittenCommTable from "../TileFormsTables/WrittenCommTable";
 import useUpdateDecision from "../../CustomHooks/useUpdateDecision";
 import { useAxios } from "../../../api/axios.hook";
-import { useHeader } from "./useHeader.js";
+import useHeader from "../TileForms/useHeader";
 
 
-const WrittenCommAccordion = (props) => {
+const WrittenCommAccordion = (props, {saveAndExit}) => {
+  //const { saveAndExit } = useHeader(); 
   const {
     convertToCase,
     checkGridJsonLength,
@@ -20,12 +21,15 @@ const WrittenCommAccordion = (props) => {
     acceptNumbersOnly,
   } = useGetDBTables();
   
-  //const {saveAndExit} = useHeader();
+  // const props = useLocation();
+  console.log("props inside written comm accordion", props)
   const { getRowNumberForGrid } = useUpdateDecision();
 
   const [writtenCommGridData,setWrittenCommGridData,] = useState(props.handleWrittenCommGridData);
 
   const [gridFieldTempState, setGridFieldTempState] = useState({});
+
+
 
 
   const tabRef = useRef("HomeView");
@@ -133,16 +137,17 @@ const WrittenCommAccordion = (props) => {
   };
   const gridRowsFinalSubmit = (triggeredFormName, index, operationType) => {
  
-    console.log("Inside gridRowsFinalSubmit of written comm with view: ", tabRef);
+    console.log("Inside gridRowsFinalSubmit of written comm with view: ", tabRef,gridFieldTempState,writtenCommGridData);
     let clonedJson = { ...gridFieldTempState };
         clonedJson = {
       ...clonedJson,
       Generated_By: props.handleData.Case_Owner || '',
-      //Communication_Request_Date : props.handleData.Case_Received_Date || ''
+      Communication_Request_Date : new Date || ''
     }
-    console.log("Inside gridRowsFinalSubmit  of written comm clonedJson value1: ", clonedJson);
+    console.log("Inside gridRowsFinalSubmit  of written comm clonedJson value1: ", clonedJson,index);
     if (Object.keys(gridFieldTempState).length !== 0) {
       if (triggeredFormName === "WrittenCommTable") {
+        console.log("triggeredFormName",triggeredFormName)
         console.log("abc",writtenCommGridData[index])
         let indexJson = writtenCommGridData[index];
         if (indexJson !== undefined && indexJson !== null) {
@@ -388,7 +393,7 @@ const WrittenCommAccordion = (props) => {
                   fetchAutoPopulate={fetchAutoPopulate}
                   transactionType={CaseHeader.displayName}
                   props={props}
-                  // saveAndExit={saveAndExit}
+                  saveAndExit={saveAndExit}
                 ></WrittenCommTable>
               </div>
             </div>

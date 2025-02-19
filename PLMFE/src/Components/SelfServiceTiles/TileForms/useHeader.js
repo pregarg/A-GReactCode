@@ -37,7 +37,7 @@ export function convertDateFormatMonthDayYear(inputDateStr) {
 }
 
 
-export const useHeader = () => {
+ const useHeader = () => {
   const currentDate = new Date();
   const location = useLocation();
   const [hasSubmitError, setHasSubmitError] = useState(true);
@@ -626,7 +626,7 @@ export const useHeader = () => {
   const writtenCommGridValidationSchema = Yup.object().shape({
     Communication_Type: Yup.string().required("Communication Type is mandatory"),
     Name_Description:Yup.string().required("Name & Description is mandatory"),
-    //Mail_Tracking_Number:Yup.string().required("Mail Tracking Number is mandatory"),
+    Communication_Sent_Date_Time:Yup.string().required("Communication Sent Date Time is mandatory"),
     //Communication_Request_Date:Yup.string().required("Communication Request Date is mandatory"),
   });
   const verbalCommGridValidationSchema = Yup.object().shape({
@@ -1978,16 +1978,6 @@ export const useHeader = () => {
   };
   const renameKey = (obj, oldKey, newKey) => {
     try {
-      console.log(
-        "Inside rename key old key = ",
-        oldKey,
-        " new key = ",
-        newKey,
-      );
-      console.log(
-        "Inside rename key hasOwnProperty = ",
-        obj.hasOwnProperty(oldKey),
-      );
       if (obj.hasOwnProperty(oldKey)) {
         obj[newKey] = obj[oldKey];
         delete obj[oldKey];
@@ -2158,7 +2148,7 @@ export const useHeader = () => {
   };
 
   //save and exit button
-  const saveAndExit = async (event) => {
+   const saveAndExit = async (event) => {
     callProcRef.current = "callProc";
     const saveType = event.target.name === "saveAndSubmit" ? "SS" : "SE";
     if (saveType === "SS"){
@@ -2757,12 +2747,14 @@ export const useHeader = () => {
     apiJson["userName"] = location.state.userName;
     // debugger;
     const cleanedApiJson = removeDateInKeys(apiJson);
-    customAxios
+    let apiStat= "";
+    try{
+    const res = await  customAxios
       .post("/generic/update", cleanedApiJson, {
         headers: { Authorization: `Bearer ${token}` },
       })
-      .then(async (res) => {
-        const apiStat = res.data.UpdateCase_Output.Status;
+      //.then(async (res) => {
+        apiStat = res.data.UpdateCase_Output.Status;
 
         if (apiStat === -1) {
           alert("Error in updating data");
@@ -2779,7 +2771,7 @@ export const useHeader = () => {
             }, 500);
             setTimeout(() => {
               navigateHome();
-            }, 1000);
+            }, 3500);
             
           }
   
@@ -2812,11 +2804,13 @@ export const useHeader = () => {
 
          
         }
-      })
-      .catch((err) => {
+      //}
+   // )
+       } catch(err){
         console.error("Error occurred while saving data:", err);
         alert("Error occurred while saving data");
-      });
+      };
+      return apiStat;
   };
 
   //       if (apiStat === 0) {
@@ -3505,4 +3499,5 @@ export const useHeader = () => {
     scrollToTop,
     auditLogs
   };
-};
+ };
+export default useHeader;

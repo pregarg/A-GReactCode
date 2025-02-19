@@ -12,7 +12,7 @@ import DecisionTab from "../../../WorkItemDashboard/DecisionTab";
 import CaseInformation from "../../../WorkItemDashboard/CaseInformation";
 import ProviderDisputeMemberInformationAccordion from "./ProviderDisputeMemberInformationAccordion";
 import ProviderDisputeAuthorizationInformationAccordion from "./ProviderDisputeAuthorizationInformationAccordion";
-import { useHeader } from "./useHeader";
+import  useHeader  from "./useHeader";
 import DocumentSection from "../DocumentSection";
 import MemberAddOfRecordsAccordion from "../TileForms/MemberAddOfRecordsAccordion";
 import MemberAltContactInfoAccordion from "../TileForms/MemberAltContactInfoAccordion";

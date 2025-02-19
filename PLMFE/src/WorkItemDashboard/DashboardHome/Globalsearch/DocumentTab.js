@@ -194,6 +194,7 @@ export default function DocumentTab(props) {
   };
 
   let restrictedFileTypes = ["xls", "eps", "sql", "xlsx", "docx"];
+
   const downloadedfileBlob = (index, documentData) => {
     const { caseNumber, documentType, documentName, docUploadPath } =
       documentData[index] || {};
@@ -216,6 +217,7 @@ export default function DocumentTab(props) {
     fileUpDownAxios
       .post("/downloadFile", fileData, { responseType: "blob" })
       .then((response) => {
+        console.log("URL--->",response)
         const docName = documentName;
         const filename = `${documentType}_${caseId}${docName.substring(
           docName.lastIndexOf("."),
@@ -269,6 +271,7 @@ export default function DocumentTab(props) {
   };
 
   const handleFileUpload = (evnt, index) => {
+    console.log("evnt.target.files--->", evnt.target.files[0])
     if (evnt.target.files[0] === undefined) {
       setFileState([...fileState, { selectedFile: null, fileIndex: index }]);
     }
