@@ -99,7 +99,7 @@ console.log("document prop", prop)
     };
     setDocumentData(rowsInput);
 
-    console.log("documentData handleGridSelectChange", documentData);
+    console.log("documentData handleGridSelectChange1111", documentData);
   };
 
   const uploadFile = (paramData, index) => {

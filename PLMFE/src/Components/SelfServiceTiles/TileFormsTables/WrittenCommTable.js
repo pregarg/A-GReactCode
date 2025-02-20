@@ -46,7 +46,7 @@ export default function WrittenCommTable({
   const [memberSelected, setMemberSelected] = useState(false);
 
   const [isTouched, setIsTouched] = useState({});
-
+  const [disabledRows, setDisabledRows] = useState({});
   const { getGridJson,getTableDetails, convertToCase } = useGetDBTables();
  
  
@@ -264,9 +264,10 @@ const downloadedfileBlob = (index, letterData) => {
     });
 };
 
-const callESignOperationApi = (esignOption) => {
+const callESignOperationApi = (esignOption,index) => {
   let condition4 = props.caseInformationData.Appellant_Type; 
   console.log("condition4--->", condition4)
+  console.log("index value-->", index)
   if (props.caseInformationData.Product === 'MEDICAID') {
       condition4 = props.caseInformationData.Line_of_Business_LOB; 
   }
@@ -283,45 +284,6 @@ const callESignOperationApi = (esignOption) => {
 
   console.log("esign api json ", esignApiJson);
   setShowLoader(true);
-
-  const missingFields = [];
-  if(props.caseInformationData.Appeal_Type === 'PRE-SERVICE'){
-  if (!props.caseInformationData.Appellant_Type) missingFields.push("Appellant Type");
-  if (!props.caseInformationData.Product) missingFields.push("Product");
-  if (!props.claimInformationData.Service_Type) missingFields.push("Service Type");
-  if (!props.caseInformationData.Issue_Description) missingFields.push("Issue Description");
-  if (!props.memberInformation.Member_First_Name) missingFields.push("Member First Name");
-  if (!props.memberInformation.Member_ID) missingFields.push("Member ID");
-  if (!props.memberInformation.Address_Line_1) missingFields.push("Address Line 1");
-  if (!props.memberInformation.Address_Line_2) missingFields.push("Address Line 2");
-  if (!props.memberInformation.City) missingFields.push("City");
-  if (!props.memberInformation.State_) missingFields.push("State");
-  if (!props.memberInformation.Zip_Code) missingFields.push("Zip Code");
-  if (!props.memberInformation.Plan_Name) missingFields.push("Plan Name");
-  if (!props.handleAuthorizationInformationGridData[0]?.Service_Start_Date) missingFields.push("Auth Service Start Date");
-  if (!props.handleAuthorizationInformationGridData[0]?.Auth_Expiration_Date) missingFields.push("Auth Expiration Date");
-  }
-   else if (props.caseInformationData.Appeal_Type === 'RETRO')
-  {
-    if (!props.caseInformationData.Appellant_Type) missingFields.push("Appellant Type");
-    if (!props.caseInformationData.Product) missingFields.push("Product");
-    if (!props.claimInformationData.Service_Type) missingFields.push("Service Type");
-    if (!props.caseInformationData.Issue_Description) missingFields.push("Issue Description");
-    if (!props.memberInformation.Member_First_Name) missingFields.push("Member First Name");
-    if (!props.memberInformation.Member_ID) missingFields.push("Member ID");
-    if (!props.memberInformation.Address_Line_1) missingFields.push("Address Line 1");
-    if (!props.memberInformation.Address_Line_2) missingFields.push("Address Line 2");
-    if (!props.memberInformation.City) missingFields.push("City");
-    if (!props.memberInformation.State_) missingFields.push("State");
-    if (!props.memberInformation.Zip_Code) missingFields.push("Zip Code");
-    if (!props.memberInformation.Plan_Name) missingFields.push("Plan Name");
-    if (!props.handleClaimInformationGridData[0]?.Service_Start_Date) missingFields.push("Claim Service Start Date");
-  }
-
-  if (missingFields.length > 0) {
-    alert(`Please fill in the mandatory fields: ${missingFields.join(", ")}. \nSave the form and then regenerate the letter.`);
-     setShowLoader(false);
-  } else {
     esignAxios.post("/esignOperations", esignApiJson).then((res) => {
       console.log("esign rep-->", res);
       setShowLoader(false);
@@ -331,10 +293,11 @@ const callESignOperationApi = (esignOption) => {
     
 
       if (result[0].includes("Letter Generated Successfully")) {
-        const dateString = result[0]; // "Letter Generated Successfully 02/13/2025 13:39:03"
-        const time = dateString.split(" ")[dateString.split(" ").length - 1];
+        setDisabledRows((prev) => ({ ...prev, [index]: true }));
+        // const dateString = result[0]; // "Letter Generated Successfully 02/13/2025 13:39:03"
+        // const time = dateString.split(" ")[dateString.split(" ").length - 1];
     
-        console.log("Extracted time:", time);
+        // console.log("Extracted time:", time);
         if (props.memberInformation.Email_ID === ""){
           alert ("Member Email is not present")
           return;
@@ -353,7 +316,7 @@ const callESignOperationApi = (esignOption) => {
       alert("An error occurred while processing the request");
       setShowLoader(false);
     });
-  }
+ //}
 };
  const generateTemplate = (prop) => {
 
@@ -493,8 +456,17 @@ useEffect(() => {
     );
   };
 
-    const isButtonDisabled = () => {
-      return !gridFieldTempState.Communication_Type || !gridFieldTempState.Name_Description || !gridFieldTempState.Communication_Sent_Date_Time;
+    const isButtonDisabled = (index) => {
+      // Check if required fields are empty
+      console.log("index value inside button disable", index)
+      const requiredFieldsMissing =
+      !gridFieldTempState.Communication_Type ||
+      !gridFieldTempState.Name_Description ||
+      !gridFieldTempState.Communication_Sent_Date_Time;
+
+    // Check if the row is already disabled after letter generation
+    console.log("123450000",!!disabledRows[1])
+    return requiredFieldsMissing || !!disabledRows[index];
     };
   const tdDataReplica = (index) => {
 
@@ -577,7 +549,6 @@ useEffect(() => {
                 "Communication_Sent_Date_Time",
                 "Communication Sent Date Time",
                 index,
-                ""
             )}
                 {/* {renderSimpleDatePickerField(
                 "Communication_Request_Date",
@@ -623,14 +594,57 @@ useEffect(() => {
             className="btn btn-outline-primary btnStyle"
             onClick={async () => {
               console.log("Button clicked for row:", operationValue);
-              gridRowsFinalSubmit("WrittenCommTable",index,operationValue);
-
+              
+              let missingFields = [];
+              
+              if (props.caseInformationData.Appeal_Type === 'PRE-SERVICE') {
+                if (!props.caseInformationData.Appellant_Type) missingFields.push("Appellant Type");
+                if (!props.caseInformationData.Product) missingFields.push("Product");
+                if (!props.claimInformationData.Service_Type) missingFields.push("Service Type");
+                if (!props.caseInformationData.Issue_Description) missingFields.push("Issue Description");
+                if (!props.memberInformation.Member_First_Name) missingFields.push("Member First Name");
+                if (!props.memberInformation.Member_ID) missingFields.push("Member ID");
+                if (!props.memberInformation.Address_Line_1) missingFields.push("Address Line 1");
+                if (!props.memberInformation.Address_Line_2) missingFields.push("Address Line 2");
+                if (!props.memberInformation.City) missingFields.push("City");
+                if (!props.memberInformation.State_) missingFields.push("State");
+                if (!props.memberInformation.Zip_Code) missingFields.push("Zip Code");
+                if (!props.memberInformation.Plan_Name) missingFields.push("Plan Name");
+                if (!props.handleAuthorizationInformationGridData[0]?.Service_Start_Date) missingFields.push("Auth Service Start Date");
+                if (!props.handleAuthorizationInformationGridData[0]?.Auth_Expiration_Date) missingFields.push("Auth Expiration Date");
+              } else if (props.caseInformationData.Appeal_Type === 'RETRO') {
+                if (!props.caseInformationData.Appellant_Type) missingFields.push("Appellant Type");
+                if (!props.caseInformationData.Product) missingFields.push("Product");
+                if (!props.claimInformationData.Service_Type) missingFields.push("Service Type");
+                if (!props.caseInformationData.Issue_Description) missingFields.push("Issue Description");
+                if (!props.memberInformation.Member_First_Name) missingFields.push("Member First Name");
+                if (!props.memberInformation.Member_ID) missingFields.push("Member ID");
+                if (!props.memberInformation.Address_Line_1) missingFields.push("Address Line 1");
+                if (!props.memberInformation.Address_Line_2) missingFields.push("Address Line 2");
+                if (!props.memberInformation.City) missingFields.push("City");
+                if (!props.memberInformation.State_) missingFields.push("State");
+                if (!props.memberInformation.Zip_Code) missingFields.push("Zip Code");
+                if (!props.memberInformation.Plan_Name) missingFields.push("Plan Name");
+                if (!props.handleClaimInformationGridData[0]?.Service_Start_Date) missingFields.push("Claim Service Start Date");
+                if (!props.handleClaimInformationGridData[0]?.Service_End_Date) missingFields.push("Claim Service End Date");
+              
+              }
+            
+              // **Check for missing fields before proceeding**
+              if (missingFields.length > 0) {
+                alert(`Please fill in the mandatory fields: ${missingFields.join(", ")}.`);
+                return; // Stop execution if mandatory fields are missing
+              }
+            
+              // **Proceed with saveAndExit only if there are no missing fields**
+              gridRowsFinalSubmit("WrittenCommTable", index, operationValue);
+            
               if (typeof props.saveAndExit === "function") {
                 const event = { target: { name: "saveAndExit" } };
-          
+            
                 try {
                   let res = await props.saveAndExit(event); // Ensure this completes before proceeding
-                  console.log("Save and Exit completed, now calling eSign API...",res);
+                  console.log("Save and Exit completed, now calling eSign API...", res);
                 } catch (error) {
                   console.error("Error in saveAndExit:", error);
                   return; // Stop execution if saveAndExit fails
@@ -640,16 +654,16 @@ useEffect(() => {
                 return;
               }
             
-              callESignOperationApi("Generate Document");
-              
+              callESignOperationApi("Generate Document",index);
             }}
+            
             
             style={{
               width: '200px', 
               height: '40px', 
               textAlign: 'center', 
             }}
-            disabled={isButtonDisabled()}
+            disabled={isButtonDisabled(index)}
           >
             Generate Letter
           </button>
@@ -743,9 +757,10 @@ useEffect(() => {
                       console.log("Letter data --->", letterData);
                       if (letterData) {
                         downloadedfileBlob(null, letterData);
-                      } else {
-                        alert("Error fetching the document data.");
-                      }
+                      } 
+                        // else {
+                        //   alert("Error fetching the document data.");
+                        // }
                     }}
                   >
                     <i className="fa fa-eye"></i>

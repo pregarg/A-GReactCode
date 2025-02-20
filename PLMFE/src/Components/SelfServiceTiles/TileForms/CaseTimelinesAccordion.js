@@ -31,6 +31,7 @@ const CaseTimelinesAccordion = (props) => {
       [name]: typeof value === "string" ? convertToCase(value) : value,
     };
     setCaseTimelinesData(newData);
+    console.log("newdata in caetimelines-->", newData)
     if (persist) {
       props.setCaseTimelinesData(newData);
     }
