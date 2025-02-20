@@ -427,6 +427,8 @@ export default function DecisionTab(props) {
     rowsInput[index][name] = selectedValue.value;
 
     setDocumentData(rowsInput);
+    console.log("documentData handleGridSelectChange",docArr)
+    
   };
 
   useEffect(() => {
@@ -1007,29 +1009,44 @@ export default function DecisionTab(props) {
 
   //Added by Harshit for Removing document type already uploaded apart from other documents
   const getNotUploadedDocTypes = (docArr) => {
+    console.log("prerna");
     let selectJson = {};
     let documentNames = [];
-    // selectJson.docOptions =
-    //   masterAngDocumentSelector.length === 0
-    //     ? []
-    //     : masterAngDocumentSelector[0];
+  
+    // Select the correct master document list based on formNames
     if (prop.state.formNames === "Appeals" && masterAngDocumentSelector) {
       selectJson.docOptions = masterAngDocumentSelector.length === 0 ? [] : masterAngDocumentSelector[0];
     } else if (prop.state.formNames === "Provider Disputes" && masterPDDocumentSelector) {
       selectJson.docOptions = masterPDDocumentSelector.length === 0 ? [] : masterPDDocumentSelector[0];
     }
-
-    selectJson["docOptions"]
-      .filter((data) => data.WORKSTEP_NAME.trim() == stageName.trim())
-      .map((val) => {
-        documentNames.push({
-          value: val.DOCUMENT_NAME,
-          label: val.DOCUMENT_NAME,
+  
+    // If document options exist, filter and push them into documentNames
+    if (selectJson.docOptions) {
+      selectJson["docOptions"]
+        .filter((data) => data.WORKSTEP_NAME.trim() == stageName.trim())
+        .forEach((val) => {
+          documentNames.push({
+            label: val.DOCUMENT_NAME,
+            value: val.DOCUMENT_NAME,
+          });
         });
+    }
+  
+    // **Remove already uploaded document types**
+    if (documentNames.length > 0 && docArr.length > 0) {
+      docArr.forEach((obj) => {
+        if (obj.documentType !== "Other Attachment") {
+          const requiredIndex = documentNames.findIndex((el) => el.value === obj.documentType);
+          if (requiredIndex !== -1) {
+            documentNames.splice(requiredIndex, 1); // Remove uploaded document from list
+          }
+        }
       });
-
+    }
+  
     return documentNames;
   };
+  
 
   const documentsData = () => {
     if (documentData.length > 0) {

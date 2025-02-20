@@ -1728,7 +1728,7 @@ export function convertDateFormatMonthDayYear(inputDateStr) {
           // data.angCaseHeader[0]["Case_Received_Date"],
 
         );
-
+        console.log("caseReceivedDate--->",caseReceivedDate)
         const caseInfo = data?.["angCaseInformation"]?.[0];
         const keysToCheck = [
           "Product",

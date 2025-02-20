@@ -40,9 +40,8 @@ export const SimpleDatePickerField = ({
           peekNextMonth
           showMonthDropdown
           showYearDropdown
-          //showTimeSelect  // ✅ Enables time selection
-          timeFormat="h:mm aa"  
-          dateFormat="MM/dd/yyyy h:mma" 
+          timeFormat="h:mm"  
+          dateFormat="MM/dd/yyyy h:mm" 
           dropdownMode="select"
           id={name}
           disabled={disabled}

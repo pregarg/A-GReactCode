@@ -40,16 +40,31 @@ export const FormikDatePicker = ({
     ? new Date(data[name])
     : undefined;
 
+  // const handleDateChange = (selectedDate) => {
+  //   if (selectedDate) {
+  //     // Retain the selected date but update time to current time
+  //     const currentTime = new Date();
+  //     selectedDate.setHours(currentTime.getHours(), currentTime.getMinutes(), currentTime.getSeconds());
+      
+  //     onChange(name, selectedDate, true);
+  //     console.log("name--->",name)
+  //     console.log("selected date-->",selectedDate)
+    
+  //   }
+  // };
   const handleDateChange = (selectedDate) => {
     if (selectedDate) {
-      // Retain the selected date but update time to current time
-      const currentTime = new Date();
-      selectedDate.setHours(currentTime.getHours(), currentTime.getMinutes(), currentTime.getSeconds());
-      
-      onChange(name, selectedDate, true);
-      console.log("name--->",name)
-      console.log("selected date-->",selectedDate)
-    
+      try {
+        // Retain the selected date but update time to current time in local timezone
+        const now = new Date();
+        selectedDate.setHours(now.getHours(), now.getMinutes(), now.getSeconds());
+  
+        onChange(name, selectedDate, true);
+        console.log("name--->", name);
+        console.log("selected date-->", selectedDate);
+      } catch (error) {
+        console.error("Error in handleDateChange:", error);
+      }
     }
   };
 
