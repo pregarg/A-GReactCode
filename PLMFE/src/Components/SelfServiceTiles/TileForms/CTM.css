@@ -1,0 +1,10 @@
+.sub-title {
+  background: #eee;
+  padding: 2px;
+ 
+}
+.small-input {
+  height: 30px !important; /* Adjust height */
+  padding: 5px 10px !important; /* Reduce padding */
+  font-size: 14px !important; /* Adjust font size */
+}

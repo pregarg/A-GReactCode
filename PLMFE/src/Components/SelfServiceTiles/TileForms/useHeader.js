@@ -7,7 +7,6 @@ import useGetDBTables from "../../CustomHooks/useGetDBTables";
 import useUpdateDecision from "../../CustomHooks/useUpdateDecision";
 import useFormikValidation from "../../CustomHooks/useFormikValidation";
 import _ from "lodash";
-
 import TableComponent from "../../../../src/util/TableComponent";
 import { useCaseTimelines } from "./useCaseTimelines";
 import { useCaseDecision } from "./useCaseDecision.js"
@@ -24,7 +23,10 @@ import {usePdProviderAltContactInfo} from "./usePdProviderAltContactInfo";
 import { useProviderRedirectTo } from "./useProviderRedirectTo";
 import {useRepresentativeInformation} from "./useRepresentativeInformation";
 import {useProviderInformation} from "./useProviderInformation";
+import {useCtmSummary} from "./useCtmSummary.js"
 import { useAuditLog } from "./useAuditLog.js";
+import { useCtmCaseCategorization } from "./useCtmCaseCategorization.js";
+
 export function convertDateFormatMonthDayYear(inputDateStr) {
   const date = new Date(inputDateStr);
   if (isNaN(date)) {
@@ -52,10 +54,15 @@ export function convertDateFormatMonthDayYear(inputDateStr) {
   let documentSectionDataRef = useRef([]);
   const authSelector = useSelector((state) => state.auth);
   console.log("authSelector--->",authSelector)
-  
+
 
   const providerDisputesConfigData = JSON.parse(
     process.env.REACT_APP_PROVIDERDISPUTES_DETAILS || "{}",
+   
+  );
+
+  const ctmConfigData = JSON.parse(
+    process.env.REACT_APP_CTMHEADER_DETAILS || "{}",
    
   );
 
@@ -80,6 +87,7 @@ export function convertDateFormatMonthDayYear(inputDateStr) {
     setpdCaseInformation,
   } = usePdCaseInformation(renderType);
 
+
   const {
     memberAltFields,
     pd_MemberAltInfo,
@@ -93,7 +101,7 @@ export function convertDateFormatMonthDayYear(inputDateStr) {
     memberAddOfRecordsValidationSchema,
     setpdMemberAddRecord,
   } = useMemberAddOfRecords(renderType);
-  const {
+ const {
     representativeInformationFields,
     pd_RepresentativeInformation,
     representativeInformationValidationSchema,
@@ -158,6 +166,24 @@ export function convertDateFormatMonthDayYear(inputDateStr) {
     providerRedirectToValidationSchema,
     setpdProviderRedirectTo,
   } = useProviderRedirectTo(renderType);
+
+ const {
+    ctmSummaryFields,
+    ctm_CtmSummary,
+    ctmSummaryValidationSchema,
+    setctmCtmSummary,
+  } = useCtmSummary();
+
+  const {
+      caseCategorizationFields,
+      ctm_CaseCategorization,
+      caseCategorizationValidationSchema,
+      setCtmCaseCategorization,
+
+    } = useCtmCaseCategorization();
+
+
+
   const [caseInformation, setCaseInformation] = useState({
     caseNumber: "",
     Appeal_Type: "",
@@ -269,6 +295,7 @@ export function convertDateFormatMonthDayYear(inputDateStr) {
     Plan_Code:"",
     
   });
+
   const [PdProviderInformation, setPdProviderInformation] = useState({
     Provider_ID:"",
     Provider_Name:"",
@@ -303,22 +330,8 @@ export function convertDateFormatMonthDayYear(inputDateStr) {
      isChecked : "",
   })
 
-  // const [providerDisputeAuthorizationInformation, setProviderDisputeAuthorizationInformation] = useState({
-  //   Issue_Number: "",
-  //   Auth_Number: "",
-  //   Auth_Status: "",
-  //   Provider_Name: "",
-  //   Authorization_Type: "",
-  //   Auth_Type_Description: "",
-  //   Auth_Request_Date: undefined,
-  //   Expiration_Date: undefined,
-  //   CPT_Descriptions: "",
-  //   Service_Start_Date: undefined,
-  //   Denial_Code: "",
-  //   Denial_Reason: "",
-  //
-  //
-  // });
+  const [ctmRepGridData, setCtmRepGridData] = useState([]);
+
   const [expeditedRequest, setExpeditedRequest] = useState({
     Expedited_Requested: "",
     Expedited_Reason: "",
@@ -337,6 +350,7 @@ export function convertDateFormatMonthDayYear(inputDateStr) {
     Letter_Clause: "",
     Resolution_Communication_text_to_Complainant: "",
   });
+
   const [providerReview, setProviderReview] = useState({
     Oral_Acknowledgement_Due_Date: "",
     Oral_Acknowledgement_Date: "",
@@ -349,9 +363,119 @@ export function convertDateFormatMonthDayYear(inputDateStr) {
     Case_Notes: "",
     Internal_Notes: "",
   });
+
+   const [acknowledgementData, setAcknowledgementData] = useState({
+      Acknowledgement_Date: "",
+      Acknowledgement_Due_Date: "",
+    });
+
+   const [preCloseQAData, setPreCloseQAData] = useState({
+      caseNumber: "",
+      Auditor_Name: "",
+      Coordinator_Name: "",
+      Review_Level: "",
+      Coordinator_Supervisor_Name: "",
+      QA_Due_Date:  undefined,
+      QA_Decision: "",
+      QA_Decision_Date: "",
+      QA_Notes: "",
+      QA_Score: "",
+      First_Review_Date: undefined,
+      Second_Review_Date: undefined,
+      QC_Rebuttal_Date: undefined,
+      First_Review_Comments: "",
+      Second_Review_Comments: "",
+      QC_Rebuttal_Notes: "",
+    });
+  const [postCloseQCData, setPostCloseQCData] = useState({
+    caseNumber: "",
+    Auditor_Name: "",
+    Coordinator_Name: "",
+    Review_Level: "",
+    Coordinator_Supervisor_Name: "",
+    QC_Due_Date: undefined,
+    QC_Decision: "",
+    QC_Decision_Date: "",
+    QC_Notes: "",
+    QC_Score: "",
+    First_Review_Date: undefined,
+    Second_Review_Date: undefined,
+    QC_Rebuttal_Date: undefined,
+    First_Review_Comments: "",
+    Second_Review_Comments: "",
+    QC_Rebuttal_Notes: "",
+  });
+const [ctmMemberData, setCtmMemberData] = useState({
+  Issue_Number: "",
+  Primary_Member: "",                   // Dropdown: "Yes", "No"
+  Member_ID: "",
+  Member_First_Name: "",
+  Member_Middle_Initial: "",
+  Member_Last_Name: "",
+  Seq_Member_ID: "",
+  Contract_ID: "",
+  Plan_Code: "",
+  MBI: "",
+  HICN: "",
+  Medicaid_Id: "",
+  Plan_Effective_Date: undefined,       // Calendar
+  Plan_Expiration_Date: undefined,      // Calendar
+  CRM_Ticket: "",
+  Plan_Name: "",
+  PCP_Name: "",
+  PBP: "",
+  Date_of_Birth: undefined,             // Calendar
+  Gender: "",
+  Email_Id: "",
+  Home_Phone: "",
+  Mobile_Phone: "",
+  Dual_Plan: "",                        // Dropdown: "Yes", "No"
+  Preferred_Language: "",
+  Mail_to_Address: "",                  // Dropdown: "Default", "Alternate"
+  Residential_Address_Type: "",         // Dropdown: Refer CTM_Address_Type
+  Residential_Address_Line_1: "",
+  Residential_Address_Line_2: "",
+  Residential_Zip_Code: "",
+  Residential_City: "",
+  Residential_County: "",
+  Residential_Region: "",
+  Residential_State: "",
+  Mailing_Address_Type: "",             // Dropdown: Refer CTM_Address_Type
+  Mailing_Address_Line_1: "",
+  Mailing_Address_Line_2: "",
+  Mailing_Zip_Code: "",
+  Mailing_City: "",
+  Mailing_County: "",
+  Mailing_Region: "",
+  Mailing_State: "",
+  Temporary_Address_Type: "",           // Dropdown: Refer CTM_Address_Type
+  Temporary_Address_Line_1: "",
+  Temporary_Address_Line_2: "",
+  Temporary_Zip_Code: "",
+  Temporary_City: "",
+  Temporary_County: "",
+  Temporary_Region: "",
+  Temporary_State: "",
+  Alternate_Phone_Number: "",
+  Fax_Number: "",
+  Communication_Preference: ""          // Dropdown: "Email", "Phone", "Mail"
+});
+
+const [ctmCaseResolution, setCtmCaseResolution] = useState({
+    Resolution_Date: "",
+    Resolution_Due_Date: "",
+    Out_of_Compliance_Notes: "",
+});
+
   const [claimInformationGrid, setClaimInformationGrid] = useState([]);
   const [ProviderClaimInformationGrid, setProviderClaimInformationGrid] = useState([]);
   const [providerInformationGrid, setProviderInformationGrid] = useState([]);
+
+  const [ctmProviderInformationGrid, setCtmProviderInformationGrid] = useState([]);
+  const [ctmAuthorizationGrid, setCtmAuthGridData] = useState([])
+  const [ctmClaimInformationGrid, setCtmClaimInformationGrid] = useState([]);
+  const [ctmRepresentativeGrid, setCtmRepresentativeGrid] = useState([]);
+
   const [searchParams] = useSearchParams();
   const [authorizationInformationGrid, setAuthorizationInformationGrid] =
     useState([]);
@@ -436,6 +560,8 @@ export function convertDateFormatMonthDayYear(inputDateStr) {
   const ProviderclaimInformationValidationFilingGridSchema = Yup.object().shape({
     Issue_Number: Yup.string().required("Issue Number is mandatory"),
   });
+  const ctmClaimInformationGridRowValidationSchema = Yup.object().shape({});
+
   const claimInformationValidationSchema = Yup.object().shape({
     // Payment_Method: conditionalActivateOnStage(
     //   pair1,
@@ -538,6 +664,7 @@ export function convertDateFormatMonthDayYear(inputDateStr) {
     Plan_Name:Yup.string().required("Plan Name is mandatory"),
    
   });
+
   const PdProviderInformationValidationSchema = Yup.object().shape({
 
   });
@@ -649,6 +776,18 @@ export function convertDateFormatMonthDayYear(inputDateStr) {
     ),
   });
 
+const preCloseQAValidationSchema = Yup.object().shape({ });
+const postCloseQCValidationSchema = Yup.object().shape({ });
+const ctmMemberValidationSchema = Yup.object().shape({ });
+const acknowledgementValidationSchema = Yup.object().shape({ });
+const ctmProviderInformationGridValidationSchema = Yup.object().shape({ });
+const CtmmemberInformationValidationSchema = Yup.object().shape({ });
+const ctmAuthGridValidationSchema = Yup.object().shape({});
+//const ctmClaimInformationGridRowValidationSchema = Yup.object().shape({ });
+const ctmRepresentativeGridValidationSchema = Yup.object().shape({ });
+const ctmCaseResolutionValidationSchema = Yup.object().shape({ });
+
+
   const [caseTimelinesErrors, setCaseTimelinesErrors] = useState([]);
 
   const [pdCaseInformationErrors, setPdCaseInformationErrors] = useState([]);
@@ -660,7 +799,7 @@ export function convertDateFormatMonthDayYear(inputDateStr) {
   const [PdProviderInformationErrors, setPdProviderInformationErrors] = useState([]);
   //const [providerDisputeAuthorizationInformationGridErrors, setProviderDisputeAuthorizationInformationGridErrors] = useState([]);
   const [memberAltErrors, setMemberAltErrorsErrors] = useState([]);
-  const [expeditedRequestErrors, setExpeditedRequestErrors] = useState([]);
+ const [expeditedRequestErrors, setExpeditedRequestErrors] = useState([]);
   const [notesErrors, setNotesErrors] = useState([]);
   const [reviewErrors, setReviewErrors] = useState([]);
   const [caseResolutionErrors, setCaseResolutionErrors] = useState([]);
@@ -676,7 +815,14 @@ export function convertDateFormatMonthDayYear(inputDateStr) {
   const [decisionAddErrors, setDecisionAddErrorsErrors] = useState([]);
   const [caseDecisionDetailsErrors, setcaseDecisionDetailsErrors] = useState([]);
   const [caseDecisionErrors, setcaseDecisionErrors] = useState([]);
-  
+
+  const [ctmSummaryErrors, setCtmSummaryErrorsErrors] = useState([]);
+  const [ctmCaseResolutionErrors, setCtmCaseResolutionErrors] = useState({});
+  const [postCloseQCErrors, setPostCloseQCErrors] = useState({});
+  const [preCloseQAErrors, setPreCloseQAErrors] = useState({});
+  const [ctmMemberErrors, setCtmMemberErrors] = useState({});
+  const [acknowledgementErrors, setAcknowledgementErrors] = useState({});
+
   const validateSync = (schema, data, setErrors, noReset) => {
     try {
       if(!noReset) {
@@ -744,6 +890,7 @@ export function convertDateFormatMonthDayYear(inputDateStr) {
         pd_MemberAltInfo,
         setMemberAltErrorsErrors,
     );
+
     validateSync(
       pdCaseInformationValidationSchema,
       pd_CaseInformation,
@@ -766,6 +913,8 @@ export function convertDateFormatMonthDayYear(inputDateStr) {
     );
     validateSync(notesValidationSchema, notes, setNotesErrors);
     validateSync(caseResolutionValidationSchema, caseResolution , setCaseResolutionErrors);
+
+
     validateSync(reviewValidationSchema, providerReview , setReviewErrors);
     validateSync(
       memberAddOfRecordsValidationSchema,
@@ -813,6 +962,30 @@ export function convertDateFormatMonthDayYear(inputDateStr) {
         pd_ProviderAlt,
         setProviderAltErrorsErrors,
     );
+    validateSync(
+        postCloseQCValidationSchema,
+        postCloseQCData,
+        setPostCloseQCErrors
+      );
+
+validateSync(preCloseQAValidationSchema, preCloseQAData, setPreCloseQAErrors);
+validateSync(ctmMemberValidationSchema, ctmMemberData, setCtmMemberErrors);
+validateSync(acknowledgementValidationSchema, acknowledgementData, setAcknowledgementErrors);
+  validateSync(
+        caseResolutionValidationSchema,
+        caseResolution,
+        setCaseResolutionErrors
+    );
+  validateSync(
+            ctmSummaryValidationSchema,
+            ctm_CtmSummary,
+            setCtmSummaryErrorsErrors,
+        );
+  validateSync(
+          ctmCaseResolutionValidationSchema,
+          ctmCaseResolution,
+          setCtmCaseResolutionErrors
+      );
 
   }, [
     caseTimelines,
@@ -832,13 +1005,16 @@ export function convertDateFormatMonthDayYear(inputDateStr) {
     notes,
     providerNotes,
     providerReview,
-      caseResolution,
+    caseResolution,
     pd_ProviderAddRecord,
     pd_ProviderRedirectTo,
     pd_MemberAddRecord,
     pd_ProviderInformation,
     pd_MemberAltInfo,
     pd_CaseInformation,
+    ctm_CtmSummary,
+    ctm_CaseCategorization,
+    ctmCaseResolution,
   ]);
 
   useEffect(() => {
@@ -892,6 +1068,7 @@ export function convertDateFormatMonthDayYear(inputDateStr) {
     Authorization_Decision: "",
     Authorization_Decision_Reason: "",
   });
+
   // const [decisionTab, setDecisionTab] = useState({
   //   Decision: "",
   //   Decision_Reason: "",
@@ -917,6 +1094,19 @@ export function convertDateFormatMonthDayYear(inputDateStr) {
       ...caseResolutionErrors
       })
   }
+const checkForCTMError = () => {
+  return Object.keys({
+    ...preCloseQAErrors,
+    ...postCloseQCErrors,
+    ...ctmSummaryErrors,
+    ...caseResolutionErrors,
+    ...ctmMemberErrors,
+    ...acknowledgementErrors,
+   ...ctmCaseResolutionErrors,
+  });
+};
+
+
   const checkForAppealsError = () => {
 
     return Object.keys({
@@ -937,6 +1127,11 @@ export function convertDateFormatMonthDayYear(inputDateStr) {
     if (!pdClaimInformationGrid?.length || !pdCaseInformationGrid?.length || !ProviderauthorizationInformationGrid?.length || !pdClaimInformationFilingGrid?.length) {
       return true;
     }
+    return false;
+  }
+
+  const checkForCtmGridData = () => {
+    // TODO: Add Grid Check for CTM
     return false;
   }
 
@@ -1011,7 +1206,6 @@ export function convertDateFormatMonthDayYear(inputDateStr) {
     apiJson["PD_Provider_Alternative_Contact_Info"] = pdProviderAlt;
 
     const pdMemberInformation = trimJsonValues({ ...ProvidermemberInformation });
-    // console.log("Provider Member Information is : ", angProviderMemberInformation)
     apiJson["PD_Member_Information"] = pdMemberInformation;
     console.log("pd_MemberAddRecord",pd_MemberAddRecord)
     const pdMemberAddRecord = trimJsonValues({ ...pd_MemberAddRecord });
@@ -1099,6 +1293,121 @@ export function convertDateFormatMonthDayYear(inputDateStr) {
       await createAuditLog('4', '40', 'Start', response.data["CreateCase_Output"]["CaseNo"], currentUser, cleanedApiJson, 'I', token)
     }
   };
+
+  const ctmSubmitData = async () => {
+
+    if(checkForCtmGridData()) {
+      alert("Please fill all mandatory grid data")
+      return;
+    }
+
+    if (checkForCTMError()?.length > 0) {
+      console.error("Validation Errors:", checkForCTMError());
+      alert(" Please fill all mandatory fields.");
+      setShowSubmitError(true);
+      return;
+    }
+
+    const flowID = ctmConfigData["FlowId"];
+    const stageNAME = ctmConfigData["StageName"];
+
+    let apiJson = {};
+    let mainCaseReqBody = {
+      transactionType: "CTM",
+      stageId: "63",
+      caseStatus: "Open",
+      lockStatus: "N",
+      flowId: flowID,
+      stageName: stageNAME,
+    };
+
+
+    const currentUser = authSelector.userName || "system";
+    const receivedDate = extractDate(currentDate);
+
+//    const updatedCaseHeader = {
+//      ...caseHeader,
+//      Case_Owner: currentUser,
+//      Original_Case_Received_Date: receivedDate,
+//    };
+//    console.log("Original_Case_Received_Date",receivedDate)
+//    const ctmCaseHeader = trimJsonValues({ ...updatedCaseHeader });
+//    apiJson["CTM_CASE_HEADER"] = ctmCaseHeader;
+
+    const ctmCaseTimelines = trimJsonValues({ ...caseTimelines });
+    apiJson["CTM_Case_Timelines"] = ctmCaseTimelines ;
+
+    const ctmPreCloseQA = trimJsonValues({ ...preCloseQAData });
+    apiJson["CTM_PreCloseQA"] = ctmPreCloseQA;
+
+    const ctmPostCloseQC = trimJsonValues({ ...postCloseQCData });
+    apiJson["CTM_PostCloseQC"] = ctmPostCloseQC;
+
+    const ctmSummary = trimJsonValues({ ...ctm_CtmSummary });
+    apiJson["CTM_Summary"] = ctmSummary;
+
+    const ctmCaseCategorization = trimJsonValues({ ...ctm_CaseCategorization });
+    apiJson["CTM_Case_Categorization"] = ctmCaseCategorization;
+
+    const ctmMemberInformation = trimJsonValues({ ...ctmMemberData });
+    apiJson["CTM_Member_Information"] = ctmMemberInformation;
+
+     const ctmResolution = trimJsonValues({ ...ctmCaseResolution });
+    apiJson["CTM_Case_Resolution"] = ctmResolution;
+
+    const ctmAcknowledgement = trimJsonValues({ ...acknowledgementData });
+    apiJson["Ctm_Acknowledgement"] = ctmAcknowledgement;
+
+    apiJson["MainCaseTable"] = mainCaseReqBody;
+
+    const cleanedApiJson = removeDateInKeys(apiJson);
+    const response = await customAxios.post("/generic/create", cleanedApiJson, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    // Handle the response from the create endpoint.
+    const apiStat = response.data.CreateCase_Output.Status;
+
+    if (apiStat === -1) {
+      alert("Case is not created.");
+    }
+
+    if (apiStat === 0) {
+      let procData = {};
+      let procDataState = {};
+      procDataState.stageName = mainCaseReqBody.stageName;
+      procDataState.flowId = mainCaseReqBody.flowId;
+      procDataState.caseNumber = response.data["CreateCase_Output"]["CaseNo"];
+      procDataState.decision = "Submit";
+      procDataState.userName = authSelector.userName || "system";
+      procDataState.formNames = "CTM";
+      procData.state = procDataState;
+      if (documentSectionDataRef.current.length > 0) {
+        const documentArray = [...documentSectionDataRef.current].filter(
+          (x) => x.docStatus === "Uploaded",
+        );
+        documentArray.forEach((e) => {
+          const fileUploadData = new FormData();
+          fileUploadData.append("file", e.fileData);
+          fileUploadData.append("source", "Manual");
+          fileUploadData.append(
+            "caseNumber",
+            response.data["CreateCase_Output"]["CaseNo"],
+          );
+          fileUploadData.append("docType", e.documentType);
+          fileUpDownAxios.post("/uploadFile", fileUploadData).then(() => {});
+        });
+      }
+      alert(
+        "Case created successfully: " +
+          response.data["CreateCase_Output"]["CaseNo"],
+      );
+      console.log("proc data pd", procData)
+      submitCase(procData, navigateHome);
+      await createAuditLog('5', '63', 'Start', response.data["CreateCase_Output"]["CaseNo"], currentUser, cleanedApiJson, 'I', token)
+    }
+  };
+
   const checkForAppealsGridData = () => {
     if (!providerInformationGrid?.length ) {
       console.log(providerInformationGrid.data,"prerndataaaaa")
@@ -1359,9 +1668,21 @@ export function convertDateFormatMonthDayYear(inputDateStr) {
   useEffect(() => {
     console.log("abccc--->", location.state);
     if (location.state.formView !== undefined && location.state?.formView === "DashboardView") {
-      location.state.formNames === "Appeals"
-        ? getAngCaseByCaseNumber(true)
-        : location.state.formNames === "Provider Disputes" && getPDCaseByCaseNumber(true);
+      const formNames = location.state.formNames;
+      switch(formNames) {
+        case 'Appeals':
+          getAngCaseByCaseNumber(true)
+          break;
+        case 'Provider Disputes':
+          getPDCaseByCaseNumber(true)
+          break;
+        case 'CTM':
+          getCTMCaseByCaseNumber(true)
+          break;
+      }
+      // location.state.formNames === "Appeals"
+      //   ? getAngCaseByCaseNumber(true)
+      //   : location.state.formNames === "Provider Disputes" && getPDCaseByCaseNumber(true);
     }
   }, []);
   
@@ -2147,6 +2468,91 @@ export function convertDateFormatMonthDayYear(inputDateStr) {
     }
   };
 
+
+
+  const getCTMCaseByCaseNumber = async (callAuditLog) => {
+   
+    let getApiJson = {};
+    getApiJson["tableNames"] = getTableDetails()["ctmTables"];
+    getApiJson["whereClause"] = { caseNumber: location.state.caseNumber };
+
+    try {
+      // Make API request
+      const res = await customAxios.post("/generic/get", getApiJson, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      const apiStat = res.data.Status;
+      const tableNames = getTableDetails()["auditLogTable"];
+      if(callAuditLog) {
+        const logs = await getCaseLogHistory(location.state.caseNumber, token, tableNames);
+        setAuditLogs(logs)
+      }
+     
+
+      // Handle API status errors
+      if (apiStat === -1) {
+        alert("Error in fetching case data.");
+        return;
+      }
+
+      if (apiStat === 0) {
+        const respKeys = Object.keys(res.data.data);
+        const data = res.data.data;
+        respKeys.forEach((k) => {
+              
+              if(k === 'ctmCaseHeader') {
+                data[k].forEach((js) => {
+                  js['Original_Case_Received_Date#date'] = extractDate(new Date(js['Original_Case_Received_Date#date'] ))
+                
+                });
+               
+              }
+                })
+      
+        setCaseHeader(data?.["ctmCaseHeader"]?.[0] || {});
+       
+        setCaseTimelines(data?.["ctmCaseTimelines"]?.[0] || {});
+        
+        setpdCaseInformation(data?.["pdCaseInformation"]?.[0] || {});
+        setctmCtmSummary(data?.["ctmSummary"]?.[0] || {})
+        setCtmCaseCategorization(data?.["ctmCaseCategorization"]?.[0] || {})
+        setPreCloseQAData(data?.["ctmPreCloseQA"]?.[0] || {});
+        setPostCloseQCData(data?.["ctmPostCloseQC"]?.[0] || {});
+        setCtmMemberData(data?.["ctmMemberInformation"]?.[0] || {});
+        setAcknowledgementData(data?.["ctmAcknowledgement"]?.[0] || {});
+        setCtmCaseResolution(data?.["ctmResolution"]?.[0] || {});
+
+        setFormData(_.cloneDeep(data));
+
+        // Update case data in caseData array
+        const caseIDToUpdate = data?.mainTable?.[0]?.CaseID;
+        const indexToUpdate = caseData.data.findIndex(
+          (item) => item?.CaseID === caseIDToUpdate,
+        );
+
+        if (indexToUpdate !== -1) {
+          caseData.data[indexToUpdate] = data?.mainTable?.[0];
+        }
+
+        // Update case information
+        const caseInfoProduct = data?.angCaseInformation?.[0]?.Product;
+        caseInformation["Product"] = caseInfoProduct;
+
+        // Dispatch action to update data
+        dispatch({
+          type: "UPDATE_DATA",
+          payload: {
+            data: caseData.data,
+          },
+        });
+      }
+    } catch (error) {
+      console.error("API request error:", error);
+    }
+  };
+
+
   //save and exit button
    const saveAndExit = async (event) => {
     callProcRef.current = "callProc";
@@ -2813,39 +3219,6 @@ export function convertDateFormatMonthDayYear(inputDateStr) {
       return apiStat;
   };
 
-  //       if (apiStat === 0) {
-  //         alert("Case data updated successfully");
-  //         updateDecision(location, saveType, "Appeals");
-
-  //         let procData = {};
-  //         let procDataState = {};
-  //         procDataState.stageName = location.state.stageName;
-  //         procDataState.flowId = location.state.flowId;
-  //         // procDataState.decisionNotes = decisionTab.Authorization_Case_Notes;
-  //         procDataState.decisionNotes = location.state.decisionNotes;
-  //         procDataState.caseNumber = location.state.caseNumber;
-  //         // procDataState.decision = decisionTab.Authorization_Decision;
-  //         // procDataState.decisionReason = decisionTab.Authorization_Decision_Reason;
-  //         procDataState.decision = location.state.decision;
-  //         procDataState.decisionReason = location.state.decisionReason;
-  //         procDataState.userName = authSelector.userName || "system";
-  //         procDataState.formNames = "Appeals";
-  //         procData.state = procDataState;
-  //         console.log("procDATA for submitcase",procData)
-  //         if(saveType === "SS"){
-  //         alert("Case updated successfully: " + location.state.caseNumber);
-  //         submitCase(procData, navigateHome);
-  //         navigateHome();
-  //         }
-  //         if (saveType === "SE") {
-  //           setTimeout(() => {
-  //             getAngCaseByCaseNumber();
-  //           }, 500);
-  //           navigateHome();
-  //         }
-  //       }
-  //     });
-  // };
 
   const removeDateInKeys = (obj) => { 
     if (typeof obj !== 'object' || obj === null) return obj; 
@@ -3310,6 +3683,131 @@ export function convertDateFormatMonthDayYear(inputDateStr) {
       });
   };
 
+  
+  const ctmSaveAndExit = async (event) => {
+    callProcRef.current = "callProc";
+    const saveType = event.target.name === "saveAndSubmit" ? "SS" : "SE";
+    // const saveType = "SS";
+    if(saveType === "SS"){
+    if(checkForCtmGridData()) {
+      alert("Please fill all mandatory grid data")
+      return;
+    }
+    if (checkForCTMError()?.length > 0) {
+      alert("Please fill all mandatory fields")
+      setShowSubmitError(true);
+      return;
+    }
+      if (!location.state.decision) {
+        alert("Decision is mandatory. Please select a Decision.");
+        return;
+      }
+      if (!location.state.decisionReason) {
+        alert("Decision Reason is mandatory. Please select a Decision Reason.");
+        return;
+      }
+
+  }
+
+    let apiJson = {};
+    const temp = localStorage.getItem('checkBox') == 'true' ?1:0;const checkBoxData = {isChecked : temp};const pdCaseHeader = trimJsonValues({ ...caseHeader });
+      const ctmCaseTimelines = trimJsonValues({ ...caseTimelines });
+	  const ctmPreCloseQA = trimJsonValues({ ...preCloseQAData });
+	  const ctmPostCloseQC = trimJsonValues({ ...postCloseQCData });
+	  const ctmMemberInformation = trimJsonValues({ ...ctmMemberData });
+	  const ctmSummary  = trimJsonValues({ ...ctm_CtmSummary });
+	  const ctmCaseCategorization = trimJsonValues({ ...ctm_CaseCategorization });
+	  const ctmAcknowledgement  = trimJsonValues({ ...acknowledgementData });
+      const ctmResolution  = trimJsonValues({ ...ctmCaseResolution });
+   
+
+  apiJson["CTM_Case_Timelines"]= CompareJSON(
+        ctmCaseTimelines,
+        formData["ctmCaseTimelines"]?.[0],
+      );
+    apiJson["CTM_SUMMARY"]= CompareJSON(
+      ctmSummary,
+      formData["ctmSummary"]?.[0],
+    );
+    apiJson["CTM_Case_Categorization"]= CompareJSON(
+          ctmCaseCategorization,
+          formData["ctmCaseCategorization"]?.[0],
+        );
+    apiJson["CTM_PreCloseQA"]= CompareJSON(
+          ctmPreCloseQA,
+          formData["ctmPreCloseQA"]?.[0],
+        );
+    apiJson["CTM_PostCloseQC"]= CompareJSON(
+              ctmPostCloseQC,
+              formData["ctmPostCloseQC"]?.[0],
+            );
+    apiJson["CTM_Member_Information"]= CompareJSON(
+                  ctmMemberInformation,
+                  formData["ctmMemberInformation"]?.[0],
+                );
+
+    apiJson["Ctm_Acknowledgement"]= CompareJSON(
+                          ctmAcknowledgement,
+                          formData["ctmAcknowledgement"]?.[0],
+                        );
+    apiJson["CTM_Case_Resolution"]= CompareJSON(
+                              ctmResolution,
+                              formData["ctmResolution"]?.[0],
+                            );
+
+    console.log("location.state.caseNumberqqqqqqq", location.state.caseNumber)
+    apiJson["caseNumber"] = location.state.caseNumber;
+    apiJson["userName"] = location.state.userName;
+    const cleanedApiJson = removeDateInKeys(apiJson);
+    customAxios
+        .post("/generic/update", cleanedApiJson, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+      .then(async (res) => {
+        const apiStat = res.data.UpdateCase_Output.Status;
+
+        if (apiStat === -1) {
+          alert("Error in updating data");
+        }
+        if (apiStat === 0) {
+          if (saveType === "SE") {
+            alert("Case data updated successfully");  
+            setTimeout(() => {
+              getCTMCaseByCaseNumber(false); 
+            }, 500);
+            navigateHome();
+          }
+  
+          if (saveType === "SS") {
+            alert("Case updated successfully: " + location.state.caseNumber);
+            updateDecision(location, saveType, "Ctm");
+  
+            let procData = {
+              state: {
+                stageName: location.state.stageName,
+                flowId: location.state.flowId,
+                decisionNotes: location.state.decisionNotes,
+                caseNumber: location.state.caseNumber,
+                decision: location.state.decision,
+                decisionReason: location.state.decisionReason,
+                userName: authSelector.userName || "system",
+                formNames: "Ctm",
+              },
+            };
+            console.log("procDATA for submitcase",procData)
+            submitCase(procData, navigateHome);
+            navigateHome();
+          }
+          await createAuditLog(location.state.flowId, '40', location.state?.stageName?.toLowerCase(),
+          location.state.caseNumber, location.state.userName, cleanedApiJson, 'U', token)
+        }
+      })
+      .catch((err) => {
+        console.error("Error occurred while saving data:", err);
+        alert("Error occurred while saving data");
+      });
+  };
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -3399,6 +3897,7 @@ export function convertDateFormatMonthDayYear(inputDateStr) {
     saveAndExit,
     submitData,
     pdsubmitData,
+    ctmSubmitData,
     potentialDupData,
     apiTestState,
     callProcRef,
@@ -3494,10 +3993,54 @@ export function convertDateFormatMonthDayYear(inputDateStr) {
     setPDClaimInformationFilingGrid,
     setNotesErrors,
     pdsaveAndExit,
+    ctmSaveAndExit,
     ProviderclaimInformation,
     ProviderInformationAppeals,
     scrollToTop,
-    auditLogs
+    ctm_CtmSummary,
+    ctmSummaryValidationSchema,
+    setctmCtmSummary,
+    setCtmCaseCategorization,
+    setCtmSummaryErrorsErrors,
+    auditLogs,
+    ctmSummaryFields,
+    caseCategorizationFields,
+    ctm_CaseCategorization,
+    caseCategorizationValidationSchema,
+    setPreCloseQAData,
+    preCloseQAData,
+    postCloseQCData,
+    setPostCloseQCData,
+    postCloseQCErrors,
+    ctmMemberData,
+    setCtmMemberData,
+    ctmMemberErrors,
+    ctmMemberValidationSchema,
+    preCloseQAValidationSchema,
+    postCloseQCValidationSchema,
+    acknowledgementData,
+    setAcknowledgementData,
+    acknowledgementErrors,
+    acknowledgementValidationSchema,
+    ctmProviderInformationGrid,
+    setCtmProviderInformationGrid,
+    ctmProviderInformationGridValidationSchema,
+    ctmAuthorizationGrid,
+    setCtmAuthGridData,
+    ctmAuthGridValidationSchema,
+    ctmClaimInformationGrid,
+    setCtmClaimInformationGrid,
+    ctmClaimInformationGridRowValidationSchema,
+    ctmRepresentativeGrid,
+    setCtmRepresentativeGrid,
+    ctmRepresentativeGridValidationSchema,
+    ctmCaseResolution,
+    setCtmCaseResolution,
+    ctmCaseResolutionValidationSchema,
+    ctmCaseResolutionErrors,
+    ctmRepGridData,
+    setCtmRepGridData,
+
   };
  };
 export default useHeader;

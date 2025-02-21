@@ -125,7 +125,18 @@ export default function useGetDBTables() {
         "PD_Notes~pNotes",
       ],
       auditLogTable: ["AuditLog~auditLog"],
-      LetterStatusTable: ["DocuSignData~docuSignData"]
+      LetterStatusTable: ["DocuSignData~docuSignData"],
+      ctmTables:[
+        "CTM_Summary~ctmSummary",
+        "CTM_PreCloseQA~ctmPreCloseQA",
+        "CTM_PostCloseQC~ctmPostCloseQC",
+        "CTM_Member_Information~ctmMemberInformation",
+        "CTM_Case_Resolution~ctmCaseResolution",
+        "Ctm_Acknowledgement~ctmAcknowledgement",
+        "CTM_Case_Categorization~ctmCaseCategorization",
+        "CTM_Case_Timelines~ctmCaseTimelines",
+       ],
+      auditLogTable: ["AuditLog~auditLog"]
     };
     return tableJson;
   };

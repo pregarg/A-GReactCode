@@ -133,39 +133,14 @@ export default function AuditLogsModal(props) {
   
   
   // Clean up payload data to exclude unwanted keys and empty values
-  // const cleanUpPayload = (obj) => {
-  //   if (!obj || typeof obj !== "object") return;
-  
-  //   Object.keys(obj).forEach((key) => {
-  //     // Remove "case_aging" explicitly and any other excluded keys
-  //     if (EXCLUDED_KEYS.includes(key) || key === "caseNumber" || key === "rowNumber" || key === "case_aging") {
-  //       delete obj[key]; // Remove the unwanted key
-  //     } else if (Array.isArray(obj[key])) {
-  //       // If the value is an array, iterate through its items
-  //       obj[key] = obj[key].filter((item) => {
-  //         if (typeof item === "object") {
-  //           // Remove unwanted keys from objects in the array
-  //           EXCLUDED_KEYS.forEach((excludedKey) => delete item[excludedKey]);
-  //           delete item.caseNumber;
-  //           delete item.rowNumber;
-  //           delete item.case_aging; // Explicitly remove "case_aging" from array items
-  //         }
-  //         return Object.keys(item).length > 0; // Keep items with non-empty properties
-  //       });
-  //       if (obj[key].length === 0) delete obj[key]; // Remove the array if it's empty
-  //     } else if (typeof obj[key] === "object") {
-  //       // If the value is a nested object, clean it recursively
-  //       cleanUpPayload(obj[key]);
-  //       if (Object.keys(obj[key]).length === 0) delete obj[key]; // Remove the object if it's empty
-  //     }
-  //   });
-  // };
-  
+ 
   const cleanUpPayload = (obj) => {
     if (!obj || typeof obj !== "object") return;
 
     Object.keys(obj).forEach((key) => {
-        // Remove "case_aging", "maincase", and any other excluded keys
+        const value = obj[key];
+
+        // Remove unwanted keys
         if (
             EXCLUDED_KEYS.includes(key) ||
             key.toLowerCase() === "maincase" ||
@@ -174,32 +149,42 @@ export default function AuditLogsModal(props) {
             key === "case_aging" ||
             key === "MainCaseTable" // Explicitly remove MainCaseTable
         ) {
-            delete obj[key]; // Remove the unwanted key
-        } else if (Array.isArray(obj[key])) {
-            // If the value is an array, iterate through its items
-            obj[key] = obj[key].filter((item) => {
-                if (typeof item === "object") {
-                    // Remove unwanted keys and 'MainCaseTable' data from objects in the array
-                    EXCLUDED_KEYS.forEach((excludedKey) => delete item[excludedKey]);
-                    if (item.MainCaseTable) delete item.MainCaseTable; // Remove MainCaseTable
-                    delete item.caseNumber;
-                    delete item.rowNumber;
-                    delete item.case_aging; // Explicitly remove "case_aging" from array items
-                }
-                return Object.keys(item).length > 0; // Keep items with non-empty properties
-            });
-            if (obj[key].length === 0) delete obj[key]; // Remove the array if it's empty
-        } else if (typeof obj[key] === "object") {
+            delete obj[key];
+        } else if (Array.isArray(value)) {
+            // If the value is an array, filter its items
+            obj[key] = value
+                .map((item) => {
+                    if (typeof item === "object") {
+                        // Clean each object in the array
+                        EXCLUDED_KEYS.forEach((excludedKey) => delete item[excludedKey]);
+                        delete item.MainCaseTable;
+                        delete item.caseNumber;
+                        delete item.rowNumber;
+                        delete item.case_aging;
+                        cleanUpPayload(item);
+                    }
+                    return item;
+                })
+                .filter((item) => {
+                    // Remove empty objects and falsy values
+                    return (
+                        (typeof item === "object" && Object.keys(item).length > 0) ||
+                        (typeof item !== "object" && item)
+                    );
+                });
+
+            if (obj[key].length === 0) delete obj[key]; // Remove empty arrays
+        } else if (typeof value === "object") {
             // If the value is a nested object, clean it recursively
-            if (key === "MainCaseTable") {
-                delete obj[key]; // Remove MainCaseTable if found as a nested object
-            } else {
-                cleanUpPayload(obj[key]);
-                if (Object.keys(obj[key]).length === 0) delete obj[key]; // Remove the object if it's empty
-            }
+            cleanUpPayload(value);
+            if (Object.keys(value).length === 0) delete obj[key]; // Remove empty objects
+        } else if (value === null || value === undefined || value === "") {
+            // Remove keys with null, undefined, or empty string values
+            delete obj[key];
         }
     });
 };
+
 
   
 

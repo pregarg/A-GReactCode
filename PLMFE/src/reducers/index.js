@@ -1041,6 +1041,15 @@ const masterPDDecisionReducer = (state = [], action) => {
   }
   return state;
 };
+const masterCTMDecisionReducer = (state = [], action) => {
+  if (action.type === "GET_CTM_DECISION") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_CTM_DECISION") {
+    state = [];
+    return state;
+  }
+  return state;
+};
 const masterPDAuthStatusReducer = (state = [], action) => {
   if (action.type === "GET_PD_AUTH_STATUS") {
     return [action.payload];
@@ -1240,6 +1249,7 @@ export default combineReducers({
   masterPDAuthType:masterPDAuthTypeReducer,
   masterPDGoodCauseReason:masterPDGoodCauseReasonReducer,
   masterPDDecision:masterPDDecisionReducer,
+  masterCTMDecision:masterCTMDecisionReducer,
   masterPDDocument:masterPDDocumentReducer,
   masterPDAuthStatus:masterPDAuthStatusReducer,
   masterPDcptDescription:masterPDcptDescriptionReducer,

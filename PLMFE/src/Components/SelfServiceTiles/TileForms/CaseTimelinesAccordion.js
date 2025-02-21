@@ -17,8 +17,12 @@ const CaseTimelinesAccordion = (props) => {
   const providerDisputeConfigData = JSON.parse(
     process.env.REACT_APP_PROVIDERDISPUTES_DETAILS || "{}",
   );
+const ctmConfigData = JSON.parse(process.env.REACT_APP_CTMHEADER_DETAILS);
+
+
   const appealsStageName = caseHeaderConfigData["StageName"];
   const PDStageName = providerDisputeConfigData["StageName"];
+  const CtmStageName = ctmConfigData["StageName"]
 
   const { convertToCase } = useGetDBTables();
   const [caseTimelinesData, setCaseTimelinesData] = useState(
@@ -129,11 +133,11 @@ const CaseTimelinesAccordion = (props) => {
       />
     </div>
   );
-  const renderSelectField = (name, placeholder, options) => {
+  const renderSelectField = (name, placeholder, options,opts = []) => {
     const isDashboardView = 
       location.state.formView === "DashboardView" || 
       location.state.formView === "DashboardHomeView";
-  
+
     const isAppealsDisabled = 
       props.renderType === RenderType.APPEALS &&
       isDashboardView &&
@@ -175,7 +179,7 @@ const CaseTimelinesAccordion = (props) => {
           name={name}
           placeholder={placeholder}
           data={caseTimelinesData}
-          options={options}
+           options={opts?.map(opt => ({ value: opt, label: opt }))}
           onChange={handleCaseTimelinesData}
           displayErrors={props.shouldShowSubmitError}
           disabled={disabled}

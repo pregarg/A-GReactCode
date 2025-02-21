@@ -136,6 +136,7 @@ export default function DashboardHomepage() {
     Contracting: [],
     Appealing: [],
     ProviderDisputes: [],
+    Ctm: []
   });
 
   const [advancedSearchState, setAdvancedSearchState] = useState(false);
@@ -592,8 +593,10 @@ export default function DashboardHomepage() {
           let respData = [...res.data.CallProcedure_Output.data];
           let appealFiltered = respData.filter((elem) => elem.FLOWID === 3);
           let providerDisputeFiltered = respData.filter((elem) => elem.FLOWID === 4);
+          let ctmFiltered = respData.filter((elem) => elem.FLOWID === 5);
           chartData.Appealing = appealFiltered;
           chartData.ProviderDisputes = providerDisputeFiltered;
+          chartData.Ctm = ctmFiltered;
           setProvChartData(chartData);
         }
       })
@@ -800,6 +803,7 @@ export default function DashboardHomepage() {
         "ancillary/facility modification":
           "/DashboardLogin/AncillaryFacilityModification",
         appeals: "/DashboardLogin/Appeals",
+        ctm: "/DashboardLogin/Ctm",
         "provider disputes": "/DashboardLogin/ProviderDisputes",
         "payto modification": "/DashboardLogin/GroupPayToModification",
         "address modification": "/DashboardLogin/GroupAddressModification",
@@ -922,7 +926,9 @@ export default function DashboardHomepage() {
       filteringTableData(provContChartRef.current, caseStat);
     }
     
-    
+    if (gridName === "CTM") {
+          filteringTableData(provContChartRef.current, caseStat);
+        }
 
   };
 
@@ -963,7 +969,7 @@ export default function DashboardHomepage() {
     }
     const transactionType = tableData[0].TransactionType;
     let columnNames ="";
-    if (transactionType === "Provider Disputes" || transactionType === "Appeals") {   
+    if (transactionType === "Provider Disputes" || transactionType === "Appeals" || transactionType === "CTM") {
       console.log("table transactiontype",transactionType)
       columnNames = "Case#~CaseNumber,Transaction Type~TransactionType,Current Stage~StageName,Previous Stage~PreviousStage,Case Received Date~Createddatetime#date";
     }
@@ -1707,6 +1713,22 @@ export default function DashboardHomepage() {
 
                   <ListItemButton
                     sx={{ ml: 4, fontSize: "25px" }}
+                    onClick={() => {
+                      formNavigation("CTM");
+                    }}
+                  >
+                    <ListItemIcon>{<TbAmbulance />}</ListItemIcon>
+                    <ListItemText
+                      secondary={
+                        <Typography {...innerTypoStyles}>
+                          CTM
+                        </Typography>
+                      }
+                    />
+                  </ListItemButton>
+
+                  <ListItemButton
+                    sx={{ ml: 4, fontSize: "25px" }}
                     onClick={() => formNavigation("Termination")}
                   >
                     <ListItemIcon>{<BsTerminalX />}</ListItemIcon>
@@ -2042,6 +2064,32 @@ export default function DashboardHomepage() {
               <DashboardBarChart
                 gridData={provChartData.ProviderDisputes}
                 gridName={"ProviderDisputes"}
+                dashboardTableData={getDashboardTableData}
+                isRender={donutRender}
+              ></DashboardBarChart>
+            )}
+          </div>
+        </div>
+      </div>
+    </Grid>
+
+    <Grid item md={6}>
+      <div
+        className="card"
+        style={{
+          height: "auto",
+          borderTop: "5px solid var(--text)",
+        }}
+      >
+        <div className="card-body">
+          <div className="card-title" style={{ textAlign: "left" }}>
+            CTM Cases
+          </div>
+          <div className="card-text my-2">
+            {provChartData.Ctm.length > 0 && (
+              <DashboardBarChart
+                gridData={provChartData.Ctm}
+                gridName={"Ctm"}
                 dashboardTableData={getDashboardTableData}
                 isRender={donutRender}
               ></DashboardBarChart>

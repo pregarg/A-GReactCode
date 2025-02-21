@@ -1,3 +1,160 @@
+//import React, { useEffect, useState } from "react";
+//import Chart from "react-apexcharts";
+//import { useNavigate } from "react-router-dom";
+//import { paramMap } from "../../Components/SelfServiceTiles/TileForms/Constants";
+//
+//export default function DashboardBarChart(prop) {
+//  const colors = [
+//    "#F44336",
+//    "#E91E63",
+//    "#9C27B0",
+//    "#F75D59",
+//    "#EB5406",
+//    "#797979",
+//    "#488AC7",
+//    "#5E5A80",
+//    "#227442",
+//    "#045D5D",
+//  ];
+//
+//  const navigate = useNavigate();
+//
+//  const saveParamsToStorage = (type, flowId) => {
+//    localStorage.setItem('type', type)
+//    localStorage.setItem('flowId', flowId)
+//  }
+//
+//  const [chartState, setChartState] = useState({
+//    series: [
+//      {
+//        name: "Case Count",
+//        data: [],
+//      },
+//    ],
+//    options: {
+//      chart: {
+//        height: 350,
+//        type: "bar",
+//        events: {
+//          dataPointSelection: function (chart, w, e) {
+//            const clickedIndex = e.dataPointIndex;
+//            console.log("Clicked on chart datapointindex: ", clickedIndex);
+//            console.log("pravgriddata", prop);
+//            if (clickedIndex !== -1) {
+//              const stageName = prop.gridData[clickedIndex]["STAGENAME"];
+//              const flowId = prop.gridData[clickedIndex]["FLOWID"];
+//
+//              const paramKeys = Object.keys(paramMap);
+//             const paramKey = paramKeys.find(key => paramMap[key].label?.trim()?.toLowerCase() === stageName?.trim()?.toLowerCase());
+//             if(paramKey) {
+//              saveParamsToStorage(paramKey, flowId);
+//              navigate(`/DashboardLogin/Home?type=${paramKey}&flowId=${flowId}`, { replace: true });
+//             }
+//
+//             // prop.dashboardTableData(stageName, flowId);
+//            }
+//          },
+//          xAxisLabelClick: function (event, chartContext, config) {
+//            const clickedIndex = config.labelIndex;
+//            if (clickedIndex !== -1) {
+//              const stageName = prop.gridData[clickedIndex]["STAGENAME"];
+//              const flowId = prop.gridData[clickedIndex]["FLOWID"];
+//              const paramKeys = Object.keys(paramMap);
+//              const paramKey = paramKeys.find(key => paramMap[key].label?.trim()?.toLowerCase() === stageName?.trim()?.toLowerCase());
+//              if(paramKey) {
+//                saveParamsToStorage(paramKey, flowId);
+//               navigate(`/DashboardLogin/Home?type=${paramKey}&flowId=${flowId}`, { replace: true });
+//              }
+//            //  prop.dashboardTableData(stageName, flowId);
+//            }
+//          },
+//        },
+//      },
+//      colors: colors,
+//      plotOptions: {
+//        bar: {
+//          columnWidth: "45%",
+//          distributed: true,
+//          dataLabels: {
+//            position: "top",
+//          },
+//        },
+//      },
+//      dataLabels: {
+//        enabled: true,
+//        dropShadow: {
+//          enabled: true,
+//          opacity: 0.5,
+//          color: "#000000",
+//        },
+//      },
+//      legend: {
+//        show: false,
+//      },
+//      xaxis: {
+//        categories: [],
+//        labels: {
+//          style: {
+//            colors: colors,
+//            fontSize: "12px",
+//          },
+//        },
+//      },
+//    },
+//  });
+//
+//  let seriesData = [];
+//  let labelData = [];
+//
+//  useEffect(() => {
+//    populateChartOptions(prop.gridData);
+//  }, [JSON.stringify(prop.gridData)]);
+//
+//  const populateChartOptions = (gridData) => {
+//    let chartCategories = [];
+//    let series = [];
+//
+//    gridData.forEach((element) => {
+//      series.push(element.COUNT);
+//      let catgry = element.STAGENAME.split(" ");
+//      chartCategories.push(catgry);
+//    });
+//
+//    let chartJson = {
+//      series: [
+//        {
+//          data: series,
+//        },
+//      ],
+//      options: {
+//        xaxis: {
+//          categories: chartCategories,
+//          labels: {
+//            style: {
+//              colors: colors,
+//              fontSize: "9.5px",
+//            },
+//          },
+//        },
+//      },
+//    };
+//    setChartState(chartJson);
+//  };
+//
+//  return (
+//    <>
+//      <div className="donut">
+//        <Chart
+//          options={chartState.options}
+//          series={chartState.series}
+//          type="bar"
+//          width="100%"
+//          height={230}
+//        />
+//      </div>
+//    </>
+//  );
+//}
 import React, { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
 import { useNavigate } from "react-router-dom";
@@ -5,32 +162,19 @@ import { paramMap } from "../../Components/SelfServiceTiles/TileForms/Constants"
 
 export default function DashboardBarChart(prop) {
   const colors = [
-    "#F44336",
-    "#E91E63",
-    "#9C27B0",
-    "#F75D59",
-    "#EB5406",
-    "#797979",
-    "#488AC7",
-    "#5E5A80",
-    "#227442",
-    "#045D5D",
+    "#F44336", "#E91E63", "#9C27B0", "#F75D59", "#EB5406",
+    "#797979", "#488AC7", "#5E5A80", "#227442", "#045D5D"
   ];
 
   const navigate = useNavigate();
 
   const saveParamsToStorage = (type, flowId) => {
-    localStorage.setItem('type', type)
-    localStorage.setItem('flowId', flowId)
-  }
+    localStorage.setItem("type", type);
+    localStorage.setItem("flowId", flowId);
+  };
 
   const [chartState, setChartState] = useState({
-    series: [
-      {
-        name: "Case Count",
-        data: [],
-      },
-    ],
+    series: [{ name: "Case Count", data: [] }],
     options: {
       chart: {
         height: 350,
@@ -38,34 +182,18 @@ export default function DashboardBarChart(prop) {
         events: {
           dataPointSelection: function (chart, w, e) {
             const clickedIndex = e.dataPointIndex;
-            console.log("Clicked on chart datapointindex: ", clickedIndex);
-            console.log("pravgriddata", prop);
-            if (clickedIndex !== -1) {
+            if (clickedIndex !== -1 && prop.gridData?.[clickedIndex]) {
               const stageName = prop.gridData[clickedIndex]["STAGENAME"];
               const flowId = prop.gridData[clickedIndex]["FLOWID"];
 
-              const paramKeys = Object.keys(paramMap);
-             const paramKey = paramKeys.find(key => paramMap[key].label?.trim()?.toLowerCase() === stageName?.trim()?.toLowerCase());
-             if(paramKey) {
-              saveParamsToStorage(paramKey, flowId);
-              navigate(`/DashboardLogin/Home?type=${paramKey}&flowId=${flowId}`, { replace: true });
-             }
+              const paramKey = Object.keys(paramMap).find(
+                key => paramMap[key].label?.trim()?.toLowerCase() === stageName?.trim()?.toLowerCase()
+              );
 
-             // prop.dashboardTableData(stageName, flowId);
-            }
-          },
-          xAxisLabelClick: function (event, chartContext, config) {
-            const clickedIndex = config.labelIndex;
-            if (clickedIndex !== -1) {
-              const stageName = prop.gridData[clickedIndex]["STAGENAME"];
-              const flowId = prop.gridData[clickedIndex]["FLOWID"];
-              const paramKeys = Object.keys(paramMap);
-              const paramKey = paramKeys.find(key => paramMap[key].label?.trim()?.toLowerCase() === stageName?.trim()?.toLowerCase());
-              if(paramKey) {
+              if (paramKey) {
                 saveParamsToStorage(paramKey, flowId);
-               navigate(`/DashboardLogin/Home?type=${paramKey}&flowId=${flowId}`, { replace: true });
+                navigate(`/DashboardLogin/Home?type=${paramKey}&flowId=${flowId}`, { replace: true });
               }
-            //  prop.dashboardTableData(stageName, flowId);
             }
           },
         },
@@ -75,83 +203,61 @@ export default function DashboardBarChart(prop) {
         bar: {
           columnWidth: "45%",
           distributed: true,
-          dataLabels: {
-            position: "top",
-          },
+          dataLabels: { position: "top" },
         },
       },
       dataLabels: {
         enabled: true,
-        dropShadow: {
-          enabled: true,
-          opacity: 0.5,
-          color: "#000000",
-        },
+        dropShadow: { enabled: true, opacity: 0.5, color: "#000000" },
       },
-      legend: {
-        show: false,
-      },
+      legend: { show: false },
       xaxis: {
         categories: [],
-        labels: {
-          style: {
-            colors: colors,
-            fontSize: "12px",
-          },
-        },
+        labels: { style: { colors: colors, fontSize: "12px" } },
       },
     },
   });
 
-  let seriesData = [];
-  let labelData = [];
-
   useEffect(() => {
-    populateChartOptions(prop.gridData);
+    if (prop.gridData) {
+      populateChartOptions(prop.gridData);
+    }
   }, [JSON.stringify(prop.gridData)]);
 
   const populateChartOptions = (gridData) => {
+    if (!Array.isArray(gridData)) {
+      console.error("Error: gridData is not an array", gridData);
+      return;
+    }
+
     let chartCategories = [];
-    let series = [];
+    let seriesData = [];
 
     gridData.forEach((element) => {
-      series.push(element.COUNT);
-      let catgry = element.STAGENAME.split(" ");
-      chartCategories.push(catgry);
+      seriesData.push(element?.COUNT || 0);
+      chartCategories.push(element?.STAGENAME?.split(" ") || "Unknown");
     });
 
-    let chartJson = {
-      series: [
-        {
-          data: series,
-        },
-      ],
+    setChartState({
+      series: [{ data: seriesData }],
       options: {
         xaxis: {
           categories: chartCategories,
-          labels: {
-            style: {
-              colors: colors,
-              fontSize: "9.5px",
-            },
-          },
+          labels: { style: { colors: colors, fontSize: "9.5px" } },
         },
       },
-    };
-    setChartState(chartJson);
+    });
   };
 
   return (
-    <>
-      <div className="donut">
-        <Chart
-          options={chartState.options}
-          series={chartState.series}
-          type="bar"
-          width="100%"
-          height={230}
-        />
-      </div>
-    </>
+    <div className="donut">
+      <Chart
+        options={chartState.options}
+        series={chartState.series}
+        type="bar"
+        width="100%"
+        height={230}
+      />
+    </div>
   );
 }

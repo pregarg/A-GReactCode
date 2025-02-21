@@ -32,6 +32,7 @@ import Layout from "./Components/Home/Layout";
 import Home from "./Components/Home/Home";
 import { useSelector } from "react-redux";
 import DashboardHome from "./WorkItemDashboard/DashboardHome/DashboardHome";
+import CtmHeader from "./Components/SelfServiceTiles/TileForms/CtmHeader";
 
 function App() {
   let prop = useLocation();
@@ -96,6 +97,12 @@ function App() {
                     path="Appeals"
                     element={<CaseHeader />}
                     key={"caseHeader"}
+                  ></Route>,
+                  <Route
+                    exact
+                    path="CTM"
+                    element={<CtmHeader />}
+                    key={"ctmHeader"}
                   ></Route>,
                   // <Route exact path="GroupPayToModification" element = {<GroupPayTo />} key={'groupPay'}></Route>,
                   // <Route exact path="GroupAddressModification" element = {<GroupAddress />} key={'groupAddress'}></Route>,
@@ -198,6 +205,17 @@ function App() {
                 element={<Layout />}
                 children={[
                   <Route path="" element={<CaseHeader />} key={"dash"}></Route>,
+                ]}
+              ></Route>,
+              <Route
+                path="CTM"
+                element={<Layout />}
+                children={[
+                  <Route
+                    path=""
+                    element={<CtmHeader />}
+                    key={"dash"}
+                  ></Route>
                 ]}
               ></Route>,
               <Route

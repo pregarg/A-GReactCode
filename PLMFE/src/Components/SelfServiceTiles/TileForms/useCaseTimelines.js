@@ -42,8 +42,8 @@ export const useCaseTimelines = (renderType) => {
       label: convertToCase(e),
       value: convertToCase(e),
     });
-    
-    
+
+
 
     const caseFilling = masterAngCaseFilingMethodSelector?.[0] || [];
     setCaseFilingMethodValues(
@@ -104,16 +104,16 @@ export const useCaseTimelines = (renderType) => {
         name: "Case_Aging",
         placeholder: "Case Aging",
         maxLength: 16,
-        renderTypes: [RenderType.APPEALS, RenderType.PROVIDER_DISPUTE],
+        renderTypes: [RenderType.APPEALS, RenderType.PROVIDER_DISPUTE,RenderType.CTM],
       },
       {
         type: "input",
         name: "Compliance_Time_Left_to_Finish",
         placeholder: "Compliance Time Left to Finish",
         maxLength: 50,
-        renderTypes: [RenderType.APPEALS, RenderType.PROVIDER_DISPUTE],
+        renderTypes: [RenderType.APPEALS, RenderType.PROVIDER_DISPUTE,RenderType.CTM],
       },
-      
+
       {
         type: "select",
         name: "Case_Filing_Method",
@@ -126,14 +126,15 @@ export const useCaseTimelines = (renderType) => {
           ),
         },
       },
-      
-      
+
+
       {
-        type: "input",
+        type: "select",
         name: "Acknowledgment_Timely",
         placeholder: "Acknowledgement Timely",
-        maxLength: 16,
-        renderTypes: [RenderType.APPEALS, RenderType.PROVIDER_DISPUTE],
+        values: caseInComplianceValues,
+//        options: ["Yes", "No"],
+        renderTypes: [RenderType.APPEALS, RenderType.PROVIDER_DISPUTE, RenderType.CTM],
         validation: {
           [RenderType.APPEALS]: Yup.string().required(
             "Case Acknowledgment Timely is mandatory",
@@ -155,7 +156,7 @@ export const useCaseTimelines = (renderType) => {
         name: "Timeframe_Extended",
         placeholder: "Timeframe Extended",
         values: timeFrameExtendedValues,
-        renderTypes: [RenderType.PROVIDER_DISPUTE],        
+        renderTypes: [RenderType.PROVIDER_DISPUTE],
       },
       {
         type: "select",
@@ -163,7 +164,7 @@ export const useCaseTimelines = (renderType) => {
         placeholder: "Case in Compliance",
         defaultValue: "NO",
         values: caseInComplianceValues,
-        renderTypes: [RenderType.PROVIDER_DISPUTE],
+        renderTypes: [RenderType.PROVIDER_DISPUTE, RenderType.CTM],
         validation: {
           [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
               "Case in Compliance is mandatory",
@@ -272,6 +273,14 @@ export const useCaseTimelines = (renderType) => {
           ),
         },
       },
+        {
+            type: "select",
+            name: "Resolution_Performed_Timely?",
+            placeholder: "Resolution Performed Timely",
+            values: caseInComplianceValues,
+//            options: ["Yes", "No"],
+            renderTypes: [RenderType.CTM],
+          }
     ].filter((e) => e.renderTypes.includes(renderType));
 
     const caseTimelinesObject = fields.reduce((acc, field) => {
@@ -280,7 +289,7 @@ export const useCaseTimelines = (renderType) => {
     }, { caseNumber: caseTimelines.caseNumber });
 
     setCaseTimelinesFields(fields);
-    
+
     setCaseTimelines(caseTimelinesObject);
     setCaseTimelinesValidationSchema(
       Yup.object().shape({

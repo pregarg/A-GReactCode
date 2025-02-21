@@ -140,7 +140,7 @@ export default function DecisionTab(props) {
   // };
   const handleSelectChange = (selectedValue, evnt) => {
     const { name } = evnt;
-    if (name === "decision") {
+    if (name === "decision" && decisonReasonRef.current) {
 
       prop.state.decision = selectedValue?.value;
       decisonReasonRef.current.clearValue();
@@ -175,6 +175,18 @@ export default function DecisionTab(props) {
         }
       }
     }
+    if (prop.state.formNames === "CTM") {
+
+          if (selectedValue?.value) {
+            if (decisionReasonArray[stageName]) {
+              setReasonSelectValues([
+                ...decisionReasonArray[stageName][selectedValue?.value],
+              ]);
+            } else {
+              setReasonSelectValues([]);
+            }
+          }
+        }
     setDecisionState({ ...decisionState, [name]: selectedValue });
   };
 
@@ -369,6 +381,9 @@ export default function DecisionTab(props) {
   const masterPDDocumentSelector = useSelector(
     (state) => state?.masterPDDocument,
   );
+//  const masterCTMocumentSelector = useSelector(
+//      (state) => state?.masterCTMDocument,
+//    );
 
   const [documentData, setDocumentData] = useState([]);
 
@@ -497,7 +512,10 @@ export default function DecisionTab(props) {
 
   //   if (decisonRef.current !== null) {
   //     // && tabInput?.buttonClicked !== "callProc"
-  //     decisonRef.current.clearValue();
+  //     deci
+  // 
+  // 
+  // sonRef.current.clearValue();
   //   }
 
   //   // Decision Dropdown
@@ -571,7 +589,7 @@ export default function DecisionTab(props) {
 
     console.log("stageName--->", stageName);
 
-    if (decisonRef.current !== null) {
+    if (decisonRef.current) {
       // Clear the value if necessary
       decisonRef.current.clearValue();
     }
@@ -588,7 +606,14 @@ export default function DecisionTab(props) {
       if (mastersSelector.hasOwnProperty("masterPDDecision")) {
         decisionMaster = mastersSelector["masterPDDecision"];
       }
+      
     }
+    else if (prop.state.formNames === "CTM") {
+      console.log("Form is Ctm");
+if (mastersSelector.hasOwnProperty("masterCTMDecision")) {
+        decisionMaster = mastersSelector["masterCTMDecision"];
+}
+}
     if (Array.isArray(decisionMaster)) {
       selectJson.decisionOptions = decisionMaster[0] || [];
 
@@ -634,8 +659,8 @@ export default function DecisionTab(props) {
       } else {
         console.error("selectJson.decisionOptions is not an array");
       }
-    }
 
+}
     console.log("decision options", decisionOptions);
     console.log("mapped object", mappedObject);
 
@@ -1019,7 +1044,7 @@ export default function DecisionTab(props) {
     } else if (prop.state.formNames === "Provider Disputes" && masterPDDocumentSelector) {
       selectJson.docOptions = masterPDDocumentSelector.length === 0 ? [] : masterPDDocumentSelector[0];
     }
-  
+
     // If document options exist, filter and push them into documentNames
     if (selectJson.docOptions) {
       selectJson["docOptions"]
@@ -1607,7 +1632,7 @@ export default function DecisionTab(props) {
                       )}
                     </div>
 
-                    {(prop.state.formNames === "Appeals" || prop.state.formNames === "Provider Disputes") && (
+                    {(prop.state.formNames === "Appeals" || prop.state.formNames === "Provider Disputes" ||prop.state.formNames === "CTM" ) && (
                       <div className="col-xs-12 col-md-4">
                         <label>Decision Reason</label>
                         <Select

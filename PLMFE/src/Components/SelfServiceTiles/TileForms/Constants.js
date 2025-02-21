@@ -28,7 +28,7 @@ export const renderElements = (
       {chunk.map((item) => {
         return (
           (item.type === "select" &&
-            renderSelectField(item.name, item.placeholder, item.values)) ||
+            renderSelectField(item.name, item.placeholder, item.values, item.options)) ||
           (item.type === "input" &&
             renderInputField(item.name, item.placeholder, item.maxLength)) ||
           (item.type === "date" &&

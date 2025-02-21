@@ -114,6 +114,7 @@ import {
   getStageName,
   getViewReportsData,
   getAllUsers,
+  getMasterCTMDecision,
 } from "../actions/index";
 import useUpdateDecision from "../Components/CustomHooks/useUpdateDecision";
 import svgImage from "../Components/wave.svg";
@@ -972,6 +973,14 @@ export default function DashboardLogin() {
         onMasterLoadSuccess,
       ),
     );
+    dispatch(
+          getMasterCTMDecision(
+            loginToken,
+            false,
+            onMasterLoadFail,
+            onMasterLoadSuccess,
+          ),
+        );
     dispatch(
       getMasterPDDocuments(
         loginToken,

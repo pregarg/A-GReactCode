@@ -35,8 +35,6 @@ const MemberInformationAccordion = (props) => {
   const { customAxios: axios } = useAxios();
   const [selectedAddress, setSelectedAddress] = useState([]);
   const [whiteGloveIndicator, setWhiteGloveIndicator] = useState(props.memberInformationData?.isChecked === '1');
-  // const [whiteGloveReason, setWhiteGloveReason] = useState("");
-  // const [whiteGloveCancelledReason, setWhiteGloveCancelledReason] = useState("");
   const [whiteGloveIndicatorInitialized, setWhiteGloveIndicatorInitialized] =
     useState(false);
 

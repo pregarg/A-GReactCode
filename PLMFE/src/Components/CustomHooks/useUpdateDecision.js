@@ -32,7 +32,7 @@ export default function useUpdateDecision() {
     const decsn =
       location.state.decision === undefined ? "" : location.state.decision;
     let procInput = {};
-    if (transactionType === "Appeals" || transactionType === "Provider Disputes" ) {
+    if (transactionType === "Appeals" || transactionType === "Provider Disputes" || transactionType === "CTM" ) {
       procInput["DECISION_REASON"] = location.state.decisionReason
         ? location.state.decisionReason
         : "";

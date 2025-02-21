@@ -32,6 +32,7 @@ const PdCaseInformationAccordion = (props) => {
   const { getRowNumberForGrid } = useUpdateDecision();
   const [caseInformationGridData,setcaseInformationGridData,] = useState(props.handlecaseInformationGridData);
   const [gridFieldTempState, setGridFieldTempState] = useState({});
+   const isCTM = props.renderType === RenderType.CTM;
   const tabRef = useRef("HomeView");
   let prop = useLocation();
   const fetchAutoPopulate = useRef(false);
