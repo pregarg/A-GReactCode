@@ -80,7 +80,7 @@ const CtmPostCloseQC = (props) => {
   );
 
   const renderSelectField = (name, placeholder, options) => (
-    <div className="col-xs-6 col-md-4 mb-3">
+    <div className="col-xs-6 col-md-4">
       <FormikSelectField
         name={name}
         placeholder={placeholder}
@@ -140,6 +140,11 @@ const CtmPostCloseQC = (props) => {
                 { value: "Reject", label: "Reject" }
               ])}
             </div>
+            <div className="row my-2">
+                          {renderDatePicker("QC_Decision_Date", "QC Decision Date","QC Decision Date")}
+                          {renderInputField("QC_Notes", "QC Notes", 4000)}
+                          {renderInputField("QC_Score", "QC Score", 5)}
+                        </div>
             <div className="sub-title">QC Review Notes</div>
             <div className="row my-2">
               {renderInputField("First_Review_Comments", "1st Review Comments", 4000)}

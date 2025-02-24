@@ -475,6 +475,7 @@ const [ctmCaseResolution, setCtmCaseResolution] = useState({
   const [ctmAuthorizationGrid, setCtmAuthGridData] = useState([])
   const [ctmClaimInformationGrid, setCtmClaimInformationGrid] = useState([]);
   const [ctmRepresentativeGrid, setCtmRepresentativeGrid] = useState([]);
+  const [ctmMultipleIssueGrid, setCtmMultipleIssueGrid] = useState([]);
 
   const [searchParams] = useSearchParams();
   const [authorizationInformationGrid, setAuthorizationInformationGrid] =
@@ -785,6 +786,7 @@ const CtmmemberInformationValidationSchema = Yup.object().shape({ });
 const ctmAuthGridValidationSchema = Yup.object().shape({});
 //const ctmClaimInformationGridRowValidationSchema = Yup.object().shape({ });
 const ctmRepresentativeGridValidationSchema = Yup.object().shape({ });
+const ctmMultiGridValidationSchema = Yup.object().shape({ });
 const ctmCaseResolutionValidationSchema = Yup.object().shape({ });
 
 
@@ -1357,6 +1359,7 @@ const checkForCTMError = () => {
 
     const ctmAcknowledgement = trimJsonValues({ ...acknowledgementData });
     apiJson["Ctm_Acknowledgement"] = ctmAcknowledgement;
+
 
     apiJson["MainCaseTable"] = mainCaseReqBody;
 
@@ -2484,6 +2487,7 @@ const checkForCTMError = () => {
 
       const apiStat = res.data.Status;
       const tableNames = getTableDetails()["auditLogTable"];
+
       if(callAuditLog) {
         const logs = await getCaseLogHistory(location.state.caseNumber, token, tableNames);
         setAuditLogs(logs)
@@ -2506,7 +2510,7 @@ const checkForCTMError = () => {
                   js['Original_Case_Received_Date#date'] = extractDate(new Date(js['Original_Case_Received_Date#date'] ))
                 
                 });
-               
+
               }
                 })
       
@@ -3719,7 +3723,7 @@ const checkForCTMError = () => {
 	  const ctmCaseCategorization = trimJsonValues({ ...ctm_CaseCategorization });
 	  const ctmAcknowledgement  = trimJsonValues({ ...acknowledgementData });
       const ctmResolution  = trimJsonValues({ ...ctmCaseResolution });
-   
+
 
   apiJson["CTM_Case_Timelines"]= CompareJSON(
         ctmCaseTimelines,
@@ -4033,7 +4037,10 @@ const checkForCTMError = () => {
     ctmClaimInformationGridRowValidationSchema,
     ctmRepresentativeGrid,
     setCtmRepresentativeGrid,
+    ctmMultipleIssueGrid,
+        setCtmMultipleIssueGrid,
     ctmRepresentativeGridValidationSchema,
+    ctmMultiGridValidationSchema,
     ctmCaseResolution,
     setCtmCaseResolution,
     ctmCaseResolutionValidationSchema,

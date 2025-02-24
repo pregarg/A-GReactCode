@@ -133,6 +133,7 @@ export const useCaseTimelines = (renderType) => {
         name: "Acknowledgment_Timely",
         placeholder: "Acknowledgement Timely",
         values: caseInComplianceValues,
+        options: caseInComplianceValues,
 //        options: ["Yes", "No"],
         renderTypes: [RenderType.APPEALS, RenderType.PROVIDER_DISPUTE, RenderType.CTM],
         validation: {

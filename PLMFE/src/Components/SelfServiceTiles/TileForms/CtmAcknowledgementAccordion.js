@@ -79,7 +79,7 @@ const CtmAcknowledgementAccordion = (props) => {
           <div className="accordion-body">
             <div className="row my-2">
               {renderDatePicker("Acknowledgement_Due_Date", "Acknowledgement Due Date", "Acknowledgement Due Date")}
-              {renderDatePicker("Acknowledgement_Date", "Acknowledgement Date", "Acknowledgement Due Date")}
+              {renderDatePicker("Acknowledgement_Date", "Acknowledgement Date", "Acknowledgement  Date")}
             </div>
           </div>
         </div>

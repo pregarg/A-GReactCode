@@ -219,22 +219,6 @@ const tdData = () => {
     return ctmProviderInformationGridData.map((data, index) => {
       return (
         <>
-          {index === 0 && (
-            <>
-              <tr>
-                <td colSpan="100%" className="sub-title">Contracts Details</td>
-              </tr>
-              <tr>
-                <td colSpan="100%" className="sub-title">Vendor Details</td>
-              </tr>
-              <tr>
-                <td colSpan="100%" className="sub-title">Provider Address of Record</td>
-              </tr>
-              <tr>
-                <td colSpan="100%" className="sub-title">Alternate Provider Contact Information</td>
-              </tr>
-            </>
-          )}
           <tr key={index} className={data.DataSource === "CredentialingApi" ? "CredentialingApi" : ""}>
             {lockStatus === "N" && (
               <td>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState  } from "react";
 import useGetDBTables from "../../CustomHooks/useGetDBTables";
 import { FormikInputField } from "../Common/FormikInputField";
 import { FormikDatePicker } from "../Common/FormikDatePicker";
@@ -67,7 +67,7 @@ const handlePreview = (content) => {
     </div>
   );
 const renderDatePicker = (name, placeholder, label) => (
-    <div className="col-xs-6 col-md-4">
+    <div className="col-xs-6 col-md-4 mb-3">
       <FormikDatePicker
         name={name}
         placeholder={placeholder}
@@ -101,7 +101,6 @@ const renderDatePicker = (name, placeholder, label) => (
       />
     </div>
   );
-
 
   return (
     <div>

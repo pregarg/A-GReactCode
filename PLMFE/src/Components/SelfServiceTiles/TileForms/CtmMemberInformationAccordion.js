@@ -171,188 +171,187 @@ useEffect(() => {
     dualPlan: ["Yes", "No"],
     communicationPreference: ["Email", "Phone", "Mail"]
   };
-
-  return (
-    <div className="accordion-item" id="ctmMemberInformation">
-      <h2 className="accordion-header" id="panelsStayOpen-ctmMemberInformation">
-        <button
-          className="accordion-button accordionButtonStyle"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#panelsStayOpen-collapseCtmMemberInformation"
-          aria-expanded="true"
-          aria-controls="panelsStayOpen-collapseCtmMemberInformation"
-        >
-         Member Information
-        </button>
-      </h2>
-      <div
-        id="panelsStayOpen-collapseCtmMemberInformation"
-        className="accordion-collapse collapse show"
-        aria-labelledby="panelsStayOpen-ctmMemberInformation"
+return (
+  <div className="accordion-item" id="ctmMemberInformation">
+    <h2 className="accordion-header" id="panelsStayOpen-ctmMemberInformation">
+      <button
+        className="accordion-button accordionButtonStyle"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#panelsStayOpen-collapseCtmMemberInformation"
+        aria-expanded="true"
+        aria-controls="panelsStayOpen-collapseCtmMemberInformation"
       >
-        <div className="accordion-body">
+        Member Information
+      </button>
+    </h2>
+    <div
+      id="panelsStayOpen-collapseCtmMemberInformation"
+      className="accordion-collapse collapse show"
+      aria-labelledby="panelsStayOpen-ctmMemberInformation"
+    >
       <div className="accordion-body">
-        <div className="row my-2">
-          {renderInputField("Issue_Number", "Issue Number", 50)}
-          {renderSelectField("Primary_Member", "Primary Member", dropdownOptions.primaryMember)}
-          {renderInputField("Member_ID", "Member ID", 50)}
-        </div>
-        <div className="row my-2">
-          {renderInputField("Member_First_Name", "Member First Name", 50)}
-          {renderInputField("Member_Middle_Initial", "Member Middle Initial", 1)}
-          {renderInputField("Member_Last_Name", "Member Last Name", 50)}
-        </div>
-        <div className="row my-2">
-          {renderInputField("Seq_Member_ID", "Seq Member ID", 50)}
-          {renderInputField("Contract_ID", "Contract ID", 50)}
-          {renderInputField("Plan_Code", "Plan Code", 50)}
-        </div>
-        <div className="row my-2">
-          {renderInputField("MBI", "MBI", 50)}
-          {renderInputField("HICN", "HICN", 50)}
-          {renderInputField("Medicaid_Id", "Medicaid ID", 50)}
-        </div>
-        <div className="row my-2">
-          {renderDatePicker("Plan_Effective_Date#date", "Plan Effective Date", "Plan Effective Date")}
-          {renderDatePicker("Plan_Expiration_Date#date", "Plan Expiration Date", "Plan Expiration Date")}
-          {renderInputField("CRM_Ticket", "CRM Ticket #", 50)}
-        </div>
-        <div className="row my-2">
-          {renderInputField("Plan_Name", "Plan Name", 100)}
-          {renderInputField("PCP_Name", "PCP Name", 50)}
-          {renderInputField("PBP", "PBP", 50)}
-        </div>
-        <div className="row my-2">
-          {renderDatePicker("Date_of_Birth#date", "Date of Birth", "Date of Birth")}
-          {renderInputField("Gender", "Gender", 10)}
-          {renderInputField("Email_Id", "Email ID", 100)}
-        </div>
-        <div className="row my-2">
-          {renderInputField("Home_Phone", "Home Phone", 15)}
-          {renderInputField("Mobile_Phone", "Mobile Phone", 15)}
-          {renderSelectField("Dual_Plan", "Dual Plan", dropdownOptions.dualPlan)}
-        </div>
-        <div className="row my-2">
-          {renderInputField("Preferred_Language", "Preferred Language", 50)}
-          {renderSelectField("Mail_to_Address", "Mail to Address?", dropdownOptions.mailToAddress)}
+        <div className="accordion-body">
+          <div className="row my-2">
+            {renderInputField("Issue_Number", "Issue Number", 50)}
+            {renderSelectField("Primary_Member", "Primary Member", dropdownOptions.primaryMember)}
+            {renderInputField("Member_ID", "Member ID", 50)}
+          </div>
+          <div className="row my-2">
+            {renderInputField("Member_First_Name", "Member First Name", 50)}
+            {renderInputField("Member_Middle_Initial", "Member Middle Initial",50)}
+            {renderInputField("Member_Last_Name", "Member Last Name", 50)}
+          </div>
+          <div className="row my-2">
+            {renderInputField("Seq_Member_ID", "Seq Member ID", 50)}
+            {renderInputField("Contract_ID", "Contract ID", 50)}
+            {renderInputField("Plan_Code", "Plan Code", 50)}
+          </div>
+          <div className="row my-2">
+            {renderInputField("MBI", "MBI", 50)}
+            {renderInputField("HICN", "HICN", 50)}
+            {renderInputField("Medicaid_Id", "Medicaid ID", 50)}
+          </div>
+          <div className="row my-2">
+            {renderDatePicker("Plan_Effective_Date#date", "Plan Effective Date", "Plan Effective Date")}
+            {renderDatePicker("Plan_Expiration_Date#date", "Plan Expiration Date", "Plan Expiration Date")}
+            {renderInputField("CRM_Ticket", "CRM Ticket #", 50)}
+          </div>
+          <div className="row my-2">
+            {renderInputField("Plan_Name", "Plan Name", 100)}
+            {renderInputField("PCP_Name", "PCP Name", 50)}
+            {renderInputField("PBP", "PBP", 50)}
+          </div>
+          <div className="row my-2">
+            {renderDatePicker("Date_of_Birth#date", "Date of Birth", "Date of Birth")}
+            {renderInputField("Gender", "Gender", 10)}
+            {renderInputField("Email_Id", "Email ID", 100)}
+          </div>
+          <div className="row my-2">
+            {renderInputField("Home_Phone", "Home Phone", 15)}
+            {renderInputField("Mobile_Phone", "Mobile Phone", 15)}
+            {renderInputField("Dual_Plan", "Dual Plan",  50)}
+          </div>
+          <div className="row my-2">
+            {renderInputField("Preferred_Language", "Preferred Language", 50)}
+            {renderSelectField("Mail_to_Address", "Mail to Address?", dropdownOptions.mailToAddress)}
+            {renderInputField("Fax_Number", "Fax Number", 15)}
+          </div>
 
-        </div>
+          <div className="row my-2">
 
+            {renderInputField("Communication_Preference", "Communication Preference", 50)}
+          </div>
 
-        <div className="sub-title">Member Residential Address</div>
-        <div className="row my-2">
-          {renderSelectField("Residential_Address_Type", "Address Type", dropdownOptions.addressType)}
-          {renderInputField("Residential_Address_Line_1", "Address Line 1", 100, residentialMandatory ? props.ctmMemberValidationSchema : undefined)}
-          {renderInputField("Residential_Address_Line_2", "Address Line 2", 100)}
-        </div>
-        <div className="row my-2">
-          {renderInputField("Residential_Zip_Code", "Zip Code", 10,residentialMandatory ? props.ctmMemberValidationSchema : undefined)}
-          {renderInputField("Residential_City", "City", 50,residentialMandatory ? props.ctmMemberValidationSchema : undefined)}
-          {renderInputField("Residential_County", "County", 50)}
-        </div>
-        <div className="row my-2">
-          {renderInputField("Residential_Region", "Region", 50)}
-          {renderInputField("Residential_State", "State", 50)}
-        </div>
-        <div className="sub-title">Member Mailing Address</div>
-        <div className="row my-2">
-          {renderSelectField("Mailing_Address_Type", "Address Type", dropdownOptions.addressType)}
-          {renderInputField("Mailing_Address_Line_1", "Address Line 1", 100)}
-          {renderInputField("Mailing_Address_Line_2", "Address Line 2", 100)}
-        </div>
-        <div className="row my-2">
-          {renderInputField("Mailing_Zip_Code", "Zip Code", 10)}
-          {renderInputField("Mailing_City", "City", 50)}
-          {renderInputField("Mailing_County", "County", 50)}
-        </div>
-        <div className="row my-2">
-          {renderInputField("Mailing_Region", "Region", 50)}
-          {renderInputField("Mailing_State", "State", 50)}
-        </div>
+          {/** Moved White Glove Section **/}
+          <div className="row my-2">
+            <div
+              className="col-xs-6 col-md-4"
+              style={{
+                display: "flex",
+                justifyContent: "flex-start",
+                alignItems: "center",
+              }}
+            >
+              <label>
+                <input
+                  type="checkbox"
+                  checked={whiteGloveIndicator}
+                  onChange={handleWhiteGloveChange}
+                  style={{ marginRight: "8px" }}
+                />
+                White Glove Indicator?
+              </label>
+            </div>
+          </div>
+          <div className="form-floating">
+            <input
+              id="WhiteGloveReason"
+              name="WhiteGloveReason"
+              maxLength="4000"
+              type="text"
+              className="form-control"
+              placeholder="White Glove Reason"
+              value={ctmMemberData.WhiteGloveReason || ""}
+              onBlur={(e) => handleCtmMemInformationBlur(e)}
+              onChange={(e) => handleLocalStateUpdate(e.target.name, e.target.value)}
+              disabled={!whiteGloveIndicator}
+            />
+            <label>White Glove Reason</label>
+            <div className="invalid-feedback" style={{ display: "block" }}></div>
+          </div>
+          <div className="form-floating">
+            <input
+              id="WhiteGloveCancelledReason"
+              name="WhiteGloveCancelledReason"
+              maxLength="4000"
+              type="text"
+              className="form-control"
+              placeholder="White Glove Cancelled Reason"
+              value={ctmMemberData.WhiteGloveCancelledReason || ""}
+              onBlur={(e) => handleCtmMemInformationBlur(e)}
+              onChange={(e) => handleLocalStateUpdate(e.target.name, e.target.value)}
+              disabled={whiteGloveIndicator}
+            />
+            <label>White Glove Cancelled Reason</label>
+            <div className="invalid-feedback" style={{ display: "block" }}></div>
+          </div>
 
-        <div className="sub-title">Member Temporary Address</div>
-        <div className="row my-2">
-          {renderSelectField("Temporary_Address_Type", "Address Type", dropdownOptions.addressType)}
-          {renderInputField("Temporary_Address_Line_1", "Address Line 1", 100,temporaryMandatory ? props.ctmMemberValidationSchema : undefined)}
-          {renderInputField("Temporary_Address_Line_2", "Address Line 2", 100)}
-        </div>
-        <div className="row my-2">
-          {renderInputField("Temporary_Zip_Code", "Zip Code", 10,temporaryMandatory ? props.ctmMemberValidationSchema : undefined)}
-          {renderInputField("Temporary_City", "City", 50,temporaryMandatory ? props.ctmMemberValidationSchema : undefined)}
-          {renderInputField("Temporary_County", "County", 50)}
-        </div>
-        <div className="row my-2">
-          {renderInputField("Temporary_Region", "Region", 50)}
-          {renderInputField("Temporary_State", "State", 50)}
-           {renderInputField("Alternate_Phone_Number", "Alternate Phone Number", 15)}
-        </div>
-        <div className="row my-2">
+          {/** Member Residential Address Section **/}
+          <div className="sub-title">Member Residential Address</div>
+          <div className="row my-2">
+            {renderSelectField("Residential_Address_Type", "Address Type", dropdownOptions.addressType)}
+            {renderInputField("Residential_Address_Line_1", "Address Line 1", 100, residentialMandatory ? props.ctmMemberValidationSchema : undefined)}
+            {renderInputField("Residential_Address_Line_2", "Address Line 2", 100)}
+          </div>
+          <div className="row my-2">
+            {renderInputField("Residential_Zip_Code", "Zip Code", 10, residentialMandatory ? props.ctmMemberValidationSchema : undefined)}
+            {renderInputField("Residential_City", "City", 50, residentialMandatory ? props.ctmMemberValidationSchema : undefined)}
+            {renderInputField("Residential_County", "County", 50)}
+          </div>
+          <div className="row my-2">
+            {renderInputField("Residential_Region", "Region", 50)}
+            {renderInputField("Residential_State", "State", 50)}
+          </div>
 
-          {renderInputField("Fax_Number", "Fax Number", 15)}
-          {renderSelectField("Communication_Preference", "Communication Preference", dropdownOptions.communicationPreference)}
+          <div className="sub-title">Member Mailing Address</div>
+          <div className="row my-2">
+            {renderSelectField("Mailing_Address_Type", "Address Type", dropdownOptions.addressType)}
+            {renderInputField("Mailing_Address_Line_1", "Address Line 1", 100)}
+            {renderInputField("Mailing_Address_Line_2", "Address Line 2", 100)}
+          </div>
+          <div className="row my-2">
+            {renderInputField("Mailing_Zip_Code", "Zip Code", 10)}
+            {renderInputField("Mailing_City", "City", 50)}
+            {renderInputField("Mailing_County", "County", 50)}
+          </div>
+          <div className="row my-2">
+            {renderInputField("Mailing_Region", "Region", 50)}
+            {renderInputField("Mailing_State", "State", 50)}
+          </div>
+
+          <div className="sub-title">Member Temporary Address</div>
+          <div className="row my-2">
+            {renderSelectField("Temporary_Address_Type", "Address Type", dropdownOptions.addressType)}
+            {renderInputField("Temporary_Address_Line_1", "Address Line 1", 100, temporaryMandatory ? props.ctmMemberValidationSchema : undefined)}
+            {renderInputField("Temporary_Address_Line_2", "Address Line 2", 100)}
+          </div>
+          <div className="row my-2">
+            {renderInputField("Temporary_Zip_Code", "Zip Code", 10, temporaryMandatory ? props.ctmMemberValidationSchema : undefined)}
+            {renderInputField("Temporary_City", "City", 50, temporaryMandatory ? props.ctmMemberValidationSchema : undefined)}
+            {renderInputField("Temporary_County", "County", 50)}
+          </div>
+          <div className="row my-2">
+            {renderInputField("Temporary_Region", "Region", 50)}
+            {renderInputField("Temporary_State", "State", 50)}
+            {renderInputField("Alternate_Phone_Number", "Alternate Phone Number", 15)}
+          </div>
         </div>
       </div>
-        </div>
-
-      </div>
-<div className="row my-2">
-  <div
-    className="col-xs-6 col-md-4"
-    style={{
-      display: "flex",
-      justifyContent: "flex-start",
-      alignItems: "center",
-    }}
-  >
-    <label>
-      <input
-        type="checkbox"
-        checked={whiteGloveIndicator}
-        onChange={handleWhiteGloveChange}
-        style={{ marginRight: "8px" }}
-      />
-      White Glove Indicator?
-    </label>
-  </div>
-</div>
-
-<div className="form-floating">
-  <input
-    id="WhiteGloveReason"
-    name="WhiteGloveReason"
-    maxLength="4000"
-    type="text"
-    className="form-control"
-    placeholder="White Glove Reason"
-    value={ctmMemberData.WhiteGloveReason || ""}
-    onBlur={(e) => handleCtmMemInformationBlur(e)}
-    onChange={(e) => handleLocalStateUpdate(e.target.name, e.target.value)}
-    disabled={!whiteGloveIndicator}
-  />
-  <label>White Glove Reason</label>
-  <div className="invalid-feedback" style={{ display: "block" }}></div>
-</div>
-
-<div className="form-floating">
-  <input
-    id="WhiteGloveCancelledReason"
-    name="WhiteGloveCancelledReason"
-    maxLength="4000"
-    type="text"
-    className="form-control"
-    placeholder="White Glove Cancelled Reason"
-    value={ctmMemberData.WhiteGloveCancelledReason || ""}
-    onBlur={(e) => handleCtmMemInformationBlur(e)}
-    onChange={(e) => handleLocalStateUpdate(e.target.name, e.target.value)}
-    disabled={whiteGloveIndicator}
-  />
-  <label>White Glove Cancelled Reason</label>
-  <div className="invalid-feedback" style={{ display: "block" }}></div>
-</div>
-
     </div>
-  );
+  </div>
+);
+
 };
 
 export default CtmMemberInformationAccordion;

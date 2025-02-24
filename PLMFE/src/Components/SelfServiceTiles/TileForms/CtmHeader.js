@@ -20,6 +20,7 @@ import CtmAuthorizationInformationAccordion from "../TileForms/CtmAuthorizationI
 import CtmClaimInformationAccordion from "../TileForms/CtmClaimInformationAccordion";
 import CtmRepresentativeInformationAccordion from "../TileForms/CtmRepresentativeInformationAccordion";
 import CtmProviderInformationAccordion from "../TileForms/CtmProviderInformationAccordion";
+import CtmMultipleIssueManagementAccordion from "../TileForms/CtmMultipleIssueManagementAccordion";
 
 import './CTM.css'
 import useHeader from "./useHeader";
@@ -63,6 +64,7 @@ const CtmHeader = () => {
     ctmSummaryValidationSchema,
     setctmCtmSummary,
     setCtmRepGridData,
+    setCtmMultiGridData,
     caseCategorizationFields,
     caseCategorizationData,
      setCtmCaseCategorization,
@@ -96,7 +98,10 @@ const CtmHeader = () => {
     setCtmClaimInformationGrid,
     ctmRepresentativeGrid,
     setCtmRepresentativeGrid,
+    ctmMultipleIssueGrid,
+    setCtmMultipleIssueGrid,
     ctmRepresentativeGridValidationSchema,
+    ctmMultiGridValidationSchema,
     ctm,
     ctmCaseResolution,
      setCtmCaseResolution,
@@ -106,7 +111,7 @@ const CtmHeader = () => {
     setCtmProviderInformationGrid,
     ctmProviderInformationGridValidationSchema,
     ctmRepGridData,
-
+    ctmMultiGridData,
     auditLogs
   } = useHeader();
 
@@ -124,11 +129,7 @@ const CtmHeader = () => {
           <div className="row">
             <div className="col-xs-6" style={{ textAlign: "center" }}>
               <br />
-              <CtmClaimInformationAccordion
-                handleCtmClaimInformationGridData={ctmClaimInformationGrid || []}
-                updateCtmClaimInformationGridData={setCtmClaimInformationGrid}
-                ctmClaimInformationGridValidationSchema={ctmClaimInformationGridRowValidationSchema}
-              />
+
               <CtmPreCloseQAAccordion
                 preCloseQAData={preCloseQAData}
                 setPreCloseQAData={setPreCloseQAData}

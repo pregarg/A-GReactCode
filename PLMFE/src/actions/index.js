@@ -2022,6 +2022,42 @@ export const getMasterPDMailToAddress = (
     }
   };
 };
+export const getMasterCTMQaDecision = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append("tableName", "CTM_QA_DECISION~masterCtmQaDecision");
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterPDMailToAddress];
+            //console.log(response);
+            dispatch({ type: "GET_QA_DECISION", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_QA_DECISION", payload: "" });
+    }
+  };
+};
+
 export const getMasterPDIntakeDecision= (
   token,
   clearFlag = false,

@@ -133,7 +133,7 @@ const ctmConfigData = JSON.parse(process.env.REACT_APP_CTMHEADER_DETAILS);
       />
     </div>
   );
-  const renderSelectField = (name, placeholder, options,opts = []) => {
+  const renderSelectField = (name, placeholder, options) => {
     const isDashboardView = 
       location.state.formView === "DashboardView" || 
       location.state.formView === "DashboardHomeView";
@@ -179,7 +179,7 @@ const ctmConfigData = JSON.parse(process.env.REACT_APP_CTMHEADER_DETAILS);
           name={name}
           placeholder={placeholder}
           data={caseTimelinesData}
-           options={opts?.map(opt => ({ value: opt, label: opt }))}
+           options={options}
           onChange={handleCaseTimelinesData}
           displayErrors={props.shouldShowSubmitError}
           disabled={disabled}

@@ -3,6 +3,7 @@ import React from "react";
 export const RenderType = {
   PROVIDER_DISPUTE: "PROVIDER_DISPUTE",
   APPEALS: "APPEALS",
+  CTM: "CTM"
 };
 
 export const chunkArray = (arr, chunkSize, filter = undefined) => {
@@ -28,7 +29,7 @@ export const renderElements = (
       {chunk.map((item) => {
         return (
           (item.type === "select" &&
-            renderSelectField(item.name, item.placeholder, item.values, item.options)) ||
+            renderSelectField(item.name, item.placeholder, item.values)) ||
           (item.type === "input" &&
             renderInputField(item.name, item.placeholder, item.maxLength)) ||
           (item.type === "date" &&
