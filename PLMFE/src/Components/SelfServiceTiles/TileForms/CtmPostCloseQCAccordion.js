@@ -146,6 +146,12 @@ const CtmPostCloseQC = (props) => {
                           {renderInputField("QC_Notes", "QC Notes", 4000)}
                           {renderInputField("QC_Score", "QC Score - Number and Special Chars", 5)}
                         </div>
+            <div className="row my-2">
+                          {renderDatePicker("First_Review_Date", "First Review Date","First Review Date")}
+
+                          {renderDatePicker("Second_Review_Date", "Secound Review Date","Secound Review Date")}
+                          {renderDatePicker("QC_Rebuttal_Date", "QC Rebuttal Date", "QC Rebuttal Date")}
+                        </div>
             <div className="sub-title">QC Review Notes</div>
             <div className="row my-2">
               {renderInputField("First_Review_Comments", "1st Review Comments", 4000)}

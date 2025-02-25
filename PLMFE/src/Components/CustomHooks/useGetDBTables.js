@@ -132,7 +132,7 @@ export default function useGetDBTables() {
         "CTM_PreCloseQA~ctmPreCloseQA",
         "CTM_PostCloseQC~ctmPostCloseQC",
         "CTM_Member_Information~ctmMemberInformation",
-        "CTM_Case_Resolution~ctmCaseResolution",
+        "CTM_Case_Resolution~ctmResolution",
         "Ctm_Acknowledgement~ctmAcknowledgement",
         "CTM_Case_Categorization~ctmCaseCategorization",
         "CTM_Case_Timelines~ctmCaseTimelines",

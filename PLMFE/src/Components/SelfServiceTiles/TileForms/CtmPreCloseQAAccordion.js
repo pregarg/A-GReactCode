@@ -134,7 +134,7 @@ const renderDatePicker = (name, placeholder, label) => (
 
             </div>
             <div className="row my-2">
-              {renderInputField("Coordinator_Supervisor_Name", "Coordinator Supervisor Name", 50)}
+              {renderInputField("Coordinator_Supervisor_Name", "Coordinator/Supervisor Name", 50)}
               {renderDatePicker("QA_Due_Date", "QA Due Date","QA Due Date")}
               {renderSelectField("QA_Decision", "QA Decision", [
                 { value: "Accept", label: "Accept" },
