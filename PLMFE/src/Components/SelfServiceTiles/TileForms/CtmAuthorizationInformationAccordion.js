@@ -25,8 +25,13 @@ const CtmAuthorizationInformationAccordion = (props) => {
  const [ctmAuthGridData, setCtmAuthGridData] = useState(props.handleCtmAuthGridData || []);
 
   const [gridFieldTempState, setGridFieldTempState] = useState({});
-
-
+ const [responseData, setResponseData] = useState([]);
+   const [selectedCriteria, setSelectedCriteria] = useState();
+   const [selectSearchValues, setSelectSearchValues] = useState();
+const [whiteGloveIndicator, setWhiteGloveIndicator] = useState(props.handleData?.isChecked === '1');
+const [ctmAuthorizationInformationData, setCtmAuthorizationInformationData] =
+    useState(props.handleData);
+let [selectedAddress, setSelectedAddress] = useState([]);
   const tabRef = useRef("HomeView");
   let prop = useLocation();
   const fetchAutoPopulate = useRef(false);
@@ -112,6 +117,49 @@ const handleGridSelectChange = (index, selectedValue, event) => {
       let { name, value } = event.target;
       tempInput[name] = value.toUpperCase();
       setGridFieldTempState(tempInput);
+    };
+const handleCheckBoxChange = (event, ind) => {
+    let jsn = responseData[ind];
+    jsn.isChecked = event.target.checked;
+    setSelectedAddress([...selectedAddress, jsn]);
+  };
+  const handleCheckBoxHeaderChange = (event) => {
+    const updatedTableData = responseData.map((jsn) => {
+      jsn.isChecked = event.target.checked;
+      return jsn;
+    });
+    setSelectedAddress(updatedTableData);
+  };
+
+  const handleWhiteGloveChange = (e) => {
+    const isChecked = e.target.checked;
+    setWhiteGloveIndicator(isChecked);
+    ctmAuthorizationInformationData.isChecked = isChecked ? '1': '';
+    props.setCtmAuthorizationInformation({...ctmAuthorizationInformationData});
+    // if (isChecked) {
+    //   setWhiteGloveCancelledReason("");
+    // } else {
+    //   setWhiteGloveReason("");
+    // }
+  };
+  const handleAuthInformationBlur = (e) => {
+      const scrollPosition = window.scrollY; // Save current scroll position
+
+      const { name, value } = e.target;
+      const updatedData = {
+        ...ctmAuthorizationInformationData,
+        [name]: value.toUpperCase(),
+      };
+
+      props.setCtmAuthorizationInformation(updatedData); // Backend update
+      window.scrollTo(0, scrollPosition); // Restore scroll position
+    };
+
+   const handleLocalStateUpdate = (name, value) => {
+      setCtmAuthorizationInformationData((prevState) => ({
+        ...prevState,
+        [name]: value.toUpperCase(),
+      }));
     };
 
   const editTableRows = (index) => {
@@ -272,6 +320,73 @@ if (!checkGridJsonLength(clonedJson)) {
           className="accordion-collapse collapse show"
           aria-labelledby="panelsStayOpen-claimInformation"
         >
+        <div className="accordion-body">
+                     <div className="row my-2">
+                      <div
+                        className="col-xs-6 col-md-3"
+                        style={{
+                          display: "flex",
+                          justifyContent: "flex-start",
+                          alignItems: "center",
+                        }}
+                      >
+
+                        <label className="d-flex align-items-center" style={{ gap: "1px" }}>
+                          <input
+                            type="checkbox"
+                            checked={whiteGloveIndicator}
+                            onChange={handleWhiteGloveChange}
+                            disabled={""}
+                            style={{ marginRight: "8px" }}
+                          />
+                          White Glove Indicator?
+                        </label>
+                        </div>
+                      </div>
+                    </div>
+                     <div className="accordion-body">
+          <div className="form-floating">
+                        <input
+                          id="WhiteGloveReason"
+                          name="WhiteGloveReason"
+                          maxLength="4000"
+                          type="text"
+                          className="form-control"
+                          placeholder="White Glove Reason"
+                          // value={whiteGloveReason}
+                          value={ctmAuthorizationInformationData.WhiteGloveReason || ""}
+
+                          onBlur={(e) => handleAuthInformationBlur(e)}
+                          onChange={(e) => handleLocalStateUpdate(e.target.name, e.target.value)}
+                          disabled={!whiteGloveIndicator}
+                        />
+                        <label>White Glove Reason</label>
+                        <div
+                          className="invalid-feedback"
+                          style={{ display: "block" }}
+                        ></div>
+                      </div><div className="form-floating">
+                                          <input
+                                            id="WhiteGloveCancelledReason"
+                                            name="WhiteGloveCancelledReason"
+                                            maxLength="4000"
+                                            type="text"
+                                            className="form-control"
+                                            placeholder="White Glove Cancelled Reason"
+                                            value={ctmAuthorizationInformationData.WhiteGloveCancelledReason || ""}
+                                            // onChange={(e) => setWhiteGloveCancelledReason(e.target.value)}
+
+                                            onBlur={(e) => handleAuthInformationBlur(e)}
+                                            onChange={(e) => handleLocalStateUpdate(e.target.name, e.target.value)}
+                                            disabled={whiteGloveIndicator}
+                                          />
+                                          <label>White Glove Cancelled Reason</label>
+                                          <div
+                                            className="invalid-feedback"
+                                            style={{ display: "block" }}
+                                          ></div>
+                                        </div>
+                                        </div>
           <div className="accordion-body">
 
             <div className="row my-2">
@@ -283,6 +398,8 @@ if (!checkGridJsonLength(clonedJson)) {
                   handleGridSelectChange={handleGridSelectChange}
                   handleGridDateChange={handleGridDateChange}
                   handleGridFieldChange={handleGridFieldChange}
+//                   handleSelectedAuth={handleSelectedAuth}
+                   setSelectedAddress={setSelectedAddress}
                   gridFieldTempState={gridFieldTempState}
                   editTableRows={editTableRows}
                   gridRowsFinalSubmit={gridRowsFinalSubmit}
@@ -306,5 +423,6 @@ if (!checkGridJsonLength(clonedJson)) {
       </div>
     </div>
   );
+
 };
 export default CtmAuthorizationInformationAccordion;

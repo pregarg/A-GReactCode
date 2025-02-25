@@ -123,6 +123,7 @@ export default function useGetDBTables() {
         "PD_Decision~pdDecisionAddRecord",
         "PD_Authorization_Information~pdAuthorizationInformationGrid",
         "PD_Notes~pNotes",
+        
       ],
       auditLogTable: ["AuditLog~auditLog"],
       LetterStatusTable: ["DocuSignData~docuSignData"],
@@ -135,7 +136,14 @@ export default function useGetDBTables() {
         "Ctm_Acknowledgement~ctmAcknowledgement",
         "CTM_Case_Categorization~ctmCaseCategorization",
         "CTM_Case_Timelines~ctmCaseTimelines",
+         "CTM_Provider_Information_Grid~ctmProviderInformationGrid",
+         "CTM_Representative_Information_Grid~ctmRepresentativeInformationGrid",
+         "CTM_Authorization_Information_Grid~ctmAuthorizationInformationGrid",
+         "CTM_Multilevel_Issue_Management_Grid~ctmMultiLevelIssueManagementGrid",
+         "CTM_Claim_Information_Grid~claimInformationGridCtm",
+         "Ctm_Authorization_Information~ctmAuthorizationInformation",
        ],
+
       auditLogTable: ["AuditLog~auditLog"]
     };
     return tableJson;

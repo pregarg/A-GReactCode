@@ -1072,7 +1072,9 @@ validateSync(acknowledgementValidationSchema, acknowledgementData, setAcknowledg
     Authorization_Decision: "",
     Authorization_Decision_Reason: "",
   });
+ const [authorizationInformationCtm, setAuthorizationInformationCtm] = useState({
 
+  });
   // const [decisionTab, setDecisionTab] = useState({
   //   Decision: "",
   //   Decision_Reason: "",
@@ -1299,7 +1301,14 @@ const checkForCTMError = () => {
   };
 
   const ctmSubmitData = async () => {
+  if(authorizationInformationCtm.isChecked === '1') {
+      if(!authorizationInformationCtm.WhiteGloveReason) {
+        alert("Please enter a White Glove Reason in the Authorization Information section to proceed.")
+        return;
+      }
 
+
+    }
     if(checkForCtmGridData()) {
       alert("Please fill all mandatory grid data")
       return;
@@ -1318,7 +1327,7 @@ const checkForCTMError = () => {
     let apiJson = {};
     let mainCaseReqBody = {
       transactionType: "CTM",
-      stageId: "63",
+      stageId: "54",
       caseStatus: "Open",
       lockStatus: "N",
       flowId: flowID,
@@ -1337,6 +1346,21 @@ const checkForCTMError = () => {
 //    console.log("Original_Case_Received_Date",receivedDate)
 //    const ctmCaseHeader = trimJsonValues({ ...updatedCaseHeader });
 //    apiJson["CTM_CASE_HEADER"] = ctmCaseHeader;
+    const ctmProviderInformationGridData = getGridDataValues(ctmProviderInformationGrid);
+    apiJson["CTM_Provider_Information_Grid"] = ctmProviderInformationGridData;
+
+    const ctmRepresentativeInformationGrid = getGridDataValues(ctmRepresentativeGrid );
+    apiJson["CTM_Representative_Information_Grid"] = ctmRepresentativeInformationGrid;
+
+    const ctmAuthorizationInformationGrid = getGridDataValues(ctmAuthorizationGrid );
+    apiJson["CTM_Authorization_Information_Grid"] = ctmAuthorizationInformationGrid;
+
+   const ctmMultiLevelIssueManagementGrid= getGridDataValues(ctmMultipleIssueGrid );
+    apiJson["CTM_Multilevel_Issue_Management_Grid"] = ctmMultiLevelIssueManagementGrid;
+
+     const claimInformationGridCtm= getGridDataValues(ctmClaimInformationGrid );
+     apiJson["CTM_Claim_Information_Grid"] = claimInformationGridCtm;
+
 
     const ctmCaseTimelines = trimJsonValues({ ...caseTimelines });
     apiJson["CTM_Case_Timelines"] = ctmCaseTimelines ;
@@ -1362,6 +1386,8 @@ const checkForCTMError = () => {
     const ctmAcknowledgement = trimJsonValues({ ...acknowledgementData });
     apiJson["Ctm_Acknowledgement"] = ctmAcknowledgement;
 
+    const ctmAuthorizationInformation = trimJsonValues({...authorizationInformationCtm });
+ apiJson["CTM_Authorization_Information"] = ctmAuthorizationInformation;
 
     apiJson["MainCaseTable"] = mainCaseReqBody;
 
@@ -1440,6 +1466,8 @@ const checkForCTMError = () => {
         alert("Please enter a White Glove Reason in the Authorization Information section to proceed.")
         return;
       }
+
+
     }
   const appealErrors = checkForAppealsError();
   if (appealErrors.length > 0) {
@@ -1707,6 +1735,9 @@ const checkForCTMError = () => {
   const handleAuthorizationInformationChange = (value, name) => {
     setAuthorizationInformation({ ...authorizationInformation, [name]: value });
   };
+   const handleCtmAuthorizationInformationChange = (value, name) => {
+      setAuthorizationInformationCtm({ ...authorizationInformationCtm, [name]: value });
+    };
   const handleProviderInformationAppealsChange = (value, name) => {
     setProviderInformationAppeals({ ...ProviderInformationAppeals, [name]: value });
   };
@@ -2514,7 +2545,73 @@ const checkForCTMError = () => {
                 });
 
               }
+              if (k === "ctmProviderInformationGrid") {
+                let apiResponseArray = [];
+                data[k].forEach((js) => {
+                  const newJson = convertToDateObj(js);
+                  console.log(
+                    "Add a ctmProviderInformationGrid newJson: ",
+                    newJson,
+                  );
+                  apiResponseArray.push(newJson);
+                  
+                });
+                setCtmProviderInformationGrid(apiResponseArray);
+                }
+                if (k === "ctmRepresentativeInformationGrid") {
+                                let apiResponseArray = [];
+                                data[k].forEach((js) => {
+                                  const newJson = convertToDateObj(js);
+                                  console.log(
+                                    "Add a ctmRepresentativeInformationGrid newJson: ",
+                                    newJson,
+                                  );
+                                  apiResponseArray.push(newJson);
+
+                                });
+                                setCtmRepresentativeGrid(apiResponseArray);
+                                }
+                  if (k === "ctmAuthorizationInformationGrid") {
+                                                                 let apiResponseArray = [];
+                                                                 data[k].forEach((js) => {
+                                                                   const newJson = convertToDateObj(js);
+                                                                   console.log(
+                                                                     "Add a ctmAuthorizationInformationGrid newJson: ",
+                                                                     newJson,
+                                                                   );
+                                                                   apiResponseArray.push(newJson);
+
+                                                                 });
+                                                                 setCtmAuthGridData(apiResponseArray);
+                                                                 }
+                  if (k === "ctmMultiLevelIssueManagementGrid") {
+                                                  let apiResponseArray = [];
+                                                  data[k].forEach((js) => {
+                                                    const newJson = convertToDateObj(js);
+                                                    console.log(
+                                                      "Add a ctmMultiLevelIssueManagementGrid newJson: ",
+                                                      newJson,
+                                                    );
+                                                    apiResponseArray.push(newJson);
+
+                                                  });
+                                                  setCtmMultipleIssueGrid(apiResponseArray);
+                                                  }
+                  if (k === "claimInformationGridCtm") {
+                                                                    let apiResponseArray = [];
+                                                                    data[k].forEach((js) => {
+                                                                      const newJson = convertToDateObj(js);
+                                                                      console.log(
+                                                                        "Add a claimInformationGridCtm newJson: ",
+                                                                        newJson,
+                                                                      );
+                                                                      apiResponseArray.push(newJson);
+
+                                                                    });
+                                                                    setCtmClaimInformationGrid(apiResponseArray);
+                                                                    }
                 })
+
       
         setCaseHeader(data?.["ctmCaseHeader"]?.[0] || {});
        
@@ -2528,7 +2625,9 @@ const checkForCTMError = () => {
         setCtmMemberData(data?.["ctmMemberInformation"]?.[0] || {});
         setAcknowledgementData(data?.["ctmAcknowledgement"]?.[0] || {});
         setCtmCaseResolution(data?.["ctmResolution"]?.[0] || {});
-
+        setAuthorizationInformationCtm(
+                  data?.["authorizationInformationCtm"]?.[0] || {},
+                );
         setFormData(_.cloneDeep(data));
 
         // Update case data in caseData array
@@ -3699,6 +3798,12 @@ const checkForCTMError = () => {
       alert("Please fill all mandatory grid data")
       return;
     }
+    if(authorizationInformationCtm.isChecked === '1') {
+          if(!authorizationInformationCtm.WhiteGloveReason) {
+            alert(" authorizationInformation - White glove reason need to be filled")
+            return;
+          }
+        }
     if (checkForCTMError()?.length > 0) {
       alert("Please fill all mandatory fields")
       setShowSubmitError(true);
@@ -3725,7 +3830,348 @@ const checkForCTMError = () => {
 	  const ctmCaseCategorization = trimJsonValues({ ...ctm_CaseCategorization });
 	  const ctmAcknowledgement  = trimJsonValues({ ...acknowledgementData });
       const ctmResolution  = trimJsonValues({ ...ctmCaseResolution });
+      const ctmAuthorizationInformation = trimJsonValues({...authorizationInformationCtm});
+      
+      const ctmProviderInformationGridData = getGridDataValues(ctmProviderInformationGrid);
+       const orignalCtmProviderInformationGridData = getGridDataValues(
+      formData["ctmProviderInformationGrid"],
+    );
+    const ctmRepresentativeInformationGrid = getGridDataValues(ctmRepresentativeGrid);
+           const orignalCtmRepresentativeInformationGridData = getGridDataValues(
+          formData["ctmRepresentativeInformationGrid"],
+        );
+    const ctmAuthorizationInformationGrid = getGridDataValues(ctmAuthorizationGrid);
+               const orignalCtmAuthorizationInformationGridData = getGridDataValues(
+              formData["ctmAuthorizationInformationGrid"],
+            );
+    const ctmMultiLevelIssueManagementGrid = getGridDataValues(ctmMultipleIssueGrid);
+                   const orignalCtmMultiLevelIssueManagementGridData = getGridDataValues(
+                  formData["ctmMultiLevelIssueManagementGrid"],
+                );
+    const claimInformationGridCtm = getGridDataValues(ctmClaimInformationGrid);
+                       const orignalCtmClaimInformationGridData = getGridDataValues(
+                      formData["claimInformationGridCtm"],
+                    );
 
+    let updateCtmProviderInformationGridDataArray = [];
+    if (
+      ctmProviderInformationGridData.length > 0 ||
+      orignalCtmProviderInformationGridData.length > 0
+    ) {
+      const maxLength = Math.min(
+        ctmProviderInformationGridData.length,
+        orignalCtmProviderInformationGridData.length,
+      );
+
+      // // Update existing rows
+      for (let i = 0; i < maxLength; i++) {
+        const element = ctmProviderInformationGridData[i];
+
+        for (let j = 0; j < orignalCtmProviderInformationGridData.length; j++) {
+          const originalElement = orignalCtmProviderInformationGridData[j];
+          if (element.rowNumber === originalElement.rowNumber) {
+            updateCtmProviderInformationGridDataArray.push({
+              caseNumber: element["caseNumber"],
+              rowNumber: element["rowNumber"],
+              ...CompareJSON(element, originalElement),
+            });
+            break;
+          }
+        }
+      }
+
+      // Add rows
+      for (let i = 0; i <ctmProviderInformationGridData.length; i++) {
+        const angelement = ctmRepresentativeInformationGrid[i];
+        const index = orignalCtmProviderInformationGridData.findIndex(
+          (element) => angelement.rowNumber === element.rowNumber,
+        );
+
+        if (index === -1) {
+          if (!angelement.hasOwnProperty("caseNumber")) {
+            angelement.caseNumber = location.state.caseNumber;
+          }
+          updateCtmProviderInformationGridDataArray.push({
+            operation: "I",
+            rowNumber: angelement["rowNumber"],
+            ...angelement,
+          });
+        }
+      }
+
+      // Delete rows
+      for (let i = 0; i < orignalCtmProviderInformationGridData.length; i++) {
+        const originalElement = orignalCtmProviderInformationGridData[i];
+        const index = ctmProviderInformationGridData.findIndex(
+          (element) => originalElement.rowNumber === element.rowNumber,
+        );
+        if (index === -1) {
+          updateCtmProviderInformationGridDataArray.push({
+            operation: "D",
+            caseNumber: location.state.caseNumber,
+            ...originalElement
+          });
+        }
+      }
+    }
+
+    apiJson["CTM_Provider_Information_Grid"] = updateCtmProviderInformationGridDataArray;
+
+  let updateCtmRepresentativeInformationGridDataArray = [];
+      if (
+        ctmRepresentativeInformationGrid.length > 0 ||
+        orignalCtmRepresentativeInformationGridData.length > 0
+      ) {
+        const maxLength = Math.min(
+          ctmRepresentativeInformationGrid.length,
+          orignalCtmRepresentativeInformationGridData.length,
+        );
+
+        // // Update existing rows
+        for (let i = 0; i < maxLength; i++) {
+          const element =ctmRepresentativeInformationGrid[i];
+
+          for (let j = 0; j < orignalCtmRepresentativeInformationGridData.length; j++) {
+            const originalElement = orignalCtmRepresentativeInformationGridData[j];
+            if (element.rowNumber === originalElement.rowNumber) {
+              updateCtmRepresentativeInformationGridDataArray.push({
+                caseNumber: element["caseNumber"],
+                rowNumber: element["rowNumber"],
+                ...CompareJSON(element, originalElement),
+              });
+              break;
+            }
+          }
+        }
+
+        // Add rows
+        for (let i = 0; i < ctmRepresentativeInformationGrid.length; i++) {
+          const angelement = ctmRepresentativeInformationGrid[i];
+          const index = orignalCtmRepresentativeInformationGridData.findIndex(
+            (element) => angelement.rowNumber === element.rowNumber,
+          );
+
+          if (index === -1) {
+            if (!angelement.hasOwnProperty("caseNumber")) {
+              angelement.caseNumber = location.state.caseNumber;
+            }
+            updateCtmRepresentativeInformationGridDataArray.push({
+              operation: "I",
+              rowNumber: angelement["rowNumber"],
+              ...angelement,
+            });
+          }
+        }
+
+        // Delete rows
+        for (let i = 0; i < orignalCtmRepresentativeInformationGridData.length; i++) {
+          const originalElement = orignalCtmRepresentativeInformationGridData[i];
+          const index = ctmRepresentativeInformationGrid.findIndex(
+            (element) => originalElement.rowNumber === element.rowNumber,
+          );
+          if (index === -1) {
+            updateCtmRepresentativeInformationGridDataArray.push({
+              operation: "D",
+              caseNumber: location.state.caseNumber,
+              ...originalElement
+            });
+          }
+        }
+      }
+
+      apiJson["CTM_Representative_Information_Grid"] = updateCtmRepresentativeInformationGridDataArray;
+
+ let updateCtmAuthorizationInformationGridDataArray = [];
+      if (
+        ctmAuthorizationInformationGrid.length > 0 ||
+        orignalCtmAuthorizationInformationGridData.length > 0
+      ) {
+        const maxLength = Math.min(
+          ctmAuthorizationInformationGrid.length,
+          orignalCtmAuthorizationInformationGridData.length,
+        );
+
+        // // Update existing rows
+        for (let i = 0; i < maxLength; i++) {
+          const element =ctmAuthorizationInformationGrid[i];
+
+          for (let j = 0; j < orignalCtmAuthorizationInformationGridData.length; j++) {
+            const originalElement = orignalCtmAuthorizationInformationGridData[j];
+            if (element.rowNumber === originalElement.rowNumber) {
+              updateCtmAuthorizationInformationGridDataArray.push({
+                caseNumber: element["caseNumber"],
+                rowNumber: element["rowNumber"],
+                ...CompareJSON(element, originalElement),
+              });
+              break;
+            }
+          }
+        }
+
+        // Add rows
+        for (let i = 0; i < ctmAuthorizationInformationGrid.length; i++) {
+          const angelement = ctmAuthorizationInformationGrid[i];
+          const index = orignalCtmAuthorizationInformationGridData.findIndex(
+            (element) => angelement.rowNumber === element.rowNumber,
+          );
+
+          if (index === -1) {
+            if (!angelement.hasOwnProperty("caseNumber")) {
+              angelement.caseNumber = location.state.caseNumber;
+            }
+            updateCtmAuthorizationInformationGridDataArray.push({
+              operation: "I",
+              rowNumber: angelement["rowNumber"],
+              ...angelement,
+            });
+          }
+        }
+
+        // Delete rows
+        for (let i = 0; i < orignalCtmAuthorizationInformationGridData.length; i++) {
+          const originalElement = orignalCtmAuthorizationInformationGridData[i];
+          const index = ctmAuthorizationInformationGrid.findIndex(
+            (element) => originalElement.rowNumber === element.rowNumber,
+          );
+          if (index === -1) {
+            updateCtmAuthorizationInformationGridDataArray.push({
+              operation: "D",
+              caseNumber: location.state.caseNumber,
+              ...originalElement
+            });
+          }
+        }
+      }
+
+      apiJson["CTM_Authorization_Information_Grid"] = updateCtmAuthorizationInformationGridDataArray;
+
+let updateCtmMultiLevelIssueManagementGridDataArray = [];
+      if (
+       ctmMultiLevelIssueManagementGrid.length > 0 ||
+        orignalCtmMultiLevelIssueManagementGridData.length > 0
+      ) {
+        const maxLength = Math.min(
+          ctmMultiLevelIssueManagementGrid.length,
+          orignalCtmMultiLevelIssueManagementGridData.length,
+        );
+
+        // // Update existing rows
+        for (let i = 0; i < maxLength; i++) {
+          const element =ctmAuthorizationInformationGrid[i];
+
+          for (let j = 0; j < orignalCtmMultiLevelIssueManagementGridData.length; j++) {
+            const originalElement = orignalCtmMultiLevelIssueManagementGridData[j];
+            if (element.rowNumber === originalElement.rowNumber) {
+              updateCtmMultiLevelIssueManagementGridDataArray.push({
+                caseNumber: element["caseNumber"],
+                rowNumber: element["rowNumber"],
+                ...CompareJSON(element, originalElement),
+              });
+              break;
+            }
+          }
+        }
+
+        // Add rows
+        for (let i = 0; i < ctmMultiLevelIssueManagementGrid.length; i++) {
+          const angelement =ctmMultiLevelIssueManagementGrid[i];
+          const index = orignalCtmMultiLevelIssueManagementGridData.findIndex(
+            (element) => angelement.rowNumber === element.rowNumber,
+          );
+
+          if (index === -1) {
+            if (!angelement.hasOwnProperty("caseNumber")) {
+              angelement.caseNumber = location.state.caseNumber;
+            }
+            updateCtmMultiLevelIssueManagementGridDataArray.push({
+              operation: "I",
+              rowNumber: angelement["rowNumber"],
+              ...angelement,
+            });
+          }
+        }
+
+        // Delete rows
+        for (let i = 0; i < orignalCtmMultiLevelIssueManagementGridData.length; i++) {
+          const originalElement = orignalCtmMultiLevelIssueManagementGridData[i];
+          const index = ctmMultiLevelIssueManagementGrid.findIndex(
+            (element) => originalElement.rowNumber === element.rowNumber,
+          );
+          if (index === -1) {
+            updateCtmMultiLevelIssueManagementGridDataArray.push({
+              operation: "D",
+              caseNumber: location.state.caseNumber,
+              ...originalElement
+            });
+          }
+        }
+      }
+
+      apiJson["CTM_Multilevel_Issue_Management_Grid"] = updateCtmMultiLevelIssueManagementGridDataArray;
+
+      let updateCtmClaimInformationGridDataArray = [];
+            if (
+             ctmClaimInformationGrid.length > 0 ||
+              orignalCtmClaimInformationGridData.length > 0
+            ) {
+              const maxLength = Math.min(
+                claimInformationGridCtm.length,
+                orignalCtmClaimInformationGridData.length,
+              );
+
+              // // Update existing rows
+              for (let i = 0; i < maxLength; i++) {
+                const element =claimInformationGridCtm[i];
+
+                for (let j = 0; j < orignalCtmClaimInformationGridData.length; j++) {
+                  const originalElement = orignalCtmClaimInformationGridData[j];
+                  if (element.rowNumber === originalElement.rowNumber) {
+                    updateCtmClaimInformationGridDataArray.push({
+                      caseNumber: element["caseNumber"],
+                      rowNumber: element["rowNumber"],
+                      ...CompareJSON(element, originalElement),
+                    });
+                    break;
+                  }
+                }
+              }
+
+              // Add rows
+              for (let i = 0; i < claimInformationGridCtm.length; i++) {
+                const angelement =claimInformationGridCtm[i];
+                const index = orignalCtmClaimInformationGridData.findIndex(
+                  (element) => angelement.rowNumber === element.rowNumber,
+                );
+
+                if (index === -1) {
+                  if (!angelement.hasOwnProperty("caseNumber")) {
+                    angelement.caseNumber = location.state.caseNumber;
+                  }
+                 updateCtmClaimInformationGridDataArray.push({
+                    operation: "I",
+                    rowNumber: angelement["rowNumber"],
+                    ...angelement,
+                  });
+                }
+              }
+
+              // Delete rows
+              for (let i = 0; i < orignalCtmClaimInformationGridData.length; i++) {
+                const originalElement = orignalCtmClaimInformationGridData[i];
+                const index = claimInformationGridCtm.findIndex(
+                  (element) => originalElement.rowNumber === element.rowNumber,
+                );
+                if (index === -1) {
+                  updateCtmClaimInformationGridDataArray.push({
+                    operation: "D",
+                    caseNumber: location.state.caseNumber,
+                    ...originalElement
+                  });
+                }
+              }
+            }
+
+            apiJson["CTM_Claim_Information_Grid"] = updateCtmClaimInformationGridDataArray;
 
   apiJson["CTM_Case_Timelines"]= CompareJSON(
         ctmCaseTimelines,
@@ -3760,7 +4206,10 @@ const checkForCTMError = () => {
                               ctmResolution,
                               formData["ctmResolution"]?.[0],
                             );
-
+apiJson["CTM_Authorization_Information"] = CompareJSON(
+      ctmAuthorizationInformation,
+      formData["ctmAuthorizationInformation"][0],
+    );
     console.log("location.state.caseNumberqqqqqqq", location.state.caseNumber)
     apiJson["caseNumber"] = location.state.caseNumber;
     apiJson["userName"] = location.state.userName;
@@ -3874,9 +4323,12 @@ const checkForCTMError = () => {
     representativeInformationGrid,
     setRepresentativeInformationGrid,
     handleAuthorizationInformationChange,
+    handleCtmAuthorizationInformationChange,
     handleProviderInformationAppealsChange,
     authorizationInformation,
+    authorizationInformationCtm,
     setAuthorizationInformation,
+    setAuthorizationInformationCtm,
     authorizationInformationGrid,
     setAuthorizationInformationGrid,
     ProviderauthorizationInformationGrid,

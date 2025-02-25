@@ -54,6 +54,7 @@ const CtmPostCloseQC = (props) => {
       {name.includes("Comments") || name === "QC_Rebuttal_Notes" ? (
         <Button
           variant="link"
+          className="btn-override"
           onClick={() => handlePreview(postCloseQCData[name])}
           disabled={!postCloseQCData[name]}
         >
@@ -143,7 +144,7 @@ const CtmPostCloseQC = (props) => {
             <div className="row my-2">
                           {renderDatePicker("QC_Decision_Date", "QC Decision Date","QC Decision Date")}
                           {renderInputField("QC_Notes", "QC Notes", 4000)}
-                          {renderInputField("QC_Score", "QC Score", 5)}
+                          {renderInputField("QC_Score", "QC Score - Number and Special Chars", 5)}
                         </div>
             <div className="sub-title">QC Review Notes</div>
             <div className="row my-2">

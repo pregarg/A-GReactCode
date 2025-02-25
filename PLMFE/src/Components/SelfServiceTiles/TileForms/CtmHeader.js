@@ -112,6 +112,9 @@ const CtmHeader = () => {
     ctmProviderInformationGridValidationSchema,
     ctmRepGridData,
     ctmMultiGridData,
+    handleCtmAuthorizationInformationChange,
+    ctmAuthorizationInformation,
+    setCtmAuthorizationInformation,
     auditLogs
   } = useHeader();
 
@@ -129,6 +132,12 @@ const CtmHeader = () => {
           <div className="row">
             <div className="col-xs-6" style={{ textAlign: "center" }}>
               <br />
+<CtmProviderInformationAccordion
+                                           handleProviderGridData={ctmProviderInformationGrid || []}
+                                           updateProviderGridData={setCtmProviderInformationGrid}
+                                           providerGridValidationSchema={ctmProviderInformationGridValidationSchema}
+                                         />
+
 
               <CtmPreCloseQAAccordion
                 preCloseQAData={preCloseQAData}

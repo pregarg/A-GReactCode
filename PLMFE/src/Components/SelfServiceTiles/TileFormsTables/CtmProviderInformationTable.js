@@ -124,19 +124,20 @@ const renderSimpleInputField = (name, label, maxLength, index) => {
     return (
       <>
         <div className="Container AddProviderLabel AddModalLabel">
-          <div className="row">
+          <div className="row mt-3">
             {renderSimpleInputField("Issue_Number", "Issue Number", 50, index)}
             {renderSimpleInputField("Provider_ID", "Provider ID", 50, index)}
             {renderSimpleInputField("Provider_Name", "Provider Name", 100, index)}
             {renderSimpleInputField("Provider_TIN", "Provider TIN", 50, index)}
+              </div>
+            <div className="row mt-3">
+             {renderSimpleInputField("Provider_IPA", "Provider IPA", 50, index)}
+             {renderSimpleInputField("CRM_Ticket", "CRM Ticket #", 100, index)}
             {renderSimpleInputField("Provider_Vendor_Specialty", "Provider/Vendor Specialty", 100, index)}
             {renderSimpleInputField("Provider_NPI", "Provider NPI", 50, index)}
-            {renderSimpleInputField("Provider_IPA", "Provider IPA", 50, index)}
-          </div>
-
-          <div className="row mt-3">
-            {renderSimpleInputField("CRM_Ticket", "CRM Ticket #", 100, index)}
-            {renderSimpleInputField("Email_ID", "Email ID", 100, index)}
+             </div>
+        <div className="row mt-3">
+          {renderSimpleInputField("Email_ID", "Email ID", 100, index)}
             {renderSimpleInputField("Phone_Number", "Phone Number", 50, index)}
             {renderSimpleInputField("Fax_Number", "Fax Number", 50, index)}
             {renderSimpleSelectField("Participating_Provider", "Participating Provider?", participatingProviderValues, index)}
@@ -153,6 +154,8 @@ const renderSimpleInputField = (name, label, maxLength, index) => {
             {renderSimpleDatePickerField("Provider_Contract_Termination_Date", "Provider Contract Termination Date", index)}
             {renderSimpleInputField("Provider_Contract_Type", "Provider Contract Type", 50, index)}
             {renderSimpleInputField("Provider_Contract_LOB", "Provider Contract LOB", 50, index)}
+            </div>
+            <div className="row mt-3">
             {renderSimpleInputField("Provider_Contract_IPA", "Provider Contract IPA", 50, index)}
             {renderSimpleInputField("PCP_Flag", "PCP Flag", 50, index)}
             {renderSimpleInputField("Accept_New_Patients", "Accept New Patients", 50, index)}
@@ -184,6 +187,9 @@ const renderSimpleInputField = (name, label, maxLength, index) => {
             {renderSimpleInputField("Address_Line_1", "Address (line 1)", 100, index)}
             {renderSimpleInputField("Address_Line_2", "Address (line 2)", 100, index)}
             {renderSimpleInputField("Zip_Code", "Zip Code", 50, index)}
+            </div>
+             <div className="row mt-3">
+
             {renderSimpleInputField("City", "City", 50, index)}
             {renderSimpleInputField("County", "County", 50, index)}
             {renderSimpleInputField("Region", "Region", 50, index)}
@@ -200,10 +206,14 @@ const renderSimpleInputField = (name, label, maxLength, index) => {
             {renderSimpleInputField("Alternate_Address_Line_1", "Alternate Address (line 1)", 100, index)}
             {renderSimpleInputField("Alternate_Address_Line_2", "Alternate Address (line 2)", 100, index)}
             {renderSimpleInputField("Alternate_Zip_Code", "Alternate Zip Code", 50, index)}
+            </div>
+            <div className="row mt-3">
             {renderSimpleInputField("Alternate_City", "Alternate City", 50, index)}
             {renderSimpleInputField("Alternate_County", "Alternate County", 50, index)}
             {renderSimpleInputField("Alternate_Region", "Alternate Region", 50, index)}
             {renderSimpleInputField("Alternate_State", "Alternate State", 50, index)}
+            </div>
+            <div className="row mt-3">
             {renderSimpleInputField("Alternate_Phone_Number", "Alternate Phone Number", 50, index)}
             {renderSimpleInputField("Alternate_Fax_Number", "Alternate Fax Number", 50, index)}
             {renderSimpleInputField("Alternate_Email_ID", "Alternate Email ID", 100, index)}
@@ -392,18 +402,18 @@ const tdData = () => {
                </th>
              )}
              {lockStatus === "V" && <th style={{ width: "100px" }}></th>}
-             <th scope="col"  style={{ width: "100px" }}>Issue Number</th>
+             <th scope="col"  style={{ width: "110px" }}>Issue Number</th>
              <th scope="col"  style={{ width: "100px" }}>Provider ID</th>
              <th scope="col"  style={{ width: "100px" }}>Provider Name</th>
              <th scope="col"  style={{ width: "100px" }}>Provider TIN</th>
-             <th scope="col"  style={{ width: "100px" }}>Provider/Vendor Specialty</th>
+             <th scope="col"  style={{ width: "150px" }}>Provider/Vendor Specialty</th>
              <th scope="col"  style={{ width: "100px" }}>Provider NPI</th>
              <th scope="col"  style={{ width: "100px" }}>Provider IPA</th>
              <th scope="col"  style={{ width: "100px" }}>CRM Ticket #</th>
              <th scope="col"  style={{ width: "100px" }}>Email ID</th>
              <th scope="col"  style={{ width: "100px" }}>Phone Number</th>
              <th scope="col"  style={{ width: "100px" }}>Fax Number</th>
-             <th scope="col"  style={{ width: "100px" }}>Participating Provider</th>
+             <th scope="col"  style={{ width: "150px" }}>Participating Provider</th>
              <th scope="col"  style={{ width: "100px" }}>Provider Contract Effective Date</th>
              <th scope="col"  style={{ width: "100px" }}>Provider Contract Termination Date</th>
              <th scope="col"  style={{ width: "100px" }}>Provider Contract Type</th>
@@ -416,9 +426,6 @@ const tdData = () => {
              <th scope="col"  style={{ width: "100px" }}>Vendor Short Name</th>
              <th scope="col"  style={{ width: "100px" }}>Vendor Address</th>
              <th scope="col"  style={{ width: "100px" }}>Associate Provider with Issue</th>
-             <th scope="col"  style={{ width: "100px" }}>White Glove?</th>
-             <th scope="col"  style={{ width: "100px" }}>White Glove Reason</th>
-             <th scope="col"  style={{ width: "100px" }}>White Glove Cancelled Reason</th>
              <th scope="col"  style={{ width: "100px" }}>Mail to Address?</th>
              <th scope="col"  style={{ width: "100px" }}>Address (line 1)</th>
              <th scope="col"  style={{ width: "100px" }}>Address (line 2)</th>
@@ -438,7 +445,7 @@ const tdData = () => {
              <th scope="col"  style={{ width: "100px" }}>Alternate Phone Number</th>
              <th scope="col"  style={{ width: "100px" }}>Alternate Fax Number</th>
              <th scope="col"  style={{ width: "100px" }}>Alternate Email ID</th>
-             <th scope="col"  style={{ width: "100px" }}>Communication Preference</th>
+             <th scope="col"  style={{ width: "150px" }}>Communication Preference</th>
            </tr>
          </thead>
          <tbody>{tdData()}</tbody>

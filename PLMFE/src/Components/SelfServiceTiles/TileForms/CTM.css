@@ -8,3 +8,9 @@
   padding: 5px 10px !important; /* Reduce padding */
   font-size: 14px !important; /* Adjust font size */
 }
+
+
+.btn-override:hover {
+  color: white;
+    margin-top: 5px;
+}
