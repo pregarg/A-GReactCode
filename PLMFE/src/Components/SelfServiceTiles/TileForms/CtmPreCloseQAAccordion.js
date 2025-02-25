@@ -58,6 +58,7 @@ const handlePreview = (content) => {
       {name.includes("Comments") || name === "QC_Rebuttal_Notes" ? (
               <Button
                 variant="link"
+                className="btn-override"
                 onClick={() => handlePreview(preCloseQAData[name])}
                 disabled={!preCloseQAData[name]}
               >
