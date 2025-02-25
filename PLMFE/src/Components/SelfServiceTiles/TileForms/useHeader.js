@@ -458,7 +458,9 @@ const [ctmMemberData, setCtmMemberData] = useState({
   Temporary_State: "",
   Alternate_Phone_Number: "",
   Fax_Number: "",
-  Communication_Preference: ""          // Dropdown: "Email", "Phone", "Mail"
+  Communication_Preference: "" ,        // Dropdown: "Email", "Phone", "Mail"s
+  WhiteGloveReason: "",
+  WhiteGloveCancelledReason: "",
 });
 
 const [ctmCaseResolution, setCtmCaseResolution] = useState({
