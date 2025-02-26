@@ -135,7 +135,7 @@ const handleCheckBoxChange = (event, ind) => {
     const isChecked = e.target.checked;
     setWhiteGloveIndicator(isChecked);
     ctmAuthorizationInformationData.isChecked = isChecked ? '1': '';
-    props.setCtmAuthorizationInformation({...ctmAuthorizationInformationData});
+    props.setAuthorizationInformationCtm({...ctmAuthorizationInformationData});
     // if (isChecked) {
     //   setWhiteGloveCancelledReason("");
     // } else {
@@ -151,7 +151,7 @@ const handleCheckBoxChange = (event, ind) => {
         [name]: value.toUpperCase(),
       };
 
-      props.setCtmAuthorizationInformation(updatedData); // Backend update
+      props.setAuthorizationInformationCtm(updatedData); // Backend update
       window.scrollTo(0, scrollPosition); // Restore scroll position
     };
 

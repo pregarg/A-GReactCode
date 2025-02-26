@@ -330,6 +330,7 @@ export function convertDateFormatMonthDayYear(inputDateStr) {
      isChecked : "",
   })
 
+
   const [ctmRepGridData, setCtmRepGridData] = useState([]);
 
   const [expeditedRequest, setExpeditedRequest] = useState({
@@ -1072,9 +1073,9 @@ validateSync(acknowledgementValidationSchema, acknowledgementData, setAcknowledg
     Authorization_Decision: "",
     Authorization_Decision_Reason: "",
   });
- const [authorizationInformationCtm, setAuthorizationInformationCtm] = useState({
-
-  });
+ const [authorizationInformationCtm, setAuthorizationInformationCtm] = useState({ });
+ const [providerInformationCtm, setProviderInformationCtm] = useState({ });
+ const [representativeInformationCtm, setRepresentativeInformationCtm] = useState({ });
   // const [decisionTab, setDecisionTab] = useState({
   //   Decision: "",
   //   Decision_Reason: "",
@@ -1309,6 +1310,20 @@ const checkForCTMError = () => {
 
 
     }
+  if(providerInformationCtm.isChecked === '1') {
+        if(!providerInformationCtm.WhiteGloveReason) {
+          alert("Please enter a White Glove Reason in the Provider Information section to proceed.")
+          return;
+        }
+  }
+  if(representativeInformationCtm.isChecked === '1') {
+          if(!representativeInformationCtm.WhiteGloveReason) {
+            alert("Please enter a White Glove Reason in the Representative Information section to proceed.")
+            return;
+          }
+
+
+        }
     if(checkForCtmGridData()) {
       alert("Please fill all mandatory grid data")
       return;
@@ -1387,7 +1402,13 @@ const checkForCTMError = () => {
     apiJson["Ctm_Acknowledgement"] = ctmAcknowledgement;
 
     const ctmAuthorizationInformation = trimJsonValues({...authorizationInformationCtm });
- apiJson["CTM_Authorization_Information"] = ctmAuthorizationInformation;
+    apiJson["CTM_Authorization_Information"] = ctmAuthorizationInformation;
+
+    const ctmProviderInformation = trimJsonValues({...providerInformationCtm });
+    apiJson["CTM_Provider_Information"] = ctmProviderInformation;
+
+    const ctmRepresentativeInformation = trimJsonValues({...representativeInformationCtm});
+   apiJson["CTM_Representative_Information"] = ctmRepresentativeInformation;
 
     apiJson["MainCaseTable"] = mainCaseReqBody;
 
@@ -1738,6 +1759,14 @@ const checkForCTMError = () => {
    const handleCtmAuthorizationInformationChange = (value, name) => {
       setAuthorizationInformationCtm({ ...authorizationInformationCtm, [name]: value });
     };
+   const handleCtmProviderInformationChange = (value, name) => {
+          setProviderInformationCtm({ ...providerInformationCtm, [name]: value });
+        };
+   const handleCtmRepresentativeInformationChange = (value, name) => {
+             setRepresentativeInformationCtm({ ...representativeInformationCtm, [name]: value });
+           };
+
+
   const handleProviderInformationAppealsChange = (value, name) => {
     setProviderInformationAppeals({ ...ProviderInformationAppeals, [name]: value });
   };
@@ -2626,8 +2655,14 @@ const checkForCTMError = () => {
         setAcknowledgementData(data?.["ctmAcknowledgement"]?.[0] || {});
         setCtmCaseResolution(data?.["ctmResolution"]?.[0] || {});
         setAuthorizationInformationCtm(
-                  data?.["authorizationInformationCtm"]?.[0] || {},
+                  data?.["ctmAuthorizationInformation"]?.[0] || {},
                 );
+        setProviderInformationCtm(
+                          data?.["ctmProviderInformation"]?.[0] || {},
+                        );
+        setRepresentativeInformationCtm(
+                                  data?.["ctmRepresentativeInformation"]?.[0] || {},
+                                );
         setFormData(_.cloneDeep(data));
 
         // Update case data in caseData array
@@ -3803,7 +3838,20 @@ const checkForCTMError = () => {
             alert(" authorizationInformation - White glove reason need to be filled")
             return;
           }
-        }
+    }
+    if(providerInformationCtm.isChecked === '1') {
+              if(!providerInformationCtm.WhiteGloveReason) {
+                alert(" providerInformation - White glove reason need to be filled")
+                return;
+              }
+     }
+     if(representativeInformationCtm.isChecked === '1') {
+                  if(!representativeInformationCtm.WhiteGloveReason) {
+                    alert(" representativeInformation - White glove reason need to be filled")
+                    return;
+                  }
+         }
+
     if (checkForCTMError()?.length > 0) {
       alert("Please fill all mandatory fields")
       setShowSubmitError(true);
@@ -3831,7 +3879,9 @@ const checkForCTMError = () => {
 	  const ctmAcknowledgement  = trimJsonValues({ ...acknowledgementData });
       const ctmResolution  = trimJsonValues({ ...ctmCaseResolution });
       const ctmAuthorizationInformation = trimJsonValues({...authorizationInformationCtm});
-      
+      const ctmProviderInformation = trimJsonValues({...providerInformationCtm});
+      const ctmRepresentativeInformation = trimJsonValues({...representativeInformationCtm});
+
       const ctmProviderInformationGridData = getGridDataValues(ctmProviderInformationGrid);
        const orignalCtmProviderInformationGridData = getGridDataValues(
       formData["ctmProviderInformationGrid"],
@@ -4206,10 +4256,19 @@ let updateCtmMultiLevelIssueManagementGridDataArray = [];
                               ctmResolution,
                               formData["ctmResolution"]?.[0],
                             );
-apiJson["CTM_Authorization_Information"] = CompareJSON(
+    apiJson["CTM_Authorization_Information"] = CompareJSON(
       ctmAuthorizationInformation,
       formData["ctmAuthorizationInformation"][0],
     );
+    apiJson["CTM_Provider_Information"] = CompareJSON(
+          ctmProviderInformation,
+          formData["ctmProviderInformation"][0],
+        );
+     apiJson["CTM_Representative_Information"] = CompareJSON(
+              ctmRepresentativeInformation,
+              formData["ctmRepresentativeInformation"][0],
+            );
+
     console.log("location.state.caseNumberqqqqqqq", location.state.caseNumber)
     apiJson["caseNumber"] = location.state.caseNumber;
     apiJson["userName"] = location.state.userName;
@@ -4324,13 +4383,19 @@ apiJson["CTM_Authorization_Information"] = CompareJSON(
     setRepresentativeInformationGrid,
     handleAuthorizationInformationChange,
     handleCtmAuthorizationInformationChange,
+    handleCtmProviderInformationChange,
+    handleCtmRepresentativeInformationChange,
     handleProviderInformationAppealsChange,
     authorizationInformation,
     authorizationInformationCtm,
     setAuthorizationInformation,
     setAuthorizationInformationCtm,
+    providerInformationCtm,
+    representativeInformationCtm,
     authorizationInformationGrid,
     setAuthorizationInformationGrid,
+    setProviderInformationCtm,
+    setRepresentativeInformationCtm,
     ProviderauthorizationInformationGrid,
     setProviderAuthorizationInformationGrid,
     expeditedRequest,
@@ -4501,7 +4566,9 @@ apiJson["CTM_Authorization_Information"] = CompareJSON(
     ctmCaseResolutionErrors,
     ctmRepGridData,
     setCtmRepGridData,
-
+    authorizationInformationCtm, 
+    setAuthorizationInformationCtm,
+    setRepresentativeInformationCtm,
   };
  };
 export default useHeader;

@@ -15,7 +15,14 @@ const CtmRepresentativeInformationAccordion = (props) => {
   const tabRef = useRef("HomeView");
   const fetchAutoPopulate = useRef(false);
   const gridDataRef = useRef({});
+ const [responseData, setResponseData] = useState([]);
+  const [selectedCriteria, setSelectedCriteria] = useState();
+  const [selectSearchValues, setSelectSearchValues] = useState();
+  const [whiteGloveIndicator, setWhiteGloveIndicator] = useState(props.handleData?.isChecked === '1');
+  const [ctmRepresentativeInformationData, setCtmRepresentativeInformationData] =
+    useState(props.handleData);
 
+ let [selectedAddress, setSelectedAddress] = useState([]);
   const prop = useLocation();
 
   const addTableRows = (triggeredFormName) => {
@@ -61,7 +68,49 @@ const deleteTableRows = (index, triggeredFormName, operationValue) => {
     tempInput[name] = value.toUpperCase();
     setGridFieldTempState(tempInput);
   };
+const handleCheckBoxChange = (event, ind) => {
+      let jsn = responseData[ind];
+      jsn.isChecked = event.target.checked;
+      setSelectedAddress([...selectedAddress, jsn]);
+    };
+    const handleCheckBoxHeaderChange = (event) => {
+      const updatedTableData = responseData.map((jsn) => {
+        jsn.isChecked = event.target.checked;
+        return jsn;
+      });
+      setSelectedAddress(updatedTableData);
+    };
 
+    const handleWhiteGloveChange = (e) => {
+      const isChecked = e.target.checked;
+      setWhiteGloveIndicator(isChecked);
+      ctmRepresentativeInformationData.isChecked = isChecked ? '1': '';
+      props.setRepresentativeInformationCtm({...ctmRepresentativeInformationData});
+      // if (isChecked) {
+      //   setWhiteGloveCancelledReason("");
+      // } else {
+      //   setWhiteGloveReason("");
+      // }
+    };
+    const handleRepresentativeInformationBlur = (e) => {
+        const scrollPosition = window.scrollY; // Save current scroll position
+
+        const { name, value } = e.target;
+        const updatedData = {
+          ...ctmRepresentativeInformationData,
+          [name]: value.toUpperCase(),
+        };
+
+        props.setRepresentativeInformationCtm(updatedData); // Backend update
+        window.scrollTo(0, scrollPosition); // Restore scroll position
+      };
+
+     const handleLocalStateUpdate = (name, value) => {
+        setCtmRepresentativeInformationData((prevState) => ({
+          ...prevState,
+          [name]: value.toUpperCase(),
+        }));
+      };
   const editTableRows = (index) => {
     let rowInput = ctmRepGridData[index];
     setGridFieldTempState(rowInput);
@@ -107,6 +156,73 @@ const deleteTableRows = (index, triggeredFormName, operationValue) => {
           className="accordion-collapse collapse show"
           aria-labelledby="panelsStayOpen-ctmRepresentative"
         >
+        <div className="accordion-body">
+                                     <div className="row my-2">
+                                      <div
+                                        className="col-xs-6 col-md-3"
+                                        style={{
+                                          display: "flex",
+                                          justifyContent: "flex-start",
+                                          alignItems: "center",
+                                        }}
+                                      >
+
+                                        <label className="d-flex align-items-center" style={{ gap: "1px" }}>
+                                          <input
+                                            type="checkbox"
+                                            checked={whiteGloveIndicator}
+                                            onChange={handleWhiteGloveChange}
+                                            disabled={""}
+                                            style={{ marginRight: "8px" }}
+                                          />
+                                          White Glove Indicator?
+                                        </label>
+                                        </div>
+                                      </div>
+                                    </div>
+                                     <div className="accordion-body">
+                          <div className="form-floating">
+                                        <input
+                                          id="WhiteGloveReason"
+                                          name="WhiteGloveReason"
+                                          maxLength="4000"
+                                          type="text"
+                                          className="form-control"
+                                          placeholder="White Glove Reason"
+                                          // value={whiteGloveReason}
+                                          value={ctmRepresentativeInformationData.WhiteGloveReason || ""}
+
+                                          onBlur={(e) => handleRepresentativeInformationBlur(e)}
+                                          onChange={(e) => handleLocalStateUpdate(e.target.name, e.target.value)}
+                                          disabled={!whiteGloveIndicator}
+                                        />
+                                        <label>White Glove Reason</label>
+                                        <div
+                                          className="invalid-feedback"
+                                          style={{ display: "block" }}
+                                        ></div>
+                                      </div><div className="form-floating">
+                                                          <input
+                                                            id="WhiteGloveCancelledReason"
+                                                            name="WhiteGloveCancelledReason"
+                                                            maxLength="4000"
+                                                            type="text"
+                                                            className="form-control"
+                                                            placeholder="White Glove Cancelled Reason"
+                                                            value={ctmRepresentativeInformationData.WhiteGloveCancelledReason || ""}
+                                                            // onChange={(e) => setWhiteGloveCancelledReason(e.target.value)}
+
+                                                            onBlur={(e) => handleRepresentativeInformationBlur(e)}
+                                                            onChange={(e) => handleLocalStateUpdate(e.target.name, e.target.value)}
+                                                            disabled={whiteGloveIndicator}
+                                                          />
+                                                          <label>White Glove Cancelled Reason</label>
+                                                          <div
+                                                            className="invalid-feedback"
+                                                            style={{ display: "block" }}
+                                                          ></div>
+                                                        </div>
+                                                        </div>
           <div className="accordion-body">
             <div className="row my-2">
               <div className="col-xs-6 col-md-12">

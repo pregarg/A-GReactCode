@@ -27,16 +27,47 @@ const [modalContent, setModalContent] = useState("");
   };
 
 
-  const handlePreCloseQAData = (name, value, persist) => {
-    const newData = {
-      ...preCloseQAData,
-      [name]: typeof value === "string" ? convertToCase(value) : value,
-    };
-    setPreCloseQAData({ ...newData });
-    if (persist) {
-      props.setPreCloseQAData({ ...newData });
+//  const handlePreCloseQAData = (name, value, persist) => {
+//    const newData = {
+//      ...preCloseQAData,
+//      [name]: typeof value === "string" ? convertToCase(value) : value,
+//    };
+//    setPreCloseQAData({ ...newData });
+//    if (persist) {
+//      props.setPreCloseQAData({ ...newData });
+//    }
+//  };
+const handlePreCloseQAData = (name, value, persist) => {
+  let newValue = value.trim(); // Remove leading/trailing spaces
+
+  if (name === "QA_Score") {
+    const validFormat = /^[0-9]+(\.[0-9]+)?[%*/⭐]?$/;  // Allows only numeric + special chars
+    const containsAlphabets = /[a-zA-Z]/.test(newValue); // Checks if input contains alphabets
+
+    if (containsAlphabets) {
+      alert("Invalid input in QA Score (Pre-Close QA section)! Use numbers with %, /, or $ (e.g., 90%, 4.7/5, 5$).");
+      return; // Prevents setting an invalid value
     }
+
+     else {
+      setPreCloseQAData({
+        ...preCloseQAData,
+        QA_Score_Error: "", // Clear error if valid
+      });
+    }
+  }
+
+  const newData = {
+    ...preCloseQAData,
+    [name]: newValue,
   };
+
+  setPreCloseQAData({ ...newData });
+  if (persist) {
+    props.setPreCloseQAData({ ...newData });
+  }
+};
+
 const handlePreview = (content) => {
     setModalContent(content);
     setShowModal(true);
@@ -55,6 +86,16 @@ const handlePreview = (content) => {
         displayErrors={props.shouldShowSubmitError}
         errors={props.preCloseQAErrors}
       />
+      {name === "QA_Score" && (
+              <>
+                <small className="text-muted">
+                  Allowed format: Numeric with special characters (e.g., 95%, 4.5/5, 3.8$)
+                </small>
+                {preCloseQAData.QA_Score_Error && (
+                  <small className="text-danger d-block">{preCloseQAData.QA_Score_Error}</small>
+                )}
+              </>
+            )}
       {name.includes("Comments") || name === "QC_Rebuttal_Notes" ? (
               <Button
                 variant="link"

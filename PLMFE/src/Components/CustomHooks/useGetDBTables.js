@@ -142,6 +142,8 @@ export default function useGetDBTables() {
          "CTM_Multilevel_Issue_Management_Grid~ctmMultiLevelIssueManagementGrid",
          "CTM_Claim_Information_Grid~claimInformationGridCtm",
          "Ctm_Authorization_Information~ctmAuthorizationInformation",
+         "CTM_Provider_Information~ctmProviderInformation",
+         "CTM_Representative_Information~ctmRepresentativeInformation",
        ],
 
       auditLogTable: ["AuditLog~auditLog"]

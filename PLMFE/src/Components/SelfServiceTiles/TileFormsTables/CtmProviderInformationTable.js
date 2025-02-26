@@ -27,26 +27,60 @@ export default function CtmProviderInformationTable({
   const [modalShow, setModalShow] = useState(false);
   const location = useLocation();
  const [validationErrors, setValidationErrors] = useState({});
-const [participatingProviderValues, setParticipatingProviderValues] = useState([]);
+ const [portalEnrolledValues, setPortalEnrolledValues] = useState([]);
+ const [commPrefValues, setCommPrefValuesValues] = useState([]);
+ const [providerRoleValues, setProviderRoleValues] = useState([]);
+//const [participatingProviderValues, setParticipatingProviderValues] = useState([]);
 const [isTouched, setIsTouched] = useState({});
 const { convertToCase } = useGetDBTables();
- const [mailToAddressValues, setMailToAddressValues] = useState([]);
+// const [mailToAddressValues, setMailToAddressValues] = useState([]);
+ const [participatingProviderValues, setParticipatingProviderValues] = useState([]);
+  const [mailToAddressValues, setMailToAddressValues] = useState([]);
 
-  useEffect(() => {
-    const participatingProviderOptions= [
-      { label: "Yes", value: "Yes" },
-      { label: "No", value: "No" },
+  const masterAngPortalEnrolledSelector = useSelector(
+      (state) => state?.masterAngPortalEnrolled,
+    );
+    console.log("masterAngPortalEnrolledSelector",masterAngPortalEnrolledSelector)
+    const masterAngMailToAddressSelector = useSelector(
+      (state) => state?.masterAngMailToAddress,
+    );
+ useEffect(() => {
+    const kvMapper = (e) => ({
+      label: convertToCase(e),
+      value: convertToCase(e),
+    });
+    const portalEnrolled = masterAngPortalEnrolledSelector?.[0] || [];
+    setPortalEnrolledValues(
+      portalEnrolled.map((e) => e.Portal_Enrolled).map(kvMapper),
+    );
 
-    ];
-    setParticipatingProviderValues(participatingProviderOptions);
+//    const providerType = masterAngProviderTypeSelector?.[0] || [];
+//    setProviderTypeValues(
+//      providerType.map((e) => e.Provider_Type).map(kvMapper),
+//    );
+//
+//    const commPref = masterAngCommPrefSelector?.[0] || [];
+//    setCommPrefValuesValues(
+//      commPref.map((e) => e.Comm_Pref).map(kvMapper),
+//    );
+//
+//    const ParProvider = masterAngParProviderSelector?.[0] || [];
+//    setParticipatingProviderValues(
+//      ParProvider.map((e) => e.Par_Provider).map(kvMapper),
+//    );
 
-    const mailToAddressOptions = [
-             { label: "Default", value: "Default" },
-             { label: "Alternative", value: "Alternative" },
+    const mailToAdd = masterAngMailToAddressSelector?.[0] || [];
+    setMailToAddressValues(
+      mailToAdd.map((e) => e.Mail_to_Address).map(kvMapper),
+    );
+//    const providerRole = masterAngProviderRoleSelector?.[0] || [];
+//    setProviderRoleValues(
+//      providerRole.map((e) => e.Provider_Role).map(kvMapper),
+//    );
 
-           ];
-           setMailToAddressValues(mailToAddressOptions);
-  }, []);
+}, []);
+
+
 
 const caseHeaderConfigData = JSON.parse(
     process.env.REACT_APP_CTMHEADER_DETAILS || "{}",
@@ -140,7 +174,7 @@ const renderSimpleInputField = (name, label, maxLength, index) => {
           {renderSimpleInputField("Email_ID", "Email ID", 100, index)}
             {renderSimpleInputField("Phone_Number", "Phone Number", 50, index)}
             {renderSimpleInputField("Fax_Number", "Fax Number", 50, index)}
-            {renderSimpleSelectField("Participating_Provider", "Participating Provider?", participatingProviderValues, index)}
+            {renderSimpleSelectField("Participating_Provider", "Participating Provider?", portalEnrolledValues, index)}
           </div>
 
           <div className="sub-title mt-4 mb-3"
@@ -174,7 +208,7 @@ const renderSimpleInputField = (name, label, maxLength, index) => {
           </div>
 
           <div className="row mt-3">
-            {renderSimpleSelectField("Associate_Provider_with_Issue", "Associate Provider with Issue", participatingProviderValues, index)}
+            {renderSimpleSelectField("Associate_Provider_with_Issue", "Associate Provider with Issue", portalEnrolledValues, index)}
           </div>
 
           <div className="sub-title mt-4 mb-3"

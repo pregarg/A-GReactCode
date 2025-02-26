@@ -4,9 +4,10 @@ import { SimpleInputField } from "../Common/SimpleInputField";
 import { SimpleSelectField } from "../Common/SimpleSelectField";
 import { SimpleDatePickerField } from "../Common/SimpleDatePickerField";
 import useGetDBTables from "../../CustomHooks/useGetDBTables";
+import { useSelector } from "react-redux";
 
 export default function CtmAuthorizationInformationTable({
-  ctmAuthInfoGridData = [],
+  ctmAuthGridData = [],
   deleteTableRows,
   handleGridSelectChange,
   addTableRows,
@@ -27,16 +28,31 @@ export default function CtmAuthorizationInformationTable({
 const { getGridJson, convertToCase } = useGetDBTables();
 const [isTouched, setIsTouched] = useState({});
  const [authTypeValues, setAuthTypeValues] = useState([]);
+ const masterPDAuthTypeSelector = useSelector(
+          (state) => state?.masterPDAuthType,
+      );
+//  useEffect(() => {
+//    const authTypeOptions = [
+//      { label: "Pre-Authorization", value: "Pre-Authorization" },
+//      { label: "Concurrent Review", value: "Concurrent Review" },
+//      { label: "Retro Authorization", value: "Retro Authorization" },
+//    ];
+//    setAuthTypeValues(authTypeOptions);
+//
+//  }, []);
+ useEffect(() => {
+    const kvMapper = (e) => ({
+      label: convertToCase(e),
+      value: convertToCase(e),
+    });
 
-  useEffect(() => {
-    const authTypeOptions = [
-      { label: "Pre-Authorization", value: "Pre-Authorization" },
-      { label: "Concurrent Review", value: "Concurrent Review" },
-      { label: "Retro Authorization", value: "Retro Authorization" },
-    ];
-    setAuthTypeValues(authTypeOptions);
+    const authType = masterPDAuthTypeSelector?.[0] || [];
+    setAuthTypeValues(
+        authType.map((e) => e.Auth_Type).map(kvMapper),
+    );
 
   }, []);
+
 
   useEffect(() => {
     try {
@@ -134,10 +150,10 @@ const [isTouched, setIsTouched] = useState({});
  const tdData = () => {
 
        if (
-         ctmAuthInfoGridData !== undefined &&
-         ctmAuthInfoGridData.length > 0
+         ctmAuthGridData !== undefined &&
+         ctmAuthGridData.length > 0
        ) {
-         return ctmAuthInfoGridData.map((data, index) => {
+         return ctmAuthGridData.map((data, index) => {
            return (
              <tr
                key={index}
@@ -279,7 +295,7 @@ const decreaseDataIndex = () => {
                           onClick={() => {
                             addTableRows(CtmAuthorizationInformationTable.displayName);
                             handleModalChange(true);
-                            handleDataIndex(ctmAuthInfoGridData.length);
+                            handleDataIndex(ctmAuthGridData.length);
                             handleOperationValue("Add");
                           }}
                         >

@@ -27,41 +27,111 @@ export default function CtmRepresentativeInformationTable({
   const [operationValue, setOperationValue] = useState("");
   const [modalShow, setModalShow] = useState(false);
   const [isTouched, setIsTouched] = useState({});
+  const [relationshipValues, setRelationshipValues] = useState([]);
+  const [authTypeValues, setAuthTypeValues] = useState([]);
   const prop = useLocation();
   const { getGridJson, convertToCase } = useGetDBTables();
-const relationshipOptions = [
-  { value: "Mother", label: "Mother" },
-  { value: "Father", label: "Father" },
-  { value: "Grandparent", label: "Grandparent" },
-  { value: "Friend", label: "Friend" },
-  { value: "Legal Guardian", label: "Legal Guardian" },
-  { value: "Adoptive Parent", label: "Adoptive Parent" },
-  { value: "Power of Attorney", label: "Power of Attorney" },
-  { value: "Executor of Estate", label: "Executor of Estate" },
-  { value: "Court Appointed Guardian", label: "Court Appointed Guardian" },
-  { value: "Foster Parent", label: "Foster Parent" },
-  { value: "Aunt", label: "Aunt" },
-  { value: "Uncle", label: "Uncle" },
-  { value: "Brother", label: "Brother" },
-  { value: "Sister", label: "Sister" },
-  { value: "Other", label: "Other" }
-];
+  const masterAngRelationshipSelector = useSelector(
+      (state) => state?.masterAngRelationship,
+    );
+  const masterAngAORTypeSelector = useSelector(
+      (state) => state?.masterAngAORType,
+    );
+  const masterAngMailToAddressSelector = useSelector(
+      (state) => state?.masterAngMailToAddress,
+    );
+  const masterPDAuthTypeSelector = useSelector(
+          (state) => state?.masterPDAuthType,
+      );
+   const masterPDRelationshipSelector = useSelector(
+        (state) => state?.masterPDRelationship,
+    );
+//  const [authTypeValues, setAuthTypeValues] = useState([])
+//  let relationshipValues = [];
+  let aorTypeValues = [];
+  let mailToAddressValues = [];
+;
 
-const mailToAddressOptions = [
-  { value: "Default", label: "Default" },
-  { value: "Alternate", label: "Alternate" }
-];
+  useEffect(() => {
+    const kvMapper = (e) => ({
+      label: convertToCase(e),
+      value: convertToCase(e),
+    });
+    const relationship = masterPDRelationshipSelector?.[0] || [];
+    setRelationshipValues(
+        relationship.map((e) => e.Relationship).map(kvMapper),
+    );
+    const authType = masterPDAuthTypeSelector?.[0] || [];
+    setAuthTypeValues(
+        authType.map((e) => e.Auth_Type).map(kvMapper),
+    );
 
-const authorizationTypeOptions = [
-  { value: "AOR", label: "AOR" },
-  { value: "Court Appointed Guardian", label: "Court Appointed Guardian" },
-  { value: "Executor of Estate", label: "Executor of Estate" },
-  { value: "Foster Parent", label: "Foster Parent" },
-  { value: "Head of Household", label: "Head of Household" },
-  { value: "Power of Attorney", label: "Power of Attorney" },
-  { value: "Verbal Authorization", label: "Verbal Authorization" }
-];
+  }, []);
 
+useEffect(() => {
+    if (masterAngRelationshipSelector) {
+      const relationshipArray =
+        masterAngRelationshipSelector.length === 0
+          ? []
+          : masterAngRelationshipSelector[0];
+      const uniquerelationshipValues = {};
+
+      for (let i = 0; i < relationshipArray.length; i++) {
+        const relationship = convertToCase(relationshipArray[i].Relationship);
+
+        if (!uniquerelationshipValues[relationship]) {
+          uniquerelationshipValues[relationship] = true;
+          relationshipValues.push({
+            label: convertToCase(relationshipArray[i].Relationship),
+            value: convertToCase(relationshipArray[i].Relationship),
+          });
+        }
+      }
+    }
+
+    if (masterAngAORTypeSelector) {
+      const aorTypeArray =
+        masterAngAORTypeSelector.length === 0
+          ? []
+          : masterAngAORTypeSelector[0];
+      const uniqueAORTypeValues = {};
+
+      for (let i = 0; i < aorTypeArray.length; i++) {
+        const aorType = convertToCase(aorTypeArray[i].AOR_Type);
+
+        if (!uniqueAORTypeValues[aorType]) {
+          uniqueAORTypeValues[aorType] = true;
+          aorTypeValues.push({
+            label: convertToCase(aorTypeArray[i].AOR_Type),
+            value: convertToCase(aorTypeArray[i].AOR_Type),
+          });
+        }
+      }
+    }
+
+
+    if (masterAngMailToAddressSelector) {
+      const mailToAddressArray =
+        masterAngMailToAddressSelector.length === 0
+          ? []
+          : masterAngMailToAddressSelector[0];
+      const uniqueMailToAddressValues = {};
+
+      for (let i = 0; i < mailToAddressArray.length; i++) {
+        const mailToAddress = convertToCase(
+          mailToAddressArray[i].Mail_to_Address,
+        );
+
+        if (!uniqueMailToAddressValues[mailToAddress]) {
+          uniqueMailToAddressValues[mailToAddress] = true;
+          mailToAddressValues.push({
+            label: convertToCase(mailToAddressArray[i].Mail_to_Address),
+            value: convertToCase(mailToAddressArray[i].Mail_to_Address),
+          });
+        }
+      }
+    }
+  });
   useEffect(() => {
     try {
       setValidationErrors([]);
@@ -190,8 +260,8 @@ const tdDataReplica = (index) => (
     </div>
     <div className="row mt-3">
       {renderSimpleInputField("Member_Name_ID", "Member Name ID", 50, index)}
-      {renderSimpleSelectField("Relationship", "Relationship", relationshipOptions, index)}
-       {renderSimpleSelectField("Authorization_Type", "Authorization Type", authorizationTypeOptions, index)}
+      {renderSimpleSelectField("Relationship", "Relationship", relationshipValues, index)}
+       {renderSimpleSelectField("Authorization_Type", "Authorization Type", authTypeValues, index)}
       {renderSimpleDatePickerField("Authorization_Approved_Date", "Authorization Approved Date", "Authorization Approved Date")}
     </div>
     <div className="row mt-3">
@@ -200,7 +270,7 @@ const tdDataReplica = (index) => (
     </div>
     <div className="row mt-3">
       {renderSimpleInputField("Representative_Address_of_Record", "Representative Address of Record", 50, index)}
-      {renderSimpleSelectField("Mail_to_Address", "Mail to Address", mailToAddressOptions, index)}
+      {renderSimpleSelectField("Mail_to_Address", "Mail to Address", mailToAddressValues, index)}
       {renderSimpleInputField("Address_Line_1", "Address Line 1", 50, index)}
       {renderSimpleInputField("Address_Line_2", "Address Line 2", 50, index)}
     </div>
