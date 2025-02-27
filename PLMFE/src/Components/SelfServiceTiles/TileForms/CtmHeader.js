@@ -137,7 +137,22 @@ const CtmHeader = () => {
         <div className="container">
           <div className="row">
             <div className="col-xs-6" style={{ textAlign: "center" }}>
-              <br />
+              <br /> {stageName !== "Start" || (stage === "Intake" || stage ==="Acknowledge"|| stage === "Research" ||stage === "Effectuate"
+                                     || stage === "Bulk Effectuate" || stage === "Resolve" || stage ==="Case Completed"|| stage === "Reopen" || stage === "Documents Needed"
+                                   || stage === "CaseArchived" || stage === "Resolution Letter Pending" || stage === "State Fair Hearing"
+                                  ) &&(
+                                  <CaseHeaderAccordion
+                                    handleOnChange={handleCaseHeaderChange}
+                                    handleData={caseHeader}
+                                    setCaseHeader={setCaseHeader}
+                                    caseHeaderFields={caseHeaderFields}
+                                    renderType={RenderType.CTM}
+//                                    pd_ProviderInformation={pd_ProviderInformation}
+//                                    ProvidermemberInformation={ProvidermemberInformation}
+//                                    pd_RepresentativeInformation={pd_RepresentativeInformation}
+                                  />
+                                  )}
+
                   <CtmProviderInformationAccordion
                                            handleProviderGridData={ctmProviderInformationGrid || []}
                                            updateProviderGridData={setCtmProviderInformationGrid}
@@ -153,7 +168,6 @@ const CtmHeader = () => {
                  updateCtmAuthGridData={setCtmAuthGridData}
                  ctmAuthGridValidationSchema={ctmAuthGridValidationSchema}
                />
-               
 
               <CtmPreCloseQAAccordion
                 preCloseQAData={preCloseQAData}

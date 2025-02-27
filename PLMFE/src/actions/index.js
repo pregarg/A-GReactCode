@@ -1110,7 +1110,41 @@ export const getMasterAngGender = (
     }
   };
 };
-
+export const getMasterCTMAddressType = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append("tableName", "CTM_MASTER_ADDRESS_TYPE~masterCTMAddressType");
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterCTMAddressType];
+            //console.log(response);
+            dispatch({ type: "GET_MASTER_ADDRESS_TYPE", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_MASTER_ADDRESS_TYPE", payload: "" });
+    }
+  };
+};
 export const getMasterAngDualPlan = (
   token,
   clearFlag = false,

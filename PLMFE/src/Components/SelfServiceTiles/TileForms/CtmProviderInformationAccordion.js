@@ -24,10 +24,10 @@ const CtmProviderInformationAccordion = (props) => {
   const [ctmProviderInformationData, setCtmProviderInformationData] =
     useState(props.handleData);
 
- let [selectedAddress, setSelectedAddress] = useState([]);
- let prop = useLocation();
+  let [selectedAddress, setSelectedAddress] = useState([]);
+  let prop = useLocation();
 
- const addTableRows = (triggeredFormName) => {
+  const addTableRows = (triggeredFormName) => {
     let rowsInput = {};
     if (triggeredFormName === "CtmProviderInformationTable") {
       rowsInput.rowNumber = Array.isArray(providerGridData) ? providerGridData.length : 0;
@@ -62,58 +62,77 @@ const CtmProviderInformationAccordion = (props) => {
     }
   };
 
-const handleGridSelectChange = (index, selectedValue, event) => {
+  const handleGridSelectChange = (index, selectedValue, event) => {
     const { name } = event;
     setGridFieldTempState({
       ...gridFieldTempState,
       [name]: (selectedValue?.value || selectedValue)?.toUpperCase(),
     });
   };
+  const handleGridDateChange = (index, selectedValue, fieldName) => {
+    let tempInput = { ...gridFieldTempState };
+    tempInput[fieldName] = selectedValue;
+    setGridFieldTempState(tempInput);
+  };
   const handleCheckBoxChange = (event, ind) => {
-      let jsn = responseData[ind];
+    let jsn = responseData[ind];
+    jsn.isChecked = event.target.checked;
+    setSelectedAddress([...selectedAddress, jsn]);
+  };
+  const handleCheckBoxHeaderChange = (event) => {
+    const updatedTableData = responseData.map((jsn) => {
       jsn.isChecked = event.target.checked;
-      setSelectedAddress([...selectedAddress, jsn]);
+      return jsn;
+    });
+    setSelectedAddress(updatedTableData);
+  };
+
+  //    const handleWhiteGloveChange = (e) => {
+  //      const isChecked = e.target.checked;
+  //      setWhiteGloveIndicator(isChecked);
+  //      ctmProviderInformationData.isChecked = isChecked ? '1': '';
+  //      props.setProviderInformationCtm({...ctmProviderInformationData});
+  //      // if (isChecked) {
+  //      //   setWhiteGloveCancelledReason("");
+  //      // } else {
+  //      //   setWhiteGloveReason("");
+  //      // }
+  //    };
+  const handleWhiteGloveChange = (e) => {
+    const isChecked = e.target.checked;
+    setWhiteGloveIndicator(isChecked);
+
+    let updatedData = { ...ctmProviderInformationData, isChecked: isChecked ? '1' : '' };
+
+    // Clear White Glove Reason if unchecked
+    if (!isChecked) {
+      updatedData.WhiteGloveReason = "";
+    }
+
+    props.setProviderInformationCtm(updatedData);
+  };
+
+  const handleProviderInformationBlur = (e) => {
+    const scrollPosition = window.scrollY; // Save current scroll position
+
+    const { name, value } = e.target;
+    const updatedData = {
+      ...ctmProviderInformationData,
+      [name]: value.toUpperCase(),
     };
-    const handleCheckBoxHeaderChange = (event) => {
-      const updatedTableData = responseData.map((jsn) => {
-        jsn.isChecked = event.target.checked;
-        return jsn;
-      });
-      setSelectedAddress(updatedTableData);
-    };
 
-    const handleWhiteGloveChange = (e) => {
-      const isChecked = e.target.checked;
-      setWhiteGloveIndicator(isChecked);
-      ctmProviderInformationData.isChecked = isChecked ? '1': '';
-      props.setProviderInformationCtm({...ctmProviderInformationData});
-      // if (isChecked) {
-      //   setWhiteGloveCancelledReason("");
-      // } else {
-      //   setWhiteGloveReason("");
-      // }
-    };
-    const handleProviderInformationBlur = (e) => {
-        const scrollPosition = window.scrollY; // Save current scroll position
+    props.setProviderInformationCtm(updatedData); // Backend update
+    window.scrollTo(0, scrollPosition); // Restore scroll position
+  };
 
-        const { name, value } = e.target;
-        const updatedData = {
-          ...ctmProviderInformationData,
-          [name]: value.toUpperCase(),
-        };
+  const handleLocalStateUpdate = (name, value) => {
+    setCtmProviderInformationData((prevState) => ({
+      ...prevState,
+      [name]: value.toUpperCase(),
+    }));
+  };
 
-        props.setProviderInformationCtm(updatedData); // Backend update
-        window.scrollTo(0, scrollPosition); // Restore scroll position
-      };
-
-     const handleLocalStateUpdate = (name, value) => {
-        setCtmProviderInformationData((prevState) => ({
-          ...prevState,
-          [name]: value.toUpperCase(),
-        }));
-      };
-
- const gridRowsFinalSubmit = (triggeredFormName, index, operationType) => {
+  const gridRowsFinalSubmit = (triggeredFormName, index, operationType) => {
     let clonedJson = { ...gridFieldTempState };
 
     if (Object.keys(gridFieldTempState).length !== 0) {
@@ -124,8 +143,8 @@ const handleGridSelectChange = (index, selectedValue, event) => {
         }
 
         if (!checkGridJsonLength(clonedJson)) {
-                providerGridData[index] = clonedJson;
-                setProviderGridData([...providerGridData]);
+          providerGridData[index] = clonedJson;
+          setProviderGridData([...providerGridData]);
 
         }
         //props.updateCtmRepGridData(ctmRepGridData.slice(0, -1));
@@ -153,74 +172,70 @@ const handleGridSelectChange = (index, selectedValue, event) => {
           className="accordion-collapse collapse show"
           aria-labelledby="panelsStayOpen-providerInformation"
         >
-        <div className="accordion-body">
-                             <div className="row my-2">
-                              <div
-                                className="col-xs-6 col-md-3"
-                                style={{
-                                  display: "flex",
-                                  justifyContent: "flex-start",
-                                  alignItems: "center",
-                                }}
-                              >
-
-                                <label className="d-flex align-items-center" style={{ gap: "1px" }}>
-                                  <input
-                                    type="checkbox"
-                                    checked={whiteGloveIndicator}
-                                    onChange={handleWhiteGloveChange}
-                                    disabled={""}
-                                    style={{ marginRight: "8px" }}
-                                  />
-                                  White Glove Indicator?
-                                </label>
-                                </div>
-                              </div>
-                            </div>
-                             <div className="accordion-body">
-                  <div className="form-floating">
-                                <input
-                                  id="WhiteGloveReason"
-                                  name="WhiteGloveReason"
-                                  maxLength="4000"
-                                  type="text"
-                                  className="form-control"
-                                  placeholder="White Glove Reason"
-                                  // value={whiteGloveReason}
-                                  value={ctmProviderInformationData.WhiteGloveReason || ""}
-
-                                  onBlur={(e) => handleProviderInformationBlur(e)}
-                                  onChange={(e) => handleLocalStateUpdate(e.target.name, e.target.value)}
-                                  disabled={!whiteGloveIndicator}
-                                />
-                                <label>White Glove Reason</label>
-                                <div
-                                  className="invalid-feedback"
-                                  style={{ display: "block" }}
-                                ></div>
-                              </div><div className="form-floating">
-                                                  <input
-                                                    id="WhiteGloveCancelledReason"
-                                                    name="WhiteGloveCancelledReason"
-                                                    maxLength="4000"
-                                                    type="text"
-                                                    className="form-control"
-                                                    placeholder="White Glove Cancelled Reason"
-                                                    value={ctmProviderInformationData.WhiteGloveCancelledReason || ""}
-                                                    // onChange={(e) => setWhiteGloveCancelledReason(e.target.value)}
-
-                                                    onBlur={(e) => handleProviderInformationBlur(e)}
-                                                    onChange={(e) => handleLocalStateUpdate(e.target.name, e.target.value)}
-                                                    disabled={whiteGloveIndicator}
-                                                  />
-                                                  <label>White Glove Cancelled Reason</label>
-                                                  <div
-                                                    className="invalid-feedback"
-                                                    style={{ display: "block" }}
-                                                  ></div>
-                                                </div>
-                                                </div>
           <div className="accordion-body">
+            <div className="row my-2">
+              <div
+                className="col-xs-6 col-md-3"
+                style={{
+                  display: "flex",
+                  justifyContent: "flex-start",
+                  alignItems: "center",
+                }}
+              >
+
+                <label className="d-flex align-items-center" style={{ gap: "1px" }}>
+                  <input
+                    type="checkbox"
+                    checked={whiteGloveIndicator}
+                    onChange={handleWhiteGloveChange}
+                    disabled={""}
+                    style={{ marginRight: "8px" }}
+                  />
+                  White Glove Indicator?
+                </label>
+              </div>
+            </div>
+            <div className="form-floating">
+              <input
+                id="WhiteGloveReason"
+                name="WhiteGloveReason"
+                maxLength="4000"
+                type="text"
+                className="form-control"
+                placeholder="White Glove Reason"
+                // value={whiteGloveReason}
+                value={ctmProviderInformationData.WhiteGloveReason || ""}
+
+                onBlur={(e) => handleProviderInformationBlur(e)}
+                onChange={(e) => handleLocalStateUpdate(e.target.name, e.target.value)}
+                disabled={!whiteGloveIndicator}
+              />
+              <label>White Glove Reason</label>
+              <div
+                className="invalid-feedback"
+                style={{ display: "block" }}
+              ></div>
+            </div><div className="form-floating">
+              <input
+                id="WhiteGloveCancelledReason"
+                name="WhiteGloveCancelledReason"
+                maxLength="4000"
+                type="text"
+                className="form-control"
+                placeholder="White Glove Cancelled Reason"
+                value={ctmProviderInformationData.WhiteGloveCancelledReason || ""}
+                // onChange={(e) => setWhiteGloveCancelledReason(e.target.value)}
+
+                onBlur={(e) => handleProviderInformationBlur(e)}
+                onChange={(e) => handleLocalStateUpdate(e.target.name, e.target.value)}
+                disabled={whiteGloveIndicator}
+              />
+              <label>White Glove Cancelled Reason</label>
+              <div
+                className="invalid-feedback"
+                style={{ display: "block" }}
+              ></div>
+            </div>
             <div className="row my-2">
               <div className="col-xs-6 col-md-12">
                 <CtmProviderInformationTable
@@ -228,15 +243,16 @@ const handleGridSelectChange = (index, selectedValue, event) => {
                   addTableRows={addTableRows}
                   deleteTableRows={deleteTableRows}
                   handleGridFieldChange={handleGridFieldChange}
-                   handleGridSelectChange={handleGridSelectChange}
+                  handleGridSelectChange={handleGridSelectChange}
+                  handleGridDateChange={handleGridDateChange}
                   gridFieldTempState={gridFieldTempState}
                   editTableRows={editTableRows}
                   gridRowsFinalSubmit={gridRowsFinalSubmit}
                   validationSchema={props.providerGridValidationSchema}
                   lockStatus={
                     prop.state !== null &&
-                    prop.state.lockStatus !== undefined &&
-                    prop.state.lockStatus !== ""
+                      prop.state.lockStatus !== undefined &&
+                      prop.state.lockStatus !== ""
                       ? prop.state.lockStatus
                       : "N"
                   }

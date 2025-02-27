@@ -144,6 +144,7 @@ export default function useGetDBTables() {
          "Ctm_Authorization_Information~ctmAuthorizationInformation",
          "CTM_Provider_Information~ctmProviderInformation",
          "CTM_Representative_Information~ctmRepresentativeInformation",
+//         "CTM_Case_Header~ctmCaseHeader"
        ],
 
       auditLogTable: ["AuditLog~auditLog"]

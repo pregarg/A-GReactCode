@@ -44,17 +44,18 @@ useEffect(() => {
   }, [ctmMemberData.Mail_to_Address]);
 
   const handleWhiteGloveChange = (e) => {
-    const isChecked = e.target.checked;
-    setWhiteGloveIndicator(isChecked);
-    setWhiteGloveIndicatorInitialized(true);
-   ctmMemberData.isChecked = isChecked ? '1': '';
-    props.setCtmMemberData({...ctmMemberData});
-    // if (isChecked) {
-    //   setWhiteGloveCancelledReason("");
-    // } else {
-    //   setWhiteGloveReason("");
-    // }
-  };
+      const isChecked = e.target.checked;
+      setWhiteGloveIndicator(isChecked);
+
+      let updatedData = { ...ctmMemberData, isChecked: isChecked ? '1' : '' };
+
+      // Clear White Glove Reason if unchecked
+      if (!isChecked) {
+        updatedData.WhiteGloveReason = "";
+      }
+
+     props.setCtmMemberData(updatedData);
+    };
 
  const handleCtmMemInformationBlur = (e) => {
     const scrollPosition = window.scrollY; // Save current scroll position
@@ -232,7 +233,7 @@ return (
       className="accordion-collapse collapse show"
       aria-labelledby="panelsStayOpen-ctmMemberInformation"
     >
-      <div className="accordion-body">
+
         <div className="accordion-body">
           <div className="row my-2">
             {renderInputField("Issue_Number", "Issue Number", 50)}
@@ -389,7 +390,7 @@ return (
             {renderInputField("Alternate_Phone_Number", "Alternate Phone Number", 15)}
           </div>
         </div>
-      </div>
+
     </div>
   </div>
 );

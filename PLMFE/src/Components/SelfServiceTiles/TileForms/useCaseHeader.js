@@ -103,6 +103,55 @@ export const useCaseHeader = (renderType) => {
         placeholder: "White Glove Indicator",
         renderTypes: [RenderType.PROVIDER_DISPUTE],
       },
+      {
+              type: "none",
+              name: "White_Glove_Indicator",
+              placeholder: "White Glove Indicator",
+              renderTypes: [RenderType.CTM],
+            },
+      {
+              type: "none",
+              name: "Compliance_Deadline",
+              placeholder: "Compliance Deadline",
+              renderTypes: [RenderType.CTM],
+            },
+       {
+                           type: "none",
+                           name: "HPMS_Deadline",
+                           placeholder: "HPMS Deadline",
+                           renderTypes: [RenderType.CTM],
+                         },
+       {
+                    type: "none",
+                    name: "Original_HPMS_Deadline",
+                    placeholder: "Original HPMS Deadline",
+                    renderTypes: [RenderType.CTM],
+                  },
+       {
+                           type: "none",
+                           name: "Original_Assignment_Date",
+                           placeholder: "OriginalAssignment Date",
+                           renderTypes: [RenderType.CTM],
+                         },
+//       {
+//               type: "none",
+//               name: "caseNumber",
+//               placeholder: "Case ID",
+//               renderTypes: [RenderType.CTM],
+//             },
+//             {
+//               type: "none",
+//               name: "Case_Owner",
+//               placeholder: "Case Owner",
+//               renderTypes: [RenderType.CTM],
+//             },
+//
+//             {
+//               type: "none",
+//               name: "Case_Status",
+//               placeholder: "Case Status",
+//               renderTypes: [RenderType.CTM],
+//             },
     ].filter((e) => e.renderTypes.includes(renderType));
 
     const caseHeaderObject = fields.reduce((acc, field) => {

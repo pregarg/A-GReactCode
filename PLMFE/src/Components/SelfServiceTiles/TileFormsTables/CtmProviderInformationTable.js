@@ -237,20 +237,20 @@ const renderSimpleInputField = (name, label, maxLength, index) => {
               }}>Alternate Provider Contact Information</div>
           <div className="row mt-3">
             {renderSimpleInputField("Provider_Contact_Name", "Provider Contact Name", 100, index)}
-            {renderSimpleInputField("Alternate_Address_Line_1", "Alternate Address (line 1)", 100, index)}
-            {renderSimpleInputField("Alternate_Address_Line_2", "Alternate Address (line 2)", 100, index)}
-            {renderSimpleInputField("Alternate_Zip_Code", "Alternate Zip Code", 50, index)}
+            {renderSimpleInputField("Alternate_Address_Line_1", " Address (line 1)", 100, index)}
+            {renderSimpleInputField("Alternate_Address_Line_2", "Address (line 2)", 100, index)}
+            {renderSimpleInputField("Alternate_Zip_Code", " Zip Code", 50, index)}
             </div>
             <div className="row mt-3">
-            {renderSimpleInputField("Alternate_City", "Alternate City", 50, index)}
-            {renderSimpleInputField("Alternate_County", "Alternate County", 50, index)}
-            {renderSimpleInputField("Alternate_Region", "Alternate Region", 50, index)}
-            {renderSimpleInputField("Alternate_State", "Alternate State", 50, index)}
+            {renderSimpleInputField("Alternate_City", "City", 50, index)}
+            {renderSimpleInputField("Alternate_County", " County", 50, index)}
+            {renderSimpleInputField("Alternate_Region", "Region", 50, index)}
+            {renderSimpleInputField("Alternate_State", " State", 50, index)}
             </div>
             <div className="row mt-3">
             {renderSimpleInputField("Alternate_Phone_Number", "Alternate Phone Number", 50, index)}
-            {renderSimpleInputField("Alternate_Fax_Number", "Alternate Fax Number", 50, index)}
-            {renderSimpleInputField("Alternate_Email_ID", "Alternate Email ID", 100, index)}
+            {renderSimpleInputField("Alternate_Fax_Number", " Alternate Fax Number", 50, index)}
+            {renderSimpleInputField("Alternate_Email_ID", " Alternate Email ID", 100, index)}
             {renderSimpleInputField("Communication_Preference", "Communication Preference", 100, index)}
           </div>
         </div>

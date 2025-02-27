@@ -68,6 +68,7 @@ import {
   getMasterPDDenialCodeAndReason,
   getMasterPDComplainantType,
   getMasterCTMQaDecision,
+  getMasterCTMAddressType,
   getMasterPDSubIssueLevel,
   getMasterPDIssueType,
   getMasterPDProduct,
@@ -990,6 +991,14 @@ export default function DashboardLogin() {
             onMasterLoadSuccess,
           ),
         );
+    dispatch(
+           getMasterCTMAddressType(
+             loginToken,
+             false,
+             onMasterLoadFail,
+             onMasterLoadSuccess,
+           ),
+         );
     dispatch(
       getMasterPDDocuments(
         loginToken,

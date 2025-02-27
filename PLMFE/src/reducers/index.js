@@ -1068,6 +1068,15 @@ const masterPDcptDescriptionReducer = (state = [], action) => {
   }
   return state;
 };
+const masterCTMAddressTypeReducer = (state = [], action) => {
+  if (action.type === "GET_MASTER_ADDRESS_TYPE") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_MASTER_ADDRESS_TYPE") {
+    state = [];
+    return state;
+  }
+  return state;
+};
 const masterPDOONProviderReducer = (state = [], action) => {
   if (action.type === "GET_PD_OON_PROVIDER") {
     return [action.payload];
@@ -1250,6 +1259,7 @@ export default combineReducers({
   masterPDGoodCauseReason:masterPDGoodCauseReasonReducer,
   masterPDDecision:masterPDDecisionReducer,
   masterCTMDecision:masterCTMDecisionReducer,
+  masterCTMAddressType:masterCTMAddressTypeReducer,
   masterPDDocument:masterPDDocumentReducer,
   masterPDAuthStatus:masterPDAuthStatusReducer,
   masterPDcptDescription:masterPDcptDescriptionReducer,

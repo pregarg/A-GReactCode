@@ -81,16 +81,19 @@ const handleCheckBoxChange = (event, ind) => {
       setSelectedAddress(updatedTableData);
     };
 
+
     const handleWhiteGloveChange = (e) => {
       const isChecked = e.target.checked;
       setWhiteGloveIndicator(isChecked);
-      ctmRepresentativeInformationData.isChecked = isChecked ? '1': '';
-      props.setRepresentativeInformationCtm({...ctmRepresentativeInformationData});
-      // if (isChecked) {
-      //   setWhiteGloveCancelledReason("");
-      // } else {
-      //   setWhiteGloveReason("");
-      // }
+
+      let updatedData = { ...ctmRepresentativeInformationData, isChecked: isChecked ? '1' : '' };
+
+      // Clear White Glove Reason if unchecked
+      if (!isChecked) {
+        updatedData.WhiteGloveReason = "";
+      }
+
+      props.setRepresentativeInformationCtm(updatedData);
     };
     const handleRepresentativeInformationBlur = (e) => {
         const scrollPosition = window.scrollY; // Save current scroll position

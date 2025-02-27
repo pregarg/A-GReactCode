@@ -2536,7 +2536,7 @@ const checkForCTMError = () => {
 
 
   const getCTMCaseByCaseNumber = async (callAuditLog) => {
-   
+
     let getApiJson = {};
     getApiJson["tableNames"] = getTableDetails()["ctmTables"];
     getApiJson["whereClause"] = { caseNumber: location.state.caseNumber };
@@ -2554,7 +2554,7 @@ const checkForCTMError = () => {
         const logs = await getCaseLogHistory(location.state.caseNumber, token, tableNames);
         setAuditLogs(logs)
       }
-     
+
 
       // Handle API status errors
       if (apiStat === -1) {
@@ -2566,11 +2566,11 @@ const checkForCTMError = () => {
         const respKeys = Object.keys(res.data.data);
         const data = res.data.data;
         respKeys.forEach((k) => {
-              
+
               if(k === 'ctmCaseHeader') {
                 data[k].forEach((js) => {
                   js['Original_Case_Received_Date#date'] = extractDate(new Date(js['Original_Case_Received_Date#date'] ))
-                
+
                 });
 
               }
@@ -2583,7 +2583,7 @@ const checkForCTMError = () => {
                     newJson,
                   );
                   apiResponseArray.push(newJson);
-                  
+
                 });
                 setCtmProviderInformationGrid(apiResponseArray);
                 }
@@ -2641,11 +2641,11 @@ const checkForCTMError = () => {
                                                                     }
                 })
 
-      
+
         setCaseHeader(data?.["ctmCaseHeader"]?.[0] || {});
-       
+
         setCaseTimelines(data?.["ctmCaseTimelines"]?.[0] || {});
-        
+
         setpdCaseInformation(data?.["pdCaseInformation"]?.[0] || {});
         setctmCtmSummary(data?.["ctmSummary"]?.[0] || {})
         setCtmCaseCategorization(data?.["ctmCaseCategorization"]?.[0] || {})
