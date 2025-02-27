@@ -221,14 +221,31 @@ const CaseClaimInformation = (props) => {
       ].map(kvMapper),
     );
 
+    // const authServiceType = masterAngAuthServiceTypeSelector?.[0] || [];
+    // setServiceTypeValues(
+    //   authServiceType.map((e) => e.SERVICE_TYPE_CODE).map(kvMapper),
+    // );
+    // const serviceTypeDesc = masterAngAuthServiceTypeSelector?.[0] || [];
+    // setServiceTypeDescValues(
+    //   serviceTypeDesc.map((e) => e.SERVICE_TYPE_DESC).map(kvMapper),
+    // );
+
     const authServiceType = masterAngAuthServiceTypeSelector?.[0] || [];
-    setServiceTypeValues(
-      authServiceType.map((e) => e.SERVICE_TYPE_CODE).map(kvMapper),
-    );
-    const serviceTypeDesc = masterAngAuthServiceTypeSelector?.[0] || [];
-    setServiceTypeDescValues(
-      serviceTypeDesc.map((e) => e.SERVICE_TYPE_DESC).map(kvMapper),
-    );
+
+  // Create mapping of Service Type Code and Description
+  const serviceTypeMap = {};
+  authServiceType.forEach((e) => {
+    serviceTypeMap[e.SERVICE_TYPE_CODE] = e.SERVICE_TYPE_DESC;
+  });
+
+  setServiceTypeValues(
+    authServiceType.map((e) => ({
+      label: convertToCase(e.SERVICE_TYPE_CODE),
+      value: convertToCase(e.SERVICE_TYPE_CODE),
+    }))
+  );
+
+  setServiceTypeDescValues(serviceTypeMap);
 
     const procStatus = masterAngProcessingStatusSelector?.[0] || [];
     setProcessingStatusValues(
@@ -769,8 +786,11 @@ const handleProviderInformationAppealsData = (name, value, persist) => {
         return;
       }
     }
-
+    if (name === "Service_Type" && serviceTypeDescValues[value]) {
+      newData["Service_Type_Desc"] = serviceTypeDescValues[value];
+    }
     setClaimInformationData(newData);
+
     if(name === 'Claim_Number') {
       props.caseInformationData['Claim_Number'] =  typeof value === "string" ? convertToCase(value) : value;
    //   props.setCaseInformationData({...props.caseInformationData})
@@ -1012,7 +1032,12 @@ const handleProviderInformationAppealsData = (name, value, persist) => {
                 {renderSelectField(
                 "Service_Type_Desc",
                 "Service Type Description",
-                serviceTypeDescValues,
+                [
+                  {
+                    label: claimInformationData.Service_Type_Desc || "Select Service Type",
+                    value: claimInformationData.Service_Type_Desc || "",
+                  },
+                ]
               )}
             </div>
             {/* <div className="row my-2">
