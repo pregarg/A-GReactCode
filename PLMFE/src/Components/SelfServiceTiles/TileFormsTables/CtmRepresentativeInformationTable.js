@@ -27,6 +27,7 @@ export default function CtmRepresentativeInformationTable({
   const [operationValue, setOperationValue] = useState("");
   const [modalShow, setModalShow] = useState(false);
   const [isTouched, setIsTouched] = useState({});
+
   const [relationshipValues, setRelationshipValues] = useState([]);
   const [authTypeValues, setAuthTypeValues] = useState([]);
   const prop = useLocation();
@@ -388,18 +389,20 @@ const tdData = () => {
               </td>
             )}
 
-            {tableFields.map((e) => (
-              <td className="tableData">
-                {e.endsWith("_Date")
-                  ? data?.[e]?.value
-                    ? formatDate(data[e].value)
-                    : formatDate(data[e])
-                  : data?.[e]?.value
-                    ? convertToCase(data[e].value)
-                    : convertToCase(data[e])}
-              </td>
-            ))}
-          </tr>
+            {tableFields
+                          .filter((e) => e !== "rowNumber")
+                          .map((e) => (
+                            <td className="tableData">
+                              {e.endsWith("_Date")
+                                ? data?.[e]?.value
+                                  ? formatDate(data[e].value)
+                                  : formatDate(data[e])
+                                : data?.[e]?.value
+                                  ? convertToCase(data[e].value)
+                                  : convertToCase(data[e])}
+                            </td>
+                          ))}
+                      </tr>
         );
       });
     }
@@ -492,7 +495,7 @@ const decreaseDataIndex = () => {
                   gridRowsFinalSubmit={gridRowsFinalSubmit}
                   lockStatus={lockStatus}
                   validationErrors={validationErrors}
-                ></GridModal>
+         ></GridModal>
               </>
       );
 }

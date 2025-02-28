@@ -249,6 +249,7 @@ const CtmProviderInformationAccordion = (props) => {
                   editTableRows={editTableRows}
                   gridRowsFinalSubmit={gridRowsFinalSubmit}
                   validationSchema={props.providerGridValidationSchema}
+//                  validationSchema={props.providerGridValidationSchema}
                   lockStatus={
                     prop.state !== null &&
                       prop.state.lockStatus !== undefined &&

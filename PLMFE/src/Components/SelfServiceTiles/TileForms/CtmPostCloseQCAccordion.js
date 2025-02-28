@@ -129,16 +129,16 @@ const CtmPostCloseQC = (props) => {
               {renderInputField("Auditor_Name", "Auditor Name", 50)}
               {renderInputField("Coordinator_Name", "Coordinator Name", 50)}
               {renderSelectField("Review_Level", "Review Level", [
-                { value: "1st", label: "1st" },
-                { value: "2nd", label: "2nd" }
+                 { value: "1ST", label: "1ST" },
+                 { value: "2ND", label: "2ND" }
               ])}
             </div>
             <div className="row my-2">
-              {renderInputField("Coordinator_Supervisor_Name", "Coordinator Supervisor Name", 50)}
+              {renderInputField("Coordinator_Supervisor_Name", "Coordinator/Supervisor Name", 50)}
               {renderDatePicker("QC_Due_Date", "QC Due Date", "QC Due Date")}
               {renderSelectField("QC_Decision", "QC Decision", [
-                { value: "Accept", label: "Accept" },
-                { value: "Reject", label: "Reject" }
+               { value: "ACCEPT", label: "ACCEPT" },
+               { value: "REJECT", label: "REJECT" }
               ])}
             </div>
             <div className="row my-2">

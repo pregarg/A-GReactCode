@@ -203,7 +203,7 @@ const renderInputField = (name, placeholder, maxLength) => (
   );
 
   const dropdownOptions = {
-    primaryMember: ["Yes", "No"],
+    primaryMember: ["YES", "NO"],
     mailToAddress: ["Default", "Alternate"],
  addressType: [
     "A1", "A2", "A3", "A4", "A5", "B1", "B2", "B3", "B5",
@@ -211,8 +211,8 @@ const renderInputField = (name, placeholder, maxLength) => (
     "M5", "PR", "PS", "R1", "R2", "R3", "R4", "R5", "R6",
     "R7", "RG", "T1"
   ],
-    dualPlan: ["Yes", "No"],
-    communicationPreference: ["Email", "Phone", "Mail"]
+    dualPlan: ["YES", "NO"],
+    communicationPreference: ["EMAIL", "PHONE", "MAIL"]
   };
 return (
   <div className="accordion-item" id="ctmMemberInformation">
