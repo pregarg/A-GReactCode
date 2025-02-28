@@ -27,7 +27,10 @@ import useHeader from "./useHeader";
 
 const CtmHeader = () => {
   CtmHeader.displayName = "Ctm";
-  const ctmConfigData = JSON.parse(process.env.REACT_APP_CTMHEADER_DETAILS);
+   const ctmConfigData = JSON.parse(
+      process.env.REACT_APP_CTMHEADER_DETAILS || "{}",
+
+    );
 
   const {
     caseTimelines,

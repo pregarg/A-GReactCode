@@ -17,7 +17,7 @@ const CaseTimelinesAccordion = (props) => {
   const providerDisputeConfigData = JSON.parse(
     process.env.REACT_APP_PROVIDERDISPUTES_DETAILS || "{}",
   );
-const ctmConfigData = JSON.parse(process.env.REACT_APP_CTMHEADER_DETAILS);
+const ctmConfigData = JSON.parse(process.env.REACT_APP_CTMHEADER_DETAILS|| "{}",);
 
 
   const appealsStageName = caseHeaderConfigData["StageName"];
