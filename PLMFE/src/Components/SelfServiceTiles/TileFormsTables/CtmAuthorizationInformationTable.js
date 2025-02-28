@@ -223,18 +223,21 @@ const [isTouched, setIsTouched] = useState({});
               </td>
             )}
 
-            {tableFields.map((e) => (
-              <td className="tableData">
-                {e.endsWith("_Date")
-                  ? data?.[e]?.value
-                    ? formatDate(data[e].value)
-                    : formatDate(data[e])
-                  : data?.[e]?.value
-                    ? convertToCase(data[e].value)
-                    : convertToCase(data[e])}
-              </td>
-            ))}
-          </tr>
+            {tableFields
+                                      .filter((e) => e !== "rowNumber")
+                                      .map((e) => (
+                                        <td className="tableData">
+                                          {e.endsWith("_Date")
+                                            ? data?.[e]?.value
+                                              ? formatDate(data[e].value)
+                                              : formatDate(data[e])
+                                            : data?.[e]?.value
+                                              ? convertToCase(data[e].value)
+                                              : convertToCase(data[e])}
+                                        </td>
+                                      ))}
+                                  </tr>
+
         );
       });
     }

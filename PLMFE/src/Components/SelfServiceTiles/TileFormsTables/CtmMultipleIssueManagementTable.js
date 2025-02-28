@@ -28,12 +28,14 @@ export default function CtmMultipleIssueManagementTable({
   const [modalShow, setModalShow] = useState(false);
   const [selectedIssue, setSelectedIssue] = useState(null);
   const handleShowIssueNotes = (issue) => {
-      setSelectedIssue(issue);
-      setModalShow(true);
-    };
+    setSelectedIssue(issue);
+    setModalShow(true);
+  };
   const [isTouched, setIsTouched] = useState({});
   const prop = useLocation();
   const { getGridJson, convertToCase } = useGetDBTables();
+
+  const [issueNotes, setIssueNotes] = useState(false);
 
 
   useEffect(() => {
@@ -65,7 +67,7 @@ export default function CtmMultipleIssueManagementTable({
 
   ];
 
- const renderSimpleInputField = (name, label, maxLength, index) => {
+  const renderSimpleInputField = (name, label, maxLength, index) => {
     return (
       <div className="col-xs-6 col-md-3">
         <SimpleInputField
@@ -87,13 +89,13 @@ export default function CtmMultipleIssueManagementTable({
   };
 
 
-const renderSimpleSelectField = (name, label, options, index) => {
+  const renderSimpleSelectField = (name, label, options, index) => {
     return (
       <div className="col-xs-6 col-md-3">
         <SimpleSelectField
           name={name}
           label={label}
-            options={Array.isArray(options) ? options : []}
+          options={Array.isArray(options) ? options : []}
           data={gridFieldTempState}
           onChange={(selectValue, event) =>
             handleGridSelectChange(
@@ -109,97 +111,124 @@ const renderSimpleSelectField = (name, label, options, index) => {
       </div>
     );
   };
-    const renderSimpleDatePickerField = (name, label, index) => {
-      return (
-        <div className="col-xs-6 col-md-3">
-          <SimpleDatePickerField
-            name={name}
-            label={label}
-            data={gridFieldTempState}
-            onChange={(selectValue) =>
-              handleGridDateChange(
-                index,
-                selectValue,
-                name,
-                CtmMultipleIssueManagementTable.displayName,
-              )
-            }
-            validationErrors={validationErrors}
+  const renderSimpleDatePickerField = (name, label, index) => {
+    return (
+      <div className="col-xs-6 col-md-3">
+        <SimpleDatePickerField
+          name={name}
+          label={label}
+          data={gridFieldTempState}
+          onChange={(selectValue) =>
+            handleGridDateChange(
+              index,
+              selectValue,
+              name,
+              CtmMultipleIssueManagementTable.displayName,
+            )
+          }
+          validationErrors={validationErrors}
 
-          />
+        />
+      </div>
+    );
+  };
+  const tdDataReplica = (index) => (
+    <div className="Container AddProviderLabel AddModalLabel">
+      <div className="row">
+        {renderSimpleInputField("Issue_Number", "Issue Number", 50, index)}
+        {renderSimpleInputField("Subcase_ID", "Subcase ID", 50, index)}
+        {renderSimpleSelectField("Complaint_Type", "Complaint Type", 50, index)}
+        {renderSimpleSelectField("Issue_Category", "Issue Category", 50, index)}
+      </div>
+      <div className="row mt-3">
+        {renderSimpleSelectField("Issue_Sub_Category", "Issue Sub Category", 50, index)}
+        {renderSimpleSelectField("Issue_Super_Category", "Issue Super Category", 50, index)}
+        {renderSimpleInputField("Complaint_Summary_Issue", "Complaint Summary Issue", 50, index)}
+        {renderSimpleSelectField("Proceed", "Proceed", 50, index)}
+      </div>
+      <div className="row mt-3">
+        {renderSimpleSelectField("Work_Basket", "Work Basket", 50, index)}
+        {renderSimpleSelectField("Requested_Action", "Requested Action", 50, index)}
+        {renderSimpleSelectField("Plan_Request_Type", "Plan Request Type", 50, index)}
+        {renderSimpleInputField("Issue_Notes", "Issue Notes", 50, index)}
+
+      </div>
+      <div className="row mt-2 ml-auto">
+        <button
+          className="button issue-button"
+          onClick={() => setIssueNotes(!issueNotes)}>{issueNotes ? 'Hide' : 'Show'} Issue Notes History</button>
+      </div>
+      {
+        issueNotes && <div className="row  w-full p-3">
+          <table
+            className="table table-bordered tableLayout"
+            id="Issue Notes Table"
+          >
+            <thead>
+              <tr>
+                <th>demo</th>
+                <th>demo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>demo row</td>
+                <td>demo row</td>
+              </tr>
+            </tbody>
+          </table>
+
         </div>
-      );
-    };
-const tdDataReplica = (index) => (
-  <div className="Container AddProviderLabel AddModalLabel">
-    <div className="row">
-      {renderSimpleInputField("Issue_Number", "Issue Number", 50, index)}
-            {renderSimpleInputField("Subcase_ID", "Subcase ID", 50, index)}
-            {renderSimpleSelectField("Complaint_Type", "Complaint Type", 50, index)}
-            {renderSimpleSelectField("Issue_Category", "Issue Category", 50, index)}
+      }
     </div>
-    <div className="row mt-3">
-      {renderSimpleSelectField("Issue_Sub_Category", "Issue Sub Category", 50, index)}
-            {renderSimpleSelectField("Issue_Super_Category", "Issue Super Category",50 , index)}
-            {renderSimpleInputField("Complaint_Summary_Issue", "Complaint Summary Issue", 50, index)}
-       {renderSimpleSelectField("Proceed", "Proceed", 50, index)}
-    </div>
-    <div className="row mt-3">
-     {renderSimpleSelectField("Work_Basket", "Work Basket",50 , index)}
-      {renderSimpleSelectField("Requested_Action", "Requested Action", 50, index)}
-      {renderSimpleSelectField("Plan_Request_Type", "Plan Request Type", 50, index)}
-     {renderSimpleInputField("Issue_Notes", "Issue Notes", 50, index)}
+  );
 
-    </div>
-  </div>
-);
+  const tdData = () => {
 
-const tdData = () => {
-
-       if (
-         ctmMultipleIssueManagementGridData !== undefined &&
-         ctmMultipleIssueManagementGridData.length > 0
-       ) {
-         return ctmMultipleIssueManagementGridData.map((data, index) => {
-           return (
-             <tr
-               key={index}
-               className={
-                 data.DataSource === "CredentialingApi" ? "CredentialingApi" : ""
-               }
-             >
-               {lockStatus === "N" && (
-                 <>
-                   <td>
-                     <span
-                       style={{
-                         display: "flex",
-                       }}
-                     >
-                       <button
-                         className="deleteBtn"
-                         style={{ width: "75%", float: "left" }}
-                         onClick={() => {
-                           deleteTableRows(
-                             index,
-                             CtmMultipleIssueManagementTable.displayName,
-                             "Force Delete",
-                           );
-                           handleOperationValue("Force Delete");
-                           decreaseDataIndex();
-                         }}
-                       >
-                         <i className="fa fa-trash"></i>
-                       </button>
-                       <button
-                         className="editBtn"
-                         style={{ width: "75%", float: "right" }}
-                         type="button"
-                         onClick={() => {
-                          editTableRows(
-                                                    index,
-                                                    CtmMultipleIssueManagementTable.displayName,
-                                                  );
+    if (
+      ctmMultipleIssueManagementGridData !== undefined &&
+      ctmMultipleIssueManagementGridData.length > 0
+    ) {
+      return ctmMultipleIssueManagementGridData.map((data, index) => {
+        return (
+          <tr
+            key={index}
+            className={
+              data.DataSource === "CredentialingApi" ? "CredentialingApi" : ""
+            }
+          >
+            {lockStatus === "N" && (
+              <>
+                <td>
+                  <span
+                    style={{
+                      display: "flex",
+                    }}
+                  >
+                    <button
+                      className="deleteBtn"
+                      style={{ width: "75%", float: "left" }}
+                      onClick={() => {
+                        deleteTableRows(
+                          index,
+                          CtmMultipleIssueManagementTable.displayName,
+                          "Force Delete",
+                        );
+                        handleOperationValue("Force Delete");
+                        decreaseDataIndex();
+                      }}
+                    >
+                      <i className="fa fa-trash"></i>
+                    </button>
+                    <button
+                      className="editBtn"
+                      style={{ width: "75%", float: "right" }}
+                      type="button"
+                      onClick={() => {
+                        editTableRows(
+                          index,
+                          CtmMultipleIssueManagementTable.displayName,
+                        );
                         handleModalChange(true);
                         handleDataIndex(index);
                         handleOperationValue("Edit");
@@ -230,24 +259,26 @@ const tdData = () => {
               </td>
             )}
 
-            {tableFields.map((e) => (
-              <td className="tableData">
-                {e.endsWith("_Date")
-                  ? data?.[e]?.value
-                    ? formatDate(data[e].value)
-                    : formatDate(data[e])
-                  : data?.[e]?.value
-                    ? convertToCase(data[e].value)
-                    : convertToCase(data[e])}
-              </td>
-            ))}
-          </tr>
+            {tableFields
+                                                  .filter((e) => e !== "rowNumber")
+                                                  .map((e) => (
+                                                    <td className="tableData">
+                                                      {e.endsWith("_Date")
+                                                        ? data?.[e]?.value
+                                                          ? formatDate(data[e].value)
+                                                          : formatDate(data[e])
+                                                        : data?.[e]?.value
+                                                          ? convertToCase(data[e].value)
+                                                          : convertToCase(data[e])}
+                                                    </td>
+                                                  ))}
+                                              </tr>
         );
       });
     }
   };
 
-const formatDate = (dateObj) => {
+  const formatDate = (dateObj) => {
     if (dateObj) {
       if (typeof dateObj === "string") {
         dateObj = new Date(Date.parse(dateObj));
@@ -268,75 +299,75 @@ const formatDate = (dateObj) => {
     }
     return null;
   };
-const handleOperationValue = (oprtnValue) => {
+  const handleOperationValue = (oprtnValue) => {
     setOperationValue(oprtnValue);
   };
 
-const handleModalChange = (flag) => {
+  const handleModalChange = (flag) => {
     setModalShow(flag);
   };
 
-const handleDataIndex = (index) => {
+  const handleDataIndex = (index) => {
     setDataIndex(index);
   };
 
-const decreaseDataIndex = () => {
+  const decreaseDataIndex = () => {
     if (operationValue === "Add" || operationValue === "Force Delete") {
       const indx = dataIndex - 1;
       setDataIndex(indx);
     }
   };
 
-    return (
-        <>
-          <div className="claimTable-container">
-                  <table
-                    className="table table-bordered tableLayout"
-                    id="MultipleIssue Management Table"
+  return (
+    <>
+      <div className="claimTable-container">
+        <table
+          className="table table-bordered tableLayout"
+          id="MultipleIssue Management Table"
+        >
+          <thead>
+            <tr className="tableRowStyle tableHeaderColor">
+              {lockStatus === "N" && (
+                <th style={{ width: "100px" }}>
+                  <button
+                    className="addBtn"
+                    onClick={() => {
+                      addTableRows(ctmMultipleIssueManagementGridData.displayName);
+                      handleModalChange(true);
+                      handleDataIndex(ctmMultipleIssueManagementGridData.length);
+                      handleOperationValue("Add");
+                    }}
                   >
-                    <thead>
-                      <tr className="tableRowStyle tableHeaderColor">
-                        {lockStatus === "N" && (
-                          <th style={{ width: "100px" }}>
-                            <button
-                              className="addBtn"
-                              onClick={() => {
-                                addTableRows(ctmMultipleIssueManagementGridData.displayName);
-                                handleModalChange(true);
-                                handleDataIndex(ctmMultipleIssueManagementGridData.length);
-                                handleOperationValue("Add");
-                              }}
-                            >
-                              <i className="fa fa-plus"></i>
-                            </button>
-                          </th>
-                        )}
-                        {lockStatus === "V" && <th style={{ width: "" }}></th>}
-                        {tableFields.map((e) => (
-                          <th scope="col" style={{ width: "100px" }}>{e.replaceAll("_", " ")}</th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody>{tdData()}</tbody>
-                  </table>
-                </div>
+                    <i className="fa fa-plus"></i>
+                  </button>
+                </th>
+              )}
+              {lockStatus === "V" && <th style={{ width: "" }}></th>}
+              {tableFields.map((e) => (
+                <th scope="col" style={{ width: "100px" }}>{e.replaceAll("_", " ")}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>{tdData()}</tbody>
+        </table>
+      </div>
 
-          <GridModal
-                  name="Multiple Issue Management"
-                  validationObject={isTouched}
-                  modalShow={modalShow}
-                  handleModalChange={handleModalChange}
-                  dataIndex={dataIndex}
-                  tdDataReplica={tdDataReplica}
-                  deleteTableRows={deleteTableRows}
-                  gridName={CtmMultipleIssueManagementTable.displayName}
-                  decreaseDataIndex={decreaseDataIndex}
-                  operationValue={operationValue}
-                  gridRowsFinalSubmit={gridRowsFinalSubmit}
-                  lockStatus={lockStatus}
-                  validationErrors={validationErrors}
-                ></GridModal>
-              </>
-      );
+      <GridModal
+        name="Multiple Issue Management"
+        validationObject={isTouched}
+        modalShow={modalShow}
+        handleModalChange={handleModalChange}
+        dataIndex={dataIndex}
+        tdDataReplica={tdDataReplica}
+        deleteTableRows={deleteTableRows}
+        gridName={CtmMultipleIssueManagementTable.displayName}
+        decreaseDataIndex={decreaseDataIndex}
+        operationValue={operationValue}
+        gridRowsFinalSubmit={gridRowsFinalSubmit}
+        lockStatus={lockStatus}
+        validationErrors={validationErrors}
+      ></GridModal>
+    </>
+  );
 
 }

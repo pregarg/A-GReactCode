@@ -156,13 +156,13 @@ const CtmHeader = () => {
                                   />
                                   )}
 
-                  <CtmProviderInformationAccordion
+                  {/*<CtmProviderInformationAccordion
                                            handleProviderGridData={ctmProviderInformationGrid || []}
                                            updateProviderGridData={setCtmProviderInformationGrid}
                                            setProviderInformationCtm={setProviderInformationCtm}
                                            handleData={providerInformationCtm}
                                            providerGridValidationSchema={ctmProviderInformationGridValidationSchema}
-                                         />
+                                         />*/}
                  <CtmAuthorizationInformationAccordion
         handleOnChange={handleCtmAuthorizationInformationChange}
                 handleData={authorizationInformationCtm}
@@ -172,6 +172,15 @@ const CtmHeader = () => {
                  ctmAuthGridValidationSchema={ctmAuthGridValidationSchema}
                />
 
+              <CtmRepresentativeInformationAccordion
+                                                         handleCtmRepGridData={ctmRepresentativeGrid || []}
+                                                         ctmRepGridData={ctmRepGridData}
+                                                         handleData={representativeInformationCtm}
+                                                         setRepresentativeInformationCtm={setRepresentativeInformationCtm}
+                                                         setCtmRepGridData={setCtmRepGridData}
+                                                         updateCtmRepGridData={setCtmRepresentativeGrid}
+                                                         ctmRepGridValidationSchema={ctmRepresentativeGridValidationSchema}
+                                                         />
               <CtmPreCloseQAAccordion
                 preCloseQAData={preCloseQAData}
                 setPreCloseQAData={setPreCloseQAData}

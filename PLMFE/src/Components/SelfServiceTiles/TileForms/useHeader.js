@@ -780,15 +780,43 @@ const [ctmCaseResolution, setCtmCaseResolution] = useState({
     ),
   });
 
-const preCloseQAValidationSchema = Yup.object().shape({ });
-const postCloseQCValidationSchema = Yup.object().shape({ });
+const preCloseQAValidationSchema = Yup.object().shape({
+// Auditor_Name_QA:Yup.string().required("Auditor Name is mandatory"),
+//  Coordinator_Name_QA:Yup.string().required("Coordinator Name is mandatory"),
+//  Review_Level_QA:Yup.string().required("Review Level is mandatory"),
+//  Coordinator_Supervisor_Name_QA:Yup.string().required("Coordinator/Supervisor Name is mandatory"),
+//  QA_Decision:Yup.string().required("QC Decision is mandatory"),
+// QA_Decision_Date:Yup.string().required("QC Decision Date is mandatory"),
+//  First_Review_Date_QA:Yup.string().required("First Review Date is mandatory"),
+//  Second_Review_Date_QA:Yup.string().required("Second Review Date is mandatory"),
+//  QC_Rebuttal_Notes_QA:Yup.string().required("QC Rebuttal Notes is mandatory"),
+
+  });
+const postCloseQCValidationSchema = Yup.object().shape({
+// Auditor_Name:Yup.string().required("Auditor Name is mandatory"),
+// Coordinator_Name:Yup.string().required("Coordinator Name is mandatory"),
+// Review_Level:Yup.string().required("Review Level is mandatory"),
+// Coordinator_Supervisor_Name:Yup.string().required("Coordinator/Supervisor Name is mandatory"),
+// QC_Decision:Yup.string().required("QC Decision is mandatory"),
+// QC_Decision_Date:Yup.string().required("QC Decision Date is mandatory"),
+// First_Review_Date:Yup.string().required("First Review Date is mandatory"),
+// Second_Review_Date:Yup.string().required("Second Review Date is mandatory"),
+// QC_Rebuttal_Notes:Yup.string().required("QC Rebuttal Notes is mandatory"),
+
+ });
 const ctmMemberValidationSchema = Yup.object().shape({ });
 const acknowledgementValidationSchema = Yup.object().shape({ });
-const ctmProviderInformationGridValidationSchema = Yup.object().shape({ });
+const ctmProviderInformationGridValidationSchema = Yup.object().shape({
+//Issue_Number: Yup.string().required("Issue Number is mandatory"),
+});
 const CtmmemberInformationValidationSchema = Yup.object().shape({ });
-const ctmAuthGridValidationSchema = Yup.object().shape({});
+const ctmAuthGridValidationSchema = Yup.object().shape({
+// Issue_Number: Yup.string().required("Issue Number is mandatory"),
+});
 //const ctmClaimInformationGridRowValidationSchema = Yup.object().shape({ });
-const ctmRepresentativeGridValidationSchema = Yup.object().shape({ });
+const ctmRepresentativeGridValidationSchema = Yup.object().shape({
+// Issue_Number: Yup.string().required("Issue Number is mandatory"),
+ });
 const ctmMultiGridValidationSchema = Yup.object().shape({ });
 const ctmCaseResolutionValidationSchema = Yup.object().shape({ });
 
