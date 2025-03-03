@@ -183,23 +183,7 @@ const CtmHeader = () => {
                  ctmAuthGridValidationSchema={ctmAuthGridValidationSchema}
                />
 
-               <CtmSummaryAccordion
-                               ctmSummaryFields={ctmSummaryFields}
-                               ctmSummaryData={ctm_CtmSummary}
-                               setCtmSummaryData={setctmCtmSummary}
-                               ctmSummaryValidationSchema={ctmSummaryValidationSchema}
-                               ctmSummaryErrors={{}}
-                               shouldShowSubmitError={shouldShowSubmitError}
-                             />
-                <CtmCaseCategorizationAccordion
-                                caseCategorizationFields={caseCategorizationFields}
-                                setCaseCategorizationFields={setCaseCategorizationFields}
-                               caseCategorizationData={ctm_CaseCategorization}
-                               setCaseCategorizationData={setCtmCaseCategorization}
-                               caseCategorizationValidationSchema={caseCategorizationValidationSchema}
-                               shouldShowSubmitError={shouldShowSubmitError}
-                                caseCategorizationErrors={{}}
-                                           />
+
               <CtmRepresentativeInformationAccordion
                                                          handleCtmRepGridData={ctmRepresentativeGrid || []}
                                                          ctmRepGridData={ctmRepGridData}
