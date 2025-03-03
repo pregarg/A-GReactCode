@@ -292,7 +292,7 @@ const decreaseDataIndex = () => {
                 <thead>
                   <tr className="tableRowStyle tableHeaderColor">
                     {lockStatus === "N" && (
-                      <th style={{ width: "" }}>
+                      <th style={{ width: "100px" }}>
                         <button
                           className="addBtn"
                           onClick={() => {
@@ -306,7 +306,7 @@ const decreaseDataIndex = () => {
                         </button>
                       </th>
                     )}
-                    {lockStatus === "V" && <th style={{ width: "" }}></th>}
+                    {lockStatus === "V" && <th style={{ width: "120px" }}></th>}
                     {tableFields.map((e) => (
                       <th scope="col">{e.replaceAll("_", " ")}</th>
                     ))}

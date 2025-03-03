@@ -5,6 +5,7 @@ import { FormikInputField } from "../Common/FormikInputField";
 import { FormikSelectField } from "../Common/FormikSelectField";
 import { renderElements } from './Constants';
 import "./Appeals.css";
+import { CTM_DATA } from "../../../data/ctmData";
 
 const CtmCaseCategorizationAccordion = (props) => {
 
@@ -13,16 +14,55 @@ const ctmConfigData = JSON.parse(process.env.REACT_APP_CTMHEADER_DETAILS);
 
   const location = useLocation();
   const [caseCategorizationData, setCaseCategorizationData] = useState(props.caseCategorizationData || {});
-
+  const kvMapper = (e) => ({
+    label: e,
+    value: e,
+  });
   const handleCaseCategorizationData = (name, value, persist) => {
+    if(name === "Category") {
+
+      const subCategoryField = props.caseCategorizationFields.find(field => field.name === 'Sub_Category');
+      const ctmData = CTM_DATA[value];
+      if(ctmData) {
+        subCategoryField['values'] = Object.keys(ctmData).map(kvMapper)
+        props.setCaseCategorizationFields([...props.caseCategorizationFields])
+
+      }
     const newData = {
       ...caseCategorizationData,
-      [name]: value,
+      Category: value,
+      Sub_Category: '',
+      Super_Category: ''
     };
-    setCaseCategorizationData(newData);
-    if (persist) {
-      props.setCaseCategorizationData(newData);
+    setCaseCategorizationData({...newData});
+    props.setCaseCategorizationData(newData);
     }
+    else if(name === "Sub_Category") {
+      const subCategoryField = props.caseCategorizationFields.find(field => field.name === 'Super_Category');
+      const ctmData = CTM_DATA[caseCategorizationData.Category][value];
+      if(ctmData) {
+        subCategoryField['values'] = Object.values(ctmData).map(kvMapper)
+        props.setCaseCategorizationFields([...props.caseCategorizationFields])
+      }
+      const newData = {
+        ...caseCategorizationData,
+        Sub_Category: value,
+        Super_Category: ''
+      };
+      setCaseCategorizationData({...newData});
+      props.setCaseCategorizationData(newData);
+    
+    } else {
+      const newData = {
+        ...caseCategorizationData,
+        [name]: value,
+      };
+      setCaseCategorizationData(newData);
+      if (persist) {
+        props.setCaseCategorizationData(newData);
+      }
+    }
+   
   };
 
   const persistCaseCategorizationData = () => {
@@ -63,14 +103,13 @@ const ctmConfigData = JSON.parse(process.env.REACT_APP_CTMHEADER_DETAILS);
 //      />
 //    </div>
 //  );
- const renderSelectField = (name, placeholder, options, opts = []) => (
- console.log("Options for field:", name, opts),
+ const renderSelectField = (name, placeholder, options) => (
    <div className="col-xs-6 col-md-4">
      <FormikSelectField
        name={name}
        placeholder={placeholder}
        data={caseCategorizationData || {}}
-       options={opts?.map(opt => ({ value: opt, label: opt }))}
+       options={options}
        onChange={handleCaseCategorizationData}
        displayErrors={props.shouldShowSubmitError}
        disabled={

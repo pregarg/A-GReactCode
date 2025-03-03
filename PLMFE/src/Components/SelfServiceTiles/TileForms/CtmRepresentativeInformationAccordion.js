@@ -8,7 +8,7 @@ import useUpdateDecision from "../../CustomHooks/useUpdateDecision";
 const CtmRepresentativeInformationAccordion = (props) => {
   const { checkGridJsonLength } = useGetDBTables();
   const { getRowNumberForGrid } = useUpdateDecision();
-
+const [showRepSearch, setShowRepSearch] = useState(false);
   const [ctmRepGridData, setCtmRepGridData] = useState(props.handleCtmRepGridData || []);
   const [gridFieldTempState, setGridFieldTempState] = useState({});
 
@@ -25,10 +25,16 @@ const CtmRepresentativeInformationAccordion = (props) => {
  let [selectedAddress, setSelectedAddress] = useState([]);
   const prop = useLocation();
 
-  const addTableRows = (triggeredFormName) => {
+
+const addTableRows = (triggeredFormName, index) => {
+
+
     let rowsInput = {};
+
     if (triggeredFormName === "CtmRepresentativeInformationTable") {
-      rowsInput.rowNumber = Array.isArray(ctmRepGridData) ? ctmRepGridData.length : 0;
+      rowsInput.rowNumber = getRowNumberForGrid(
+        ctmRepGridData,
+      );
     }
     setGridFieldTempState(rowsInput);
   };
@@ -68,6 +74,41 @@ const deleteTableRows = (index, triggeredFormName, operationValue) => {
     tempInput[name] = value.toUpperCase();
     setGridFieldTempState(tempInput);
   };
+ const handleSelectedRep = (flag) => {
+     let rowNumber = getRowNumberForGrid(ctmRepGridData);
+     let addressToPopulate = [];
+     if (selectedAddress.length > 0) {
+       selectedAddress.map((elem) => {
+         if (elem?.isChecked) {
+           elem.rowNumber = rowNumber;
+           elem.operation = "I";
+           delete elem["isChecked"];
+           rowNumber++;
+           addressToPopulate.push(elem);
+         }
+       });
+     }
+
+     if (addressToPopulate.length > 0) {
+       setCtmRepGridData([
+         ...ctmRepGridData,
+         ...addressToPopulate,
+       ]);
+       props.updateCtmRepGridData([
+         ...ctmRepGridData,
+         ...addressToPopulate,
+       ]);
+     }
+     else {
+       alert("Please select at least one row.");
+       return;
+     }
+
+     setShowRepSearch(false);
+     setSelectedCriteria([]);
+     setSelectSearchValues([]);
+     setResponseData([]);
+   };
 const handleCheckBoxChange = (event, ind) => {
       let jsn = responseData[ind];
       jsn.isChecked = event.target.checked;

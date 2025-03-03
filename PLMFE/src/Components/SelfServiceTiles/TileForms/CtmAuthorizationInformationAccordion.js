@@ -23,7 +23,7 @@ const CtmAuthorizationInformationAccordion = (props) => {
   const { getRowNumberForGrid } = useUpdateDecision();
 
  const [ctmAuthGridData, setCtmAuthGridData] = useState(props.handleCtmAuthGridData || []);
-
+const [showAuthSearch, setShowAuthSearch] = useState(false);
   const [gridFieldTempState, setGridFieldTempState] = useState({});
  const [responseData, setResponseData] = useState([]);
    const [selectedCriteria, setSelectedCriteria] = useState();
@@ -39,14 +39,18 @@ let [selectedAddress, setSelectedAddress] = useState([]);
   const gridDataRef = useRef({});
 
 
-  const addTableRows = (triggeredFormName) => {
-      let rowsInput = {};
-      if (triggeredFormName === "CtmRepresentativeInformationTable") {
-        rowsInput.rowNumber = Array.isArray(ctmAuthGridData) ? ctmAuthGridData.length : 0;
-      }
-      setGridFieldTempState(rowsInput);
-    };
+const addTableRows = (triggeredFormName, index) => {
 
+
+    let rowsInput = {};
+
+    if (triggeredFormName === "CtmAuthorizationInformationTable") {
+      rowsInput.rowNumber = getRowNumberForGrid(
+        ctmAuthGridData,
+      );
+    }
+    setGridFieldTempState(rowsInput);
+  };
 
   const deleteTableRows = (index, triggeredFormName, operationValue) => {
       if (
@@ -166,7 +170,41 @@ const handleCheckBoxChange = (event, ind) => {
       let rowInput = ctmAuthGridData[index];
       setGridFieldTempState(rowInput);
     };
+ const handleSelectedAuth = (flag) => {
+    let rowNumber = getRowNumberForGrid(ctmAuthGridData);
+    let addressToPopulate = [];
+    if (selectedAddress.length > 0) {
+      selectedAddress.map((elem) => {
+        if (elem?.isChecked) {
+          elem.rowNumber = rowNumber;
+          elem.operation = "I";
+          delete elem["isChecked"];
+          rowNumber++;
+          addressToPopulate.push(elem);
+        }
+      });
+    }
 
+    if (addressToPopulate.length > 0) {
+      setCtmAuthGridData([
+        ...ctmAuthGridData,
+        ...addressToPopulate,
+      ]);
+      props.updateCtmAuthGridData([
+        ...ctmAuthGridData,
+        ...addressToPopulate,
+      ]);
+    }
+    else {
+      alert("Please select at least one row.");
+      return;
+    }
+
+    setShowAuthSearch(false);
+    setSelectedCriteria([]);
+    setSelectSearchValues([]);
+    setResponseData([]);
+  };
   const gridRowsFinalSubmit = (triggeredFormName, index, operationType) => {
     console.log("Inside gridRowsFinalSubmit with view: ", tabRef);
 
