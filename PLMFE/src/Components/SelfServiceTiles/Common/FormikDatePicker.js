@@ -52,21 +52,41 @@ export const FormikDatePicker = ({
     
   //   }
   // };
-  const handleDateChange = (selectedDate) => {
+//  const handleDateChange = (selectedDate) => {
+//    if (selectedDate) {
+//      try {
+//        // Retain the selected date but update time to current time in local timezone
+//        const now = new Date();
+//        selectedDate.setHours(now.getHours(), now.getMinutes(), now.getSeconds());
+//
+//        onChange(name, selectedDate, true);
+//        console.log("name--->", name);
+//        console.log("selected date-->", selectedDate);
+//      } catch (error) {
+//        console.error("Error in handleDateChange:", error);
+//      }
+//    }
+//  };
+const handleDateChange = (selectedDate) => {
+  try {
     if (selectedDate) {
-      try {
-        // Retain the selected date but update time to current time in local timezone
-        const now = new Date();
-        selectedDate.setHours(now.getHours(), now.getMinutes(), now.getSeconds());
-  
-        onChange(name, selectedDate, true);
-        console.log("name--->", name);
-        console.log("selected date-->", selectedDate);
-      } catch (error) {
-        console.error("Error in handleDateChange:", error);
-      }
+      // Retain the selected date but update time to current time in local timezone
+      const now = new Date();
+      selectedDate.setHours(now.getHours(), now.getMinutes(), now.getSeconds());
+
+      onChange(name, selectedDate, true);
+      console.log("name--->", name);
+      console.log("selected date-->", selectedDate);
+    } else {
+      // Handle clearing the date
+      onChange(name, null, true);
+      console.log("Cleared date for:", name);
     }
-  };
+  } catch (error) {
+    console.error("Error in handleDateChange:", error);
+  }
+};
+
 
   return (
     <div>

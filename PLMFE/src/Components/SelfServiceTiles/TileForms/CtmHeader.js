@@ -21,6 +21,8 @@ import CtmClaimInformationAccordion from "../TileForms/CtmClaimInformationAccord
 import CtmRepresentativeInformationAccordion from "../TileForms/CtmRepresentativeInformationAccordion";
 import CtmProviderInformationAccordion from "../TileForms/CtmProviderInformationAccordion";
 import CtmMultipleIssueManagementAccordion from "../TileForms/CtmMultipleIssueManagementAccordion";
+import CtmNotesAccordion from "../TileForms/CtmNotesAccordion";
+import CtmCommunicationCareAccordion from "../TileForms/CtmCommunicationCareAccordion";
 
 import './CTM.css'
 import useHeader from "./useHeader";
@@ -69,6 +71,7 @@ const CtmHeader = () => {
     setCtmRepGridData,
     setCtmMultiGridData,
     caseCategorizationFields,
+    setCaseCategorizationFields,
     caseCategorizationData,
      setCtmCaseCategorization,
      setCaseCategorizationData,
@@ -93,6 +96,14 @@ const CtmHeader = () => {
     setAcknowledgementData,
     acknowledgementValidationSchema,
     acknowledgementErrors,
+    ctmNotesData,
+    setCtmNotesData,
+    ctmNotesValidationSchema,
+    ctmNotesErrors,
+    ctmCommunicationCareData,
+    setCtmCommunicationCareData,
+    ctmCommunicationCareValidationSchema,
+    ctmCommunicationCareErrors,
     ctmAuthorizationGrid,
     setCtmAuthGridData,
     ctmAuthGridValidationSchema,
@@ -172,6 +183,23 @@ const CtmHeader = () => {
                  ctmAuthGridValidationSchema={ctmAuthGridValidationSchema}
                />
 
+               <CtmSummaryAccordion
+                               ctmSummaryFields={ctmSummaryFields}
+                               ctmSummaryData={ctm_CtmSummary}
+                               setCtmSummaryData={setctmCtmSummary}
+                               ctmSummaryValidationSchema={ctmSummaryValidationSchema}
+                               ctmSummaryErrors={{}}
+                               shouldShowSubmitError={shouldShowSubmitError}
+                             />
+                <CtmCaseCategorizationAccordion
+                                caseCategorizationFields={caseCategorizationFields}
+                                setCaseCategorizationFields={setCaseCategorizationFields}
+                               caseCategorizationData={ctm_CaseCategorization}
+                               setCaseCategorizationData={setCtmCaseCategorization}
+                               caseCategorizationValidationSchema={caseCategorizationValidationSchema}
+                               shouldShowSubmitError={shouldShowSubmitError}
+                                caseCategorizationErrors={{}}
+                                           />
               <CtmRepresentativeInformationAccordion
                                                          handleCtmRepGridData={ctmRepresentativeGrid || []}
                                                          ctmRepGridData={ctmRepGridData}
@@ -210,7 +238,20 @@ const CtmHeader = () => {
                 shouldShowSubmitError={shouldShowSubmitError}
                 acknowledgementErrors={acknowledgementErrors}
               />
-
+               <CtmNotesAccordion
+                              ctmNotesData={ctmNotesData}
+                              setCtmNotesData={setCtmNotesData}
+                              ctmNotesValidationSchema={ctmNotesValidationSchema}
+                              shouldShowSubmitError={shouldShowSubmitError}
+                              ctmNotesErrors={ctmNotesErrors}
+                            />
+               <CtmCommunicationCareAccordion
+                                             ctmCommunicationCareData={ctmCommunicationCareData}
+                                             setCtmCommunicationCareData={setCtmCommunicationCareData}
+                                             ctmCommunicationCareValidationSchema={ctmCommunicationCareValidationSchema}
+                                             shouldShowSubmitError={shouldShowSubmitError}
+                                             ctmCommunicationCareErrors={ctmCommunicationCareErrors}
+                                           />
               <CtmCaseResolutionAccordion
                 ctmCaseResolutionData={ctmCaseResolution}
                 setCtmCaseResolutionData={setCtmCaseResolution}

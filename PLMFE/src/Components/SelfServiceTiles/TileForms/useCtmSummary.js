@@ -3,6 +3,7 @@ import * as Yup from "yup";
 import { RenderType } from "./Constants";
 import useGetDBTables from "../../CustomHooks/useGetDBTables";
 import { useSelector } from "react-redux";
+import { CTM_DATA } from "../../../data/ctmData";
 
 export const useCtmSummary = (renderType) => {
  const { convertToCase } = useGetDBTables();
@@ -11,11 +12,16 @@ export const useCtmSummary = (renderType) => {
  const [ctm_CtmSummary, setctmCtmSummary] = useState({
    caseNumber: ""
  });
-
+const kvMapper = (e) => ({
+      label: e,
+      value: e,
+    });
 const [ctmSummaryValidationSchema, setCtmSummaryValidationSchema] =
    useState(Yup.object().shape({}));
 
  useEffect(() => {
+ const ctmData = CTM_DATA;
+     const categoryValues = Object.keys(ctmData).map(kvMapper)
    const fields = [
        {
          type: "input",
@@ -77,6 +83,7 @@ const [ctmSummaryValidationSchema, setCtmSummaryValidationSchema] =
                 name: "Complaint_Category",
                 placeholder: "Complaint Category",
                 maxLength: 50,
+                values: categoryValues
               },
               {
                 type: "select",

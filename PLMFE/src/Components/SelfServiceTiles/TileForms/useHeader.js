@@ -179,7 +179,7 @@ export function convertDateFormatMonthDayYear(inputDateStr) {
       ctm_CaseCategorization,
       caseCategorizationValidationSchema,
       setCtmCaseCategorization,
-
+      setCaseCategorizationFields
     } = useCtmCaseCategorization();
 
 
@@ -369,6 +369,15 @@ export function convertDateFormatMonthDayYear(inputDateStr) {
       Acknowledgement_Date: "",
       Acknowledgement_Due_Date: "",
     });
+
+    const [ctmNotesData, setCtmNotesData] = useState({
+         Plan_Case_Notes: "",
+         Case_Notes: "",
+         Send_to_HPMS:"",
+       });
+     const [ctmCommunicationCareData, setCtmCommunicationCareData] = useState({
+             Resolution_Letter_Preview: "",
+           });
 
    const [preCloseQAData, setPreCloseQAData] = useState({
       caseNumber: "",
@@ -806,6 +815,8 @@ const postCloseQCValidationSchema = Yup.object().shape({
  });
 const ctmMemberValidationSchema = Yup.object().shape({ });
 const acknowledgementValidationSchema = Yup.object().shape({ });
+const ctmNotesValidationSchema = Yup.object().shape({ });
+const ctmCommunicationCareValidationSchema = Yup.object().shape({ });
 const ctmProviderInformationGridValidationSchema = Yup.object().shape({
 //Issue_Number: Yup.string().required("Issue Number is mandatory"),
 });
@@ -855,6 +866,8 @@ const ctmCaseResolutionValidationSchema = Yup.object().shape({ });
   const [preCloseQAErrors, setPreCloseQAErrors] = useState({});
   const [ctmMemberErrors, setCtmMemberErrors] = useState({});
   const [acknowledgementErrors, setAcknowledgementErrors] = useState({});
+  const [ctmNotesErrors, setCtmNotesErrors] = useState({});
+  const [ctmCommunicationCareErrors, setCtmCommunicationCareErrors] = useState({});
 
   const validateSync = (schema, data, setErrors, noReset) => {
     try {
@@ -1004,6 +1017,8 @@ const ctmCaseResolutionValidationSchema = Yup.object().shape({ });
 validateSync(preCloseQAValidationSchema, preCloseQAData, setPreCloseQAErrors);
 validateSync(ctmMemberValidationSchema, ctmMemberData, setCtmMemberErrors);
 validateSync(acknowledgementValidationSchema, acknowledgementData, setAcknowledgementErrors);
+validateSync(ctmNotesValidationSchema, ctmNotesData, setCtmNotesErrors);
+validateSync(ctmCommunicationCareValidationSchema, ctmCommunicationCareData, setCtmCommunicationCareErrors);
   validateSync(
         caseResolutionValidationSchema,
         caseResolution,
@@ -1137,6 +1152,8 @@ const checkForCTMError = () => {
     ...caseResolutionErrors,
     ...ctmMemberErrors,
     ...acknowledgementErrors,
+    ...ctmNotesErrors,
+    ...ctmCommunicationCareErrors,
    ...ctmCaseResolutionErrors,
   });
 };
@@ -1428,6 +1445,12 @@ const checkForCTMError = () => {
 
     const ctmAcknowledgement = trimJsonValues({ ...acknowledgementData });
     apiJson["Ctm_Acknowledgement"] = ctmAcknowledgement;
+
+     const ctmNotes = trimJsonValues({ ...ctmNotesData });
+     apiJson["Ctm_Notes"] = ctmNotes ;
+
+    const ctmCommunicationCare = trimJsonValues({ ...ctmCommunicationCareData });
+    apiJson["Ctm_Communications_That_Care"] = ctmCommunicationCare  ;
 
     const ctmAuthorizationInformation = trimJsonValues({...authorizationInformationCtm });
     apiJson["CTM_Authorization_Information"] = ctmAuthorizationInformation;
@@ -2681,6 +2704,8 @@ const checkForCTMError = () => {
         setPostCloseQCData(data?.["ctmPostCloseQC"]?.[0] || {});
         setCtmMemberData(data?.["ctmMemberInformation"]?.[0] || {});
         setAcknowledgementData(data?.["ctmAcknowledgement"]?.[0] || {});
+        setCtmNotesData(data?.["ctmNotes"]?.[0] || {});
+        setCtmCommunicationCareData(data?.["ctmCommunicationCare"]?.[0] || {});
         setCtmCaseResolution(data?.["ctmResolution"]?.[0] || {});
         setAuthorizationInformationCtm(
                   data?.["ctmAuthorizationInformation"]?.[0] || {},
@@ -3905,6 +3930,7 @@ const checkForCTMError = () => {
 	  const ctmSummary  = trimJsonValues({ ...ctm_CtmSummary });
 	  const ctmCaseCategorization = trimJsonValues({ ...ctm_CaseCategorization });
 	  const ctmAcknowledgement  = trimJsonValues({ ...acknowledgementData });
+	  const ctmNotes  = trimJsonValues({ ...ctmNotesData });
       const ctmResolution  = trimJsonValues({ ...ctmCaseResolution });
       const ctmAuthorizationInformation = trimJsonValues({...authorizationInformationCtm});
       const ctmProviderInformation = trimJsonValues({...providerInformationCtm});
@@ -4280,6 +4306,10 @@ let updateCtmMultiLevelIssueManagementGridDataArray = [];
                           ctmAcknowledgement,
                           formData["ctmAcknowledgement"]?.[0],
                         );
+    apiJson["Ctm_Notes"]= CompareJSON(
+                              ctmNotes,
+                              formData["ctmNotes"]?.[0],
+                            );
     apiJson["CTM_Case_Resolution"]= CompareJSON(
                               ctmResolution,
                               formData["ctmResolution"]?.[0],
@@ -4556,6 +4586,7 @@ let updateCtmMultiLevelIssueManagementGridDataArray = [];
     auditLogs,
     ctmSummaryFields,
     caseCategorizationFields,
+    setCaseCategorizationFields,
     ctm_CaseCategorization,
     caseCategorizationValidationSchema,
     setPreCloseQAData,
@@ -4585,7 +4616,7 @@ let updateCtmMultiLevelIssueManagementGridDataArray = [];
     ctmRepresentativeGrid,
     setCtmRepresentativeGrid,
     ctmMultipleIssueGrid,
-        setCtmMultipleIssueGrid,
+    setCtmMultipleIssueGrid,
     ctmRepresentativeGridValidationSchema,
     ctmMultiGridValidationSchema,
     ctmCaseResolution,
@@ -4597,6 +4628,14 @@ let updateCtmMultiLevelIssueManagementGridDataArray = [];
     authorizationInformationCtm, 
     setAuthorizationInformationCtm,
     setRepresentativeInformationCtm,
+    ctmNotesData,
+    setCtmNotesData,
+    ctmNotesValidationSchema,
+    ctmNotesErrors,
+    ctmCommunicationCareData,
+    setCtmCommunicationCareData,
+    ctmCommunicationCareValidationSchema,
+    ctmCommunicationCareErrors,
   };
  };
 export default useHeader;

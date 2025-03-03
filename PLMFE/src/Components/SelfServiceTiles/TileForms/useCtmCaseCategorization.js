@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import { RenderType } from "./Constants";
 import useGetDBTables from "../../CustomHooks/useGetDBTables";
 import { useSelector } from "react-redux";
+import { CTM_DATA } from "../../../data/ctmData";
 
 export const useCtmCaseCategorization = (renderType) => {
   const { convertToCase } = useGetDBTables();
@@ -13,10 +14,15 @@ export const useCtmCaseCategorization = (renderType) => {
 
   const [caseCategorizationValidationSchema, setCaseCategorizationValidationSchema] =
     useState(Yup.object().shape({}));
-
+    const kvMapper = (e) => ({
+      label: e,
+      value: e,
+    });
   useEffect(() => {
+    const ctmData = CTM_DATA;
+    const categoryValues = Object.keys(ctmData).map(kvMapper)
     const fields = [
-      { type: "select", name: "Category", placeholder: "Category", maxLength: 50 },
+      { type: "select", name: "Category", placeholder: "Category", maxLength: 50, values: categoryValues },
       { type: "select", name: "Sub_Category", placeholder: "SubCategory", maxLength: 50 },
       { type: "select", name: "Super_Category", placeholder: "Super Category", maxLength: 50 },
       { type: "select", name: "High_Level_Cause", placeholder: "High Level Cause", maxLength: 100 },
@@ -49,5 +55,6 @@ export const useCtmCaseCategorization = (renderType) => {
     ctm_CaseCategorization,
     caseCategorizationValidationSchema,
     setCtmCaseCategorization,
+    setCaseCategorizationFields
   };
 };

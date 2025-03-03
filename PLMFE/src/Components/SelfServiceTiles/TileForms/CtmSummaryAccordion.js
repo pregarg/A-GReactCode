@@ -8,6 +8,7 @@ import { FormikInputField } from "../Common/FormikInputField";
 import { FormikDatePicker } from "../Common/FormikDatePicker";
 import { FormikSelectField } from "../Common/FormikSelectField";
 import { renderElements, RenderType } from "./Constants";
+import { CTM_DATA } from "../../../data/ctmData";
 
 const CtmSummaryAccordion = (props) => {
  const location = useLocation();
@@ -20,16 +21,42 @@ const CtmSummaryAccordion = (props) => {
 
  const [ctmSummaryData, setCtmSummaryData] = useState(props.ctmSummaryData || {});
 
- const handleCtmSummaryData = (name, value, persist) => {
-   const newData = {
-     ...ctmSummaryData,
-     [name]: typeof value === "string" ? convertToCase(value) : value,
-   };
-   setCtmSummaryData(newData);
-   if (persist) {
+const kvMapper = (e) => ({
+    label: e,
+    value: e,
+  });
+
+  const handleCtmSummaryData = (name, value, persist) => {
+    if(name === "Complaint_Category") {
+
+      const subCategoryField = props.ctmSummaryFields.find(field => field.name === 'Complaint_SubCategory');
+      const ctmData = CTM_DATA[value];
+      if(ctmData) {
+        subCategoryField['values'] = Object.keys(ctmData).map(kvMapper)
+        props.setCtmSummaryFields([...props.ctmSummaryFields])
+
+      }
+    const newData = {
+      ...ctmSummaryData,
+      Category: value,
+      Complaint_SubCategory: ''
+
+    };
+    setCtmSummaryData({...newData});
      props.setCtmSummaryData(newData);
-   }
- };
+    }
+     else {
+          const newData = {
+            ...ctmSummaryData,
+            [name]: value,
+          };
+          setCtmSummaryData(newData);
+          if (persist) {
+            props.setCtmSummaryData(newData);
+          }
+        }
+
+  };
  const persistCtmSummaryDataData = () => {
    props.setCtmSummaryData(ctmSummaryData);
  };
@@ -51,14 +78,13 @@ const CtmSummaryAccordion = (props) => {
    </div>
  );
 
- const renderSelectField = (name, placeholder, options, opts = []) => (
- console.log("Options for field:", name, opts),
+ const renderSelectField = (name, placeholder, options) => (
    <div className="col-xs-6 col-md-4">
      <FormikSelectField
        name={name}
        placeholder={placeholder}
        data={ctmSummaryData || {}}
-       options={opts?.map(opt => ({ value: opt, label: opt }))}
+       options={options}
        onChange={handleCtmSummaryData}
        displayErrors={props.shouldShowSubmitError}
 //       disabled={

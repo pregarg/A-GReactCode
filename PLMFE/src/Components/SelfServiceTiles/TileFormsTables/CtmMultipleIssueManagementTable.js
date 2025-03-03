@@ -343,9 +343,14 @@ export default function CtmMultipleIssueManagementTable({
                 </th>
               )}
               {lockStatus === "V" && <th style={{ width: "" }}></th>}
-              {tableFields.map((e) => (
-                <th scope="col" style={{ width: "100px" }}>{e.replaceAll("_", " ")}</th>
-              ))}
+
+              {tableFields
+                                                  .filter((e) => e !== "rowNumber")
+                                                  .map((e) => (
+                                                    <th scope="col" style={{ width: "100px" }}>
+                                                      {e.replaceAll("_", " ")}
+                                                    </th>
+                                                  ))}
             </tr>
           </thead>
           <tbody>{tdData()}</tbody>

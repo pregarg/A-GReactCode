@@ -9,7 +9,7 @@ const CtmMultipleIssueManagementAccordion = (props) => {
   const { checkGridJsonLength } = useGetDBTables();
   const { getRowNumberForGrid } = useUpdateDecision();
 
-  const [ctmMultiGridData, setCtmMultiGridData] = useState(props.handleCtmMultiGridData || []);
+  const [ctmMultiGridData, setCtmMultiGridData] = useState(props.handleCtmMultiGridData );
   const [gridFieldTempState, setGridFieldTempState] = useState({});
 
   const tabRef = useRef("HomeView");
@@ -18,10 +18,16 @@ const CtmMultipleIssueManagementAccordion = (props) => {
 
   const prop = useLocation();
 
-  const addTableRows = (triggeredFormName) => {
+
+const addTableRows = (triggeredFormName, index) => {
+
+
     let rowsInput = {};
-    if (triggeredFormName === "CtmMultipleIssueManagementTable") {
-      rowsInput.rowNumber = Array.isArray(ctmMultiGridData) ? ctmMultiGridData.length : 0;
+
+    if (triggeredFormName ==="CtmMultipleIssueManagementTable") {
+      rowsInput.rowNumber = getRowNumberForGrid(
+        ctmMultiGridData,
+      );
     }
     setGridFieldTempState(rowsInput);
   };
