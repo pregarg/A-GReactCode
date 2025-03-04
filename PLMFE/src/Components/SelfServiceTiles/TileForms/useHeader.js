@@ -4352,7 +4352,7 @@ let updateCtmMultiLevelIssueManagementGridDataArray = [];
   
           if (saveType === "SS") {
             alert("Case updated successfully: " + location.state.caseNumber);
-            updateDecision(location, saveType, "Ctm");
+            updateDecision(location, saveType, "CTM");
   
             let procData = {
               state: {
