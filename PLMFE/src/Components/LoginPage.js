@@ -42,6 +42,11 @@ import {
   getMasterAngPortalEnrolled,
   getMasterAngDeceased,
   getMasterAngGender,
+  getMasterCtmAddressType,
+    getMasterCtmSendToHPMS,
+    getMasterCtmDropDown,
+    getMasterCtmIssueLevel,
+    getMasterCtmHighLevelCause,
   getMasterAngDualPlan,
   getMasterAngMailToAddress,
   getMasterAngPreferredLanguage,
@@ -455,6 +460,15 @@ export default function LoginPage() {
         ),
       );
       dispatch(
+              getMasterCtmAddressType(
+                loginToken,
+                false,
+                onMasterLoadFail,
+                onMasterLoadSuccess,
+              ),
+            );
+
+      dispatch(
         getMasterAngDeceased(
           loginToken,
           false,
@@ -462,6 +476,38 @@ export default function LoginPage() {
           onMasterLoadSuccess,
         ),
       );
+       dispatch(
+              getMasterCtmSendToHPMS(
+                loginToken,
+                false,
+                onMasterLoadFail,
+                onMasterLoadSuccess,
+              ),
+            );
+      dispatch(
+                    getMasterCtmDropDown(
+                      loginToken,
+                      false,
+                      onMasterLoadFail,
+                      onMasterLoadSuccess,
+                    ),
+                  );
+       dispatch(
+                     getMasterCtmIssueLevel(
+                       loginToken,
+                       false,
+                       onMasterLoadFail,
+                       onMasterLoadSuccess,
+                     ),
+                   );
+       dispatch(
+                    getMasterCtmHighLevelCause(
+                      loginToken,
+                      false,
+                      onMasterLoadFail,
+                      onMasterLoadSuccess,
+                    ),
+                  );
       dispatch(
         getMasterAngDualPlan(
           loginToken,
@@ -764,6 +810,14 @@ export default function LoginPage() {
         ),
       );
       dispatch(
+              getMasterCtmAddressType(
+                loginToken,
+                false,
+                onMasterLoadFail,
+                onMasterLoadSuccess,
+              ),
+            );
+      dispatch(
         getMasterAngDeceased(
           loginToken,
           false,
@@ -771,6 +825,38 @@ export default function LoginPage() {
           onMasterLoadSuccess,
         ),
       );
+      dispatch(
+              getMasterCtmSendToHPMS(
+                loginToken,
+                false,
+                onMasterLoadFail,
+                onMasterLoadSuccess,
+              ),
+            );
+      dispatch(
+                           getMasterCtmIssueLevel(
+                             loginToken,
+                             false,
+                             onMasterLoadFail,
+                             onMasterLoadSuccess,
+                           ),
+                         );
+     dispatch(
+               getMasterCtmHighLevelCause(
+                 loginToken,
+                      false,
+                      onMasterLoadFail,
+                      onMasterLoadSuccess,
+                    ),
+                  );
+     dispatch(
+                   getMasterCtmDropDown(
+                     loginToken,
+                     false,
+                     onMasterLoadFail,
+                     onMasterLoadSuccess,
+                   ),
+                 );
       dispatch(
         getMasterAngDualPlan(
           loginToken,

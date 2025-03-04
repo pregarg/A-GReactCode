@@ -81,6 +81,21 @@ const [isTouched, setIsTouched] = useState({});
     "CPT_Description",
   ];
 
+  const columnWidthMap = {
+       'Issue_Number': '150px',
+        'Auth_Type_Description': '150px',
+        'Auth_Number': '150px',
+        'Authorization_Type': '150px',
+        'Auth_Type_Description': '150px',
+        'Provider_Name': '150px',
+        'Auth_Status': '150px',
+        'Auth_Request_Date': '150px',
+        'Auth_Service_Start_Date': '150px',
+        'Auth_Expiration_Date': '150px',
+        'Denial_Code_and_Reason': '150px',
+        'CPT_Description': '150px',
+  }
+
   const renderSimpleInputField = (name, label, maxLength, index) => (
     <div className="col-xs-6 col-md-3">
       <SimpleInputField
@@ -307,9 +322,11 @@ const decreaseDataIndex = () => {
                       </th>
                     )}
                     {lockStatus === "V" && <th style={{ width: "120px" }}></th>}
-                    {tableFields.map((e) => (
-                      <th scope="col">{e.replaceAll("_", " ")}</th>
-                    ))}
+                    {tableFields
+                                                                                .filter((e) => e !== "rowNumber")
+                                                                                .map((e) => (
+                                                                                   <th scope="col" style={{'width': columnWidthMap[e]}}>{e.replaceAll("_", " ")}</th>
+                                                                                ))}
                   </tr>
                 </thead>
                 <tbody>{tdData()}</tbody>

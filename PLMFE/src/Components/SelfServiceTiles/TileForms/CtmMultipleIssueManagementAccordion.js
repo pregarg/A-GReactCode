@@ -8,7 +8,10 @@ import useUpdateDecision from "../../CustomHooks/useUpdateDecision";
 const CtmMultipleIssueManagementAccordion = (props) => {
   const { checkGridJsonLength } = useGetDBTables();
   const { getRowNumberForGrid } = useUpdateDecision();
-
+const [showRepSearch, setShowRepSearch] = useState(false);
+ const [responseData, setResponseData] = useState([]);
+const [selectedCriteria, setSelectedCriteria] = useState();
+  const [selectSearchValues, setSelectSearchValues] = useState();
   const [ctmMultiGridData, setCtmMultiGridData] = useState(props.handleCtmMultiGridData );
   const [gridFieldTempState, setGridFieldTempState] = useState({});
 
@@ -18,7 +21,7 @@ const CtmMultipleIssueManagementAccordion = (props) => {
 
   const prop = useLocation();
 
-
+let [selectedAddress, setSelectedAddress] = useState([]);
 const addTableRows = (triggeredFormName, index) => {
 
 
@@ -46,7 +49,41 @@ const deleteTableRows = (index, triggeredFormName, operationValue) => {
       setGridFieldTempState({});
     }
   };
+ const handleSelectedRep = (flag) => {
+     let rowNumber = getRowNumberForGrid(ctmMultiGridData);
+     let addressToPopulate = [];
+     if (selectedAddress.length > 0) {
+       selectedAddress.map((elem) => {
+         if (elem?.isChecked) {
+           elem.rowNumber = rowNumber;
+           elem.operation = "I";
+           delete elem["isChecked"];
+           rowNumber++;
+           addressToPopulate.push(elem);
+         }
+       });
+     }
 
+     if (addressToPopulate.length > 0) {
+       setCtmMultiGridData([
+         ...ctmMultiGridData,
+         ...addressToPopulate,
+       ]);
+       props.updateCtmMultiGridData([
+         ...ctmMultiGridData,
+         ...addressToPopulate,
+       ]);
+     }
+     else {
+       alert("Please select at least one row.");
+       return;
+     }
+
+     setShowRepSearch(false);
+     setSelectedCriteria([]);
+     setSelectSearchValues([]);
+     setResponseData([]);
+   };
   const handleGridSelectChange = (index, selectedValue, event) => {
     const { name } = event;
     setGridFieldTempState({

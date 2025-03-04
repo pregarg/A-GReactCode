@@ -38,7 +38,7 @@ const kvMapper = (e) => ({
       }
     const newData = {
       ...ctmSummaryData,
-      Category: value,
+      Complaint_Category: value,
       Complaint_SubCategory: ''
 
     };

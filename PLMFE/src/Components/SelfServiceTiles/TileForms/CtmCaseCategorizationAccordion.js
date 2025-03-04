@@ -85,24 +85,7 @@ const ctmConfigData = JSON.parse(process.env.REACT_APP_CTMHEADER_DETAILS);
     </div>
   );
 
-//  const renderSelectField = (name, placeholder, options) => (
-//    <div className="col-xs-6 col-md-4">
-//      <FormikSelectField
-//        name={name}
-//        placeholder={placeholder}
-//        data={caseCategorizationData || {}}
-//        options={options}
-//        onChange={handleCaseCategorizationData}
-//        displayErrors={props.shouldShowSubmitError}
-//        disabled={
-//          location.state.formView === "DashboardView" &&
-//          (location.state.stageName === "Case Completed" || location.state.stageName === "Case Archived")
-//        }
-//        schema={props.caseCategorizationValidationSchema}
-//        errors={props.caseCategorizationErrors}
-//      />
-//    </div>
-//  );
+
  const renderSelectField = (name, placeholder, options) => (
    <div className="col-xs-6 col-md-4">
      <FormikSelectField

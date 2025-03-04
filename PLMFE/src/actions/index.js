@@ -361,7 +361,196 @@ export const getMasterAngDenialType = (
     }
   };
 };
-
+export const getMasterCtmAddressType = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append(
+        "tableName",
+        "CTM_ADDRESS_TYPE~masterCtmAddressType",
+      );
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterCtmAddressType];
+            //console.log(response);
+            dispatch({ type: "GET_ADDRESS_TYPE", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_ADDRESS_TYPE", payload: "" });
+    }
+  };
+};
+export const getMasterCtmSendToHPMS = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append(
+        "tableName",
+        "CTM_MASTER_SEND_TO_HPMS~masterCtmSendToHPMS",
+      );
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterCtmSendToHPMS];
+            //console.log(response);
+            dispatch({ type: "GET_SEND_TO_HPMS", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_SEND_TO_HPMS", payload: "" });
+    }
+  };
+};
+export const getMasterCtmIssueLevel = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append(
+        "tableName",
+        "CTM_MASTER_ISSUE_LEVEL~masterCtmIssueLevel",
+      );
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterCtmIssueLevel];
+            //console.log(response);
+            dispatch({ type: "GET_ISSUE_LEVEL", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_ISSUE_LEVEL", payload: "" });
+    }
+  };
+};
+export const getMasterCtmDropDown = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append(
+        "tableName",
+        "CTM_MASTER_DROP_DOWN~masterCtmDropDown",
+      );
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterCtmDropDown];
+            //console.log(response);
+            dispatch({ type: "GET_DROP_DOWN", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_DROP_DOWN", payload: "" });
+    }
+  };
+};
+export const getMasterCtmHighLevelCause = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append(
+        "tableName",
+        "CTM_MASTER_HIGH_LEVEL_CAUSE~masterCtmHighLevelCause",
+      );
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterCtmHighLevelCause];
+            //console.log(response);
+            dispatch({ type: "GET_HIGH_LEVEL_CAUSE", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_HIGH_LEVEL_CAUSE", payload: "" });
+    }
+  };
+};
 export const getMasterAngAppellantType = (
   token,
   clearFlag = false,
@@ -1110,41 +1299,7 @@ export const getMasterAngGender = (
     }
   };
 };
-export const getMasterCTMAddressType = (
-  token,
-  clearFlag = false,
-  onError,
-  onSuccess,
-) => {
-  return (dispatch) => {
-    if (!clearFlag) {
-      const apiData = new FormData();
-      apiData.append("tableName", "CTM_MASTER_ADDRESS_TYPE~masterCTMAddressType");
-      axios
-        .post("/generic/get/masterTableData", apiData, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then((res) => {
-          if (res.data.Status === 0) {
-            const respData = [...res.data.data.masterCTMAddressType];
-            //console.log(response);
-            dispatch({ type: "GET_MASTER_ADDRESS_TYPE", payload: respData });
-            if (onSuccess) {
-              onSuccess(res);
-            }
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-          if (onError) {
-            onError(error);
-          }
-        });
-    } else if (clearFlag) {
-      dispatch({ type: "CLEAR_MASTER_ADDRESS_TYPE", payload: "" });
-    }
-  };
-};
+
 export const getMasterAngDualPlan = (
   token,
   clearFlag = false,

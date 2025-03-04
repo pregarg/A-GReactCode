@@ -3,11 +3,12 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { FormikInputField } from "../Common/FormikInputField";
+import useGetDBTables from "../../CustomHooks/useGetDBTables";
 import { FormikDatePicker } from "../Common/FormikDatePicker";
 import { FormikSelectField } from "../Common/FormikSelectField";
 
 const CtmMemberInformationAccordion = (props) => {
-
+const { convertToCase, extractDate, getDatePartOnly } = useGetDBTables();
  const ctmConfigData = JSON.parse(process.env.REACT_APP_CTMHEADER_DETAILS);
   const stageName = ctmConfigData["StageName"];
 
@@ -18,6 +19,13 @@ const [residentialMandatory, setResidentialMandatory] = useState(false);
  const [responseData, setResponseData] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState([]);
 const [temporaryMandatory, setTemporaryMandatory] = useState(false);
+const angDeceasedSelector = useSelector((state) => state?.masterAngDeceased);
+const mailToAddSelector = useSelector(
+    (state) => state?.masterAngMailToAddress,
+  );
+ const addressTypeSelector = useSelector(
+     (state) => state?.masterCtmAddressType,
+   );
  const [whiteGloveIndicator, setWhiteGloveIndicator] = useState(props.ctmMemberData?.isChecked === '1');
  const [whiteGloveIndicatorInitialized, setWhiteGloveIndicatorInitialized] =
      useState(false);
@@ -101,30 +109,7 @@ useEffect(() => {
       setSelectedAddress(updatedTableData);
     };
 
-//  const handleFieldChange = (name, value, persist = false) => {
-//    const newData = { ...ctmMemberData, [name]: value };
-//    setCtmMemberData(newData);
-//    if (persist) {
-//      persistCtmMemberData();
-//    }
-//  };
 
-//  const renderInputField = (name, placeholder, maxLength) => (
-//    <div className="col-xs-6 col-md-4">
-//      <FormikInputField
-//        name={name}
-//        placeholder={placeholder}
-//        maxLength={maxLength}
-//        data={ctmMemberData}
-//        onChange={handleFieldChange}
-//        disabled={invalidInputState}
-//        persist={persistCtmMemberData}
-//        schema={props.ctmMemberValidationSchema}
-//        displayErrors={props.shouldShowSubmitError}
-//        errors={props.ctmMemberErrors}
-//      />
-//    </div>
-//  );
 const handleFieldChange = (name, value, persist = false) => {
   if (
     (name === "Alternate_Phone_Number" ||
@@ -191,7 +176,7 @@ const renderInputField = (name, placeholder, maxLength) => (
         name={name}
         placeholder={placeholder}
         data={ctmMemberData}
-        options={options.map(opt => ({ value: opt, label: opt }))}
+        options={options}
         onChange={handleFieldChange}
         disabled={invalidInputState}
         persist={persistCtmMemberData}
@@ -201,18 +186,42 @@ const renderInputField = (name, placeholder, maxLength) => (
       />
     </div>
   );
+ const [deceasedValues, setDeceasedValues] = useState([]);
+  const [mailToAddressValues, setMainToAddressValues] = useState([]);
+  const [addressTypeValues, setAddressTypeValues] = useState([]);
+useEffect(() => {
+    const kvMapper = (e) => ({
+      label: convertToCase(e),
+      value: convertToCase(e),
+    });
+    const ctmPrimaryMember = angDeceasedSelector?.[0] || [];
+    setDeceasedValues(ctmPrimaryMember.map((e) => e.Primary_Member).map(kvMapper));
 
+
+    const mailToAdd = mailToAddSelector?.[0] || [];
+    setMainToAddressValues(
+      [...new Set(mailToAdd.map((e) => convertToCase(e.Mail_to_Address)))].map(
+        kvMapper,
+      ),
+    );
+
+const addressType= addressTypeSelector?.[0] || [];
+    setAddressTypeValues(
+      [...new Set(addressType.map((e) => convertToCase(e.Mail_to_Address)))].map(
+        kvMapper,
+      ),
+    );
+
+  }, []);
   const dropdownOptions = {
-    primaryMember: ["YES", "NO"],
-    mailToAddress: ["Default", "Alternate"],
+
  addressType: [
     "A1", "A2", "A3", "A4", "A5", "B1", "B2", "B3", "B5",
     "C1", "E1", "E2", "EA", "F1", "M1", "M2", "M3", "M4",
     "M5", "PR", "PS", "R1", "R2", "R3", "R4", "R5", "R6",
     "R7", "RG", "T1"
   ],
-    dualPlan: ["YES", "NO"],
-    communicationPreference: ["EMAIL", "PHONE", "MAIL"]
+
   };
 return (
   <div className="accordion-item" id="ctmMemberInformation">
@@ -237,7 +246,7 @@ return (
         <div className="accordion-body">
           <div className="row my-2">
             {renderInputField("Issue_Number", "Issue Number", 50)}
-            {renderSelectField("Primary_Member", "Primary Member", dropdownOptions.primaryMember)}
+            {renderSelectField("Primary_Member", "Primary Member", deceasedValues)}
             {renderInputField("Member_ID", "Member ID", 50)}
           </div>
           <div className="row my-2">
@@ -277,7 +286,7 @@ return (
           </div>
           <div className="row my-2">
             {renderInputField("Preferred_Language", "Preferred Language", 50)}
-            {renderSelectField("Mail_to_Address", "Mail to Address?", dropdownOptions.mailToAddress)}
+            {renderSelectField("Mail_to_Address", "Mail to Address?", mailToAddressValues)}
             {renderInputField("Fax_Number", "Fax Number", 15)}
           </div>
 
@@ -343,7 +352,7 @@ return (
           {/** Member Residential Address Section **/}
           <div className="sub-title">Member Residential Address</div>
           <div className="row my-2">
-            {renderSelectField("Residential_Address_Type", "Address Type", dropdownOptions.addressType)}
+            {renderSelectField("Residential_Address_Type", "Address Type", addressTypeValues)}
             {renderInputField("Residential_Address_Line_1", "Address Line 1", 100, residentialMandatory ? props.ctmMemberValidationSchema : undefined)}
             {renderInputField("Residential_Address_Line_2", "Address Line 2", 100)}
           </div>
@@ -359,7 +368,7 @@ return (
 
           <div className="sub-title">Member Mailing Address</div>
           <div className="row my-2">
-            {renderSelectField("Mailing_Address_Type", "Address Type", dropdownOptions.addressType)}
+            {renderSelectField("Mailing_Address_Type", "Address Type", addressTypeValues)}
             {renderInputField("Mailing_Address_Line_1", "Address Line 1", 100)}
             {renderInputField("Mailing_Address_Line_2", "Address Line 2", 100)}
           </div>
@@ -375,7 +384,7 @@ return (
 
           <div className="sub-title">Member Temporary Address</div>
           <div className="row my-2">
-            {renderSelectField("Temporary_Address_Type", "Address Type", dropdownOptions.addressType)}
+            {renderSelectField("Temporary_Address_Type", "Address Type", addressTypeValues)}
             {renderInputField("Temporary_Address_Line_1", "Address Line 1", 100, temporaryMandatory ? props.ctmMemberValidationSchema : undefined)}
             {renderInputField("Temporary_Address_Line_2", "Address Line 2", 100)}
           </div>

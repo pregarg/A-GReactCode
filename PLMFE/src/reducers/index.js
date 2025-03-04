@@ -585,6 +585,42 @@ const masterAngGenderReducer = (state = [], action) => {
   }
   return state;
 };
+const masterCtmHighLevelCauseReducer = (state = [], action) => {
+  if (action.type === "GET_HIGH_LEVEL_CAUSE") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_HIGH_LEVEL_CAUSE") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+const masterCtmIssueLevelReducer = (state = [], action) => {
+  if (action.type === "GET_ISSUE_LEVEL") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_ISSUE_LEVEL") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+const masterCtmSendToHPMSReducer = (state = [], action) => {
+  if (action.type === "GET_SEND_TO_HPMS") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_SEND_TO_HPMS") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+const masterCtmDropDownReducer = (state = [], action) => {
+  if (action.type === "GET_DROP_DOWN") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_DROP_DOWN") {
+    state = [];
+    return state;
+  }
+  return state;
+};
 
 const masterAngDualPlanReducer = (state = [], action) => {
   if (action.type === "GET_ANG_DUAL_PLAN") {
@@ -1069,9 +1105,9 @@ const masterPDcptDescriptionReducer = (state = [], action) => {
   return state;
 };
 const masterCTMAddressTypeReducer = (state = [], action) => {
-  if (action.type === "GET_MASTER_ADDRESS_TYPE") {
+  if (action.type === "GET_ADDRESS_TYPE") {
     return [action.payload];
-  } else if (action.type === "CLEAR_MASTER_ADDRESS_TYPE") {
+  } else if (action.type === "CLEAR_ADDRESS_TYPE") {
     state = [];
     return state;
   }
@@ -1209,6 +1245,10 @@ export default combineReducers({
   masterAngPortalEnrolled: masterAngPortalEnrolledReducer,
   masterAngDeceased: masterAngDeceasedReducer,
   masterAngGender: masterAngGenderReducer,
+  masterCtmSendToHPMS: masterCtmSendToHPMSReducer,
+  masterCtmDropDown:masterCtmDropDownReducer,
+  masterCtmIssueLevel: masterCtmIssueLevelReducer,
+  masterCtmHighLevelCause: masterCtmHighLevelCauseReducer,
   masterAngDualPlan: masterAngDualPlanReducer,
   masterAngMailToAddress: masterAngMailToAddressReducer,
   masterAngPreferredLanguage: masterAngPreferredLanguageReducer,
@@ -1229,7 +1269,6 @@ export default combineReducers({
   masterAngPurposeOfOutreach:masterAngPurposeOfOutreachReducer,
   masterAngMailingMethod:masterAngMailingMethodReducer,
   masterAngWrittenCommType:masterAngWrittenCommTypeReducer,
-
   masterPDTimeFrameExtended:masterPDTimeFrameExtendedReducer,
   masterPDCaseInCompliance:masterPDCaseInComplianceReducer,
   masterPDDepartment:masterPDDepartmentReducer,

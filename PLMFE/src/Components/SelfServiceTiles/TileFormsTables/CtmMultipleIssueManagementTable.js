@@ -332,7 +332,7 @@ export default function CtmMultipleIssueManagementTable({
                   <button
                     className="addBtn"
                     onClick={() => {
-                      addTableRows(ctmMultipleIssueManagementGridData.displayName);
+                      addTableRows(CtmMultipleIssueManagementTable.displayName);
                       handleModalChange(true);
                       handleDataIndex(ctmMultipleIssueManagementGridData.length);
                       handleOperationValue("Add");
@@ -347,7 +347,7 @@ export default function CtmMultipleIssueManagementTable({
               {tableFields
                                                   .filter((e) => e !== "rowNumber")
                                                   .map((e) => (
-                                                    <th scope="col" style={{ width: "100px" }}>
+                                                    <th scope="col" style={{ width: "150px" }}>
                                                       {e.replaceAll("_", " ")}
                                                     </th>
                                                   ))}

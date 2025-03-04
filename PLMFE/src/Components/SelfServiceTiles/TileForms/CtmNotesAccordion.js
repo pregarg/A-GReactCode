@@ -1,16 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import useGetDBTables from "../../CustomHooks/useGetDBTables";
 import { FormikInputField } from "../Common/FormikInputField";
 import { useLocation } from "react-router-dom";
 import { FormikDatePicker } from "../Common/FormikDatePicker";
 import { FormikSelectField } from "../Common/FormikSelectField";
-
+import { useSelector } from "react-redux";
 
 const CtmNotesAccordion = (props) => {
   const { convertToCase } = useGetDBTables();
   const location = useLocation();
   const [ctmNotesData, setCtmNotesData] = useState(props.ctmNotesData);
-
+  const ctmSendToHPMSSelector = useSelector(
+    (state) => state?.masterCtmSendToHPMS,
+  );
   const persistCtmNotesData = () => {
     props.setCtmNotesData(ctmNotesData);
   };
@@ -48,9 +50,10 @@ const CtmNotesAccordion = (props) => {
         <FormikSelectField
           name={name}
           placeholder={placeholder}
-          options={Array.isArray(options)
-            ? options.map(opt => (typeof opt === "string" ? { value: opt, label: opt } : opt))
-            : []}
+//          options={Array.isArray(options)
+//            ? options.map(opt => (typeof opt === "string" ? { value: opt, label: opt } : opt))
+//            : []}
+          options={options}
           data={ctmNotesData}
           onChange={handleCtmNotesChange}
           persist={persistCtmNotesData}
@@ -61,6 +64,18 @@ const CtmNotesAccordion = (props) => {
       </div>
     );
 
+const [sendToHPMSValues, setSendToHPMSValues] = useState([]);
+useEffect(() => {
+    const kvMapper = (e) => ({
+      label: convertToCase(e),
+      value: convertToCase(e),
+    });
+
+
+    const ctmSendToHPMS = ctmSendToHPMSSelector?.[0] || [];
+    setSendToHPMSValues(ctmSendToHPMS.map((e) => e.Send_to_HPMS).map(kvMapper));
+
+  }, []);
   return (
     <div>
       <div className="accordion-item" id="ctmNotesInformation">
@@ -85,12 +100,11 @@ const CtmNotesAccordion = (props) => {
             <div className="row my-2">
               {renderInputField("Plan_Case_Notes", "Plan Case Notes",50)}
               {renderInputField("Case_Notes", "Case Notes",50)}
-               {renderSelectField("Send_to_HPMS", "Send to HPMS", [
-                              { value: "YES", label: "YES" },
-                                                            { value: "NO", label: "NO" },
-                                                            { value: "ALREADY UPDATED", label: "ALREADY UPDATED" }
-                            ])}
 
+               {renderSelectField( "Send_to_HPMS",
+                               "Send to HPMS",
+                               sendToHPMSValues,
+                             )}
             </div>
           </div>
         </div>

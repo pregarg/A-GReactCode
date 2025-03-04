@@ -86,6 +86,7 @@ const CtmHeader = () => {
     postCloseQCErrors,
     ctmMemberData,
     setCtmMemberData,
+    setCtmMember,
     ctmMemberValidationSchema,
     ctmMemberErrors,
 //    caseResolutionCtm,
@@ -126,6 +127,8 @@ const CtmHeader = () => {
     ctmProviderInformationGridValidationSchema,
     ctmRepGridData,
     ctmMultiGridData,
+    ctmClaimInformationGridData,
+    setCtmClaimInformationGridData,
     handleCtmAuthorizationInformationChange,
     authorizationInformationCtm, 
     setAuthorizationInformationCtm,
@@ -135,6 +138,7 @@ const CtmHeader = () => {
     handleCtmRepresentativeInformationChange,
    representativeInformationCtm,
     setRepresentativeInformationCtm,
+    setCtmSummaryFields,
     auditLogs
   } = useHeader();
 
@@ -184,6 +188,24 @@ const CtmHeader = () => {
                />
 
 
+<CtmSummaryAccordion
+                               ctmSummaryFields={ctmSummaryFields}
+                               ctmSummaryData={ctm_CtmSummary}
+                               setCtmSummaryData={setctmCtmSummary}
+                               setCtmSummaryFields={setCtmSummaryFields}
+                               ctmSummaryValidationSchema={ctmSummaryValidationSchema}
+                               ctmSummaryErrors={{}}
+                               shouldShowSubmitError={shouldShowSubmitError}
+                             />
+                <CtmCaseCategorizationAccordion
+                                caseCategorizationFields={caseCategorizationFields}
+                                setCaseCategorizationFields={setCaseCategorizationFields}
+                               caseCategorizationData={ctm_CaseCategorization}
+                               setCaseCategorizationData={setCtmCaseCategorization}
+                               caseCategorizationValidationSchema={caseCategorizationValidationSchema}
+                               shouldShowSubmitError={shouldShowSubmitError}
+                                caseCategorizationErrors={{}}
+                                           />	  
               <CtmRepresentativeInformationAccordion
                                                          handleCtmRepGridData={ctmRepresentativeGrid || []}
                                                          ctmRepGridData={ctmRepGridData}
@@ -209,7 +231,7 @@ const CtmHeader = () => {
                />
                <CtmMemberInformationAccordion
                  ctmMemberData={ctmMemberData}
-                 setCtmMemberData={setCtmMemberData}
+                 setCtmMemberData={setCtmMember}
                  shouldShowSubmitError={shouldShowSubmitError}
                  ctmMemberValidationSchema={ctmMemberValidationSchema}
                  ctmMemberErrors={{}}

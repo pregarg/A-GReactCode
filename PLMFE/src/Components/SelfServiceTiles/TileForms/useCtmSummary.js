@@ -7,8 +7,15 @@ import { CTM_DATA } from "../../../data/ctmData";
 
 export const useCtmSummary = (renderType) => {
  const { convertToCase } = useGetDBTables();
-
+const [ctmIssueLevelValues, setCtmIssueLevelValues] = useState([]);
+const [ctmDropDownValues, setCtmDropDownValues] = useState([]);
  const [ctmSummaryFields, setCtmSummaryFields] = useState([]);
+ const masterCtmIssueLevelSelector = useSelector(
+     (state) => state?.masterCtmIssueLevel,
+   );
+  const masterCtmDropDownSelector = useSelector(
+       (state) => state?.masterCtmDropDown,
+     );
  const [ctm_CtmSummary, setctmCtmSummary] = useState({
    caseNumber: ""
  });
@@ -20,7 +27,32 @@ const [ctmSummaryValidationSchema, setCtmSummaryValidationSchema] =
    useState(Yup.object().shape({}));
 
  useEffect(() => {
+    const kvMapper = (e) => ({
+      label: e,
+      value: e,
+    });
+
+
+    const issueLevel = masterCtmIssueLevelSelector?.[0] || [];
+     setCtmIssueLevelValues(issueLevel.map((e) => e.Issue_Level).map(kvMapper));
+
+    const ctmAttachments = masterCtmDropDownSelector?.[0] || [];
+         setCtmDropDownValues(ctmAttachments.map((e) => e.Attachments).map(kvMapper));
+
+    const ctmCongressional = masterCtmDropDownSelector?.[0] || [];
+             setCtmDropDownValues(ctmCongressional.map((e) => e.Congressional).map(kvMapper));
+
+    const agentBroker = masterCtmDropDownSelector?.[0] || [];
+                 setCtmDropDownValues(agentBroker.map((e) => e.Agent_Broker).map(kvMapper));
+
+    const contactPlanBeforeComplaintEntered = masterCtmDropDownSelector?.[0] || [];
+                     setCtmDropDownValues(contactPlanBeforeComplaintEntered.map((e) => e.Contact_Plan_Before_Complaint_Entered).map(kvMapper));
+
+  }, []);
+
+ useEffect(() => {
  const ctmData = CTM_DATA;
+
      const categoryValues = Object.keys(ctmData).map(kvMapper)
    const fields = [
        {
@@ -35,7 +67,8 @@ const [ctmSummaryValidationSchema, setCtmSummaryValidationSchema] =
           type: "select",
           name: "Issue_Level",
           placeholder: "Issue Level",
-          options: ["Immediate Need", "Urgent", "Standard"],
+          values:ctmIssueLevelValues
+//          options: ["Immediate Need", "Urgent", "Standard"],
 
 
        },
@@ -97,7 +130,7 @@ const [ctmSummaryValidationSchema, setCtmSummaryValidationSchema] =
                 type: "select",
                 name: "Attachments",
                 placeholder: "Attachments",
-                options: ["Yes", "No"],
+                values:ctmDropDownValues
 
               },
               {
@@ -112,7 +145,7 @@ const [ctmSummaryValidationSchema, setCtmSummaryValidationSchema] =
                 type: "select",
                 name: "Congressional",
                 placeholder: "Congressional",
-                options: ["Yes", "No"],
+                values:ctmDropDownValues,
 
                 validation:{}
               },
@@ -203,7 +236,7 @@ const [ctmSummaryValidationSchema, setCtmSummaryValidationSchema] =
                        type: "select",
                        name: "Agent_Broker",
                        placeholder: "Agent Broker",
-                       options: ["Yes", "No"],
+                       values:ctmDropDownValues
 
                      },
                      {
@@ -218,7 +251,7 @@ const [ctmSummaryValidationSchema, setCtmSummaryValidationSchema] =
                        type: "select",
                        name: "Contact_Plan_Before_Complaint_Entered",
                        placeholder: "Contact Plan Before Complaint Entered",
-                       options: ["Yes", "No"],
+                       values:ctmDropDownValues,
 
                        validation:{}
                      },
@@ -310,5 +343,6 @@ const [ctmSummaryValidationSchema, setCtmSummaryValidationSchema] =
    ctm_CtmSummary,
    ctmSummaryValidationSchema,
    setctmCtmSummary,
+   setCtmSummaryFields
  };
 };
