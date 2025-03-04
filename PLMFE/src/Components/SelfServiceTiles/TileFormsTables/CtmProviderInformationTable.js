@@ -179,8 +179,8 @@ const renderSimpleInputField = (name, label, maxLength, index) => {
 
           <div className="sub-title mt-4 mb-3"
           style={{
-                            fontSize: "19 px",        // Increase font siz
-                            color: "#007bff",       // Eye-catching blue color (customizable)
+                            fontSize: "19 px",
+                            color: "#007bff",
                         }}>Contracts Details</div>
 
           <div className="row mt-3">
@@ -189,7 +189,7 @@ const renderSimpleInputField = (name, label, maxLength, index) => {
             {renderSimpleInputField("Provider_Contract_Type", "Provider Contract Type", 50, index)}
             {renderSimpleInputField("Provider_Contract_LOB", "Provider Contract LOB", 50, index)}
             </div>
-            <div className="row mt-3">
+          <div className="row mt-3">
             {renderSimpleInputField("Provider_Contract_IPA", "Provider Contract IPA", 50, index)}
             {renderSimpleInputField("PCP_Flag", "PCP Flag", 50, index)}
             {renderSimpleInputField("Accept_New_Patients", "Accept New Patients", 50, index)}
@@ -197,9 +197,10 @@ const renderSimpleInputField = (name, label, maxLength, index) => {
 
           <div className="sub-title mt-4 mb-3"
           style={{
-                            fontSize: "19 px",        // Increase font siz
-                            color: "#007bff",       // Eye-catching blue color (customizable)
+                            fontSize: "19 px",
+                            color: "#007bff",
                         }}>Vendor Details</div>
+
           <div className="row mt-3">
             {renderSimpleInputField("Vendor_ID", "Vendor ID", 50, index)}
             {renderSimpleInputField("Vendor_Full_Name", "Vendor Full Name", 100, index)}

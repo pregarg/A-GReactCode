@@ -183,6 +183,44 @@ useEffect(() => {
     "Deductible_Amount",
     "Allowed_Reason_Cd",
   ];
+const columnWidthMap = {
+    'Issue_Number': '150px',
+    'First_Name': '150px',
+    'Last_Name': '150px',
+    'Phone_Number': '150px',
+    'Member_Name_ID': '150px',
+    'Relationship': '150px',
+    'Authorization_Type': '150px',
+    'Authorization_Approved_Date': '150px',
+    'Authorization_Expiration_Date': '150px',
+    'Representative_Address_of_Record': '150px',
+    'Mail_to_Address': '150px',
+    'Address_Line_1': '150px',
+    'Address_Line_2': '150px',
+    'Zip_Code': '150px',
+    'City': '150px',
+    'State': '150px',
+    'Alternate_Rep_Contact_Info': '150px',
+    'Alt_Address_Line_1': '150px',
+    'Alt_Address_Line_2': '150px',
+    'Alt_Zip_Code': '150px',
+    'Alt_City': '150px',
+    'Alt_State': '150px',
+    'Alternate_Phone_Number': '150px',
+    'Fax_Number': '150px',
+    'Alternate_Email_ID': '150px',
+    'Communication_Preference': '150px',
+    'Procedure_Code_Desc': '150px',
+    'Quantity': '150px',
+    'Seq_AP_Trans': '150px',
+    'Sub_Line_Code': '150px',
+    'Oc_Allowed_Amount': '150px',
+    'Oc_Paid_Amount': '150px',
+    'Paid_Net_Amount': '150px',
+    'Deductible_Amount': '150px',
+    'Allowed_Reason_Cd': '150px',
+};
+
 
 
 
@@ -260,56 +298,52 @@ const tdDataReplica = (index) => (
       {renderSimpleInputField("Phone_Number", "Phone Number", 50, index)}
     </div>
     <div className="row mt-3">
-      {renderSimpleInputField("Member_Name_ID", "Member Name ID", 50, index)}
+      {renderSimpleInputField("Member_Name_ID", "Member Name/ID", 50, index)}
       {renderSimpleSelectField("Relationship", "Relationship", relationshipValues, index)}
        {renderSimpleSelectField("Authorization_Type", "Authorization Type", authTypeValues, index)}
       {renderSimpleDatePickerField("Authorization_Approved_Date", "Authorization Approved Date", "Authorization Approved Date")}
     </div>
     <div className="row mt-3">
+     {renderSimpleDatePickerField("Authorization_Expiration_Date", "Authorization Expiration Date","Authorization Expiration Date")}
+   </div>
+       <div className="row mt-3">
+      <div className="sub-title mt-4 mb-3"
+                style={{
+                                  fontSize: "19 px",        // Increase font siz
+                                  color: "#007bff",       // Eye-catching blue color (customizable)
+                              }}>Representative Address of Record</div>
 
-
-    </div>
-    <div className="row mt-3">
-      {renderSimpleInputField("Representative_Address_of_Record", "Representative Address of Record", 50, index)}
       {renderSimpleSelectField("Mail_to_Address", "Mail to Address", mailToAddressValues, index)}
-      {renderSimpleInputField("Address_Line_1", "Address Line 1", 50, index)}
-      {renderSimpleInputField("Address_Line_2", "Address Line 2", 50, index)}
+      {renderSimpleInputField("Address_Line_1", "Address(Line 1)", 50, index)}
+      {renderSimpleInputField("Address_Line_2", "Address (Line 2)", 50, index)}
+      {renderSimpleInputField("Zip_Code", "Zip Code", 50, index)}
     </div>
     <div className="row mt-3">
-      {renderSimpleInputField("Zip_Code", "Zip Code", 50, index)}
       {renderSimpleInputField("City", "City", 50, index)}
       {renderSimpleInputField("State", "State", 50, index)}
-      {renderSimpleInputField("Alternate_Rep_Contact_Info", "Alternate Rep Contact Info", 50, index)}
+    </div>
+     <div className="row mt-3">
+    <div className="sub-title mt-4 mb-3"
+                    style={{
+                                      fontSize: "19 px",        // Increase font siz
+                                      color: "#007bff",       // Eye-catching blue color (customizable)
+                                  }}>Alternate Representative Contact Information</div>
+
+      {renderSimpleInputField("Alt_Address_Line_1", "Address(Line 1)", 50, index)}
+      {renderSimpleInputField("Alt_Address_Line_2", "Address (Line 2)", 50, index)}
+      {renderSimpleInputField("Alt_Zip_Code", "Zip Code", 50, index)}
+      {renderSimpleInputField("Alt_City", "City", 50, index)}
     </div>
     <div className="row mt-3">
-      {renderSimpleInputField("Alt_Address_Line_1", "Alt Address Line 1", 50, index)}
-      {renderSimpleInputField("Alt_Address_Line_2", "Alt Address Line 2", 50, index)}
-      {renderSimpleInputField("Alt_Zip_Code", "Alt Zip Code", 50, index)}
-      {renderSimpleInputField("Alt_City", "Alt City", 50, index)}
-    </div>
-    <div className="row mt-3">
-      {renderSimpleInputField("Alt_State", "Alt State", 50, index)}
+      {renderSimpleInputField("Alt_State", "State", 50, index)}
       {renderSimpleInputField("Alternate_Phone_Number", "Alternate Phone Number",50, index)}
       {renderSimpleInputField("Fax_Number", "Fax Number", 50, index)}
       {renderSimpleInputField("Alternate_Email_ID", "Alternate Email ID", 50, index)}
     </div>
     <div className="row mt-3">
-      {renderSimpleInputField("Communication_Preference", "Communication Preference", 50, index)}
-      {renderSimpleInputField("Procedure_Code_Desc", "Procedure Code Desc", 50, index)}
-      {renderSimpleInputField("Quantity", "Quantity", 50, index)}
-      {renderSimpleInputField("Seq_AP_Trans", "Seq AP Trans", 50, index)}
-    </div>
-    <div className="row mt-3">
-      {renderSimpleInputField("Sub_Line_Code", "Sub Line Code",50, index)}
-      {renderSimpleInputField("Oc_Allowed_Amount", "OC Allowed Amount", 50, index)}
-      {renderSimpleInputField("Oc_Paid_Amount", "OC Paid Amount", 50, index)}
-      {renderSimpleInputField("Paid_Net_Amount", "Paid Net Amount", 50, index)}
-    </div>
-    <div className="row mt-3">
-      {renderSimpleInputField("Deductible_Amount", "Deductible Amount", 50, index)}
-      {renderSimpleInputField("Allowed_Reason_Cd", "Allowed Reason Code",50, index)}
-      {renderSimpleDatePickerField("Authorization_Expiration_Date", "Authorization Expiration Date","Authorization Expiration Date")}
-    </div>
+            {renderSimpleInputField("Communication_Preference", "Communication Preference", 50, index)}
+        </div>
+
   </div>
 );
 
@@ -462,7 +496,7 @@ const decreaseDataIndex = () => {
                             <button
                               className="addBtn"
                               onClick={() => {
-                                addTableRows(ctmRepresentativeInformationGridData.displayName);
+                                addTableRows(CtmRepresentativeInformationTable.displayName);
                                 handleModalChange(true);
                                 handleDataIndex(ctmRepresentativeInformationGridData.length);
                                 handleOperationValue("Add");
@@ -473,11 +507,11 @@ const decreaseDataIndex = () => {
                           </th>
                         )}
                         {lockStatus === "V" && <th style={{ width: "" }}></th>}
-                        {tableFields
-                                                            .filter((e) => e !== "rowNumber")
-                                                            .map((e) => (
-                                                               <th scope="col" style={{ width: "100px" }}>{e.replaceAll("_", " ")}</th>
-                                                            ))}
+                           {tableFields
+                                                                                                        .filter((e) => e !== "rowNumber")
+                                                                                                        .map((e) => (
+                                                                                                           <th scope="col" style={{'width': columnWidthMap[e]}}>{e.replaceAll("_", " ")}</th>
+                                                                                                        ))}
                       </tr>
                     </thead>
                     <tbody>{tdData()}</tbody>

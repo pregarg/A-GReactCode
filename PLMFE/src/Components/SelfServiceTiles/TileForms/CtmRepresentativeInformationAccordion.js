@@ -74,6 +74,7 @@ const deleteTableRows = (index, triggeredFormName, operationValue) => {
     tempInput[name] = value.toUpperCase();
     setGridFieldTempState(tempInput);
   };
+
  const handleSelectedRep = (flag) => {
      let rowNumber = getRowNumberForGrid(ctmRepGridData);
      let addressToPopulate = [];
@@ -174,7 +175,7 @@ const handleCheckBoxChange = (event, ind) => {
           ctmRepGridData[index] = clonedJson;
           setCtmRepGridData(ctmRepGridData);
         }
-        //props.updateCtmRepGridData(ctmRepGridData.slice(0, -1));
+
         setTimeout(() => props.updateCtmRepGridData(ctmRepGridData), 500);
       }
     }

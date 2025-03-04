@@ -33,6 +33,10 @@ import {
   getMasterAngPortalEnrolled,
   getMasterAngDeceased,
   getMasterAngGender,
+  getMasterCtmSendToHPMS,
+  getMasterCtmDropDown,
+  getMasterCtmIssueLevel,
+  getMasterCtmHighLevelCause,
   getMasterAngDualPlan,
   getMasterAngMailToAddress,
   getMasterAngPreferredLanguage,
@@ -68,7 +72,7 @@ import {
   getMasterPDDenialCodeAndReason,
   getMasterPDComplainantType,
   getMasterCTMQaDecision,
-  getMasterCTMAddressType,
+  getMasterCtmAddressType,
   getMasterPDSubIssueLevel,
   getMasterPDIssueType,
   getMasterPDProduct,
@@ -567,6 +571,38 @@ export default function DashboardLogin() {
       ),
     );
     dispatch(
+          getMasterCtmSendToHPMS(
+            loginToken,
+            false,
+            onMasterLoadFail,
+            onMasterLoadSuccess,
+          ),
+    );
+    dispatch(
+              getMasterCtmIssueLevel(
+                loginToken,
+                false,
+                onMasterLoadFail,
+                onMasterLoadSuccess,
+              ),
+        );
+    dispatch(
+              getMasterCtmHighLevelCause(
+                loginToken,
+                false,
+                onMasterLoadFail,
+                onMasterLoadSuccess,
+              ),
+            );
+    dispatch(
+              getMasterCtmDropDown(
+                loginToken,
+                false,
+                onMasterLoadFail,
+                onMasterLoadSuccess,
+              ),
+        );
+    dispatch(
       getMasterAngDeceased(
         loginToken,
         false,
@@ -992,7 +1028,7 @@ export default function DashboardLogin() {
           ),
         );
     dispatch(
-           getMasterCTMAddressType(
+           getMasterCtmAddressType(
              loginToken,
              false,
              onMasterLoadFail,

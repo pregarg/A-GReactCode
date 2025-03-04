@@ -172,6 +172,7 @@ export function convertDateFormatMonthDayYear(inputDateStr) {
     ctm_CtmSummary,
     ctmSummaryValidationSchema,
     setctmCtmSummary,
+    setCtmSummaryFields
   } = useCtmSummary();
 
   const {
@@ -332,6 +333,7 @@ export function convertDateFormatMonthDayYear(inputDateStr) {
 
 
   const [ctmRepGridData, setCtmRepGridData] = useState([]);
+   const [ctmClaimInformationGridData, setCtmClaimInformationGridData] = useState([]);
 
   const [expeditedRequest, setExpeditedRequest] = useState({
     Expedited_Requested: "",
@@ -415,7 +417,7 @@ export function convertDateFormatMonthDayYear(inputDateStr) {
     Second_Review_Comments: "",
     QC_Rebuttal_Notes: "",
   });
-const [ctmMemberData, setCtmMemberData] = useState({
+const [ctmMemberData, setCtmMember] = useState({
   Issue_Number: "",
   Primary_Member: "",                   // Dropdown: "Yes", "No"
   Member_ID: "",
@@ -2702,7 +2704,7 @@ const checkForCTMError = () => {
         setCtmCaseCategorization(data?.["ctmCaseCategorization"]?.[0] || {})
         setPreCloseQAData(data?.["ctmPreCloseQA"]?.[0] || {});
         setPostCloseQCData(data?.["ctmPostCloseQC"]?.[0] || {});
-        setCtmMemberData(data?.["ctmMemberInformation"]?.[0] || {});
+        setCtmMember(data?.["ctmMemberInformation"]?.[0] || {});
         setAcknowledgementData(data?.["ctmAcknowledgement"]?.[0] || {});
         setCtmNotesData(data?.["ctmNotes"]?.[0] || {});
         setCtmCommunicationCareData(data?.["ctmCommunicationCare"]?.[0] || {});
@@ -4595,7 +4597,7 @@ let updateCtmMultiLevelIssueManagementGridDataArray = [];
     setPostCloseQCData,
     postCloseQCErrors,
     ctmMemberData,
-    setCtmMemberData,
+     setCtmMember,
     ctmMemberErrors,
     ctmMemberValidationSchema,
     preCloseQAValidationSchema,
@@ -4625,6 +4627,8 @@ let updateCtmMultiLevelIssueManagementGridDataArray = [];
     ctmCaseResolutionErrors,
     ctmRepGridData,
     setCtmRepGridData,
+    ctmClaimInformationGridData,
+    setCtmClaimInformationGridData,
     authorizationInformationCtm, 
     setAuthorizationInformationCtm,
     setRepresentativeInformationCtm,
@@ -4636,6 +4640,7 @@ let updateCtmMultiLevelIssueManagementGridDataArray = [];
     setCtmCommunicationCareData,
     ctmCommunicationCareValidationSchema,
     ctmCommunicationCareErrors,
+    setCtmSummaryFields
   };
  };
 export default useHeader;

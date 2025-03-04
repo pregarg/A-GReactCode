@@ -8,7 +8,7 @@ import { SimpleDatePickerField } from "../Common/SimpleDatePickerField";
 import useGetDBTables from "../../CustomHooks/useGetDBTables";
 
 export default function CtmClaimInformationTable({
-ctmClaimInformationGridData = [],
+ctmClaimInfoGridData = [],
   deleteTableRows,
   handleGridSelectChange,
   addTableRows,
@@ -44,45 +44,44 @@ const { getGridJson, convertToCase } = useGetDBTables();
   }, [gridFieldTempState]);
 
   const tableFields = [
-    "Issue_Number",
-    "Claim_Ref_Number",
-    "Authorization_Number",
-    "Provider_Name",
-    "Service_Start_Date",
-    "Service_End_Date",
-    "Claim_Type",
-    "Received_Date",
-    "Claim_Status",
-    "Claim_Lines",
-    "Line_Number",
-    "Seq_Claim_ID",
-    "Accounts_Payable_Net_Amount",
-    "Allowed_Reason",
-    "Billed_Amount",
-    "Allowed_Amount",
-    "Net_Amount",
-    "Date_Of_Service_Start",
-    "Date_Of_Service_End",
-    "Check_Amount",
-    "Claim_Status_Desc",
-    "Co_Payment_Amount1",
-    "Co_Payment_Amount2",
-    "Claim_Deny_Reason_Code",
-    "Claim_Deny_Reason_Desc",
-    "Not_Covered_Amount",
-    "Place_Of_Service",
-    "Procedure_Code",
-    "Procedure_Code_Desc",
-    "Quantity",
-    "Seq_AP_Trans",
-    "Sub_Line_Code",
-    "Oc_Allowed_Amount",
-    "Oc_Paid_Amount",
-    "Paid_Net_Amount",
-    "Deductible_Amount",
-    "Allowed_Reason_Cd",
-  ];
-
+       "Issue_Number",
+           "Claim_Ref_Number",
+           "Authorization_Number",
+           "Provider_Name",
+           "Service_Start_Date",
+           "Service_End_Date",
+           "Claim_Type",
+           "Received_Date",
+           "Claim_Status",
+           "Claim_Lines",
+           "Line_Number",
+           "Seq_Claim_ID",
+           "Accounts_Payable_Net_Amount",
+           "Allowed_Reason",
+           "Billed_Amount",
+           "Allowed_Amount",
+           "Net_Amount",
+           "Date_Of_Service_Start",
+           "Date_Of_Service_End",
+           "Check_Amount",
+           "Claim_Status_Desc",
+           "Co_Payment_Amount1",
+           "Co_Payment_Amount2",
+           "Claim_Deny_Reason_Code",
+           "Claim_Deny_Reason_Desc",
+           "Not_Covered_Amount",
+           "Place_Of_Service",
+           "Procedure_Code",
+           "Procedure_Code_Desc",
+           "Quantity",
+           "Seq_AP_Trans",
+           "Sub_Line_Code",
+           "Oc_Allowed_Amount",
+           "Oc_Paid_Amount",
+           "Paid_Net_Amount",
+           "Deductible_Amount",
+           "Allowed_Reason_Cd",
+  ]
   const renderSimpleInputField = (name, label, index) => (
     <div className="col-xs-6 col-md-3">
       <SimpleInputField
@@ -177,12 +176,12 @@ const { getGridJson, convertToCase } = useGetDBTables();
 
 
      const tdData = () => {
-       console.log("ctmClaimInformationGridData",ctmClaimInformationGridData)
+
        if (
-         ctmClaimInformationGridData !== undefined &&
-         ctmClaimInformationGridData.length > 0
+          ctmClaimInfoGridData !== undefined &&
+          ctmClaimInfoGridData.length > 0
        ) {
-         return ctmClaimInformationGridData.map((data, index) => {
+         return  ctmClaimInfoGridData.map((data, index) => {
            return (
              <tr
                key={index}
@@ -318,13 +317,13 @@ const decreaseDataIndex = () => {
           <thead>
             <tr className="tableRowStyle tableHeaderColor">
               {lockStatus === "N" && (
-                <th style={{ width: "" }}>
+                <th style={{ width: "100px" }}>
                   <button
                     className="addBtn"
                     onClick={() => {
                       addTableRows(CtmClaimInformationTable.displayName);
                       handleModalChange(true);
-                      handleDataIndex(ctmClaimInformationGridData.length);
+                      handleDataIndex( ctmClaimInfoGridData.length);
                       handleOperationValue("Add");
                     }}
                   >
@@ -334,7 +333,9 @@ const decreaseDataIndex = () => {
               )}
               {lockStatus === "V" && <th style={{ width: "" }}></th>}
               {tableFields.map((e) => (
-                <th scope="col">{e.replaceAll("_", " ")}</th>
+                <th scope="col" style={{ width: "150px" }}>
+                                                                      {e.replaceAll("_", " ")}
+                                                                    </th>
               ))}
             </tr>
           </thead>
