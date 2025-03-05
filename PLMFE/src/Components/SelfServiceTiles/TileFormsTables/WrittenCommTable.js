@@ -46,7 +46,7 @@ export default function WrittenCommTable({
   const [memberSelected, setMemberSelected] = useState(false);
 
   const [isTouched, setIsTouched] = useState({});
-  const [disabledRows, setDisabledRows] = useState({});
+
   const { getGridJson,getTableDetails, convertToCase } = useGetDBTables();
  
  
@@ -180,15 +180,18 @@ useEffect(() => {
     // );
     
 }, []);
-const getLetterStatus = async () => {
-  let getApiJson = {};
-  getApiJson["tableNames"] = getTableDetails()["LetterStatusTable"];
-  getApiJson["whereClause"] = { CaseNumber: prop.state.caseNumber };
+const getLetterStatus = async (index) => {
+  console.log("getLetterStatus index--->", index);
+  let getApiJson = {
+    tableNames: getTableDetails()["LetterStatusTable"],
+    whereClause: { CaseNumber: prop.state.caseNumber }
+  };
 
   try {
     const res = await customAxios.post("/generic/get", getApiJson, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: `Bearer ${token}` }
     });
+
     const apiState = res.data.data.docuSignData;
     console.log("letter data-->", apiState);
 
@@ -196,17 +199,26 @@ const getLetterStatus = async () => {
       alert("No letter data found.");
       return null;
     }
-    const sortedData = apiState.sort((a, b) => b.SNO - a.SNO);
-    const lastLetterData = sortedData[0];
-    // const lastLetterData = apiState[apiState.length - 1];
-    console.log("Last letter data: ", lastLetterData);
-    const caseNumber = lastLetterData.CaseNumber
-    const documentName = lastLetterData.outputFileName;
-    const docUploadPath = "C:/Harshit Sharma/WorkitemDocuments/" +prop.state.caseNumber + "/Draft Contract/" +documentName;
-    const documentType = lastLetterData.outputFileName.split(".").pop()
-    console.log("fileType--->",documentType);
-    console.log("fileName--->",documentName);
-    return { caseNumber,documentName, docUploadPath, documentType};
+
+    // Filter the data where `rowIndex` matches the given `index`
+    const matchedData = apiState.find(item => Number(item.rowIndex) === index);
+
+    if (!matchedData) {
+      alert(`No letter data found for row index ${index}.`);
+      return null;
+    }
+
+    console.log("Matched Letter Data: ", matchedData);
+
+    const caseNumber = matchedData.CaseNumber;
+    const documentName = matchedData.outputFileName;
+    const docUploadPath = `C:/Harshit Sharma/WorkitemDocuments/${prop.state.caseNumber}/Draft Contract/${documentName}`;
+    const documentType = matchedData.outputFileName.split(".").pop();
+
+    console.log("fileType--->", documentType);
+    console.log("fileName--->", documentName);
+
+    return { caseNumber, documentName, docUploadPath, documentType };
 
   } catch (error) {
     console.error("API request error:", error);
@@ -215,8 +227,10 @@ const getLetterStatus = async () => {
   }
 };
 
+
 let restrictedFileTypes = ["xls", "eps", "sql", "xlsx", "docx"];
 const downloadedfileBlob = (index, letterData) => {
+  console.log("index of downloadedfileBlob", index)
   const { caseNumber, documentType, documentName, docUploadPath } = letterData;
   if (!caseNumber && !documentType && !documentName) {
     Swal.fire({
@@ -280,6 +294,7 @@ const callESignOperationApi = (esignOption,index) => {
     condition4: condition4,
     userId: Number(authSelector.userId),
     option: esignOption,
+    rowIndex: index,
   };
 
   console.log("esign api json ", esignApiJson);
@@ -293,11 +308,6 @@ const callESignOperationApi = (esignOption,index) => {
     
 
       if (result[0].includes("Letter Generated Successfully")) {
-        setDisabledRows((prev) => ({ ...prev, [index]: true }));
-        // const dateString = result[0]; // "Letter Generated Successfully 02/13/2025 13:39:03"
-        // const time = dateString.split(" ")[dateString.split(" ").length - 1];
-    
-        // console.log("Extracted time:", time);
         if (props.memberInformation.Email_ID === ""){
           alert ("Member Email is not present")
           return;
@@ -306,6 +316,10 @@ const callESignOperationApi = (esignOption,index) => {
         generateTemplate(prop); 
         alert(result[0]);
 
+        setDisabledRows((prevState) => ({
+          ...prevState,
+          [index]: true, // Disable button for this row index
+        }));
       } else {
         alert("Error in generating letter");
       }
@@ -455,19 +469,16 @@ useEffect(() => {
       </div>
     );
   };
-
-    const isButtonDisabled = (index) => {
-      // Check if required fields are empty
-      console.log("index value inside button disable", index)
-      const requiredFieldsMissing =
+  const [disabledRows, setDisabledRows] = useState({});
+  const isButtonDisabled = (index) => {
+    // Check if required fields are empty OR if letter is already generated
+    return (
       !gridFieldTempState.Communication_Type ||
       !gridFieldTempState.Name_Description ||
-      !gridFieldTempState.Communication_Sent_Date_Time;
-
-    // Check if the row is already disabled after letter generation
-    console.log("123450000",!!disabledRows[1])
-    return requiredFieldsMissing || !!disabledRows[index];
-    };
+      !gridFieldTempState.Communication_Sent_Date_Time ||
+      disabledRows[index] // Check if the button for this row should be disabled
+    );
+  };
   const tdDataReplica = (index) => {
 
     return (
@@ -753,10 +764,10 @@ useEffect(() => {
                     className="viewBtn"
                     type="button"
                     onClick={async () => {
-                      const letterData = await getLetterStatus();
+                      const letterData = await getLetterStatus(index);
                       console.log("Letter data --->", letterData);
                       if (letterData) {
-                        downloadedfileBlob(null, letterData);
+                        downloadedfileBlob(index, letterData);
                       } 
                         // else {
                         //   alert("Error fetching the document data.");
