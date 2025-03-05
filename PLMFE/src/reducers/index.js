@@ -594,6 +594,15 @@ const masterCtmHighLevelCauseReducer = (state = [], action) => {
   }
   return state;
 };
+const masterCtmCategoryLeadReducer = (state = [], action) => {
+  if (action.type === "GET_CATEGORY_LEAD") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_CATEGORY_LEAD") {
+    state = [];
+    return state;
+  }
+  return state;
+};
 const masterCtmIssueLevelReducer = (state = [], action) => {
   if (action.type === "GET_ISSUE_LEVEL") {
     return [action.payload];
@@ -607,6 +616,51 @@ const masterCtmSendToHPMSReducer = (state = [], action) => {
   if (action.type === "GET_SEND_TO_HPMS") {
     return [action.payload];
   } else if (action.type === "CLEAR_SEND_TO_HPMS") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+const masterCtmResolutionNotificationReducer = (state = [], action) => {
+  if (action.type === "GET_RESOLUTION_NOTIFICATION") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_RESOLUTION_NOTIFICATION") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+const masterCtmHPIRelatedReducer = (state = [], action) => {
+  if (action.type === "GET_HPI_RELATED") {
+    return [action.payload];
+  } else if (action.type === "GET_HPI_RELATED") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+const masterCtmComplainantSatisfiedReducer = (state = [], action) => {
+  if (action.type === "GET_COMPLAINANT_SATISFIED") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_COMPLAINANT_SATISFIED") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+const masterCtmChangeRequestsReducer = (state = [], action) => {
+  if (action.type === "GET_CHANGE_REQUESTS") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_CHANGE_REQUESTS") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+const masterCtmComplaintTypeReducer = (state = [], action) => {
+  if (action.type === "GET_COMPLAINT_TYPE") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_COMPLAINT_TYPE") {
     state = [];
     return state;
   }
@@ -1246,6 +1300,12 @@ export default combineReducers({
   masterAngDeceased: masterAngDeceasedReducer,
   masterAngGender: masterAngGenderReducer,
   masterCtmSendToHPMS: masterCtmSendToHPMSReducer,
+  masterCtmResolutionNotification: masterCtmResolutionNotificationReducer,
+  masterCtmHPIRelated: masterCtmHPIRelatedReducer,
+  masterCtmComplainantSatisfied:masterCtmComplainantSatisfiedReducer,
+  masterCtmChangeRequests: masterCtmChangeRequestsReducer,
+  masterCtmCategoryLead: masterCtmCategoryLeadReducer,
+  masterCtmComplaintType:masterCtmComplaintTypeReducer,
   masterCtmDropDown:masterCtmDropDownReducer,
   masterCtmIssueLevel: masterCtmIssueLevelReducer,
   masterCtmHighLevelCause: masterCtmHighLevelCauseReducer,

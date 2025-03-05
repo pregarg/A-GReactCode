@@ -134,25 +134,25 @@ export const useCaseHeader = (renderType) => {
                            placeholder: "OriginalAssignment Date",
                            renderTypes: [RenderType.CTM],
                          },
-//       {
-//               type: "none",
-//               name: "caseNumber",
-//               placeholder: "Case ID",
-//               renderTypes: [RenderType.CTM],
-//             },
-//             {
-//               type: "none",
-//               name: "Case_Owner",
-//               placeholder: "Case Owner",
-//               renderTypes: [RenderType.CTM],
-//             },
-//
-//             {
-//               type: "none",
-//               name: "Case_Status",
-//               placeholder: "Case Status",
-//               renderTypes: [RenderType.CTM],
-//             },
+       {
+               type: "none",
+               name: "caseNumber",
+               placeholder: "Case ID",
+               renderTypes: [RenderType.CTM],
+             },
+             {
+               type: "none",
+               name: "Case_Owner",
+               placeholder: "Case Owner",
+               renderTypes: [RenderType.CTM],
+             },
+
+             {
+               type: "none",
+               name: "Case_Status",
+               placeholder: "Case Status",
+               renderTypes: [RenderType.CTM],
+             },
     ].filter((e) => e.renderTypes.includes(renderType));
 
     const caseHeaderObject = fields.reduce((acc, field) => {

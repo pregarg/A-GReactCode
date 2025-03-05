@@ -19,13 +19,21 @@ const [residentialMandatory, setResidentialMandatory] = useState(false);
  const [responseData, setResponseData] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState([]);
 const [temporaryMandatory, setTemporaryMandatory] = useState(false);
-const angDeceasedSelector = useSelector((state) => state?.masterAngDeceased);
+
+
+const primaryMemberSelector = useSelector(
+    (state) => state?.masterCtmDropDown,
+  );
 const mailToAddSelector = useSelector(
     (state) => state?.masterAngMailToAddress,
   );
  const addressTypeSelector = useSelector(
-     (state) => state?.masterCtmAddressType,
+     (state) => state?.masterCTMAddressType,
    );
+  const masterCtmDropDownSelector = useSelector(
+        (state) => state?.masterCtmDropDown,
+      );
+
  const [whiteGloveIndicator, setWhiteGloveIndicator] = useState(props.ctmMemberData?.isChecked === '1');
  const [whiteGloveIndicatorInitialized, setWhiteGloveIndicatorInitialized] =
      useState(false);
@@ -186,16 +194,15 @@ const renderInputField = (name, placeholder, maxLength) => (
       />
     </div>
   );
- const [deceasedValues, setDeceasedValues] = useState([]);
+ const [primaryMemberValues, setPrimaryMemberValues] = useState([]);
   const [mailToAddressValues, setMainToAddressValues] = useState([]);
   const [addressTypeValues, setAddressTypeValues] = useState([]);
+  const [ctmDropDownValues, setCtmDropDownValues] = useState([]);
 useEffect(() => {
     const kvMapper = (e) => ({
       label: convertToCase(e),
       value: convertToCase(e),
     });
-    const ctmPrimaryMember = angDeceasedSelector?.[0] || [];
-    setDeceasedValues(ctmPrimaryMember.map((e) => e.Primary_Member).map(kvMapper));
 
 
     const mailToAdd = mailToAddSelector?.[0] || [];
@@ -205,24 +212,28 @@ useEffect(() => {
       ),
     );
 
+ const ctmDropDown = masterCtmDropDownSelector?.[0] || [];
+      setCtmDropDownValues(
+            [...new Set(ctmDropDown.map((e) => convertToCase(e.Drop_Down)))].map(
+              kvMapper,
+            ),
+          );
+
 const addressType= addressTypeSelector?.[0] || [];
     setAddressTypeValues(
-      [...new Set(addressType.map((e) => convertToCase(e.Mail_to_Address)))].map(
+      [...new Set(addressType.map((e) => convertToCase(e.Address_Type)))].map(
         kvMapper,
       ),
     );
+ const primaryMember= primaryMemberSelector?.[0] || [];
+     setPrimaryMemberValues(
+       [...new Set(primaryMember.map((e) => convertToCase(e.Primary_Member)))].map(
+         kvMapper,
+       ),
+     );
 
   }, []);
-  const dropdownOptions = {
 
- addressType: [
-    "A1", "A2", "A3", "A4", "A5", "B1", "B2", "B3", "B5",
-    "C1", "E1", "E2", "EA", "F1", "M1", "M2", "M3", "M4",
-    "M5", "PR", "PS", "R1", "R2", "R3", "R4", "R5", "R6",
-    "R7", "RG", "T1"
-  ],
-
-  };
 return (
   <div className="accordion-item" id="ctmMemberInformation">
     <h2 className="accordion-header" id="panelsStayOpen-ctmMemberInformation">
@@ -246,7 +257,7 @@ return (
         <div className="accordion-body">
           <div className="row my-2">
             {renderInputField("Issue_Number", "Issue Number", 50)}
-            {renderSelectField("Primary_Member", "Primary Member", deceasedValues)}
+            {renderSelectField("Primary_Member", "Primary Member", ctmDropDownValues)}
             {renderInputField("Member_ID", "Member ID", 50)}
           </div>
           <div className="row my-2">

@@ -2718,7 +2718,12 @@ const checkForCTMError = () => {
                 })
 
 
-        setCaseHeader(data?.["ctmCaseHeader"]?.[0] || {});
+        //setCaseHeader(data?.["ctmCaseHeader"]?.[0] || {});
+        setCaseHeader((prevState) => ({
+          ...prevState,
+          ...(data?.["ctmCaseHeader"]?.[0] || {}),
+          Original_Assignment_Date: data?.["ctmSummary"]?.[0]?.['Assignment_Date#date'],
+        }));
 
         setCaseTimelines(data?.["ctmCaseTimelines"]?.[0] || {});
 

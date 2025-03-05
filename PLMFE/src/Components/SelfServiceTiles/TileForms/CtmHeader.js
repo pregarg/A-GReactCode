@@ -169,8 +169,27 @@ const CtmHeader = () => {
 //                                    ProvidermemberInformation={ProvidermemberInformation}
 //                                    pd_RepresentativeInformation={pd_RepresentativeInformation}
                                   />
-                                  )}
 
+                                  )}
+<CaseTimelinesAccordion
+                              caseTimelinesData={caseTimelines}
+                              setCaseTimelinesData={setCaseTimelines}
+                              caseTimelinesValidationSchema={caseTimelinesValidationSchema}
+                              caseTimelinesErrors={caseTimelinesErrors}
+                              shouldShowSubmitError={shouldShowSubmitError}
+                              renderType={RenderType.CTM}
+                              caseTimelinesFields={caseTimelinesFields}
+                              ProviderclaimInformationGridData={pdClaimInformationGrid}
+                            />
+
+<CtmClaimInformationAccordion
+
+handleClaimInformationGridData={ctmClaimInformationGrid || []}
+                               ctmClaimInformationGridData={ctmClaimInformationGridData}
+                               setCtmClaimInformationGridData={setCtmClaimInformationGridData}
+                               updateCtmClaimInformationGridData={setCtmClaimInformationGrid}
+                               ctmClaimInformationGridValidationSchema={ctmClaimInformationGridRowValidationSchema}
+                             />
                   {/*<CtmProviderInformationAccordion
                                            handleProviderGridData={ctmProviderInformationGrid || []}
                                            updateProviderGridData={setCtmProviderInformationGrid}
@@ -196,6 +215,8 @@ const CtmHeader = () => {
                                ctmSummaryValidationSchema={ctmSummaryValidationSchema}
                                ctmSummaryErrors={{}}
                                shouldShowSubmitError={shouldShowSubmitError}
+                               setCaseTimelinesData={setCaseTimelines}
+                               caseTimelinesData={caseTimelines}
                              />
                 <CtmCaseCategorizationAccordion
                                 caseCategorizationFields={caseCategorizationFields}
