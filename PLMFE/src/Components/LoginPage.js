@@ -44,6 +44,12 @@ import {
   getMasterAngGender,
   getMasterCtmAddressType,
     getMasterCtmSendToHPMS,
+    getMasterCtmComplainantSatisfied,
+    getMasterCtmHPIRelated,
+    getMasterCtmResolutionNotification,
+    getMasterCtmChangeRequests,
+getMasterCtmComplaintType ,
+    getMasterCtmCategoryLead,
     getMasterCtmDropDown,
     getMasterCtmIssueLevel,
     getMasterCtmHighLevelCause,
@@ -477,13 +483,69 @@ export default function LoginPage() {
         ),
       );
        dispatch(
-              getMasterCtmSendToHPMS(
+              getMasterCtmCategoryLead(
                 loginToken,
                 false,
                 onMasterLoadFail,
                 onMasterLoadSuccess,
               ),
             );
+      dispatch(
+                    getMasterCtmSendToHPMS(
+                      loginToken,
+                      false,
+                      onMasterLoadFail,
+                      onMasterLoadSuccess,
+                    ),
+                  );
+      dispatch(
+                    getMasterCtmComplainantSatisfied(
+                      loginToken,
+                      false,
+                      onMasterLoadFail,
+                      onMasterLoadSuccess,
+                    ),
+              );
+      dispatch(
+                        getMasterCtmResolutionNotification(
+                          loginToken,
+                          false,
+                          onMasterLoadFail,
+                          onMasterLoadSuccess,
+                        ),
+                  );
+       dispatch(
+                        getMasterCtmHPIRelated(
+                          loginToken,
+                          false,
+                          onMasterLoadFail,
+                          onMasterLoadSuccess,
+                        ),
+                  );
+      dispatch(
+                    getMasterCtmChangeRequests(
+                      loginToken,
+                      false,
+                      onMasterLoadFail,
+                      onMasterLoadSuccess,
+                    ),
+              );
+      dispatch(
+                    getMasterCtmComplaintType (
+                      loginToken,
+                      false,
+                      onMasterLoadFail,
+                      onMasterLoadSuccess,
+                    ),
+              );
+      dispatch(
+                    getMasterCtmCategoryLead(
+                      loginToken,
+                      false,
+                      onMasterLoadFail,
+                      onMasterLoadSuccess,
+                    ),
+                  );
       dispatch(
                     getMasterCtmDropDown(
                       loginToken,
@@ -833,6 +895,46 @@ export default function LoginPage() {
                 onMasterLoadSuccess,
               ),
             );
+      dispatch(
+                    getMasterCtmComplainantSatisfied(
+                      loginToken,
+                      false,
+                      onMasterLoadFail,
+                      onMasterLoadSuccess,
+                    ),
+              );
+      dispatch(
+                        getMasterCtmResolutionNotification(
+                          loginToken,
+                          false,
+                          onMasterLoadFail,
+                          onMasterLoadSuccess,
+                        ),
+                  );
+       dispatch(
+                        getMasterCtmHPIRelated(
+                          loginToken,
+                          false,
+                          onMasterLoadFail,
+                          onMasterLoadSuccess,
+                        ),
+                  );
+      dispatch(
+                    getMasterCtmChangeRequests(
+                      loginToken,
+                      false,
+                      onMasterLoadFail,
+                      onMasterLoadSuccess,
+                    ),
+              );
+      dispatch(
+                    getMasterCtmComplaintType (
+                      loginToken,
+                      false,
+                      onMasterLoadFail,
+                      onMasterLoadSuccess,
+                    ),
+              );
       dispatch(
                            getMasterCtmIssueLevel(
                              loginToken,

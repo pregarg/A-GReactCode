@@ -24,25 +24,17 @@ export const useCtmCaseCategorization = (renderType) => {
       value: e,
     });
   useEffect(() => {
-      const kvMapper = (e) => ({
-        label: e,
-        value: e,
-      });
-
-      const highLevelCause = masterCtmHighLevelCauseSelector?.[0] || [];
-      setHighLevelCauseValues(
-        highLevelCause.map((e) => e.High_Level_Cause).map(kvMapper),
-      );
-
-    }, []);
-  useEffect(() => {
     const ctmData = CTM_DATA;
     const categoryValues = Object.keys(ctmData).map(kvMapper)
+   
+
+    const highLevelCause = masterCtmHighLevelCauseSelector?.[0] || [];
+    const highLevelValues = highLevelCause.map((e) => e.High_Level_Cause).map(kvMapper);
     const fields = [
       { type: "select", name: "Category", placeholder: "Category", maxLength: 50, values: categoryValues },
       { type: "select", name: "Sub_Category", placeholder: "SubCategory", maxLength: 50 },
       { type: "select", name: "Super_Category", placeholder: "Super Category", maxLength: 50 },
-      { type: "select", name: "High_Level_Cause", placeholder: "High Level Cause",values: highLevelCauseValues },
+      { type: "select", name: "High_Level_Cause", placeholder: "High Level Cause",values: highLevelValues },
       { type: "input", name: "Remediation_People", placeholder: "Remediation People", maxLength: 4000 },
       { type: "input", name: "Remediation_Process", placeholder: "Remediation Process", maxLength: 4000 },
       { type: "input", name: "Remediation_System", placeholder: "Remediation System", maxLength: 4000 }

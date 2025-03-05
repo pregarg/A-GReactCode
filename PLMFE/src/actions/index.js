@@ -437,6 +437,235 @@ export const getMasterCtmSendToHPMS = (
     }
   };
 };
+export const getMasterCtmHPIRelated = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append(
+        "tableName",
+        "CTM_MASTER_HPI_RELATED~masterCtmHPIRelated",
+      );
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterCtmHPIRelated];
+            //console.log(response);
+            dispatch({ type: "GET_HPI_RELATED", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_HPI_RELATED", payload: "" });
+    }
+  };
+};
+export const getMasterCtmResolutionNotification = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append(
+        "tableName",
+        "CTM_MASTER_RESOLUTION_NOTIFICATION~masterCtmResolutionNotification",
+      );
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterCtmResolutionNotification];
+            //console.log(response);
+            dispatch({ type: "GET_RESOLUTION_NOTIFICATION", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_RESOLUTION_NOTIFICATION", payload: "" });
+    }
+  };
+};
+export const getMasterCtmChangeRequests = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append(
+        "tableName",
+        "CTM_MASTER_CHANGE_REQUESTS~masterCtmChangeRequests",
+      );
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterCtmChangeRequests];
+            //console.log(response);
+            dispatch({ type: "GET_CHANGE_REQUESTS", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_CHANGE_REQUESTS", payload: "" });
+    }
+  };
+};
+export const getMasterCtmComplainantSatisfied = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append(
+        "tableName",
+        "CTM_MASTER_COMPLAINANT_SATISFIED~masterCtmComplainantSatisfied",
+      );
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterCtmComplainantSatisfied];
+            //console.log(response);
+            dispatch({ type: "GET_COMPLAINANT_SATISFIED", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_COMPLAINANT_SATISFIED", payload: "" });
+    }
+  };
+};
+
+export const getMasterCtmComplaintType = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append(
+        "tableName",
+        "CTM_MASTER_COMPLAINT_TYPE~masterCtmComplaintType",
+      );
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterCtmComplaintType];
+            //console.log(response);
+            dispatch({ type: "GET_COMPLAINT_TYPE", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_COMPLAINT_TYPE", payload: "" });
+    }
+  };
+};
+export const getMasterCtmCategoryLead = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append(
+        "tableName",
+        "CTM_MASTER_CATEGORY_LEAD~masterCtmCategoryLead",
+      );
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterCtmCategoryLead];
+            //console.log(response);
+            dispatch({ type: "GET_CATEGORY_LEAD", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_CATEGORY_LEAD", payload: "" });
+    }
+  };
+};
 export const getMasterCtmIssueLevel = (
   token,
   clearFlag = false,

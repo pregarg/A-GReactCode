@@ -8,11 +8,38 @@ import { CTM_DATA } from "../../../data/ctmData";
 export const useCtmSummary = (renderType) => {
  const { convertToCase } = useGetDBTables();
 const [ctmIssueLevelValues, setCtmIssueLevelValues] = useState([]);
+const [ctmCategoryLeadValues, setCtmCategoryLeadValues] = useState([]);
+const [ctmComplaintTypeValues, setCtmComplaintTypeValues] = useState([]);
 const [ctmDropDownValues, setCtmDropDownValues] = useState([]);
+const [ctmComplainantSatisfiedValues, setCtmComplainantSatisfiedValues] = useState([]);
+const [ctmChangeRequestsValues, setCtmChangeRequestsValues] = useState([]);
+const [ctmHPIRelatedValues, setCtmHPIRelatedValues] = useState([]);
+const [ctmResolutionNotificationValues, setCtmResolutionNotificationValues] = useState([]);
  const [ctmSummaryFields, setCtmSummaryFields] = useState([]);
  const masterCtmIssueLevelSelector = useSelector(
      (state) => state?.masterCtmIssueLevel,
    );
+   const masterCtmCategoryLeadSelector = useSelector(
+        (state) => state?.masterCtmCategoryLead,
+      );
+    const masterCtmChangeRequestsSelector = useSelector(
+           (state) => state?.masterCtmChangeRequests,
+         );
+const masterCtmComplainantSatisfiedSelector = useSelector(
+           (state) => state?.masterCtmComplainantSatisfied,
+         );
+      const angPrefSelector = useSelector(
+        (state) => state?.masterAngPreferredLanguage,
+      );
+const masterCtmHPIRelatedSelector = useSelector(
+           (state) => state?.masterCtmHPIRelated,
+         );
+const masterCtmResolutionNotificationSelector = useSelector(
+           (state) => state?.masterCtmResolutionNotification,
+         );
+    const masterCtmComplaintTypeSelector = useSelector(
+           (state) => state?.masterCtmComplaintType,
+         );
   const masterCtmDropDownSelector = useSelector(
        (state) => state?.masterCtmDropDown,
      );
@@ -26,35 +53,60 @@ const kvMapper = (e) => ({
 const [ctmSummaryValidationSchema, setCtmSummaryValidationSchema] =
    useState(Yup.object().shape({}));
 
- useEffect(() => {
-    const kvMapper = (e) => ({
-      label: e,
-      value: e,
-    });
-
-
-    const issueLevel = masterCtmIssueLevelSelector?.[0] || [];
-     setCtmIssueLevelValues(issueLevel.map((e) => e.Issue_Level).map(kvMapper));
-
-    const ctmAttachments = masterCtmDropDownSelector?.[0] || [];
-         setCtmDropDownValues(ctmAttachments.map((e) => e.Attachments).map(kvMapper));
-
-    const ctmCongressional = masterCtmDropDownSelector?.[0] || [];
-             setCtmDropDownValues(ctmCongressional.map((e) => e.Congressional).map(kvMapper));
-
-    const agentBroker = masterCtmDropDownSelector?.[0] || [];
-                 setCtmDropDownValues(agentBroker.map((e) => e.Agent_Broker).map(kvMapper));
-
-    const contactPlanBeforeComplaintEntered = masterCtmDropDownSelector?.[0] || [];
-                     setCtmDropDownValues(contactPlanBeforeComplaintEntered.map((e) => e.Contact_Plan_Before_Complaint_Entered).map(kvMapper));
-
-  }, []);
 
  useEffect(() => {
  const ctmData = CTM_DATA;
 
      const categoryValues = Object.keys(ctmData).map(kvMapper)
+//     const highLevelCause = masterCtmHighLevelCauseSelector?.[0] || [];
+//         const highLevelValues = highLevelCause.map((e) => e.High_Level_Cause).map(kvMapper);
+     const issueLevel = masterCtmIssueLevelSelector?.[0] || [];
+      const issueLevelValues =issueLevel.map((e) => e.Issue_Level).map(kvMapper);
+
+const categoryLead = masterCtmCategoryLeadSelector?.[0] || [];
+      const categoryLeadValues =categoryLead.map((e) => e.Category_Lead).map(kvMapper);
+
+   const ctmComplaintType = masterCtmComplaintTypeSelector?.[0] || [];
+         const ctmComplaintTypeValues =ctmComplaintType.map((e) => e.Complaint_Type).map(kvMapper);
+
+const ctmHPIRelated = masterCtmHPIRelatedSelector?.[0] || [];
+         const ctmHPIRelatedValues =ctmHPIRelated.map((e) => e.HPI_Related).map(kvMapper);
+
+ const ctmChangeRequests = masterCtmChangeRequestsSelector?.[0] || [];
+  const ctmChangeRequestsValues =ctmChangeRequests.map((e) => e.Change_Requests).map(kvMapper);
+
+const ctmComplainantSatisfied = masterCtmComplainantSatisfiedSelector?.[0] || [];
+  const ctmComplainantSatisfiedValues =ctmComplainantSatisfied.map((e) => e.Complainant_Satisfied).map(kvMapper);
+
+const ctmResolutionNotification = masterCtmResolutionNotificationSelector?.[0] || [];
+  const ctmResolutionNotificationValues =ctmResolutionNotification.map((e) => e.Resolution_Notification).map(kvMapper);
+
+        const angPref = angPrefSelector?.[0] || [];
+                   const preferredLanguageValues =angPref.map((e) => e.Preferred_Language).map(kvMapper);
+
+
+//            const angDual = angDualSelector?.[0] || [];
+//              const ctmDropDownValues =angDual.map((e) => e.Dual_Plan).map(kvMapper);
+
+//       const ctmAttachments = masterCtmDropDownSelector?.[0] || [];
+//       const ctmAttachmentsValues =ctmAttachments.map((e) => e.Attachments).map(kvMapper);
+
+         const ctmDropDown = masterCtmDropDownSelector?.[0] || [];
+       const ctmDropDownValues =ctmDropDown.map((e) => e.Drop_Down).map(kvMapper);
+
+//         const agentBroker = masterCtmDropDownSelector?.[0] || [];
+//                      setCtmDropDownValues(agentBroker.map((e) => e.Agent_Broker).map(kvMapper));
+//         const ctmCongressionalValues =ctmCongressional.map((e) => e.Congressional).map(kvMapper);
+//
+//         const contactPlanBeforeComplaintEntered = masterCtmDropDownSelector?.[0] || [];
+//                          setCtmDropDownValues(contactPlanBeforeComplaintEntered.map((e) => e.Contact_Plan_Before_Complaint_Entered).map(kvMapper));
+
    const fields = [
+//       {
+//               type: "subtitle",
+//               name: "CTM_File_Information",
+//               placeholder: "CTM File Information",
+//           },
        {
          type: "input",
          name: "Complaint_ID",
@@ -67,11 +119,22 @@ const [ctmSummaryValidationSchema, setCtmSummaryValidationSchema] =
           type: "select",
           name: "Issue_Level",
           placeholder: "Issue Level",
-          values:ctmIssueLevelValues
+          values:issueLevelValues
 //          options: ["Immediate Need", "Urgent", "Standard"],
 
 
        },
+       {
+               type: "date",
+               name: "Assignment_Date",
+               placeholder: "Assignment Date",
+               label: "Assignment Date"
+//               validation: {
+//                 [RenderType.APPEALS]: Yup.date()
+//                   .required("WOL Received Date is mandatory")
+//                   .max(new Date(), "WOL Received Date cannot be in future"),
+//               },
+             },
        {
          type: "input",
          name: "Contact_First_Name",
@@ -153,14 +216,14 @@ const [ctmSummaryValidationSchema, setCtmSummaryValidationSchema] =
                 type: "select",
                 name: "Category_Lead",
                 placeholder: "Category Lead",
-                options: ["CMS", "Plan"],
+                values:categoryLeadValues ,
                 validation:{}
               },
               {
                 type: "select",
                 name: "Complaint_Type",
                 placeholder: "Complaint Type",
-                options: ["Beneficiary" ,"Provider"],
+                values:ctmComplaintTypeValues ,
                 validation:{}
               },
     {
@@ -228,6 +291,7 @@ const [ctmSummaryValidationSchema, setCtmSummaryValidationSchema] =
                        type: "select",
                        name: "Preferred_Language",
                        placeholder: "Preferred Language",
+                        values: preferredLanguageValues,
                        maxLength: 50,
 
 
@@ -259,15 +323,14 @@ const [ctmSummaryValidationSchema, setCtmSummaryValidationSchema] =
                        type: "select",
                        name: "Contract_Change_Requests",
                        placeholder: "Contract Change Requests",
-                       options: ["Blank","Pending", "Approved", "Rejected"],
-
+                       values:ctmChangeRequestsValues,
                        validation:{}
                      },
                      {
                        type: "select",
                        name: "Issue_Level_Change_Requests",
                        placeholder: "Issue Level Change Requests",
-                       options: ["Blank","Pending", "Approved", "Rejected"],
+                       values:ctmChangeRequestsValues,
 
                        validation:{}
                      },
@@ -275,7 +338,7 @@ const [ctmSummaryValidationSchema, setCtmSummaryValidationSchema] =
                             type: "select",
                             name: "CMS_Issue_Change_Requests",
                             placeholder: "CMS Issue Change Requests",
-                            options: ["Blank","Pending", "Approved", "Rejected"],
+                            values:ctmChangeRequestsValues,
 
                           },
                           {
@@ -298,22 +361,21 @@ const [ctmSummaryValidationSchema, setCtmSummaryValidationSchema] =
                             type: "select",
                             name: "Complainant_Satisfied",
                             placeholder: "Complainant Satisfied",
-                            options: ["Yes","No", " Unknown/Unable to Reach"],
-
+                           values:ctmComplainantSatisfiedValues,
                             validation:{}
                           },
                           {
                             type: "select",
                             name: "HPI_Related",
                             placeholder: "HPI Related",
-                            options: ["Yes","No", "Unknown/Unsure"],
+                            values:ctmHPIRelatedValues,
                             validation:{}
                           },
        {
                                    type: "select",
                                    name: "Resolution_Notification",
                                    placeholder: "Resolution Notification",
-                                   options: ["Unknown", "Telephone", "Written", "Telephone and Written", "None"],
+                                    values:ctmResolutionNotificationValues,
 
                                    validation:{}
                                  },

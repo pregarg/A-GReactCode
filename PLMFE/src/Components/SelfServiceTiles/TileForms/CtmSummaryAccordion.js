@@ -27,6 +27,23 @@ const kvMapper = (e) => ({
   });
 
   const handleCtmSummaryData = (name, value, persist) => {
+    if(name === "Assignment_Date") {
+      const newDataS = {
+
+        ...props.caseTimelinesData,
+        Case_Aging: new Date().getDate() - value.getDate()
+  
+      };
+      props.setCaseTimelinesData({...newDataS})
+      const newData = {
+        ...ctmSummaryData,
+        Assignment_Date: value
+  
+      };
+      setCtmSummaryData({...newData});
+      props.setCtmSummaryData(newData);
+     
+    }
     if(name === "Complaint_Category") {
 
       const subCategoryField = props.ctmSummaryFields.find(field => field.name === 'Complaint_SubCategory');

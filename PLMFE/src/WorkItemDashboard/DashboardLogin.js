@@ -34,6 +34,12 @@ import {
   getMasterAngDeceased,
   getMasterAngGender,
   getMasterCtmSendToHPMS,
+  getMasterCtmComplainantSatisfied,
+  getMasterCtmResolutionNotification,
+  getMasterCtmHPIRelated,
+  getMasterCtmChangeRequests,
+  getMasterCtmComplaintType,
+  getMasterCtmCategoryLead,
   getMasterCtmDropDown,
   getMasterCtmIssueLevel,
   getMasterCtmHighLevelCause,
@@ -578,6 +584,54 @@ export default function DashboardLogin() {
             onMasterLoadSuccess,
           ),
     );
+    dispatch(
+              getMasterCtmComplainantSatisfied(
+                loginToken,
+                false,
+                onMasterLoadFail,
+                onMasterLoadSuccess,
+              ),
+        );
+    dispatch(
+                  getMasterCtmResolutionNotification(
+                    loginToken,
+                    false,
+                    onMasterLoadFail,
+                    onMasterLoadSuccess,
+                  ),
+            );
+     dispatch(
+                      getMasterCtmHPIRelated(
+                        loginToken,
+                        false,
+                        onMasterLoadFail,
+                        onMasterLoadSuccess,
+                      ),
+                );
+    dispatch(
+              getMasterCtmChangeRequests(
+                loginToken,
+                false,
+                onMasterLoadFail,
+                onMasterLoadSuccess,
+              ),
+        );
+    dispatch(
+              getMasterCtmComplaintType (
+                loginToken,
+                false,
+                onMasterLoadFail,
+                onMasterLoadSuccess,
+              ),
+        );
+    dispatch(
+              getMasterCtmCategoryLead(
+                loginToken,
+                false,
+                onMasterLoadFail,
+                onMasterLoadSuccess,
+              ),
+        );
     dispatch(
               getMasterCtmIssueLevel(
                 loginToken,

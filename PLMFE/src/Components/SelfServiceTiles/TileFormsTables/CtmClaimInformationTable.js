@@ -7,8 +7,9 @@ import { SimpleSelectField } from "../Common/SimpleSelectField";
 import { SimpleDatePickerField } from "../Common/SimpleDatePickerField";
 import useGetDBTables from "../../CustomHooks/useGetDBTables";
 
+
 export default function CtmClaimInformationTable({
-ctmClaimInfoGridData = [],
+  ctmClaimInfoGridData = [],
   deleteTableRows,
   handleGridSelectChange,
   addTableRows,
@@ -27,9 +28,26 @@ ctmClaimInfoGridData = [],
   const [operationValue, setOperationValue] = useState("");
   const [modalShow, setModalShow] = useState(false);
   const [isTouched, setIsTouched] = useState({});
+  const [claimTypeValues, setClaimTypeValues] = useState([]);
   const prop = useLocation();
+   const masterAngClaimTypeSelector = useSelector(
+      (state) => state?.masterAngClaimType,
+    );
 const { getGridJson, convertToCase } = useGetDBTables();
+useEffect(() => {
+    const kvMapper = (e) => ({
+      label: convertToCase(e),
+      value: convertToCase(e),
+    });
+    const claimType = masterAngClaimTypeSelector?.[0] || [];
+    setClaimTypeValues(
+      [...new Set(claimType.map((e) => convertToCase(e.Claim_Type)))].map(
+        kvMapper,
+      ),
+    );
 
+
+  }, []);
   useEffect(() => {
     try {
       setValidationErrors([]);
@@ -109,6 +127,20 @@ const { getGridJson, convertToCase } = useGetDBTables();
       />
     </div>
   );
+  const renderSimpleSelectField = (name, label, options, index) => (
+      <div className="col-xs-6 col-md-3">
+        <SimpleSelectField
+          name={name}
+          label={label}
+          options={options}
+          data={gridFieldTempState}
+          validationErrors={validationErrors}
+          onChange={(selectValue, event) =>
+            handleGridSelectChange(index, selectValue, event, CtmClaimInformationTable.displayName)
+          }
+        />
+      </div>
+    );
 
   const tdDataReplica = (index) => (
     <div className="Container AddProviderLabel AddModalLabel">
@@ -121,7 +153,7 @@ const { getGridJson, convertToCase } = useGetDBTables();
       <div className="row">
         {renderSimpleDatePickerField("Service_Start_Date", "Service Start Date", index)}
         {renderSimpleDatePickerField("Service_End_Date", "Service End Date", index)}
-        {renderSimpleInputField("Claim_Type", "Claim Type", index)}
+        {renderSimpleSelectField("Claim_Type", "Claim Type", claimTypeValues, index)}
         {renderSimpleDatePickerField("Received_Date", "Received Date", index)}
       </div>
       <div className="row mt-3">
