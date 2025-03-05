@@ -2439,14 +2439,33 @@ const checkForCTMError = () => {
       });
 
       const apiStat = res.data.Status;
+      const respKeys = Object.keys(res.data.data);
+      const data = res.data.data;
       const stageName = location.state.stageName;
+      
+      const caseStatus = await getCaseStatus(stageName);
+
       const tableNames = getTableDetails()["auditLogTable"];
       if(callAuditLog) {
         const logs = await getCaseLogHistory(location.state.caseNumber, token, tableNames);
         console.log(logs)
         setAuditLogs(logs)
       }
-     
+      const caseReceivedDate = new Date(
+        data.pdCaseHeader[0]["Original_Case_Received_Date#date"],
+        // data.angCaseHeader[0]["Case_Received_Date"],
+
+      );
+      const caseInfo = data?.["pdCaseInformation"]?.[0];
+      console.log("Original_Case_Received_Date#date--->",caseReceivedDate)
+      console.log("Original caseInfo",caseInfo)
+      const keysToCheck = [
+        "Product",
+        "Product_State",
+        "Line_Of_Business",
+      ];
+
+      const hasAnyValue = hasAnyNonEmptyValue(caseInfo, keysToCheck);
 
       // Handle API status errors
       if (apiStat === -1) {
@@ -2524,8 +2543,12 @@ const checkForCTMError = () => {
               }
                 })
       
-        setCaseHeader(data?.["pdCaseHeader"]?.[0] || {});
-
+       //setCaseHeader(data?.["pdCaseHeader"]?.[0] || {});
+       setCaseHeader((prevState) => ({
+        ...prevState,
+        ...(data?.["pdCaseHeader"]?.[0] || {}),
+        Case_Status: caseStatus || prevState.Case_Status,
+      }));
         setCaseTimelines(data?.["pdCaseTimelines"]?.[0] || {});
 
         setpdCaseInformation(data?.["pdCaseInformation"]?.[0] || {});

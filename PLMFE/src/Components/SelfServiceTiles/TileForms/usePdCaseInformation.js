@@ -110,6 +110,30 @@ export const usePdCaseInformation = (renderType) => {
 
   useEffect(() => {
     const fields = [
+      {
+        type: "select",
+        name: "Product",
+        placeholder: "Product",
+        values: productValues,
+        renderTypes: [RenderType.PROVIDER_DISPUTE],
+        validation: {
+          [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
+              "Product is mandatory",
+          ),
+        },
+      },
+      {
+        type: "select",
+        name: "Product_State",
+        placeholder: "Product State",
+        values: productStateValues,
+        renderTypes: [RenderType.PROVIDER_DISPUTE],
+      validation: {
+        [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
+            "Product State is mandatory",
+        ),
+      },
+      },
         {
             type: "select",
             name: "Line_Of_Business",
@@ -129,30 +153,6 @@ export const usePdCaseInformation = (renderType) => {
           maxLength: 255,
           renderTypes: [RenderType.PROVIDER_DISPUTE],
         },
-        {
-            type: "select",
-            name: "Product_State",
-            placeholder: "Product State",
-            values: productStateValues,
-            renderTypes: [RenderType.PROVIDER_DISPUTE],
-          validation: {
-            [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
-                "Product State is mandatory",
-            ),
-          },
-          },
-          {
-            type: "select",
-            name: "Product",
-            placeholder: "Product",
-            values: productValues,
-            renderTypes: [RenderType.PROVIDER_DISPUTE],
-            validation: {
-              [RenderType.PROVIDER_DISPUTE]: Yup.string().required(
-                  "Product is mandatory",
-              ),
-            },
-          },
           {
             type: "select",
             name: "Issue_Level_Priority",

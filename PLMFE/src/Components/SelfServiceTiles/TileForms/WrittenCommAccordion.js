@@ -129,7 +129,7 @@ const WrittenCommAccordion = (props, {saveAndExit}) => {
   const editTableRows = (index, triggeredFormName) => {
 
     let rowInput = {};
-
+    
     if (triggeredFormName === "WrittenCommTable") {
       rowInput = writtenCommGridData[index];
       setGridFieldTempState(rowInput);
@@ -208,84 +208,6 @@ const WrittenCommAccordion = (props, {saveAndExit}) => {
     }
   };
 
-
-  //   console.log("Inside gridRowsFinalSubmit with view: ", tabRef);
-
-  //   let clonedJson = { ...gridFieldTempState };
-   
-
-  //   console.log("Inside gridRowsFinalSubmit clonedJson value1: ", clonedJson);
-
-  //   if (Object.keys(gridFieldTempState).length !== 0) {
-  //     if (triggeredFormName === "WrittenCommTable") {
-  //       console.log("abc",writtenCommGridData[index])
-  //       let indexJson = writtenCommGridData[index];
-
-  //       if (indexJson !== undefined && indexJson !== null) {
-  //         clonedJson = Object.assign(indexJson, gridFieldTempState);
-  //         console.log("Inside gridRowsFinalSubmit clonedJson value: ",clonedJson,);
-  //       }
-
-  //       if (!checkGridJsonLength(clonedJson)) {
-  //         console.log("Inside gridRowsFinalSubmit clonedJson if value: ", clonedJson,
-  //         );
-  //         writtenCommGridData[index] = clonedJson;
-  //         setWrittenCommGridData(writtenCommGridData);
-  //       }
-  //       props.updateWrittenCommGridData (
-  //         writtenCommGridData.slice(0, -1),
-  //       );
-  //       setTimeout(
-  //         () =>
-  //           props.updateWrittenCommGridData(
-  //             writtenCommGridData,
-  //           ),
-  //         500,
-  //       );
-  //     }
-
-  //     //Handling for data update/Delete/Insert inside grids.
-  //     if (tabRef.current === "DashboardView") {
-  //       //let gridRow = getGridDataArray(triggeredFormName);
-  //       //console.log('gridRowsFinalSubmit gridRow: ',gridRow);
-  //       let oprtn;
-  //       let gridRowJson = {};
-  //       //alert('Operation type: ',operationType);
-  //       console.log("Operation type: ", operationType);
-  //       if (operationType === "Add") {
-  //         oprtn = "I";
-  //       }
-
-  //       if (operationType === "Edit") {
-  //         oprtn = "U";
-  //       }
-
-  //       if (operationType === "Delete") {
-  //         oprtn = "D";
-  //       }
-  //       let gridRowArray = [];
-
-  //       if (triggeredFormName === "WrittenCommTable") {
-  //         console.log("WrittenCommTable---->");
-  //         gridRowArray = gridDataRef.current.hasOwnProperty(
-  //           "WrittenCommTable",
-  //         )
-  //           ? [...gridDataRef.current.WrittenCommTable]
-  //           : [];
-  //         gridRowJson = { ...writtenCommGridData[index] };
-
-  //         if (Object.keys(gridRowJson).length !== 0) {
-  //           gridRowJson["operation"] = oprtn;
-
-  //           gridRowArray.push(trimJsonValues(gridRowJson));
-
-  //           gridDataRef.current.WrittenCommTable =
-  //             getGridDataValues(gridRowArray);
-  //         }
-  //       }
-  //     }
-  //   }
-  // };
 
   const getGridDataValues = (tableData) => {
     //var headers = document.getElementById(tableId).headers;
@@ -379,6 +301,7 @@ const WrittenCommAccordion = (props, {saveAndExit}) => {
                   setGridFieldTempState={setGridFieldTempState}
                   gridFieldTempState={gridFieldTempState}
                   editTableRows={editTableRows}
+                  
                   gridRowsFinalSubmit={gridRowsFinalSubmit}
                   validationSchema={
                     props.writtenCommGridValidationSchema

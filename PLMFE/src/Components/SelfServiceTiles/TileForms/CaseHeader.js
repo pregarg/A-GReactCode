@@ -295,9 +295,11 @@ const CaseHeader = () => {
                 notesErrors={notesErrors}
                 notesValidationSchema={notesValidationSchema}
                 shouldShowSubmitError={shouldShowSubmitError}
-              /> {stageName !== "Start" || ( stage === "CaseArchived"||stage === "Acknowledge"|| stage === "Redirect Review" || stage === "Documents Needed"
-                || stage === "Research" ||stage === "Effectuate" || stage === "Pending Effectuate"
-                || stage === "Resolve" || stage ==="Case Completed"|| stage === "Reopen") &&(
+              /> {stageName !== "Start" || ( stage === "Research"||stage === "Acknowledge")
+                // || stage === "Redirect Review" || stage === "Documents Needed"
+                // || stage === "CaseArchived" ||stage === "Effectuate" || stage === "Pending Effectuate"
+                // || stage === "Resolve" || stage ==="Case Completed"|| stage === "Reopen") 
+                &&(
                <WrittenCommAccordion
                handleData={caseHeader}
                handleClaimInformationGridData={claimInformationGrid}
@@ -314,9 +316,11 @@ const CaseHeader = () => {
                 writtenCommGridValidationSchema={writtenCommGridValidationSchema}
                 saveAndExit={saveAndExit}
               /> )}
-              {stageName !== "Start" || ( stage === "CaseArchived"||stage === "Acknowledge"|| stage === "Redirect Review" || stage === "Documents Needed"
-                  || stage === "Research" ||stage === "Effectuate" || stage === "Pending Effectuate"
-                  || stage === "Resolve" || stage ==="Case Completed"|| stage === "Reopen") &&(
+             {stageName !== "Start" || ( stage === "Research"||stage === "Acknowledge")
+                // || stage === "Redirect Review" || stage === "Documents Needed"
+                // || stage === "CaseArchived" ||stage === "Effectuate" || stage === "Pending Effectuate"
+                // || stage === "Resolve" || stage ==="Case Completed"|| stage === "Reopen") 
+                &&(
                <VerbalCommAccordion
                 handleVerbalCommGridData={verbalCommGrid}
                 updateVerbalCommGridData={setVerbalCommGrid}

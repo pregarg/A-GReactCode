@@ -49,6 +49,12 @@ export const useCaseHeader = (renderType) => {
       },
       {
         type: "none",
+        name: "Original_Case_Received_Date#date",
+        placeholder: "Original Case Received Date",
+        renderTypes: [RenderType.PROVIDER_DISPUTE],
+      },
+      {
+        type: "none",
         name: "Case_Due_Date",
         placeholder: "Case Due Date",
         renderTypes: [RenderType.APPEALS, RenderType.PROVIDER_DISPUTE],
@@ -73,12 +79,12 @@ export const useCaseHeader = (renderType) => {
         placeholder: "Case Received Date",
         renderTypes: [RenderType.APPEALS],
       },
-      {
-        type: "none",
-        name: "Subcase_ID",
-        placeholder: "Subcase ID",
-        renderTypes: [RenderType.PROVIDER_DISPUTE],
-      },
+      // {
+      //   type: "none",
+      //   name: "Subcase_ID",
+      //   placeholder: "Subcase ID",
+      //   renderTypes: [RenderType.PROVIDER_DISPUTE],
+      // },
       {
         type: "none",
         name: "Alert_Indicator",
@@ -91,12 +97,7 @@ export const useCaseHeader = (renderType) => {
         placeholder: "Goal Deadline",
         renderTypes: [RenderType.PROVIDER_DISPUTE],
       },
-      {
-        type: "none",
-        name: "Original_Case_Received_Date#date",
-        placeholder: "Original Case Received Date",
-        renderTypes: [RenderType.PROVIDER_DISPUTE],
-      },
+      
       {
         type: "none",
         name: "White_Glove_Indicator",
