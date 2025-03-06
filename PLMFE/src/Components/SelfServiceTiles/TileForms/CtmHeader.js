@@ -185,6 +185,16 @@ const CtmHeader = () => {
                               ctmCaseInformationErrors={ctmCaseInformationErrors}
                             />*/}
 
+ <CtmCaseCategorizationAccordion
+                                caseCategorizationFields={caseCategorizationFields}
+                                setCaseCategorizationFields={setCaseCategorizationFields}
+                               caseCategorizationData={ctm_CaseCategorization}
+                               setCaseCategorizationData={setCtmCaseCategorization}
+                               caseCategorizationValidationSchema={caseCategorizationValidationSchema}
+                               shouldShowSubmitError={shouldShowSubmitError}
+                                caseCategorizationErrors={{}}
+                                           />
+
 <CtmClaimInformationAccordion
 
 handleClaimInformationGridData={ctmClaimInformationGrid || []}
