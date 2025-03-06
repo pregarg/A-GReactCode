@@ -145,7 +145,9 @@ export default function useGetDBTables() {
          "CTM_Provider_Information~ctmProviderInformation",
          "CTM_Representative_Information~ctmRepresentativeInformation",
           "CTM_Notes~ctmNotes",
-          "Ctm_Communications_That_Care~ctmCommunicationCare"
+          "Ctm_Communications_That_Care~ctmCommunicationCare",
+          "CTM_Case_Information1~ctmInformation",
+          "CTM_Case_Resolution_Decision~ctmResolutionDecision",
 //         "CTM_Case_Header~ctmCaseHeader"
        ],
 

@@ -23,7 +23,8 @@ import CtmProviderInformationAccordion from "../TileForms/CtmProviderInformation
 import CtmMultipleIssueManagementAccordion from "../TileForms/CtmMultipleIssueManagementAccordion";
 import CtmNotesAccordion from "../TileForms/CtmNotesAccordion";
 import CtmCommunicationCareAccordion from "../TileForms/CtmCommunicationCareAccordion";
-
+import CtmCaseInformationAccordion from "../TileForms/CtmCaseInformationAccordion";
+import CtmCaseResolutionDecisionAccordion from "../TileForms/CtmCaseResolutionDecisionAccordion";
 import './CTM.css'
 import useHeader from "./useHeader";
 
@@ -89,10 +90,6 @@ const CtmHeader = () => {
     setCtmMember,
     ctmMemberValidationSchema,
     ctmMemberErrors,
-//    caseResolutionCtm,
-//    setCaseResolutionCtm,
-//    caseResolutionValidationSchema,
-//    caseResolutionErrors,
     acknowledgementData,
     setAcknowledgementData,
     acknowledgementValidationSchema,
@@ -139,7 +136,15 @@ const CtmHeader = () => {
    representativeInformationCtm,
     setRepresentativeInformationCtm,
     setCtmSummaryFields,
-    auditLogs
+    auditLogs,
+    ctmCaseInformation,
+    setCtmCaseInformation,
+    ctmCaseInformationValidationSchema,
+    ctmCaseInformationErrors,
+     ctmCaseResolutionDecision,
+         setCtmCaseResolutionDecision,
+         ctmCaseResolutionDecisionValidationSchema,
+         ctmCaseResolutionDecisionErrors,
   } = useHeader();
 
   useEffect(() => {
@@ -171,16 +176,14 @@ const CtmHeader = () => {
                                   />
 
                                   )}
-<CaseTimelinesAccordion
-                              caseTimelinesData={caseTimelines}
-                              setCaseTimelinesData={setCaseTimelines}
-                              caseTimelinesValidationSchema={caseTimelinesValidationSchema}
-                              caseTimelinesErrors={caseTimelinesErrors}
+
+{/*<CtmCaseInformationAccordion
+                              ctmCaseInformationData={ctmCaseInformation}
+                              setCtmCaseInformationData={setCtmCaseInformation}
+                              ctmCaseInformationValidationSchema={ctmCaseInformationValidationSchema}
                               shouldShowSubmitError={shouldShowSubmitError}
-                              renderType={RenderType.CTM}
-                              caseTimelinesFields={caseTimelinesFields}
-                              ProviderclaimInformationGridData={pdClaimInformationGrid}
-                            />
+                              ctmCaseInformationErrors={ctmCaseInformationErrors}
+                            />*/}
 
 <CtmClaimInformationAccordion
 
@@ -218,15 +221,36 @@ handleClaimInformationGridData={ctmClaimInformationGrid || []}
                                setCaseTimelinesData={setCaseTimelines}
                                caseTimelinesData={caseTimelines}
                              />
-                <CtmCaseCategorizationAccordion
-                                caseCategorizationFields={caseCategorizationFields}
-                                setCaseCategorizationFields={setCaseCategorizationFields}
-                               caseCategorizationData={ctm_CaseCategorization}
-                               setCaseCategorizationData={setCtmCaseCategorization}
-                               caseCategorizationValidationSchema={caseCategorizationValidationSchema}
-                               shouldShowSubmitError={shouldShowSubmitError}
-                                caseCategorizationErrors={{}}
-                                           />	  
+                             <CtmPreCloseQAAccordion
+                                             preCloseQAData={preCloseQAData}
+                                             setPreCloseQAData={setPreCloseQAData}
+                                             preCloseQAValidationSchema={preCloseQAValidationSchema}
+                                             shouldShowSubmitError={shouldShowSubmitError}
+                                             preCloseQAErrors={{}}
+                                           />
+                                            <CtmPostCloseQCAccordion
+                                            postCloseQCData={postCloseQCData}
+                                            setPostCloseQCData={setPostCloseQCData}
+                                            postCloseQCValidationSchema={postCloseQCValidationSchema}
+                                            shouldShowSubmitError={shouldShowSubmitError}
+                                            postCloseQCErrors={postCloseQCErrors}
+                                            />
+
+                 <CtmMemberInformationAccordion
+                                  ctmMemberData={ctmMemberData}
+                                  setCtmMemberData={setCtmMember}
+                                  shouldShowSubmitError={shouldShowSubmitError}
+                                  ctmMemberValidationSchema={ctmMemberValidationSchema}
+                                  ctmMemberErrors={{}}
+                                />
+                                            <CtmAuthorizationInformationAccordion
+                                                   handleOnChange={handleCtmAuthorizationInformationChange}
+                                                           handleData={authorizationInformationCtm}
+                                                           setAuthorizationInformationCtm={setAuthorizationInformationCtm}
+                                                            handleCtmAuthGridData={ctmAuthorizationGrid || []}
+                                                            updateCtmAuthGridData={setCtmAuthGridData}
+                                                            ctmAuthGridValidationSchema={ctmAuthGridValidationSchema}
+                                                          />
               <CtmRepresentativeInformationAccordion
                                                          handleCtmRepGridData={ctmRepresentativeGrid || []}
                                                          ctmRepGridData={ctmRepGridData}
@@ -236,27 +260,8 @@ handleClaimInformationGridData={ctmClaimInformationGrid || []}
                                                          updateCtmRepGridData={setCtmRepresentativeGrid}
                                                          ctmRepGridValidationSchema={ctmRepresentativeGridValidationSchema}
                                                          />
-              <CtmPreCloseQAAccordion
-                preCloseQAData={preCloseQAData}
-                setPreCloseQAData={setPreCloseQAData}
-                preCloseQAValidationSchema={preCloseQAValidationSchema}
-                shouldShowSubmitError={shouldShowSubmitError}
-                preCloseQAErrors={{}}
-              />
-               <CtmPostCloseQCAccordion
-               postCloseQCData={postCloseQCData}
-               setPostCloseQCData={setPostCloseQCData}
-               postCloseQCValidationSchema={postCloseQCValidationSchema}
-               shouldShowSubmitError={shouldShowSubmitError}
-               postCloseQCErrors={postCloseQCErrors}
-               />
-               <CtmMemberInformationAccordion
-                 ctmMemberData={ctmMemberData}
-                 setCtmMemberData={setCtmMember}
-                 shouldShowSubmitError={shouldShowSubmitError}
-                 ctmMemberValidationSchema={ctmMemberValidationSchema}
-                 ctmMemberErrors={{}}
-               />
+
+
 
               <CtmAcknowledgementAccordion
                 acknowledgementData={acknowledgementData}
@@ -285,6 +290,13 @@ handleClaimInformationGridData={ctmClaimInformationGrid || []}
                 ctmCaseResolutionValidationSchema={ctmCaseResolutionValidationSchema}
                 shouldShowSubmitError={shouldShowSubmitError}
                 ctmCaseResolutionErrors={ctmCaseResolutionErrors}
+              />
+           <CtmCaseResolutionDecisionAccordion
+                ctmCaseResolutionDecisionData={ctmCaseResolutionDecision}
+                setCtmCaseResolutionDecisionData={setCtmCaseResolutionDecision}
+                ctmCaseResolutionDecisionValidationSchema={ctmCaseResolutionDecisionValidationSchema}
+                shouldShowSubmitError={shouldShowSubmitError}
+                ctmCaseResolutionDecisionErrors={ctmCaseResolutionDecisionErrors}
               />
 
             </div>

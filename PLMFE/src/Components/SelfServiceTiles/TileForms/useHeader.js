@@ -480,6 +480,25 @@ const [ctmCaseResolution, setCtmCaseResolution] = useState({
     Resolution_Due_Date: "",
     Out_of_Compliance_Notes: "",
 });
+const [ctmCaseResolutionDecision, setCtmCaseResolutionDecision] = useState({
+    Thirty_Days_Ago: "",
+    Sixty_Days_Ago: "",
+    Ninety_Days_Ago: "",
+    System_Update: "",
+    Complainant_Satisfied_With_Resolution:"",
+    Resolution_Notes:"",
+
+});
+const [ctmCaseInformation, setCtmCaseInformation] = useState({
+    caseNumber: "",
+    Line_of_Business: "",
+    LOB_Description_CTM: "",
+    Contract_State: "",
+    Product: "",
+    Complainant_Type: "",
+    Case_Filing_Method: "",
+    Case_Collaboration: "",
+});
 
   const [claimInformationGrid, setClaimInformationGrid] = useState([]);
   const [ProviderClaimInformationGrid, setProviderClaimInformationGrid] = useState([]);
@@ -832,6 +851,8 @@ const ctmRepresentativeGridValidationSchema = Yup.object().shape({
  });
 const ctmMultiGridValidationSchema = Yup.object().shape({ });
 const ctmCaseResolutionValidationSchema = Yup.object().shape({ });
+const ctmCaseResolutionDecisionValidationSchema = Yup.object().shape({ });
+const ctmCaseInformationValidationSchema = Yup.object().shape({ });
 
 
   const [caseTimelinesErrors, setCaseTimelinesErrors] = useState([]);
@@ -864,6 +885,8 @@ const ctmCaseResolutionValidationSchema = Yup.object().shape({ });
 
   const [ctmSummaryErrors, setCtmSummaryErrorsErrors] = useState([]);
   const [ctmCaseResolutionErrors, setCtmCaseResolutionErrors] = useState({});
+  const [ctmCaseResolutionDecisionErrors, setCtmCaseResolutionDecisionErrors] = useState({});
+  const [ctmCaseInformationErrors, setCtmCaseInformationErrors] = useState({});
   const [postCloseQCErrors, setPostCloseQCErrors] = useState({});
   const [preCloseQAErrors, setPreCloseQAErrors] = useState({});
   const [ctmMemberErrors, setCtmMemberErrors] = useState({});
@@ -1036,6 +1059,16 @@ validateSync(ctmCommunicationCareValidationSchema, ctmCommunicationCareData, set
           ctmCaseResolution,
           setCtmCaseResolutionErrors
       );
+    validateSync(
+            ctmCaseResolutionDecisionValidationSchema,
+            ctmCaseResolutionDecision,
+            setCtmCaseResolutionDecisionErrors
+        );
+  validateSync(
+            ctmCaseInformationValidationSchema,
+            ctmCaseInformation,
+            setCtmCaseInformationErrors
+        );
 
   }, [
     caseTimelines,
@@ -1065,6 +1098,8 @@ validateSync(ctmCommunicationCareValidationSchema, ctmCommunicationCareData, set
     ctm_CtmSummary,
     ctm_CaseCategorization,
     ctmCaseResolution,
+    ctmCaseResolutionDecision,
+    ctmCaseInformation,
   ]);
 
   useEffect(() => {
@@ -1157,6 +1192,8 @@ const checkForCTMError = () => {
     ...ctmNotesErrors,
     ...ctmCommunicationCareErrors,
    ...ctmCaseResolutionErrors,
+   ...ctmCaseResolutionDecisionErrors,
+    ...ctmCaseInformationErrors,
   });
 };
 
@@ -1444,6 +1481,12 @@ const checkForCTMError = () => {
 
      const ctmResolution = trimJsonValues({ ...ctmCaseResolution });
     apiJson["CTM_Case_Resolution"] = ctmResolution;
+
+    const ctmResolutionDecision = trimJsonValues({ ...ctmCaseResolutionDecision  });
+        apiJson["CTM_Case_Resolution_Decision"] = ctmResolutionDecision ;
+
+     const ctmInformation = trimJsonValues({ ...ctmCaseInformation });
+        apiJson["CTM_Case_Information1"] = ctmInformation;
 
     const ctmAcknowledgement = trimJsonValues({ ...acknowledgementData });
     apiJson["Ctm_Acknowledgement"] = ctmAcknowledgement;
@@ -2737,6 +2780,8 @@ const checkForCTMError = () => {
         setCtmNotesData(data?.["ctmNotes"]?.[0] || {});
         setCtmCommunicationCareData(data?.["ctmCommunicationCare"]?.[0] || {});
         setCtmCaseResolution(data?.["ctmResolution"]?.[0] || {});
+         setCtmCaseResolutionDecision(data?.["ctmResolutionDecision"]?.[0] || {});
+        setCtmCaseInformation(data?.["ctmInformation"]?.[0] || {});
         setAuthorizationInformationCtm(
                   data?.["ctmAuthorizationInformation"]?.[0] || {},
                 );
@@ -3962,6 +4007,8 @@ const checkForCTMError = () => {
 	  const ctmAcknowledgement  = trimJsonValues({ ...acknowledgementData });
 	  const ctmNotes  = trimJsonValues({ ...ctmNotesData });
       const ctmResolution  = trimJsonValues({ ...ctmCaseResolution });
+      const ctmResolutionDecision  = trimJsonValues({ ...ctmCaseResolutionDecision });
+      const ctmInformation  = trimJsonValues({ ...ctmCaseInformation });
       const ctmAuthorizationInformation = trimJsonValues({...authorizationInformationCtm});
       const ctmProviderInformation = trimJsonValues({...providerInformationCtm});
       const ctmRepresentativeInformation = trimJsonValues({...representativeInformationCtm});
@@ -4653,6 +4700,14 @@ let updateCtmMultiLevelIssueManagementGridDataArray = [];
     setCtmCaseResolution,
     ctmCaseResolutionValidationSchema,
     ctmCaseResolutionErrors,
+    ctmCaseResolutionDecision,
+        setCtmCaseResolutionDecision,
+        ctmCaseResolutionDecisionValidationSchema,
+        ctmCaseResolutionDecisionErrors,
+    ctmCaseInformation,
+     setCtmCaseInformation,
+      ctmCaseInformationValidationSchema,
+     ctmCaseInformationErrors,
     ctmRepGridData,
     setCtmRepGridData,
     ctmClaimInformationGridData,

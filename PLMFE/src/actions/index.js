@@ -437,6 +437,196 @@ export const getMasterCtmSendToHPMS = (
     }
   };
 };
+export const getMasterCtmDaysAgo = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append(
+        "tableName",
+        "CTM_MASTER_DAYS_AGO~masterCtmDaysAgo",
+      );
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterCtmDaysAgo];
+            //console.log(response);
+            dispatch({ type: "GET_DAYS_AGO", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_DAYS_AGO", payload: "" });
+    }
+  };
+};
+export const getMasterCtmPlanRequestType = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append(
+        "tableName",
+        "CTM_MASTER_PLAN_REQUEST_TYPE~masterCtmPlanRequestType",
+      );
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterCtmPlanRequestType];
+            //console.log(response);
+            dispatch({ type: "GET_CTM_MASTER_PLAN_REQUEST_TYPE", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_CTM_MASTER_PLAN_REQUEST_TYPE", payload: "" });
+    }
+  };
+};
+export const getMasterCtmMultiGridComplaintType = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append(
+        "tableName",
+        "CTM_MASTER_MULTIGRID_COMPLAINT_TYPE~masterCtmMultiGridComplaintType",
+      );
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterCtmMultiGridComplaintType];
+            //console.log(response);
+            dispatch({ type: "GET_MULTIGRID_COMPLAINT_TYPE", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_MULTIGRID_COMPLAINT_TYPE", payload: "" });
+    }
+  };
+};
+export const getMasterCtmCaseFilingMethod = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append(
+        "tableName",
+        "CTM_MASTER_CASE_FILING_METHOD~masterCtmCaseFilingMethod",
+      );
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterCtmCaseFilingMethod];
+            //console.log(response);
+            dispatch({ type: "GET_CTM_MASTER_CASE_FILING_METHOD", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_CTM_MASTER_CASE_FILING_METHOD", payload: "" });
+    }
+  };
+};
+export const getMasterCtmComplainantType = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append(
+        "tableName",
+        "CTM_MASTER_COMPLAINANT_TYPE~masterCtmComplainantType",
+      );
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterCtmComplainantType];
+            //console.log(response);
+            dispatch({ type: "GET_CTM_MASTER_COMPLAINANT_TYPE", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_CTM_MASTER_COMPLAINANT_TYPE", payload: "" });
+    }
+  };
+};
 export const getMasterCtmHPIRelated = (
   token,
   clearFlag = false,
