@@ -11,7 +11,7 @@ export const useCtmCaseCategorization = (renderType) => {
 
   const [caseCategorizationFields, setCaseCategorizationFields] = useState([]);
    const [highLevelCauseValues, setHighLevelCauseValues] = useState([]);
-  const [ctm_CaseCategorization, setCtmCaseCategorization] = useState({ category: "" });
+  const [ctm_CaseCategorization, setCtmCaseCategorization] = useState({ Category: "" });
 
   const masterCtmHighLevelCauseSelector = useSelector(
     (state) => state?.masterCtmHighLevelCause,
@@ -43,7 +43,7 @@ export const useCtmCaseCategorization = (renderType) => {
     const caseCategorizationObject = fields.reduce((acc, field) => {
       acc[field.name] = ctm_CaseCategorization[field.name];
       return acc;
-    }, { category: ctm_CaseCategorization.category });
+    }, { Category: ctm_CaseCategorization.Category });
 
     setCaseCategorizationFields(fields);
     setCtmCaseCategorization(caseCategorizationObject);
