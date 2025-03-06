@@ -26,6 +26,9 @@ export default function CtmMultipleIssueManagementTable({
   const [validationErrors, setValidationErrors] = useState({});
   const [operationValue, setOperationValue] = useState("");
   const [modalShow, setModalShow] = useState(false);
+   const [multiGridComplaintTypeValues, setMultiGridComplaintTypeValues] = useState([]);
+   const [ctmPlanRequestTypeValues, setCtmPlanRequestTypeValues] = useState([]);
+   const [ctmDropDownValues, setCtmDropDownValues] = useState([]);
   const [selectedIssue, setSelectedIssue] = useState(null);
   const handleShowIssueNotes = (issue) => {
     setSelectedIssue(issue);
@@ -37,7 +40,15 @@ export default function CtmMultipleIssueManagementTable({
 
   const [issueNotes, setIssueNotes] = useState(false);
 
-
+ const masterCtmMultiGridComplaintTypeSelector = useSelector(
+          (state) => state?.masterCtmMultiGridComplaintType,
+      );
+ const masterCtmPlanRequestTypeSelector = useSelector(
+           (state) => state?.masterCtmPlanRequestType,
+       );
+ const masterCtmDropDownSelector = useSelector(
+        (state) => state?.masterCtmDropDown,
+      );
   useEffect(() => {
     try {
       setValidationErrors([]);
@@ -66,7 +77,25 @@ export default function CtmMultipleIssueManagementTable({
     "Issue_Notes",
 
   ];
+useEffect(() => {
+    const kvMapper = (e) => ({
+      label: convertToCase(e),
+      value: convertToCase(e),
+    });
+    const multiGridComplaintType= masterCtmMultiGridComplaintTypeSelector?.[0] || [];
+    setMultiGridComplaintTypeValues(
+        multiGridComplaintType.map((e) => e.Complaint_Type_CTM).map(kvMapper),
+    );
+    const ctmPlanRequestType= masterCtmPlanRequestTypeSelector?.[0] || [];
+        setCtmPlanRequestTypeValues(
+            ctmPlanRequestType.map((e) => e.Ctm_Plan_Request_Type).map(kvMapper),
+        );
+   const ctmDropDown = masterCtmDropDownSelector?.[0] || [];
+   setCtmDropDownValues(
+         ctmDropDown.map((e) => e.Drop_Down).map(kvMapper));
 
+
+  }, []);
   const renderSimpleInputField = (name, label, maxLength, index) => {
     return (
       <div className="col-xs-6 col-md-3">
@@ -137,19 +166,19 @@ export default function CtmMultipleIssueManagementTable({
       <div className="row">
         {renderSimpleInputField("Issue_Number", "Issue Number", 50, index)}
         {renderSimpleInputField("Subcase_ID", "Subcase ID", 50, index)}
-        {renderSimpleSelectField("Complaint_Type", "Complaint Type", 50, index)}
+        {renderSimpleSelectField("Complaint_Type", "Complaint Type", multiGridComplaintTypeValues, index)}
         {renderSimpleSelectField("Issue_Category", "Issue Category", 50, index)}
       </div>
       <div className="row mt-3">
         {renderSimpleSelectField("Issue_Sub_Category", "Issue Sub Category", 50, index)}
         {renderSimpleSelectField("Issue_Super_Category", "Issue Super Category", 50, index)}
         {renderSimpleInputField("Complaint_Summary_Issue", "Complaint Summary Issue", 50, index)}
-        {renderSimpleSelectField("Proceed", "Proceed", 50, index)}
+        {renderSimpleSelectField("Proceed", "Proceed",ctmDropDownValues, index)}
       </div>
       <div className="row mt-3">
         {renderSimpleSelectField("Work_Basket", "Work Basket", 50, index)}
         {renderSimpleSelectField("Requested_Action", "Requested Action", 50, index)}
-        {renderSimpleSelectField("Plan_Request_Type", "Plan Request Type", 50, index)}
+        {renderSimpleSelectField("Plan_Request_Type", "Plan Request Type",ctmPlanRequestTypeValues, index)}
         {renderSimpleInputField("Issue_Notes", "Issue Notes", 50, index)}
 
       </div>
@@ -166,14 +195,14 @@ export default function CtmMultipleIssueManagementTable({
           >
             <thead>
               <tr>
-                <th>demo</th>
-                <th>demo</th>
+                <th>Created On</th>
+                <th>Created By</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>demo row</td>
-                <td>demo row</td>
+                <td>Created On</td>
+                <td>Created By </td>
               </tr>
             </tbody>
           </table>

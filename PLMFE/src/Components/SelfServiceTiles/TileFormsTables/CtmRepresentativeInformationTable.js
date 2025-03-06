@@ -47,6 +47,14 @@ export default function CtmRepresentativeInformationTable({
    const masterPDRelationshipSelector = useSelector(
         (state) => state?.masterPDRelationship,
     );
+    const validateNumericInput = (name, value) => {
+      if (!/^[0-9]*$/.test(value)) {
+        alert(`${name} should contain only numeric values.`);
+        return ""; // Clear the input field
+      }
+      return value;
+    };
+
 //  const [authTypeValues, setAuthTypeValues] = useState([])
 //  let relationshipValues = [];
   let aorTypeValues = [];

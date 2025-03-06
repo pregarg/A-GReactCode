@@ -621,6 +621,52 @@ const masterCtmSendToHPMSReducer = (state = [], action) => {
   }
   return state;
 };
+
+const masterCtmPlanRequestTypeReducer = (state = [], action) => {
+  if (action.type === "GET_CTM_MASTER_PLAN_REQUEST_TYPE") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_CTM_MASTER_PLAN_REQUEST_TYPE") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+const masterCtmDaysAgoReducer = (state = [], action) => {
+  if (action.type === "GET_DAYS_AGO") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_DAYS_AGO") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+const masterCtmMultiGridComplaintTypeReducer = (state = [], action) => {
+  if (action.type === "GET_MULTIGRID_COMPLAINT_TYPE") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_MULTIGRID_COMPLAINT_TYPE") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+const masterCtmCaseFilingMethodReducer = (state = [], action) => {
+  if (action.type === "GET_CTM_MASTER_CASE_FILING_METHOD") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_CTM_MASTER_CASE_FILING_METHOD") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+const masterCtmComplainantTypeReducer = (state = [], action) => {
+  if (action.type === "GET_CTM_MASTER_COMPLAINANT_TYPE") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_CTM_MASTER_COMPLAINANT_TYPE") {
+    state = [];
+    return state;
+  }
+  return state;
+};
 const masterCtmResolutionNotificationReducer = (state = [], action) => {
   if (action.type === "GET_RESOLUTION_NOTIFICATION") {
     return [action.payload];
@@ -633,7 +679,7 @@ const masterCtmResolutionNotificationReducer = (state = [], action) => {
 const masterCtmHPIRelatedReducer = (state = [], action) => {
   if (action.type === "GET_HPI_RELATED") {
     return [action.payload];
-  } else if (action.type === "GET_HPI_RELATED") {
+  } else if (action.type === "CLEAR_HPI_RELATED") {
     state = [];
     return state;
   }
@@ -1300,6 +1346,11 @@ export default combineReducers({
   masterAngDeceased: masterAngDeceasedReducer,
   masterAngGender: masterAngGenderReducer,
   masterCtmSendToHPMS: masterCtmSendToHPMSReducer,
+ masterCtmPlanRequestType: masterCtmPlanRequestTypeReducer,
+  masterCtmMultiGridComplaintType:masterCtmMultiGridComplaintTypeReducer,
+  masterCtmDaysAgo:masterCtmDaysAgoReducer,
+  masterCtmCaseFilingMethod:masterCtmCaseFilingMethodReducer,
+  masterCtmComplainantType: masterCtmComplainantTypeReducer,
   masterCtmResolutionNotification: masterCtmResolutionNotificationReducer,
   masterCtmHPIRelated: masterCtmHPIRelatedReducer,
   masterCtmComplainantSatisfied:masterCtmComplainantSatisfiedReducer,

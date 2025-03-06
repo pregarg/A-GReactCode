@@ -44,6 +44,11 @@ import {
   getMasterAngGender,
   getMasterCtmAddressType,
     getMasterCtmSendToHPMS,
+    getMasterCtmDaysAgo,
+    getMasterCtmPlanRequestType,
+    getMasterCtmMultiGridComplaintType,
+    getMasterCtmCaseFilingMethod,
+    getMasterCtmComplainantType,
     getMasterCtmComplainantSatisfied,
     getMasterCtmHPIRelated,
     getMasterCtmResolutionNotification,
@@ -498,6 +503,46 @@ export default function LoginPage() {
                       onMasterLoadSuccess,
                     ),
                   );
+       dispatch(
+                    getMasterCtmDaysAgo(
+                      loginToken,
+                      false,
+                      onMasterLoadFail,
+                      onMasterLoadSuccess,
+                    ),
+              );
+      dispatch(
+                          getMasterCtmPlanRequestType(
+                            loginToken,
+                            false,
+                            onMasterLoadFail,
+                            onMasterLoadSuccess,
+                          ),
+                        );
+      dispatch(
+                    getMasterCtmMultiGridComplaintType(
+                      loginToken,
+                      false,
+                      onMasterLoadFail,
+                      onMasterLoadSuccess,
+                    ),
+              );
+       dispatch(
+                    getMasterCtmCaseFilingMethod(
+                      loginToken,
+                      false,
+                      onMasterLoadFail,
+                      onMasterLoadSuccess,
+                    ),
+              );
+       dispatch(
+                                      getMasterCtmComplainantType(
+                                        loginToken,
+                                        false,
+                                        onMasterLoadFail,
+                                        onMasterLoadSuccess,
+                                      ),
+                                );
       dispatch(
                     getMasterCtmComplainantSatisfied(
                       loginToken,
@@ -895,6 +940,46 @@ export default function LoginPage() {
                 onMasterLoadSuccess,
               ),
             );
+       dispatch(
+                    getMasterCtmDaysAgo(
+                      loginToken,
+                      false,
+                      onMasterLoadFail,
+                      onMasterLoadSuccess,
+                    ),
+              );
+      dispatch(
+                                getMasterCtmPlanRequestType(
+                                  loginToken,
+                                  false,
+                                  onMasterLoadFail,
+                                  onMasterLoadSuccess,
+                                ),
+                              );
+      dispatch(
+                          getMasterCtmMultiGridComplaintType(
+                            loginToken,
+                            false,
+                            onMasterLoadFail,
+                            onMasterLoadSuccess,
+                          ),
+                    );
+       dispatch(
+                    getMasterCtmCaseFilingMethod(
+                      loginToken,
+                      false,
+                      onMasterLoadFail,
+                      onMasterLoadSuccess,
+                    ),
+              );
+      dispatch(
+                    getMasterCtmComplainantType(
+                      loginToken,
+                      false,
+                      onMasterLoadFail,
+                      onMasterLoadSuccess,
+                    ),
+              );
       dispatch(
                     getMasterCtmComplainantSatisfied(
                       loginToken,
