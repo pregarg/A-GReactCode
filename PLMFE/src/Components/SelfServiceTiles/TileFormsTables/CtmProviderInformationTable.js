@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import GridModal from "./GridModal";
-import useGetDBTables from "../../CustomHooks/useGetDBTables";
-import { useLocation } from "react-router-dom";
 import { SimpleInputField } from "../Common/SimpleInputField";
 import { SimpleSelectField } from "../Common/SimpleSelectField";
 import { SimpleDatePickerField } from "../Common/SimpleDatePickerField";
+import useGetDBTables from "../../CustomHooks/useGetDBTables";
 
 export default function CtmProviderInformationTable({
-  ctmProviderInformationGridData,
+  ctmProviderInformationGridData = [],
   deleteTableRows,
   handleGridSelectChange,
   addTableRows,
@@ -23,71 +23,173 @@ export default function CtmProviderInformationTable({
   CtmProviderInformationTable.displayName = "CtmProviderInformationTable";
 
   const [dataIndex, setDataIndex] = useState();
-  const [operationValue, setOperationValue] = useState("");
-  const [modalShow, setModalShow] = useState(false);
-  const location = useLocation();
- const [validationErrors, setValidationErrors] = useState({});
- const [portalEnrolledValues, setPortalEnrolledValues] = useState([]);
- const [commPrefValues, setCommPrefValuesValues] = useState([]);
- const [providerRoleValues, setProviderRoleValues] = useState([]);
-//const [participatingProviderValues, setParticipatingProviderValues] = useState([]);
-const [isTouched, setIsTouched] = useState({});
-const { convertToCase } = useGetDBTables();
-// const [mailToAddressValues, setMailToAddressValues] = useState([]);
- const [participatingProviderValues, setParticipatingProviderValues] = useState([]);
-  const [mailToAddressValues, setMailToAddressValues] = useState([]);
+    const [operationValue, setOperationValue] = useState("");
+    const [modalShow, setModalShow] = useState(false);
+    const location = useLocation();
+   const [validationErrors, setValidationErrors] = useState({});
+   const [portalEnrolledValues, setPortalEnrolledValues] = useState([]);
+   const [commPrefValues, setCommPrefValuesValues] = useState([]);
+   const [providerRoleValues, setProviderRoleValues] = useState([]);
+  //const [participatingProviderValues, setParticipatingProviderValues] = useState([]);
+  const [isTouched, setIsTouched] = useState({});
+  const { convertToCase } = useGetDBTables();
+  // const [mailToAddressValues, setMailToAddressValues] = useState([]);
+   const [participatingProviderValues, setParticipatingProviderValues] = useState([]);
+    const [mailToAddressValues, setMailToAddressValues] = useState([]);
 
-  const masterAngPortalEnrolledSelector = useSelector(
-      (state) => state?.masterAngPortalEnrolled,
-    );
-    console.log("masterAngPortalEnrolledSelector",masterAngPortalEnrolledSelector)
-    const masterAngMailToAddressSelector = useSelector(
-      (state) => state?.masterAngMailToAddress,
-    );
+    const masterAngPortalEnrolledSelector = useSelector(
+        (state) => state?.masterAngPortalEnrolled,
+      );
+      console.log("masterAngPortalEnrolledSelector",masterAngPortalEnrolledSelector)
+      const masterAngMailToAddressSelector = useSelector(
+        (state) => state?.masterAngMailToAddress,
+      );
  useEffect(() => {
-    const kvMapper = (e) => ({
-      label: convertToCase(e),
-      value: convertToCase(e),
-    });
-    const portalEnrolled = masterAngPortalEnrolledSelector?.[0] || [];
-    setPortalEnrolledValues(
-      portalEnrolled.map((e) => e.Portal_Enrolled).map(kvMapper),
-    );
+     const kvMapper = (e) => ({
+       label: convertToCase(e),
+       value: convertToCase(e),
+     });
+     const portalEnrolled = masterAngPortalEnrolledSelector?.[0] || [];
+     setPortalEnrolledValues(
+       portalEnrolled.map((e) => e.Portal_Enrolled).map(kvMapper),
+     );
 
-//    const providerType = masterAngProviderTypeSelector?.[0] || [];
-//    setProviderTypeValues(
-//      providerType.map((e) => e.Provider_Type).map(kvMapper),
-//    );
-//
-//    const commPref = masterAngCommPrefSelector?.[0] || [];
-//    setCommPrefValuesValues(
-//      commPref.map((e) => e.Comm_Pref).map(kvMapper),
-//    );
-//
-//    const ParProvider = masterAngParProviderSelector?.[0] || [];
-//    setParticipatingProviderValues(
-//      ParProvider.map((e) => e.Par_Provider).map(kvMapper),
-//    );
+ //    const providerType = masterAngProviderTypeSelector?.[0] || [];
+ //    setProviderTypeValues(
+ //      providerType.map((e) => e.Provider_Type).map(kvMapper),
+ //    );
+ //
+ //    const commPref = masterAngCommPrefSelector?.[0] || [];
+ //    setCommPrefValuesValues(
+ //      commPref.map((e) => e.Comm_Pref).map(kvMapper),
+ //    );
+ //
+ //    const ParProvider = masterAngParProviderSelector?.[0] || [];
+ //    setParticipatingProviderValues(
+ //      ParProvider.map((e) => e.Par_Provider).map(kvMapper),
+ //    );
 
-    const mailToAdd = masterAngMailToAddressSelector?.[0] || [];
-    setMailToAddressValues(
-      mailToAdd.map((e) => e.Mail_to_Address).map(kvMapper),
-    );
-//    const providerRole = masterAngProviderRoleSelector?.[0] || [];
-//    setProviderRoleValues(
-//      providerRole.map((e) => e.Provider_Role).map(kvMapper),
-//    );
+     const mailToAdd = masterAngMailToAddressSelector?.[0] || [];
+     setMailToAddressValues(
+       mailToAdd.map((e) => e.Mail_to_Address).map(kvMapper),
+     );
+ //    const providerRole = masterAngProviderRoleSelector?.[0] || [];
+ //    setProviderRoleValues(
+ //      providerRole.map((e) => e.Provider_Role).map(kvMapper),
+ //    );
 
-}, []);
-
-
-
-const caseHeaderConfigData = JSON.parse(
-    process.env.REACT_APP_CTMHEADER_DETAILS || "{}",
-  );
+ }, []);
 
 
-  let prop = useLocation();
+  useEffect(() => {
+    try {
+      setValidationErrors([]);
+      validationSchema.validateSync(gridFieldTempState, { abortEarly: false });
+    } catch (errors) {
+      const validationErrors = errors.inner?.reduce((acc, error) => {
+        acc[error.path] = error.message;
+        return acc;
+      }, {});
+      setValidationErrors(validationErrors);
+    }
+  }, [gridFieldTempState]);
+
+  const tableFields = [
+    "Issue_Number",
+                  "Provider_ID",
+                  "Provider_Name",
+                  "Provider_TIN",
+                  "Provider_Vendor_Specialty",
+                  "Provider_NPI",
+                  "Provider_IPA",
+                  "CRM_Ticket",
+                  "Email_ID",
+                  "Phone_Number",
+                  "Fax_Number",
+                  "Participating_Provider",
+                  "Provider_Contract_Effective_Date",
+                  "Provider_Contract_Termination_Date",
+                  "Provider_Contract_Type",
+                  "Provider_Contract_LOB",
+                  "Provider_Contract_IPA",
+                  "PCP_Flag",
+                  "Accept_New_Patients",
+                  "Vendor_ID",
+                  "Vendor_Full_Name",
+                  "Vendor_Short_Name",
+                  "Vendor_Address",
+                  "Associate_Provider_with_Issue",
+                  "Mail_to_Address",
+                  "Address_Line_1",
+                  "Address_Line_2",
+                  "Zip_Code",
+                  "City",
+                  "County",
+                  "Region",
+                  "State",
+                  "Provider_Contact_Name",
+                  "Alternate_Address_Line_1",
+                  "Alternate_Address_Line_2",
+                  "Alternate_Zip_Code",
+                  "Alternate_City",
+                  "Alternate_County",
+                  "Alternate_Region",
+                  "Alternate_State",
+                  "Alternate_Phone_Number",
+                  "Alternate_Fax_Number",
+                  "Alternate_Email_ID",
+                  "Communication_Preference"
+  ];
+const columnWidthMap = {
+
+    'Issue_Number': '150px',
+    'Provider_ID': '150px',
+    'Provider_Name': '150px',
+    'Provider_TIN': '150px',
+    'Provider_Vendor_Specialty': '150px',
+    'Provider_NPI': '150px',
+    'Provider_IPA': '150px',
+    'CRM_Ticket': '150px',
+    'Email_ID': '150px',
+    'Phone_Number': '150px',
+    'Fax_Number': '150px',
+    'Participating_Provider': '150px',
+    'Provider_Contract_Effective_Date': '250px',
+    'Provider_Contract_Termination_Date': '250px',
+    'Provider_Contract_Type': '150px',
+    'Provider_Contract_LOB': '150px',
+    'Provider_Contract_IPA': '150px',
+    'PCP_Flag': '150px',
+    'Accept_New_Patients': '150px',
+    'Vendor_ID': '150px',
+    'Vendor_Full_Name': '150px',
+    'Vendor_Short_Name': '150px',
+    'Vendor_Address': '150px',
+    'Associate_Provider_with_Issue': '250px',
+    'Mail_to_Address': '150px',
+    'Address_Line_1': '150px',
+    'Address_Line_2': '150px',
+    'Zip_Code': '150px',
+    'City': '150px',
+    'County': '150px',
+    'Region': '150px',
+    'State': '150px',
+    'Provider_Contact_Name': '150px',
+    'Alternate_Address_Line_1': '150px',
+    'Alternate_Address_Line_2': '150px',
+    'Alternate_Zip_Code': '150px',
+    'Alternate_City': '150px',
+    'Alternate_County': '150px',
+    'Alternate_Region': '150px',
+    'Alternate_State': '150px',
+    'Alternate_Phone_Number': '150px',
+    'Alternate_Fax_Number': '150px',
+    'Alternate_Email_ID': '150px',
+    'Communication_Preference': '150px'
+
+};
+
+
 
 const renderSimpleInputField = (name, label, maxLength, index) => {
     return (
@@ -153,8 +255,7 @@ const renderSimpleInputField = (name, label, maxLength, index) => {
       </div>
     );
   };
-
-  const tdDataReplica = (index) => {
+ const tdDataReplica = (index) => {
     return (
       <>
         <div className="Container AddProviderLabel AddModalLabel">
@@ -260,122 +361,101 @@ const renderSimpleInputField = (name, label, maxLength, index) => {
   };
 
 const tdData = () => {
-  if (ctmProviderInformationGridData !== undefined && ctmProviderInformationGridData.length > 0) {
-    return ctmProviderInformationGridData.map((data, index) => {
-      return (
-        <>
-          <tr key={index} className={data.DataSource === "CredentialingApi" ? "CredentialingApi" : ""}>
-            {lockStatus === "N" && (
+
+       if (
+         ctmProviderInformationGridData !== undefined &&
+         ctmProviderInformationGridData.length > 0
+       ) {
+         return ctmProviderInformationGridData.map((data, index) => {
+           return (
+             <tr
+               key={index}
+               className={
+                 data.DataSource === "CredentialingApi" ? "CredentialingApi" : ""
+               }
+             >
+               {lockStatus === "N" && (
+                 <>
+                   <td>
+                     <span
+                       style={{
+                         display: "flex",
+                       }}
+                     >
+                       <button
+                         className="deleteBtn"
+                         style={{ width: "75%", float: "left" }}
+                         onClick={() => {
+                           deleteTableRows(
+                             index,
+                             CtmProviderInformationTable.displayName,
+                             "Force Delete",
+                           );
+                           handleOperationValue("Force Delete");
+                           decreaseDataIndex();
+                         }}
+                       >
+                         <i className="fa fa-trash"></i>
+                       </button>
+                       <button
+                         className="editBtn"
+                         style={{ width: "75%", float: "right" }}
+                         type="button"
+                         onClick={() => {
+                          editTableRows(
+                                                    index,
+                                                    CtmProviderInformationTable.displayName,
+                                                  );
+                        handleModalChange(true);
+                        handleDataIndex(index);
+                        handleOperationValue("Edit");
+                      }}
+                    >
+                      <i className="fa fa-edit"></i>
+                    </button>
+                  </span>
+                </td>
+              </>
+            )}
+            {lockStatus === "V" && (
               <td>
-                <span style={{ display: "flex" }}>
-                  <button
-                    className="deleteBtn"
-                    style={{ width: "75%", float: "left" }}
-                    onClick={() => {
-                      deleteTableRows(index, CtmProviderInformationTable.displayName, "Force Delete");
-                      handleOperationValue("Force Delete");
-                      decreaseDataIndex();
-                    }}
-                  >
-                    <i className="fa fa-trash"></i>
-                  </button>
+                <div>
                   <button
                     className="editBtn"
-                    style={{ width: "75%", float: "right" }}
+                    style={{ float: "right" }}
                     type="button"
                     onClick={() => {
-                      editTableRows(index, CtmProviderInformationTable.displayName);
                       handleModalChange(true);
                       handleDataIndex(index);
                       handleOperationValue("Edit");
                     }}
                   >
-                    <i className="fa fa-edit"></i>
+                    <i className="fa fa-eye"></i>
                   </button>
-                </span>
-              </td>
-            )}
-            {lockStatus === "V" && (
-              <td>
-                <button
-                  className="editBtn"
-                  style={{ float: "right" }}
-                  type="button"
-                  onClick={() => {
-                    handleModalChange(true);
-                    handleDataIndex(index);
-                    handleOperationValue("Edit");
-                  }}
-                >
-                  <i className="fa fa-eye"></i>
-                </button>
+                </div>
               </td>
             )}
 
-            {[
-              "Issue_Number",
-              "Provider_ID",
-              "Provider_Name",
-              "Provider_TIN",
-              "Provider_Vendor_Specialty",
-              "Provider_NPI",
-              "Provider_IPA",
-              "CRM_Ticket",
-              "Email_ID",
-              "Phone_Number",
-              "Fax_Number",
-              "Participating_Provider",
-              "Provider_Contract_Effective_Date",
-              "Provider_Contract_Termination_Date",
-              "Provider_Contract_Type",
-              "Provider_Contract_LOB",
-              "Provider_Contract_IPA",
-              "PCP_Flag",
-              "Accept_New_Patients",
-              "Vendor_ID",
-              "Vendor_Full_Name",
-              "Vendor_Short_Name",
-              "Vendor_Address",
-              "Associate_Provider_with_Issue",
-              "Mail_to_Address",
-              "Address_Line_1",
-              "Address_Line_2",
-              "Zip_Code",
-              "City",
-              "County",
-              "Region",
-              "State",
-              "Provider_Contact_Name",
-              "Alternate_Address_Line_1",
-              "Alternate_Address_Line_2",
-              "Alternate_Zip_Code",
-              "Alternate_City",
-              "Alternate_County",
-              "Alternate_Region",
-              "Alternate_State",
-              "Alternate_Phone_Number",
-              "Alternate_Fax_Number",
-              "Alternate_Email_ID",
-              "Communication_Preference"
-            ].map((e) => (
-              <td className="tableData" key={e}>
-                {e.endsWith("_Date")
-                  ? data?.[e]?.value
-                    ? formatDate(data[e].value)
-                    : formatDate(data[e])
-                  : data?.[e]?.value
-                  ? convertToCase(data[e].value)
-                  : convertToCase(data[e])}
-              </td>
-            ))}
-          </tr>
-        </>
-      );
-    });
-  }
-};
+            {tableFields
+                          .filter((e) => e !== "rowNumber")
+                          .map((e) => (
+                            <td className="tableData">
+                              {e.endsWith("_Date")
+                                ? data?.[e]?.value
+                                  ? formatDate(data[e].value)
+                                  : formatDate(data[e])
+                                : data?.[e]?.value
+                                  ? convertToCase(data[e].value)
+                                  : convertToCase(data[e])}
+                            </td>
+                          ))}
+                      </tr>
+        );
+      });
+    }
+  };
 
-  const formatDate = (dateObj) => {
+const formatDate = (dateObj) => {
     if (dateObj) {
       if (typeof dateObj === "string") {
         dateObj = new Date(Date.parse(dateObj));
@@ -396,113 +476,76 @@ const tdData = () => {
     }
     return null;
   };
-    const decreaseDataIndex = () => {
-      if (operationValue === "Add" || operationValue === "Force Delete") {
-        const indx = dataIndex - 1;
-        setDataIndex(indx);
-      }
-    };
+const handleOperationValue = (oprtnValue) => {
+    setOperationValue(oprtnValue);
+  };
 
-    const handleOperationValue = (oprtnValue) => {
-      setOperationValue(oprtnValue);
-    };
+const handleModalChange = (flag) => {
+    setModalShow(flag);
+  };
 
-    const handleModalChange = (flag) => {
-      setModalShow(flag);
-    };
+const handleDataIndex = (index) => {
+    setDataIndex(index);
+  };
 
-    const handleDataIndex = (index) => {
-      setDataIndex(index);
-    };
- return (
-   <>
-     <div className="claimTable-container">
-       <table className="table table-bordered tableLayout" id="CtmProviderInformationTable">
-         <thead>
-           <tr className="tableRowStyle tableHeaderColor">
-             {lockStatus === "N" && (
-               <th style={{ width: "100px" }}>
-                 <button
-                   className="addBtn"
-                   onClick={() => {
-                     addTableRows(CtmProviderInformationTable.displayName);
-                     handleModalChange(true);
-                     handleDataIndex(ctmProviderInformationGridData.length);
-                     handleOperationValue("Add");
-                   }}
-                 >
-                   <i className="fa fa-plus"></i>
+const decreaseDataIndex = () => {
+    if (operationValue === "Add" || operationValue === "Force Delete") {
+      const indx = dataIndex - 1;
+      setDataIndex(indx);
+    }
+  };
 
-                 </button>
-               </th>
-             )}
-             {lockStatus === "V" && <th style={{ width: "100px" }}></th>}
-             <th scope="col"  style={{ width: "110px" }}>Issue Number</th>
-             <th scope="col"  style={{ width: "100px" }}>Provider ID</th>
-             <th scope="col"  style={{ width: "100px" }}>Provider Name</th>
-             <th scope="col"  style={{ width: "100px" }}>Provider TIN</th>
-             <th scope="col"  style={{ width: "150px" }}>Provider/Vendor Specialty</th>
-             <th scope="col"  style={{ width: "100px" }}>Provider NPI</th>
-             <th scope="col"  style={{ width: "100px" }}>Provider IPA</th>
-             <th scope="col"  style={{ width: "100px" }}>CRM Ticket #</th>
-             <th scope="col"  style={{ width: "100px" }}>Email ID</th>
-             <th scope="col"  style={{ width: "100px" }}>Phone Number</th>
-             <th scope="col"  style={{ width: "100px" }}>Fax Number</th>
-             <th scope="col"  style={{ width: "150px" }}>Participating Provider</th>
-             <th scope="col"  style={{ width: "100px" }}>Provider Contract Effective Date</th>
-             <th scope="col"  style={{ width: "100px" }}>Provider Contract Termination Date</th>
-             <th scope="col"  style={{ width: "100px" }}>Provider Contract Type</th>
-             <th scope="col"  style={{ width: "100px" }}>Provider Contract LOB</th>
-             <th scope="col"  style={{ width: "100px" }}>Provider Contract IPA</th>
-             <th scope="col"  style={{ width: "100px" }}>PCP Flag</th>
-             <th scope="col"  style={{ width: "100px" }}>Accept New Patients</th>
-             <th scope="col"  style={{ width: "100px" }}>Vendor ID</th>
-             <th scope="col"  style={{ width: "100px" }}>Vendor Full Name</th>
-             <th scope="col"  style={{ width: "100px" }}>Vendor Short Name</th>
-             <th scope="col"  style={{ width: "100px" }}>Vendor Address</th>
-             <th scope="col"  style={{ width: "100px" }}>Associate Provider with Issue</th>
-             <th scope="col"  style={{ width: "100px" }}>Mail to Address?</th>
-             <th scope="col"  style={{ width: "100px" }}>Address (line 1)</th>
-             <th scope="col"  style={{ width: "100px" }}>Address (line 2)</th>
-             <th scope="col"  style={{ width: "100px" }}>Zip Code</th>
-             <th scope="col"  style={{ width: "100px" }}>City</th>
-             <th scope="col"  style={{ width: "100px" }}>County</th>
-             <th scope="col"  style={{ width: "100px" }}>Region</th>
-             <th scope="col"  style={{ width: "100px" }}>State</th>
-             <th scope="col"  style={{ width: "100px" }}>Provider Contact Name</th>
-             <th scope="col"  style={{ width: "100px" }}>Alternate Address (line 1)</th>
-             <th scope="col"  style={{ width: "100px" }}>Alternate Address (line 2)</th>
-             <th scope="col"  style={{ width: "100px" }}>Alternate Zip Code</th>
-             <th scope="col"  style={{ width: "100px" }}>Alternate City</th>
-             <th scope="col"  style={{ width: "100px" }}>Alternate County</th>
-             <th scope="col"  style={{ width: "100px" }}>Alternate Region</th>
-             <th scope="col"  style={{ width: "100px" }}>Alternate State</th>
-             <th scope="col"  style={{ width: "100px" }}>Alternate Phone Number</th>
-             <th scope="col"  style={{ width: "100px" }}>Alternate Fax Number</th>
-             <th scope="col"  style={{ width: "100px" }}>Alternate Email ID</th>
-             <th scope="col"  style={{ width: "150px" }}>Communication Preference</th>
-           </tr>
-         </thead>
-         <tbody>{tdData()}</tbody>
-       </table>
-     </div>
-     <GridModal
+    return (
+        <>
+          <div className="claimTable-container">
+                  <table
+                    className="table table-bordered tableLayout"
+                    id="Provider Information Table"
+                  >
+                    <thead>
+                      <tr className="tableRowStyle tableHeaderColor">
+                        {lockStatus === "N" && (
+                          <th style={{ width: "100px" }}>
+                            <button
+                              className="addBtn"
+                              onClick={() => {
+                                addTableRows(CtmProviderInformationTable.displayName);
+                                handleModalChange(true);
+                                handleDataIndex(ctmProviderInformationGridData.length);
+                                handleOperationValue("Add");
+                              }}
+                            >
+                              <i className="fa fa-plus"></i>
+                            </button>
+                          </th>
+                        )}
+                        {lockStatus === "V" && <th style={{ width: "" }}></th>}
+                           {tableFields
+                                                                                                        .filter((e) => e !== "rowNumber")
+                                                                                                        .map((e) => (
+                                                                                                           <th scope="col" style={{'width': columnWidthMap[e]}}>{e.replaceAll("_", " ")}</th>
+                                                                                                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>{tdData()}</tbody>
+                  </table>
+                </div>
+          <GridModal
 
-          name={" Provider Information"}
-               validationObject={isTouched}
-               modalShow={modalShow}
-               handleModalChange={handleModalChange}
-               dataIndex={dataIndex}
-               tdDataReplica={tdDataReplica}
-               deleteTableRows={deleteTableRows}
-               gridName={CtmProviderInformationTable.displayName}
-               decreaseDataIndex={decreaseDataIndex}
-               operationValue={operationValue}
-               gridRowsFinalSubmit={gridRowsFinalSubmit}
-               lockStatus={lockStatus}
-               validationErrors={validationErrors}
-     />
-   </>
- );
-
+                    name={" Provider Information"}
+                         validationObject={isTouched}
+                         modalShow={modalShow}
+                         handleModalChange={handleModalChange}
+                         dataIndex={dataIndex}
+                         tdDataReplica={tdDataReplica}
+                         deleteTableRows={deleteTableRows}
+                         gridName={CtmProviderInformationTable.displayName}
+                         decreaseDataIndex={decreaseDataIndex}
+                         operationValue={operationValue}
+                         gridRowsFinalSubmit={gridRowsFinalSubmit}
+                         lockStatus={lockStatus}
+                         validationErrors={validationErrors}
+               ></GridModal>
+              </>
+      );
 }

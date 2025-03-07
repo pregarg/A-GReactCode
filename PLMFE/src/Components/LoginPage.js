@@ -44,6 +44,9 @@ import {
   getMasterAngGender,
   getMasterCtmAddressType,
     getMasterCtmSendToHPMS,
+    getMasterCtmPreQaDecision,
+    getMasterCtmReviewLevel,
+    getMasterCtmRelationship,
     getMasterCtmDaysAgo,
     getMasterCtmPlanRequestType,
     getMasterCtmMultiGridComplaintType,
@@ -503,6 +506,30 @@ export default function LoginPage() {
                       onMasterLoadSuccess,
                     ),
                   );
+      dispatch(
+                          getMasterCtmPreQaDecision(
+                            loginToken,
+                            false,
+                            onMasterLoadFail,
+                            onMasterLoadSuccess,
+                          ),
+                        );
+      dispatch(
+                          getMasterCtmReviewLevel(
+                            loginToken,
+                            false,
+                            onMasterLoadFail,
+                            onMasterLoadSuccess,
+                          ),
+                        );
+      dispatch(
+                          getMasterCtmRelationship(
+                            loginToken,
+                            false,
+                            onMasterLoadFail,
+                            onMasterLoadSuccess,
+                          ),
+                        );
        dispatch(
                     getMasterCtmDaysAgo(
                       loginToken,
@@ -940,6 +967,30 @@ export default function LoginPage() {
                 onMasterLoadSuccess,
               ),
             );
+      dispatch(
+                                getMasterCtmPreQaDecision(
+                                  loginToken,
+                                  false,
+                                  onMasterLoadFail,
+                                  onMasterLoadSuccess,
+                                ),
+                              );
+      dispatch(
+                                getMasterCtmReviewLevel(
+                                  loginToken,
+                                  false,
+                                  onMasterLoadFail,
+                                  onMasterLoadSuccess,
+                                ),
+                              );
+       dispatch(
+                                getMasterCtmRelationship(
+                                  loginToken,
+                                  false,
+                                  onMasterLoadFail,
+                                  onMasterLoadSuccess,
+                                ),
+                              );
        dispatch(
                     getMasterCtmDaysAgo(
                       loginToken,

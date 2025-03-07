@@ -170,12 +170,23 @@ const CtmHeader = () => {
                                     setCaseHeader={setCaseHeader}
                                     caseHeaderFields={caseHeaderFields}
                                     renderType={RenderType.CTM}
+                                    ctmMemberInformation={ctmMemberData}
 //                                    pd_ProviderInformation={pd_ProviderInformation}
 //                                    ProvidermemberInformation={ProvidermemberInformation}
 //                                    pd_RepresentativeInformation={pd_RepresentativeInformation}
                                   />
 
                                   )}
+                                  {/*<CaseTimelinesAccordion
+                                                                caseTimelinesData={caseTimelines}
+                                                                setCaseTimelinesData={setCaseTimelines}
+                                                                caseTimelinesValidationSchema={caseTimelinesValidationSchema}
+                                                                caseTimelinesErrors={caseTimelinesErrors}
+                                                                shouldShowSubmitError={shouldShowSubmitError}
+                                                                renderType={RenderType.CTM}
+                                                                caseTimelinesFields={caseTimelinesFields}
+                                                                ProviderclaimInformationGridData={pdClaimInformationGrid}
+                                                              />*/}
 
 {/*<CtmCaseInformationAccordion
                               ctmCaseInformationData={ctmCaseInformation}
@@ -203,13 +214,13 @@ handleClaimInformationGridData={ctmClaimInformationGrid || []}
                                updateCtmClaimInformationGridData={setCtmClaimInformationGrid}
                                ctmClaimInformationGridValidationSchema={ctmClaimInformationGridRowValidationSchema}
                              />
-                  {/*<CtmProviderInformationAccordion
+                  <CtmProviderInformationAccordion
                                            handleProviderGridData={ctmProviderInformationGrid || []}
                                            updateProviderGridData={setCtmProviderInformationGrid}
                                            setProviderInformationCtm={setProviderInformationCtm}
                                            handleData={providerInformationCtm}
                                            providerGridValidationSchema={ctmProviderInformationGridValidationSchema}
-                                         />*/}
+                                         />
                  <CtmAuthorizationInformationAccordion
         handleOnChange={handleCtmAuthorizationInformationChange}
                 handleData={authorizationInformationCtm}

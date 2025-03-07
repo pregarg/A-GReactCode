@@ -140,18 +140,19 @@ const handleCheckBoxChange = (event, ind) => {
 
 
     const handleWhiteGloveChange = (e) => {
-      const isChecked = e.target.checked;
-      setWhiteGloveIndicator(isChecked);
+          const isChecked = e.target.checked;
+          setWhiteGloveIndicator(isChecked);
 
-      let updatedData = { ...ctmRepresentativeInformationData, isChecked: isChecked ? '1' : '' };
+          let updatedData = {
+              ...ctmRepresentativeInformationData,
+              isChecked: isChecked ? '1' : '',
+              WhiteGloveCancelledReason: isChecked ? "" : ctmRepresentativeInformationData.WhiteGloveCancelledReason,
+              WhiteGloveReason: !isChecked ? "" : ctmRepresentativeInformationData.WhiteGloveReason
+          };
 
-      // Clear White Glove Reason if unchecked
-      if (!isChecked) {
-        updatedData.WhiteGloveReason = "";
-      }
+          props.setRepresentativeInformationCtm(updatedData);
+      };
 
-      props.setRepresentativeInformationCtm(updatedData);
-    };
     const handleRepresentativeInformationBlur = (e) => {
         const scrollPosition = window.scrollY; // Save current scroll position
 

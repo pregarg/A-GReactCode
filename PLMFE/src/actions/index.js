@@ -437,6 +437,120 @@ export const getMasterCtmSendToHPMS = (
     }
   };
 };
+export const getMasterCtmRelationship = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append(
+        "tableName",
+        "CTM_MASTER_RELATIONSHIP~masterCtmRelationship",
+      );
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterCtmRelationship];
+            //console.log(response);
+            dispatch({ type: "GET_CTM_MASTER_RELATIONSHIP", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_CTM_MASTER_RELATIONSHIP", payload: "" });
+    }
+  };
+};
+export const getMasterCtmReviewLevel = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append(
+        "tableName",
+        "CTM_MASTER_REVIEW_LEVEL~masterCtmReviewLevel",
+      );
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterCtmReviewLevel];
+            //console.log(response);
+            dispatch({ type: "GET_CTM_MASTER_REVIEW_LEVEL", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_CTM_MASTER_REVIEW_LEVEL", payload: "" });
+    }
+  };
+};
+export const getMasterCtmPreQaDecision = (
+  token,
+  clearFlag = false,
+  onError,
+  onSuccess,
+) => {
+  return (dispatch) => {
+    if (!clearFlag) {
+      const apiData = new FormData();
+      apiData.append(
+        "tableName",
+        "CTM_MASTER_Pre_QA_Decision~masterCtmPreQaDecision",
+      );
+      axios
+        .post("/generic/get/masterTableData", apiData, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          if (res.data.Status === 0) {
+            const respData = [...res.data.data.masterCtmPreQaDecision];
+            //console.log(response);
+            dispatch({ type: "GET_CTM_MASTER_Pre_QA_Decision", payload: respData });
+            if (onSuccess) {
+              onSuccess(res);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (onError) {
+            onError(error);
+          }
+        });
+    } else if (clearFlag) {
+      dispatch({ type: "CLEAR_CTM_MASTER_Pre_QA_Decision", payload: "" });
+    }
+  };
+};
 export const getMasterCtmDaysAgo = (
   token,
   clearFlag = false,

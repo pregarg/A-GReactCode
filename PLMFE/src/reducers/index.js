@@ -621,6 +621,33 @@ const masterCtmSendToHPMSReducer = (state = [], action) => {
   }
   return state;
 };
+const masterCtmPreQaDecisionReducer = (state = [], action) => {
+  if (action.type === "GET_CTM_MASTER_Pre_QA_Decision") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_CTM_MASTER_Pre_QA_Decision") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+const masterCtmReviewLevelReducer = (state = [], action) => {
+  if (action.type === "GET_CTM_MASTER_REVIEW_LEVEL") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_CTM_MASTER_REVIEW_LEVEL") {
+    state = [];
+    return state;
+  }
+  return state;
+};
+const masterCtmRelationshipReducer = (state = [], action) => {
+  if (action.type === "GET_CTM_MASTER_RELATIONSHIP") {
+    return [action.payload];
+  } else if (action.type === "CLEAR_CTM_MASTER_RELATIONSHIP") {
+    state = [];
+    return state;
+  }
+  return state;
+};
 
 const masterCtmPlanRequestTypeReducer = (state = [], action) => {
   if (action.type === "GET_CTM_MASTER_PLAN_REQUEST_TYPE") {
@@ -1346,6 +1373,9 @@ export default combineReducers({
   masterAngDeceased: masterAngDeceasedReducer,
   masterAngGender: masterAngGenderReducer,
   masterCtmSendToHPMS: masterCtmSendToHPMSReducer,
+  masterCtmPreQaDecision: masterCtmPreQaDecisionReducer,
+  masterCtmRelationship: masterCtmRelationshipReducer,
+ masterCtmReviewLevel: masterCtmReviewLevelReducer ,
  masterCtmPlanRequestType: masterCtmPlanRequestTypeReducer,
   masterCtmMultiGridComplaintType:masterCtmMultiGridComplaintTypeReducer,
   masterCtmDaysAgo:masterCtmDaysAgoReducer,

@@ -276,7 +276,7 @@ export const useCaseTimelines = (renderType) => {
       },
         {
             type: "select",
-            name: "Resolution_Performed_Timely?",
+            name: "Resolution_Performed_Timely",
             placeholder: "Resolution Performed Timely",
             values: caseInComplianceValues,
 //            options: ["Yes", "No"],

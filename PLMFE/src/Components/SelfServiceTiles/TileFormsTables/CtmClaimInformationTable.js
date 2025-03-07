@@ -100,19 +100,74 @@ useEffect(() => {
            "Deductible_Amount",
            "Allowed_Reason_Cd",
   ]
-  const renderSimpleInputField = (name, label, index) => (
-    <div className="col-xs-6 col-md-3">
-      <SimpleInputField
-        name={name}
-        label={label}
-        data={gridFieldTempState}
-        validationErrors={validationErrors}
-        onChange={(event) =>
-          handleGridFieldChange(index, event, CtmClaimInformationTable.displayName)
+  const numericFields = [
+    "Line_Number",
+    "Seq_Claim_ID",
+    "Accounts_Payable_Net_Amount",
+    "Billed_Amount",
+    "Allowed_Amount",
+    "Net_Amount",
+    "Check_Amount",
+    "Co_Payment_Amount1",
+    "Co_Payment_Amount2",
+    "Not_Covered_Amount",
+    "Quantity",
+    "Seq_AP_Trans",
+    "Oc_Allowed_Amount",
+    "Oc_Paid_Amount",
+    "Paid_Net_Amount",
+    "Deductible_Amount",
+  ];
+
+  const handleNumericFieldValidation = (event, index, name) => {
+    const value = event.target.value;
+
+    if (numericFields.includes(name) && isNaN(value)) {
+      alert(`${name.replaceAll("_", " ")} should be a numeric value.`);
+      return; // Prevent updating the state with invalid input
+    }
+
+    handleGridFieldChange(index, event, CtmClaimInformationTable.displayName);
+  };
+
+//  const renderSimpleInputField = (name, label, index) => (
+//    <div className="col-xs-6 col-md-3">
+//      <SimpleInputField
+//        name={name}
+//        label={label}
+//        data={gridFieldTempState}
+//        validationErrors={validationErrors}
+//        onChange={(event) =>
+//          handleGridFieldChange(index, event, CtmClaimInformationTable.displayName)
+//
+//        }
+//      />
+//    </div>
+//  );
+const renderSimpleInputField = (name, label, index) => (
+  <div className="col-xs-6 col-md-3">
+    <SimpleInputField
+      name={name}
+      label={label}
+      data={gridFieldTempState}
+      validationErrors={validationErrors}
+      onChange={(event) => {
+        const value = event.target.value;
+
+        // Check if the field is in the numeric fields list and contains non-numeric characters
+        if (numericFields.includes(name) && isNaN(value)) {
+          alert(`${label} should be a numeric value.`);
+
+          // Prevent invalid character from appearing in the input field
+          event.target.value = value.slice(0, -1);
+          return;
         }
-      />
-    </div>
-  );
+
+        handleGridFieldChange(index, event, CtmClaimInformationTable.displayName);
+      }}
+    />
+  </div>
+);
 
   const renderSimpleDatePickerField = (name, label, index) => (
     <div className="col-xs-6 col-md-3">
@@ -121,12 +176,23 @@ useEffect(() => {
         label={label}
         data={gridFieldTempState}
         validationErrors={validationErrors}
-        onChange={(selectValue) =>
-          handleGridDateChange(index, selectValue, name, CtmClaimInformationTable.displayName)
-        }
+        onChange={(selectValue) => {
+          // Get the current values from state
+          const startDate = gridFieldTempState?.["Service_Start_Date"];
+          const endDate = selectValue; // New selected value
+
+          // Check if the selected field is the end date and is earlier than the start date
+          if (name === "Service_End_Date" && startDate && new Date(endDate) < new Date(startDate)) {
+            alert("Service End Date cannot be earlier than Service Start Date.");
+            return; // Prevent further execution
+          }
+
+          handleGridDateChange(index, selectValue, name, CtmClaimInformationTable.displayName);
+        }}
       />
     </div>
   );
+
   const renderSimpleSelectField = (name, label, options, index) => (
       <div className="col-xs-6 col-md-3">
         <SimpleSelectField
@@ -146,7 +212,7 @@ useEffect(() => {
     <div className="Container AddProviderLabel AddModalLabel">
       <div className="row">
         {renderSimpleInputField("Issue_Number", "Issue Number", index)}
-        {renderSimpleInputField("Claim_Ref_Number", "Claim Ref Number", index)}
+        {renderSimpleInputField("Claim_Ref_Number", "Claim/Ref Number", index)}
         {renderSimpleInputField("Authorization_Number", "Authorization Number", index)}
         {renderSimpleInputField("Provider_Name", "Provider Name", index)}
       </div>
@@ -158,49 +224,60 @@ useEffect(() => {
       </div>
       <div className="row mt-3">
         {renderSimpleInputField("Claim_Status", "Claim Status", index)}
-        {renderSimpleInputField("Claim_Lines", "Claim Lines", index)}
+        </div>
+         <div className="row mt-3">
+         <div className="sub-title mt-4 mb-3"
+                             style={{
+                                               fontSize: "19 px",        // Increase font siz
+                                               color: "#007bff",       // Eye-catching blue color (customizable)
+                                           }}>Claim Lines</div>
+
         {renderSimpleInputField("Line_Number", "Line Number", index)}
         {renderSimpleInputField("Seq_Claim_ID", "Seq Claim ID", index)}
+         {renderSimpleInputField("Accounts_Payable_Net_Amount", "Accounts Payable Net Amount", index)}
+         {renderSimpleInputField("Allowed_Reason", "Allowed Reason", index)}
       </div>
       <div className="row mt-3">
-        {renderSimpleInputField("Accounts_Payable_Net_Amount", "Accounts Payable Net Amount", index)}
-        {renderSimpleInputField("Allowed_Reason", "Allowed Reason", index)}
         {renderSimpleInputField("Billed_Amount", "Billed Amount", index)}
         {renderSimpleInputField("Allowed_Amount", "Allowed Amount", index)}
+         {renderSimpleInputField("Net_Amount", "Net Amount", index)}
+         {renderSimpleDatePickerField("Date_Of_Service_Start", "Date Of Service Start", index)}
       </div>
       <div className="row mt-3">
-        {renderSimpleInputField("Net_Amount", "Net Amount", index)}
-        {renderSimpleInputField("Date_Of_Service_Start", "Date Of Service Start", index)}
-        {renderSimpleInputField("Date_Of_Service_End", "Date Of Service End", index)}
+        {renderSimpleDatePickerField("Date_Of_Service_End", "Date Of Service End", index)}
         {renderSimpleInputField("Check_Amount", "Check Amount", index)}
+         {renderSimpleInputField("Claim_Status", "Claim Status", index)}
+        {renderSimpleInputField("Claim_Status_Desc", "Claim Status Desc", index)}
+
       </div>
       <div className="row mt-3">
-        {renderSimpleInputField("Claim_Status_Desc", "Claim Status Desc", index)}
-        {renderSimpleInputField("Co_Payment_Amount1", "Co-Payment Amount 1", index)}
+      {renderSimpleInputField("Co_Payment_Amount1", "Co-Payment Amount 1", index)}
         {renderSimpleInputField("Co_Payment_Amount2", "Co-Payment Amount 2", index)}
         {renderSimpleInputField("Claim_Deny_Reason_Code", "Claim Deny Reason Code", index)}
+           {renderSimpleInputField("Claim_Deny_Reason_Desc", "Claim Deny Reason Desc", index)}
+
       </div>
       <div className="row mt-3">
-        {renderSimpleInputField("Claim_Deny_Reason_Desc", "Claim Deny Reason Desc", index)}
-        {renderSimpleInputField("Not_Covered_Amount", "Not Covered Amount", index)}
+      {renderSimpleInputField("Not_Covered_Amount", "Not Covered Amount", index)}
         {renderSimpleInputField("Place_Of_Service", "Place Of Service", index)}
         {renderSimpleInputField("Procedure_Code", "Procedure Code", index)}
+         {renderSimpleInputField("Procedure_Code_Desc", "Procedure Code Desc", index)}
+
       </div>
       <div className="row mt-3">
-        {renderSimpleInputField("Procedure_Code_Desc", "Procedure Code Desc", index)}
-        {renderSimpleInputField("Quantity", "Quantity", index)}
+      {renderSimpleInputField("Quantity", "Quantity", index)}
         {renderSimpleInputField("Seq_AP_Trans", "Seq AP Trans", index)}
         {renderSimpleInputField("Sub_Line_Code", "Sub Line Code", index)}
+          {renderSimpleInputField("Oc_Allowed_Amount", "Oc Allowed Amount", index)}
+
       </div>
       <div className="row mt-3">
-        {renderSimpleInputField("Oc_Allowed_Amount", "Oc Allowed Amount", index)}
-        {renderSimpleInputField("Oc_Paid_Amount", "Oc Paid Amount", index)}
+      {renderSimpleInputField("Oc_Paid_Amount", "Oc Paid Amount", index)}
         {renderSimpleInputField("Paid_Net_Amount", "Paid Net Amount", index)}
         {renderSimpleInputField("Deductible_Amount", "Deductible Amount", index)}
+         {renderSimpleInputField("Allowed_Reason_Cd", "Allowed Reason Cd", index)}
       </div>
-      <div className="row mt-3">
-        {renderSimpleInputField("Allowed_Reason_Cd", "Allowed Reason Cd", index)}
-      </div>
+
     </div>
   );
 

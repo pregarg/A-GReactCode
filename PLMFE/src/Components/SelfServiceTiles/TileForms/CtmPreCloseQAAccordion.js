@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import useGetDBTables from "../../CustomHooks/useGetDBTables";
 import { FormikInputField } from "../Common/FormikInputField";
 import { FormikDatePicker } from "../Common/FormikDatePicker";
@@ -13,7 +14,12 @@ const CtmPreCloseQAAccordion = (props) => {
   const [preCloseQAData, setPreCloseQAData] = useState(props.preCloseQAData || {});
   const [modalContent, setModalContent] = useState("");
   const [showModal, setShowModal] = useState(false);
-
+  const masterCtmReviewLevelSelector = useSelector(
+      (state) => state?.masterCtmReviewLevel,
+    );
+   const  masterCtmPreQaDecisionSelector = useSelector(
+          (state) => state?. masterCtmPreQaDecision,
+        );
   const persistPreCloseQAData = () => {
     try {
       if (typeof props.setPreCloseQAData === "function") {
@@ -130,9 +136,7 @@ const CtmPreCloseQAAccordion = (props) => {
       <FormikSelectField
         name={name}
         placeholder={placeholder}
-        options={Array.isArray(options)
-          ? options.map(opt => (typeof opt === "string" ? { value: opt, label: opt } : opt))
-          : []}
+       options={options}
         data={preCloseQAData}
         onChange={handlePreCloseQAData}
         persist={persistPreCloseQAData}
@@ -142,7 +146,30 @@ const CtmPreCloseQAAccordion = (props) => {
       />
     </div>
   );
+ const [ctmReviewLevelValues, setCtmReviewLevelValues] = useState([]);
+ const [ctmQaDecisionValues, setCtmQaDecisionValues] = useState([]);
+ useEffect(() => {
+       const kvMapper = (e) => ({
+         label: convertToCase(e),
+         value: convertToCase(e),
+       });
 
+
+
+    const ctmReviewLevel= masterCtmReviewLevelSelector?.[0] || [];
+        setCtmReviewLevelValues(
+          [...new Set(ctmReviewLevel.map((e) => convertToCase(e.CTM_REVIEW_LEVEL)))].map(
+            kvMapper,
+          ),
+        );
+
+  const ctmQaDecision= masterCtmPreQaDecisionSelector?.[0] || [];
+          setCtmQaDecisionValues(
+            [...new Set(ctmQaDecision.map((e) => convertToCase(e.CTM_Pre_Post_QA_Decision)))].map(
+              kvMapper,
+            ),
+          );
+     }, []);
   return (
     <div>
       <div className="accordion-item" id="preCloseQA">
@@ -168,19 +195,13 @@ const CtmPreCloseQAAccordion = (props) => {
             <div className="row my-2">
               {renderInputField("Auditor_Name", "Auditor Name", 50)}
               {renderInputField("Coordinator_Name", "Coordinator Name", 50)}
-              {renderSelectField("Review_Level", "Review Level", [
-                { value: "1ST", label: "1ST" },
-                { value: "2ND", label: "2ND" }
-              ])}
+              {renderSelectField("Review_Level", "Review Level", ctmReviewLevelValues)}
 
             </div>
             <div className="row my-2">
               {renderInputField("Coordinator_Supervisor_Name", "Coordinator/Supervisor Name", 50)}
               {renderDatePicker("QA_Due_Date", "QA Due Date", "QA Due Date")}
-              {renderSelectField("QA_Decision", "QA Decision", [
-                { value: "ACCEPT", label: "ACCEPT" },
-                { value: "REJECT", label: "REJECT" }
-              ])}
+             {renderSelectField("QA_Decision", "QA Decision", ctmQaDecisionValues)}
             </div>
             <div className="row my-2">
               {renderDatePicker("QA_Decision_Date", "QA Decision Date", "QA Decision Date")}
