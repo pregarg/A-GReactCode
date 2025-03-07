@@ -96,13 +96,13 @@ const [ctmIssueLevelValues, setCtmIssueLevelValues] = useState([]);
     }
     if (
       ctmCaseInformationData.Product &&
-      ctmCaseInformationData.Product_State &&
+      ctmCaseInformationData.Contract_State &&
       ctmCaseInformationData.Line_of_Business
     ) {
       setLobDescriptionValues(
         getLOBDescription(
           ctmCaseInformationData.Product,
-          ctmCaseInformationData.Product_State,
+          ctmCaseInformationData.Contract_State,
           ctmCaseInformationData.Line_of_Business
         )
       );
@@ -170,7 +170,7 @@ const [ctmIssueLevelValues, setCtmIssueLevelValues] = useState([]);
             setProductStateValues(productData.map((e) => e.State).map(kvMapper));
 
             setLobDescriptionValues('');
-            newData.Product_State = '';
+            newData.Contract_State = '';
             newData.Line_of_Business = '';
           }
 

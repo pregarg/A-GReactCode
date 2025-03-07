@@ -63,15 +63,16 @@ useEffect(() => {
       const isChecked = e.target.checked;
       setWhiteGloveIndicator(isChecked);
 
-      let updatedData = { ...ctmMemberData, isChecked: isChecked ? '1' : '' };
+      let updatedData = {
+          ...ctmMemberData,
+          isChecked: isChecked ? '1' : '',
+          WhiteGloveCancelledReason: isChecked ? "" : ctmMemberData.WhiteGloveCancelledReason,
+          WhiteGloveReason: !isChecked ? "" : ctmMemberData.WhiteGloveReason
+      };
 
-      // Clear White Glove Reason if unchecked
-      if (!isChecked) {
-        updatedData.WhiteGloveReason = "";
-      }
+      props.setCtmMemberData(updatedData);
+  };
 
-     props.setCtmMemberData(updatedData);
-    };
 
  const handleCtmMemInformationBlur = (e) => {
     const scrollPosition = window.scrollY; // Save current scroll position

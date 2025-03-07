@@ -15,6 +15,7 @@ const CtmProviderInformationAccordion = (props) => {
 
   const [providerGridData, setProviderGridData] = useState(props.handleProviderGridData || []);
   const [gridFieldTempState, setGridFieldTempState] = useState({});
+  const [showRepSearch, setShowRepSearch] = useState(false);
   const tabRef = useRef("HomeView");
   const fetchAutoPopulate = useRef(false);
   const [responseData, setResponseData] = useState([]);
@@ -27,13 +28,20 @@ const CtmProviderInformationAccordion = (props) => {
   let [selectedAddress, setSelectedAddress] = useState([]);
   let prop = useLocation();
 
-  const addTableRows = (triggeredFormName) => {
+
+const addTableRows = (triggeredFormName, index) => {
+
+
     let rowsInput = {};
+
     if (triggeredFormName === "CtmProviderInformationTable") {
-      rowsInput.rowNumber = Array.isArray(providerGridData) ? providerGridData.length : 0;
+      rowsInput.rowNumber = getRowNumberForGrid(
+        providerGridData,
+      );
     }
     setGridFieldTempState(rowsInput);
   };
+
   const deleteTableRows = (index, triggeredFormName, operationValue) => {
     if (
       operationValue !== "Edit" &&
@@ -61,7 +69,41 @@ const CtmProviderInformationAccordion = (props) => {
       setGridFieldTempState(providerGridData[index]);
     }
   };
+const handleSelectedRep = (flag) => {
+     let rowNumber = getRowNumberForGrid(providerGridData);
+     let addressToPopulate = [];
+     if (selectedAddress.length > 0) {
+       selectedAddress.map((elem) => {
+         if (elem?.isChecked) {
+           elem.rowNumber = rowNumber;
+           elem.operation = "I";
+           delete elem["isChecked"];
+           rowNumber++;
+           addressToPopulate.push(elem);
+         }
+       });
+     }
 
+     if (addressToPopulate.length > 0) {
+       setProviderGridData([
+         ...providerGridData,
+         ...addressToPopulate,
+       ]);
+       props.updateProviderGridData([
+         ...providerGridData,
+         ...addressToPopulate,
+       ]);
+     }
+     else {
+       alert("Please select at least one row.");
+       return;
+     }
+
+     setShowRepSearch(false);
+     setSelectedCriteria([]);
+     setSelectSearchValues([]);
+     setResponseData([]);
+   };
   const handleGridSelectChange = (index, selectedValue, event) => {
     const { name } = event;
     setGridFieldTempState({
@@ -87,30 +129,20 @@ const CtmProviderInformationAccordion = (props) => {
     setSelectedAddress(updatedTableData);
   };
 
-  //    const handleWhiteGloveChange = (e) => {
-  //      const isChecked = e.target.checked;
-  //      setWhiteGloveIndicator(isChecked);
-  //      ctmProviderInformationData.isChecked = isChecked ? '1': '';
-  //      props.setProviderInformationCtm({...ctmProviderInformationData});
-  //      // if (isChecked) {
-  //      //   setWhiteGloveCancelledReason("");
-  //      // } else {
-  //      //   setWhiteGloveReason("");
-  //      // }
-  //    };
+
   const handleWhiteGloveChange = (e) => {
-    const isChecked = e.target.checked;
-    setWhiteGloveIndicator(isChecked);
+            const isChecked = e.target.checked;
+            setWhiteGloveIndicator(isChecked);
 
-    let updatedData = { ...ctmProviderInformationData, isChecked: isChecked ? '1' : '' };
+            let updatedData = {
+                ...ctmProviderInformationData,
+                isChecked: isChecked ? '1' : '',
+                WhiteGloveCancelledReason: isChecked ? "" : ctmProviderInformationData.WhiteGloveCancelledReason,
+                WhiteGloveReason: !isChecked ? "" : ctmProviderInformationData.WhiteGloveReason
+            };
 
-    // Clear White Glove Reason if unchecked
-    if (!isChecked) {
-      updatedData.WhiteGloveReason = "";
-    }
-
-    props.setProviderInformationCtm(updatedData);
-  };
+            props.setProviderInformationCtm(updatedData);
+        };
 
   const handleProviderInformationBlur = (e) => {
     const scrollPosition = window.scrollY; // Save current scroll position

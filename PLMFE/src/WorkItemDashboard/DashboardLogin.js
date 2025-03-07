@@ -34,6 +34,9 @@ import {
   getMasterAngDeceased,
   getMasterAngGender,
   getMasterCtmSendToHPMS,
+  getMasterCtmPreQaDecision,
+  getMasterCtmReviewLevel,
+  getMasterCtmRelationship,
   getMasterCtmDaysAgo,
   getMasterCtmPlanRequestType,
   getMasterCtmMultiGridComplaintType,
@@ -589,6 +592,30 @@ export default function DashboardLogin() {
             onMasterLoadSuccess,
           ),
     );
+    dispatch(
+                              getMasterCtmPreQaDecision(
+                                loginToken,
+                                false,
+                                onMasterLoadFail,
+                                onMasterLoadSuccess,
+                              ),
+                            );
+    dispatch(
+                              getMasterCtmReviewLevel(
+                                loginToken,
+                                false,
+                                onMasterLoadFail,
+                                onMasterLoadSuccess,
+                              ),
+                            );
+    dispatch(
+                                    getMasterCtmRelationship(
+                                      loginToken,
+                                      false,
+                                      onMasterLoadFail,
+                                      onMasterLoadSuccess,
+                                    ),
+                                  );
       dispatch(
               getMasterCtmDaysAgo(
                 loginToken,

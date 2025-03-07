@@ -2760,13 +2760,66 @@ const checkForCTMError = () => {
                                                                     }
                 })
 
+ //setCaseHeader(data?.["ctmCaseHeader"]?.[0] || {});
+ if(data && data?.["ctmSummary"]?.[0]) {
+  data["ctmSummary"][0]['Assignment_Date#date'] = new Date()
+ }
 
+ const issueLevel = data?.["ctmSummary"]?.[0]?.['Issue_Level']
+ const assignmentDate = data?.["ctmSummary"]?.[0]?.['Assignment_Date#date'];
+ let hpmsDeadline = ''
+  let complianceDate = ''
+  if(assignmentDate) {
+
+  
+ if(issueLevel === 'IMMEDIATE NEED') {
+   hpmsDeadline = new Date(new Date(assignmentDate).getTime() + 48 * 60 * 60 * 1000)
+   complianceDate = hpmsDeadline
+ } else if (issueLevel === 'URGENT') {
+  hpmsDeadline = new Date(new Date(assignmentDate).getTime() + 7 * 24 * 60 * 60 * 1000)
+  complianceDate = hpmsDeadline
+ } else {
+  hpmsDeadline = new Date(new Date(assignmentDate).getTime() + 30 * 24 * 60 * 60 * 1000)
+  complianceDate = (hpmsDeadline.getTime() - (5 * 24 * 60 * 60 * 1000))
+ }
+ if(hpmsDeadline) {
+  const timeDifference = hpmsDeadline - new Date() ;
+  const compTimeLeft = Math.floor(
+    timeDifference / (1000 * 60 * 60 * 24),
+  );
+ const  daysLeft = compTimeLeft;
+ const  hoursLeft = Math.max(
+    Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+    0,
+  );
+  const  minutesLeft = Math.max(
+    Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60)),
+    0,
+  );
+  const secondsLeft = Math.max(
+    Math.floor((timeDifference % (1000 * 60)) / 1000),
+    0,
+  );
+
+  const complianceTime = `${daysLeft}d ${hoursLeft}h ${minutesLeft}m ${secondsLeft}s`;
+  data["ctmCaseTimelines"][0]['Compliance_Time_Left_to_Finish'] = complianceTime
+ }
+ const whiteGlove = data?.["ctmMemberInformation"]?.[0]?.isChecked
+ setCaseHeader((prevState) => ({
+   ...prevState,
+   ...(data?.["ctmCaseHeader"]?.[0] || {}),
+   Original_Assignment_Date: formatDate(data?.["ctmSummary"]?.[0]?.['Assignment_Date#date']),
+   HPMS_Deadline: formatDate(hpmsDeadline),
+   Compliance_Deadline:  formatDate(complianceDate),
+   Original_HPMS_Deadline: formatDate(assignmentDate),
+   Case_Owner: location.state.userName,
+   caseNumber: location.state.caseNumber,
+   Case_Status: location.state.stageName,
+   White_Glove_Indicator:  whiteGlove === '1'
+ }));
+}
         //setCaseHeader(data?.["ctmCaseHeader"]?.[0] || {});
-        setCaseHeader((prevState) => ({
-          ...prevState,
-          ...(data?.["ctmCaseHeader"]?.[0] || {}),
-          Original_Assignment_Date: data?.["ctmSummary"]?.[0]?.['Assignment_Date#date'],
-        }));
+       
 
         setCaseTimelines(data?.["ctmCaseTimelines"]?.[0] || {});
 
@@ -3950,7 +4003,27 @@ const checkForCTMError = () => {
         alert("Error occurred while saving data");
       });
   };
+  const formatDate = (dateObj) => {
+    if (dateObj) {
+      if (typeof dateObj === "string") {
+        dateObj = new Date(Date.parse(dateObj));
+      } else if (typeof dateObj === "number") {
+        dateObj = new Date(dateObj);
+      }
+      let dd = dateObj.getDate();
+      let mm = dateObj.getMonth() + 1;
+      let yyyy = dateObj.getFullYear();
 
+      if (dd < 10) {
+        dd = "0" + dd;
+      }
+      if (mm < 10) {
+        mm = "0" + mm;
+      }
+      return mm + "/" + dd + "/" + yyyy;
+    }
+    return null;
+  };
   
   const ctmSaveAndExit = async (event) => {
     callProcRef.current = "callProc";

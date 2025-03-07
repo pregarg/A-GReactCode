@@ -32,20 +32,15 @@ export default function CtmRepresentativeInformationTable({
   const [authTypeValues, setAuthTypeValues] = useState([]);
   const prop = useLocation();
   const { getGridJson, convertToCase } = useGetDBTables();
-  const masterAngRelationshipSelector = useSelector(
-      (state) => state?.masterAngRelationship,
-    );
-  const masterAngAORTypeSelector = useSelector(
-      (state) => state?.masterAngAORType,
-    );
+
   const masterAngMailToAddressSelector = useSelector(
       (state) => state?.masterAngMailToAddress,
     );
   const masterPDAuthTypeSelector = useSelector(
           (state) => state?.masterPDAuthType,
       );
-   const masterPDRelationshipSelector = useSelector(
-        (state) => state?.masterPDRelationship,
+   const masterCtmRelationshipSelector = useSelector(
+        (state) => state?.masterCtmRelationship,
     );
     const validateNumericInput = (name, value) => {
       if (!/^[0-9]*$/.test(value)) {
@@ -66,9 +61,9 @@ export default function CtmRepresentativeInformationTable({
       label: convertToCase(e),
       value: convertToCase(e),
     });
-    const relationship = masterPDRelationshipSelector?.[0] || [];
+    const ctmRelationship = masterCtmRelationshipSelector?.[0] || [];
     setRelationshipValues(
-        relationship.map((e) => e.Relationship).map(kvMapper),
+        ctmRelationship.map((e) => e.CTM_Relationship).map(kvMapper),
     );
     const authType = masterPDAuthTypeSelector?.[0] || [];
     setAuthTypeValues(
@@ -78,45 +73,45 @@ export default function CtmRepresentativeInformationTable({
   }, []);
 
 useEffect(() => {
-    if (masterAngRelationshipSelector) {
-      const relationshipArray =
-        masterAngRelationshipSelector.length === 0
-          ? []
-          : masterAngRelationshipSelector[0];
-      const uniquerelationshipValues = {};
+//    if (masterAngRelationshipSelector) {
+//      const relationshipArray =
+//        masterAngRelationshipSelector.length === 0
+//          ? []
+//          : masterAngRelationshipSelector[0];
+//      const uniquerelationshipValues = {};
+//
+//      for (let i = 0; i < relationshipArray.length; i++) {
+//        const relationship = convertToCase(relationshipArray[i].Relationship);
+//
+//        if (!uniquerelationshipValues[relationship]) {
+//          uniquerelationshipValues[relationship] = true;
+//          relationshipValues.push({
+//            label: convertToCase(relationshipArray[i].Relationship),
+//            value: convertToCase(relationshipArray[i].Relationship),
+//          });
+//        }
+//      }
+//    }
 
-      for (let i = 0; i < relationshipArray.length; i++) {
-        const relationship = convertToCase(relationshipArray[i].Relationship);
-
-        if (!uniquerelationshipValues[relationship]) {
-          uniquerelationshipValues[relationship] = true;
-          relationshipValues.push({
-            label: convertToCase(relationshipArray[i].Relationship),
-            value: convertToCase(relationshipArray[i].Relationship),
-          });
-        }
-      }
-    }
-
-    if (masterAngAORTypeSelector) {
-      const aorTypeArray =
-        masterAngAORTypeSelector.length === 0
-          ? []
-          : masterAngAORTypeSelector[0];
-      const uniqueAORTypeValues = {};
-
-      for (let i = 0; i < aorTypeArray.length; i++) {
-        const aorType = convertToCase(aorTypeArray[i].AOR_Type);
-
-        if (!uniqueAORTypeValues[aorType]) {
-          uniqueAORTypeValues[aorType] = true;
-          aorTypeValues.push({
-            label: convertToCase(aorTypeArray[i].AOR_Type),
-            value: convertToCase(aorTypeArray[i].AOR_Type),
-          });
-        }
-      }
-    }
+//    if (masterAngAORTypeSelector) {
+//      const aorTypeArray =
+//        masterAngAORTypeSelector.length === 0
+//          ? []
+//          : masterAngAORTypeSelector[0];
+//      const uniqueAORTypeValues = {};
+//
+//      for (let i = 0; i < aorTypeArray.length; i++) {
+//        const aorType = convertToCase(aorTypeArray[i].AOR_Type);
+//
+//        if (!uniqueAORTypeValues[aorType]) {
+//          uniqueAORTypeValues[aorType] = true;
+//          aorTypeValues.push({
+//            label: convertToCase(aorTypeArray[i].AOR_Type),
+//            value: convertToCase(aorTypeArray[i].AOR_Type),
+//          });
+//        }
+//      }
+//    }
 
 
     if (masterAngMailToAddressSelector) {
