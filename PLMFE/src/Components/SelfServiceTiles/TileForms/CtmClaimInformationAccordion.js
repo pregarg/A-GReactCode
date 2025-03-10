@@ -197,7 +197,7 @@ const handleSelectedRep = (flag) => {
                   gridFieldTempState={gridFieldTempState}
                   editTableRows={editTableRows}
                   gridRowsFinalSubmit={gridRowsFinalSubmit}
-                  validationSchema={props.ctmClaimInformationGridRowValidationSchema}
+                  validationSchema={props.ctmClaimInformationGridValidationSchema}
                  lockStatus={
                                      prop.state !== null &&
                                      prop.state.lockStatus !== undefined &&

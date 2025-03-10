@@ -77,6 +77,7 @@ const CtmHeader = () => {
      setCtmCaseCategorization,
      setCaseCategorizationData,
     caseCategorizationValidationSchema,
+    caseCategorizationErrors,
     preCloseQAData,
     setPreCloseQAData,
     preCloseQAValidationSchema,
@@ -105,7 +106,7 @@ const CtmHeader = () => {
     ctmAuthorizationGrid,
     setCtmAuthGridData,
     ctmAuthGridValidationSchema,
-    ctmClaimInformationGridRowValidationSchema,
+  ctmClaimInformationGridValidationSchema,
     ctmClaimInformationGrid,
     setCtmClaimInformationGrid,
     ctmRepresentativeGrid,
@@ -177,7 +178,7 @@ const CtmHeader = () => {
                                   />
 
                                   )}
-                                  {/*<CaseTimelinesAccordion
+                                 <CaseTimelinesAccordion
                                                                 caseTimelinesData={caseTimelines}
                                                                 setCaseTimelinesData={setCaseTimelines}
                                                                 caseTimelinesValidationSchema={caseTimelinesValidationSchema}
@@ -186,15 +187,15 @@ const CtmHeader = () => {
                                                                 renderType={RenderType.CTM}
                                                                 caseTimelinesFields={caseTimelinesFields}
                                                                 ProviderclaimInformationGridData={pdClaimInformationGrid}
-                                                              />*/}
+                                                              />
 
-{/*<CtmCaseInformationAccordion
+<CtmCaseInformationAccordion
                               ctmCaseInformationData={ctmCaseInformation}
                               setCtmCaseInformationData={setCtmCaseInformation}
                               ctmCaseInformationValidationSchema={ctmCaseInformationValidationSchema}
                               shouldShowSubmitError={shouldShowSubmitError}
                               ctmCaseInformationErrors={ctmCaseInformationErrors}
-                            />*/}
+                            />
 
  <CtmCaseCategorizationAccordion
                                 caseCategorizationFields={caseCategorizationFields}
@@ -212,7 +213,7 @@ handleClaimInformationGridData={ctmClaimInformationGrid || []}
                                ctmClaimInformationGridData={ctmClaimInformationGridData}
                                setCtmClaimInformationGridData={setCtmClaimInformationGridData}
                                updateCtmClaimInformationGridData={setCtmClaimInformationGrid}
-                               ctmClaimInformationGridValidationSchema={ctmClaimInformationGridRowValidationSchema}
+                               ctmClaimInformationGridValidationSchema={ctmClaimInformationGridValidationSchema}
                              />
                   <CtmProviderInformationAccordion
                                            handleProviderGridData={ctmProviderInformationGrid || []}
@@ -262,7 +263,7 @@ handleClaimInformationGridData={ctmClaimInformationGrid || []}
                                   setCtmMemberData={setCtmMember}
                                   shouldShowSubmitError={shouldShowSubmitError}
                                   ctmMemberValidationSchema={ctmMemberValidationSchema}
-                                  ctmMemberErrors={{}}
+                                  ctmMemberErrors={ctmMemberErrors}
                                 />
                                             <CtmAuthorizationInformationAccordion
                                                    handleOnChange={handleCtmAuthorizationInformationChange}

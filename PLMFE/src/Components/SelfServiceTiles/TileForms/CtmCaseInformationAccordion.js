@@ -174,32 +174,6 @@ const [ctmIssueLevelValues, setCtmIssueLevelValues] = useState([]);
             newData.Line_of_Business = '';
           }
 
-//          // Only update LOB Description when Product, Product State, and LOB are all selected
-//          if (
-//            newData.Product &&
-//            newData.Product_State &&
-//            newData.Line_of_Business_LOB
-//          ) {
-//            newData.LOB_Description = getLOBDescription(
-//              newData.Product,
-//              newData.Product_State,
-//              newData.Line_of_Business_LOB
-//            );
-//          } else {
-//            // If any of the values is missing, clear the LOB Description
-//            newData.LOB_Description = '';
-//          }
-
-//          setCaseInformationData(newData);
-//
-//          // Handle Expedited Priority
-//          if (name === "Case_Level_Priority" && value === "EXPEDITED") {
-//            props.onExpeditedPriorityChange(new Date());
-//          }
-//
-//          if (persist) {
-//            props.setCaseInformationData(newData);
-//          }
     setCtmCaseInformationData({...newData});
     if (persist) {
       props.setCtmCaseInformationData({...newData});
@@ -293,7 +267,7 @@ const [ctmIssueLevelValues, setCtmIssueLevelValues] = useState([]);
                  {renderSelectField("Line_of_Business", "Line of Business",lobValues )}
                  </div>
                  <div className="row my-2">
-                 {renderSelectField("Contract_State ", "Contract State ",productStateValues )}
+                 {renderSelectField("Contract_State", "Contract State ",productStateValues )}
                  {renderSelectField("Complainant_Type", "Complainant Type",complainantTypeValues)}
                  {renderSelectField("Case_Filing_Method", "Case Filing Method",ctmCaseFilingMethodValues )}
                </div>
