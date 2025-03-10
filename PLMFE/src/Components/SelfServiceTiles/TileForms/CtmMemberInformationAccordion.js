@@ -130,7 +130,7 @@ const handleFieldChange = (name, value, persist = false) => {
   }
 
   const newData = { ...ctmMemberData, [name]: value };
-  setCtmMemberData(newData);
+  setCtmMemberData({...newData});
   if (persist) {
     persistCtmMemberData();
   }
@@ -365,12 +365,12 @@ return (
           <div className="sub-title">Member Residential Address</div>
           <div className="row my-2">
             {renderSelectField("Residential_Address_Type", "Address Type", addressTypeValues)}
-            {renderInputField("Residential_Address_Line_1", "Address Line 1", 100, residentialMandatory ? props.ctmMemberValidationSchema : undefined)}
+            {renderInputField("Residential_Address_Line_1", "Address Line 1", 100, )}
             {renderInputField("Residential_Address_Line_2", "Address Line 2", 100)}
           </div>
           <div className="row my-2">
-            {renderInputField("Residential_Zip_Code", "Zip Code", 10, residentialMandatory ? props.ctmMemberValidationSchema : undefined)}
-            {renderInputField("Residential_City", "City", 50, residentialMandatory ? props.ctmMemberValidationSchema : undefined)}
+            {renderInputField("Residential_Zip_Code", "Zip Code", 10)}
+            {renderInputField("Residential_City", "City", 50)}
             {renderInputField("Residential_County", "County", 50)}
           </div>
           <div className="row my-2">
@@ -397,12 +397,12 @@ return (
           <div className="sub-title">Member Temporary Address</div>
           <div className="row my-2">
             {renderSelectField("Temporary_Address_Type", "Address Type", addressTypeValues)}
-            {renderInputField("Temporary_Address_Line_1", "Address Line 1", 100, temporaryMandatory ? props.ctmMemberValidationSchema : undefined)}
+            {renderInputField("Temporary_Address_Line_1", "Address Line 1", 100)}
             {renderInputField("Temporary_Address_Line_2", "Address Line 2", 100)}
           </div>
           <div className="row my-2">
-            {renderInputField("Temporary_Zip_Code", "Zip Code", 10, temporaryMandatory ? props.ctmMemberValidationSchema : undefined)}
-            {renderInputField("Temporary_City", "City", 50, temporaryMandatory ? props.ctmMemberValidationSchema : undefined)}
+            {renderInputField("Temporary_Zip_Code", "Zip Code", 10)}
+            {renderInputField("Temporary_City", "City", 50)}
             {renderInputField("Temporary_County", "County", 50)}
           </div>
           <div className="row my-2">

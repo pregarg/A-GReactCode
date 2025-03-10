@@ -17,7 +17,7 @@ const CtmNotesAccordion = (props) => {
     props.setCtmNotesData(ctmNotesData);
   };
 
-  const handleCtmNotesChange = (name, value, persist) => {
+  const handleCtmNotesChange = (name, value = '', persist) => {
     const newData = {
       ...ctmNotesData,
       [name]: typeof value === "string" ? convertToCase(value) : value,
@@ -39,7 +39,7 @@ const CtmNotesAccordion = (props) => {
         onChange={handleCtmNotesChange}
 //        disabled={location.state.stageName === "CaseArchived"}
         persist={persistCtmNotesData}
-        schema={props.ctmNotesValidationSchema}
+//        schema={props.ctmNotesValidationSchema}
         displayErrors={props.shouldShowSubmitError}
         errors={props.ctmNotesErrors}
       />
@@ -57,7 +57,7 @@ const CtmNotesAccordion = (props) => {
           data={ctmNotesData}
           onChange={handleCtmNotesChange}
           persist={persistCtmNotesData}
-          schema={props.ctmNotesValidationSchema}
+//          schema={props.ctmNotesValidationSchema}
           displayErrors={props.shouldShowSubmitError}
           errors={props.ctmNotesErrors}
         />

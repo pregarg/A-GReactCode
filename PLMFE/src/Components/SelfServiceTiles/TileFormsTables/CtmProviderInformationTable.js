@@ -54,31 +54,15 @@ export default function CtmProviderInformationTable({
        portalEnrolled.map((e) => e.Portal_Enrolled).map(kvMapper),
      );
 
- //    const providerType = masterAngProviderTypeSelector?.[0] || [];
- //    setProviderTypeValues(
- //      providerType.map((e) => e.Provider_Type).map(kvMapper),
- //    );
- //
- //    const commPref = masterAngCommPrefSelector?.[0] || [];
- //    setCommPrefValuesValues(
- //      commPref.map((e) => e.Comm_Pref).map(kvMapper),
- //    );
- //
- //    const ParProvider = masterAngParProviderSelector?.[0] || [];
- //    setParticipatingProviderValues(
- //      ParProvider.map((e) => e.Par_Provider).map(kvMapper),
- //    );
-
      const mailToAdd = masterAngMailToAddressSelector?.[0] || [];
      setMailToAddressValues(
        mailToAdd.map((e) => e.Mail_to_Address).map(kvMapper),
      );
- //    const providerRole = masterAngProviderRoleSelector?.[0] || [];
- //    setProviderRoleValues(
- //      providerRole.map((e) => e.Provider_Role).map(kvMapper),
- //    );
+
 
  }, []);
+
+
 
 
   useEffect(() => {

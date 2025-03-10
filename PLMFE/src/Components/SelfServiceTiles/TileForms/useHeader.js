@@ -834,25 +834,51 @@ const postCloseQCValidationSchema = Yup.object().shape({
 // QC_Rebuttal_Notes:Yup.string().required("QC Rebuttal Notes is mandatory"),
 
  });
-const ctmMemberValidationSchema = Yup.object().shape({ });
+
 const acknowledgementValidationSchema = Yup.object().shape({ });
-const ctmNotesValidationSchema = Yup.object().shape({ });
+const ctmNotesValidationSchema = Yup.object().shape({
+//Send_to_HPMS:Yup.string().required("Send to HPMS is mandatory"),
+});
 const ctmCommunicationCareValidationSchema = Yup.object().shape({ });
 const ctmProviderInformationGridValidationSchema = Yup.object().shape({
 //Issue_Number: Yup.string().required("Issue Number is mandatory"),
 });
-const CtmmemberInformationValidationSchema = Yup.object().shape({ });
+const ctmMemberValidationSchema = Yup.object().shape({
+
+//Issue_Number:Yup.string().required("Issue Number is mandatory"),
+//Primary_Member:Yup.string().required("Primary Member is mandatory"),
+//Plan_Code:Yup.string().required("Plan Code is mandatory"),
+//CRM_Ticket:Yup.string().required("CRM Ticket# is mandatory"),
+
+});
 const ctmAuthGridValidationSchema = Yup.object().shape({
 // Issue_Number: Yup.string().required("Issue Number is mandatory"),
 });
-//const ctmClaimInformationGridRowValidationSchema = Yup.object().shape({ });
+const ctmClaimInformationGridValidationSchema = Yup.object().shape({
+// Issue_Number: Yup.string().required("Issue Number is mandatory"),
+});
+
 const ctmRepresentativeGridValidationSchema = Yup.object().shape({
 // Issue_Number: Yup.string().required("Issue Number is mandatory"),
  });
 const ctmMultiGridValidationSchema = Yup.object().shape({ });
 const ctmCaseResolutionValidationSchema = Yup.object().shape({ });
-const ctmCaseResolutionDecisionValidationSchema = Yup.object().shape({ });
-const ctmCaseInformationValidationSchema = Yup.object().shape({ });
+const ctmCaseResolutionDecisionValidationSchema = Yup.object().shape({
+// Complainant_Satisfied_With_Resolution: Yup.string().required("Complainant Satisfied With Resolution? is mandatory"),
+// System_Update: Yup.string().required("System Update is mandatory"),
+// Resolution_Notes: Yup.string().required("Resolution Notes is mandatory"),
+ });
+
+const ctmCaseInformationValidationSchema = Yup.object().shape({
+//
+//LOB_Description_CTM:Yup.string().required("LOB Description is mandatory"),
+//Line_of_Business:Yup.string().required("Line of Business is mandatory"),
+//Contract_State:Yup.string().required("Contract State is mandatory"),
+//Product:Yup.string().required("Product is mandatory"),
+//Complainant_Type:Yup.string().required("Complainant Type is mandatory"),
+//Case_Filing_Method:Yup.string().required("Case Filing Method is mandatory"),
+
+ });
 
 
   const [caseTimelinesErrors, setCaseTimelinesErrors] = useState([]);
@@ -4136,7 +4162,7 @@ const checkForCTMError = () => {
 
       // Add rows
       for (let i = 0; i <ctmProviderInformationGridData.length; i++) {
-        const angelement = ctmRepresentativeInformationGrid[i];
+        const angelement = ctmProviderInformationGridData[i];
         const index = orignalCtmProviderInformationGridData.findIndex(
           (element) => angelement.rowNumber === element.rowNumber,
         );
@@ -4760,6 +4786,7 @@ let updateCtmMultiLevelIssueManagementGridDataArray = [];
     ctmAuthorizationGrid,
     setCtmAuthGridData,
     ctmAuthGridValidationSchema,
+    ctmClaimInformationGridValidationSchema,
     ctmClaimInformationGrid,
     setCtmClaimInformationGrid,
     ctmClaimInformationGridRowValidationSchema,

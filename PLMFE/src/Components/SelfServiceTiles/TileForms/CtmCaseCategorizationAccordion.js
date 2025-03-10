@@ -113,7 +113,7 @@ const ctmConfigData = JSON.parse(process.env.REACT_APP_CTMHEADER_DETAILS);
   return (
     <Formik
       initialValues={props.caseCategorizationData}
-      validationSchema={null}
+      validationSchema={props.caseCategorizationValidationSchema}
       onSubmit={() => {}}
       enableReinitialize
     >

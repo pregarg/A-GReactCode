@@ -136,7 +136,7 @@ const renderDatePicker = (name, placeholder, label) => (
  return (
    <Formik
      initialValues={props.ctmSummaryData}
-     validationSchema={null}
+     validationSchema={props.ctmSummaryValidationSchema}
      onSubmit={() => {}}
      enableReinitialize
    >

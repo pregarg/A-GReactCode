@@ -19,6 +19,8 @@ const [ctmResolutionNotificationValues, setCtmResolutionNotificationValues] = us
  const masterCtmIssueLevelSelector = useSelector(
      (state) => state?.masterCtmIssueLevel,
    );
+   const [ctmSummaryValidationSchema, setCtmSummaryValidationSchema] =
+     useState(Yup.object().shape({}));
    const masterCtmCategoryLeadSelector = useSelector(
         (state) => state?.masterCtmCategoryLead,
       );
@@ -50,16 +52,12 @@ const kvMapper = (e) => ({
       label: e,
       value: e,
     });
-const [ctmSummaryValidationSchema, setCtmSummaryValidationSchema] =
-   useState(Yup.object().shape({}));
-
 
  useEffect(() => {
  const ctmData = CTM_DATA;
 
      const categoryValues = Object.keys(ctmData).map(kvMapper)
-//     const highLevelCause = masterCtmHighLevelCauseSelector?.[0] || [];
-//         const highLevelValues = highLevelCause.map((e) => e.High_Level_Cause).map(kvMapper);
+
      const issueLevel = masterCtmIssueLevelSelector?.[0] || [];
       const issueLevelValues =issueLevel.map((e) => e.Issue_Level).map(kvMapper);
 
@@ -85,21 +83,8 @@ const ctmResolutionNotification = masterCtmResolutionNotificationSelector?.[0] |
                    const preferredLanguageValues =angPref.map((e) => e.Preferred_Language).map(kvMapper);
 
 
-//            const angDual = angDualSelector?.[0] || [];
-//              const ctmDropDownValues =angDual.map((e) => e.Dual_Plan).map(kvMapper);
-
-//       const ctmAttachments = masterCtmDropDownSelector?.[0] || [];
-//       const ctmAttachmentsValues =ctmAttachments.map((e) => e.Attachments).map(kvMapper);
-
          const ctmDropDown = masterCtmDropDownSelector?.[0] || [];
        const ctmDropDownValues =ctmDropDown.map((e) => e.Drop_Down).map(kvMapper);
-
-//         const agentBroker = masterCtmDropDownSelector?.[0] || [];
-//                      setCtmDropDownValues(agentBroker.map((e) => e.Agent_Broker).map(kvMapper));
-//         const ctmCongressionalValues =ctmCongressional.map((e) => e.Congressional).map(kvMapper);
-//
-//         const contactPlanBeforeComplaintEntered = masterCtmDropDownSelector?.[0] || [];
-//                          setCtmDropDownValues(contactPlanBeforeComplaintEntered.map((e) => e.Contact_Plan_Before_Complaint_Entered).map(kvMapper));
 
    const fields = [
 //       {
@@ -112,34 +97,50 @@ const ctmResolutionNotification = masterCtmResolutionNotificationSelector?.[0] |
          name: "Complaint_ID",
          placeholder: "Complaint ID",
          maxLength: 50,
-
+          renderTypes: [RenderType.CTM],
+          validation: {
+                      [RenderType.CTM]: Yup.string().required(
+                          "Complaint ID is mandatory",
+                      ),
+                    },
 
        },
        {
           type: "select",
           name: "Issue_Level",
           placeholder: "Issue Level",
-          values:issueLevelValues
-//          options: ["Immediate Need", "Urgent", "Standard"],
-
+          values:issueLevelValues,
+           renderTypes: [RenderType.CTM],
+           validation: {
+                                [RenderType.CTM]: Yup.string().required(
+                                    "Issue Level is mandatory",
+                                ),
+                              },
 
        },
        {
                type: "date",
                name: "Assignment_Date",
                placeholder: "Assignment Date",
-               label: "Assignment Date"
-//               validation: {
-//                 [RenderType.APPEALS]: Yup.date()
-//                   .required("WOL Received Date is mandatory")
-//                   .max(new Date(), "WOL Received Date cannot be in future"),
-//               },
+               label: "Assignment Date",
+                renderTypes: [RenderType.CTM],
+              validation: {
+                                                [RenderType.CTM]: Yup.string().required(
+                                                    "Assignment Date is mandatory",
+                                                ),
+                                              },
              },
        {
          type: "input",
          name: "Contact_First_Name",
          placeholder: "Contact First Name",
          maxLength: 50,
+          renderTypes: [RenderType.CTM],
+         validation: {
+                    [RenderType.CTM]: Yup.string().required(
+                        "Contact First Name is mandatory",
+                        ),
+                        },
 
        },
        {
@@ -147,16 +148,24 @@ const ctmResolutionNotification = masterCtmResolutionNotificationSelector?.[0] |
          name: "Contact_Last_Name",
          placeholder: "Contact Last Name",
          maxLength: 50,
-
-         validation:{}
+          renderTypes: [RenderType.CTM],
+         validation: {
+                             [RenderType.CTM]: Yup.string().required(
+                                 "Contact Last Name is mandatory",
+                                 ),
+                                 },
        },
        {
          type: "input",
          name: "Contract_ID",
          placeholder: "Contract ID",
          maxLength: 30,
-
-         validation:{}
+          renderTypes: [RenderType.CTM],
+          validation: {
+                     [RenderType.CTM]: Yup.string().required(
+                                          "Contract ID is mandatory",
+                                          ),
+                                          },
        },
        {
          type: "input",
@@ -171,21 +180,37 @@ const ctmResolutionNotification = masterCtmResolutionNotificationSelector?.[0] |
          name: "Case_Worker",
          placeholder: "Case Worker",
          maxLength: 30,
-
-         validation:{}
+       renderTypes: [RenderType.CTM],
+         validation: {
+                              [RenderType.CTM]: Yup.string().required(
+                                                   "Case Worker is mandatory",
+                                                   ),
+                                                   },
        },
        {
                 type: "select",
                 name: "Complaint_Category",
                 placeholder: "Complaint Category",
                 maxLength: 50,
-                values: categoryValues
+                values: categoryValues,
+                 renderTypes: [RenderType.CTM],
+                validation: {
+                               [RenderType.CTM]: Yup.string().required(
+                                   "Complaint Category is mandatory",
+                                  ),
+                                   },
               },
               {
                 type: "select",
                 name: "Complaint_SubCategory",
                 placeholder: "Complaint SubCategory",
                 maxLength: 50,
+                 renderTypes: [RenderType.CTM],
+                validation: {
+                                               [RenderType.CTM]: Yup.string().required(
+                                                   "Complaint SubCategory is mandatory",
+                                                  ),
+                                                   },
 
 
               },
@@ -253,8 +278,13 @@ const ctmResolutionNotification = masterCtmResolutionNotificationSelector?.[0] |
                                  placeholder: "Received Date",
                                  label: "Received Date",
                                  defaultValue: new Date(),
+                                  renderTypes: [RenderType.CTM],
 
-                   validation:{}
+                   validation: {
+                                                                  [RenderType.CTM]: Yup.string().required(
+                                                                      "Received Date is mandatory",
+                                                                     ),
+                                                                      },
                  },
                  {
                    type: "input",

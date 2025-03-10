@@ -57,12 +57,37 @@ const addTableRows = (triggeredFormName, index) => {
     }
   };
 
-  const handleGridFieldChange = (index, evnt, triggeredFormName) => {
-    let tempInput = { ...gridFieldTempState };
-    let { name, value } = evnt.target;
-    tempInput[name] = value.toUpperCase();
-    setGridFieldTempState(tempInput);
-  };
+//  const handleGridFieldChange = (index, evnt, triggeredFormName) => {
+//    let tempInput = { ...gridFieldTempState };
+//    let { name, value } = evnt.target;
+//    tempInput[name] = value.toUpperCase();
+//    setGridFieldTempState(tempInput);
+//  };
+// Add this numeric validation function
+const validateNumericInput = (value) => {
+  const numericPattern = /^[0-9]*$/;
+  if (!numericPattern.test(value)) {
+    return "Please enter only numeric values.";
+  }
+  return null;
+};
+
+// Modify the handleGridFieldChange method
+const handleGridFieldChange = (index, event) => {
+  let tempInput = { ...gridFieldTempState };
+  let { name, value } = event.target;
+
+  // Ensure Phone Number and Zip Code fields only accept numeric values
+  if (name === "Phone_Number" || name.includes("Zip_Code") ||  name.includes("Fax_Number")||  name.includes("Alternate_Phone_Number")) {
+    if (!/^[0-9]*$/.test(value)) {
+      alert(`${name.replace("_", " ")} should contain only numeric values.`);
+      return; // Prevents setting invalid value
+    }
+  }
+
+  tempInput[name] = value.toUpperCase();
+  setGridFieldTempState(tempInput);
+};
 
   const editTableRows = (index, triggeredFormName) => {
     if (triggeredFormName === "CtmProviderInformationTable") {
