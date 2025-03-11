@@ -170,7 +170,7 @@ export function convertDateFormatMonthDayYear(inputDateStr) {
  const {
     ctmSummaryFields,
     ctm_CtmSummary,
-    ctmSummaryValidationSchema,
+//    ctmSummaryValidationSchema,
     setctmCtmSummary,
     setCtmSummaryFields
   } = useCtmSummary();
@@ -178,7 +178,7 @@ export function convertDateFormatMonthDayYear(inputDateStr) {
   const {
       caseCategorizationFields,
       ctm_CaseCategorization,
-      caseCategorizationValidationSchema,
+//      caseCategorizationValidationSchema,
       setCtmCaseCategorization,
       setCaseCategorizationFields
     } = useCtmCaseCategorization();
@@ -844,7 +844,7 @@ const ctmProviderInformationGridValidationSchema = Yup.object().shape({
 //Issue_Number: Yup.string().required("Issue Number is mandatory"),
 });
 const ctmMemberValidationSchema = Yup.object().shape({
-
+//
 //Issue_Number:Yup.string().required("Issue Number is mandatory"),
 //Primary_Member:Yup.string().required("Primary Member is mandatory"),
 //Plan_Code:Yup.string().required("Plan Code is mandatory"),
@@ -880,6 +880,28 @@ const ctmCaseInformationValidationSchema = Yup.object().shape({
 
  });
 
+const ctmSummaryValidationSchema = Yup.object().shape({
+
+//Complaint_ID:Yup.string().required("Complaint ID is mandatory"),
+//Issue_Level:  Yup.string().required( "Issue Level is mandatory"),
+//Assignment_Date:  Yup.string().required( "Assignment Date is mandatory"),
+//Contact_First_Name: Yup.string().required( "Contact First Name is mandatory"),
+//Contact_Last_Name:  Yup.string().required( "Contact Last Name is mandatory"),
+//Contract_ID: Yup.string().required( "Contract ID is mandatory"),
+//Case_Worker: Yup.string().required( "Case Worker is mandatory"),
+//Complaint_Category: Yup.string().required( "Complaint Category is mandatory"),
+//Complaint_SubCategory: Yup.string().required( "Complaint SubCategory is mandatory"),
+//Received_Date: Yup.string().required( "Received Date is mandatory" ),
+
+ });
+ const caseCategorizationValidationSchema = Yup.object().shape({
+
+//Category: Yup.string().required( " Category is mandatory" ),
+//Sub_Category:Yup.string().required( " Sub Category is mandatory" ),
+//Super_Category:Yup.string().required( " Super Category is mandatory" ),
+//High_Level_Cause:Yup.string().required( " High Level Cause is mandatory" ),
+
+ });
 
   const [caseTimelinesErrors, setCaseTimelinesErrors] = useState([]);
 
@@ -918,6 +940,8 @@ const ctmCaseInformationValidationSchema = Yup.object().shape({
   const [ctmMemberErrors, setCtmMemberErrors] = useState({});
   const [acknowledgementErrors, setAcknowledgementErrors] = useState({});
   const [ctmNotesErrors, setCtmNotesErrors] = useState({});
+  const [caseCategorizationErrors, setCaseCategorizationErrors] = useState({});
+
   const [ctmCommunicationCareErrors, setCtmCommunicationCareErrors] = useState({});
 
   const validateSync = (schema, data, setErrors, noReset) => {
@@ -1070,6 +1094,7 @@ validateSync(ctmMemberValidationSchema, ctmMemberData, setCtmMemberErrors);
 validateSync(acknowledgementValidationSchema, acknowledgementData, setAcknowledgementErrors);
 validateSync(ctmNotesValidationSchema, ctmNotesData, setCtmNotesErrors);
 validateSync(ctmCommunicationCareValidationSchema, ctmCommunicationCareData, setCtmCommunicationCareErrors);
+validateSync(caseCategorizationValidationSchema, ctm_CaseCategorization, setCaseCategorizationErrors);
   validateSync(
         caseResolutionValidationSchema,
         caseResolution,
@@ -1104,6 +1129,7 @@ validateSync(ctmCommunicationCareValidationSchema, ctmCommunicationCareData, set
     ProviderInformationAppeals,
     memberInformation,
     ProvidermemberInformation,
+    ctmMemberData,
     PdProviderInformation,
     expeditedRequest,
     providerInformationGrid,
@@ -1138,6 +1164,8 @@ validateSync(ctmCommunicationCareValidationSchema, ctmCommunicationCareData, set
         ...providerClaimInformationErrors,
         ...memberInformationErrors,
         ...ProvidermemberInformationErrors,
+        ...ctmMemberErrors,
+        ...ctmSummaryErrors,
         ...providerNotesErrors,
         ...PdProviderInformationErrors,
         ...providerAddErrors,
@@ -1172,6 +1200,8 @@ validateSync(ctmCommunicationCareValidationSchema, ctmCommunicationCareData, set
     memberAddErrors,
     memberAltErrors,
       reviewErrors,
+     ctmMemberErrors,
+    ctmSummaryErrors,
       caseResolutionErrors,
   ]);
   //const [disableSaveAndExit, setDisableSaveAndExit] = useState(true);
@@ -1217,6 +1247,7 @@ const checkForCTMError = () => {
     ...acknowledgementErrors,
     ...ctmNotesErrors,
     ...ctmCommunicationCareErrors,
+    ...caseCategorizationErrors,
    ...ctmCaseResolutionErrors,
    ...ctmCaseResolutionDecisionErrors,
     ...ctmCaseInformationErrors,
@@ -2831,6 +2862,7 @@ const checkForCTMError = () => {
   data["ctmCaseTimelines"][0]['Compliance_Time_Left_to_Finish'] = complianceTime
  }
  const whiteGlove = data?.["ctmMemberInformation"]?.[0]?.isChecked
+
  setCaseHeader((prevState) => ({
    ...prevState,
    ...(data?.["ctmCaseHeader"]?.[0] || {}),
@@ -4665,6 +4697,7 @@ let updateCtmMultiLevelIssueManagementGridDataArray = [];
     claimInformationErrors,
     memberInformationErrors,
     ProvidermemberInformationErrors,
+    ctmMemberErrors,
     PdProviderInformationErrors,
     memberAltErrors,
     shouldShowSubmitError,
@@ -4823,6 +4856,8 @@ let updateCtmMultiLevelIssueManagementGridDataArray = [];
     setCtmCommunicationCareData,
     ctmCommunicationCareValidationSchema,
     ctmCommunicationCareErrors,
+    caseCategorizationErrors,
+    ctmSummaryErrors,
     setCtmSummaryFields
   };
  };

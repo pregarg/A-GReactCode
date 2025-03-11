@@ -119,23 +119,44 @@ useEffect(() => {
     };
 
 
-const handleFieldChange = (name, value, persist = false) => {
-  if (
-    (name === "Alternate_Phone_Number" ||
-     name.includes("Zip_Code") ||
-     name === "Fax_Number") && /\D/.test(value) // Checks if input contains non-numeric characters
-  ) {
-    alert(`${name.replace(/_/g, " ")} should contain only numbers.`);
-    return; // Prevents updating the state with invalid input
-  }
+//const handleFieldChange = (name, value, persist = false) => {
+//  if (
+//    (name === "Alternate_Phone_Number" ||
+//     name.includes("Zip_Code") ||
+//     name === "Fax_Number") && /\D/.test(value) // Checks if input contains non-numeric characters
+//  ) {
+//    alert(`${name.replace(/_/g, " ")} should contain only numbers.`);
+//    return; // Prevents updating the state with invalid input
+//  }
+//
+//  const newData = { ...ctmMemberData,
+//   [name]: value || "",
+//  };
+//  setCtmMemberData({...newData});
+//  if (persist) {
+//    persistCtmMemberData();
+//  }
+//};
+ const handleCtmMemberInformationData = (name, value, persist= false) => {
+    const newData = {
+      ...ctmMemberData,
+      [name]: typeof value === "string" ? convertToCase(value) : value,
+    };
+    if (
+        (name === "Alternate_Phone_Number" ||
+         name.includes("Zip_Code") ||
+         name === "Fax_Number") && /\D/.test(value) // Checks if input contains non-numeric characters
+      ) {
+        alert(`${name.replace(/_/g, " ")} should contain only numbers.`);
+        return; // Prevents updating the state with invalid input
+      }
 
-  const newData = { ...ctmMemberData, [name]: value };
-  setCtmMemberData({...newData});
-  if (persist) {
-    persistCtmMemberData();
-  }
-};
 
+    setCtmMemberData(newData);
+    if (persist) {
+      props.setCtmMemberData(newData);
+    }
+  };
 
 const renderInputField = (name, placeholder, maxLength) => (
   <div className="col-xs-6 col-md-4">
@@ -144,7 +165,7 @@ const renderInputField = (name, placeholder, maxLength) => (
       placeholder={placeholder}
       maxLength={maxLength}
       data={ctmMemberData}
-      onChange={handleFieldChange}
+      onChange={handleCtmMemberInformationData}
       onBlur={(e) => {
         if (
           (name === "Alternate_Phone_Number" || name.includes("Zip_Code")) &&
@@ -169,7 +190,7 @@ const renderInputField = (name, placeholder, maxLength) => (
         placeholder={placeholder}
         data={ctmMemberData}
         label={label}
-        onChange={handleFieldChange}
+        onChange={handleCtmMemberInformationData}
         disabled={invalidInputState}
         persist={persistCtmMemberData}
         schema={props.ctmMemberValidationSchema}
@@ -186,7 +207,8 @@ const renderInputField = (name, placeholder, maxLength) => (
         placeholder={placeholder}
         data={ctmMemberData}
         options={options}
-        onChange={handleFieldChange}
+
+        onChange={handleCtmMemberInformationData}
         disabled={invalidInputState}
         persist={persistCtmMemberData}
         schema={props.ctmMemberValidationSchema}

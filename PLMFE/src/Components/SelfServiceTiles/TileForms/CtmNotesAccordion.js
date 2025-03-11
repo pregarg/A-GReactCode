@@ -50,10 +50,10 @@ const CtmNotesAccordion = (props) => {
         <FormikSelectField
           name={name}
           placeholder={placeholder}
-//          options={Array.isArray(options)
-//            ? options.map(opt => (typeof opt === "string" ? { value: opt, label: opt } : opt))
-//            : []}
-          options={options}
+          options={Array.isArray(options)
+            ? options.map(opt => (typeof opt === "string" ? { value: opt, label: opt } : opt))
+            : []}
+//          options={options}
           data={ctmNotesData}
           onChange={handleCtmNotesChange}
           persist={persistCtmNotesData}
@@ -101,10 +101,11 @@ useEffect(() => {
               {renderInputField("Plan_Case_Notes", "Plan Case Notes",50)}
               {renderInputField("Case_Notes", "Case Notes",50)}
 
-               {renderSelectField( "Send_to_HPMS",
-                               "Send to HPMS",
-                               sendToHPMSValues,
-                             )}
+                 {renderSelectField("Send_to_HPMS", "Send to HPMS", [
+                                             { value: "YES", label: "YES" },
+                                                                           { value: "NO", label: "NO" },
+                                                                           { value: "ALREADY UPDATED", label: "ALREADY UPDATED" }
+                                           ])}
             </div>
           </div>
         </div>

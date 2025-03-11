@@ -35,7 +35,14 @@ const CtmCommunicationCareAccordion = (props) => {
         type={type}
         data={ctmCommunicationCareData}
         onChange={handleCtmCommunicationCareChange}
-//        disabled={location.state.stageName === "CaseArchived"}
+        disabled={
+                                  location.state.formView === "DashboardView" &&
+                                  (
+                                      location.state.stageName === "Intake" ||
+                                      location.state.stageName === "Acknowledge")
+
+
+                              }
         persist={persistCtmCommunicationCareData}
         schema={props.ctmCommunicationCareValidationSchema}
         displayErrors={props.shouldShowSubmitError}

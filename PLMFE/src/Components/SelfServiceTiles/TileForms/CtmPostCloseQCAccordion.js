@@ -15,6 +15,11 @@ const CtmPostCloseQC = (props) => {
   const [postCloseQCData, setPostCloseQCData] = useState(props.postCloseQCData || {});
   const [modalContent, setModalContent] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const ctmConfigData = JSON.parse(
+          process.env.REACT_APP_CTMHEADER_DETAILS || "{}",
+
+        );
+const CTMStageName = ctmConfigData["StageName"];
   const masterCtmReviewLevelSelector = useSelector(
       (state) => state?.masterCtmReviewLevel,
     );
@@ -54,6 +59,18 @@ const CtmPostCloseQC = (props) => {
         data={postCloseQCData}
         onChange={handlePostCloseQCData}
         persist={persistPostCloseQCData}
+        disabled={
+                      (location.state.formView === "DashboardView" ||
+                          location.state.formView === "DashboardHomeView") &&
+                           (
+                               ((CTMStageName === "Start" ||location.state.stageName === "Intake" || location.state.stageName === "Acknowledge"|| location.state.stageName === "Research"|| location.state.stageName === "Resolve"
+                                 || location.state.stageName === "Case Completed"|| location.state.stageName === "QA Reopen")
+                                && (name ==="Auditor_Name"||name ==="Coordinator_Supervisor_Name"|| name === "Coordinator_Name"))
+
+                                            )
+
+
+                                    }
         schema={props.postCloseQCValidationSchema}
         displayErrors={props.shouldShowSubmitError}
         errors={props.postCloseQCErrors}
@@ -78,6 +95,20 @@ const CtmPostCloseQC = (props) => {
         placeholder={placeholder}
         data={postCloseQCData}
         label={label}
+        disabled={
+                                (location.state.formView === "DashboardView" ||
+                                    location.state.formView === "DashboardHomeView") &&
+                                (
+                                    ((CTMStageName === "Start" ||location.state.stageName === "Intake" || location.state.stageName === "Acknowledge"|| location.state.stageName === "Research"|| location.state.stageName === "Resolve"
+                                        || location.state.stageName === "Case Completed"|| location.state.stageName === "QA Reopen")
+                                        && ( name === "QC_Decision_Date"))||
+                                         ((CTMStageName === "Start" ||location.state.stageName === "Intake" || location.state.stageName === "Acknowledge"||  location.state.stageName === "Resolve"
+                                                                                || location.state.stageName === "Case Completed"|| location.state.stageName === "QA Reopen")
+                                                                && (name ==="QC_Due_Date"))
+                                    )
+
+
+                            }
         onChange={handlePostCloseQCData}
         persist={persistPostCloseQCData}
         schema={props.postCloseQCValidationSchema}
@@ -94,6 +125,17 @@ const CtmPostCloseQC = (props) => {
         placeholder={placeholder}
         options={options}
         data={postCloseQCData}
+        disabled={
+                                        (location.state.formView === "DashboardView" ||
+                                            location.state.formView === "DashboardHomeView") &&
+                                        (
+                                            ((CTMStageName === "Start" ||location.state.stageName === "Intake" || location.state.stageName === "Acknowledge"|| location.state.stageName === "Research"|| location.state.stageName === "Resolve"
+                                             || location.state.stageName === "Case Completed"|| location.state.stageName === "QA Reopen")
+                                                && (name ==="Review_Level"|| name === "QC_Decision"))
+                                            )
+
+
+                                    }
         onChange={handlePostCloseQCData}
         persist={persistPostCloseQCData}
         schema={props.postCloseQCValidationSchema}
