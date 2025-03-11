@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import * as Yup from "yup";
-import { RenderType } from "./Constants";
 import useGetDBTables from "../../CustomHooks/useGetDBTables";
 import { useSelector } from "react-redux";
 import { CTM_DATA } from "../../../data/ctmData";
 
-export const useCtmSummary = (renderType) => {
+export const useCtmSummary = () => {
  const { convertToCase } = useGetDBTables();
 const [ctmIssueLevelValues, setCtmIssueLevelValues] = useState([]);
 const [ctmCategoryLeadValues, setCtmCategoryLeadValues] = useState([]);
@@ -92,17 +91,14 @@ const ctmResolutionNotification = masterCtmResolutionNotificationSelector?.[0] |
 //               name: "CTM_File_Information",
 //               placeholder: "CTM File Information",
 //           },
+
        {
          type: "input",
          name: "Complaint_ID",
          placeholder: "Complaint ID",
          maxLength: 50,
-          renderTypes: [RenderType.CTM],
-          validation: {
-                      [RenderType.CTM]: Yup.string().required(
-                          "Complaint ID is mandatory",
-                      ),
-                    },
+
+
 
        },
        {
@@ -110,12 +106,8 @@ const ctmResolutionNotification = masterCtmResolutionNotificationSelector?.[0] |
           name: "Issue_Level",
           placeholder: "Issue Level",
           values:issueLevelValues,
-           renderTypes: [RenderType.CTM],
-           validation: {
-                                [RenderType.CTM]: Yup.string().required(
-                                    "Issue Level is mandatory",
-                                ),
-                              },
+
+
 
        },
        {
@@ -123,24 +115,14 @@ const ctmResolutionNotification = masterCtmResolutionNotificationSelector?.[0] |
                name: "Assignment_Date",
                placeholder: "Assignment Date",
                label: "Assignment Date",
-                renderTypes: [RenderType.CTM],
-              validation: {
-                                                [RenderType.CTM]: Yup.string().required(
-                                                    "Assignment Date is mandatory",
-                                                ),
-                                              },
+
              },
        {
          type: "input",
          name: "Contact_First_Name",
          placeholder: "Contact First Name",
          maxLength: 50,
-          renderTypes: [RenderType.CTM],
-         validation: {
-                    [RenderType.CTM]: Yup.string().required(
-                        "Contact First Name is mandatory",
-                        ),
-                        },
+
 
        },
        {
@@ -148,24 +130,14 @@ const ctmResolutionNotification = masterCtmResolutionNotificationSelector?.[0] |
          name: "Contact_Last_Name",
          placeholder: "Contact Last Name",
          maxLength: 50,
-          renderTypes: [RenderType.CTM],
-         validation: {
-                             [RenderType.CTM]: Yup.string().required(
-                                 "Contact Last Name is mandatory",
-                                 ),
-                                 },
+
        },
        {
          type: "input",
          name: "Contract_ID",
          placeholder: "Contract ID",
          maxLength: 30,
-          renderTypes: [RenderType.CTM],
-          validation: {
-                     [RenderType.CTM]: Yup.string().required(
-                                          "Contract ID is mandatory",
-                                          ),
-                                          },
+
        },
        {
          type: "input",
@@ -173,19 +145,13 @@ const ctmResolutionNotification = masterCtmResolutionNotificationSelector?.[0] |
          placeholder: "Bene Identifier",
          maxLength: 30,
 
-         validation:{}
        },
        {
          type: "input",
          name: "Case_Worker",
          placeholder: "Case Worker",
          maxLength: 30,
-       renderTypes: [RenderType.CTM],
-         validation: {
-                              [RenderType.CTM]: Yup.string().required(
-                                                   "Case Worker is mandatory",
-                                                   ),
-                                                   },
+
        },
        {
                 type: "select",
@@ -193,24 +159,13 @@ const ctmResolutionNotification = masterCtmResolutionNotificationSelector?.[0] |
                 placeholder: "Complaint Category",
                 maxLength: 50,
                 values: categoryValues,
-                 renderTypes: [RenderType.CTM],
-                validation: {
-                               [RenderType.CTM]: Yup.string().required(
-                                   "Complaint Category is mandatory",
-                                  ),
-                                   },
+
               },
               {
                 type: "select",
                 name: "Complaint_SubCategory",
                 placeholder: "Complaint SubCategory",
                 maxLength: 50,
-                 renderTypes: [RenderType.CTM],
-                validation: {
-                                               [RenderType.CTM]: Yup.string().required(
-                                                   "Complaint SubCategory is mandatory",
-                                                  ),
-                                                   },
 
 
               },
@@ -278,13 +233,8 @@ const ctmResolutionNotification = masterCtmResolutionNotificationSelector?.[0] |
                                  placeholder: "Received Date",
                                  label: "Received Date",
                                  defaultValue: new Date(),
-                                  renderTypes: [RenderType.CTM],
 
-                   validation: {
-                                                                  [RenderType.CTM]: Yup.string().required(
-                                                                      "Received Date is mandatory",
-                                                                     ),
-                                                                      },
+
                  },
                  {
                    type: "input",
@@ -422,14 +372,16 @@ const ctmResolutionNotification = masterCtmResolutionNotificationSelector?.[0] |
    setCtmSummaryValidationSchema(
      Yup.object().shape({
        ...fields
-         .filter((e) => e?.validation?.[renderType])
+         .filter((e) => e?.validation)
          .reduce((result, item) => {
-           result[item.name] = item.validation[renderType];
+           result[item.name] = Object.values(item.validation)[0];
            return result;
          }, {}),
-     }),
+     })
    );
- }, [renderType]);
+
+
+}, []);
  return {
    ctmSummaryFields,
    ctm_CtmSummary,

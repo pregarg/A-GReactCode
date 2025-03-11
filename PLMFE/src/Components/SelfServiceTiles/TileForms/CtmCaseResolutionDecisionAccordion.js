@@ -77,7 +77,14 @@ const renderSelectField = (name, placeholder, options) => (
          data={ctmCaseResolutionDecisionData  || {}}
         options={options}
         onChange={handleCtmCaseResolutionDecisionRequestData}
-        disabled={invalidInputState}
+       disabled={
+                 location.state.formView === "DashboardView" &&
+                 ((
+                   location.state.stageName === "Intake") &&
+                   (name === "System_Update" ) ||
+                   (location.state.stageName === "Acknowledge") &&
+                     (name === "System_Update") )
+               }
         persist={persistCtmCaseResolutionDecisionInformationData}
         schema={props.ctmCaseResolutionDecisionValidationSchema}
         displayErrors={props.shouldShowSubmitError}

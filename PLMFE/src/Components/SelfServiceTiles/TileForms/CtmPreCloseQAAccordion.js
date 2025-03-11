@@ -14,6 +14,11 @@ const CtmPreCloseQAAccordion = (props) => {
   const [preCloseQAData, setPreCloseQAData] = useState(props.preCloseQAData || {});
   const [modalContent, setModalContent] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const ctmConfigData = JSON.parse(
+        process.env.REACT_APP_CTMHEADER_DETAILS || "{}",
+
+      );
+    const CTMStageName = ctmConfigData["StageName"];
   const masterCtmReviewLevelSelector = useSelector(
       (state) => state?.masterCtmReviewLevel,
     );
@@ -121,6 +126,26 @@ const CtmPreCloseQAAccordion = (props) => {
         placeholder={placeholder}
         data={preCloseQAData}
         label={label}
+         disabled={
+                        (location.state.formView === "DashboardView" ||
+                            location.state.formView === "DashboardHomeView") &&
+                        (
+                            ((CTMStageName === "Start" ||location.state.stageName === "Intake" || location.state.stageName === "Acknowledge"|| location.state.stageName === "Resolve"
+                                || location.state.stageName === "Case Completed"|| location.state.stageName === "QA Reopen"|| location.state.stageName === "Post-Close QC"
+                                || location.state.stageName === "Research")
+                                && (name ==="QA_Due_Date"|| name === "QA_Decision_Date"))||
+                                ((CTMStageName === "Start" ||location.state.stageName === "Intake" || location.state.stageName === "Acknowledge"|| location.state.stageName === "Resolve"
+                                                                || location.state.stageName === "Case Completed"|| location.state.stageName === "QA Reopen"
+                                                                )
+                                                                && (name ==="QA_Due_Date"))
+
+
+                            )
+
+
+                    }
+
+//
         onChange={handlePreCloseQAData}
         persist={persistPreCloseQAData}
         schema={props.preCloseQAValidationSchema}
@@ -139,6 +164,16 @@ const CtmPreCloseQAAccordion = (props) => {
        options={options}
         data={preCloseQAData}
         onChange={handlePreCloseQAData}
+        disabled={
+                        (location.state.formView === "DashboardView" ||
+                            location.state.formView === "DashboardHomeView") &&
+                              (
+                              ((CTMStageName === "Start" ||location.state.stageName === "Intake" || location.state.stageName === "Acknowledge"|| location.state.stageName === "Research"|| location.state.stageName === "Resolve"
+                               || location.state.stageName === "Case Completed"|| location.state.stageName === "QA Reopen")
+                                   && (name ==="QA_Decision"))
+                                    )
+
+           }
         persist={persistPreCloseQAData}
         schema={props.preCloseQAValidationSchema}
         displayErrors={props.shouldShowSubmitError}

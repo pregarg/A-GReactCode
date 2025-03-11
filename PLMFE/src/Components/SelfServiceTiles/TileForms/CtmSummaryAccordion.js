@@ -65,7 +65,7 @@ const kvMapper = (e) => ({
      else {
           const newData = {
             ...ctmSummaryData,
-            [name]: value,
+            [name]: typeof value === "string" ? convertToCase(value) : value,
           };
           setCtmSummaryData(newData);
           if (persist) {
@@ -84,7 +84,7 @@ const kvMapper = (e) => ({
        name={name}
        placeholder={placeholder}
        maxLength={maxLength}
-       data={ctmSummaryData || {}}
+       data={ctmSummaryData }
        onChange={handleCtmSummaryData}
        displayErrors={props.shouldShowSubmitError}
 

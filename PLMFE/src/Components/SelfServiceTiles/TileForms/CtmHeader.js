@@ -146,6 +146,7 @@ const CtmHeader = () => {
          setCtmCaseResolutionDecision,
          ctmCaseResolutionDecisionValidationSchema,
          ctmCaseResolutionDecisionErrors,
+         ctmProviderInformationData,
   } = useHeader();
 
   useEffect(() => {
@@ -172,6 +173,7 @@ const CtmHeader = () => {
                                     caseHeaderFields={caseHeaderFields}
                                     renderType={RenderType.CTM}
                                     ctmMemberInformation={ctmMemberData}
+//                                    ctmProviderInformation={ctmProviderInformationData}
 //                                    pd_ProviderInformation={pd_ProviderInformation}
 //                                    ProvidermemberInformation={ProvidermemberInformation}
 //                                    pd_RepresentativeInformation={pd_RepresentativeInformation}
@@ -204,7 +206,7 @@ const CtmHeader = () => {
                                setCaseCategorizationData={setCtmCaseCategorization}
                                caseCategorizationValidationSchema={caseCategorizationValidationSchema}
                                shouldShowSubmitError={shouldShowSubmitError}
-                                caseCategorizationErrors={{}}
+                                caseCategorizationErrors={caseCategorizationErrors}
                                            />
 
 <CtmClaimInformationAccordion
@@ -238,11 +240,13 @@ handleClaimInformationGridData={ctmClaimInformationGrid || []}
                                setCtmSummaryData={setctmCtmSummary}
                                setCtmSummaryFields={setCtmSummaryFields}
                                ctmSummaryValidationSchema={ctmSummaryValidationSchema}
-                               ctmSummaryErrors={{}}
+                               ctmSummaryErrors={ctmSummaryErrors}
                                shouldShowSubmitError={shouldShowSubmitError}
                                setCaseTimelinesData={setCaseTimelines}
                                caseTimelinesData={caseTimelines}
+                               renderType={RenderType.CTM}
                              />
+
                              <CtmPreCloseQAAccordion
                                              preCloseQAData={preCloseQAData}
                                              setPreCloseQAData={setPreCloseQAData}

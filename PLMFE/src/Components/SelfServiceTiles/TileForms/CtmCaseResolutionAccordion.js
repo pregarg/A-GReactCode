@@ -34,8 +34,8 @@ const CtmCaseResolutionAccordion = (props) => {
             disabled={
                 location.state.formView === "DashboardView" &&
                 (
-                    location.state.stageName === "Case Completed" ||
-                    location.state.stageName === "Case Archived")
+                    location.state.stageName === "Intake" ||
+                    location.state.stageName === "Acknowledge")
 
 
             }
@@ -53,6 +53,14 @@ const CtmCaseResolutionAccordion = (props) => {
           placeholder={placeholder}
           label={label}
           data={ctmCaseResolutionData || {}}
+          disabled={
+                          location.state.formView === "DashboardView" &&
+                          (
+                              location.state.stageName === "Intake" ||
+                              location.state.stageName === "Acknowledge")
+
+
+                      }
           onChange={handleCtmCaseResolutionRequestData}
           displayErrors={props.shouldShowSubmitError}
           schema={props.ctmCaseResolutionValidationSchema}
