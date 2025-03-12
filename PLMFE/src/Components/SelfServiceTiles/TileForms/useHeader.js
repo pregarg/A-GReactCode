@@ -820,7 +820,16 @@ const preCloseQAValidationSchema = Yup.object().shape({
 //  First_Review_Date_QA:Yup.string().required("First Review Date is mandatory"),
 //  Second_Review_Date_QA:Yup.string().required("Second Review Date is mandatory"),
 //  QC_Rebuttal_Notes_QA:Yup.string().required("QC Rebuttal Notes is mandatory"),
-
+//QA_Notes: conditionalString(
+//      "QA_Decision",
+//      "REJECT",
+//      "QA Notes is mandatory",
+//    ),
+//     QA_Score: conditionalString(
+//          "QA_Decision",
+//          "ACCEPT",
+//          "QA Score is mandatory",
+//        ),
   });
 const postCloseQCValidationSchema = Yup.object().shape({
 // Auditor_Name:Yup.string().required("Auditor Name is mandatory"),
@@ -832,7 +841,16 @@ const postCloseQCValidationSchema = Yup.object().shape({
 // First_Review_Date:Yup.string().required("First Review Date is mandatory"),
 // Second_Review_Date:Yup.string().required("Second Review Date is mandatory"),
 // QC_Rebuttal_Notes:Yup.string().required("QC Rebuttal Notes is mandatory"),
-
+//QC_Notes: conditionalString(
+//      "QC_Decision",
+//      "REJECT",
+//      "QC Notes is mandatory",
+//    ),
+//     QC_Score: conditionalString(
+//          "QC_Decision",
+//          "ACCEPT",
+//          "QC Score is mandatory",
+//        ),
  });
 
 const acknowledgementValidationSchema = Yup.object().shape({ });
@@ -840,15 +858,70 @@ const ctmNotesValidationSchema = Yup.object().shape({
 //Send_to_HPMS:Yup.string().required("Send to HPMS is mandatory"),
 });
 const ctmCommunicationCareValidationSchema = Yup.object().shape({ });
-const ctmProviderInformationGridValidationSchema = Yup.object().shape({
-//Issue_Number: Yup.string().required("Issue Number is mandatory"),
-});
+
+const [ctmProviderInformationGridValidationSchema, setCtmProviderInformationGridValidationSchema] = useState(Yup.object().shape({
+//  Issue_Number: Yup.string().required("Issue Number is mandatory"),
+  
+  }))
+
 const ctmMemberValidationSchema = Yup.object().shape({
-//
+
 //Issue_Number:Yup.string().required("Issue Number is mandatory"),
 //Primary_Member:Yup.string().required("Primary Member is mandatory"),
 //Plan_Code:Yup.string().required("Plan Code is mandatory"),
 //CRM_Ticket:Yup.string().required("CRM Ticket# is mandatory"),
+//
+//Residential_Address_Line_1: conditionalString(
+//      "Mail_to_Address",
+//      "DEFAULT",
+//      "Address Line 1 is mandatory",
+//    ),
+//    Residential_Zip_Code: conditionalString(
+//      "Mail_to_Address",
+//      "DEFAULT",
+//      "Zip code is mandatory",
+//    ),
+//     Residential_City: conditionalString(
+//          "Mail_to_Address",
+//          "DEFAULT",
+//          "City is mandatory",
+//        ),
+// Residential_County: conditionalString(
+//      "Mail_to_Address",
+//      "DEFAULT",
+//      "Country is mandatory",
+//    ),
+//     Residential_State: conditionalString(
+//          "Mail_to_Address",
+//          "DEFAULT",
+//          "State is mandatory",
+//        ),
+//
+//    Temporary_Address_Line_1: conditionalString(
+//      "Mail_to_Address",
+//      "ALTERNATIVE",
+//      "Address Line 1 is mandatory",
+//    ),
+//    Temporary_Zip_Code: conditionalString(
+//      "Mail_to_Address",
+//      "ALTERNATIVE",
+//      "Zip code is mandatory",
+//    ),
+//     Temporary_City: conditionalString(
+//          "Mail_to_Address",
+//          "ALTERNATIVE",
+//          "City is mandatory",
+//        ),
+// Temporary_County: conditionalString(
+//      "Mail_to_Address",
+//      "ALTERNATIVE",
+//      "Country is mandatory",
+//    ),
+//     Temporary_State: conditionalString(
+//          "Mail_to_Address",
+//          "ALTERNATIVE",
+//          "State is mandatory",
+//        ),
 
 });
 const ctmAuthGridValidationSchema = Yup.object().shape({
@@ -858,24 +931,31 @@ const ctmClaimInformationGridValidationSchema = Yup.object().shape({
 // Issue_Number: Yup.string().required("Issue Number is mandatory"),
 });
 
-const ctmRepresentativeGridValidationSchema = Yup.object().shape({
-// Issue_Number: Yup.string().required("Issue Number is mandatory"),
- });
+//const ctmRepresentativeGridValidationSchema = Yup.object().shape({
+//// Issue_Number: Yup.string().required("Issue Number is mandatory"),
+// });
+ const [ctmRepresentativeGridValidationSchema, setCtmRepresentativeGridValidationSchema] = useState(Yup.object().shape({
+//   Issue_Number: Yup.string().required("Issue Number is mandatory"),
+
+   }))
 const ctmMultiGridValidationSchema = Yup.object().shape({ });
 const ctmCaseResolutionValidationSchema = Yup.object().shape({ });
 const ctmCaseResolutionDecisionValidationSchema = Yup.object().shape({
 // Complainant_Satisfied_With_Resolution: Yup.string().required("Complainant Satisfied With Resolution? is mandatory"),
+
 // System_Update: Yup.string().required("System Update is mandatory"),
 // Resolution_Notes: Yup.string().required("Resolution Notes is mandatory"),
+
  });
 
 const ctmCaseInformationValidationSchema = Yup.object().shape({
-//
+
 //LOB_Description_CTM:Yup.string().required("LOB Description is mandatory"),
 //Line_of_Business:Yup.string().required("Line of Business is mandatory"),
 //Contract_State:Yup.string().required("Contract State is mandatory"),
 //Product:Yup.string().required("Product is mandatory"),
 //Complainant_Type:Yup.string().required("Complainant Type is mandatory"),
+//
 //Case_Filing_Method:Yup.string().required("Case Filing Method is mandatory"),
 
  });
@@ -895,11 +975,27 @@ const ctmSummaryValidationSchema = Yup.object().shape({
 
  });
  const caseCategorizationValidationSchema = Yup.object().shape({
-
+//
 //Category: Yup.string().required( " Category is mandatory" ),
 //Sub_Category:Yup.string().required( " Sub Category is mandatory" ),
 //Super_Category:Yup.string().required( " Super Category is mandatory" ),
 //High_Level_Cause:Yup.string().required( " High Level Cause is mandatory" ),
+//
+//    Remediation_People: conditionalString(
+//      "High_Level_Cause",
+//      "PEOPLE",
+//      "Remediation People is mandatory",
+//    ),
+//    Remediation_Process: conditionalString(
+//      "High_Level_Cause",
+//      "PROCESS",
+//      "Remediation Process is mandatory",
+//    ),
+//     Remediation_System: conditionalString(
+//          "High_Level_Cause",
+//          "SYSTEM",
+//          "Remediation System is mandatory",
+//        ),
 
  });
 
@@ -1165,6 +1261,8 @@ validateSync(caseCategorizationValidationSchema, ctm_CaseCategorization, setCase
         ...memberInformationErrors,
         ...ProvidermemberInformationErrors,
         ...ctmMemberErrors,
+        ...ctmCaseResolutionDecisionErrors,
+        ...ctmNotesErrors,
         ...ctmSummaryErrors,
         ...providerNotesErrors,
         ...PdProviderInformationErrors,
@@ -1201,6 +1299,8 @@ validateSync(caseCategorizationValidationSchema, ctm_CaseCategorization, setCase
     memberAltErrors,
       reviewErrors,
      ctmMemberErrors,
+     ctmCaseResolutionDecisionErrors,
+     ctmNotesErrors,
     ctmSummaryErrors,
       caseResolutionErrors,
   ]);
@@ -1239,6 +1339,7 @@ validateSync(caseCategorizationValidationSchema, ctm_CaseCategorization, setCase
   }
 const checkForCTMError = () => {
   return Object.keys({
+   ...caseTimelinesErrors,
     ...preCloseQAErrors,
     ...postCloseQCErrors,
     ...ctmSummaryErrors,
@@ -1279,7 +1380,9 @@ const checkForCTMError = () => {
   }
 
   const checkForCtmGridData = () => {
-    // TODO: Add Grid Check for CTM
+//    if (!ctmProviderInformationGrid?.length || !ctmRepresentativeGrid?.length || !ctmAuthorizationGrid?.length || !ctmMultipleIssueGrid?.length ||!ctmClaimInformationGrid?.length) {
+//          return true;
+//        }
     return false;
   }
 
@@ -1465,13 +1568,15 @@ const checkForCTMError = () => {
 
 
         }
+
+
     if(checkForCtmGridData()) {
       alert("Please fill all mandatory grid data")
       return;
     }
 
     if (checkForCTMError()?.length > 0) {
-      console.error("Validation Errors:", checkForCTMError());
+//      console.error("Validation Errors:", checkForCTMError());
       alert(" Please fill all mandatory fields.");
       setShowSubmitError(true);
       return;
@@ -4087,11 +4192,25 @@ const checkForCTMError = () => {
     callProcRef.current = "callProc";
     const saveType = event.target.name === "saveAndSubmit" ? "SS" : "SE";
     // const saveType = "SS";
+
     if(saveType === "SS"){
     if(checkForCtmGridData()) {
       alert("Please fill all mandatory grid data")
       return;
     }
+    if (checkForCTMError()?.length > 0) {
+          alert("Please fill all mandatory fields")
+          setShowSubmitError(true);
+          return;
+        }
+          if (!location.state.decision) {
+            alert("Decision is mandatory. Please select a Decision.");
+            return;
+          }
+          if (!location.state.decisionReason) {
+            alert("Decision Reason is mandatory. Please select a Decision Reason.");
+            return;
+          }
     if(authorizationInformationCtm.isChecked === '1') {
           if(!authorizationInformationCtm.WhiteGloveReason) {
             alert(" authorizationInformation - White glove reason need to be filled")
@@ -4111,19 +4230,7 @@ const checkForCTMError = () => {
                   }
          }
 
-    if (checkForCTMError()?.length > 0) {
-      alert("Please fill all mandatory fields")
-      setShowSubmitError(true);
-      return;
-    }
-      if (!location.state.decision) {
-        alert("Decision is mandatory. Please select a Decision.");
-        return;
-      }
-      if (!location.state.decisionReason) {
-        alert("Decision Reason is mandatory. Please select a Decision Reason.");
-        return;
-      }
+
 
   }
 
@@ -4805,7 +4912,6 @@ let updateCtmMultiLevelIssueManagementGridDataArray = [];
     postCloseQCErrors,
     ctmMemberData,
      setCtmMember,
-    ctmMemberErrors,
     ctmMemberValidationSchema,
     preCloseQAValidationSchema,
     postCloseQCValidationSchema,
@@ -4816,6 +4922,8 @@ let updateCtmMultiLevelIssueManagementGridDataArray = [];
     ctmProviderInformationGrid,
     setCtmProviderInformationGrid,
     ctmProviderInformationGridValidationSchema,
+    setCtmProviderInformationGridValidationSchema,
+    setCtmRepresentativeGridValidationSchema,
     ctmAuthorizationGrid,
     setCtmAuthGridData,
     ctmAuthGridValidationSchema,

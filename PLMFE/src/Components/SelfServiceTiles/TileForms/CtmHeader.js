@@ -123,6 +123,8 @@ const CtmHeader = () => {
     ctmProviderInformationGrid,
     setCtmProviderInformationGrid,
     ctmProviderInformationGridValidationSchema,
+    setCtmProviderInformationGridValidationSchema,
+    setCtmRepresentativeGridValidationSchema,
     ctmRepGridData,
     ctmMultiGridData,
     ctmClaimInformationGridData,
@@ -173,10 +175,9 @@ const CtmHeader = () => {
                                     caseHeaderFields={caseHeaderFields}
                                     renderType={RenderType.CTM}
                                     ctmMemberInformation={ctmMemberData}
-//                                    ctmProviderInformation={ctmProviderInformationData}
-//                                    pd_ProviderInformation={pd_ProviderInformation}
-//                                    ProvidermemberInformation={ProvidermemberInformation}
-//                                    pd_RepresentativeInformation={pd_RepresentativeInformation}
+                                    ctmProviderInformation={providerInformationCtm}
+                                    ctmRepresentativeInformation={representativeInformationCtm}
+
                                   />
 
                                   )}
@@ -191,12 +192,15 @@ const CtmHeader = () => {
                                                                 ProviderclaimInformationGridData={pdClaimInformationGrid}
                                                               />
 
+
 <CtmCaseInformationAccordion
                               ctmCaseInformationData={ctmCaseInformation}
                               setCtmCaseInformationData={setCtmCaseInformation}
                               ctmCaseInformationValidationSchema={ctmCaseInformationValidationSchema}
                               shouldShowSubmitError={shouldShowSubmitError}
                               ctmCaseInformationErrors={ctmCaseInformationErrors}
+                              setCtmProviderInformationGridValidationSchema={setCtmProviderInformationGridValidationSchema}
+                               setCtmRepresentativeGridValidationSchema={setCtmRepresentativeGridValidationSchema}
                             />
 
  <CtmCaseCategorizationAccordion
@@ -232,8 +236,6 @@ handleClaimInformationGridData={ctmClaimInformationGrid || []}
                  updateCtmAuthGridData={setCtmAuthGridData}
                  ctmAuthGridValidationSchema={ctmAuthGridValidationSchema}
                />
-
-
 <CtmSummaryAccordion
                                ctmSummaryFields={ctmSummaryFields}
                                ctmSummaryData={ctm_CtmSummary}
@@ -269,14 +271,7 @@ handleClaimInformationGridData={ctmClaimInformationGrid || []}
                                   ctmMemberValidationSchema={ctmMemberValidationSchema}
                                   ctmMemberErrors={ctmMemberErrors}
                                 />
-                                            <CtmAuthorizationInformationAccordion
-                                                   handleOnChange={handleCtmAuthorizationInformationChange}
-                                                           handleData={authorizationInformationCtm}
-                                                           setAuthorizationInformationCtm={setAuthorizationInformationCtm}
-                                                            handleCtmAuthGridData={ctmAuthorizationGrid || []}
-                                                            updateCtmAuthGridData={setCtmAuthGridData}
-                                                            ctmAuthGridValidationSchema={ctmAuthGridValidationSchema}
-                                                          />
+
               <CtmRepresentativeInformationAccordion
                                                          handleCtmRepGridData={ctmRepresentativeGrid || []}
                                                          ctmRepGridData={ctmRepGridData}

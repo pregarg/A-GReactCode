@@ -12,7 +12,11 @@ const { convertToCase, extractDate, getDatePartOnly } = useGetDBTables();
  const ctmConfigData = JSON.parse(process.env.REACT_APP_CTMHEADER_DETAILS);
   const stageName = ctmConfigData["StageName"];
 
-  const [ctmMemberData, setCtmMemberData] = useState(props.ctmMemberData || {});
+  const [ctmMemberData, setCtmMemberData] = useState(props.ctmMemberData );
+//  const [ctmMemberData, setCtmMemberData] = useState({
+//      ...props.ctmMemberData,
+//      Mail_to_Address: props.ctmMemberData?.Mail_to_Address || "DEFAULT"
+//  });
   const location = useLocation();
  const [invalidInputState, setInvalidInputState] = useState(false);
 const [residentialMandatory, setResidentialMandatory] = useState(false);
@@ -163,7 +167,6 @@ const renderInputField = (name, placeholder, maxLength) => (
     <FormikInputField
       name={name}
       placeholder={placeholder}
-      maxLength={maxLength}
       data={ctmMemberData}
       onChange={handleCtmMemberInformationData}
       onBlur={(e) => {

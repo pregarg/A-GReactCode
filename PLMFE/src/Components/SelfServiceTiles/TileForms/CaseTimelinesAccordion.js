@@ -68,7 +68,25 @@ const ctmConfigData = JSON.parse(process.env.REACT_APP_CTMHEADER_DETAILS|| "{}",
           "CaseArchived"
         ].includes(location.state.stageName)
       );
-  
+      const isCTMDisabled =
+                props.renderType === RenderType.CTM &&
+                isDashboardView &&
+                (
+                  (name === "Case_Aging" ||name === "Compliance_Time_Left_to_Finish" ) &&
+                  (
+                    PDStageName === "Start" ||
+                    location.state.stageName === "Intake" ||
+                    location.state.stageName === "Acknowledge" ||
+                    location.state.stageName === "Resolve" ||
+                    location.state.stageName === "Case Completed" ||
+                    location.state.stageName === "Supervisor Review" ||
+                    location.state.stageName === "Case Archived" ||
+                    location.state.stageName === "QA Reopen" ||
+                    location.state.stageName === "Pre-Close QA" ||
+                    location.state.stageName === "Research"
+                  )
+                );
+
     const isProviderDisputeDisabled = 
       props.renderType === RenderType.PROVIDER_DISPUTE && 
       isDashboardView && 
@@ -86,8 +104,8 @@ const ctmConfigData = JSON.parse(process.env.REACT_APP_CTMHEADER_DETAILS|| "{}",
           "CaseArchived"
         ].includes(location.state.stageName)
       );
-  
-    const disabled = isAppealsDisabled || isProviderDisputeDisabled;
+
+    const disabled = isAppealsDisabled || isProviderDisputeDisabled || isCTMDisabled;
   
     return (
       <div className="col-xs-6 col-md-4">
@@ -170,8 +188,26 @@ const ctmConfigData = JSON.parse(process.env.REACT_APP_CTMHEADER_DETAILS|| "{}",
           location.state.stageName === "CaseArchived"
         )
       );
-  
-    const disabled = isAppealsDisabled || isProviderDisputeDisabled;
+    const isCTMDisabled =
+          props.renderType === RenderType.CTM &&
+          isDashboardView &&
+          (
+            (name === "Case_in_Compliance" ) &&
+            (
+              PDStageName === "Start" ||
+                    location.state.stageName === "Intake" ||
+                    location.state.stageName === "Acknowledge" ||
+                    location.state.stageName === "Resolve" ||
+                    location.state.stageName === "Case Completed" ||
+                    location.state.stageName === "Supervisor Review" ||
+                    location.state.stageName === "Case Archived" ||
+                    location.state.stageName === "QA Reopen" ||
+                    location.state.stageName === "Pre-Close QA" ||
+                    location.state.stageName === "Research"
+            )
+          );
+
+    const disabled = isAppealsDisabled || isProviderDisputeDisabled  || isCTMDisabled ;
   
     return (
       <div className="col-xs-6 col-md-4">

@@ -11,6 +11,7 @@ const CaseInformationAccordion = (props) => {
   const { convertToCase } = useGetDBTables();
   const [caseInformationData, setCaseInformationData] = useState(
     props.caseInformationData,
+
   );
   console.log("props.renderType",caseInformationData)
   const masterAngLOBMappingSelector = useSelector(
@@ -189,52 +190,7 @@ const CaseInformationAccordion = (props) => {
     return selectedProduct ? selectedProduct.LOB_Description : '';
   };
   
-  
 
-
-  // const handleCaseInformationData = (name, value, persist) => {
-  //   const newData = {
-  //     ...caseInformationData,
-  //     [name]: typeof value === "string" ? convertToCase(value) : value,
-  //   };
-  //   if (name === "Product") {
-  //     const selectedProduct = masterAngLOBMappingSelector?.[0]?.find(e => e.Product === value);
-  //     if (selectedProduct) {
-        
-  //       newData.Line_of_Business_LOB = selectedProduct.LOB;
-  //       newData.Product_State = selectedProduct.State;
-  //       newData.LOB_Description = selectedProduct.LOB_Description;
-  //     }
-  //   }
-  //   setCaseInformationData(newData);
-  
-  //   if (name === "Case_Level_Priority" && value === "EXPEDITED") {
-  //     props.onExpeditedPriorityChange(new Date());
-  //   }
-  
-  //   if (persist) {
-  //     props.setCaseInformationData(newData);
-  //   }
-  // };
-  
-  
-  
-
-  // const handleCaseInformationData = (name, value, persist) => {
-  //   const newData = {
-  //     ...caseInformationData,
-  //     [name]: typeof value === "string" ? convertToCase(value) : value,
-  //   };
-  //   setCaseInformationData(newData);
-
-  //   if (name === "Case_Level_Priority" && value === "EXPEDITED") {
-  //     props.onExpeditedPriorityChange(new Date());
-  //   }
-
-  //   if (persist) {
-  //     props.setCaseInformationData(newData);
-  //   }
-  // };
   
   const persistCaseInformationData = () => {
     props.setCaseInformationData(caseInformationData);
