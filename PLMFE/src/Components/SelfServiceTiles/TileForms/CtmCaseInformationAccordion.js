@@ -5,6 +5,7 @@ import { FormikInputField } from "../Common/FormikInputField";
 import { useLocation } from "react-router-dom";
 import { FormikDatePicker } from "../Common/FormikDatePicker";
 import { FormikSelectField } from "../Common/FormikSelectField";
+import * as Yup from "yup";
 
 const CtmCaseInformationAccordion = (props) => {
   const { convertToCase } = useGetDBTables();
@@ -151,6 +152,48 @@ const [ctmIssueLevelValues, setCtmIssueLevelValues] = useState([]);
 
 
   const handleCtmCaseInformationRequestData = (name, value, persist) => {
+    if(name === 'Complainant_Type') {
+      props.setCtmProviderInformationGridValidationSchema(Yup.object().shape({
+       Issue_Number: Yup.string().required("Issue Number is mandatory"),}))
+      if( value === 'PROVIDER') {
+        props.setCtmProviderInformationGridValidationSchema(Yup.object().shape({
+          Issue_Number: Yup.string().required("Issue Number is mandatory"),
+          Provider_ID: Yup.string().required("Provider ID is mandatory"),
+          Provider_Name: Yup.string().required("Provider Name is mandatory"),
+          Provider_TIN: Yup.string().required("Provider TIN is mandatory"),
+          Provider_Vendor_Specialty: Yup.string().required("Provider/Vendor Specialty  is mandatory"),
+          Provider_NPI: Yup.string().required("Provider NPI is mandatory"),
+          Provider_IPA: Yup.string().required("Provider IPA is mandatory"),
+          CRM_Ticket: Yup.string().required("CRM Ticket # is mandatory"),
+          Participating_Provider: Yup.string().required("Participating Provider? is mandatory"),
+          Provider_Contract_Effective_Date: Yup.string().required("Provider Contract Effective Date  is mandatory"),
+          Provider_Contract_Termination_Date: Yup.string().required("Provider Contract Termination Date is mandatory"),
+          Provider_Contract_Type: Yup.string().required("Provider Contract Type is mandatory"),
+          Provider_Contract_LOB: Yup.string().required("Provider Contract LOB is mandatory"),
+          Provider_Contract_IPA: Yup.string().required("Provider Contract IPA is mandatory"),
+          PCP_Flag: Yup.string().required("PCP Flag  is mandatory"),
+          Accept_New_Patients: Yup.string().required("Accept New Patients is mandatory"),
+          Vendor_ID: Yup.string().required("Vendor ID is mandatory"),
+          Vendor_Full_Name: Yup.string().required("Vendor Full Name is mandatory"),
+          Vendor_Short_Name: Yup.string().required("Vendor Short Name is mandatory"),
+          Vendor_Address: Yup.string().required("Vendor Address is mandatory"),
+          Associate_Provider_with_Issue: Yup.string().required("Associate Provider with Issue is mandatory"),
+
+          }))
+      } else if( value === 'THIRD PARTY') {
+        props.setCtmRepresentativeGridValidationSchema(Yup.object().shape({
+          Issue_Number: Yup.string().required("Issue Number is mandatory"),
+          First_Name: Yup.string().required("First Name is mandatory"),
+          Last_Name: Yup.string().required("Last Name is mandatory"),
+          Member_Name_ID: Yup.string().required("Member Name/ID is mandatory"),
+          Authorization_Type: Yup.string().required("Authorization Type is mandatory"),
+          Authorization_Approved_Date: Yup.string().required("Authorization Approved Date is mandatory"),
+          Authorization_Expiration_Date: Yup.string().required("Authorization Expiration Date is mandatory"),
+          
+          }))
+      } 
+    }
+    
 //  if (name === "Product") {
 //        value = "MEDICARE"; // Force Product to be Medicare
 //      }

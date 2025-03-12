@@ -35,7 +35,9 @@ const CaseHeaderAccordion = (props) => {
                             props.pd_ProviderInformation?.isChecked?.toString() === '1' ||
                             props.ProvidermemberInformation?.isChecked?.toString() === '1' ||
                             props.pd_RepresentativeInformation?.isChecked?.toString() === '1' ||
-                            props.ctmMemberInformation?.isChecked?.toString() === '1'
+                            props.ctmMemberInformation?.isChecked?.toString() === '1' ||
+                            props.ctmProviderInformation?.isChecked?.toString() === '1'||
+                            props.ctmRepresentativeInformation?.isChecked?.toString() === '1'
                             
                                 ? <span className="required">It's Urgent</span>
                                 : <span></span>
