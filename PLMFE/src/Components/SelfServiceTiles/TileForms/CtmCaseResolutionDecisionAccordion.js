@@ -148,7 +148,6 @@ const renderSelectField = (name, placeholder, options) => (
                 </div>
                 <div className="row my-2">
                 {renderSelectField("System_Update", "System Update",ctmDropDownValues )}
-                {renderSelectField("Complainant_Satisfied_With_Resolution ", "Complainant Satisfied With Resolution? ", )}
                {renderInputField("Resolution_Notes", "Resolution Notes", )}
               </div>
             </div>

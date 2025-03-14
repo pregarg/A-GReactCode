@@ -5,6 +5,7 @@ import { SimpleSelectField } from "../Common/SimpleSelectField";
 import { SimpleDatePickerField } from "../Common/SimpleDatePickerField";
 import useGetDBTables from "../../CustomHooks/useGetDBTables";
 import { useSelector } from "react-redux";
+import * as Yup from "yup";
 
 export default function CtmAuthorizationInformationTable({
   ctmAuthGridData = [],
@@ -31,6 +32,28 @@ const [isTouched, setIsTouched] = useState({});
  const masterPDAuthTypeSelector = useSelector(
           (state) => state?.masterPDAuthType,
       );
+       const conditionalString = (field, value, message) => {
+          return Yup.string().when(field, {
+            is: (val) => val === value,
+            then: Yup.string().required(message),
+          });
+        };
+   const handleAuthorizationValidationSchema = (name, value) => {
+       if (name === "Auth_Number") {
+         return Yup.object().shape({
+           Auth_Number: Yup.string(),
+           Authorization_Type: conditionalString("Auth_Number", value, "Authorization Type is required"),
+           Auth_Type_Description: conditionalString("Auth_Number", value, "Auth Type Description is required"),
+           Provider_Name: conditionalString("Auth_Number", value, "Provider Name is required"),
+           Auth_Status: conditionalString("Auth_Number", value, "Auth Status is required"),
+           Auth_Request_Date: conditionalString("Auth_Number", value, "Auth Request Date is required"),
+           Auth_Service_Start_Date: conditionalString("Auth_Number", value, "Auth Service Start Date is required"),
+           Auth_Expiration_Date: conditionalString("Auth_Number", value, "Auth Expiration Date is required"),
+           Denial_Code_and_Reason: conditionalString("Auth_Number", value, "Denial Code and Reason is required"),
+           CPT_Description: conditionalString("Auth_Number", value, "CPT Description(s) is required"),
+         });
+       }
+     };
 //  useEffect(() => {
 //    const authTypeOptions = [
 //      { label: "Pre-Authorization", value: "Pre-Authorization" },
@@ -332,6 +355,7 @@ const decreaseDataIndex = () => {
                 <tbody>{tdData()}</tbody>
               </table>
             </div>
+
       <GridModal
               name="Authorization Information "
               validationObject={isTouched}

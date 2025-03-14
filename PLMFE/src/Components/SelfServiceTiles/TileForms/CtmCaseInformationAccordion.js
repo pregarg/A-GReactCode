@@ -7,6 +7,13 @@ import { FormikDatePicker } from "../Common/FormikDatePicker";
 import { FormikSelectField } from "../Common/FormikSelectField";
 import * as Yup from "yup";
 
+const conditionalString = (dependsOn, valueEquals, validationMsg) =>
+    Yup.string().when(dependsOn, {
+      is: (value) => value === valueEquals,
+      then: (schema) => schema.required(validationMsg),
+      otherwise: (schema) => schema.notRequired(),
+    });
+
 const CtmCaseInformationAccordion = (props) => {
   const { convertToCase } = useGetDBTables();
   const location = useLocation();
@@ -154,7 +161,74 @@ const [ctmIssueLevelValues, setCtmIssueLevelValues] = useState([]);
   const handleCtmCaseInformationRequestData = (name, value, persist) => {
     if(name === 'Complainant_Type') {
       props.setCtmProviderInformationGridValidationSchema(Yup.object().shape({
-       Issue_Number: Yup.string().required("Issue Number is mandatory"),}))
+       Issue_Number: Yup.string().required("Issue Number is mandatory"),
+       Address_Line_1: conditionalString(
+             "Mail_to_Address",
+             "DEFAULT",
+             "Address Line 1 is mandatory",
+           ),
+           Zip_Code: conditionalString(
+             "Mail_to_Address",
+             "DEFAULT",
+             "Zip code is mandatory",
+           ),
+            City: conditionalString(
+                 "Mail_to_Address",
+                 "DEFAULT",
+                 "City is mandatory",
+               ),
+        County: conditionalString(
+             "Mail_to_Address",
+             "DEFAULT",
+             "Country is mandatory",
+           ),
+            State: conditionalString(
+                 "Mail_to_Address",
+                 "DEFAULT",
+                 "State is mandatory",
+               ),
+
+           Alternate_Address_Line_1: conditionalString(
+             "Mail_to_Address",
+             "ALTERNATIVE",
+             "Address Line 1 is mandatory",
+           ),
+           Alternate_Zip_Code: conditionalString(
+             "Mail_to_Address",
+             "ALTERNATIVE",
+             "Zip code is mandatory",
+           ),
+            Alternate_City: conditionalString(
+                 "Mail_to_Address",
+                 "ALTERNATIVE",
+                 "City is mandatory",
+               ),
+        Alternate_County: conditionalString(
+             "Mail_to_Address",
+             "ALTERNATIVE",
+             "Country is mandatory",
+           ),
+            Alternate_State: conditionalString(
+                 "Mail_to_Address",
+                 "ALTERNATIVE",
+                 "State is mandatory",
+               ),
+                 Alternate_Fax_Number: conditionalString(
+                                "Mail_to_Address",
+                                "ALTERNATIVE",
+                                "Fac Number is mandatory",
+                              ),
+                       Alternate_Email_ID: conditionalString(
+                            "Mail_to_Address",
+                            "ALTERNATIVE",
+                            "Email ID is mandatory",
+                          ),
+                           Communication_Preference: conditionalString(
+                                "Mail_to_Address",
+                                "ALTERNATIVE",
+                                "Communication Preference is mandatory",
+                              ),
+}))
       if( value === 'PROVIDER') {
         props.setCtmProviderInformationGridValidationSchema(Yup.object().shape({
           Issue_Number: Yup.string().required("Issue Number is mandatory"),
@@ -178,7 +252,72 @@ const [ctmIssueLevelValues, setCtmIssueLevelValues] = useState([]);
           Vendor_Short_Name: Yup.string().required("Vendor Short Name is mandatory"),
           Vendor_Address: Yup.string().required("Vendor Address is mandatory"),
           Associate_Provider_with_Issue: Yup.string().required("Associate Provider with Issue is mandatory"),
+                Address_Line_1: conditionalString(
+                        "Mail_to_Address",
+                        "DEFAULT",
+                        "Address Line 1 is mandatory",
+                      ),
+                      Zip_Code: conditionalString(
+                        "Mail_to_Address",
+                        "DEFAULT",
+                        "Zip code is mandatory",
+                      ),
+                       City: conditionalString(
+                            "Mail_to_Address",
+                            "DEFAULT",
+                            "City is mandatory",
+                          ),
+                   County: conditionalString(
+                        "Mail_to_Address",
+                        "DEFAULT",
+                        "Country is mandatory",
+                      ),
+                       State: conditionalString(
+                            "Mail_to_Address",
+                            "DEFAULT",
+                            "State is mandatory",
+                          ),
 
+                      Alternate_Address_Line_1: conditionalString(
+                        "Mail_to_Address",
+                        "ALTERNATIVE",
+                        "Address Line 1 is mandatory",
+                      ),
+                      Alternate_Zip_Code: conditionalString(
+                        "Mail_to_Address",
+                        "ALTERNATIVE",
+                        "Zip code is mandatory",
+                      ),
+                       Alternate_City: conditionalString(
+                            "Mail_to_Address",
+                            "ALTERNATIVE",
+                            "City is mandatory",
+                          ),
+                   Alternate_County: conditionalString(
+                        "Mail_to_Address",
+                        "ALTERNATIVE",
+                        "Country is mandatory",
+                      ),
+                       Alternate_State: conditionalString(
+                            "Mail_to_Address",
+                            "ALTERNATIVE",
+                            "State is mandatory",
+                          ),
+                            Alternate_Fax_Number: conditionalString(
+                                           "Mail_to_Address",
+                                           "ALTERNATIVE",
+                                           "Fac Number is mandatory",
+                                         ),
+                                  Alternate_Email_ID: conditionalString(
+                                       "Mail_to_Address",
+                                       "ALTERNATIVE",
+                                       "Email ID is mandatory",
+                                     ),
+                                      Communication_Preference: conditionalString(
+                                           "Mail_to_Address",
+                                           "ALTERNATIVE",
+                                           "Communication Preference is mandatory",
+                                         ),
           }))
       } else if( value === 'THIRD PARTY') {
         props.setCtmRepresentativeGridValidationSchema(Yup.object().shape({
@@ -189,9 +328,128 @@ const [ctmIssueLevelValues, setCtmIssueLevelValues] = useState([]);
           Authorization_Type: Yup.string().required("Authorization Type is mandatory"),
           Authorization_Approved_Date: Yup.string().required("Authorization Approved Date is mandatory"),
           Authorization_Expiration_Date: Yup.string().required("Authorization Expiration Date is mandatory"),
-          
+               Address_Line_1: conditionalString(
+                       "Mail_to_Address",
+                       "DEFAULT",
+                       "Address Line 1 is mandatory",
+                     ),
+                     Zip_Code: conditionalString(
+                       "Mail_to_Address",
+                       "DEFAULT",
+                       "Zip code is mandatory",
+                     ),
+                      City: conditionalString(
+                           "Mail_to_Address",
+                           "DEFAULT",
+                           "City is mandatory",
+                         ),
+                  State: conditionalString(
+                       "Mail_to_Address",
+                       "DEFAULT",
+                       "State is mandatory",
+                     ),
+
+
+                     Alt_Address_Line_1: conditionalString(
+                       "Mail_to_Address",
+                       "ALTERNATIVE",
+                       "Address Line 1 is mandatory",
+                     ),
+                     Alt_Zip_Code: conditionalString(
+                       "Mail_to_Address",
+                       "ALTERNATIVE",
+                       "Zip code is mandatory",
+                     ),
+                      Alt_City: conditionalString(
+                           "Mail_to_Address",
+                           "ALTERNATIVE",
+                           "City is mandatory",
+                         ),
+
+                      Alt_State: conditionalString(
+                           "Mail_to_Address",
+                           "ALTERNATIVE",
+                           "State is mandatory",
+                         ),
+                           Fax_Number: conditionalString(
+                                          "Mail_to_Address",
+                                          "ALTERNATIVE",
+                                          "Fac Number is mandatory",
+                                        ),
+                                 Alternate_Email_ID: conditionalString(
+                                      "Mail_to_Address",
+                                      "ALTERNATIVE",
+                                      "Email ID is mandatory",
+                                    ),
+                                     Communication_Preference: conditionalString(
+                                          "Mail_to_Address",
+                                          "ALTERNATIVE",
+                                          "Communication Preference is mandatory",
+                                        ),
           }))
-      } 
+      }  else {
+        props.setCtmRepresentativeGridValidationSchema(Yup.object().shape({
+           Issue_Number: Yup.string().required("Issue Number is mandatory"),
+           Mail_to_Address: Yup.string().required("Mail to Address is mandatory"),
+                 Address_Line_1: conditionalString(
+                                      "Mail_to_Address",
+                                      "DEFAULT",
+                                      "Address Line 1 is mandatory",
+                                    ),
+                                    Zip_Code: conditionalString(
+                                      "Mail_to_Address",
+                                      "DEFAULT",
+                                      "Zip code is mandatory",
+                                    ),
+                                     City: conditionalString(
+                                          "Mail_to_Address",
+                                          "DEFAULT",
+                                          "City is mandatory",
+                                        ),
+                                 State: conditionalString(
+                                      "Mail_to_Address",
+                                      "DEFAULT",
+                                      "State is mandatory",
+                                    ),
+
+               Alt_Address_Line_1: conditionalString(
+                 "Mail_to_Address",
+                 "ALTERNATIVE",
+                 "Address Line 1 is mandatory",
+               ),
+               Alt_Zip_Code: conditionalString(
+                 "Mail_to_Address",
+                 "ALTERNATIVE",
+                 "Zip code is mandatory",
+               ),
+                Alt_City: conditionalString(
+                     "Mail_to_Address",
+                     "ALTERNATIVE",
+                     "City is mandatory",
+                   ),
+            Fax_Number: conditionalString(
+                 "Mail_to_Address",
+                 "ALTERNATIVE",
+                 "FAX Number is mandatory",
+               ),
+                Alt_State: conditionalString(
+                     "Mail_to_Address",
+                     "ALTERNATIVE",
+                     "State is mandatory",
+                   ),
+              Alternate_Email_ID: conditionalString(
+                         "Mail_to_Address",
+                         "ALTERNATIVE",
+                         "Alternate E-mail ID is mandatory",
+                       ),
+               Communication_Preference: conditionalString(
+                               "Mail_to_Address",
+                               "ALTERNATIVE",
+                               "Communication Preference is mandatory",
+                             ),
+        
+           }))
+      }
     }
     
 //  if (name === "Product") {

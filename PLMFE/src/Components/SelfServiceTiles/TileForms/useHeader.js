@@ -855,147 +855,200 @@ const postCloseQCValidationSchema = Yup.object().shape({
 
 const acknowledgementValidationSchema = Yup.object().shape({ });
 const ctmNotesValidationSchema = Yup.object().shape({
-//Send_to_HPMS:Yup.string().required("Send to HPMS is mandatory"),
+Send_to_HPMS:Yup.string().required("Send to HPMS is mandatory"),
 });
 const ctmCommunicationCareValidationSchema = Yup.object().shape({ });
 
 const [ctmProviderInformationGridValidationSchema, setCtmProviderInformationGridValidationSchema] = useState(Yup.object().shape({
-//  Issue_Number: Yup.string().required("Issue Number is mandatory"),
-  
+
   }))
 
 const ctmMemberValidationSchema = Yup.object().shape({
 
-//Issue_Number:Yup.string().required("Issue Number is mandatory"),
-//Primary_Member:Yup.string().required("Primary Member is mandatory"),
-//Plan_Code:Yup.string().required("Plan Code is mandatory"),
-//CRM_Ticket:Yup.string().required("CRM Ticket# is mandatory"),
-//
-//Residential_Address_Line_1: conditionalString(
-//      "Mail_to_Address",
-//      "DEFAULT",
-//      "Address Line 1 is mandatory",
-//    ),
-//    Residential_Zip_Code: conditionalString(
-//      "Mail_to_Address",
-//      "DEFAULT",
-//      "Zip code is mandatory",
-//    ),
-//     Residential_City: conditionalString(
-//          "Mail_to_Address",
-//          "DEFAULT",
-//          "City is mandatory",
-//        ),
-// Residential_County: conditionalString(
-//      "Mail_to_Address",
-//      "DEFAULT",
-//      "Country is mandatory",
-//    ),
-//     Residential_State: conditionalString(
-//          "Mail_to_Address",
-//          "DEFAULT",
-//          "State is mandatory",
-//        ),
-//
-//    Temporary_Address_Line_1: conditionalString(
-//      "Mail_to_Address",
-//      "ALTERNATIVE",
-//      "Address Line 1 is mandatory",
-//    ),
-//    Temporary_Zip_Code: conditionalString(
-//      "Mail_to_Address",
-//      "ALTERNATIVE",
-//      "Zip code is mandatory",
-//    ),
-//     Temporary_City: conditionalString(
-//          "Mail_to_Address",
-//          "ALTERNATIVE",
-//          "City is mandatory",
-//        ),
-// Temporary_County: conditionalString(
-//      "Mail_to_Address",
-//      "ALTERNATIVE",
-//      "Country is mandatory",
-//    ),
-//     Temporary_State: conditionalString(
-//          "Mail_to_Address",
-//          "ALTERNATIVE",
-//          "State is mandatory",
-//        ),
+Issue_Number:Yup.string().required("Issue Number is mandatory"),
+Primary_Member:Yup.string().required("Primary Member is mandatory"),
+Plan_Code:Yup.string().required("Plan Code is mandatory"),
+CRM_Ticket:Yup.string().required("CRM Ticket# is mandatory"),
+Member_ID:Yup.string().required("Member ID is mandatory"),
+Member_First_Name:Yup.string().required("Member First Name is mandatory"),
+Member_Last_Name:Yup.string().required("Member Last Name is mandatory"),
+Seq_Member_ID:Yup.string().required("Seq Member ID is mandatory"),
+Contract_ID:Yup.string().required("Contract ID is mandatory"),
+Email_Id:Yup.string().required("Plan Code is mandatory"),
+MBI:Yup.string().required("MBI is mandatory"),
+HICN:Yup.string().required("HICN is mandatory"),
+Plan_Name:Yup.string().required("Plan Name is mandatory"),
+PCP_Name:Yup.string().required("PCP_Name is mandatory"),
+Gender:Yup.string().required("Gender is mandatory"),
+Dual_Plan:Yup.string().required("Dual Plan is mandatory"),
+
+Residential_Address_Line_1: conditionalString(
+      "Mail_to_Address",
+      "DEFAULT",
+      "Address Line 1 is mandatory",
+    ),
+    Residential_Zip_Code: conditionalString(
+      "Mail_to_Address",
+      "DEFAULT",
+      "Zip code is mandatory",
+    ),
+     Residential_City: conditionalString(
+          "Mail_to_Address",
+          "DEFAULT",
+          "City is mandatory",
+        ),
+ Residential_County: conditionalString(
+      "Mail_to_Address",
+      "DEFAULT",
+      "Country is mandatory",
+    ),
+     Residential_State: conditionalString(
+          "Mail_to_Address",
+          "DEFAULT",
+          "State is mandatory",
+        ),
+
+    Temporary_Address_Line_1: conditionalString(
+      "Mail_to_Address",
+      "ALTERNATIVE",
+      "Address Line 1 is mandatory",
+    ),
+    Temporary_Zip_Code: conditionalString(
+      "Mail_to_Address",
+      "ALTERNATIVE",
+      "Zip code is mandatory",
+    ),
+     Temporary_City: conditionalString(
+          "Mail_to_Address",
+          "ALTERNATIVE",
+          "City is mandatory",
+        ),
+ Temporary_County: conditionalString(
+      "Mail_to_Address",
+      "ALTERNATIVE",
+      "Country is mandatory",
+    ),
+     Temporary_State: conditionalString(
+          "Mail_to_Address",
+          "ALTERNATIVE",
+          "State is mandatory",
+        ),
 
 });
 const ctmAuthGridValidationSchema = Yup.object().shape({
-// Issue_Number: Yup.string().required("Issue Number is mandatory"),
+ Issue_Number: Yup.string().required("Issue Number is mandatory"),
 });
+
 const ctmClaimInformationGridValidationSchema = Yup.object().shape({
-// Issue_Number: Yup.string().required("Issue Number is mandatory"),
+ Issue_Number: Yup.string().required("Issue Number is mandatory"),
+  Provider_Name: Yup.string().required("Provider Name is mandatory"),
+  Authorization_Number: Yup.string().required("Authorization Number is mandatory"),
+  Service_Start_Date: Yup.string().required("Service Start Date is mandatory"),
+   Service_End_Date: Yup.string().required("Service End Date is mandatory"),
+   Claim_Type: Yup.string().required("Claim Type is mandatory"),
+   Received_Date: Yup.string().required("Received Date is mandatory"),
+   Claim_Status: Yup.string().required("Claim Status is mandatory"),
 });
 
 //const ctmRepresentativeGridValidationSchema = Yup.object().shape({
 //// Issue_Number: Yup.string().required("Issue Number is mandatory"),
 // });
  const [ctmRepresentativeGridValidationSchema, setCtmRepresentativeGridValidationSchema] = useState(Yup.object().shape({
-//   Issue_Number: Yup.string().required("Issue Number is mandatory"),
+   Issue_Number: Yup.string().required("Issue Number is mandatory"),
+   Mail_to_Address: Yup.string().required("Mail to Address is mandatory"),
+
+       Alt_Address_Line_1: conditionalString(
+         "Mail_to_Address",
+         "ALTERNATIVE",
+         "Address Line 1 is mandatory",
+       ),
+       Alt_Zip_Code: conditionalString(
+         "Mail_to_Address",
+         "ALTERNATIVE",
+         "Zip code is mandatory",
+       ),
+        Alt_City: conditionalString(
+             "Mail_to_Address",
+             "ALTERNATIVE",
+             "City is mandatory",
+           ),
+    Fax_Number: conditionalString(
+         "Mail_to_Address",
+         "ALTERNATIVE",
+         "FAX Number is mandatory",
+       ),
+        Alt_State: conditionalString(
+             "Mail_to_Address",
+             "ALTERNATIVE",
+             "State is mandatory",
+           ),
+      Alternate_Email_ID: conditionalString(
+                 "Mail_to_Address",
+                 "ALTERNATIVE",
+                 "Alternate E-mail ID is mandatory",
+               ),
+       Communication_Preference: conditionalString(
+                       "Mail_to_Address",
+                       "ALTERNATIVE",
+                       "Communication Preference is mandatory",
+                     ),
 
    }))
 const ctmMultiGridValidationSchema = Yup.object().shape({ });
 const ctmCaseResolutionValidationSchema = Yup.object().shape({ });
 const ctmCaseResolutionDecisionValidationSchema = Yup.object().shape({
-// Complainant_Satisfied_With_Resolution: Yup.string().required("Complainant Satisfied With Resolution? is mandatory"),
 
-// System_Update: Yup.string().required("System Update is mandatory"),
-// Resolution_Notes: Yup.string().required("Resolution Notes is mandatory"),
+ System_Update: Yup.string().required("System Update is mandatory"),
+ Resolution_Notes: Yup.string().required("Resolution Notes is mandatory"),
 
  });
 
 const ctmCaseInformationValidationSchema = Yup.object().shape({
 
-//LOB_Description_CTM:Yup.string().required("LOB Description is mandatory"),
-//Line_of_Business:Yup.string().required("Line of Business is mandatory"),
-//Contract_State:Yup.string().required("Contract State is mandatory"),
-//Product:Yup.string().required("Product is mandatory"),
-//Complainant_Type:Yup.string().required("Complainant Type is mandatory"),
-//
-//Case_Filing_Method:Yup.string().required("Case Filing Method is mandatory"),
+LOB_Description_CTM:Yup.string().required("LOB Description is mandatory"),
+Line_of_Business:Yup.string().required("Line of Business is mandatory"),
+Contract_State:Yup.string().required("Contract State is mandatory"),
+Product:Yup.string().required("Product is mandatory"),
+Complainant_Type:Yup.string().required("Complainant Type is mandatory"),
+
+Case_Filing_Method:Yup.string().required("Case Filing Method is mandatory"),
 
  });
 
 const ctmSummaryValidationSchema = Yup.object().shape({
 
-//Complaint_ID:Yup.string().required("Complaint ID is mandatory"),
-//Issue_Level:  Yup.string().required( "Issue Level is mandatory"),
-//Assignment_Date:  Yup.string().required( "Assignment Date is mandatory"),
-//Contact_First_Name: Yup.string().required( "Contact First Name is mandatory"),
-//Contact_Last_Name:  Yup.string().required( "Contact Last Name is mandatory"),
-//Contract_ID: Yup.string().required( "Contract ID is mandatory"),
-//Case_Worker: Yup.string().required( "Case Worker is mandatory"),
-//Complaint_Category: Yup.string().required( "Complaint Category is mandatory"),
-//Complaint_SubCategory: Yup.string().required( "Complaint SubCategory is mandatory"),
-//Received_Date: Yup.string().required( "Received Date is mandatory" ),
+Complaint_ID:Yup.string().required("Complaint ID is mandatory"),
+Issue_Level:  Yup.string().required( "Issue Level is mandatory"),
+Contact_First_Name: Yup.string().required( "Contact First Name is mandatory"),
+Contact_Last_Name:  Yup.string().required( "Contact Last Name is mandatory"),
+Contract_ID: Yup.string().required( "Contract ID is mandatory"),
+Case_Worker: Yup.string().required( "Case Worker is mandatory"),
+Complaint_Category: Yup.string().required( "Complaint Category is mandatory"),
+Complaint_SubCategory: Yup.string().required( "Complaint SubCategory is mandatory"),
 
  });
  const caseCategorizationValidationSchema = Yup.object().shape({
-//
-//Category: Yup.string().required( " Category is mandatory" ),
-//Sub_Category:Yup.string().required( " Sub Category is mandatory" ),
-//Super_Category:Yup.string().required( " Super Category is mandatory" ),
-//High_Level_Cause:Yup.string().required( " High Level Cause is mandatory" ),
-//
-//    Remediation_People: conditionalString(
-//      "High_Level_Cause",
-//      "PEOPLE",
-//      "Remediation People is mandatory",
-//    ),
-//    Remediation_Process: conditionalString(
-//      "High_Level_Cause",
-//      "PROCESS",
-//      "Remediation Process is mandatory",
-//    ),
-//     Remediation_System: conditionalString(
-//          "High_Level_Cause",
-//          "SYSTEM",
-//          "Remediation System is mandatory",
-//        ),
+
+Category: Yup.string().required( " Category is mandatory" ),
+Sub_Category:Yup.string().required( " Sub Category is mandatory" ),
+Super_Category:Yup.string().required( " Super Category is mandatory" ),
+High_Level_Cause:Yup.string().required( " High Level Cause is mandatory" ),
+
+    Remediation_People: conditionalString(
+      "High_Level_Cause",
+      "PEOPLE",
+      "Remediation People is mandatory",
+    ),
+    Remediation_Process: conditionalString(
+      "High_Level_Cause",
+      "PROCESS",
+      "Remediation Process is mandatory",
+    ),
+     Remediation_System: conditionalString(
+          "High_Level_Cause",
+          "SYSTEM",
+          "Remediation System is mandatory",
+        ),
 
  });
 
@@ -1234,6 +1287,7 @@ validateSync(caseCategorizationValidationSchema, ctm_CaseCategorization, setCase
     caseDecisionDetails,
     caseDecision,
     notes,
+    ctmNotesData,
     providerNotes,
     providerReview,
     caseResolution,

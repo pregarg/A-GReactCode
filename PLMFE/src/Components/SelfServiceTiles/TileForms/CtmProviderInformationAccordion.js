@@ -3,12 +3,17 @@ import { useLocation } from "react-router-dom";
 import useGetDBTables from "../../CustomHooks/useGetDBTables";
 import useUpdateDecision from "../../CustomHooks/useUpdateDecision";
 import CtmProviderInformationTable from "../TileFormsTables/CtmProviderInformationTable";
+import ProviderSearch from "../TileForms/ProviderSearch";
+import { useAxios } from "../../../api/axios.hook";
+import TableComponent from "../../../util/TableComponent";
+import { useSelector } from "react-redux";
 
 const CtmProviderInformationAccordion = (props) => {
   const {
     checkGridJsonLength,
     trimJsonValues,
     extractDate,
+    getDatePartOnly,
   } = useGetDBTables();
 
   const { getRowNumberForGrid } = useUpdateDecision();
@@ -24,10 +29,12 @@ const CtmProviderInformationAccordion = (props) => {
   const [whiteGloveIndicator, setWhiteGloveIndicator] = useState(props.handleData?.isChecked === '1');
   const [ctmProviderInformationData, setCtmProviderInformationData] =
     useState(props.handleData);
-
+  const [showProviderSearch, setShowProviderSearch] = useState(false);
+  const token = useSelector((state) => state.auth.token);
+  const { customAxios: axios } = useAxios();
   let [selectedAddress, setSelectedAddress] = useState([]);
   let prop = useLocation();
-
+const location = useLocation();
 
 const addTableRows = (triggeredFormName, index) => {
 
@@ -56,7 +63,93 @@ const addTableRows = (triggeredFormName, index) => {
       setGridFieldTempState({});
     }
   };
+   const handleSelectedProviders = (flag) => {
+     let rowNumber = getRowNumberForGrid(providerGridData);
+     let addressToPopulate = [];
+     if (selectedAddress.length > 0) {
+       selectedAddress.map((elem) => {
+         if (elem?.isChecked) {
+           elem.rowNumber = rowNumber;
+           elem.operation = "I";
+           delete elem["isChecked"];
+           rowNumber++;
+           addressToPopulate.push(elem);
+         }
+       });
+     }
 
+     if (addressToPopulate.length > 0) {
+       setProviderGridData([
+         ...providerGridData,
+         ...addressToPopulate,
+       ]);
+       props.updateProviderInformationGridData([
+         ...providerGridData,
+         ...addressToPopulate,
+       ]);
+
+     }
+     else {
+       alert("Please select at least one row.");
+       return;
+     }
+
+     setShowProviderSearch(false);
+     setSelectedCriteria([]);
+     setSelectSearchValues([]);
+     setResponseData([]);
+   };
+const handleShowProviderSearch = () => {
+    setShowProviderSearch(true);
+  };
+  const handleCloseSearch = () => {
+    setShowProviderSearch(false);
+    setShowProviderSearch(false);
+    setSelectedCriteria([]);
+    setSelectSearchValues([]);
+    setResponseData([]);
+  };
+  const handleClearSearch = () => {
+    setSelectSearchValues([]);
+    setSelectedCriteria([]);
+    setResponseData([]);
+    setSelectedAddress([]);
+  };
+  const handleSelectedAddress = () => {
+      let rowNumber = getRowNumberForGrid(providerGridData);
+      let addressToPopulate = [];
+      if (selectedAddress.length > 0) {
+        selectedAddress.map((elem) => {
+          if (elem?.isChecked) {
+            elem.rowNumber = rowNumber;
+            elem.operation = "I";
+            delete elem["isChecked"];
+            rowNumber++;
+            addressToPopulate.push(elem);
+          }
+        });
+      }
+
+      if (addressToPopulate.length > 0) {
+        setProviderGridData([
+          ...providerGridData,
+          ...addressToPopulate,
+        ]);
+        props.updateProviderGridData([
+          ...providerGridData,
+          ...addressToPopulate,
+        ]);
+      }
+      else {
+        alert("Please select at least one row.");
+        return;
+      }
+
+      setShowProviderSearch(false);
+      setSelectedCriteria([]);
+      setSelectSearchValues([]);
+      setResponseData([]);
+    };
 //  const handleGridFieldChange = (index, evnt, triggeredFormName) => {
 //    let tempInput = { ...gridFieldTempState };
 //    let { name, value } = evnt.target;
@@ -94,41 +187,111 @@ const handleGridFieldChange = (index, event) => {
       setGridFieldTempState(providerGridData[index]);
     }
   };
-const handleSelectedRep = (flag) => {
-     let rowNumber = getRowNumberForGrid(providerGridData);
-     let addressToPopulate = [];
-     if (selectedAddress.length > 0) {
-       selectedAddress.map((elem) => {
-         if (elem?.isChecked) {
-           elem.rowNumber = rowNumber;
-           elem.operation = "I";
-           delete elem["isChecked"];
-           rowNumber++;
-           addressToPopulate.push(elem);
-         }
-       });
-     }
 
-     if (addressToPopulate.length > 0) {
-       setProviderGridData([
-         ...providerGridData,
-         ...addressToPopulate,
-       ]);
-       props.updateProviderGridData([
-         ...providerGridData,
-         ...addressToPopulate,
-       ]);
-     }
-     else {
-       alert("Please select at least one row.");
-       return;
-     }
+const showProviders = async () => {
+    let ProviderID = selectSearchValues?.providerID;
+    let NPI = selectSearchValues?.NPI;
+    let Taxid = selectSearchValues?.TaxID;
+    let ProviderFirstName =
+      selectSearchValues?.providerFirstName ||
+      selectSearchValues?.providerFirstName2;
+    let ProviderLastName =
+      selectSearchValues?.providerLastName ||
+      selectSearchValues?.providerLastName2;
+    let City = selectSearchValues?.city || selectSearchValues?.facilitycity;
+    let State =
+      selectSearchValues?.state ||
+      selectSearchValues?.state2 ||
+      selectSearchValues?.facilityState2;
+    let facilityName = selectSearchValues?.facilityName;
 
-     setShowRepSearch(false);
-     setSelectedCriteria([]);
-     setSelectSearchValues([]);
-     setResponseData([]);
-   };
+    if (
+      ProviderID ||
+      NPI ||
+      Taxid ||
+      ProviderFirstName ||
+      ProviderLastName ||
+      City ||
+      State ||
+      facilityName
+    ) {
+      let getApiJson = {
+        option: "PROVIDERSEARCHDATA",
+        ProviderID: ProviderID || "",
+        NPI: NPI || "",
+        Taxid: Taxid || "",
+        ProviderFirstName: ProviderFirstName || "",
+        ProviderLastName: ProviderLastName || "",
+        City: City || "",
+        State: State || "",
+        facilityName: facilityName || "",
+      };
+
+      try {
+        let res = await axios.post("/generic/callProcedure", getApiJson, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        let resApiData = res.data.CallProcedure_Output?.data || [];
+        resApiData = resApiData?.length > 0 ? resApiData : [];
+        if(resApiData[0].length === 0 )  {
+          console.log("No data found for the member ID");
+             alert("No data found");
+             setResponseData([])
+             return;
+           }
+        if (resApiData.length > 0) {
+          const respKeys = Object.keys(resApiData);
+          respKeys.forEach((k) => {
+            let apiResponse = resApiData[k];
+            if (
+              apiResponse.hasOwnProperty("Provider_Par_Date") &&
+              typeof apiResponse.Provider_Par_Date === "string"
+            ) {
+              const mad = new Date(
+                getDatePartOnly(apiResponse.Provider_Par_Date),
+              );
+              apiResponse.Provider_Par_Date = extractDate(mad);
+            }
+          });
+
+          setResponseData(resApiData);
+        }
+        const apiStat = res.data.CallProcedure_Output.Status;
+        if (apiStat === -1) {
+          alert("Error in fetching data");
+        }
+      } catch (error) {
+        console.error("API Error:", error);
+        alert("Error in fetching data. Please try again later.");
+      }
+    } else {
+      alert("Please select at least one search value.");
+    }
+  };
+
+  const providerSearchTableComponent = () => {
+    let columnNames =
+      "Issue Number~Issue_Number,Provider ID~Provider_ID,Provider First Name~Provider_Name,Provider Last Name~Provider_Last_Name,TIN~Provider_TIN,Provider/Vendor Specialty~Provider_Vendor_Specialty,Provider Taxonomy~Provider_Taxonomy,NPI~NPI_ID,Phone~Phone_Number,Address Line 1~Address_Line_1,Address Line 2~Address_Line_2,Zip Code~Zip_Code,City~City,State~State,Participating Provider~Participating_Provider,Provider Par Date~Provider_Par_Date,Provider IPA~Provider_IPA,Vendor ID~Vendor_ID,Vendor Name~Vendor_Name,Provider Type~Provider_Type,Contact Name~Provider_Contact_Name,Contact Phone Number~Contact_Phone_Number,Contact Email Address~Contact_Email_Address";
+
+    if (responseData.length > 0) {
+      return (
+        <>
+          <TableComponent
+            columnName={columnNames}
+            rowValues={responseData}
+            showCheckBox={true}
+            handleCheckBoxChange={handleCheckBoxChange}
+            handleCheckBoxHeaderChange={handleCheckBoxHeaderChange}
+            CheckBoxInHeader={true}
+          />
+        </>
+      );
+    } else {
+      return <></>;
+    }
+  };
+
   const handleGridSelectChange = (index, selectedValue, event) => {
     const { name } = event;
     setGridFieldTempState({
@@ -230,6 +393,35 @@ const handleSelectedRep = (flag) => {
           aria-labelledby="panelsStayOpen-providerInformation"
         >
           <div className="accordion-body">
+          <button
+                        type="button"
+                        className="btn btn-outline-primary"
+                        onClick={(event) => handleShowProviderSearch(event)}
+                        disabled={
+                          location.state.stageName === "Redirect Review" ||
+                          location.state.stageName === "Documents Needed" ||
+                          location.state.stageName === "CaseArchived"
+                        }
+                      >
+                        Provider Search
+                      </button>
+                      {showProviderSearch && (
+                                      <ProviderSearch
+                                        handleCloseSearch={handleCloseSearch}
+                                        selectedCriteria={selectedCriteria}
+                                        setSelectedCriteria={setSelectedCriteria}
+                                        selectSearchValues={selectSearchValues}
+                                        setSelectSearchValues={setSelectSearchValues}
+                                        handleClearSearch={handleClearSearch}
+                                        showProviderSearch={showProviderSearch}
+                                        showProviders={showProviders}
+                                        providerSearchTableComponent={providerSearchTableComponent}
+                                        responseData={responseData}
+                                        setResponseData={setResponseData}
+                                        handleSelectedProviders={handleSelectedProviders}
+                                        setSelectedAddress={setSelectedAddress}
+                                      />
+                                    )}
             <div className="row my-2">
               <div
                 className="col-xs-6 col-md-3"
