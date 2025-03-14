@@ -248,21 +248,24 @@ handleClaimInformationGridData={ctmClaimInformationGrid || []}
                                caseTimelinesData={caseTimelines}
                                renderType={RenderType.CTM}
                              />
-
+                             {stageName !== "Start" || ( stage === "Research"||stage === "Pre-Close QA"||stage === "Post-Close QA"||stage === "Resolve")
+                             &&(
                              <CtmPreCloseQAAccordion
                                              preCloseQAData={preCloseQAData}
                                              setPreCloseQAData={setPreCloseQAData}
                                              preCloseQAValidationSchema={preCloseQAValidationSchema}
                                              shouldShowSubmitError={shouldShowSubmitError}
                                              preCloseQAErrors={{}}
-                                           />
+                                           />)}
+                                           {stageName !== "Start" || ( stage === "Research"||stage === "Pre-Close QA"||stage === "Post-Close QA"||stage === "Resolve")
+                                                                        &&(
                                             <CtmPostCloseQCAccordion
                                             postCloseQCData={postCloseQCData}
                                             setPostCloseQCData={setPostCloseQCData}
                                             postCloseQCValidationSchema={postCloseQCValidationSchema}
                                             shouldShowSubmitError={shouldShowSubmitError}
                                             postCloseQCErrors={postCloseQCErrors}
-                                            />
+                                            />)}
 
                  <CtmMemberInformationAccordion
                                   ctmMemberData={ctmMemberData}

@@ -4,14 +4,29 @@ import CtmHeader from "./CtmHeader";
 import CtmRepresentativeInformationTable from "../TileFormsTables/CtmRepresentativeInformationTable";
 import useGetDBTables from "../../CustomHooks/useGetDBTables";
 import useUpdateDecision from "../../CustomHooks/useUpdateDecision";
+import RepresentativeSearch from "./RepresentativeSearch.js";
+import { useAxios } from "../../../api/axios.hook";
+import TableComponent from "../../../util/TableComponent";
+import { useSelector } from "react-redux";
 
 const CtmRepresentativeInformationAccordion = (props) => {
-  const { checkGridJsonLength } = useGetDBTables();
+const {
+    convertToCase,
+    checkGridJsonLength,
+    trimJsonValues,
+    extractDate,
+    getDatePartOnly,
+    acceptNumbersOnly,
+  } = useGetDBTables();
+
   const { getRowNumberForGrid } = useUpdateDecision();
-const [showRepSearch, setShowRepSearch] = useState(false);
+
   const [ctmRepGridData, setCtmRepGridData] = useState(props.handleCtmRepGridData || []);
   const [gridFieldTempState, setGridFieldTempState] = useState({});
-
+const [showRepresentativeSearch, setshowRepresentativeSearch] =
+    useState(false);
+  const token = useSelector((state) => state.auth.token);
+  const { customAxios: axios } = useAxios();
   const tabRef = useRef("HomeView");
   const fetchAutoPopulate = useRef(false);
   const gridDataRef = useRef({});
@@ -21,11 +36,110 @@ const [showRepSearch, setShowRepSearch] = useState(false);
   const [whiteGloveIndicator, setWhiteGloveIndicator] = useState(props.handleData?.isChecked === '1');
   const [ctmRepresentativeInformationData, setCtmRepresentativeInformationData] =
     useState(props.handleData);
-
  let [selectedAddress, setSelectedAddress] = useState([]);
   const prop = useLocation();
+const handleshowRepresentativeSearch = () => {
+    setshowRepresentativeSearch(true);
+  };
+  const handleCloseSearch = () => {
+    setshowRepresentativeSearch(false);
+    setSelectedCriteria([]);
+    setSelectSearchValues([]);
+    setResponseData([]);
+  };
 
+  const handleClearRepresentativeSearch = () => {
+    setSelectSearchValues([]);
+    setSelectedCriteria([]);
+    setResponseData([]);
+    setSelectedAddress([]);
+  };
+  const showRepresentatives = async () => {
+    let SequentialMember = selectSearchValues?.SequentialMemberID;
+    let searchType = selectSearchValues?.searchTypeID;
+    let fordate = selectSearchValues?.fordateID;
+    let AddressType = selectSearchValues?.AddressTypeID;
+    // Check if at least one search parameter has a value
+    if (SequentialMember || searchType || fordate || AddressType) {
+      let getApiJson = {
+        option: "GETREPRESENTATIVESEARCHDATA",
 
+        Seq_Member_ID: SequentialMember || "",
+        Search_Type: searchType || "",
+        For_Date: extractDate(fordate) || "",
+        Address_Type: AddressType || "",
+      };
+
+      try {
+        let res = await axios.post("/generic/callProcedure", getApiJson, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        let resApiData = res.data.CallProcedure_Output?.data || [];
+        resApiData = resApiData?.length > 0 ? resApiData : [];
+        if(resApiData[0].length === 0 )  {
+          console.log("No data found for the member ID");
+             alert("No data found");
+             return;
+           }
+        if (resApiData.length > 0) {
+          const respKeys = Object.keys(resApiData);
+          respKeys.forEach((k) => {
+            let apiResponse = resApiData[k];
+            if (
+              apiResponse.hasOwnProperty("Authorization_Approved_Date") &&
+              typeof apiResponse.Authorization_Approved_Date === "string"
+            ) {
+              const mad = new Date(
+                getDatePartOnly(apiResponse.Authorization_Approved_Date),
+              );
+              apiResponse.Authorization_Approved_Date = extractDate(mad);
+            }
+            if (
+              apiResponse.hasOwnProperty("Authorization_Expiration_Date") &&
+              typeof apiResponse.Authorization_Expiration_Date === "string"
+            ) {
+              const mad = new Date(
+                getDatePartOnly(apiResponse.Authorization_Expiration_Date),
+              );
+              apiResponse.Authorization_Expiration_Date = extractDate(mad);
+            }
+          });
+
+          setResponseData(resApiData);
+        }
+        const apiStat = res.data.CallProcedure_Output.Status;
+        if (apiStat === -1) {
+          alert("Error in fetching data");
+        }
+      } catch (error) {
+        console.error("API Error:", error);
+        alert("Error in fetching data. Please try again later.");
+      }
+    } else {
+      alert("Please select at least one search value.");
+    }
+  };
+
+  const representativeSearchTableComponent = () => {
+    let columnNames =
+      "First Name~First_Name,Last Name~Last_Name,Authorization Approved Date~Authorization_Approved_Date,Authorization Expiration Date~Authorization_Expiration_Date,Authorization Type~Authorization_Type,Phone Number~Phone_Number,Notes~Notes,Address (line 1)~Address_Line_1,Address (line 2)~Address_Line_2,City~City,State~State_,Zip Code~Zip_Code,County~County";
+    if (responseData.length > 0) {
+      return (
+        <>
+          <TableComponent
+            columnName={columnNames}
+            rowValues={responseData}
+            showCheckBox={true}
+            handleCheckBoxChange={handleCheckBoxChange}
+            handleCheckBoxHeaderChange={handleCheckBoxHeaderChange}
+            CheckBoxInHeader={true}
+          />
+        </>
+      );
+    } else {
+      return <></>;
+    }
+  };
 const addTableRows = (triggeredFormName, index) => {
 
 
@@ -90,41 +204,43 @@ const handleGridFieldChange = (index, event) => {
   setGridFieldTempState(tempInput);
 };
 
- const handleSelectedRep = (flag) => {
-     let rowNumber = getRowNumberForGrid(ctmRepGridData);
-     let addressToPopulate = [];
-     if (selectedAddress.length > 0) {
-       selectedAddress.map((elem) => {
-         if (elem?.isChecked) {
-           elem.rowNumber = rowNumber;
-           elem.operation = "I";
-           delete elem["isChecked"];
-           rowNumber++;
-           addressToPopulate.push(elem);
-         }
-       });
-     }
 
-     if (addressToPopulate.length > 0) {
-       setCtmRepGridData([
-         ...ctmRepGridData,
-         ...addressToPopulate,
-       ]);
-       props.updateCtmRepGridData([
-         ...ctmRepGridData,
-         ...addressToPopulate,
-       ]);
-     }
-     else {
-       alert("Please select at least one row.");
-       return;
-     }
+  const handleSelectedRepresentatives = () => {
+    let rowNumber = getRowNumberForGrid(ctmRepGridData);
+    let addressToPopulate = [];
+    if (selectedAddress.length > 0) {
+      selectedAddress.map((elem) => {
+        if (elem?.isChecked) {
+          elem.rowNumber = rowNumber;
+          elem.operation = "I";
+          delete elem["isChecked"];
+          rowNumber++;
+          addressToPopulate.push(elem);
+        }
+      });
+    }
 
-     setShowRepSearch(false);
-     setSelectedCriteria([]);
-     setSelectSearchValues([]);
-     setResponseData([]);
-   };
+    if (addressToPopulate.length > 0) {
+      setCtmRepGridData([
+        ...ctmRepGridData,
+        ...addressToPopulate,
+      ]);
+      props.updateCtmRepGridData([
+        ...ctmRepGridData,
+        ...addressToPopulate,
+      ]);
+    }
+    else {
+      alert("Please select at least one row.");
+      return;
+    }
+
+    setshowRepresentativeSearch(false);
+    setSelectedCriteria([]);
+    setSelectSearchValues([]);
+    setResponseData([]);
+    setSelectedAddress([]);
+  };
 const handleCheckBoxChange = (event, ind) => {
       let jsn = responseData[ind];
       jsn.isChecked = event.target.checked;
@@ -218,6 +334,40 @@ const handleCheckBoxChange = (event, ind) => {
           aria-labelledby="panelsStayOpen-ctmRepresentative"
         >
         <div className="accordion-body">
+        <button
+                      type="button"
+                      className="btn btn-outline-primary"
+                      onClick={(event) => handleshowRepresentativeSearch(event)}
+                      disabled={
+                        prop.state.stageName === "Case Completed" ||
+                        prop.state.stageName === "Case Archived"
+                      }
+                    >Representative Search
+                    </button>
+                     <div className="row my-2">
+                                  <div className="col-xs-6 col-md-12">
+
+                                  </div>
+                                </div>
+                                 {showRepresentativeSearch && (
+                                            <RepresentativeSearch
+                                              handleCloseSearch={handleCloseSearch}
+                                              selectedCriteria={selectedCriteria}
+                                              setSelectedCriteria={setSelectedCriteria}
+                                              selectSearchValues={selectSearchValues}
+                                              setSelectSearchValues={setSelectSearchValues}
+                                              showRepresentatives={showRepresentatives}
+                                              representativeSearchTableComponent={
+                                                representativeSearchTableComponent
+                                              }
+                                              responseData={responseData}
+                                              setResponseData={setResponseData}
+                                              handleClearRepresentativeSearch={handleClearRepresentativeSearch}
+                                              showRepresentativeSearch={showRepresentativeSearch}
+                                              handleSelectedRepresentatives={handleSelectedRepresentatives}
+                                              setSelectedAddress={setSelectedAddress}
+                                            />
+                                          )}
                                      <div className="row my-2">
                                       <div
                                         className="col-xs-6 col-md-3"
