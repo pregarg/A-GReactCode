@@ -140,6 +140,21 @@ const handleGridSelectChange = (index, selectedValue, event) => {
       let { name, value } = event.target;
       tempInput[name] = value.toUpperCase();
       setGridFieldTempState(tempInput);
+//      if (name === 'Auth_Number' && value || gridFieldTempState['Auth_Number']) {
+//
+//        props.setctmAuthGridValidationSchema(Yup.object().shape({
+//          Issue_Number: Yup.string().required("Issue Number is mandatory"),
+//          Authorization_Type: Yup.string().required("Authorization Type is mandatory"),
+//        }))
+//        event.preventDefault()
+//
+//      } else {
+//        props.setctmAuthGridValidationSchema(Yup.object().shape({
+//          Issue_Number: Yup.string().required("Issue Number is mandatory")
+//        }))
+//        event.preventDefault()
+//      }
+//
     };
 const handleCheckBoxChange = (event, ind) => {
     let jsn = responseData[ind];
