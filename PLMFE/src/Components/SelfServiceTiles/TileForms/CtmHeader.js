@@ -274,7 +274,13 @@ handleClaimInformationGridData={ctmClaimInformationGrid || []}
                                   ctmMemberValidationSchema={ctmMemberValidationSchema}
                                   ctmMemberErrors={ctmMemberErrors}
                                 />
-
+ <CtmMultipleIssueManagementAccordion
+                                 handleCtmMultiGridData={ctmMultipleIssueGrid || []}
+                                 ctmMultiGridData={ctmMultiGridData}
+                                 setCtmMultiGridData={setCtmMultiGridData}
+                                 updateCtmMultiGridData={setCtmMultipleIssueGrid}
+                                 ctmMultiGridValidationSchema={ctmMultiGridValidationSchema}
+                               />
               <CtmRepresentativeInformationAccordion
                                                          handleCtmRepGridData={ctmRepresentativeGrid || []}
                                                          ctmRepGridData={ctmRepGridData}

@@ -939,6 +939,9 @@ const ctmAuthGridValidationSchema = Yup.object().shape({
  Issue_Number: Yup.string().required("Issue Number is mandatory"),
 });
 
+//const [ctmAuthGridValidationSchema, setctmAuthGridValidationSchema] = useState(Yup.object().shape({
+////  Issue_Number: Yup.string().required("Issue Number is mandatory"),
+// }))
 const ctmClaimInformationGridValidationSchema = Yup.object().shape({
  Issue_Number: Yup.string().required("Issue Number is mandatory"),
   Provider_Name: Yup.string().required("Provider Name is mandatory"),
@@ -3095,6 +3098,20 @@ const checkForCTMError = () => {
    const saveAndExit = async (event) => {
     callProcRef.current = "callProc";
     const saveType = event.target.name === "saveAndSubmit" ? "SS" : "SE";
+    const appealErrors = checkForAppealsError();
+    if (appealErrors.length > 0) {
+      alert("Please fill all mandatory fields");
+      setShowSubmitError(true);
+     
+      // checkErrorsAndFocusOnFields(
+      //   appealErrors, 
+      //   setFieldTouched, 
+  
+      //   handleSubmit, 
+      //   evnt
+      // );
+      return;  
+    }
     if (saveType === "SS"){
     if(memberInformation.isChecked === '1') {
       if(!memberInformation.WhiteGloveReason) {
@@ -3778,6 +3795,11 @@ const checkForCTMError = () => {
     callProcRef.current = "callProc";
     const saveType = event.target.name === "saveAndSubmit" ? "SS" : "SE";
     // const saveType = "SS";
+    if (checkForPDError()?.length > 0) {
+      alert("Please fill all mandatory fields")
+      setShowSubmitError(true);
+      return;
+    }
     if(saveType === "SS"){
     if(checkForPdGridData()) {
       alert("Please fill all mandatory grid data")
@@ -4247,6 +4269,12 @@ const checkForCTMError = () => {
     const saveType = event.target.name === "saveAndSubmit" ? "SS" : "SE";
     // const saveType = "SS";
 
+    if (checkForCTMError()?.length > 0) {
+      //      console.error("Validation Errors:", checkForCTMError());
+            alert(" Please fill all mandatory fields.");
+            setShowSubmitError(true);
+            return;
+          }
     if(saveType === "SS"){
     if(checkForCtmGridData()) {
       alert("Please fill all mandatory grid data")
@@ -4981,6 +5009,7 @@ let updateCtmMultiLevelIssueManagementGridDataArray = [];
     ctmAuthorizationGrid,
     setCtmAuthGridData,
     ctmAuthGridValidationSchema,
+//    setctmAuthGridValidationSchema,
     ctmClaimInformationGridValidationSchema,
     ctmClaimInformationGrid,
     setCtmClaimInformationGrid,
